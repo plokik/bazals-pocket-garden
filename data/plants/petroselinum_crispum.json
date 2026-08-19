@@ -1,0 +1,82 @@
+{
+  "id": "petroselinum_crispum",
+  "display_name": "Petržel zahradní",
+  "short_name": "Petržel",
+  "ui_name": "Petržel zahradní",
+  "variety": "Kadeřavá",
+  "category": "Bylinky",
+  "rarity": "common",
+  "catalog_order": 80,
+  "collection_visible": true,
+  "starter_seed_count": 0,
+  "acquisition_sources": ["botanist", "mastery", "harvest_drop", "botanical_pack"],
+  "behavior_ids": ["shade_tolerance"],
+  "accent_hex": "#63B43E",
+  "seed_preview_texture": "res://assets/plants/comic/parsley_sprout_v1.png",
+  "herbarium_texture": "res://assets/plants/comic/parsley_mature_v1.png",
+  "stage_textures": {
+    "seed": "res://assets/plants/comic/parsley_seed_v1.png",
+    "sprout": "res://assets/plants/comic/parsley_sprout_v1.png",
+    "young": "res://assets/plants/comic/parsley_young_v1.png",
+    "mature": "res://assets/plants/comic/parsley_mature_v1.png",
+    "sick": "res://assets/plants/comic/parsley_sick_v1.png",
+    "harvest_ready": "res://assets/plants/comic/parsley_harvest_ready_v1.png"
+  },
+  "seed_care_description": "slunce až polostín, rovnoměrná vláha a propustný výživný substrát · ideálně přibližně 9 hodin",
+  "shop_description": "Hustá kadeřavá nať, která zvládá slabší denní světlo lépe než ostatní bylinky",
+  "shop_badge": "SNÁŠÍ POLOSTÍN",
+  "shop_unlock_level": 2,
+  "botanist_shop_order": 35,
+  "shop_stock_base": 2,
+  "shop_stock_cycle": [0, 1, 0, 0],
+  "growth_seconds": 32400.0,
+  "minimum_growth_efficiency": 0.42,
+  "care_issue_limit": 1,
+  "freshness_grace_seconds": 7200.0,
+  "freshness_decay_seconds": 10800.0,
+  "minimum_freshness_factor": 0.65,
+  "critical_wilt_seconds": 7200.0,
+  "critical_death_seconds": 10800.0,
+  "biological_days_to_harvest": 70.0,
+  "drying_seconds": 7200.0,
+  "initial_moisture": 42.0,
+  "initial_nutrients": 50.0,
+  "water_loss_per_hour": 4.0,
+  "nutrient_loss_per_hour": 0.80,
+  "ideal_moisture_min": 46.0,
+  "ideal_moisture_max": 76.0,
+  "ideal_nutrients_min": 34.0,
+  "ideal_nutrients_max": 74.0,
+  "ideal_temperature_min": 16.0,
+  "ideal_temperature_max": 25.0,
+  "ideal_humidity_min": 40.0,
+  "ideal_humidity_max": 72.0,
+  "ideal_ph_min": 6.0,
+  "ideal_ph_max": 7.0,
+  "max_live_biomass_g": 52.0,
+  "base_fresh_yield_g": 42.0,
+  "dry_matter_ratio": 0.16,
+  "dried_price_per_g": 6.2,
+  "seed_price": 17,
+  "xp_harvest": 24,
+  "xp_sale": 34,
+  "knowledge_intro": "Petržel zahradní prospívá v propustné půdě bohaté na organickou hmotu, která zůstává rovnoměrně vlhká, ale není přemokřená. Snese slunce i polostín; čerstvá sklizeň má nejlepší kvalitu.",
+  "sources": [
+    {
+      "title": "University of Minnesota Extension – Growing parsley in home gardens",
+      "url": "https://extension.umn.edu/yard-and-garden/growing-parsley"
+    },
+    {
+      "title": "Royal Horticultural Society – How to grow parsley",
+      "url": "https://www.rhs.org.uk/herbs/parsley/grow-your-own"
+    },
+    {
+      "title": "NC State Extension – Petroselinum crispum",
+      "url": "https://plants.ces.ncsu.edu/plants/petroselinum-crispum/"
+    },
+    {
+      "title": "Pladias – Petroselinum crispum, petržel obecná",
+      "url": "https://pladias.cz/taxon/flora/Petroselinum%20crispum"
+    }
+  ]
+}

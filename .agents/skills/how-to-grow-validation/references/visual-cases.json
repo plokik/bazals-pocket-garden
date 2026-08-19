@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "defaults": {
+    "pixel_tolerance": 18,
+    "heatmap_gain": 4.0
+  },
+  "cases": [
+    {
+      "id": "room",
+      "description": "Full deterministic plant rack compared with the approved rack target.",
+      "reference": "docs/rack_room_source_of_truth_v1.png",
+      "actual": "room.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [
+        [0.17, 0.015, 0.16, 0.045]
+      ],
+      "gate": false
+    },
+    {
+      "id": "locked-slots",
+      "description": "Level-one locked-slot layout compared with the approved mockup.",
+      "reference": "docs/approved_locked_slots_mockup.png",
+      "actual": "locked-slots.png",
+      "size": [432, 316],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.22, 1.0, 0.44],
+      "masks": [],
+      "gate": false
+    },
+    {
+      "id": "hud",
+      "description": "Approved Phase 4 code-native comic HUD with dynamic values masked.",
+      "reference": "assets/ui/comic/reference_phase4_hud_v1.png",
+      "actual": "hud.png",
+      "size": [432, 74],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [
+        [0.145, 0.20, 0.145, 0.62],
+        [0.495, 0.20, 0.105, 0.62],
+        [0.655, 0.10, 0.325, 0.80]
+      ],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "navigation",
+      "description": "Approved Phase 4 four-card comic mobile navigation.",
+      "reference": "assets/ui/comic/reference_phase4_navigation_v1.png",
+      "actual": "navigation.png",
+      "size": [432, 97],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "storage",
+      "description": "Approved Phase 5 storage cards and four-step processing flow.",
+      "reference": "assets/ui/comic/reference_phase5_storage_v1.png",
+      "actual": "comic-storage.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "shop",
+      "description": "Approved Phase 5 mobile shop item cards and purchase controls.",
+      "reference": "assets/ui/comic/reference_phase5_shop_v1.png",
+      "actual": "comic-shop.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "measurement",
+      "description": "Approved Phase 5 live metrics, comic graph, and knowledge panel.",
+      "reference": "assets/ui/comic/reference_phase5_measurement_v1.png",
+      "actual": "comic-measurement.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "detail-realtime",
+      "description": "User-approved Phase 74 real-time plant detail card without player speed controls.",
+      "reference": "assets/ui/comic/reference_phase74_detail_realtime_v1.png",
+      "actual": "comic-detail-idle.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "guide-explain",
+      "description": "Approved Phase 6 fullscreen Professor Bazal explain modal.",
+      "reference": "assets/ui/comic/reference_phase6_guide_explain_v1.png",
+      "actual": "comic-guide-explain.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "guide-celebrate",
+      "description": "Approved Phase 6 fullscreen Professor Bazal celebration modal.",
+      "reference": "assets/ui/comic/reference_phase6_guide_celebrate_v1.png",
+      "actual": "comic-guide-celebrate.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "guide-warning",
+      "description": "Approved Phase 6 fullscreen Professor Bazal warning modal.",
+      "reference": "assets/ui/comic/reference_phase6_guide_warning_v1.png",
+      "actual": "comic-guide-warning.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "feedback-water",
+      "description": "Approved Phase 7 watering effect with the user-approved Phase 74 real-time card.",
+      "reference": "assets/ui/comic/reference_phase74_feedback_water_v2.png",
+      "actual": "comic-feedback-water.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "feedback-growth",
+      "description": "Approved Phase 7 growth effect with the user-approved Phase 74 real-time card.",
+      "reference": "assets/ui/comic/reference_phase74_feedback_growth_v2.png",
+      "actual": "comic-feedback-growth.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "feedback-coins",
+      "description": "Approved Phase 7 shared coin reward feedback effect.",
+      "reference": "assets/ui/comic/reference_phase7_feedback_coins_v1.png",
+      "actual": "comic-feedback-coins.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "feedback-unlock",
+      "description": "Approved Phase 89 shared rack-slot unlock feedback with status badges above the right edge of each readable plant label; the later mobile care launcher is masked independently.",
+      "reference": "assets/ui/comic/reference_phase89_feedback_unlock_v2.png",
+      "actual": "comic-feedback-unlock.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [
+        [0.66, 0.80, 0.17, 0.10]
+      ],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    },
+    {
+      "id": "screen-transition",
+      "description": "Approved Phase 89 directional cyan-gold mobile screen transition with status badges above the right edge of each readable plant label; the later mobile care launcher is masked independently.",
+      "reference": "assets/ui/comic/reference_phase89_screen_transition_v2.png",
+      "actual": "comic-screen-transition.png",
+      "size": [432, 960],
+      "reference_crop": [0.0, 0.0, 1.0, 1.0],
+      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "masks": [
+        [0.66, 0.80, 0.17, 0.10]
+      ],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    }
+  ]
+}

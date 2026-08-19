@@ -1,0 +1,86 @@
+{
+  "id": "melissa_officinalis",
+  "display_name": "Meduňka lékařská",
+  "short_name": "Meduňka",
+  "ui_name": "Meduňka lékařská",
+  "variety": "Pravá",
+  "category": "Bylinky",
+  "rarity": "common",
+  "catalog_order": 90,
+  "collection_visible": true,
+  "starter_seed_count": 0,
+  "acquisition_sources": ["botanist", "mastery", "harvest_drop", "botanical_pack"],
+  "behavior_ids": ["self_seeding"],
+  "accent_hex": "#8BCF45",
+  "seed_preview_texture": "res://assets/plants/comic/lemon_balm_sprout_v1.png",
+  "herbarium_texture": "res://assets/plants/comic/lemon_balm_mature_v1.png",
+  "stage_textures": {
+    "seed": "res://assets/plants/comic/lemon_balm_seed_v1.png",
+    "sprout": "res://assets/plants/comic/lemon_balm_sprout_v1.png",
+    "young": "res://assets/plants/comic/lemon_balm_young_v1.png",
+    "mature": "res://assets/plants/comic/lemon_balm_mature_v1.png",
+    "sick": "res://assets/plants/comic/lemon_balm_sick_v1.png",
+    "harvest_ready": "res://assets/plants/comic/lemon_balm_harvest_ready_v1.png"
+  },
+  "seed_care_description": "slunce až polostín, vlhký propustný substrát a pravidelná zálivka · ideálně přibližně 8 hodin",
+  "shop_description": "Svěží citronová bylinka, která se ochotně vysemeňuje a po prodeji častěji vrací semínko",
+  "shop_badge": "BOHATÝ SAMOVÝSEV",
+  "shop_unlock_level": 3,
+  "botanist_shop_order": 38,
+  "shop_stock_base": 2,
+  "shop_stock_cycle": [1, 0, 0, 0],
+  "growth_seconds": 28800.0,
+  "minimum_growth_efficiency": 0.44,
+  "care_issue_limit": 1,
+  "freshness_grace_seconds": 7200.0,
+  "freshness_decay_seconds": 10800.0,
+  "minimum_freshness_factor": 0.65,
+  "critical_wilt_seconds": 7200.0,
+  "critical_death_seconds": 10800.0,
+  "biological_days_to_harvest": 70.0,
+  "drying_seconds": 7200.0,
+  "initial_moisture": 40.0,
+  "initial_nutrients": 48.0,
+  "water_loss_per_hour": 4.2,
+  "nutrient_loss_per_hour": 1.0,
+  "ideal_moisture_min": 44.0,
+  "ideal_moisture_max": 76.0,
+  "ideal_nutrients_min": 30.0,
+  "ideal_nutrients_max": 72.0,
+  "ideal_temperature_min": 17.0,
+  "ideal_temperature_max": 26.0,
+  "ideal_humidity_min": 40.0,
+  "ideal_humidity_max": 72.0,
+  "ideal_ph_min": 6.0,
+  "ideal_ph_max": 7.5,
+  "max_live_biomass_g": 50.0,
+  "base_fresh_yield_g": 40.0,
+  "dry_matter_ratio": 0.17,
+  "dried_price_per_g": 6.0,
+  "seed_price": 18,
+  "xp_harvest": 24,
+  "xp_sale": 34,
+  "knowledge_intro": "Meduňka lékařská je bujná, citronově vonící trvalka z čeledi hluchavkovitých. Prospívá ve vlhkém, ale dobře propustném substrátu na slunci i v polostínu a ochotně se sama vysemeňuje.",
+  "sources": [
+    {
+      "title": "NC State Extension – Melissa officinalis",
+      "url": "https://plants.ces.ncsu.edu/plants/melissa-officinalis/"
+    },
+    {
+      "title": "Royal Horticultural Society – Melissa officinalis",
+      "url": "https://www.rhs.org.uk/plants/11040/melissa-officinalis/details"
+    },
+    {
+      "title": "Royal Horticultural Society – How to grow lemon balm",
+      "url": "https://www.rhs.org.uk/herbs/lemon-balm/grow-your-own?type=h"
+    },
+    {
+      "title": "Wisconsin Horticulture – Lemon Balm, Melissa officinalis",
+      "url": "https://hort.extension.wisc.edu/articles/lemon-balm-melissa-officinalis/"
+    },
+    {
+      "title": "Pladias – Melissa officinalis, meduňka lékařská",
+      "url": "https://pladias.cz/taxon/overview/Melissa%20officinalis"
+    }
+  ]
+}

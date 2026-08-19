@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bazal’s Pocket Garden validation"
+  short_description: "Godot tests and visual regression"
+  default_prompt: "Use $how-to-grow-validation to run deterministic Godot tests and visual regression checks."

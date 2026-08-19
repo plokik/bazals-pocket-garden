@@ -1,0 +1,41 @@
+# Godot-generated import and editor state
+.godot/
+
+# Local tooling, build products, and temporary outputs
+.tooling/
+builds/
+tmp/
+*.apk
+*.aab
+godot-*.log
+android-export.log
+
+# IDE and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated Android/Gradle outputs. Keep the custom Gradle template sources,
+# AndroidManifest.xml, GodotApp.java, and notification bridge sources tracked.
+android/build/.gradle/
+android/build/.cxx/
+android/build/.externalNativeBuild/
+android/build/build/
+android/build/libs/
+android/build/src/main/assets/
+android/build/assetPackInstallTime/build/
+android/build/captures/
+android/build/local.properties
+android/build/src/debug/
+android/build/res/drawable/splash_icon.webp
+android/build/res/mipmap*/
+android/build/res/values*/godot_project_name_string.xml
+android/build/res/values/themes.xml
+
+# Never commit Android signing material
+*.jks
+*.keystore
+*.p12
+keystore.properties

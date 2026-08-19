@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "default_profile_id": "basil_genovese",
+  "profiles": [
+    {
+      "id": "basil_genovese",
+      "path": "res://data/plants/basil.json",
+      "catalog_order": 10
+    },
+    {
+      "id": "mint_peppermint",
+      "path": "res://data/plants/mint_peppermint.json",
+      "catalog_order": 20
+    },
+    {
+      "id": "oregano_vulgare",
+      "path": "res://data/plants/oregano_vulgare.json",
+      "catalog_order": 30
+    },
+    {
+      "id": "rosemary_officinalis",
+      "path": "res://data/plants/rosemary_officinalis.json",
+      "catalog_order": 40
+    },
+    {
+      "id": "lavandula_angustifolia",
+      "path": "res://data/plants/lavandula_angustifolia.json",
+      "catalog_order": 50
+    },
+    {
+      "id": "allium_schoenoprasum",
+      "path": "res://data/plants/allium_schoenoprasum.json",
+      "catalog_order": 60
+    },
+    {
+      "id": "origanum_majorana",
+      "path": "res://data/plants/origanum_majorana.json",
+      "catalog_order": 70
+    },
+    {
+      "id": "petroselinum_crispum",
+      "path": "res://data/plants/petroselinum_crispum.json",
+      "catalog_order": 80
+    },
+    {
+      "id": "melissa_officinalis",
+      "path": "res://data/plants/melissa_officinalis.json",
+      "catalog_order": 90
+    },
+    {
+      "id": "salvia_officinalis",
+      "path": "res://data/plants/salvia_officinalis.json",
+      "catalog_order": 100
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "origanum_majorana",
+  "display_name": "Majoránka zahradní",
+  "short_name": "Majoránka",
+  "ui_name": "Majoránka zahradní",
+  "variety": "Majorana",
+  "category": "Bylinky",
+  "rarity": "rare",
+  "catalog_order": 70,
+  "collection_visible": true,
+  "starter_seed_count": 0,
+  "acquisition_sources": ["botanist", "mastery", "harvest_drop", "botanical_pack"],
+  "behavior_ids": ["aroma_preservation"],
+  "accent_hex": "#E7B83F",
+  "seed_preview_texture": "res://assets/plants/comic/marjoram_sprout_v1.png",
+  "herbarium_texture": "res://assets/plants/comic/marjoram_mature_v1.png",
+  "stage_textures": {
+    "seed": "res://assets/plants/comic/marjoram_seed_v1.png",
+    "sprout": "res://assets/plants/comic/marjoram_sprout_v1.png",
+    "young": "res://assets/plants/comic/marjoram_young_v1.png",
+    "mature": "res://assets/plants/comic/marjoram_mature_v1.png",
+    "sick": "res://assets/plants/comic/marjoram_sick_v1.png",
+    "harvest_ready": "res://assets/plants/comic/marjoram_harvest_ready_v1.png"
+  },
+  "seed_care_description": "slunce, sušší substrát a střídmá výživa · ideálně přibližně 10 hodin",
+  "shop_description": "Jemně voňavá bylina, jejíž kvalitní sklizeň potřebuje kratší sušení",
+  "shop_badge": "VOŇAVÁ ŠARŽE",
+  "shop_unlock_level": 3,
+  "botanist_shop_order": 45,
+  "shop_stock_base": 1,
+  "shop_stock_cycle": [0, 0, 1, 0],
+  "growth_seconds": 36000.0,
+  "minimum_growth_efficiency": 0.35,
+  "care_issue_limit": 2,
+  "freshness_grace_seconds": 10800.0,
+  "freshness_decay_seconds": 10800.0,
+  "minimum_freshness_factor": 0.65,
+  "critical_wilt_seconds": 7200.0,
+  "critical_death_seconds": 10800.0,
+  "biological_days_to_harvest": 60.0,
+  "drying_seconds": 10800.0,
+  "initial_moisture": 34.0,
+  "initial_nutrients": 42.0,
+  "water_loss_per_hour": 2.4,
+  "nutrient_loss_per_hour": 0.75,
+  "ideal_moisture_min": 36.0,
+  "ideal_moisture_max": 62.0,
+  "ideal_nutrients_min": 24.0,
+  "ideal_nutrients_max": 60.0,
+  "ideal_temperature_min": 18.0,
+  "ideal_temperature_max": 27.0,
+  "ideal_humidity_min": 35.0,
+  "ideal_humidity_max": 62.0,
+  "ideal_ph_min": 6.0,
+  "ideal_ph_max": 7.5,
+  "max_live_biomass_g": 45.0,
+  "base_fresh_yield_g": 34.0,
+  "dry_matter_ratio": 0.23,
+  "dried_price_per_g": 7.0,
+  "seed_price": 22,
+  "xp_harvest": 28,
+  "xp_sale": 38,
+  "knowledge_intro": "Majoránka zahradní má ráda teplé slunné místo, vzdušný dobře propustný substrát a střídmou výživu. Přemokření jí škodí a kvalitní voňavá sklizeň potřebuje ve hře kratší sušení.",
+  "sources": [
+    {
+      "title": "Royal Horticultural Society – How to grow marjoram",
+      "url": "https://www.rhs.org.uk/herbs/marjoram/grow-your-own"
+    },
+    {
+      "title": "Royal Horticultural Society – Origanum majorana",
+      "url": "https://www.rhs.org.uk/plants/11919/origanum-majorana/details"
+    },
+    {
+      "title": "University of Minnesota Extension – Growing herbs",
+      "url": "https://extension.umn.edu/gardening-minnesota/growing-herbs"
+    },
+    {
+      "title": "Pladias – Origanum majorana, majoránka zahradní",
+      "url": "https://pladias.cz/taxon/pictures/Origanum%20majorana"
+    }
+  ]
+}
