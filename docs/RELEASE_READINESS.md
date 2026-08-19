@@ -290,7 +290,7 @@ Navazující autoritativní sanitizovaný audit `.godot/android-device-audit/202
 - Technický audit `.godot/android-device-audit/20260819-162632Z` trval 300 sekund, získal 54/54 platných odemčených a interaktivních vzorků, 100 % času v popředí a fatal count 0. APK identity, crash/ANR, save schema a semantic comparison jsou `PASSED`; migrace 23 → 28 zachovala 21 mincí, 260 XP, 10 slotů a 2 obsazené květináče.
 - Nainstalovaný save má story stav `LOCKED` a 0 pečetí. Obsah fáze 99 je v APK, ale na tomto konkrétním postupu ještě není odemčený. Notification evidence 1 a alarm evidence 13 jsou pouze `AVAILABLE`, nikoli potvrzení doručení, deep linku nebo obnovy po restartu.
 - `gfxinfo` ze 42 snímků uvádí 9 janky (21,43 %), p95 48 ms a p99 750 ms. Jde pouze o podklad k ručnímu posouzení, **ne o výkonový průchod**. Stejně tak baterie 55 %, 40,2 °C, thermal status 0 a maximum 21 °C z thermal servisu nejsou automatickým schválením výdrže nebo teploty.
-- `PHYSICAL_ANDROID_MANUAL_GATE=PENDING`: všech 18 bodů zálohy/importu, oznámení, restartu, systémového Zpět, dotyku, safe area, scrollu, návratu z pozadí, celého cyklu, komfortu animací, baterie a teploty čeká na člověka. `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` zůstává otevřený.
+- `PHYSICAL_ANDROID_MANUAL_GATE=PENDING`: všech 18 bodů zálohy/importu, oznámení, restartu, systémového Zpět, dotyku, safe area, scrollu, návratu z pozadí, celého cyklu, komfortu animací, baterie a teploty čeká na člověka. Jednotný postup a důkazová pole jsou v `docs/ANDROID_RC29_MANUAL_GATE.md`. `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` zůstává otevřený.
 
 ## Aktuální připravený Android artefakt RC29
 

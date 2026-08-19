@@ -63,7 +63,14 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 - fáze 99 je hotová v hlavním projektu na 100 %: hlavní schema 28 rozšiřuje týdenní výzkum o tři deterministické protokoly `balanced_v1`, `quality_focus_v1` a `processing_focus_v1`; varianta se při přijetí uzamkne. Po šesti dokončeních zpřístupní čtvrtý vzhled `research_study` / `Badatelská pracovna` za 360 mincí, bez herního bonusu. Odznak `room_collector` zůstává navázaný pouze na tři původní vzhledy. Fáze nevytváří nový APK ani telefonní důkaz; RC28/code 45/schema 23 zůstává historicky immutable.
 - fáze 100 / RC29 balí celý současný obsah včetně fáze 99 do immutable interního Android kandidáta `0.45.0-rc29` / code 46 se zdrojovým i save schema 28. Automatická release sada, podpis, payload, pětiminutová instalace a technická migrace schema 23 → 28 prošly; 18bodová ruční mobilní brána a veřejné publikování zůstávají otevřené.
 
-Produkční herní strukturu a pravidla rozšiřování popisuje [produkční kostra hry](docs/GAME_FOUNDATION.md). Aktuální technické důkazy a ruční brány shrnuje [release readiness](docs/RELEASE_READINESS.md).
+Produkční herní strukturu a pravidla rozšiřování popisuje [produkční kostra hry](docs/GAME_FOUNDATION.md). Aktuální technické důkazy shrnuje [release readiness](docs/RELEASE_READINESS.md) a fyzické ověření telefonu má samostatný [RC29 ruční Android runbook](docs/ANDROID_RC29_MANUAL_GATE.md).
+
+## Bezpečný zdrojový základ
+
+- První úplný zdrojový snapshot je lokální Git commit `a00bc38` s tagem `v0.45.0-rc29`.
+- `.godot`, `.tooling`, APK/AAB, Gradle cache, exportovaný Android payload a lokální IDE data nejsou zdroj a zůstávají mimo Git.
+- Vlastní `AndroidManifest.xml`, `GodotApp.java` a notification bridge se sledují. Ignorované `android/build/libs` obnoví oficiální Android build template pro Godot `4.7.stable`, jehož verzi připíná `android/.build_version`.
+- Release keystore, hesla a `keystore.properties` musí vždy zůstat mimo repozitář.
 
 ## Spuštění
 
