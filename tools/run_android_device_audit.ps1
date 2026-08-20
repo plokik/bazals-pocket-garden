@@ -459,8 +459,29 @@ function Get-FirstEvidenceValue {
     return ConvertTo-SafeEvidenceLine -Line $match.Groups[1].Value -MaximumLength 64
 }
 
+function Get-BatteryPowerSource {
+    param([string]$AcPowered, [string]$UsbPowered, [string]$WirelessPowered, [string]$DockPowered)
+    $reported = @($AcPowered, $UsbPowered, $WirelessPowered, $DockPowered) | Where-Object { $_ -ne 'NOT_REPORTED' }
+    if ($reported.Count -eq 0) {
+        return 'NOT_REPORTED'
+    }
+    $active = [System.Collections.Generic.List[string]]::new()
+    if ($AcPowered -eq 'true') { $active.Add('AC') }
+    if ($UsbPowered -eq 'true') { $active.Add('USB') }
+    if ($WirelessPowered -eq 'true') { $active.Add('WIRELESS') }
+    if ($DockPowered -eq 'true') { $active.Add('DOCK') }
+    if ($active.Count -eq 0) {
+        return 'NONE'
+    }
+    return ($active -join '+')
+}
+
 function Get-BatterySummaryLines {
     param([string]$RawText)
+    $acPowered = Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*AC powered:\s*(true|false)\s*$'
+    $usbPowered = Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*USB powered:\s*(true|false)\s*$'
+    $wirelessPowered = Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*Wireless powered:\s*(true|false)\s*$'
+    $dockPowered = Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*Dock powered:\s*(true|false)\s*$'
     return @(
         "STATUS=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*status:\s*(\d+)\s*$')",
         "HEALTH=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*health:\s*(\d+)\s*$')",
@@ -468,7 +489,11 @@ function Get-BatterySummaryLines {
         "LEVEL_PERCENT=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*level:\s*(\d+)\s*$')",
         "SCALE=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*scale:\s*(\d+)\s*$')",
         "TEMPERATURE_TENTHS_C=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*temperature:\s*(-?\d+)\s*$')",
-        "PLUGGED=$(Get-FirstEvidenceValue -RawText $RawText -Pattern '^\s*plugged:\s*(\d+)\s*$')"
+        "AC_POWERED=$acPowered",
+        "USB_POWERED=$usbPowered",
+        "WIRELESS_POWERED=$wirelessPowered",
+        "DOCK_POWERED=$dockPowered",
+        "POWER_SOURCE=$(Get-BatteryPowerSource -AcPowered $acPowered -UsbPowered $usbPowered -WirelessPowered $wirelessPowered -DockPowered $dockPowered)"
     )
 }
 

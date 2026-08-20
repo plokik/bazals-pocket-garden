@@ -24,6 +24,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device
 
 4. `APK identity`, crash/ANR, save schema a stabilní save pole musí skončit `PASSED`. Oznámení nebo alarm označený pouze `AVAILABLE` není ruční průchod.
 
+## Poslední technický předběh
+
+- Běh: `.godot/android-device-audit/20260820-043712Z`
+- Zařízení: Xiaomi `2201116SG`, Android 13 (SDK 33), 1080 × 2400, výřez nahoře 90 px
+- Výsledek: `TECHNICAL_GATE=PASSED`; nainstalovaný APK má očekávaný SHA-256, save schema zůstalo 28 → 28 a stabilní postup se zachoval
+- Stabilita: 300 sekund, 54/54 platných odemčených a interaktivních vzorků, 100 % v popředí, 0 crash/ANR/Godot fatal nálezů
+- Rozsah důkazu: technický předběh sám nepotvrzuje žádný z níže uvedených osmnácti ručních bodů
+
 ## Kontrolní body
 
 U každého bodu doplňte `PASS`, `FAIL` nebo `BLOCKED` a cestu k důkazu. Bez výsledku všech osmnácti bodů zůstává `PHYSICAL_ANDROID_MANUAL_GATE=PENDING`.
