@@ -326,6 +326,33 @@ const ORDER_TEMPLATES := [
 		"accent": "gold",
 		"requires_discovery": true,
 	},
+	{
+		"customer": "Pekárna U Kamenné pece",
+		"title": "Tymián na pečenou zeleninu",
+		"species_id": "thymus_vulgaris",
+		"min_quality": 0.76,
+		"min_dry_g": 4.8,
+		"reward_multiplier": 1.45,
+		"flat_bonus": 8,
+		"bonus_xp": 18,
+		"accent": "green",
+		"requires_discovery": true,
+	},
+	{
+		"customer": "Bistro Levandulový dvůr",
+		"title": "Provensálská dvojice",
+		"kind": "blend",
+		"blend_id": "provence_pair",
+		"requirements": [
+			{"species_id": "thymus_vulgaris", "min_dry_g": 4.8, "min_quality": 0.78},
+			{"species_id": "rosemary_officinalis", "min_dry_g": 4.6, "min_quality": 0.78},
+		],
+		"reward_multiplier": 1.32,
+		"flat_bonus": 8,
+		"bonus_xp": 24,
+		"accent": "gold",
+		"requires_discovery": true,
+	},
 ]
 
 enum JourneyStep {

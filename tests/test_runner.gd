@@ -9,6 +9,7 @@ const MARJORAM_ID := "origanum_majorana"
 const PARSLEY_ID := "petroselinum_crispum"
 const LEMON_BALM_ID := "melissa_officinalis"
 const SAGE_ID := "salvia_officinalis"
+const THYME_ID := "thymus_vulgaris"
 const PACK_COMMON_NO_LEGENDARY := 57.894737
 const PACK_RARE_NO_LEGENDARY := 31.578947
 const PACK_EPIC_NO_LEGENDARY := 10.526316
@@ -115,6 +116,7 @@ func _run_all() -> void:
 	_test_phase66_contextual_daily_challenges()
 	_test_phase72_forecast_daily_challenges()
 	_test_phase101_wilted_rescue_daily_challenge()
+	_test_phase102_common_thyme()
 	_test_phase41_level_progression()
 	_test_phase42_care_center()
 	_test_phase43_care_plan()
@@ -176,7 +178,7 @@ func _load_plant_catalog() -> Dictionary:
 func _test_phase19_architecture_services() -> void:
 	var catalog_repository = preload("res://scripts/plant_catalog_repository.gd").new()
 	var catalog: Dictionary = catalog_repository.load_catalog()
-	_check(catalog.size() == 10 and catalog.has("oregano_vulgare") and catalog.has("lavandula_angustifolia") and catalog.has(CHIVES_ID) and catalog.has(MARJORAM_ID) and catalog.has(PARSLEY_ID) and catalog.has(LEMON_BALM_ID) and catalog.has(SAGE_ID) and str(catalog_repository.load_default_profile().get("id", "")) == "basil_genovese", "Fáze 95 repozitář načítá všech deset rostlin včetně Rare šalvěje mimo hlavní scénu")
+	_check(catalog.size() == 11 and catalog.has("oregano_vulgare") and catalog.has("lavandula_angustifolia") and catalog.has(CHIVES_ID) and catalog.has(MARJORAM_ID) and catalog.has(PARSLEY_ID) and catalog.has(LEMON_BALM_ID) and catalog.has(SAGE_ID) and catalog.has(THYME_ID) and str(catalog_repository.load_default_profile().get("id", "")) == "basil_genovese", "Fáze 102 repozitář načítá všech jedenáct rostlin včetně tymiánu mimo hlavní scénu")
 	var navigator = preload("res://scripts/ui/screen_navigation_controller.gd").new()
 	_check(navigator.resolve_swipe_target(Vector2(-100.0, 10.0), 1, 4) == 2 and navigator.resolve_swipe_target(Vector2(30.0, 0.0), 1, 4) == -1 and navigator.resolve_swipe_target(Vector2(100.0, 0.0), 0, 4) == 0, "Phase 19 navigační služba zachová vodorovný swipe, práh i hranice obrazovek")
 	var orders_panel = preload("res://scripts/ui/customer_orders_panel.gd").new()
@@ -393,7 +395,7 @@ func _test_phase25_herbarium_presenter() -> void:
 	var species_progress_before: Dictionary = session.species_progress.duplicate(true)
 	presenter.show_intro()
 	presenter.refresh(session)
-	_check(presenter.is_bound() and summary.text.begins_with("SBÍRKA  2/10 DRUHŮ   ·   20 %") and status.text == "Každá bylinka má vlastní postup. Odměny se vyzvedávají po jedné.", "Fáze 95 herbářový presenter promítne deset druhů, pravdivých 20 procent objevené sbírky a úvodní instrukci")
+	_check(presenter.is_bound() and summary.text.begins_with("SBÍRKA  2/11 DRUHŮ   ·   18 %") and status.text == "Každá bylinka má vlastní postup. Odměny se vyzvedávají po jedné.", "Fáze 102 herbářový presenter promítne jedenáct druhů, pravdivých 18 procent objevené sbírky a úvodní instrukci")
 	_check((cards.basil_genovese.overview as Label).text == str(session.get_plant_profile("basil_genovese").get("knowledge_intro", "")) and "SKLIZNĚ  0" in (cards.basil_genovese.stats as Label).text and (cards.basil_genovese.claim as Button).disabled and [session.coins, session.xp, session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds] == economy_before and session.species_progress == species_progress_before, "Phase 25 herbářový presenter naplní karty včetně oregana bez změny herní relace")
 	session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 1, "best_quality": 0.60, "orders_completed": 0, "total_dry_g": 4.8, "claimed_tier": 1}
 	presenter.refresh(session)
@@ -1034,7 +1036,7 @@ func _test_phase64_diagnosis_actions() -> void:
 
 func _test_phase73_real_time_growth_contract() -> void:
 	var catalog := _load_plant_catalog()
-	_check(is_equal_approx(float(catalog.basil_genovese.growth_seconds), 21600.0) and is_equal_approx(float(catalog.mint_peppermint.growth_seconds), 18000.0) and is_equal_approx(float(catalog.oregano_vulgare.growth_seconds), 43200.0) and is_equal_approx(float(catalog.rosemary_officinalis.growth_seconds), 50400.0) and is_equal_approx(float(catalog.lavandula_angustifolia.growth_seconds), 64800.0) and is_equal_approx(float(catalog.get(CHIVES_ID, {}).get("growth_seconds", 0.0)), 31680.0) and is_equal_approx(float(catalog.get(MARJORAM_ID, {}).get("growth_seconds", 0.0)), 36000.0) and is_equal_approx(float(catalog.get(PARSLEY_ID, {}).get("growth_seconds", 0.0)), 32400.0) and is_equal_approx(float(catalog.get(LEMON_BALM_ID, {}).get("growth_seconds", 0.0)), 28800.0) and is_equal_approx(float(catalog.get(SAGE_ID, {}).get("growth_seconds", 0.0)), 72000.0), "Fáze 95 všech deset druhů drží pevné profilové cíle včetně Rare šalvěje s dvacetihodinovým růstem")
+	_check(is_equal_approx(float(catalog.basil_genovese.growth_seconds), 21600.0) and is_equal_approx(float(catalog.mint_peppermint.growth_seconds), 18000.0) and is_equal_approx(float(catalog.oregano_vulgare.growth_seconds), 43200.0) and is_equal_approx(float(catalog.rosemary_officinalis.growth_seconds), 50400.0) and is_equal_approx(float(catalog.lavandula_angustifolia.growth_seconds), 64800.0) and is_equal_approx(float(catalog.get(CHIVES_ID, {}).get("growth_seconds", 0.0)), 31680.0) and is_equal_approx(float(catalog.get(MARJORAM_ID, {}).get("growth_seconds", 0.0)), 36000.0) and is_equal_approx(float(catalog.get(PARSLEY_ID, {}).get("growth_seconds", 0.0)), 32400.0) and is_equal_approx(float(catalog.get(LEMON_BALM_ID, {}).get("growth_seconds", 0.0)), 28800.0) and is_equal_approx(float(catalog.get(SAGE_ID, {}).get("growth_seconds", 0.0)), 72000.0) and is_equal_approx(float(catalog.get(THYME_ID, {}).get("growth_seconds", 0.0)), 39600.0), "Fáze 102 všech jedenáct druhů drží pevné profilové cíle včetně jedenáctihodinového tymiánu")
 	_check(str(catalog.basil_genovese.rarity) == "common" and str(catalog.oregano_vulgare.rarity) == "rare" and is_equal_approx(float(catalog.basil_genovese.minimum_growth_efficiency), 0.5), "Fáze 73 data připravují Common/Rare kostru a dvounásobný strop zanedbané bazalky")
 
 	var tutorial := GameSession.new(catalog)
@@ -1348,7 +1350,7 @@ func _test_phase76_rarity_and_discovery() -> void:
 	var plant_catalog := _load_plant_catalog()
 	var session := GameSession.new(plant_catalog)
 	_check(session.get_species_rarity_id("basil_genovese") == "common" and session.get_species_rarity_id("rosemary_officinalis") == "rare" and str(session.get_species_rarity_definition("oregano_vulgare").get("id", "")) == "rare", "Fáze 76 herní relace normalizuje vzácnost profilů přes sdílený katalog bez druhého zdroje pravdy")
-	_check(session.get_collection_species_ids() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID] and session.get_discovered_species_count() == 2 and session.is_species_discovered("basil_genovese") and session.is_species_discovered("mint_peppermint") and not session.is_species_discovered("lavandula_angustifolia") and not session.is_species_discovered(CHIVES_ID) and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID), "Fáze 95 nová hra začíná pravdivou sbírkou 2/10 podle skutečně vlastněných semínek")
+	_check(session.get_collection_species_ids() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID] and session.get_discovered_species_count() == 2 and session.is_species_discovered("basil_genovese") and session.is_species_discovered("mint_peppermint") and not session.is_species_discovered("lavandula_angustifolia") and not session.is_species_discovered(CHIVES_ID) and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID) and not session.is_species_discovered(THYME_ID), "Fáze 102 nová hra začíná pravdivou sbírkou 2/11 podle skutečně vlastněných semínek")
 
 	var presenter = preload("res://scripts/ui/herbarium_presenter.gd").new()
 	var summary := Label.new()
@@ -1369,19 +1371,19 @@ func _test_phase76_rarity_and_discovery() -> void:
 		controls.append_array([name, icon, rarity, rank, progress, overview, stats, goal, claim])
 	presenter.bind(summary, status, cards)
 	presenter.refresh(session)
-	_check(summary.text.begins_with("SBÍRKA  2/10 DRUHŮ") and (cards.lavandula_angustifolia.name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards.lavandula_angustifolia.claim as Button).disabled and (cards.lavandula_angustifolia.claim as Button).text == "NEJDŘÍV OBJEVIT" and (cards[CHIVES_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[MARJORAM_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[PARSLEY_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[LEMON_BALM_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[SAGE_ID].name as Label).text == "NEOBJEVENÁ BYLINKA", "Fáze 95 herbář na nové hře nezaměňuje katalog za objevenou sbírku a bezpečně zamkne i šalvěj")
+	_check(summary.text.begins_with("SBÍRKA  2/11 DRUHŮ") and (cards.lavandula_angustifolia.name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards.lavandula_angustifolia.claim as Button).disabled and (cards.lavandula_angustifolia.claim as Button).text == "NEJDŘÍV OBJEVIT" and (cards[CHIVES_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[MARJORAM_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[PARSLEY_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[LEMON_BALM_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[SAGE_ID].name as Label).text == "NEOBJEVENÁ BYLINKA" and (cards[THYME_ID].name as Label).text == "NEOBJEVENÁ BYLINKA", "Fáze 102 herbář na nové hře nezaměňuje katalog za objevenou sbírku a bezpečně zamkne i tymián")
 	session.coins = 100
 	var rosemary_stock_before := session.get_shop_stock(session.get_shop_seed_item_id("rosemary_officinalis"))
 	_check(rosemary_stock_before > 0 and session.buy_seed("rosemary_officinalis") and session.rosemary_seeds == 1 and session.is_species_discovered("rosemary_officinalis") and session.get_discovered_species_count() == 3, "Fáze 76 úspěšný nákup semínka u pana Kořínka objeví druh okamžitě a právě jednou")
 	presenter.refresh(session)
-	_check(summary.text.begins_with("SBÍRKA  3/10 DRUHŮ") and (cards.rosemary_officinalis.name as Label).text == "ROZMARÝN LÉKAŘSKÝ" and "SKLIZNĚ  0" in (cards.rosemary_officinalis.stats as Label).text, "Fáze 95 herbář po nákupu bez restartu odhalí rozmarýn a promítne sbírku 3/10")
+	_check(summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and (cards.rosemary_officinalis.name as Label).text == "ROZMARÝN LÉKAŘSKÝ" and "SKLIZNĚ  0" in (cards.rosemary_officinalis.stats as Label).text, "Fáze 102 herbář po nákupu bez restartu odhalí rozmarýn a promítne sbírku 3/11")
 	session.journey_completed = true
 	session.journey_step = GameSession.JourneyStep.COMPLETE
 	_check(session.plant_seed("rosemary_officinalis") and session.rosemary_seeds == 0 and session.is_species_discovered("rosemary_officinalis"), "Fáze 76 objevení druhu nezmizí ani po spotřebování posledního koupeného semínka")
 	var saved := session.to_dict()
 	var restored := GameSession.new(plant_catalog)
 	restored.from_dict(saved)
-	_check(int(saved.get("schema", 0)) == GameSession.SAVE_SCHEMA and restored.get_collection_species_ids().size() == 10 and restored.get_discovered_species_count() == 3 and restored.is_species_discovered("rosemary_officinalis") and not restored.is_species_discovered("lavandula_angustifolia") and not restored.is_species_discovered(CHIVES_ID) and not restored.is_species_discovered(MARJORAM_ID) and not restored.is_species_discovered(PARSLEY_ID) and not restored.is_species_discovered(LEMON_BALM_ID) and not restored.is_species_discovered(SAGE_ID), "Aktuální save zachová přesně objevené druhy v desetipoložkovém katalogu")
+	_check(int(saved.get("schema", 0)) == GameSession.SAVE_SCHEMA and restored.get_collection_species_ids().size() == 11 and restored.get_discovered_species_count() == 3 and restored.is_species_discovered("rosemary_officinalis") and not restored.is_species_discovered("lavandula_angustifolia") and not restored.is_species_discovered(CHIVES_ID) and not restored.is_species_discovered(MARJORAM_ID) and not restored.is_species_discovered(PARSLEY_ID) and not restored.is_species_discovered(LEMON_BALM_ID) and not restored.is_species_discovered(SAGE_ID) and not restored.is_species_discovered(THYME_ID), "Aktuální save zachová přesně objevené druhy v jedenáctipoložkovém katalogu")
 	for control in controls:
 		control.free()
 
@@ -1420,8 +1422,9 @@ func _test_phase77_generic_seed_inventory() -> void:
 		"petroselinum_crispum": 0,
 		"melissa_officinalis": 0,
 		"salvia_officinalis": 0,
-	}, "Fáze 99 zachová desetidruhový katalogový inventář semen a aktuální save navazuje schema 28")
-	_check(session.get_total_seed_count() == 2 and int((catalog.basil_genovese as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.mint_peppermint as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.oregano_vulgare as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.rosemary_officinalis as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LAVENDER_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(CHIVES_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(MARJORAM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(PARSLEY_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LEMON_BALM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(SAGE_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0, "Startovní zásoby jsou datové a součet iteruje celý desetidruhový katalog")
+		"thymus_vulgaris": 0,
+	}, "Fáze 102 zachová jedenáctidruhový katalogový inventář semen a aktuální save navazuje schema 28")
+	_check(session.get_total_seed_count() == 2 and int((catalog.basil_genovese as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.mint_peppermint as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.oregano_vulgare as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.rosemary_officinalis as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LAVENDER_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(CHIVES_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(MARJORAM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(PARSLEY_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LEMON_BALM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(SAGE_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(THYME_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0, "Startovní zásoby jsou datové a součet iteruje celý jedenáctidruhový katalog")
 	var current_save := session.to_dict()
 	_check(int(current_save.get("schema", 0)) == GameSession.SAVE_SCHEMA and current_save.get("seed_inventory", {}) == initial_inventory and not current_save.has("seeds") and not current_save.has("mint_seeds") and not current_save.has("rosemary_seeds") and not current_save.has("oregano_seeds"), "Aktuální schema dál ukládá jediný seed_inventory a nevytváří druhý zdroj pravdy ve starých klíčích")
 
@@ -1446,6 +1449,7 @@ func _test_phase77_generic_seed_inventory() -> void:
 		"petroselinum_crispum": 0,
 		"melissa_officinalis": 0,
 		"salvia_officinalis": 0,
+		"thymus_vulgaris": 0,
 	}, "Migrace schema 20 převede čtyři historické čítače a novější druhy bezpečně inicializuje nulou")
 	var basil_only_catalog := {"basil_genovese": (catalog.get("basil_genovese", {}) as Dictionary).duplicate(true)}
 	var partial_legacy := GameSession.new(basil_only_catalog)
@@ -1509,7 +1513,7 @@ func _test_phase77_generic_seed_inventory() -> void:
 	future_from_opaque.from_dict(opaque_save)
 	_check(future_from_opaque.get_seed_count("thyme_future") == 6 and future_from_opaque.is_species_discovered("thyme_future"), "Po pozdějším přidání stejného profilu se skrytá zásoba bezpečně zpřístupní a druh objeví")
 	var extended := GameSession.new(extended_catalog)
-	_check(extended.get_seed_inventory_snapshot().has("thyme_future") and extended.get_seed_count("thyme_future") == 0 and extended.set_seed_count("thyme_future", 2) and extended.get_seed_count("thyme_future") == 2 and extended.is_species_discovered("thyme_future"), "Syntetický jedenáctý profil automaticky získá inventární položku a kladná zásoba jej objeví bez nové migrace")
+	_check(extended.get_seed_inventory_snapshot().has("thyme_future") and extended.get_seed_count("thyme_future") == 0 and extended.set_seed_count("thyme_future", 2) and extended.get_seed_count("thyme_future") == 2 and extended.is_species_discovered("thyme_future"), "Syntetický dvanáctý profil automaticky získá inventární položku a kladná zásoba jej objeví bez nové migrace")
 	var storage_presenter = preload("res://scripts/ui/storage_inventory_presenter.gd").new()
 	var storage_header := Label.new()
 	var storage_seeds := Label.new()
@@ -1517,7 +1521,7 @@ func _test_phase77_generic_seed_inventory() -> void:
 	var storage_harvests := Label.new()
 	storage_presenter.bind(storage_header, {"seeds": storage_seeds, "fertilizer": storage_fertilizer, "harvests": storage_harvests})
 	storage_presenter.refresh(extended)
-	_check(storage_seeds.text == "4", "Skladový součet automaticky zahrne i syntetický jedenáctý druh")
+	_check(storage_seeds.text == "4", "Skladový součet automaticky zahrne i syntetický dvanáctý druh")
 	extended.journey_completed = true
 	extended.journey_step = GameSession.JourneyStep.COMPLETE
 	_check(extended.plant_seed("thyme_future") and extended.get_seed_count("thyme_future") == 1, "Obecné sázení spotřebuje právě jedno semínko nového katalogového druhu")
@@ -1545,12 +1549,12 @@ func _test_phase78_botanical_packs() -> void:
 	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and GameSession.BOTANICAL_PACK_SEED_COUNT == 1 and GameSession.MAX_PENDING_BOTANICAL_PACKS == 32, "Aktuální schema 28 navazuje na botanické balíčky ze schema 22, jeden výsledek na balíček a pevně omezenou frontu")
 	_check(int(initial_state.get("count", -1)) == 0 and int(initial_state.get("capacity", -1)) == GameSession.MAX_PENDING_BOTANICAL_PACKS and (initial_state.get("pending", []) as Array).is_empty() and not bool(initial_state.get("queue_full", true)), "Nová hra začíná bez skrytě přidělených balíčků a veřejný stav pravdivě vrací prázdnou frontu")
 	_check(absf(float(initial_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(initial_odds.get("legendary", -1.0))) and is_zero_approx(float(initial_odds.get("special", -1.0))) and absf(odds_total - 100.0) < 0.001, "Bez Legendary profilu se aktivní váhy 55/30/10 normalizují na Common/Rare/Epic/Legendary/Special 57,894737/31,578947/10,526316/0/0 a dávají 100 %")
-	_check(int(initial_state.get("pity", -1)) == 0 and int(initial_state.get("pity_threshold", -1)) == 4 and int(initial_state.get("duplicates_until_guaranteed_new", -1)) == 4 and not bool(initial_state.get("next_grant_guaranteed_new", true)) and int(initial_state.get("eligible_species_count", -1)) == 10 and int(initial_state.get("ungranted_new_species_count", -1)) == 8, "Veřejný stav ukazuje hranici čtyř duplicit i osm dosud neobjevených druhů bez odhalení zapečetěného výsledku")
+	_check(int(initial_state.get("pity", -1)) == 0 and int(initial_state.get("pity_threshold", -1)) == 4 and int(initial_state.get("duplicates_until_guaranteed_new", -1)) == 4 and not bool(initial_state.get("next_grant_guaranteed_new", true)) and int(initial_state.get("eligible_species_count", -1)) == 11 and int(initial_state.get("ungranted_new_species_count", -1)) == 9, "Veřejný stav ukazuje hranici čtyř duplicit i devět dosud neobjevených druhů bez odhalení zapečetěného výsledku")
 	var all_profiles_allow_pack := true
 	for raw_species_id in catalog:
 		var species_profile: Dictionary = catalog[raw_species_id]
 		all_profiles_allow_pack = all_profiles_allow_pack and "botanical_pack" in (species_profile.get("acquisition_sources", []) as Array)
-	_check(all_profiles_allow_pack, "Všech deset současných rostlin výslovně povoluje botanický balíček datovým acquisition_sources")
+	_check(all_profiles_allow_pack, "Všech jedenáct současných rostlin výslovně povoluje botanický balíček datovým acquisition_sources")
 
 	var extended_catalog := catalog.duplicate(true)
 	var epic_profile: Dictionary = (catalog.get("basil_genovese", {}) as Dictionary).duplicate(true)
@@ -1590,7 +1594,7 @@ func _test_phase78_botanical_packs() -> void:
 	var extended_session := GameSession.new(extended_catalog)
 	var extended_state := extended_session.get_botanical_pack_state()
 	var extended_odds: Dictionary = extended_state.get("odds", {})
-	_check(int(extended_state.get("eligible_species_count", -1)) == 12 and absf(float(extended_odds.get("common", -1.0)) - 55.0) < 0.001 and absf(float(extended_odds.get("rare", -1.0)) - 30.0) < 0.001 and absf(float(extended_odds.get("epic", -1.0)) - 10.0) < 0.001 and absf(float(extended_odds.get("legendary", -1.0)) - 5.0) < 0.001 and is_zero_approx(float(extended_odds.get("special", -1.0))), "Syntetický Legendary profil znovu aktivuje plný model 55/30/10/5/0 a vyloučí Special, skrytý i obchodní-only profil")
+	_check(int(extended_state.get("eligible_species_count", -1)) == 13 and absf(float(extended_odds.get("common", -1.0)) - 55.0) < 0.001 and absf(float(extended_odds.get("rare", -1.0)) - 30.0) < 0.001 and absf(float(extended_odds.get("epic", -1.0)) - 10.0) < 0.001 and absf(float(extended_odds.get("legendary", -1.0)) - 5.0) < 0.001 and is_zero_approx(float(extended_odds.get("special", -1.0))), "Syntetický Legendary profil znovu aktivuje plný model 55/30/10/5/0 a vyloučí Special, skrytý i obchodní-only profil")
 
 	var first_pack := session._grant_botanical_pack("test_grant", "sealed", false)
 	var sealed_pending := session.get_botanical_pack_state().get("pending", []) as Array
@@ -1604,7 +1608,7 @@ func _test_phase78_botanical_packs() -> void:
 	_check(next_original == next_restored and not next_original.is_empty(), "Další přidělení po round-trip pokračuje deterministicky a načtení nemůže změnit budoucí výsledek")
 
 	var reversed_catalog: Dictionary = {}
-	for species_id in [SAGE_ID, LEMON_BALM_ID, PARSLEY_ID, MARJORAM_ID, CHIVES_ID, "lavandula_angustifolia", "oregano_vulgare", "rosemary_officinalis", "mint_peppermint", "basil_genovese"]:
+	for species_id in [THYME_ID, SAGE_ID, LEMON_BALM_ID, PARSLEY_ID, MARJORAM_ID, CHIVES_ID, "lavandula_angustifolia", "oregano_vulgare", "rosemary_officinalis", "mint_peppermint", "basil_genovese"]:
 		reversed_catalog[species_id] = (catalog.get(species_id, {}) as Dictionary).duplicate(true)
 	var deterministic_a := GameSession.new(catalog)
 	var deterministic_b := GameSession.new(reversed_catalog)
@@ -1645,7 +1649,7 @@ func _test_phase78_botanical_packs() -> void:
 
 	var pity_catalog := catalog.duplicate(true)
 	var pity_session := GameSession.new(pity_catalog)
-	for species_id in ["basil_genovese", "mint_peppermint", "rosemary_officinalis", "oregano_vulgare", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]:
+	for species_id in ["basil_genovese", "mint_peppermint", "rosemary_officinalis", "oregano_vulgare", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]:
 		pity_session._discover_species(species_id)
 	pity_session.botanical_pack_rng_state = 2
 	var four_duplicates := true
@@ -1807,6 +1811,7 @@ func _test_phase79_botanical_behaviors() -> void:
 		PARSLEY_ID: ["shade_tolerance"],
 		LEMON_BALM_ID: ["self_seeding"],
 		SAGE_ID: ["modest_feeding"],
+		THYME_ID: ["dry_soil_vigor"],
 	}
 	var expected_labels: Dictionary = {
 		"resilient_leaves": "RYCHLÁ OBNOVA",
@@ -1819,9 +1824,10 @@ func _test_phase79_botanical_behaviors() -> void:
 		"shade_tolerance": "TOLERANCE POLOSTÍNU",
 		"self_seeding": "BOHATÝ SAMOVÝSEV",
 		"modest_feeding": "STŘÍDMÁ VÝŽIVA",
+		"dry_soil_vigor": "SUCHOMILNÝ RYTMUS",
 	}
 	var definitions_by_id: Dictionary = {}
-	var definitions_complete := behavior_definitions.size() == 10
+	var definitions_complete := behavior_definitions.size() == 11
 	for definition in behavior_definitions:
 		var behavior_id := str(definition.get("id", ""))
 		definitions_by_id[behavior_id] = definition
@@ -1830,16 +1836,16 @@ func _test_phase79_botanical_behaviors() -> void:
 		definitions_complete = definitions_complete and not str(definition.get("description", "")).is_empty() and not str(definition.get("compact_description", "")).is_empty()
 		definitions_complete = definitions_complete and not str(definition.get("active_text", "")).is_empty() and not str(definition.get("inactive_text", "")).is_empty()
 		definitions_complete = definitions_complete and definition.get("activation", {}) is Dictionary and definition.get("effects", {}) is Dictionary
-	_check(behavior_order == ["resilient_leaves", "refreshing_water", "aromatic_defense", "water_saving_needles", "fragrant_bloom", "clumping_vigor", "aroma_preservation", "shade_tolerance", "self_seeding", "modest_feeding"] and definitions_by_id.keys().size() == 10 and definitions_complete, "Fáze 95 katalog drží deset kanonických botanických chování, stabilní pořadí a úplný čtecí kontrakt pro UI")
-	_check(is_equal_approx(float((definitions_by_id.resilient_leaves.effects as Dictionary).get("stress_damage_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.refreshing_water.effects as Dictionary).get("health_restore", 0.0)), 4.0) and bool((definitions_by_id.refreshing_water.effects as Dictionary).get("once_per_action", false)) and is_equal_approx(float((definitions_by_id.aromatic_defense.effects as Dictionary).get("disease_pressure_gain_multiplier", 0.0)), 0.70) and is_equal_approx(float((definitions_by_id.water_saving_needles.effects as Dictionary).get("water_loss_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.fragrant_bloom.activation as Dictionary).get("threshold", 0.0)), 0.85) and is_equal_approx(float((definitions_by_id.fragrant_bloom.effects as Dictionary).get("fresh_yield_multiplier", 0.0)), 1.12) and bool((definitions_by_id.fragrant_bloom.effects as Dictionary).get("once_per_harvest", false)) and str((definitions_by_id.clumping_vigor.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and is_equal_approx(float((definitions_by_id.clumping_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.10) and str((definitions_by_id.aroma_preservation.activation as Dictionary).get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float((definitions_by_id.aroma_preservation.effects as Dictionary).get("drying_time_multiplier", 0.0)), 0.80) and str((definitions_by_id.shade_tolerance.activation as Dictionary).get("type", "")) == "daylight_light_below" and is_equal_approx(float((definitions_by_id.shade_tolerance.effects as Dictionary).get("daylight_light_factor_floor", 0.0)), 0.60) and str((definitions_by_id.self_seeding.activation as Dictionary).get("type", "")) == "sale_seed_drop" and is_equal_approx(float((definitions_by_id.self_seeding.effects as Dictionary).get("seed_drop_chance_bonus", 0.0)), 0.17) and str((definitions_by_id.modest_feeding.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((definitions_by_id.modest_feeding.activation as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((definitions_by_id.modest_feeding.effects as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75), "Všech deset efektů má přesné veřejné hodnoty; šalvěj ve vlastním výživovém pásmu snižuje úbytek živin na 75 %")
+	_check(behavior_order == ["resilient_leaves", "refreshing_water", "aromatic_defense", "water_saving_needles", "fragrant_bloom", "clumping_vigor", "aroma_preservation", "shade_tolerance", "self_seeding", "modest_feeding", "dry_soil_vigor"] and definitions_by_id.keys().size() == 11 and definitions_complete, "Fáze 102 katalog drží jedenáct kanonických botanických chování, stabilní pořadí a úplný čtecí kontrakt pro UI")
+	_check(is_equal_approx(float((definitions_by_id.resilient_leaves.effects as Dictionary).get("stress_damage_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.refreshing_water.effects as Dictionary).get("health_restore", 0.0)), 4.0) and bool((definitions_by_id.refreshing_water.effects as Dictionary).get("once_per_action", false)) and is_equal_approx(float((definitions_by_id.aromatic_defense.effects as Dictionary).get("disease_pressure_gain_multiplier", 0.0)), 0.70) and is_equal_approx(float((definitions_by_id.water_saving_needles.effects as Dictionary).get("water_loss_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.fragrant_bloom.activation as Dictionary).get("threshold", 0.0)), 0.85) and is_equal_approx(float((definitions_by_id.fragrant_bloom.effects as Dictionary).get("fresh_yield_multiplier", 0.0)), 1.12) and bool((definitions_by_id.fragrant_bloom.effects as Dictionary).get("once_per_harvest", false)) and str((definitions_by_id.clumping_vigor.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and is_equal_approx(float((definitions_by_id.clumping_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.10) and str((definitions_by_id.aroma_preservation.activation as Dictionary).get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float((definitions_by_id.aroma_preservation.effects as Dictionary).get("drying_time_multiplier", 0.0)), 0.80) and str((definitions_by_id.shade_tolerance.activation as Dictionary).get("type", "")) == "daylight_light_below" and is_equal_approx(float((definitions_by_id.shade_tolerance.effects as Dictionary).get("daylight_light_factor_floor", 0.0)), 0.60) and str((definitions_by_id.self_seeding.activation as Dictionary).get("type", "")) == "sale_seed_drop" and is_equal_approx(float((definitions_by_id.self_seeding.effects as Dictionary).get("seed_drop_chance_bonus", 0.0)), 0.17) and str((definitions_by_id.modest_feeding.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((definitions_by_id.modest_feeding.activation as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((definitions_by_id.modest_feeding.effects as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75) and str((definitions_by_id.dry_soil_vigor.activation as Dictionary).get("value", "")) == "moisture" and is_equal_approx(float((definitions_by_id.dry_soil_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.12), "Všech jedenáct efektů má přesné veřejné hodnoty včetně tymiánového růstu +12 % v sušším pásmu")
 	_check(str(behavior_catalog.get_definition("resilient_leaves").get("id", "")) == "resilient_leaves" and behavior_catalog.get_definition("unknown_behavior").is_empty() and behavior_catalog.normalize_behavior_ids([" refreshing_water ", "refreshing_water", "unknown_behavior", 8]) == ["refreshing_water"], "Runtime normalizace zahodí duplicitu, neznámé ID i neřetězcový vstup a nikdy je nezmění na jiné chování")
 
 	var repository = preload("res://scripts/plant_catalog_repository.gd").new()
 	var catalog: Dictionary = repository.load_catalog()
-	var profile_ids_exact := catalog.size() == 10
+	var profile_ids_exact := catalog.size() == 11
 	for species_id in expected_behavior_ids:
 		profile_ids_exact = profile_ids_exact and (catalog.get(species_id, {}) as Dictionary).get("behavior_ids", []) == expected_behavior_ids[species_id]
-	_check(profile_ids_exact, "Deset současných profilů deklaruje přesně jedno správné behavior_id včetně Rare šalvěje")
+	_check(profile_ids_exact, "Jedenáct současných profilů deklaruje přesně jedno správné behavior_id včetně tymiánu")
 	var invalid_type: Dictionary = (catalog.basil_genovese as Dictionary).duplicate(true)
 	invalid_type["behavior_ids"] = "resilient_leaves"
 	var invalid_duplicate: Dictionary = (catalog.basil_genovese as Dictionary).duplicate(true)
@@ -1863,7 +1869,8 @@ func _test_phase79_botanical_behaviors() -> void:
 	var parsley_seed_description := behavior_presentation.seed_species_description(PARSLEY_ID, behavior_session.get_species_behavior_definitions(PARSLEY_ID))
 	var lemon_balm_seed_description := behavior_presentation.seed_species_description(LEMON_BALM_ID, behavior_session.get_species_behavior_definitions(LEMON_BALM_ID))
 	var sage_seed_description := behavior_presentation.seed_species_description(SAGE_ID, behavior_session.get_species_behavior_definitions(SAGE_ID))
-	_check("6 hodin" in basil_seed_description and "RYCHLÁ OBNOVA" in basil_seed_description and "5 hodin" in mint_seed_description and "MÁTOVÉ VZPRUŽENÍ" in mint_seed_description and "12 hodin" in oregano_seed_description and "AROMATICKÝ ŠTÍT" in oregano_seed_description and "14 hodin" in rosemary_seed_description and "KOŽOVITÉ JEHLICE" in rosemary_seed_description and "18 hodin" in lavender_seed_description and "VOŇAVÝ KVĚT" in lavender_seed_description and "8 hodin" in chives_seed_description and "SÍLA TRSU" in chives_seed_description and "10 hodin" in marjoram_seed_description and "VŮNĚ PO USUŠENÍ" in marjoram_seed_description and "9 hodin" in parsley_seed_description and "TOLERANCE POLOSTÍNU" in parsley_seed_description and "8 hodin" in lemon_balm_seed_description and "BOHATÝ SAMOVÝSEV" in lemon_balm_seed_description and "20 hodin" in sage_seed_description and "STŘÍDMÁ VÝŽIVA" in sage_seed_description, "Výběr semen ukáže vlastnost každého z deseti druhů včetně dvacetihodinové Rare šalvěje")
+	var thyme_seed_description := behavior_presentation.seed_species_description(THYME_ID, behavior_session.get_species_behavior_definitions(THYME_ID))
+	_check("6 hodin" in basil_seed_description and "RYCHLÁ OBNOVA" in basil_seed_description and "5 hodin" in mint_seed_description and "MÁTOVÉ VZPRUŽENÍ" in mint_seed_description and "12 hodin" in oregano_seed_description and "AROMATICKÝ ŠTÍT" in oregano_seed_description and "14 hodin" in rosemary_seed_description and "KOŽOVITÉ JEHLICE" in rosemary_seed_description and "18 hodin" in lavender_seed_description and "VOŇAVÝ KVĚT" in lavender_seed_description and "8 hodin" in chives_seed_description and "SÍLA TRSU" in chives_seed_description and "10 hodin" in marjoram_seed_description and "VŮNĚ PO USUŠENÍ" in marjoram_seed_description and "9 hodin" in parsley_seed_description and "TOLERANCE POLOSTÍNU" in parsley_seed_description and "8 hodin" in lemon_balm_seed_description and "BOHATÝ SAMOVÝSEV" in lemon_balm_seed_description and "20 hodin" in sage_seed_description and "STŘÍDMÁ VÝŽIVA" in sage_seed_description and "11 hodin" in thyme_seed_description and "SUCHOMILNÝ RYTMUS" in thyme_seed_description, "Výběr semen ukáže vlastnost každého z jedenácti druhů včetně jedenáctihodinového tymiánu")
 
 	var basil_profile: Dictionary = (catalog.basil_genovese as Dictionary).duplicate(true)
 	var basil_plain_profile := basil_profile.duplicate(true)
@@ -2096,6 +2103,7 @@ func _test_phase80_scalable_catalog() -> void:
 		{"id": PARSLEY_ID, "path": "res://data/plants/petroselinum_crispum.json", "catalog_order": 80},
 		{"id": LEMON_BALM_ID, "path": "res://data/plants/melissa_officinalis.json", "catalog_order": 90},
 		{"id": SAGE_ID, "path": "res://data/plants/salvia_officinalis.json", "catalog_order": 100},
+		{"id": THYME_ID, "path": "res://data/plants/thymus_vulgaris.json", "catalog_order": 110},
 	]
 	var normalized_manifest_entries: Array[Dictionary] = []
 	for raw_entry in manifest_entries:
@@ -2107,10 +2115,10 @@ func _test_phase80_scalable_catalog() -> void:
 			"path": str(entry.get("path", "")),
 			"catalog_order": int(entry.get("catalog_order", 0)),
 		})
-	_check(int(manifest.get("version", 0)) == 1 and str(manifest.get("default_profile_id", "")) == "basil_genovese" and normalized_manifest_entries == expected_manifest_entries, "Fáze 95 verzovaný manifest drží přesných deset produkčních profilů, jejich ID, cesty a stabilní pořadí")
+	_check(int(manifest.get("version", 0)) == 1 and str(manifest.get("default_profile_id", "")) == "basil_genovese" and normalized_manifest_entries == expected_manifest_entries, "Fáze 102 verzovaný manifest drží přesných jedenáct produkčních profilů, jejich ID, cesty a stabilní pořadí")
 	var catalog: Dictionary = repository.load_catalog()
 	var manifest_catalog: Dictionary = repository.load_catalog_from_manifest(manifest)
-	_check(catalog.size() == 10 and catalog == manifest_catalog and str(repository.load_default_profile().get("id", "")) == "basil_genovese", "Fáze 95 běžné načtení i explicitní manifest používají jediný desetiprofilový katalog a stejný výchozí profil")
+	_check(catalog.size() == 11 and catalog == manifest_catalog and str(repository.load_default_profile().get("id", "")) == "basil_genovese", "Fáze 102 běžné načtení i explicitní manifest používají jediný jedenáctiprofilový katalog a stejný výchozí profil")
 
 	var duplicate_id_manifest := manifest.duplicate(true)
 	var duplicate_id_entries: Array = duplicate_id_manifest.get("profiles", [])
@@ -2152,7 +2160,7 @@ func _test_phase80_scalable_catalog() -> void:
 		2: {"basil_genovese": 3, "mint_peppermint": 3, "rosemary_officinalis": 1, "oregano_vulgare": 1, "fertilizer": 3},
 		3: {"basil_genovese": 4, "mint_peppermint": 2, "rosemary_officinalis": 2, "oregano_vulgare": 2, "fertilizer": 4},
 	}
-	var exact_stock_preserved := stock_session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, "lavandula_angustifolia", SAGE_ID]
+	var exact_stock_preserved := stock_session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, "lavandula_angustifolia", SAGE_ID, THYME_ID]
 	for raw_day in expected_stock_days:
 		var day := int(raw_day)
 		var expected_day: Dictionary = expected_stock_days[raw_day]
@@ -2200,13 +2208,13 @@ func _test_phase80_scalable_catalog() -> void:
 	synthetic_profile["short_name"] = "Epická bylina"
 	synthetic_profile["ui_name"] = "Epická bylina"
 	synthetic_profile["rarity"] = "epic"
-	synthetic_profile["catalog_order"] = 110
+	synthetic_profile["catalog_order"] = 120
 	synthetic_profile["starter_seed_count"] = 0
 	synthetic_profile["acquisition_sources"] = ["botanist", "botanical_pack"]
 	synthetic_profile["behavior_ids"] = []
 	synthetic_profile["seed_price"] = 27
 	synthetic_profile["shop_unlock_level"] = 2
-	synthetic_profile["botanist_shop_order"] = 110
+	synthetic_profile["botanist_shop_order"] = 120
 	synthetic_profile["shop_stock_base"] = 2
 	synthetic_profile["shop_stock_cycle"] = [0, 1]
 	var expanded_catalog := catalog.duplicate(true)
@@ -2221,12 +2229,12 @@ func _test_phase80_scalable_catalog() -> void:
 	var locked_buy_rejected := not expanded.is_botanist_seed_unlocked("phase80_epic") and not expanded.buy_seed("phase80_epic") and expanded.coins == locked_coins_before and expanded.get_shop_stock(epic_item) == locked_stock_before and expanded.get_seed_count("phase80_epic") == 0
 	expanded.xp = 100
 	var unlocked_buy_succeeded := expanded.is_botanist_seed_unlocked("phase80_epic") and expanded.buy_seed("phase80_epic") and expanded.coins == 73 and expanded.get_shop_stock(epic_item) == epic_stock_before - 1 and expanded.get_seed_count("phase80_epic") == 1 and expanded.is_species_discovered("phase80_epic")
-	_check(expanded.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, "phase80_epic"] and expanded.get_collection_species_ids().size() == 11 and expanded.species_progress.size() == 11 and int(expanded_inventory.get("phase80_epic", -1)) == 0 and expanded.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, "lavandula_angustifolia", SAGE_ID, "phase80_epic"] and expanded.get_shop_stock_capacity(epic_item, 0) == 2 and expanded.get_shop_stock_capacity(epic_item, 1) == 3, "Syntetický jedenáctý Epic profil bez nové grafiky automaticky vstoupí do inventáře, sbírky, mistrovství i deterministického obchodu")
+	_check(expanded.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID, "phase80_epic"] and expanded.get_collection_species_ids().size() == 12 and expanded.species_progress.size() == 12 and int(expanded_inventory.get("phase80_epic", -1)) == 0 and expanded.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, "lavandula_angustifolia", SAGE_ID, THYME_ID, "phase80_epic"] and expanded.get_shop_stock_capacity(epic_item, 0) == 2 and expanded.get_shop_stock_capacity(epic_item, 1) == 3, "Syntetický dvanáctý Epic profil bez nové grafiky automaticky vstoupí do inventáře, sbírky, mistrovství i deterministického obchodu")
 	_check(locked_buy_rejected and unlocked_buy_succeeded, "Úrovňový zámek syntetického druhu je atomický a po odemčení společný nákup správně odečte cenu, sklad a objeví rostlinu")
 	var expanded_save := expanded.to_dict()
 	var expanded_restored := GameSession.new(expanded_catalog)
 	expanded_restored.from_dict(expanded_save)
-	_check(int(expanded_save.get("schema", 0)) == 28 and expanded_restored.get_seed_count("phase80_epic") == 1 and expanded_restored.is_species_discovered("phase80_epic") and expanded_restored.get_available_species().size() == 11, "Syntetický jedenáctý datový druh používá aktuální schema 28 a jeho inventář i objevení přežijí round-trip")
+	_check(int(expanded_save.get("schema", 0)) == 28 and expanded_restored.get_seed_count("phase80_epic") == 1 and expanded_restored.is_species_discovered("phase80_epic") and expanded_restored.get_available_species().size() == 12, "Syntetický dvanáctý datový druh používá aktuální schema 28 a jeho inventář i objevení přežijí round-trip")
 	var expanded_odds: Dictionary = expanded.get_botanical_pack_odds()
 	_check(absf(float(expanded_odds.get("common", 0.0)) - PACK_COMMON_NO_LEGENDARY) < 0.0001 and absf(float(expanded_odds.get("rare", 0.0)) - PACK_RARE_NO_LEGENDARY) < 0.0001 and absf(float(expanded_odds.get("epic", 0.0)) - PACK_EPIC_NO_LEGENDARY) < 0.0001 and is_zero_approx(float(expanded_odds.get("legendary", -1.0))), "Přidání způsobilého Epic profilu bez Legendary rarity zachová normalizované veřejné šance 57,894737/31,578947/10,526316/0")
 
@@ -2238,7 +2246,7 @@ func _test_phase80_scalable_catalog() -> void:
 	_check("species_stage_texture" in detail_texture_source and not "is_mint" in detail_texture_source and not "is_rosemary" in detail_texture_source and not "is_oregano" in detail_texture_source and "species_stage_texture" in room_texture_source and not "is_mint" in room_texture_source and not "is_rosemary" in room_texture_source and not "is_oregano" in room_texture_source, "Detail i stojan vybírají stavovou texturu přes společný katalog místo druhových podmínek")
 	var behavior_catalog = preload("res://scripts/plant_behavior_catalog.gd").new()
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(behavior_catalog.get_order() == ["resilient_leaves", "refreshing_water", "aromatic_defense", "water_saving_needles", "fragrant_bloom", "clumping_vigor", "aroma_preservation", "shade_tolerance", "self_seeding", "modest_feeding"] and manifest_entries.size() == 10 and "const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _build_species_rotation" in progression_source and "session.get_available_species()" in progression_source, "Fáze 95 rozšíří schválená botanická chování na deset a dynamická brána nyní provede 120 cyklů současného obsahu")
+	_check(behavior_catalog.get_order() == ["resilient_leaves", "refreshing_water", "aromatic_defense", "water_saving_needles", "fragrant_bloom", "clumping_vigor", "aroma_preservation", "shade_tolerance", "self_seeding", "modest_feeding", "dry_soil_vigor"] and manifest_entries.size() == 11 and "const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _build_species_rotation" in progression_source and "session.get_available_species()" in progression_source, "Fáze 102 rozšíří botanická chování na jedenáct a dynamická brána nyní provede 132 cyklů současného obsahu")
 
 
 func _test_phase81_epic_lavender() -> void:
@@ -2246,8 +2254,8 @@ func _test_phase81_epic_lavender() -> void:
 	var catalog: Dictionary = repository.load_catalog()
 	var lavender: Dictionary = (catalog.get(LAVENDER_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
-	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]
-	_check(catalog.size() == 10 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(LAVENDER_ID) and not session.is_species_discovered(CHIVES_ID) and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID), "Fáze 95 zachová pořadí předchozích druhů, přidá šalvěj v pořadí 100 a nová hra pravdivě začíná sbírkou 2/10")
+	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(LAVENDER_ID) and not session.is_species_discovered(CHIVES_ID) and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID) and not session.is_species_discovered(THYME_ID), "Fáze 102 zachová pořadí předchozích druhů, přidá tymián v pořadí 110 a nová hra pravdivě začíná sbírkou 2/11")
 	_check(str(lavender.get("rarity", "")) == "epic" and int(lavender.get("catalog_order", 0)) == 50 and int(lavender.get("starter_seed_count", -1)) == 0 and lavender.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and lavender.get("behavior_ids", []) == ["fragrant_bloom"], "Levandule je datový Epic profil bez startovního semínka, s explicitními zdroji získání a jediným chováním fragrant_bloom")
 	var care_contract := is_equal_approx(float(lavender.get("growth_seconds", 0.0)), 64800.0) and is_equal_approx(float(lavender.get("freshness_grace_seconds", 0.0)), 14400.0) and is_equal_approx(float(lavender.get("drying_seconds", 0.0)), 14400.0)
 	care_contract = care_contract and int(lavender.get("care_issue_limit", 0)) == 2 and is_equal_approx(float(lavender.get("initial_moisture", 0.0)), 46.0) and is_equal_approx(float(lavender.get("initial_nutrients", 0.0)), 46.0)
@@ -2264,7 +2272,7 @@ func _test_phase81_epic_lavender() -> void:
 	var stock_every_fifth_day := true
 	for day in range(15):
 		stock_every_fifth_day = stock_every_fifth_day and session.get_shop_stock_capacity(lavender_item, day) == (1 if day % 5 == 0 else 0)
-	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID] and session.get_botanist_seed_unlock_level(LAVENDER_ID) == 5 and stock_every_fifth_day, "Pan Kořínek zachová levanduli od úrovně 5 a právě jeden kus každý pátý den před šalvějí")
+	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID, THYME_ID] and session.get_botanist_seed_unlock_level(LAVENDER_ID) == 5 and stock_every_fifth_day, "Pan Kořínek zachová levanduli od úrovně 5 a právě jeden kus každý pátý den před šalvějí a tymiánem")
 	var purchase := GameSession.new(catalog)
 	purchase.shop_stock_day = 2000000
 	purchase.shop_stock = purchase._build_shop_stock_for_day(purchase.shop_stock_day)
@@ -2289,6 +2297,7 @@ func _test_phase81_epic_lavender() -> void:
 	final_discovery._discover_species(PARSLEY_ID)
 	final_discovery._discover_species(LEMON_BALM_ID)
 	final_discovery._discover_species(SAGE_ID)
+	final_discovery._discover_species(THYME_ID)
 	final_discovery.botanical_pack_pity = 1
 	final_discovery.shop_stock_day = 2000000
 	final_discovery.shop_stock = final_discovery._build_shop_stock_for_day(final_discovery.shop_stock_day)
@@ -2298,12 +2307,12 @@ func _test_phase81_epic_lavender() -> void:
 	var canonical_save := final_discovery.to_dict()
 	var canonical_restored := GameSession.new(catalog)
 	canonical_restored.from_dict(canonical_save)
-	_check(pity_preserved_with_candidates and final_discovery_bought and final_discovery.get_discovered_species_count() == 10 and final_discovery.botanical_pack_pity == 0 and int(canonical_save.get("botanical_pack_pity", -1)) == 0 and canonical_restored.botanical_pack_pity == 0, "Pity zůstane při dalších neobjevených druzích, ale nákup poslední levandule jej kanonicky resetuje už před save/load round-tripem")
+	_check(pity_preserved_with_candidates and final_discovery_bought and final_discovery.get_discovered_species_count() == 11 and final_discovery.botanical_pack_pity == 0 and int(canonical_save.get("botanical_pack_pity", -1)) == 0 and canonical_restored.botanical_pack_pity == 0, "Pity zůstane při dalších neobjevených druzích, ale nákup poslední levandule jej kanonicky resetuje už před save/load round-tripem")
 
 	var pack_odds: Dictionary = session.get_botanical_pack_odds()
 	_check(absf(float(pack_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(pack_odds.get("legendary", -1.0))) and is_zero_approx(float(pack_odds.get("special", -1.0))), "Desetidruhový botanický balíček bez Legendary profilu zveřejní přesné normalizované šance 57,894737/31,578947/10,526316/0/0")
 	var pity := GameSession.new(catalog)
-	for species_id in ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]:
+	for species_id in ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]:
 		pity._discover_species(species_id)
 	pity.botanical_pack_rng_state = 2
 	var pity_duplicates_exact := true
@@ -2438,7 +2447,7 @@ func _test_phase81_epic_lavender() -> void:
 	lavender_assets_exact = lavender_assets_exact and lavender_herbarium != null and lavender_herbarium.resource_path == str(expected_lavender_paths.mature)
 	_check(lavender_assets_exact and presentation.species_stage_texture("phase81_unknown", "mature") == null and presentation.species_preview_texture("phase81_unknown") == null, "Všech šest levandulových stavů, náhled i herbář používají vlastní přesné assety a neznámý druh nikdy nespadne na bazalku")
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check("const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _select_next_species" in progression_source and "func _can_prepare_species_cycle" in progression_source and not "species_rotation[cycle % species_rotation.size()]" in progression_source and session.get_available_species().size() * 12 == 120, "Dynamická progression brána odvodí z deseti profilů přesně 120 cyklů a odloží zamčený druh bez obejití obchodu")
+	_check("const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _select_next_species" in progression_source and "func _can_prepare_species_cycle" in progression_source and not "species_rotation[cycle % species_rotation.size()]" in progression_source and session.get_available_species().size() * 12 == 132, "Dynamická progression brána odvodí z jedenácti profilů přesně 132 cyklů a odloží zamčený druh bez obejití obchodu")
 
 
 func _test_phase82_behavior_feedback() -> void:
@@ -2670,7 +2679,7 @@ func _test_phase83_chives() -> void:
 	var catalog: Dictionary = repository.load_catalog()
 	var chives: Dictionary = (catalog.get(CHIVES_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
-	_check(catalog.size() == 10 and session.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID] and session.get_collection_species_ids().size() == 10 and session.get_discovered_species_count() == 2, "Fáze 95 zachová pažitku jako šestý druh a přidá šalvěj jako desátý bez změny výchozí sbírky 2/10")
+	_check(catalog.size() == 11 and session.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID] and session.get_collection_species_ids().size() == 11 and session.get_discovered_species_count() == 2, "Fáze 102 zachová pažitku jako šestý druh a přidá tymián jako jedenáctý bez změny výchozí sbírky 2/11")
 	_check(str(chives.get("id", "")) == CHIVES_ID and str(chives.get("display_name", "")) == "Pažitka pobřežní" and str(chives.get("short_name", "")) == "Pažitka" and str(chives.get("rarity", "")) == "common" and str(chives.get("accent_hex", "")).to_upper() == "#C052D2" and int(chives.get("catalog_order", 0)) == 60 and int(chives.get("starter_seed_count", -1)) == 0 and chives.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and chives.get("behavior_ids", []) == ["clumping_vigor"], "Pažitka má vlastní kanonické ID, Common vzácnost, odlišný růžově fialový akcent, pořadí 60, žádné startovní semínko a všechny schválené zdroje získání")
 	var care_contract := is_equal_approx(float(chives.get("growth_seconds", 0.0)), 31680.0) and is_equal_approx(float(chives.get("drying_seconds", 0.0)), 7200.0)
 	care_contract = care_contract and is_equal_approx(float(chives.get("freshness_grace_seconds", 0.0)), 7200.0) and is_equal_approx(float(chives.get("freshness_decay_seconds", 0.0)), 10800.0) and is_equal_approx(float(chives.get("minimum_freshness_factor", 0.0)), 0.65)
@@ -2755,7 +2764,7 @@ func _test_phase83_chives() -> void:
 	var stock_cycle_exact := true
 	for day in range(6):
 		stock_cycle_exact = stock_cycle_exact and session.get_shop_stock_capacity(chives_item, day) == (3 if day % 3 == 2 else 2)
-	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID] and session.get_botanist_seed_unlock_level(CHIVES_ID) == 2 and stock_cycle_exact, "Pan Kořínek dál řadí pažitku jako třetí nabídku, odemyká ji na úrovni 2 a drží cyklus skladu 2/2/3")
+	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID, THYME_ID] and session.get_botanist_seed_unlock_level(CHIVES_ID) == 2 and stock_cycle_exact, "Pan Kořínek dál řadí pažitku jako třetí nabídku, odemyká ji na úrovni 2 a drží cyklus skladu 2/2/3")
 	var purchase := GameSession.new(catalog)
 	purchase.shop_stock_day = 2000000
 	purchase.shop_stock = purchase._build_shop_stock_for_day(purchase.shop_stock_day)
@@ -2919,12 +2928,12 @@ func _test_phase83_chives() -> void:
 	herbarium_presenter.bind(herbarium_summary, herbarium_status, herbarium_cards)
 	herbarium_presenter.refresh(session)
 	var chives_card: Dictionary = herbarium_cards.get(CHIVES_ID, {})
-	_check(seed_buttons.size() == 10 and chives_seed_locked and chives_seed_enabled and herbarium_cards.size() == 10 and herbarium_summary.text.begins_with("SBÍRKA  3/10 DRUHŮ") and "PAŽITKA" in (chives_card.name as Label).text and "SÍLA TRSU" in (chives_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají pažitkovou kartu v desetidruhovém katalogu a ukážou její vlastní název i vlastnost")
+	_check(seed_buttons.size() == 11 and chives_seed_locked and chives_seed_enabled and herbarium_cards.size() == 11 and herbarium_summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and "PAŽITKA" in (chives_card.name as Label).text and "SÍLA TRSU" in (chives_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají pažitkovou kartu v jedenáctidruhovém katalogu a ukážou její vlastní název i vlastnost")
 	for control in ui_controls:
 		control.free()
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(session.get_available_species().size() * 12 == 120 and int(120 / 5) + 1 == 25 and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Plná progression brána pokrývá 120 cyklů a vyžaduje přesně 25 skutečných diskových round-tripů")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Plná progression brána pokrývá 132 cyklů a vyžaduje přesně 27 skutečných diskových round-tripů")
 
 
 func _test_phase84_marjoram() -> void:
@@ -2932,8 +2941,8 @@ func _test_phase84_marjoram() -> void:
 	var catalog: Dictionary = repository.load_catalog()
 	var marjoram: Dictionary = (catalog.get(MARJORAM_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
-	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]
-	_check(catalog.size() == 10 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID), "Fáze 95 zachová majoránku jako sedmý druh a přidá šalvěj jako desátý bez změny výchozí sbírky 2/10")
+	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(MARJORAM_ID) and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID) and not session.is_species_discovered(THYME_ID), "Fáze 102 zachová majoránku jako sedmý druh a přidá tymián jako jedenáctý bez změny výchozí sbírky 2/11")
 	_check(str(marjoram.get("id", "")) == MARJORAM_ID and str(marjoram.get("display_name", "")) == "Majoránka zahradní" and str(marjoram.get("short_name", "")) == "Majoránka" and str(marjoram.get("ui_name", "")) == "Majoránka zahradní" and str(marjoram.get("variety", "")) == "Majorana" and str(marjoram.get("rarity", "")) == "rare" and str(marjoram.get("accent_hex", "")).to_upper() == "#E7B83F" and int(marjoram.get("catalog_order", 0)) == 70 and int(marjoram.get("starter_seed_count", -1)) == 0 and marjoram.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and marjoram.get("behavior_ids", []) == ["aroma_preservation"], "Majoránka má vlastní kanonické ID, Rare vzácnost, zlatý akcent, pořadí 70 a všechny schválené zdroje získání")
 	var care_contract := is_equal_approx(float(marjoram.get("growth_seconds", 0.0)), 36000.0) and is_equal_approx(float(marjoram.get("drying_seconds", 0.0)), 10800.0)
 	care_contract = care_contract and is_equal_approx(float(marjoram.get("freshness_grace_seconds", 0.0)), 10800.0) and is_equal_approx(float(marjoram.get("freshness_decay_seconds", 0.0)), 10800.0) and is_equal_approx(float(marjoram.get("minimum_freshness_factor", 0.0)), 0.65)
@@ -2985,7 +2994,7 @@ func _test_phase84_marjoram() -> void:
 	var stock_cycle_exact := true
 	for day in range(8):
 		stock_cycle_exact = stock_cycle_exact and session.get_shop_stock_capacity(marjoram_item, day) == (2 if day % 4 == 2 else 1)
-	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID] and session.get_botanist_seed_unlock_level(MARJORAM_ID) == 3 and stock_cycle_exact, "Pan Kořínek zachová majoránku před levandulí, odemyká ji na úrovni 3 a drží cyklus skladu 1/1/2/1")
+	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID, THYME_ID] and session.get_botanist_seed_unlock_level(MARJORAM_ID) == 3 and stock_cycle_exact, "Pan Kořínek zachová majoránku před levandulí, odemyká ji na úrovni 3 a drží cyklus skladu 1/1/2/1")
 	var purchase := GameSession.new(catalog)
 	purchase.shop_stock_day = 2000000
 	purchase.shop_stock = purchase._build_shop_stock_for_day(purchase.shop_stock_day)
@@ -3142,12 +3151,12 @@ func _test_phase84_marjoram() -> void:
 	herbarium_presenter.bind(herbarium_summary, herbarium_status, herbarium_cards)
 	herbarium_presenter.refresh(session)
 	var marjoram_card: Dictionary = herbarium_cards.get(MARJORAM_ID, {})
-	_check(seed_buttons.size() == 10 and marjoram_seed_locked and marjoram_seed_enabled and herbarium_cards.size() == 10 and herbarium_summary.text.begins_with("SBÍRKA  3/10 DRUHŮ") and "MAJORÁNKA" in (marjoram_card.name as Label).text and "VŮNĚ PO USUŠENÍ" in (marjoram_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají kartu majoránky v desetidruhovém katalogu a ukážou její vlastní název i vlastnost")
+	_check(seed_buttons.size() == 11 and marjoram_seed_locked and marjoram_seed_enabled and herbarium_cards.size() == 11 and herbarium_summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and "MAJORÁNKA" in (marjoram_card.name as Label).text and "VŮNĚ PO USUŠENÍ" in (marjoram_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají kartu majoránky v jedenáctidruhovém katalogu a ukážou její vlastní název i vlastnost")
 	for control in ui_controls:
 		control.free()
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(session.get_available_species().size() * 12 == 120 and int(120 / 5) + 1 == 25 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 95 rozšíří dynamickou progression bránu na 120 cyklů a přesně 25 diskových round-tripů")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 102 rozšíří dynamickou progression bránu na 132 cyklů a přesně 27 diskových round-tripů")
 
 
 func _test_phase85_parsley() -> void:
@@ -3155,8 +3164,8 @@ func _test_phase85_parsley() -> void:
 	var catalog: Dictionary = repository.load_catalog()
 	var parsley: Dictionary = (catalog.get(PARSLEY_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
-	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]
-	_check(catalog.size() == 10 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID), "Fáze 95 zachová petržel jako osmý produkční druh a přidá šalvěj bez změny výchozí sbírky 2/10")
+	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(PARSLEY_ID) and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID) and not session.is_species_discovered(THYME_ID), "Fáze 102 zachová petržel jako osmý produkční druh a přidá tymián bez změny výchozí sbírky 2/11")
 	_check(str(parsley.get("id", "")) == PARSLEY_ID and str(parsley.get("display_name", "")) == "Petržel zahradní" and str(parsley.get("short_name", "")) == "Petržel" and str(parsley.get("ui_name", "")) == "Petržel zahradní" and str(parsley.get("variety", "")) == "Kadeřavá" and str(parsley.get("rarity", "")) == "common" and not str(parsley.get("accent_hex", "")).is_empty() and int(parsley.get("catalog_order", 0)) == 80 and int(parsley.get("starter_seed_count", -1)) == 0 and parsley.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and parsley.get("behavior_ids", []) == ["shade_tolerance"], "Petržel má vlastní kanonické ID, Common vzácnost, kadeřavou odrůdu, pořadí 80 a všechny schválené zdroje získání")
 	var care_contract := is_equal_approx(float(parsley.get("growth_seconds", 0.0)), 32400.0) and is_equal_approx(float(parsley.get("drying_seconds", 0.0)), 7200.0)
 	care_contract = care_contract and is_equal_approx(float(parsley.get("freshness_grace_seconds", 0.0)), 7200.0) and is_equal_approx(float(parsley.get("freshness_decay_seconds", 0.0)), 10800.0) and is_equal_approx(float(parsley.get("minimum_freshness_factor", 0.0)), 0.65)
@@ -3240,7 +3249,7 @@ func _test_phase85_parsley() -> void:
 	var stock_cycle_exact := true
 	for day in range(8):
 		stock_cycle_exact = stock_cycle_exact and session.get_shop_stock_capacity(parsley_item, day) == (3 if day % 4 == 1 else 2)
-	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID] and session.get_botanist_seed_unlock_level(PARSLEY_ID) == 2 and stock_cycle_exact, "Pan Kořínek řadí petržel mezi rozmarýn a meduňku, odemyká ji na úrovni 2 a drží cyklus skladu 2/3/2/2")
+	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID, THYME_ID] and session.get_botanist_seed_unlock_level(PARSLEY_ID) == 2 and stock_cycle_exact, "Pan Kořínek řadí petržel mezi rozmarýn a meduňku, odemyká ji na úrovni 2 a drží cyklus skladu 2/3/2/2")
 	var purchase := GameSession.new(catalog)
 	purchase.shop_stock_day = 2000000
 	purchase.shop_stock = purchase._build_shop_stock_for_day(purchase.shop_stock_day)
@@ -3397,12 +3406,12 @@ func _test_phase85_parsley() -> void:
 	herbarium_presenter.bind(herbarium_summary, herbarium_status, herbarium_cards)
 	herbarium_presenter.refresh(session)
 	var parsley_card: Dictionary = herbarium_cards.get(PARSLEY_ID, {})
-	_check(seed_buttons.size() == 10 and parsley_seed_locked and parsley_seed_enabled and herbarium_cards.size() == 10 and herbarium_summary.text.begins_with("SBÍRKA  3/10 DRUHŮ") and "PETRŽEL" in (parsley_card.name as Label).text and "TOLERANCE POLOSTÍNU" in (parsley_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají petržel jako osmou kartu v desetidruhovém katalogu")
+	_check(seed_buttons.size() == 11 and parsley_seed_locked and parsley_seed_enabled and herbarium_cards.size() == 11 and herbarium_summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and "PETRŽEL" in (parsley_card.name as Label).text and "TOLERANCE POLOSTÍNU" in (parsley_card.behavior as Label).text, "Dynamický výběr semen i herbář zachovají petržel jako osmou kartu v jedenáctidruhovém katalogu")
 	for control in ui_controls:
 		control.free()
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(session.get_available_species().size() * 12 == 120 and int(120 / 5) + 1 == 25 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 95 rozšíří dynamickou progression bránu na 120 cyklů a přesně 25 diskových round-tripů")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 102 rozšíří dynamickou progression bránu na 132 cyklů a přesně 27 diskových round-tripů")
 
 
 func _test_phase86_lemon_balm() -> void:
@@ -3410,8 +3419,8 @@ func _test_phase86_lemon_balm() -> void:
 	var catalog: Dictionary = repository.load_catalog()
 	var lemon_balm: Dictionary = (catalog.get(LEMON_BALM_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
-	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]
-	_check(catalog.size() == 10 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID), "Fáze 95 přidá šalvěj jako desátý produkční druh a zachová pravdivou výchozí sbírku 2/10")
+	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and not session.is_species_discovered(LEMON_BALM_ID) and not session.is_species_discovered(SAGE_ID) and not session.is_species_discovered(THYME_ID), "Fáze 102 přidá tymián jako jedenáctý produkční druh a zachová pravdivou výchozí sbírku 2/11")
 	_check(str(lemon_balm.get("id", "")) == LEMON_BALM_ID and str(lemon_balm.get("display_name", "")) == "Meduňka lékařská" and str(lemon_balm.get("short_name", "")) == "Meduňka" and str(lemon_balm.get("ui_name", "")) == "Meduňka lékařská" and str(lemon_balm.get("variety", "")) == "Pravá" and str(lemon_balm.get("rarity", "")) == "common" and str(lemon_balm.get("accent_hex", "")).to_upper() == "#8BCF45" and int(lemon_balm.get("catalog_order", 0)) == 90 and int(lemon_balm.get("starter_seed_count", -1)) == 0 and lemon_balm.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and lemon_balm.get("behavior_ids", []) == ["self_seeding"], "Meduňka má kanonické ID, Common vzácnost, odrůdu Pravá, pořadí 90 a všechny schválené zdroje získání")
 	var care_contract := is_equal_approx(float(lemon_balm.get("growth_seconds", 0.0)), 28800.0) and is_equal_approx(float(lemon_balm.get("drying_seconds", 0.0)), 7200.0)
 	care_contract = care_contract and is_equal_approx(float(lemon_balm.get("freshness_grace_seconds", 0.0)), 7200.0) and is_equal_approx(float(lemon_balm.get("freshness_decay_seconds", 0.0)), 10800.0) and is_equal_approx(float(lemon_balm.get("minimum_freshness_factor", 0.0)), 0.65)
@@ -3492,7 +3501,7 @@ func _test_phase86_lemon_balm() -> void:
 	var stock_cycle_exact := true
 	for day in range(8):
 		stock_cycle_exact = stock_cycle_exact and session.get_shop_stock_capacity(lemon_balm_item, day) == (3 if day % 4 == 0 else 2)
-	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID] and session.get_botanist_seed_unlock_level(LEMON_BALM_ID) == 3 and stock_cycle_exact, "Pan Kořínek řadí meduňku mezi petržel a oregano, odemyká ji na úrovni 3 a drží cyklus skladu 3/2/2/2")
+	_check(session.get_botanist_shop_species_ids() == ["basil_genovese", "mint_peppermint", CHIVES_ID, "rosemary_officinalis", PARSLEY_ID, LEMON_BALM_ID, "oregano_vulgare", MARJORAM_ID, LAVENDER_ID, SAGE_ID, THYME_ID] and session.get_botanist_seed_unlock_level(LEMON_BALM_ID) == 3 and stock_cycle_exact, "Pan Kořínek řadí meduňku mezi petržel a oregano, odemyká ji na úrovni 3 a drží cyklus skladu 3/2/2/2")
 	var purchase := GameSession.new(catalog)
 	purchase.shop_stock_day = 2000000
 	purchase.shop_stock = purchase._build_shop_stock_for_day(purchase.shop_stock_day)
@@ -3638,12 +3647,12 @@ func _test_phase86_lemon_balm() -> void:
 	herbarium_presenter.bind(herbarium_summary, herbarium_status, herbarium_cards)
 	herbarium_presenter.refresh(ui_session)
 	var lemon_balm_card: Dictionary = herbarium_cards.get(LEMON_BALM_ID, {})
-	_check(seed_buttons.size() == 10 and lemon_balm_seed_locked and lemon_balm_seed_enabled and herbarium_cards.size() == 10 and herbarium_summary.text.begins_with("SBÍRKA  3/10 DRUHŮ") and "MEDUŇKA" in (lemon_balm_card.name as Label).text and "BOHATÝ SAMOVÝSEV" in (lemon_balm_card.behavior as Label).text, "Dynamický výběr semen i herbář zachová meduňkovou kartu v desetidruhovém katalogu a ukáže její vlastní název i vlastnost")
+	_check(seed_buttons.size() == 11 and lemon_balm_seed_locked and lemon_balm_seed_enabled and herbarium_cards.size() == 11 and herbarium_summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and "MEDUŇKA" in (lemon_balm_card.name as Label).text and "BOHATÝ SAMOVÝSEV" in (lemon_balm_card.behavior as Label).text, "Dynamický výběr semen i herbář zachová meduňkovou kartu v jedenáctidruhovém katalogu a ukáže její vlastní název i vlastnost")
 	for control in ui_controls:
 		control.free()
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(session.get_available_species().size() * 12 == 120 and int(120 / 5) + 1 == 25 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 95 rozšíří dynamickou progression bránu na 120 cyklů a přesně 25 diskových round-tripů")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "save_roundtrips != expected_save_roundtrips" in progression_source, "Fáze 102 rozšíří dynamickou progression bránu na 132 cyklů a přesně 27 diskových round-tripů")
 
 
 func _test_phase91_technical_hardening() -> void:
@@ -3725,7 +3734,7 @@ func _test_phase91_technical_hardening() -> void:
 	invalid_biomass["base_fresh_yield_g"] = float(invalid_biomass["max_live_biomass_g"]) + 1.0
 	var invalid_care_limit: Dictionary = (catalog["basil_genovese"] as Dictionary).duplicate(true)
 	invalid_care_limit["care_issue_limit"] = 1.5
-	_check(valid_profile_count == catalog.size() and not repository._validate_profile(invalid_seed_price, "phase91_fractional_price") and not repository._validate_profile(invalid_ratio, "phase91_zero_ratio") and not repository._validate_profile(invalid_interval, "phase91_inverted_interval") and not repository._validate_profile(invalid_finite, "phase91_nonfinite_loss") and not repository._validate_profile(invalid_biomass, "phase91_impossible_biomass") and not repository._validate_profile(invalid_care_limit, "phase91_fractional_care_limit"), "Fáze 95 všech deset profilů projde a budoucí necelé, nulové, nekonečné, obrácené či fyzicky rozporné hodnoty se odmítnou")
+	_check(valid_profile_count == catalog.size() and not repository._validate_profile(invalid_seed_price, "phase91_fractional_price") and not repository._validate_profile(invalid_ratio, "phase91_zero_ratio") and not repository._validate_profile(invalid_interval, "phase91_inverted_interval") and not repository._validate_profile(invalid_finite, "phase91_nonfinite_loss") and not repository._validate_profile(invalid_biomass, "phase91_impossible_biomass") and not repository._validate_profile(invalid_care_limit, "phase91_fractional_care_limit"), "Fáze 102 všech jedenáct profilů projde a budoucí necelé, nulové, nekonečné, obrácené či fyzicky rozporné hodnoty se odmítnou")
 
 	var primary := "user://phase91-primary.json"
 	var backup := "user://phase91-backup.json"
@@ -4215,10 +4224,10 @@ func _test_phase95_rare_sage_and_story() -> void:
 	var story_scene = preload("res://scripts/professor_story.gd")
 	var catalog: Dictionary = repository.load_catalog()
 	var sage: Dictionary = (catalog.get(SAGE_ID, {}) as Dictionary).duplicate(true)
-	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]
+	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
 	var session := GameSession.new(catalog)
 	var sage_rarity: Dictionary = session.get_species_rarity_definition(SAGE_ID)
-	_check(catalog.size() == 10 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 20, "Fáze 95 přidává šalvěj jako desátý viditelný druh a nová hra zůstává na pravdivých 2/10 · 20 %")
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidává tymián jako jedenáctý viditelný druh a nová hra zůstává na pravdivých 2/11 · 18 %")
 	_check(str(sage.get("id", "")) == SAGE_ID and str(sage.get("display_name", "")) == "Šalvěj lékařská" and str(sage.get("short_name", "")) == "Šalvěj" and str(sage.get("ui_name", "")) == "Šalvěj lékařská" and str(sage.get("variety", "")) == "Officinalis" and str(sage.get("category", "")) == "Bylinky" and str(sage.get("rarity", "")) == "rare" and int(sage_rarity.get("stars", 0)) == 2 and str(sage_rarity.get("label", "")) == "VZÁCNÁ" and int(sage.get("catalog_order", 0)) == 100 and bool(sage.get("collection_visible", false)), "Šalvěj má stabilní kanonické ID, české názvy, Rare vzácnost se dvěma hvězdami a poslední katalogové pořadí 100")
 	_check(int(sage.get("starter_seed_count", -1)) == 0 and sage.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack", "professor_story"] and sage.get("behavior_ids", []) == ["modest_feeding"] and str(sage.get("accent_hex", "")).to_upper() == "#B8C99A", "Rare profil nezačíná zdarma, deklaruje všech pět zdrojů získání a jedinou vlastnost modest_feeding")
 	_check(str(sage.get("seed_care_description", "")).contains("20 hodin") and str(sage.get("shop_description", "")).contains("sušší") and str(sage.get("shop_badge", "")) == "VZÁCNÝ DRUH" and int(sage.get("shop_unlock_level", 0)) == 7 and int(sage.get("botanist_shop_order", 0)) == 100 and int(sage.get("seed_price", 0)) == 42 and int(sage.get("shop_stock_base", -1)) == 0 and sage.get("shop_stock_cycle", []) == [1, 0, 0, 0, 0, 0, 0], "Kořínkův profil šalvěje ukazuje 20 hodin, kanonický Rare badge VZÁCNÝ DRUH, cenu 42, odemčení na úrovni 7 a jediný kus týdně")
@@ -4236,7 +4245,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 
 	var behavior_catalog = preload("res://scripts/plant_behavior_catalog.gd").new()
 	var modest_definition: Dictionary = behavior_catalog.get_definition("modest_feeding")
-	_check(behavior_catalog.get_order().size() == 10 and behavior_catalog.get_order().back() == "modest_feeding" and str(modest_definition.get("label", "")) == "STŘÍDMÁ VÝŽIVA" and str((modest_definition.get("activation", {}) as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((modest_definition.get("activation", {}) as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((modest_definition.get("effects", {}) as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75), "Desáté chování je přesně STŘÍDMÁ VÝŽIVA a v profilovém pásmu násobí úbytek živin hodnotou 0,75")
+	_check(behavior_catalog.get_order().size() == 11 and behavior_catalog.get_order()[9] == "modest_feeding" and str(modest_definition.get("label", "")) == "STŘÍDMÁ VÝŽIVA" and str((modest_definition.get("activation", {}) as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((modest_definition.get("activation", {}) as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((modest_definition.get("effects", {}) as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75), "Desáté chování zůstává přesně STŘÍDMÁ VÝŽIVA a v profilovém pásmu násobí úbytek živin hodnotou 0,75")
 	var plain_sage_profile := sage.duplicate(true)
 	plain_sage_profile["behavior_ids"] = []
 	var modest_sage := PlantSimulation.new(sage)
@@ -4277,7 +4286,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 
 	var pack_state := session.get_botanical_pack_state()
 	var pack_odds: Dictionary = pack_state.get("odds", {})
-	_check(absf(float(pack_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(pack_odds.get("legendary", -1.0))) and is_zero_approx(float(pack_odds.get("special", -1.0))) and int(pack_state.get("eligible_species_count", -1)) == 10 and int(pack_state.get("ungranted_new_species_count", -1)) == 8, "Rare šalvěj ponechá deset způsobilých a osm dosud neudělených druhů; bez Legendary profilu jsou odds přesně 57,894737/31,578947/10,526316/0/0")
+	_check(absf(float(pack_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(pack_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(pack_odds.get("legendary", -1.0))) and is_zero_approx(float(pack_odds.get("special", -1.0))) and int(pack_state.get("eligible_species_count", -1)) == 11 and int(pack_state.get("ungranted_new_species_count", -1)) == 9, "Tymián ponechá jedenáct způsobilých a devět dosud neudělených druhů; bez Legendary profilu jsou odds přesně 57,894737/31,578947/10,526316/0/0")
 
 	var sage_order: Dictionary = {}
 	for raw_template in GameSession.ORDER_TEMPLATES:
@@ -4479,12 +4488,12 @@ func _test_phase95_rare_sage_and_story() -> void:
 	_check(int(reward_roundtrip.to_dict().get("schema", 0)) == 28 and reward_roundtrip.get_seed_count(SAGE_ID) == reward_session.get_seed_count(SAGE_ID) and reward_roundtrip.get_professor_seal_count() == 2 and str(roundtrip_state.get("chapter_id", "")) == "grand_herbarium_exhibition" and str(roundtrip_state.get("status", "")) == "active" and bool(roundtrip_state.get("unread", false)), "Schema 28 round-trip zachová šalvějová semínka, obě pečeti a čistou nepřečtenou třetí kapitolu")
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
-	_check(session.get_available_species().size() * 12 == 120 and int(120 / 5) + 1 == 25 and "const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source, "Dynamická progression brána nyní odvodí 120/120 cyklů a přesně 25 save/load round-tripů")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source, "Dynamická progression brána nyní odvodí 132/132 cyklů a přesně 27 save/load round-tripů")
 
 
 func _test_phase96_blended_orders() -> void:
 	var catalog := _load_plant_catalog()
-	var blend_order: Array[String] = ["evening_freshness", "soup_pair", "aromatic_sachet"]
+	var blend_order: Array[String] = ["evening_freshness", "soup_pair", "aromatic_sachet", "provence_pair"]
 	var expected := {
 		"evening_freshness": {
 			"customer": "Čajovna Pod hvězdami",
@@ -4528,6 +4537,20 @@ func _test_phase96_blended_orders() -> void:
 			"minimum_reward": 121,
 			"requirement_text": "SMĚS · 2 BYLINY\nLEVANDULE · 5,5 g · kvalita 82 %\nROZMARÝN · 4,8 g · kvalita 78 %",
 		},
+		"provence_pair": {
+			"customer": "Bistro Levandulový dvůr",
+			"title": "Provensálská dvojice",
+			"accent": "gold",
+			"requirements": [
+				{"species_id": THYME_ID, "min_dry_g": 4.8, "min_quality": 0.78},
+				{"species_id": "rosemary_officinalis", "min_dry_g": 4.6, "min_quality": 0.78},
+			],
+			"reward_multiplier": 1.32,
+			"flat_bonus": 8,
+			"bonus_xp": 24,
+			"minimum_reward": 101,
+			"requirement_text": "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78 %\nROZMARÝN · 4,6 g · kvalita 78 %",
+		},
 	}
 
 	var blend_templates: Dictionary = {}
@@ -4538,7 +4561,11 @@ func _test_phase96_blended_orders() -> void:
 			blend_templates[str(template.get("blend_id", ""))] = template.duplicate(true)
 		else:
 			single_template_count += 1
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.BLEND_ORDER_SCHEMA == 25 and blend_templates.keys() == blend_order and blend_templates.size() == 3 and single_template_count == 12, "Fáze 96 drží přesně tři kanonické směsi za dvanáct původních zakázek; aktuální save je 28 a důvěryhodná hranice směsí zůstává 25")
+	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.BLEND_ORDER_SCHEMA == 25 and blend_templates.keys() == blend_order and blend_templates.size() == 4 and single_template_count == 13 and GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT == 12, "Fáze 102 drží čtyři kanonické směsi, třináct jednotlivých zakázek a beze změny dvanáctipoložkovou legacy migraci; save zůstává 28")
+	var phase96_sequence_ids: Array[String] = []
+	for sequence in range(GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT, GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT + GameSession.ACTIVE_ORDER_COUNT):
+		phase96_sequence_ids.append(str((GameSession.ORDER_TEMPLATES[sequence] as Dictionary).get("blend_id", "")))
+	_check(phase96_sequence_ids == ["evening_freshness", "soup_pair", "aromatic_sachet"], "Fáze 102 zachová historické sekvence 12–14 pro tři kanonické směsi fáze 96 a nový obsah je pouze append-only")
 
 	var templates_exact := true
 	var discovery_gates_exact := true
@@ -4600,10 +4627,10 @@ func _test_phase96_blended_orders() -> void:
 			and (plan.get("slot_indices", []) as Array) == [0, 1]
 		minimum_rewards.append(preview.get_order_reward(0))
 		requirement_texts.append(preview.get_order_requirement_text(0))
-	_check(templates_exact, "Tři směsi drží přesná ID, české zákazníky a názvy, barvy, dvě druhové podmínky, násobky, pevné bonusy a XP")
+	_check(templates_exact, "Čtyři směsi drží přesná ID, české zákazníky a názvy, barvy, dvě druhové podmínky, násobky, pevné bonusy a XP")
 	_check(discovery_gates_exact, "Každá směs zůstane skrytá s nulou nebo jediným objeveným druhem a zpřístupní se až po objevení obou požadovaných bylin")
 	_check(public_contracts_exact, "Veřejný kontrakt vrací hluboké kopie přesně dvou požadavků, kanonický ready plán a dva odlišné sloty bez možnosti změnit uloženou zakázku přes vrácená data")
-	_check(requirement_texts == [str(expected.evening_freshness.requirement_text), str(expected.soup_pair.requirement_text), str(expected.aromatic_sachet.requirement_text)] and minimum_rewards == [70, 85, 121], "Třířádkové texty směsí používají přesný nadpis, české uppercase názvy, desetinnou čárku a minima 70/85/121 mincí podle cen obou druhů")
+	_check(requirement_texts == [str(expected.evening_freshness.requirement_text), str(expected.soup_pair.requirement_text), str(expected.aromatic_sachet.requirement_text), str(expected.provence_pair.requirement_text)] and minimum_rewards == [70, 85, 121, 101], "Třířádkové texty směsí používají přesný nadpis, české uppercase názvy, desetinnou čárku a minima 70/85/121/101 mincí podle cen obou druhů")
 
 	var invalid_plan: Dictionary = GameSession.new(catalog).get_order_fulfillment_plan(-1)
 	_check(str(invalid_plan.get("first_failure", "")) == "invalid_order" and str(invalid_plan.get("status", "")) == "Zakázka není dostupná" and not bool(invalid_plan.get("can_fulfill", true)) and GameSession.new(catalog).get_order_requirement_text(-1).is_empty(), "Neplatný index vrátí bezpečný prázdný plán, kód invalid_order a žádný zavádějící text požadavků")
@@ -5150,7 +5177,7 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 		"Veřejná odměna výstavy je přesně 150 mincí, 120 XP, 3 hnojiva, titul a třetí pečeť bez semen či balíčku"
 	)
 	_check(
-		ready.get_discovered_species_count() == 10
+		ready.get_discovered_species_count() == 11
 		and ready.get_mastery_tier("basil_genovese") >= 3
 		and ready.get_mastery_tier("mint_peppermint") >= 3
 		and ready.get_mastery_tier(SAGE_ID) >= 3,
@@ -5809,9 +5836,9 @@ func _test_phase98_professor_research() -> void:
 	_check(
 		"const CYCLES_PER_SPECIES := 12" in progression_source
 		and "const SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source
-		and offer_session.get_available_species().size() * 12 == 120
-		and int(120 / 5) + 1 == 25,
-		"Nový endgame loop nemění povinnou progression bránu: deset druhů, 120 cyklů a přesně 25 diskových round-tripů"
+		and offer_session.get_available_species().size() * 12 == 132
+		and int(132 / 5) + 1 == 27,
+		"Nový endgame loop nemění povinnou progression bránu: jedenáct druhů, 132 cyklů a přesně 27 diskových round-tripů"
 	)
 	_check(
 		"const CYCLE_COUNT := 48" in endurance_source
@@ -6264,11 +6291,11 @@ func _test_phase92_garden_handover_presenter() -> void:
 	_check(bool(replay_page.get("replay", false)) and bool(skipped_once.get("finished", false)) and bool(skipped_once.get("skipped", false)) and not bool(skipped_once.get("active", true)) and skipped_twice == skipped_once, "Fáze 92 přehrání rozliší replay a explicitní přeskočení je bezpečně idempotentní")
 	_check(immutable_after == immutable_before, "Fáze 92 presenter, replay ani opakované přeskočení nemění mince, XP, inventář, balíčky, herbář nebo vedenou cestu")
 
-	_check(session.get_collection_species_ids().size() == 10 and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 20, "Fáze 95 výchozí herbář odvozuje dvě z deseti rostlin jako pravdivých 20 procent")
-	_check(session._discover_species("rosemary_officinalis") and session.get_discovered_species_count() == 3 and session.get_collection_completion_percent() == 30, "Fáze 95 nový objev okamžitě přepočítá desetidruhový herbář na pravdivých 30 procent bez uloženého duplicitního čítače")
+	_check(session.get_collection_species_ids().size() == 11 and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 výchozí herbář odvozuje dvě z jedenácti rostlin jako pravdivých 18 procent")
+	_check(session._discover_species("rosemary_officinalis") and session.get_discovered_species_count() == 3 and session.get_collection_completion_percent() == 27, "Fáze 102 nový objev okamžitě přepočítá jedenáctidruhový herbář na pravdivých 27 procent bez uloženého duplicitního čítače")
 	for species_id in session.get_collection_species_ids():
 		session._discover_species(species_id)
-	_check(session.get_discovered_species_count() == 10 and session.get_collection_completion_percent() == 100, "Fáze 95 kompletní viditelná sbírka končí přesně na 100 procentech")
+	_check(session.get_discovered_species_count() == 11 and session.get_collection_completion_percent() == 100, "Fáze 102 kompletní viditelná sbírka končí přesně na 100 procentech")
 
 	var hidden_profile: Dictionary = (catalog.get("basil_genovese", {}) as Dictionary).duplicate(true)
 	hidden_profile["id"] = "phase92_hidden"
@@ -6279,7 +6306,7 @@ func _test_phase92_garden_handover_presenter() -> void:
 	var catalog_with_hidden: Dictionary = catalog.duplicate(true)
 	catalog_with_hidden["phase92_hidden"] = hidden_profile
 	var hidden_session := GameSession.new(catalog_with_hidden)
-	_check(hidden_session.is_species_discovered("phase92_hidden") and hidden_session.get_collection_species_ids().size() == 10 and hidden_session.get_discovered_species_count() == 2 and hidden_session.get_collection_completion_percent() == 20, "Fáze 95 skrytý profil může být objevený, ale nezvyšuje čitatel ani jmenovatel veřejného herbáře")
+	_check(hidden_session.is_species_discovered("phase92_hidden") and hidden_session.get_collection_species_ids().size() == 11 and hidden_session.get_discovered_species_count() == 2 and hidden_session.get_collection_completion_percent() == 18, "Fáze 102 skrytý profil může být objevený, ale nezvyšuje čitatel ani jmenovatel veřejného herbáře")
 
 	var saved := hidden_session.to_dict()
 	var restored := GameSession.new(catalog_with_hidden)
@@ -6461,6 +6488,116 @@ func _test_phase101_wilted_rescue_daily_challenge() -> void:
 	var restored := GameSession.new(catalog)
 	restored.from_dict(saved)
 	_check(int(saved.schema) == GameSession.SAVE_SCHEMA and restored.daily_challenge_id == "rescue" and restored.get_daily_challenge_target_slot() == 0 and not restored.daily_challenge_completed, "Fáze 101 rozpracovaná záchrana přežije save round-trip bez nového pole nebo zvýšení schema")
+
+
+func _test_phase102_common_thyme() -> void:
+	var repository = preload("res://scripts/plant_catalog_repository.gd").new()
+	var catalog: Dictionary = repository.load_catalog()
+	var thyme: Dictionary = (catalog.get(THYME_ID, {}) as Dictionary).duplicate(true)
+	var session := GameSession.new(catalog)
+	var expected_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
+	_check(catalog.size() == 11 and session.get_available_species() == expected_order and session.get_collection_species_ids() == expected_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidá tymián jako jedenáctý katalogový druh a nová hra zůstává na pravdivých 2/11 · 18 %")
+	_check(str(thyme.get("id", "")) == THYME_ID and str(thyme.get("display_name", "")) == "Tymián obecný" and str(thyme.get("short_name", "")) == "Tymián" and str(thyme.get("ui_name", "")) == "Tymián obecný" and str(thyme.get("variety", "")) == "Vulgaris" and str(thyme.get("rarity", "")) == "common" and int(thyme.get("catalog_order", 0)) == 110 and bool(thyme.get("collection_visible", false)), "Tymián má stabilní kanonické ID, české názvy, Common vzácnost a poslední katalogové pořadí 110")
+	_check(int(thyme.get("starter_seed_count", -1)) == 0 and thyme.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and thyme.get("behavior_ids", []) == ["dry_soil_vigor"] and str(thyme.get("accent_hex", "")).to_upper() == "#6F9E5A", "Tymián nezačíná zdarma, používá čtyři škálovatelné zdroje získání a jedinou vlastnost dry_soil_vigor")
+	_check(str(thyme.get("seed_care_description", "")).contains("11 hodin") and str(thyme.get("shop_badge", "")) == "SUCHOMILNÝ RYTMUS" and int(thyme.get("shop_unlock_level", 0)) == 4 and int(thyme.get("botanist_shop_order", 0)) == 110 and int(thyme.get("seed_price", 0)) == 24 and int(thyme.get("shop_stock_base", -1)) == 1 and thyme.get("shop_stock_cycle", []) == [1, 0, 0, 0], "Kořínkův obchod ukáže jedenáctihodinový tymián, cenu 24, odemčení na úrovni 4 a deterministický čtyřdenní sklad")
+	var care_exact := is_equal_approx(float(thyme.get("growth_seconds", 0.0)), 39600.0) and is_equal_approx(float(thyme.get("drying_seconds", 0.0)), 10800.0) and int(thyme.get("care_issue_limit", 0)) == 1
+	care_exact = care_exact and is_equal_approx(float(thyme.get("initial_moisture", 0.0)), 36.0) and is_equal_approx(float(thyme.get("initial_nutrients", 0.0)), 40.0) and is_equal_approx(float(thyme.get("water_loss_per_hour", 0.0)), 2.1) and is_equal_approx(float(thyme.get("nutrient_loss_per_hour", 0.0)), 0.7)
+	care_exact = care_exact and is_equal_approx(float(thyme.get("ideal_moisture_min", 0.0)), 28.0) and is_equal_approx(float(thyme.get("ideal_moisture_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("dry_growth_moisture_min", 0.0)), 28.0) and is_equal_approx(float(thyme.get("dry_growth_moisture_max", 0.0)), 43.0)
+	care_exact = care_exact and is_equal_approx(float(thyme.get("ideal_nutrients_min", 0.0)), 22.0) and is_equal_approx(float(thyme.get("ideal_nutrients_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("ideal_humidity_min", 0.0)), 30.0) and is_equal_approx(float(thyme.get("ideal_humidity_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("ideal_ph_min", 0.0)), 6.0) and is_equal_approx(float(thyme.get("ideal_ph_max", 0.0)), 8.0)
+	_check(care_exact, "Tymián drží přesný jedenáctihodinový růst, tříhodinové sušení a vlastní úzké suché růstové pásmo 28–43 % uvnitř bezpečné vláhy 28–58 %")
+	_check(is_equal_approx(float(thyme.get("base_fresh_yield_g", 0.0)), 30.0) and is_equal_approx(float(thyme.get("dry_matter_ratio", 0.0)), 0.27) and is_equal_approx(float(thyme.get("dried_price_per_g", 0.0)), 7.6) and int(thyme.get("xp_harvest", 0)) == 30 and int(thyme.get("xp_sale", 0)) == 40, "Tymián dává 30 g čerstvé a 8,1 g suché bylinky za 7,6 mince/g a 30/40 XP")
+	var sources: Array = thyme.get("sources", [])
+	_check(sources.size() == 3 and str((sources[0] as Dictionary).get("url", "")) == "https://plants.ces.ncsu.edu/plants/thymus-vulgaris/common-name/common-thyme/" and str((sources[1] as Dictionary).get("url", "")) == "https://extension.umn.edu/gardening-minnesota/growing-herbs" and str((sources[2] as Dictionary).get("url", "")) == "https://extension.umn.edu/planting-and-growing-guides/lighting-indoor-plants" and "nikoli léčebné doporučení" in str(thyme.get("knowledge_intro", "")), "Botanické pozadí tymiánu zůstává dohledatelné ve třech přesných univerzitních zdrojích a odděluje herní model od léčebných tvrzení")
+
+	var behavior_catalog = preload("res://scripts/plant_behavior_catalog.gd").new()
+	var definition: Dictionary = behavior_catalog.get_definition("dry_soil_vigor")
+	var activation: Dictionary = definition.get("activation", {})
+	var effects: Dictionary = definition.get("effects", {})
+	_check(behavior_catalog.get_order().back() == "dry_soil_vigor" and str(definition.get("label", "")) == "SUCHOMILNÝ RYTMUS" and str(activation.get("type", "")) == "growth_value_in_profile_band" and str(activation.get("value", "")) == "moisture" and str(activation.get("minimum_field", "")) == "dry_growth_moisture_min" and str(activation.get("maximum_field", "")) == "dry_growth_moisture_max" and is_equal_approx(float(effects.get("growth_multiplier", 0.0)), 1.12), "SUCHOMILNÝ RYTMUS čte vlastní profilové meze vláhy a zrychluje růst přesně o 12 %")
+	var thyme_plant := PlantSimulation.new(thyme)
+	thyme_plant.stage = PlantSimulation.Stage.VEGETATIVE
+	thyme_plant.moisture = 28.0
+	var lower_active := thyme_plant.get_growth_behavior_multiplier()
+	thyme_plant.moisture = 43.0
+	var upper_active := thyme_plant.get_growth_behavior_multiplier()
+	thyme_plant.moisture = 27.999
+	var below_inactive := thyme_plant.get_growth_behavior_multiplier()
+	thyme_plant.moisture = 43.001
+	var above_inactive := thyme_plant.get_growth_behavior_multiplier()
+	thyme_plant.moisture = 30.0
+	thyme_plant.water(120.0)
+	_check(is_equal_approx(lower_active, 1.12) and is_equal_approx(upper_active, 1.12) and is_equal_approx(below_inactive, 1.0) and is_equal_approx(above_inactive, 1.0) and thyme_plant.moisture > 43.0 and is_equal_approx(thyme_plant.get_growth_behavior_multiplier(), 1.0), "Trait je aktivní včetně hranic 28–43 %, mimo ně se vypne a běžná zálivka jej dočasně ukončí, dokud půda znovu neproschne")
+	var missing_band := thyme.duplicate(true)
+	missing_band.erase("dry_growth_moisture_min")
+	var inverted_band := thyme.duplicate(true)
+	inverted_band["dry_growth_moisture_min"] = 44.0
+	_check(not repository._validate_profile(missing_band, "phase102_missing_behavior_band") and not repository._validate_profile(inverted_band, "phase102_inverted_behavior_band"), "Repozitář odmítne chybějící i obrácené meze behavior pásma místo tichého runtime no-opu")
+
+	var shop := GameSession.new(catalog)
+	var thyme_item := shop.get_shop_seed_item_id(THYME_ID)
+	var locked_purchase := not shop.is_botanist_seed_unlocked(THYME_ID)
+	shop.xp = 100000
+	shop.coins = 100
+	shop.shop_stock[thyme_item] = 1
+	var purchased := shop.is_botanist_seed_unlocked(THYME_ID) and shop.buy_seed(THYME_ID)
+	_check(shop.get_botanist_shop_species_ids().back() == THYME_ID and shop.get_shop_stock_capacity(thyme_item, 0) == 2 and shop.get_shop_stock_capacity(thyme_item, 1) == 1 and locked_purchase and purchased and shop.coins == 76 and shop.get_seed_count(THYME_ID) == 1 and shop.is_species_discovered(THYME_ID), "Tymián je poslední obchodní karta, do úrovně 4 zůstává zamčený a nákup atomicky odečte 24 mincí, sklad i přidá objev")
+	shop.journey_step = GameSession.JourneyStep.COMPLETE
+	shop.journey_completed = true
+	shop.journey_reward_claimed = true
+	var planted := shop.plant_seed(THYME_ID)
+	var saved := shop.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	_check(planted and shop.plant.get_species_id() == THYME_ID and restored.plant.get_species_id() == THYME_ID and restored.get_seed_count(THYME_ID) == 0 and restored.is_species_discovered(THYME_ID) and int(saved.get("schema", 0)) == 28, "Nákup, zasazení, discovery a tymiánový profil přežijí schema 28 round-trip bez nového migračního pole")
+
+	var thyme_order_template: Dictionary = {}
+	var provence_template: Dictionary = {}
+	for raw_template in GameSession.ORDER_TEMPLATES:
+		var template: Dictionary = raw_template
+		if str(template.get("species_id", "")) == THYME_ID:
+			thyme_order_template = template
+		if str(template.get("blend_id", "")) == "provence_pair":
+			provence_template = template
+	var order_session := GameSession.new(catalog)
+	order_session.xp = 100000
+	order_session._discover_species(THYME_ID)
+	order_session._discover_species("rosemary_officinalis")
+	var thyme_order := order_session._build_order(15)
+	order_session.orders.clear()
+	order_session.orders.append(thyme_order)
+	_phase96_prepare_packaged_slot(order_session, 0, THYME_ID, 4.8, 0.76)
+	order_session.select_plant(0)
+	_check(str(thyme_order_template.get("title", "")) == "Tymián na pečenou zeleninu" and is_equal_approx(float(thyme_order_template.get("min_dry_g", 0.0)), 4.8) and is_equal_approx(float(thyme_order_template.get("min_quality", 0.0)), 0.76) and int(thyme_order_template.get("bonus_xp", 0)) == 18 and order_session.can_fulfill_order(0) and order_session.get_order_reward(0) == 61, "Samostatná tymiánová zakázka vyžaduje 4,8 g při kvalitě 76 %, je splnitelná a na minimu odmění 61 mincemi a 18 XP")
+	var blend_session := GameSession.new(catalog)
+	blend_session.xp = 100000
+	blend_session._discover_species(THYME_ID)
+	blend_session._discover_species("rosemary_officinalis")
+	var provence_order := _phase96_find_blend_order(blend_session, "provence_pair")
+	blend_session.orders.clear()
+	blend_session.orders.append(provence_order)
+	_phase96_prepare_packaged_slot(blend_session, 0, THYME_ID, 4.8, 0.78)
+	_phase96_prepare_packaged_slot(blend_session, 1, "rosemary_officinalis", 4.6, 0.78)
+	_check(str(provence_template.get("title", "")) == "Provensálská dvojice" and bool(provence_template.get("requires_discovery", false)) and blend_session.can_fulfill_order(0) and blend_session.get_order_reward(0) == 101 and blend_session.get_order_requirement_text(0) == "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78 %\nROZMARÝN · 4,6 g · kvalita 78 %", "Provensálská dvojice bezpečně spotřebuje dva odlišné balíčky a na minimu odmění 101 mincemi")
+
+	var presentation = preload("res://scripts/plant_presentation_catalog.gd").new()
+	var expected_paths := {
+		"seed": "res://assets/plants/comic/thyme_seed_v1.png",
+		"sprout": "res://assets/plants/comic/thyme_sprout_v1.png",
+		"young": "res://assets/plants/comic/thyme_young_v1.png",
+		"mature": "res://assets/plants/comic/thyme_mature_v1.png",
+		"sick": "res://assets/plants/comic/thyme_sick_v1.png",
+		"harvest_ready": "res://assets/plants/comic/thyme_harvest_ready_v1.png",
+	}
+	var assets_exact := true
+	for state_id in expected_paths:
+		var expected_path := str(expected_paths[state_id])
+		var texture: Texture2D = presentation.species_stage_texture(THYME_ID, state_id)
+		assets_exact = assets_exact and FileAccess.file_exists(expected_path) and texture != null and texture.resource_path == expected_path and texture.get_width() == 570 and texture.get_height() == 640
+	var preview: Texture2D = presentation.species_preview_texture(THYME_ID)
+	var herbarium: Texture2D = presentation.species_herbarium_texture(THYME_ID)
+	_check(assets_exact and preview != null and preview.resource_path == str(expected_paths.sprout) and herbarium != null and herbarium.resource_path == str(expected_paths.mature), "Všech šest tymiánových stavů je vlastní průhledný asset 570×640; náhled používá klíček a herbář zralý trs")
+	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
+	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "mastery_orders_before < 6" in progression_source, "Progression brána automaticky rozšíří obsah na 132 cyklů a 27 skutečných save/load round-tripů a před šestou mistrovskou zakázkou používá legitimní denní výměny")
 
 
 func _test_phase41_level_progression() -> void:
@@ -6646,9 +6783,9 @@ func _test_phase44_android_notifications() -> void:
 
 func _test_multi_species_catalog() -> void:
 	var catalog := _load_plant_catalog()
-	_check(catalog.size() == 10 and catalog.has("basil_genovese") and catalog.has("mint_peppermint") and catalog.has("rosemary_officinalis") and catalog.has("oregano_vulgare") and catalog.has("lavandula_angustifolia") and catalog.has(CHIVES_ID) and catalog.has(MARJORAM_ID) and catalog.has(PARSLEY_ID) and catalog.has(LEMON_BALM_ID) and catalog.has(SAGE_ID), "Datový katalog obsahuje všech deset bylin včetně Rare šalvěje jako samostatné profily")
+	_check(catalog.size() == 11 and catalog.has("basil_genovese") and catalog.has("mint_peppermint") and catalog.has("rosemary_officinalis") and catalog.has("oregano_vulgare") and catalog.has("lavandula_angustifolia") and catalog.has(CHIVES_ID) and catalog.has(MARJORAM_ID) and catalog.has(PARSLEY_ID) and catalog.has(LEMON_BALM_ID) and catalog.has(SAGE_ID) and catalog.has(THYME_ID), "Datový katalog obsahuje všech jedenáct bylin včetně tymiánu jako samostatné profily")
 	var session := GameSession.new(catalog)
-	_check(session.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID] and session.mint_seeds == 1 and session.rosemary_seeds == 0 and session.oregano_seeds == 0 and session.get_seed_count("lavandula_angustifolia") == 0 and session.get_seed_count(CHIVES_ID) == 0 and session.get_seed_count(MARJORAM_ID) == 0 and session.get_seed_count(PARSLEY_ID) == 0 and session.get_seed_count(LEMON_BALM_ID) == 0 and session.get_seed_count(SAGE_ID) == 0, "Nová hra nabídne deset stabilně seřazených druhů a osm začíná jako pozdější rozšíření")
+	_check(session.get_available_species() == ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", "lavandula_angustifolia", CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID] and session.mint_seeds == 1 and session.rosemary_seeds == 0 and session.oregano_seeds == 0 and session.get_seed_count("lavandula_angustifolia") == 0 and session.get_seed_count(CHIVES_ID) == 0 and session.get_seed_count(MARJORAM_ID) == 0 and session.get_seed_count(PARSLEY_ID) == 0 and session.get_seed_count(LEMON_BALM_ID) == 0 and session.get_seed_count(SAGE_ID) == 0 and session.get_seed_count(THYME_ID) == 0, "Nová hra nabídne jedenáct stabilně seřazených druhů a devět začíná jako pozdější rozšíření")
 	session.journey_completed = true
 	session.journey_step = GameSession.JourneyStep.COMPLETE
 	_check(session.plant_seed("mint_peppermint") and session.plant.get_species_id() == "mint_peppermint" and session.mint_seeds == 0 and session.seeds == 1, "Výběr máty spotřebuje pouze její vlastní zásobu a přiřadí profil květináči")
@@ -6704,7 +6841,7 @@ func _test_daily_shop_stock() -> void:
 
 func _test_species_mastery() -> void:
 	var session := GameSession.new(_load_plant_catalog())
-	_check(session.species_progress.size() == 10 and session.get_mastery_tier("basil_genovese") == 1 and session.get_mastery_tier("mint_peppermint") == 1 and session.get_mastery_tier("rosemary_officinalis") == 1 and session.get_mastery_tier("oregano_vulgare") == 1 and session.get_mastery_tier("lavandula_angustifolia") == 1 and session.get_mastery_tier(CHIVES_ID) == 1 and session.get_mastery_tier(MARJORAM_ID) == 1 and session.get_mastery_tier(PARSLEY_ID) == 1 and session.get_mastery_tier(LEMON_BALM_ID) == 1 and session.get_mastery_tier(SAGE_ID) == 1, "Herbář založí samostatný bezpečný postup všech deseti druhů")
+	_check(session.species_progress.size() == 11 and session.get_mastery_tier("basil_genovese") == 1 and session.get_mastery_tier("mint_peppermint") == 1 and session.get_mastery_tier("rosemary_officinalis") == 1 and session.get_mastery_tier("oregano_vulgare") == 1 and session.get_mastery_tier("lavandula_angustifolia") == 1 and session.get_mastery_tier(CHIVES_ID) == 1 and session.get_mastery_tier(MARJORAM_ID) == 1 and session.get_mastery_tier(PARSLEY_ID) == 1 and session.get_mastery_tier(LEMON_BALM_ID) == 1 and session.get_mastery_tier(SAGE_ID) == 1 and session.get_mastery_tier(THYME_ID) == 1, "Herbář založí samostatný bezpečný postup všech jedenácti druhů")
 	session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 3, "best_quality": 0.74, "orders_completed": 1, "total_dry_g": 11.5, "claimed_tier": 1}
 	_check(session.get_mastery_tier("basil_genovese") == 3 and session.can_claim_mastery_reward("basil_genovese"), "Sklizně, kvalita a zakázky společně odemknou správnou mistrovskou hodnost")
 	var coins_before := session.coins
@@ -6719,7 +6856,7 @@ func _test_species_mastery() -> void:
 	_check(int(saved.schema) == GameSession.SAVE_SCHEMA and int(restored_progress.harvests) == 3 and is_equal_approx(float(restored_progress.best_quality), 0.74) and int(restored_progress.claimed_tier) == 3, "Aktuální save uchová statistiky i vyzvednutou mistrovskou hodnost")
 	var legacy := GameSession.new(_load_plant_catalog())
 	legacy.from_dict({"schema": 5, "coins": 17, "plants": []})
-	_check(legacy.species_progress.size() == 10 and int(legacy.get_species_progress("basil_genovese").claimed_tier) == 1 and int(legacy.get_species_progress("oregano_vulgare").claimed_tier) == 1 and int(legacy.get_species_progress("lavandula_angustifolia").claimed_tier) == 1 and int(legacy.get_species_progress(CHIVES_ID).claimed_tier) == 1 and int(legacy.get_species_progress(MARJORAM_ID).claimed_tier) == 1 and int(legacy.get_species_progress(PARSLEY_ID).claimed_tier) == 1 and int(legacy.get_species_progress(LEMON_BALM_ID).claimed_tier) == 1 and int(legacy.get_species_progress(SAGE_ID).claimed_tier) == 1, "Save verze 5 bezpečně doplní výchozí herbář včetně šalvěje bez falešných odměn")
+	_check(legacy.species_progress.size() == 11 and int(legacy.get_species_progress("basil_genovese").claimed_tier) == 1 and int(legacy.get_species_progress("oregano_vulgare").claimed_tier) == 1 and int(legacy.get_species_progress("lavandula_angustifolia").claimed_tier) == 1 and int(legacy.get_species_progress(CHIVES_ID).claimed_tier) == 1 and int(legacy.get_species_progress(MARJORAM_ID).claimed_tier) == 1 and int(legacy.get_species_progress(PARSLEY_ID).claimed_tier) == 1 and int(legacy.get_species_progress(LEMON_BALM_ID).claimed_tier) == 1 and int(legacy.get_species_progress(SAGE_ID).claimed_tier) == 1 and int(legacy.get_species_progress(THYME_ID).claimed_tier) == 1, "Save verze 5 bezpečně doplní výchozí herbář včetně tymiánu bez falešných odměn")
 
 
 func _test_android_export_profile() -> void:
@@ -6933,6 +7070,7 @@ func _test_phase49_grower_journal() -> void:
 	session.species_progress[PARSLEY_ID] = {"discovered": true, "harvests": 0, "best_quality": 0.90, "orders_completed": 0, "total_dry_g": 0.0, "claimed_tier": 1}
 	session.species_progress[LEMON_BALM_ID] = {"discovered": true, "harvests": 0, "best_quality": 0.90, "orders_completed": 0, "total_dry_g": 0.0, "claimed_tier": 1}
 	session.species_progress[SAGE_ID] = {"discovered": true, "harvests": 0, "best_quality": 0.90, "orders_completed": 0, "total_dry_g": 0.0, "claimed_tier": 1}
+	session.species_progress[THYME_ID] = {"discovered": true, "harvests": 0, "best_quality": 0.90, "orders_completed": 0, "total_dry_g": 0.0, "claimed_tier": 1}
 	for slot_index in range(5):
 		session.plants[slot_index].stage = PlantSimulation.Stage.VEGETATIVE
 	var snapshot := session.get_grower_journal_snapshot()
@@ -7065,7 +7203,7 @@ func _test_phase70_progression_tooling() -> void:
 	var progression_runner := FileAccess.get_file_as_string("res://tools/run_progression_smoke.ps1")
 	var performance_source := FileAccess.get_file_as_string("res://tools/performance_smoke.gd")
 	var release_runner := FileAccess.get_file_as_string("res://tools/run_release_candidate.ps1")
-	_check("CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _build_species_rotation" in progression_source and "session.get_available_species()" in progression_source and "session.plant_seed(species_id)" in progression_source and "session.start_drying()" in progression_source and "session.package_harvest()" in progression_source, "Fáze 95 projde dvanáct úplných cyklů každého manifestového druhu, tedy 120 cyklů současného katalogu, přes skutečné doménové akce")
+	_check("CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "func _build_species_rotation" in progression_source and "session.get_available_species()" in progression_source and "session.plant_seed(species_id)" in progression_source and "session.start_drying()" in progression_source and "session.package_harvest()" in progression_source, "Fáze 102 projde dvanáct úplných cyklů každého manifestového druhu, tedy 132 cyklů současného katalogu, přes skutečné doménové akce")
 	_check("session.fulfill_order" in progression_source and "session.sell_harvest_to_botanist" in progression_source and "session.buy_seed" in progression_source and "session.buy_equipment_upgrade" in progression_source and "SEED_COIN_RESERVE" in progression_source, "Fáze 70 používá skutečnou ekonomiku, zakázky, výkup, semínka a placená vylepšení bez umělého připsání měny")
 	_check("SAVE_ROUNDTRIP_INTERVAL := 5" in progression_source and "SaveManager.save_session" in progression_source and "SaveManager._load_session_from_paths" in progression_source and "legendary mastery" in progression_source and "PROGRESSION_SMOKE=" in progression_source, "Fáze 74 hlídá přesné diskové save/load průchody, deset slotů, maximální vybavení a legendární mistrovství všech druhů")
 	_check("$env:APPDATA = $isolatedAppData" in progression_runner and "--headless" in progression_runner and "PROGRESSION_SMOKE=PASSED" in progression_runner and "run_progression_smoke.ps1" in release_runner, "Fáze 70 běží bez telefonu v izolovaných datech a je povinnou součástí lokálního RC auditu")
@@ -7756,7 +7894,7 @@ func _test_phase92_garden_handover_ui() -> void:
 	instance._open_herbarium()
 	await process_frame
 	var replay_button := instance.herbarium_replay_from_garden_handover_button as Button
-	_check(instance.herbarium_open and replay_button.visible and replay_button.get_meta("component", "") == "herbarium_handover_replay_v1" and int(replay_button.get_meta("touch_target_min_height", 0)) >= 56 and replay_button.custom_minimum_size.y >= 56.0 and replay_button.size.y >= 56.0 and "SBÍRKA  2/10 DRUHŮ   ·   20 %" in instance.herbarium_summary_label.text, "Fáze 95 herbář na 432×960 nabízí viditelné 56px přehrání a pravdivý stav 2/10 · 20 %")
+	_check(instance.herbarium_open and replay_button.visible and replay_button.get_meta("component", "") == "herbarium_handover_replay_v1" and int(replay_button.get_meta("touch_target_min_height", 0)) >= 56 and replay_button.custom_minimum_size.y >= 56.0 and replay_button.size.y >= 56.0 and "SBÍRKA  2/11 DRUHŮ   ·   18 %" in instance.herbarium_summary_label.text, "Fáze 102 herbář na 432×960 nabízí viditelné 56px přehrání a pravdivý stav 2/11 · 18 %")
 	_check(instance.herbarium_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.herbarium_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.herbarium_scroll.get_v_scroll_bar().max_value > instance.herbarium_scroll.size.y, "Fáze 92 nové tlačítko neodebere herbáři plynulý dotykový scroll dlouhé sbírky")
 	replay_session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 1, "best_quality": 0.60, "orders_completed": 0, "total_dry_g": 4.8, "claimed_tier": 1}
 	instance._refresh_herbarium()
@@ -8378,7 +8516,7 @@ func _test_main_scene_smoke() -> void:
 	instance.session.pending_botanical_packs.clear()
 	instance.session.next_botanical_pack_id = 1
 	# Seed 4 deterministicky zvolí již známý Common druh, takže tento UI test
-	# nerozšíří Herbář a neovlivní jeho následný kontrakt 2/10.
+	# nerozšíří Herbář a neovlivní jeho následný kontrakt 2/11.
 	instance.session.botanical_pack_rng_state = 4
 	instance.session.botanical_pack_pity = 0
 	var ui_pack: Dictionary = instance.session._grant_botanical_pack("ui_test", "mobile_modal", false)
@@ -8522,7 +8660,7 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.herbarium_launcher_button.get_meta("component", "") == "herbarium_detail_launcher_v1" and instance.herbarium_launcher_button.custom_minimum_size.x >= 64.0 and instance.herbarium_modal.get_meta("component", "") == "fullscreen_herbarium_modal_v1" and instance.herbarium_modal.z_index > instance.seed_selector_modal.z_index and instance.herbarium_modal.mouse_filter == Control.MOUSE_FILTER_STOP, "Herbář zachová čtyři hlavní záložky a otevírá se z detailu jako samostatný blokující mobilní modal")
 	instance._open_herbarium()
 	await process_frame
-	_check(instance.herbarium_open and instance.herbarium_modal.visible and instance.herbarium_cards.size() == 10 and instance.herbarium_cards.has("oregano_vulgare") and instance.herbarium_cards.has("lavandula_angustifolia") and instance.herbarium_cards.has(CHIVES_ID) and instance.herbarium_cards.has(MARJORAM_ID) and instance.herbarium_cards.has(PARSLEY_ID) and instance.herbarium_cards.has(LEMON_BALM_ID) and instance.herbarium_cards.has(SAGE_ID) and instance.herbarium_summary_label.text.begins_with("SBÍRKA  2/10 DRUHŮ"), "Fullscreen herbář vykreslí všech deset druhů včetně šalvěje a pravdivě oddělí dvě objevené rostliny od celého katalogu")
+	_check(instance.herbarium_open and instance.herbarium_modal.visible and instance.herbarium_cards.size() == 11 and instance.herbarium_cards.has("oregano_vulgare") and instance.herbarium_cards.has("lavandula_angustifolia") and instance.herbarium_cards.has(CHIVES_ID) and instance.herbarium_cards.has(MARJORAM_ID) and instance.herbarium_cards.has(PARSLEY_ID) and instance.herbarium_cards.has(LEMON_BALM_ID) and instance.herbarium_cards.has(SAGE_ID) and instance.herbarium_cards.has(THYME_ID) and instance.herbarium_summary_label.text.begins_with("SBÍRKA  2/11 DRUHŮ"), "Fullscreen herbář vykreslí všech jedenáct druhů včetně tymiánu a pravdivě oddělí dvě objevené rostliny od celého katalogu")
 	instance.feedback_layer.finish_all()
 	instance._on_session_feedback("care_reminder", 0, {})
 	_check(instance.feedback_layer.is_idle(), "Automatická připomínka péče neblikne přes Herbář ani jiný blokující mobilní dialog")
@@ -8851,12 +8989,12 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.session.plant.stage == PlantSimulation.Stage.EMPTY and instance.session.coins == order_coins_before + order_reward and str(instance.session.orders[0].get("id", "")) != order_id_before, "Odevzdání přes skutečné tlačítko spotřebuje balíček, připíše odměnu a obnoví nabídku")
 	_check(instance.guide_modal.visible and instance.guide_modal_character.get_mood_name() == "celebrate" and instance.audio_haptics.last_cue == "fanfare", "Profesor, vizuální reward efekt a zvukový fanfárový motiv společně oslaví splněnou zakázku")
 	instance._set_guide_modal_open(false, false)
-	var runtime_shop_maps_ok: bool = instance.shop_owned_labels.size() == 11 and instance.shop_seed_buttons.size() == 10
+	var runtime_shop_maps_ok: bool = instance.shop_owned_labels.size() == 12 and instance.shop_seed_buttons.size() == 11
 	for runtime_species_id in ["basil_genovese", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]:
 		runtime_shop_maps_ok = runtime_shop_maps_ok and instance.shop_owned_labels.has(runtime_species_id) and instance.shop_seed_buttons.has(runtime_species_id)
 		if runtime_shop_maps_ok:
 			runtime_shop_maps_ok = int((instance.shop_seed_buttons[runtime_species_id] as Button).get_meta("touch_target_min_height", 0)) >= 48 and "SKLAD" in (instance.shop_owned_labels[runtime_species_id] as Label).text
-	_check(instance.buy_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_fertilizer_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_mint_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_rosemary_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_oregano_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and int(instance.buy_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_fertilizer_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_mint_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_rosemary_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_oregano_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and runtime_shop_maps_ok, "Obchod používá jedenáct kompaktních položek včetně hnojiva a deseti katalogových semen bez nového alias pole")
+	_check(instance.buy_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_fertilizer_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_mint_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_rosemary_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_oregano_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and int(instance.buy_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_fertilizer_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_mint_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_rosemary_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_oregano_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and runtime_shop_maps_ok, "Obchod používá dvanáct kompaktních položek včetně hnojiva a jedenácti katalogových semen bez nového alias pole")
 	_check(shop_screen.get_meta("component", "") == "botanist_shop_mobile_v1" and instance.shop_runtime_layout.get_meta("component", "") == "botanist_shop_counter_catalog_v2" and instance.shop_hero_panel.get_meta("component", "") == "botanist_shopkeeper_counter_v2" and instance.shop_catalog_grid.get_meta("component", "") == "botanist_catalog_grid_3x_v2" and instance.shop_catalog_grid.columns == 3 and instance.shop_mode_tabs.get_meta("component", "") == "botanist_shop_category_tabs_v2" and int(instance.shop_buy_tab_button.get_meta("touch_target_min_height", 0)) >= 54 and int(instance.shop_sell_tab_button.get_meta("touch_target_min_height", 0)) >= 54, "Mobilní obchod má pana Kořínka pevně za pultem, třísloupcovou mřížku nabídek a spodní kategorie")
 	instance.session.xp = 100
 	instance.session.coins = 100
@@ -8892,7 +9030,7 @@ func _test_main_scene_smoke() -> void:
 	instance._set_seed_selector_open(true)
 	await process_frame
 	await process_frame
-	var selector_catalog_ok: bool = instance.seed_species_buttons.size() == 10
+	var selector_catalog_ok: bool = instance.seed_species_buttons.size() == 11
 	var selector_geometry_ok := selector_catalog_ok
 	var selector_text_layout_ok := selector_catalog_ok
 	var selector_dynamic_height_seen := false
@@ -8909,8 +9047,8 @@ func _test_main_scene_smoke() -> void:
 				var rendered_description_height := ceili(float(maxi(1, selector_description.get_line_count()) * selector_description.get_line_height()))
 				selector_text_layout_ok = selector_text_layout_ok and selector_description.custom_minimum_size.y == rendered_description_height and selector_description.size.y + 0.5 >= rendered_description_height and int(selector_button.get_meta("description_line_count", 0)) == selector_description.get_line_count() and int(selector_button.get_meta("description_content_height", 0)) == rendered_description_height
 			selector_dynamic_height_seen = selector_dynamic_height_seen or selector_button.custom_minimum_size.y > 142.0
-	_check(instance.seed_selector_modal.get_meta("component", "") == "comic_mobile_seed_selector_v1" and instance.seed_selector_modal.z_index > instance.settings_modal.z_index and selector_catalog_ok and int(instance.seed_selector_basil_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_mint_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_rosemary_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_oregano_button.get_meta("touch_target_min_height", 0)) >= 120, "Výběr druhu je rolovatelný blokující mobilní modal s deseti velkými katalogovými kartami")
-	_check(selector_geometry_ok and selector_text_layout_ok and selector_dynamic_height_seen, "Fáze 95 všech deset zalamovaných karet semen odvodí výšku ze skutečného počtu řádků, synchronizuje dotykové minimum a udrží vykreslený text i každý viditelný child rect uvnitř karty")
+	_check(instance.seed_selector_modal.get_meta("component", "") == "comic_mobile_seed_selector_v1" and instance.seed_selector_modal.z_index > instance.settings_modal.z_index and selector_catalog_ok and int(instance.seed_selector_basil_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_mint_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_rosemary_button.get_meta("touch_target_min_height", 0)) >= 120 and int(instance.seed_selector_oregano_button.get_meta("touch_target_min_height", 0)) >= 120, "Výběr druhu je rolovatelný blokující mobilní modal s jedenácti velkými katalogovými kartami")
+	_check(selector_geometry_ok and selector_text_layout_ok and selector_dynamic_height_seen, "Fáze 102 všech jedenáct zalamovaných karet semen odvodí výšku ze skutečného počtu řádků, synchronizuje dotykové minimum a udrží vykreslený text i každý viditelný child rect uvnitř karty")
 	_check(instance.seed_selector_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.seed_selector_scroll.scroll_deadzone == 6 and not instance.seed_selector_scroll.follow_focus and instance.seed_selector_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.seed_selector_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.seed_selector_scroll.get_meta("scroll_id", "") == "seed_selector" and instance.seed_selector_rosemary_button.mouse_filter == Control.MOUSE_FILTER_PASS, "Fáze 67 výběr semen zachová klepnutí na velké karty a plynulé svislé tažení")
 	_check(_has_mobile_scroll_contract(instance.seed_selector_scroll, "seed_selector"), "Fáze 67 scroll výběru semen drží AUTO/deadzone6/follow_focus false/STOP + metadatový kontrakt + scroll_id")
 	_check(_scroll_descendant_buttons_are_pass(instance.seed_selector_scroll), "Fáze 67 všechny tlačítkové descendenty ve scrollu výběru semen předávají tažení přes parent")

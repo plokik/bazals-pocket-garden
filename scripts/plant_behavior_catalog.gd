@@ -17,6 +17,7 @@ const ORDER: Array[String] = [
 	"shade_tolerance",
 	"self_seeding",
 	"modest_feeding",
+	"dry_soil_vigor",
 ]
 const DEFINITIONS := {
 	"resilient_leaves": {
@@ -187,6 +188,24 @@ const DEFINITIONS := {
 		},
 		"effects": {
 			"nutrient_loss_multiplier": 0.75,
+		},
+	},
+	"dry_soil_vigor": {
+		"id": "dry_soil_vigor",
+		"label": "SUCHOMILNÝ RYTMUS",
+		"name": "SUCHOMILNÝ RYTMUS",
+		"description": "V bezpečně sušší části ideální vláhy roste tymián o 12 % rychleji. Po zálivce se efekt vrátí, až půda znovu mírně proschne.",
+		"compact_description": "Sušší ideální vláha · růst +12 %",
+		"active_text": "Aktivní · růst +12 %",
+		"inactive_text": "Vyžaduje bezpečně sušší půdu",
+		"activation": {
+			"type": "growth_value_in_profile_band",
+			"value": "moisture",
+			"minimum_field": "dry_growth_moisture_min",
+			"maximum_field": "dry_growth_moisture_max",
+		},
+		"effects": {
+			"growth_multiplier": 1.12,
 		},
 	},
 }

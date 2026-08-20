@@ -107,6 +107,7 @@ func _run() -> void:
 			break
 		var packaged_quality := session.plant.harvest_quality
 		var packaged_dry_g := session.plant.dry_harvest_g
+		var mastery_orders_before := int(session.get_species_progress(species_id).get("orders_completed", 0))
 
 		var order_index := _find_fulfillable_order(session)
 		var declines_used := 0
@@ -116,6 +117,25 @@ func _run() -> void:
 				break
 			declines_used += 1
 			order_index = _find_fulfillable_order(session)
+		# A real player can keep a packaged harvest and wait for another day's two
+		# public refreshes. Exercise that legitimate path while a species still
+		# needs its six mastery deliveries instead of selling the sample early.
+		var order_wait_days := 0
+		while order_index < 0 and mastery_orders_before < 6 and order_wait_days < MAX_SCHEDULER_WAIT_DAYS:
+			order_wait_days += 1
+			scheduler_wait_days += 1
+			simulated_day_offset += 1
+			simulated_unix = base_unix + float(simulated_day_offset) * REAL_DAY_SECONDS
+			session.refresh_shop_stock_for_unix(simulated_unix)
+			session.refresh_order_declines_for_unix(simulated_unix)
+			declines_used = 0
+			order_index = _find_fulfillable_order(session)
+			while order_index < 0 and declines_used < GameSession.DAILY_ORDER_REFRESHES:
+				var decline_index := _find_order_to_decline(session)
+				if decline_index < 0 or not session.decline_order(decline_index):
+					break
+				declines_used += 1
+				order_index = _find_fulfillable_order(session)
 		var sale_kind := "botanist"
 		if order_index >= 0:
 			if not session.fulfill_order(order_index):
@@ -147,6 +167,7 @@ func _run() -> void:
 			"unlocked_slots": session.get_unlocked_slot_count(),
 			"simulated_day_offset": simulated_day_offset,
 			"waited_days": waited_days,
+			"order_wait_days": order_wait_days,
 		})
 		simulated_day_offset += 1
 

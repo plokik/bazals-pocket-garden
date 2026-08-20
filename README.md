@@ -7,10 +7,10 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 
 ## Co je hotové
 
-- deset samostatných druhů: bazalka Genovese, máta peprná, rozmarýn lékařský, dobromysl obecná, Epic levandule úzkolistá, pažitka pobřežní, Rare majoránka zahradní, petržel zahradní, meduňka lékařská a Rare šalvěj lékařská;
+- jedenáct samostatných druhů: bazalka Genovese, máta peprná, rozmarýn lékařský, dobromysl obecná, Epic levandule úzkolistá, pažitka pobřežní, Rare majoránka zahradní, petržel zahradní, meduňka lékařská, Rare šalvěj lékařská a tymián obecný;
 - plynulý růst a základní animace listů, zálivky a odměn;
 - zálivka, hnojení, světlo, větrání a aktivní ošetření nemocné rostliny ochranným postřikem;
-- pevné reálné cykly 5 hodin pro mátu, 6 hodin pro bazalku, 8 hodin pro pažitku při ideální vláze, 8 hodin pro meduňku, 9 hodin pro petržel, 10 hodin pro majoránku, 12 hodin pro oregano, 14 hodin pro rozmarýn a 18 hodin pro levanduli; hráčská pauza ani násobič rychlosti už nejsou součástí hry;
+- pevné reálné cykly 5 hodin pro mátu, 6 hodin pro bazalku, 8 hodin pro pažitku při ideální vláze, 8 hodin pro meduňku, 9 hodin pro petržel, 10 hodin pro majoránku, 11 hodin pro tymián, 12 hodin pro oregano, 14 hodin pro rozmarýn, 18 hodin pro levanduli a 20 hodin pro šalvěj; hráčská pauza ani násobič rychlosti už nejsou součástí hry;
 - ikony a stavové texty jsou uzamčené uvnitř společných akčních komponent;
 - vlhkost půdy, zdraví, teplota, vlhkost vzduchu, pH, EC, lux, CO₂, O₂ a biomasa;
 - fotosyntéza ve světle a dýchání ve dne i v noci;
@@ -33,7 +33,7 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 - bezpečná migrace starších save podle skutečného stádia rostliny;
 - férové vadnutí a úhyn až po nepřetržitém kritickém zanedbání, ruční záchrana po odstranění příčiny a čerstvost zralé sklizně bez zpětného trestání starších save;
 - jeden globální den a počasí pro celý pokoj, uložená předpověď a kontextové denní výzvy včetně přípravy na zítřek;
-- herbář pro všech deset druhů, pravdivý počet objevených rostlin, pět kanonických rarit a pět mistrovských hodností;
+- herbář pro všech jedenáct druhů, pravdivý počet objevených rostlin, pět kanonických rarit a pět mistrovských hodností;
 - čtyři čistě kosmetické vzhledy pokoje bez herní výhody; čtvrtá `Badatelská pracovna` se odemyká po šesti dokončených Profesorových protokolech a stojí 360 mincí;
 - ochrana poškozeného či novějšího save, bezpečné zotavení ze zálohy a návratový souhrn po probuzení aplikace;
 - přenositelná `.htgbackup` záloha přes systémový správce souborů s kontrolou integrity, náhledem a potvrzením před obnovou.
@@ -63,6 +63,7 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 - fáze 99 je hotová v hlavním projektu na 100 %: hlavní schema 28 rozšiřuje týdenní výzkum o tři deterministické protokoly `balanced_v1`, `quality_focus_v1` a `processing_focus_v1`; varianta se při přijetí uzamkne. Po šesti dokončeních zpřístupní čtvrtý vzhled `research_study` / `Badatelská pracovna` za 360 mincí, bez herního bonusu. Odznak `room_collector` zůstává navázaný pouze na tři původní vzhledy. Fáze nevytváří nový APK ani telefonní důkaz; RC28/code 45/schema 23 zůstává historicky immutable.
 - fáze 100 / RC29 balí celý současný obsah včetně fáze 99 do immutable interního Android kandidáta `0.45.0-rc29` / code 46 se zdrojovým i save schema 28. Automatická release sada, podpis, payload, pětiminutová instalace a technická migrace schema 23 → 28 prošly; 18bodová ruční mobilní brána a veřejné publikování zůstávají otevřené.
 - fáze 101 je hotová v hlavním projektu na 100 %: přidává denní výzvu `rescue`, která dá zvadlé rostlině přednost a odmění až skutečnou záchranu po odstranění kritické příčiny a poškozených listů. Save schema 28, ekonomika, grafika i RC29 zůstávají beze změny; nový Android artefakt nevznikl.
+- fáze 102 je hotová v hlavním projektu: přidává Common tymián obecný se šestistavovou grafikou, odemčením na úrovni 4, jedenáctihodinovým růstem, vlastní jednodruhovou zakázkou a směsí s rozmarýnem. Vlastnost `SUCHOMILNÝ RYTMUS` zrychluje růst na 1,12× výhradně při vláze 28–43 % včetně hranic; save schema 28 i immutable RC29 zůstávají beze změny a nový Android artefakt nevznikl.
 
 Produkční herní strukturu a pravidla rozšiřování popisuje [produkční kostra hry](docs/GAME_FOUNDATION.md). Aktuální technické důkazy shrnuje [release readiness](docs/RELEASE_READINESS.md) a fyzické ověření telefonu má samostatný [RC29 ruční Android runbook](docs/ANDROID_RC29_MANUAL_GATE.md).
 
@@ -81,13 +82,13 @@ Otevřete `project.godot` v Godotu 4.7 a spusťte hlavní scénu klávesou F6/F5
 & 'C:\_projekty\Godot_v4.7-stable_win64.exe' --path .
 ```
 
-Běžný cyklus běží podle skutečného času i při zavřené aplikaci: máta 5 hodin, bazalka 6 hodin, pažitka 8 hodin při aktivní `SÍLE TRSU`, meduňka 8 hodin, petržel 9 hodin, majoránka 10 hodin, oregano 12 hodin, rozmarýn 14 hodin, levandule 18 hodin a šalvěj 20 hodin při ideální péči. Špatná péče dozrávání zpomaluje. Pouze první vedená bazalka používá chráněný dvanáctiminutový rychlý začátek; hráč nemůže čas ručně zrychlit ani pozastavit.
+Běžný cyklus běží podle skutečného času i při zavřené aplikaci: máta 5 hodin, bazalka 6 hodin, pažitka 8 hodin při aktivní `SÍLE TRSU`, meduňka 8 hodin, petržel 9 hodin, majoránka 10 hodin, tymián 11 hodin, oregano 12 hodin, rozmarýn 14 hodin, levandule 18 hodin a šalvěj 20 hodin při ideální péči. Špatná péče dozrávání zpomaluje. Pouze první vedená bazalka používá chráněný dvanáctiminutový rychlý začátek; hráč nemůže čas ručně zrychlit ani pozastavit.
 
 ## Botanické balíčky
 
 - Jeden balíček obsahuje právě jedno semínko. První hráč získá po dokončení vedené cesty, další nejvýše jednou za skutečný UTC den při vyzvednutí hotové denní výzvy a jeden navíc právě jednou za kapitolu `Ztracené stránky herbáře`.
 - Výsledek je deterministicky zapečetěn už při přidělení a uložen ve frontě nejvýše 32 kusů. Otevření už nelosuje, takže restart ani opakované klepnutí výsledek nezmění.
-- Veřejné základní váhy zůstávají Common 55, Rare 30, Epic 10, Legendary 5 a Special 0 a normalizují se přes způsobilé rarity. Současný desetidruhový pool nemá žádný Legendary ani Special profil, proto jsou přesné aktivní šance Common `57.894737 %`, Rare `31.578947 %`, Epic `10.526316 %`, Legendary `0 %` a Special `0 %`; UI je zaokrouhluje na `57.9 / 31.6 / 10.5 / 0 / 0 %`. Způsobilých profilů je 10 a na nové hře je 8 dosud neudělených. Special se získává pouze explicitním příběhovým nebo událostním zdrojem.
+- Veřejné základní váhy zůstávají Common 55, Rare 30, Epic 10, Legendary 5 a Special 0 a normalizují se přes způsobilé rarity. Současný jedenáctidruhový pool nemá žádný Legendary ani Special profil, proto jsou přesné aktivní šance Common `57.894737 %`, Rare `31.578947 %`, Epic `10.526316 %`, Legendary `0 %` a Special `0 %`; UI je zaokrouhluje na `57.9 / 31.6 / 10.5 / 0 / 0 %`. Způsobilých profilů je 11 a na nové hře je 9 dosud neudělených. Special se získává pouze explicitním příběhovým nebo událostním zdrojem.
 - Vylosovaná rarita upřednostní dosud neobjevený druh. Po čtyřech duplicitách je další přidělený balíček garantovaně nový, pokud ještě existuje způsobilý neobjevený druh.
 - Otevření je atomické: při limitu 9 999 semen cílového druhu balíček zůstane čekat a neznámý budoucí výsledek se zachová neprůhledně bez náhradního losu.
 - Balíčky nemají klíče, reklamu, cenu v mincích ani platbu skutečnými penězi. Konkrétní dostupné semínko lze dál jistě koupit přímo u pana Kořínka.
@@ -103,6 +104,7 @@ Běžný cyklus běží podle skutečného času i při zavřené aplikaci: mát
 - Petržel `TOLERANCE POLOSTÍNU` ve dne pod 5 400 lux nastaví světelný faktor kondice nejméně na 60 %. Na hranici 5 400 lux, nad ní, v noci, v prázdném květináči a po sklizni je vlastnost neaktivní; u zralé rostliny zůstává aktivní, aby odhad kvality i sklizeň používaly stejnou kondici.
 - Meduňka `BOHATÝ SAMOVÝSEV` zvyšuje deterministickou šanci vrácení semínka po úspěšném prodeji z běžných 58 % na 75 %. Všechny tři prodejní cesty používají jeden společný výpočet; neúspěšná nebo opakovaná transakce další semínko nevytvoří.
 - Šalvěj `STŘÍDMÁ VÝŽIVA` (`modest_feeding`) během růstu a zralosti snižuje úbytek živin násobičem 0,75× pouze uvnitř vlastního ideálního pásma 24–60 % včetně hranic. Základních 0,9 bodu za hodinu se tak uvnitř pásma mění na 0,675; online krok, offline dopočet, odhad další péče i ETA používají stejný po částech počítaný model.
+- Tymián `SUCHOMILNÝ RYTMUS` (`dry_soil_vigor`) během růstu používá násobič 1,12× jen ve vlastním sušším pásmu vláhy 28–43 % včetně hranic. Nad 43 %, pod 28 %, v prázdném květináči i po dozrání je vlastnost neaktivní; validátor katalogu navíc odmítne chybějící, převrácené nebo nečíselné hranice profilu.
 - Vlastnosti se zobrazují ve výběru semen, u objevených druhů v herbáři a jako osmá informační karta diagnostiky. Neobjevený druh svůj název ani popis vlastnosti neprozradí.
 - Detail rostliny ukáže odznak a kódově kreslené halo jen tehdy, když je vlastnost právě aktivní. Neaktivní vlastnost zůstává čitelná v diagnostice jako `ČEKÁ`, ale nezabírá detail trvalým efektem ani odznakem.
 - Když hráč zálivkou máty skutečně překročí spodní hranici do ideální vláhy a obnoví zdraví, po běžné odezvě zálivky vznikne právě jedna událost `plant_behavior` s kanonickým ID `refreshing_water`, názvem `MÁTOVÉ VZPRUŽENÍ` a skutečnou hodnotou obnoveného zdraví. Selhání akce, plné zdraví, nevhodná vláha, jiná vlastnost ani online/offline časový krok tuto odezvu nevytvoří.
@@ -114,7 +116,9 @@ Běžný cyklus běží podle skutečného času i při zavřené aplikaci: mát
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_tests.ps1
 ```
 
-Aktuální zdroj i RC29 po fázi 99 mají `1204` kontrol. Vedle historických kontraktů sada instancuje skutečnou `main.tscn` a ověřuje hlavní schema 28, oddělené důvěryhodné hranice tří Profesorových kapitol schema 23/24/26, tři deterministické týdenní protokoly, jejich immutable přiřazení po přijetí, migraci schema 27, atomickou odměnu, výzkumné odznaky i čtvrtý kosmetický vzhled. Regrese dál pokrývají desetidruhový katalog, deset explicitních vlastností, Rare ★★ šalvěj, tři kanonické směsi a nulový aktuální Legendary profil. Postupová brána odehraje 120 úplných cyklů všech deseti bylin a 25 diskových save/load roundtripů; endurance dál provádí 48 technických cyklů. Testovací skripty mají vlastní izolovaný profil `APPDATA`, takže nemění hráčský save.
+Aktuální zdroj po fázi 102 má `1229` kontrol; immutable RC29 po fázi 99 zůstává na historických `1204`. Vedle historických kontraktů sada instancuje skutečnou `main.tscn` a ověřuje hlavní schema 28, oddělené důvěryhodné hranice tří Profesorových kapitol schema 23/24/26, tři deterministické týdenní protokoly, jejich immutable přiřazení po přijetí, migraci schema 27, atomickou odměnu, výzkumné odznaky i čtvrtý kosmetický vzhled. Regrese dál pokrývají jedenáctidruhový katalog, jedenáct explicitních vlastností, Rare ★★ šalvěj, čtyři kanonické směsi, celý tymiánový obsahový kontrakt a nulový aktuální Legendary profil. Postupová brána odehraje 132 úplných cyklů všech jedenácti bylin a 27 diskových save/load roundtripů; endurance dál provádí 48 technických cyklů. Testovací skripty mají vlastní izolovaný profil `APPDATA`, takže nemění hráčský save.
+
+Fáze 102 je dokončená v hlavním projektu. Závěrečná úplná validace `.godot/validation/20260820-075710Z` skončila `MVP_TESTS_PASSED=1229`, `HOW_TO_GROW_CAPTURE=PASSED`, `HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`; všech 14 aktivních pixelových gate prošlo bez přepsání referencí nebo uvolnění tolerancí. Postupový audit `.godot/progression/20260820-075629Z` dokončil 132/132 cyklů, 112 zákaznických zakázek a 27 diskových roundtripů; všech jedenáct druhů dosáhlo a vyzvedlo pátou mistrovskou hodnost. Responzivní audit `.godot/responsive/20260820-075235Z` prošel 7/7 displejů a safe-area případů. Jde pouze o zdrojovou změnu; nový APK ani AAB nevznikl.
 
 Fáze 74–81 jsou dokončené lokálně. Oficiální validace `.godot/validation/20260818-100011Z` skončila `MVP_TESTS_PASSED=822` a `HOW_TO_GROW_VALIDATION=PASSED`; všech 14 aktivních pixelových gate prošlo bez oslabení tolerancí. Fáze 81 přidává sedm samostatných diagnostických snímků levandule, nikoli novou schválenou referenci, a žádná existující reference nebyla přepsána.
 
@@ -306,7 +310,7 @@ Telefon musí být před startem odemčený, vzhůru a hra musí během automati
 
 ## Odborný rámec
 
-Simulace je vzdělávací model, nikoliv laboratorní předpověď konkrétní rostliny. Základní požadavky bazalky vycházejí z Utah State University Extension a doba sklizně z University of Minnesota Extension. Profil pažitky vychází z University of Minnesota Extension, Utah State University Extension a českého druhového záznamu AOPK ČR. Profil petržele vychází z University of Minnesota Extension, Royal Horticultural Society, NC State Extension a druhového záznamu Pladias. Profil meduňky vychází z Royal Horticultural Society, NC State Extension, Wisconsin Extension a českého druhového záznamu Pladias. Profil šalvěje fáze 95 používá dohledatelné podklady NC State Extension a University of Minnesota Extension. Vysvětlení fotosyntézy a dýchání vychází z Oklahoma State University Extension. Odkazy jsou dostupné přímo v informační obrazovce hry.
+Simulace je vzdělávací model, nikoliv laboratorní předpověď konkrétní rostliny. Základní požadavky bazalky vycházejí z Utah State University Extension a doba sklizně z University of Minnesota Extension. Profil pažitky vychází z University of Minnesota Extension, Utah State University Extension a českého druhového záznamu AOPK ČR. Profil petržele vychází z University of Minnesota Extension, Royal Horticultural Society, NC State Extension a druhového záznamu Pladias. Profil meduňky vychází z Royal Horticultural Society, NC State Extension, Wisconsin Extension a českého druhového záznamu Pladias. Profil šalvěje fáze 95 používá dohledatelné podklady NC State Extension a University of Minnesota Extension. Profil tymiánu fáze 102 používá podklady NC State Extension a University of Minnesota Extension; sušší herní pásmo je záměrně popsaná herní abstrakce, nikoli pěstitelský ani zdravotní návod. Vysvětlení fotosyntézy a dýchání vychází z Oklahoma State University Extension. Odkazy jsou dostupné přímo v informační obrazovce hry.
 
 ## Vědomě odložené části
 

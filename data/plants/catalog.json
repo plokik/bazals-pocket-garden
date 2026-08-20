@@ -51,6 +51,11 @@
       "id": "salvia_officinalis",
       "path": "res://data/plants/salvia_officinalis.json",
       "catalog_order": 100
+    },
+    {
+      "id": "thymus_vulgaris",
+      "path": "res://data/plants/thymus_vulgaris.json",
+      "catalog_order": 110
     }
   ]
 }

@@ -272,6 +272,8 @@ func _validate_profile(profile: Dictionary, path: String) -> bool:
 			return false
 		behavior_ids.append(behavior_id)
 	profile["behavior_ids"] = behavior_ids
+	if not _validate_behavior_profile_bands(profile, species_id, path, behavior_ids):
+		return false
 	if not _validate_presentation(profile, species_id, path):
 		return false
 	if not _validate_shop_policy(profile, species_id, path):
@@ -318,6 +320,31 @@ func _validate_profile(profile: Dictionary, path: String) -> bool:
 		return _reject_lifecycle_value(species_id, "critical_wilt_seconds", path)
 	if death_seconds < wilt_seconds:
 		return _reject_lifecycle_value(species_id, "critical_death_seconds", path)
+	return true
+
+
+func _validate_behavior_profile_bands(profile: Dictionary, species_id: String, path: String, behavior_ids: Array[String]) -> bool:
+	for behavior_id in behavior_ids:
+		var definition := _behaviors.get_definition(behavior_id)
+		var raw_activation: Variant = definition.get("activation", {})
+		if not raw_activation is Dictionary:
+			continue
+		var activation: Dictionary = raw_activation
+		if str(activation.get("type", "")) != "growth_value_in_profile_band":
+			continue
+		var minimum_field := str(activation.get("minimum_field", ""))
+		var maximum_field := str(activation.get("maximum_field", ""))
+		if minimum_field.is_empty() or maximum_field.is_empty():
+			push_error("Plant behavior '%s' has an invalid profile band contract: %s" % [behavior_id, path])
+			return false
+		if not _has_required_numeric(profile, species_id, path, minimum_field, false) \
+			or not _has_required_numeric(profile, species_id, path, maximum_field, false):
+			return false
+		var minimum := float(profile.get(minimum_field, 0.0))
+		var maximum := float(profile.get(maximum_field, 0.0))
+		if minimum < MIN_PERCENT or maximum > MAX_PERCENT or minimum > maximum:
+			push_error("Plant profile '%s' has an out-of-range or inverted behavior band for '%s': %s" % [species_id, behavior_id, path])
+			return false
 	return true
 
 

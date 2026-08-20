@@ -3545,7 +3545,9 @@ func _prepare_phase96_herbal_blend_order_state(instance) -> bool:
 		push_error("Phase 96 blend capture could not select the unrelated package slot.")
 		return false
 
-	var blend_start_sequence := GameSession.ORDER_TEMPLATES.size() - GameSession.ACTIVE_ORDER_COUNT
+	# Phase 96 owns the stable sequence range 12..14. Later append-only order
+	# templates must not move this report-only capture to another recipe family.
+	var blend_start_sequence := GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT
 	instance.session.orders.clear()
 	instance.session.order_rotation = blend_start_sequence
 	instance.session._ensure_orders()
@@ -3603,8 +3605,10 @@ func _prepare_phase97_professor_exhibition_state(instance, expected_status: Stri
 	if not _prepare_professor_story_common_state(instance):
 		return false
 	var collection_species: Array[String] = instance.session.get_collection_species_ids()
-	if collection_species.size() != 10 or SAGE_SPECIES_ID not in collection_species:
-		push_error("Phase 97 exhibition capture requires the exact ten-species collection including Sage.")
+	# The chapter-three target is historically fixed at ten discoveries, while
+	# later append-only species may also be present in the live collection.
+	if collection_species.size() < 10 or SAGE_SPECIES_ID not in collection_species:
+		push_error("Phase 97 exhibition capture requires at least ten discovered species including Sage.")
 		return false
 
 	# Build every prerequisite through GameSession-owned fields and load the
