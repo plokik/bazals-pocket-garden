@@ -114,6 +114,7 @@ func _run_all() -> void:
 	_test_phase92_garden_handover_presenter()
 	_test_phase66_contextual_daily_challenges()
 	_test_phase72_forecast_daily_challenges()
+	_test_phase101_wilted_rescue_daily_challenge()
 	_test_phase41_level_progression()
 	_test_phase42_care_center()
 	_test_phase43_care_plan()
@@ -6422,6 +6423,44 @@ func _test_phase72_forecast_daily_challenges() -> void:
 	_check(weather.text == restored.get_daily_challenge_weather_summary() and title.text == restored.get_daily_challenge_title().to_upper(), "Fáze 72 denní modal zobrazuje uložený plán místo blikajícího počasí rychlé simulace")
 	for control in [weather, title, body, status, action, claim]:
 		control.free()
+
+
+func _test_phase101_wilted_rescue_daily_challenge() -> void:
+	var catalog := _load_plant_catalog()
+	var today := int(floor(Time.get_unix_time_from_system() / GameSession.SHOP_REAL_DAY_SECONDS))
+	var rescue := GameSession.new(catalog)
+	rescue.plant.stage = PlantSimulation.Stage.MATURE
+	rescue.plant.growth_percent = 100.0
+	rescue.plant.moisture = 0.0
+	rescue.plant.nutrients = 55.0
+	rescue.plant.ventilation = 80.0
+	rescue.plant.critical_neglect_seconds = rescue.plant.get_critical_wilt_seconds()
+	rescue._issue_daily_challenge(today)
+	_check(rescue.daily_challenge_id == "rescue" and rescue.get_daily_challenge_target_slot() == 0 and rescue.get_daily_challenge_target_screen() == 0 and rescue.get_daily_challenge_action_label() == "OTEVŘÍT ROSTLINU", "Fáze 101 zvadlá rostlina dostane přednost před běžnou sklizní a výzva vede na přesný květináč")
+	_check(rescue.get_daily_challenge_title() == "Zachraň zvadlou bylinku" and "kritickou příčinu" in rescue.get_daily_challenge_body() and "skutečné záchraně" in rescue.get_daily_challenge_body(), "Fáze 101 text výzvy pravdivě vyžaduje nejdřív péči a potom odstranění poškozených listů")
+	_check(not rescue.prune_damaged_leaves() and not rescue.daily_challenge_completed and rescue.plant.is_wilted(), "Fáze 101 předčasné ostříhání při trvající kritické příčině výzvu nesplní ani nezmění stav")
+	_check(rescue.water() and not rescue.daily_challenge_completed and rescue.plant.is_wilted(), "Fáze 101 samotné odstranění příčiny ještě nevydá odměnu a ponechá ruční záchranný krok")
+	_check(rescue.prune_damaged_leaves() and rescue.daily_challenge_completed and not rescue.plant.is_wilted(), "Fáze 101 až úspěšné jednorázové ostříhání dokončí záchrannou výzvu")
+	_check(not rescue.prune_damaged_leaves() and rescue.daily_challenge_completed, "Fáze 101 opakování záchrany není úspěšná akce a nevytvoří druhé splnění")
+
+	var healthy := GameSession.new(catalog)
+	healthy.plant.stage = PlantSimulation.Stage.MATURE
+	healthy.plant.growth_percent = 100.0
+	healthy._issue_daily_challenge(today)
+	_check(healthy.daily_challenge_id == "harvest", "Fáze 101 zdravá zralá rostlina dál používá původní sklizňovou výzvu")
+
+	var pending := GameSession.new(catalog)
+	pending.plant.stage = PlantSimulation.Stage.MATURE
+	pending.plant.growth_percent = 100.0
+	pending.plant.moisture = 0.0
+	pending.plant.nutrients = 55.0
+	pending.plant.ventilation = 80.0
+	pending.plant.critical_neglect_seconds = pending.plant.get_critical_wilt_seconds()
+	pending._issue_daily_challenge(today)
+	var saved := pending.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	_check(int(saved.schema) == GameSession.SAVE_SCHEMA and restored.daily_challenge_id == "rescue" and restored.get_daily_challenge_target_slot() == 0 and not restored.daily_challenge_completed, "Fáze 101 rozpracovaná záchrana přežije save round-trip bez nového pole nebo zvýšení schema")
 
 
 func _test_phase41_level_progression() -> void:

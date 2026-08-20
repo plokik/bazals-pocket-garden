@@ -77,7 +77,7 @@ const ORDER_MAX_FLAT_BONUS := 24
 const ORDER_MAX_BONUS_XP := 30
 const ORDER_MAX_REWARD_COINS := 100
 const BLEND_ORDER_MAX_REWARD_COINS := 180
-const DAILY_CHALLENGE_IDS := ["plant", "treat", "harvest", "start_drying", "package", "sell", "ventilate", "lamp", "fertilize", "water", "prepare_rain", "prepare_cloud", "prepare_dry"]
+const DAILY_CHALLENGE_IDS := ["plant", "rescue", "treat", "harvest", "start_drying", "package", "sell", "ventilate", "lamp", "fertilize", "water", "prepare_rain", "prepare_cloud", "prepare_dry"]
 const DAILY_CHALLENGE_WEATHER_NAMES := ["Jasno", "Polojasno", "Větrno", "Zataženo", "Déšť"]
 const EQUIPMENT_MAX_LEVEL := 3
 const EQUIPMENT_ORDER := ["watering_can", "grow_lamp", "ventilation_fan", "protective_spray", "self_watering_pot"]
@@ -1823,6 +1823,7 @@ func _select_daily_challenge_id() -> String:
 	var has_low_moisture := false
 	var has_low_nutrients := false
 	var has_lamp_off := false
+	var has_wilted := false
 	var has_treatable_disease := false
 	var has_mature := false
 	var has_harvested := false
@@ -1832,6 +1833,7 @@ func _select_daily_challenge_id() -> String:
 		if not is_plant_slot_unlocked(slot_index):
 			continue
 		var slot := plants[slot_index]
+		has_wilted = has_wilted or slot.is_wilted()
 		has_treatable_disease = has_treatable_disease or slot.can_treat_disease()
 		has_mature = has_mature or slot.stage == PlantSimulation.Stage.MATURE
 		has_harvested = has_harvested or slot.stage == PlantSimulation.Stage.HARVESTED
@@ -1842,6 +1844,8 @@ func _select_daily_challenge_id() -> String:
 			has_low_moisture = has_low_moisture or slot.moisture <= 55.0
 			has_low_nutrients = has_low_nutrients or slot.nutrients <= 60.0
 			has_lamp_off = has_lamp_off or not slot.lamp_on
+	if has_wilted:
+		return "rescue"
 	if has_treatable_disease and get_equipment_level("protective_spray") > 0:
 		return "treat"
 	if has_mature:
@@ -1931,6 +1935,9 @@ func get_daily_challenge_target_slot() -> int:
 			"treat":
 				if get_equipment_level("protective_spray") > 0 and slot.can_treat_disease():
 					return slot_index
+			"rescue":
+				if slot.is_wilted():
+					return slot_index
 			"harvest":
 				if slot.stage == PlantSimulation.Stage.MATURE:
 					return slot_index
@@ -1985,6 +1992,7 @@ func get_daily_challenge_action_label() -> String:
 func get_daily_challenge_title() -> String:
 	match daily_challenge_id:
 		"plant": return "Probuď nový květináč"
+		"rescue": return "Zachraň zvadlou bylinku"
 		"treat": return "Zastav plíseň"
 		"harvest": return "Sklizeň ve správný čas"
 		"start_drying": return "Čerstvá sklizeň do sušárny"
@@ -2002,6 +2010,7 @@ func get_daily_challenge_title() -> String:
 func get_daily_challenge_body() -> String:
 	match daily_challenge_id:
 		"plant": return "Zasaď libovolnou bylinku. Prázdný květináč počasí opravdu neocení."
+		"rescue": return "Nejdřív odstraň kritickou příčinu péčí a potom ostříhej poškozené listy. Odměnu získáš až po skutečné záchraně."
 		"treat": return "Ošetři libovolnou nemocnou bylinku, jakmile je připravená na postřik."
 		"harvest": return "Skliď libovolnou bylinku, která právě dosáhla plné zralosti."
 		"start_drying": return "Přesuň čerstvě sklizenou bylinku do sušárny."
@@ -2035,6 +2044,7 @@ func _try_complete_daily_challenge(action: String, valid_context: bool) -> void:
 
 func _get_daily_challenge_required_action() -> String:
 	match daily_challenge_id:
+		"rescue": return "rescue"
 		"prepare_rain": return "ventilate"
 		"prepare_cloud": return "lamp"
 		"prepare_dry": return "water"
@@ -2178,6 +2188,7 @@ func prune_damaged_leaves() -> bool:
 		"health": plant.health,
 		"freshness": plant.get_harvest_freshness_factor(),
 	})
+	_try_complete_daily_challenge("rescue", true)
 	refresh_daily_challenge_context()
 	return true
 
