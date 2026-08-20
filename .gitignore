@@ -29,6 +29,9 @@ android/build/assetPackInstallTime/build/
 android/build/captures/
 android/build/local.properties
 android/build/src/debug/
+android/build/src/release/AndroidManifest.xml
+android/build/assetPackInstallTime/build/
+android/build/assetPackInstallTime/src/
 android/build/res/drawable/splash_icon.webp
 android/build/res/mipmap*/
 android/build/res/values*/godot_project_name_string.xml

@@ -207,11 +207,27 @@ Technický audit telefonu `.godot/android-device-audit/20260819-162632Z` trval 3
 
 ## Android
 
-Projekt obsahuje Gradle exportní profil `Android` pro ARM64 a balíček `com.howtogrow.game`. Na tomto počítači je v ignorované složce `.tooling` připravené přenosné JDK 17 a Android SDK/Build Tools odpovídající Godot 4.7 šabloně. Vlastní malá Java vrstva plánuje pouze nejbližší péči, používá nepřesný úsporný alarm, obnoví jej po restartu telefonu a na Androidu 13+ si vyžádá standardní oprávnění k oznámením. Bez oprávnění hra dál používá jen připomínky uvnitř aplikace.
+Projekt obsahuje Gradle exportní profil `Android` pro interní ARM64 APK a oddělený `Android Release AAB` pro balíček `com.howtogrow.game`. Release profil explicitně cílí na API 36 a používá minSdk 24. Na tomto počítači je v ignorované složce `.tooling` připravené přenosné JDK 17 a Android SDK/Build Tools odpovídající Godot 4.7 šabloně. Vlastní malá Java vrstva plánuje pouze nejbližší péči, používá nepřesný úsporný alarm, obnoví jej po restartu telefonu a na Androidu 13+ si vyžádá standardní oprávnění k oznámením. Bez oprávnění hra dál používá jen připomínky uvnitř aplikace.
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1
 ```
+
+Podepsaný AAB se vytváří pouze s upload keystorem mimo repozitář. Cesta a alias mohou být parametry, heslo se přijímá výhradně z `GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD`, aby nebylo v příkazové řádce ani v Git historii:
+
+```powershell
+$securePassword = Read-Host 'Heslo upload keystoru' -AsSecureString
+$secretPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
+try {
+    $env:GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($secretPointer)
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android_release_aab.ps1 -KeystorePath 'D:\private\bazal-upload.jks' -KeyAlias 'bazal-upload'
+} finally {
+    Remove-Item Env:\GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD -ErrorAction SilentlyContinue
+    [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($secretPointer)
+}
+```
+
+Skript odmítne přepsat existující AAB, ověří shodu exportních filtrů, API 36, podpis JAR, základní payload i zkompilovaný notification/deep-link bridge. Produkční upload key ani heslo se nesmí ukládat do projektu.
 
 Exportní skript vedle podpisu ověřuje i obsah balíčku: hlavní scénu, všechny GDScript soubory, manifestem vyjmenované dynamické profily všech deseti rostlin, všechny konkrétní literal `res://` runtime závislosti, nativní notification bridge včetně jednorázového cíle po klepnutí a foreground guardu a nepřítomnost dokumentačních, testovacích a zdrojových grafických artefaktů. Aktuální interní Android release candidate je `0.45.0-rc29` / code 46 / zdrojové i save schema 28. Immutable ARM64 debug APK je `builds/android/bazals-pocket-garden-0.45.0-rc29-arm64-debug.apk`, má 110 561 232 B (105,44 MiB) a SHA-256 `E10D2F655310E98AD4ACB3F0490145592A222D4B2049225D364FF5FF7BB51EA7`; úplný lokální audit je v `.godot/release-candidate/20260819-162250Z` a technický audit nainstalované kopie v `.godot/android-device-audit/20260819-162632Z`. Přepisovatelný výchozí export `builds/android/bazals-pocket-garden-debug.apk` je nyní bajtově shodný s RC29; jediným neměnným release důkazem zůstává verzovaný soubor.
 
