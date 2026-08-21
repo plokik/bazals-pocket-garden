@@ -177,8 +177,15 @@ Tento checklist odděluje technicky ověřené části vertikálního řezu od k
 | Release candidate RC29 | Prošlo lokálně | Audit `.godot/release-candidate/20260819-162250Z`: `0.45.0-rc29`, code 46, zdrojové i save schema 28, 1204/1204 regresí, 14/14 vizuálních gate a immutable APK |
 | Fyzický Android audit RC29 | Automatická technická část prošla | `.godot/android-device-audit/20260819-162632Z`: 300 s, 54/54 platných vzorků, 100 % v popředí, fatal 0, APK identity `PASSED`, save 23 → 28 a zachování 21 mincí / 260 XP / 10 slotů / 2 obsazených `PASSED`; notifications 1 a alarms 13 pouze `AVAILABLE`. Všech 18 ručních polí je `PENDING`. |
 | Android `gfxinfo`, baterie a thermal RC29 | Pouze evidence — ruční posouzení čeká | 42 snímků, 9 janky (21,43 %), p95 48 ms, p99 750 ms; baterie 55 %, 40,2 °C, thermal status 0, maximum 21 °C. Tyto hodnoty nejsou výkonovým, bateriovým ani tepelným průchodem. |
+| Regresní sada — fáze 108 / RC35 | Prošla v hlavním projektu | `MVP_TESTS_PASSED=1289`; runner vyžaduje marker i exit code 0 |
+| Úplná validace fáze 108 / RC35 | Prošla v hlavním projektu | `.godot/validation/20260820-215826Z`: 1289/1289, capture, visuals a full validation `PASSED`; schválené reference, crop, masky a tolerance beze změny |
+| Dlouhé technické brány fáze 108 | Prošly v hlavním projektu | Endurance `20260820-220003Z`, progression `20260820-220029Z`, responsive `20260820-220046Z` a performance `20260820-220059Z` |
+| Regresní sada — fáze 109 | Prošla v hlavním projektu | `MVP_TESTS_PASSED=1299`; jednorázové dozrání, návratový souhrn, odznak akcí a kompaktní geometrie |
+| Úplná validace fáze 109 | Prošla v hlavním projektu | `.godot/validation/20260821-143411Z`: 1299/1299, capture, visuals a full validation `PASSED`; tři nové snímky jsou report-only a schválené vizuální kontrakty beze změny |
+| Dlouhé technické brány fáze 109 | Prošly v hlavním projektu | Progression `20260821-143705Z` 132/132, endurance `20260821-143720Z` 48/48, responsive `20260821-143741Z` 8/8 a performance `20260821-143755Z` v limitech |
+| Android artefakt RC35 po stabilizaci | Immutable kandidát zachován, alias synchronizován | RC35/code 52/schema 32: `106 191 776` B, SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`; přepisovatelný alias je bajtově shodný |
 
-Aktuální autoritativní interní stav je RC29 `0.45.0-rc29` / code 46 se zdrojovým i save schema 28. Automatická technická release a instalační brána prošla; stav `100 %` se vztahuje pouze k této automatické části. Ruční mobilní kontrola a veřejné publikování nejsou dokončené.
+Aktuální autoritativní zdrojový stav je fáze 111 se save schema 32. Poslední immutable Android kandidát je RC36 `0.50.0-rc36` / code 53 a obsahuje runtime fáze 109; fáze 110–111 mění pouze nástroje, testy, dokumentaci a zdrojovou dohledatelnost. Automatické lokální i technické telefonní brány RC36 prošly. Jediný sloučený lidský mobilní blok a veřejné publikování nejsou dokončené.
 
 Fáze 16–72 uzavřely obsahovou, save a základní mobilní technickou kostru včetně čtvrtého druhu, předpovědi a dlouhodobých technických bran. Fáze 73–75 převedly růst na návratové reálné cykly a přidaly bezpečný životní cyklus po dozrání. Fáze 76–79 zavedly rarity, obecný inventář semen, férové Botanické balíčky a čtyři explicitní profilové vlastnosti bez skrytého bonusu rarity. Fáze 80 odstranila pevné čtyřdruhové produkční routování: manifest nyní řídí profily, textury, runtime obchod, exportní payload i počet postupových cyklů. Fáze 81–86 rozšířily katalog na devět druhů. RC27 všechny tyto fáze balí do schema 22 a jeho automatická fyzická technická brána prošla na odemčeném telefonu v popředí. Publikační brána dál čeká na release keystore, AAB, store review a ruční dokončení zálohy, oznámení a hardwarového UX.
 
@@ -296,16 +303,29 @@ Navazující autoritativní sanitizovaný audit `.godot/android-device-audit/202
 - Následný technický audit stejného immutable RC29 `.godot/android-device-audit/20260820-043712Z` znovu prošel: instalovaný hash přesně odpovídal, save schema zůstalo 28 → 28 a zachovalo 23 mincí, 37 XP, počet slotů i jeden obsazený květináč. Běh trval 300 sekund, měl 54/54 platných odemčených a interaktivních vzorků, 100 % v popředí a 0 crash/ANR/Godot fatal nálezů. `gfxinfo` z 45 snímků uvádí 3 janky (6,67 %), p95 16 ms a p99 450 ms; jde o lepší krátký vzorek, nikoli ruční výkonový PASS. Baterie zůstala na 100 % a její teplota vzrostla z 29,3 °C na 31,9 °C. Thermal service hlásil maximum 10 °C, které není s bateriovým čidlem konzistentní, proto se pro rozhodnutí o teplotě nepoužívá. Čtyři package-scoped notification řádky ani nulový alarm nedokládají skutečné herní oznámení. Všech 18 ručních bodů proto správně zůstává otevřených. Auditní skript nyní místo neexistujícího souhrnného pole čte samostatně AC, USB, bezdrátové a dokové napájení; parser smoke prošel a úplná validace `.godot/validation/20260820-044727Z` skončila 1204/1204 a všemi aktivními gate `PASSED`.
 - Lokální publikační cesta nyní obsahuje oddělený Gradle preset `Android Release AAB`, explicitní minSdk 24 / targetSdk 36 a skript, který přijímá release heslo pouze proměnnou prostředí a odmítá přepsat existující balíček. Smoke `.godot/android-release-aab/20260820-062151Z` vytvořil testovací AAB o 50 745 011 B (48,39 MiB), SHA-256 `8D48D4FBF64CE7BB49C62C946444611C2A605BFBD476F9525506F95B5BB560A7`; export, JAR podpis, payload ARM64 a notification/deep-link DEX kontrola jsou `PASSED`. Jednorázový 30denní testovací klíč byl po běhu odstraněn a AAB je záměrně pouze smoke důkaz, nikoli balíček pro Play Console. Exportem generovaný install-time asset-pack payload a release manifest jsou přesně ignorované, vlastní `src/main` Android zdroje zůstávají sledované. `PUBLISHING_GATE` dál čeká na produkční upload key, finální verzování, Play App Signing a store review.
 
-## Aktuální připravený Android artefakt RC29
+## Aktuální připravený Android artefakt RC36
+
+- Soubor: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk`
+- Výchozí exportní alias: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` — bajtově shodný s RC36, ale přepisovatelný při dalším úspěšném release běhu
+- Architektura: ARM64
+- Verze: `0.50.0-rc36`, version code `53`, save schema `32`
+- Velikost: `101,27 MiB` (`106 193 804` B)
+- SHA-256 obou souborů: `9987F544E5FC692BA0F05BE183FDCDB6E426572A769FDC6D9CA01DDB44936860`
+- Podpis: standardní Godot debug certifikát, ověřené APK Signature Scheme v2
+- Účel: interní instalace a kontrola na telefonu; nejde o Google Play release balíček.
+
+Úplný lokální release audit RC36 je `.godot/release-candidate/20260821-160145Z` a platný technický fyzický záznam `.godot/android-device-audit/20260821-163933Z`. Verzovaný RC36 APK je immutable; alias je pouze ověřená aktuální kopie. Fáze 110–111 nemění runtime ani payload, takže nový Android kandidát nevzniká.
+
+## Historický Android artefakt RC29
 
 - Soubor: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.45.0-rc29-arm64-debug.apk`
-- Výchozí exportní alias: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` — bajtově shodný s RC29, ale přepisovatelný při dalším exportu
+- Stav v době RC29 auditu: výchozí exportní alias `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` byl bajtově shodný s RC29; dnes ukazuje na aktuální RC36
 - Architektura: ARM64
 - Verze: `0.45.0-rc29`, version code `46`, zdrojové i save schema `28`
 - Velikost: `105,44 MiB` (`110 561 232` B)
 - SHA-256: `E10D2F655310E98AD4ACB3F0490145592A222D4B2049225D364FF5FF7BB51EA7`
 - Podpis: standardní Godot debug certifikát, ověřené APK Signature Scheme v2
-- Účel: interní instalace a kontrola na telefonu; nejde o Google Play release balíček.
+- Účel: historická interní instalace a kontrola na telefonu; nejde o Google Play release balíček.
 
 Úplný lokální release audit je uložený v `C:\_projekty\How to grow_\.godot\release-candidate\20260819-162250Z`, první technický fyzický záznam v `.godot/android-device-audit/20260819-162632Z` a poslední opakovací běh v `.godot/android-device-audit/20260820-043712Z`. Artefakt je verzovaný a immutable; případný další build musí dostat nové jméno nebo verzi.
 
@@ -335,7 +355,7 @@ Historický release audit RC28 je `.godot/release-candidate/20260818-214533Z`, m
 
 Historický pokus RC26 `20260818-044332Z` zůstává správně vedený jako **neplatný**. RC27 běh `20260818-154709Z` už proběhl za platných podmínek: 54/54 vzorků bylo odemčených, interaktivních a v popředí, schema 22 souhlasilo a pád/ANR/Godot chyba se neobjevily. Nulový počet snímků z `gfxinfo` se u nativního Godot GL rendereru dál označuje jako `UNAVAILABLE_NATIVE_GL`, ne jako průchod nebo selhání výkonu.
 
-## Ruční brány RC29 a veřejného vydání
+## Historická ruční brána RC29
 
 1. **Technicky ověřeno:** RC29 byl nainstalován přes předchozí build bez mazání dat; sanitizované pre/post srovnání doložilo schema 23 → 28 a zachování 21 mincí, 260 XP, 10 slotů i 2 obsazených květináčů. Expected a installed SHA-256 se shodují a nevznikly zakázané úplné telefonní výpisy.
 2. Na telefonu se ověří výřez displeje, čitelnost, dotykové cíle, svislý scroll, vodorovný swipe a hierarchie systémového Zpět od modalu přes detail a vedlejší záložku až po bezpečné ukončení.
@@ -346,18 +366,81 @@ Historický pokus RC26 `20260818-044332Z` zůstává správně vedený jako **ne
 
 Dřívější ruční kontroly mobilního UX a přenos `.htgbackup` i platné technické záznamy RC27 a RC28 zůstávají historickými dílčími důkazy. RC29 má platné technické záznamy `.godot/android-device-audit/20260819-162632Z` a `.godot/android-device-audit/20260820-043712Z`; `PHYSICAL_ANDROID_TECHNICAL_GATE=PASSED`. Všech 18 polí aktuálního ručního auditu je nepotvrzených. `PHYSICAL_ANDROID_MANUAL_GATE=PENDING` zůstává otevřený pro zálohu/import, skutečné doručení a cíl oznámení včetně restartu, dotyk, safe area, hierarchii systémového Zpět, návrat z pozadí, celý cyklus, komfort animací, teplotu a baterii. Poslední krátký vzorek ponechal baterii na 100 % a zvýšil její čidlo z 29,3 °C na 31,9 °C; thermal maximum 10 °C je nekonzistentní a není podkladem k PASS. Lokální AAB pipeline je prokázaná, ale `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` dál čeká na produkční upload key, finální AAB, Play App Signing a store review.
 
+## RC34 — skleník se dvěma plodinami
+
+`0.48.0-rc34` / code 51 / save schema 31 je historický immutable interní Android kandidát. Obsahuje explicitní volbu cherry rajčete nebo sladké papriky, opravenou cestu `skleník → Sklad → ROSTLINY → stojan` a všechny dříve dokončené fáze. APK `builds/android/bazals-pocket-garden-0.48.0-rc34-arm64-debug.apk` má 101,27 MiB a SHA-256 `D31E42B303319020CDBB839B3935F1008190D410172EEAEC88BE9986C2CCAB02`.
+
+Lokální release audit `.godot/release-candidate/20260820-204608Z` prošel. Validace `.godot/validation/20260820-204609Z` dokončila 1278/1278 kontrol, capture, visuals a všechny povinné gate. Performance `.godot/performance/20260820-204728Z` naměřilo nejvyšší CPU p95 9,075 ms, frame p95 16,699 ms, nejvýše 449 draw calls a 85,63 MiB. Endurance `.godot/endurance/20260820-204811Z` prošlo 48/48 cykly, 7 roundtripy a nulovým růstem uzlů, orphanů i zdrojů. Progression `.godot/progression/20260820-204821Z` dokončil 132/132 cyklů, 27 roundtripů, úroveň 90, 11 246 mincí a 112 zakázek. Responsive `.godot/responsive/20260820-204826Z` prošel 7/7; Gradle export, podpis APK v2, entry scan, runtime payload a notification payload jsou `PASSED`.
+
+Fyzický audit `.godot/android-device-audit/20260820-204916Z` nainstaloval RC34 přes RC33 bez mazání dat, potvrdil přesnou identitu APK, migraci save schema 30 → 31 a zachování stabilních významových hodnot. Za 60 sekund prošlo 11/11 platných foreground vzorků, poměr popředí byl 100 % a fatal count 0. `PHYSICAL_ANDROID_TECHNICAL_GATE=PASSED`. Dne 20. 8. 2026 uživatel ručně potvrdil volbu, zasazení a zálivku papriky, zachování rozpracovaného záhonu i opravenou cestu `skleník → Sklad → ROSTLINY → stojan`; dotyková část RC34 je `PASSED`. Skutečné upozornění, delší bateriový běh a teplota zůstávají `PENDING`. Veřejná brána dál čeká na produkční upload key, AAB a store review.
+
+## RC35 — postup skleníku a salátová okurka
+
+`0.49.0-rc35` / code 52 / save schema 32 je historický immutable interní Android kandidát. Přidává třetí plodinu, salátovou okurku, a autoritativní postupové zámky: rajče od úrovně 1, paprika od úrovně 2 a okurka od úrovně 4. Všechny tři volby jsou dvouřádkové 64px dotykové cíle; zamčenou výsadbu odmítne UI i `GameSession` bez odečtení mincí. APK `builds/android/bazals-pocket-garden-0.49.0-rc35-arm64-debug.apk` má 106 191 776 B (101,27 MiB) a SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`.
+
+Lokální release audit `.godot/release-candidate/20260820-212051Z` prošel. Validace `.godot/validation/20260820-212051Z` dokončila 1286/1286 kontrol, capture, visuals a všechny povinné gate beze změny schválených referencí a tolerancí. Performance `.godot/performance/20260820-212215Z` naměřilo nejvyšší CPU p95 8,876 ms, frame p95 16,698 ms, nejvýše 449 draw calls a 85,71 MiB. Endurance `.godot/endurance/20260820-212259Z` prošlo 48/48 cykly, 7 roundtripy a nulovým růstem uzlů, orphanů i zdrojů. Progression `.godot/progression/20260820-212310Z` dokončil 132/132 cyklů, 27 roundtripů, úroveň 90, 11 246 mincí a 112 zakázek. Responsive `.godot/responsive/20260820-212315Z` prošel 7/7; Gradle export, podpis APK v2, entry scan, runtime payload a notification payload jsou `PASSED`.
+
+První záznam `.godot/android-device-audit/20260820-212422Z` nebyl platným runtime auditem, protože telefon spal; nesmí se vydávat za průchod. Jeho předinstalační sanitizovaný snímek ale zachytil původní schema 31, 22 mincí, 127 XP, 10 slotů a 1 obsazený květináč. Následující platný audit `.godot/android-device-audit/20260820-212656Z` ověřil přesnou identitu nainstalovaného APK, schema 32 a stejné významové hodnoty. Za 60 sekund prošlo 11/11 foreground vzorků, poměr popředí byl 100 % a fatal count 0. `PHYSICAL_ANDROID_TECHNICAL_GATE=PASSED`. Ruční čitelnost tří voleb a zámku okurky, skutečné upozornění, delší bateriový běh a teplota zůstávají `PENDING`; veřejná brána dál čeká na produkční upload key, AAB a store review.
+
+## Fáze 108 — stabilizace RC35
+
+Fáze 108 nemění runtime, gameplay, ekonomiku ani save a nevytváří nový kandidát. `tools/run_tests.ps1` nyní přijme průchod pouze při současném PASS markeru a exit code 0. Release runner bezpečně připraví a hashově ověří alias před jeho nahrazením a zaznamená jeho cestu i SHA-256. Interní Android debug preset má explicitní minSdk 24 / targetSdk 36 a tomato E2E používá viditelné `crop_buttons[0]` namísto skrytého legacy tlačítka.
+
+Automatické důkazy jsou zelené: 1289/1289 testů; validation `.godot/validation/20260820-215826Z` s full/capture/visual `PASSED`; endurance `.godot/endurance/20260820-220003Z`; progression `.godot/progression/20260820-220029Z`; responsive `.godot/responsive/20260820-220046Z`; performance `.godot/performance/20260820-220059Z`. Reference, crop, masky, tolerance a zdrojové PNG zůstaly beze změny.
+
+Read-only kontrola připojeného telefonu znovu potvrdila přesně nainstalované RC35/code 52, save schema 32, úroveň 2, 22 mincí, 127 XP a hru v popředí. Neproběhla instalace ani smazání dat. Operační systém odmítl injekci vstupu přes ADB, takže lidská L2 kontrola čitelnosti a dotyku zůstává `PENDING`, stejně jako skutečná výsadba okurky po přirozeném dosažení úrovně 4, skutečné upozornění a delší posouzení baterie/teploty. `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` dál čeká na produkční upload key, finální AAB, Play App Signing a store review.
+
+## Fáze 109 — skleníkový návrat a kompaktní mobilní rozložení
+
+Fáze 109 je runtime změna ve zdrojovém projektu. Zalité záhony při skutečném přechodu do sklizně vytvářejí jednorázovou `greenhouse_ready` událost, offline návrat ji přidá k dosavadním lifecycle událostem a návratový souhrn zobrazí přesný záhon i plodinu. Tlačítko skleníku na stojanu odvozeně ukazuje součet záhonů čekajících na zálivku nebo sklizeň. Kompaktní větev pro obsah 360×620 opravuje 26px překryv spodních záhonů se stavovým panelem a zachovává tři oddělené volby plodiny o výšce 64 px. Save schema 32, ekonomika, odměny, katalog i úrovňové zámky se nemění.
+
+Automatické důkazy v hlavním projektu jsou zelené: validation `.godot/validation/20260821-143411Z` s `MVP_TESTS_PASSED=1299` a capture/visuals/full `PASSED`; progression `.godot/progression/20260821-143705Z` 132/132 a 27 roundtripů; endurance `.godot/endurance/20260821-143720Z` 48/48, 7 roundtripů a růst uzlů/orphanů/zdrojů 0/0/0; responsive `.godot/responsive/20260821-143741Z` 8/8 včetně přesného 360×800; performance `.godot/performance/20260821-143755Z` s CPU p95 max. 9,429 ms, frame p95 max. 16,699 ms, 449 draw calls a 85,73 MiB. Tři nové snímky jsou report-only; schválené reference, manifest, crop, masky a tolerance zůstaly beze změny.
+
+Při dokončení samotné fáze 109 nevznikl APK/AAB a immutable RC35 ani jeho tehdejší alias se nezměnily. Navazující RC36 popsané níže tuto distribuci provedlo bez přepsání RC35. `PHYSICAL_ANDROID_MANUAL_GATE=PENDING` dál zahrnuje zbývající lidské a systémové body; `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` se nemění.
+
+## RC36 — fáze 109 na fyzickém Androidu
+
+`0.50.0-rc36` / code 53 / save schema 32 je aktuální immutable interní Android kandidát. Release `.godot/release-candidate/20260821-160145Z` prošel validací, performance, endurance, progression, responsive maticí 8/8, Android exportem, podpisem, payloadem i notification payloadem. Verzovaný APK `builds/android/bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk` má 106 193 804 B a SHA-256 `9987F544E5FC692BA0F05BE183FDCDB6E426572A769FDC6D9CA01DDB44936860`; přepisovatelný alias byl v době release bajtově shodný. RC35 zůstalo 106 191 776 B se svým původním SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`.
+
+Platný pětiminutový audit `.godot/android-device-audit/20260821-163933Z` nainstaloval RC36 přes RC35 bez mazání dat. Očekávaný a nainstalovaný hash se shodují, save zůstal schema 32 → 32 a stabilní mince, XP, počet slotů i obsazených květináčů byly zachované. Audit získal 54/54 odemčených a interaktivních vzorků, hra byla ve 100 % vzorků v popředí a fatal count byl 0; `PHYSICAL_ANDROID_TECHNICAL_GATE=PASSED`. Krátké `gfxinfo` mělo 45 snímků, p95 12 ms a 2 janky snímky; konečná baterie byla 100 % při USB napájení a 32,3 °C. Jde o technický podklad, ne automatický lidský výkonový nebo tepelný PASS.
+
+Čtyři fyzické snímky a provedená sklizeň částečně uzavřely UX fáze 109: návratový modal i skleník byly bez překryvu, tři volby a zámek okurky byly čitelné, sklizeň změnila 22 → 46 mincí a 27 → 35 XP a návrat na stojan ukázal přesně `3 AKCE`. Tlačítko konkrétní plodiny nebylo v tomto průchodu stisknuto a zralé záhony mohly existovat už před offline intervalem, takže přirozené nové dozrání s návratovým skleníkovým řádkem se nesmí vydávat za fyzicky potvrzené. Záloha/import, nový/obnovený save, systémové Zpět, skutečné oznámení včetně rebootu a lidské posouzení delší spotřeby/teploty zůstávají v jediném `PENDING_SINGLE_HUMAN_BATCH`.
+
+## Fáze 110 — autonomní pracovní a release workflow
+
+Fáze 110 přidává `tools/run_project_automation.ps1` jako jediný doporučený vstup pro technickou práci. `Quick` deleguje autoritativní regresi, výchozí `Full` skládá validaci, performance, endurance, progression a responsive matici, `Release` deleguje existujícímu immutable release runneru a `ReleaseDevice` k právě vytvořenému verzovanému APK přidá nedestruktivní instalaci a technický audit telefonu.
+
+Orchestrace nepřebírá logiku dílčích bran. Každý podproces musí současně skončit exit kódem 0, emitovat povinné PASS markery a neobsahovat parserovou ani testovou chybu. Běh vždy zapisuje `automation-report.json`, `automation-report.md`, snapshot dirty pracovního stromu a oddělené logy pod `.godot/automation/<UTC timestamp>/`. Release režimy odmítnou existující immutable cestu před dlouhou prací, nikdy neinstalují obecný alias a telefonní režim nikdy nepoužívá `-ClearAppData`.
+
+Automatizace nesmí vydávat subjektivní nebo systémové pozorování za technický PASS. Čitelnost a pocit z dotyku na konkrétním hardwaru, Android document picker a destruktivní restore scénáře, skutečné doručení/deep link/reboot oznámení a lidské posouzení výdrže či teploty zůstávají `PENDING_SINGLE_HUMAN_BATCH`. Mají být vyžádány jednou na konci, nikoli jako série potvrzení mezi automatickými kroky.
+
+Fáze 110 mění pouze nástroje, testy a dokumentaci. Runtime, ekonomika, save schema 32 i exportovaný payload zůstávají beze změny; immutable RC36 `0.50.0-rc36` / code 53 se nesmí znovu sestavit ani přepsat.
+
+První skutečný `Quick` běh `.godot/automation/20260821-175834Z` prošel s `MVP_TESTS_PASSED=1308`. Výchozí `Full` běh `.godot/automation/20260821-175920Z` prošel všech pět kroků a skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`. Přesná validation `.godot/validation/20260821-175920Z` má capture/visuals/full `PASSED`; performance `.godot/performance/20260821-180048Z` naměřilo CPU p95 max. 9,334 ms, frame p95 max. 16,695 ms, 449 draw calls a 85,73 MiB; endurance `.godot/endurance/20260821-180132Z` dokončilo 48/48 cyklů s konečným růstem 0 uzlů, 0 orphanů a 0 zdrojů; progression `.godot/progression/20260821-180142Z` dokončilo 132/132 cyklů a 27 roundtripů; responsive `.godot/responsive/20260821-180148Z` prošlo 8/8 případů včetně `phase109_greenhouse_360x800`. Schválené reference ani jejich tolerance nebyly změněny kvůli průchodu.
+
+## Fáze 111 — zdrojový baseline RC36
+
+Fáze 111 ukládá ověřený stav fází 103–110 jako jediný zdrojový commit a anotovaný tag `v0.50.0-rc36`. Před snapshotem byly zkontrolovány všechny sledované i nesledované změny, textová povaha souborů, diff whitespace, exportní identita a absence vloženého keystoru, hesla nebo generovaných APK/AAB. `.godot`, `.tooling`, `builds` a lokální tajemství zůstávají mimo Git.
+
+Snapshot nemění runtime, ekonomiku, save schema 32, export preset ani existující APK. Autoritativní RC36 proto zůstává nedotčené a fáze 111 pouze přidává reprodukovatelný zdrojový bod pro další vývoj. Přesné validační artefakty jsou uvedené v `docs/PHASE111_SOURCE_BASELINE.md`; lidský mobilní blok zůstává `PENDING_SINGLE_HUMAN_BATCH` a veřejná distribuce `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW`.
+
 ## Reprodukce technických bran
 
 ```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_project_automation.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_project_automation.ps1 -Mode Quick
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_project_automation.ps1 -Mode Release
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_project_automation.ps1 -Mode ReleaseDevice -DeviceSampleSeconds 300
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_tests.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .agents\skills\how-to-grow-validation\scripts\run_validation.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_performance_smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_endurance_smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_progression_smoke.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_responsive_layout_smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1 -ToolRoot 'C:\_projekty\How to grow_\.tooling' -ApkPath 'C:\temp\Bazal build\candidate.apk'
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android_release_aab.ps1 -KeystorePath 'D:\private\bazal-upload.jks' -KeyAlias 'bazal-upload'
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.45.0-rc29-arm64-debug.apk' -SampleSeconds 300
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk' -SampleSeconds 300
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_release_candidate.ps1
 ```
 

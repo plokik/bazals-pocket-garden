@@ -117,6 +117,14 @@ func _run_all() -> void:
 	_test_phase72_forecast_daily_challenges()
 	_test_phase101_wilted_rescue_daily_challenge()
 	_test_phase102_common_thyme()
+	_test_phase103_home_locations()
+	_test_phase104_room_decorations()
+	_test_phase105_functional_greenhouse()
+	_test_phase106_greenhouse_crop_choice()
+	_test_phase107_greenhouse_progression()
+	_test_phase108_rc35_stabilization()
+	_test_phase109_greenhouse_lifecycle_feedback()
+	_test_phase110_project_automation()
 	_test_phase41_level_progression()
 	_test_phase42_care_center()
 	_test_phase43_care_plan()
@@ -1411,7 +1419,7 @@ func _test_phase77_generic_seed_inventory() -> void:
 	var catalog := _load_plant_catalog()
 	var session := GameSession.new(catalog)
 	var initial_inventory := session.get_seed_inventory_snapshot()
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.SEED_INVENTORY_SCHEMA == 21 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and initial_inventory == {
+	_check(GameSession.SAVE_SCHEMA == 32 and GameSession.SEED_INVENTORY_SCHEMA == 21 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and initial_inventory == {
 		"basil_genovese": 1,
 		"mint_peppermint": 1,
 		"oregano_vulgare": 0,
@@ -1423,7 +1431,7 @@ func _test_phase77_generic_seed_inventory() -> void:
 		"melissa_officinalis": 0,
 		"salvia_officinalis": 0,
 		"thymus_vulgaris": 0,
-	}, "Fáze 102 zachová jedenáctidruhový katalogový inventář semen a aktuální save navazuje schema 28")
+	}, "Fáze 102 zachová jedenáctidruhový katalogový inventář semen a aktuální save navazuje schema 32")
 	_check(session.get_total_seed_count() == 2 and int((catalog.basil_genovese as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.mint_peppermint as Dictionary).get("starter_seed_count", -1)) == 1 and int((catalog.oregano_vulgare as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.rosemary_officinalis as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LAVENDER_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(CHIVES_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(MARJORAM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(PARSLEY_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(LEMON_BALM_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(SAGE_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0 and int((catalog.get(THYME_ID, {}) as Dictionary).get("starter_seed_count", -1)) == 0, "Startovní zásoby jsou datové a součet iteruje celý jedenáctidruhový katalog")
 	var current_save := session.to_dict()
 	_check(int(current_save.get("schema", 0)) == GameSession.SAVE_SCHEMA and current_save.get("seed_inventory", {}) == initial_inventory and not current_save.has("seeds") and not current_save.has("mint_seeds") and not current_save.has("rosemary_seeds") and not current_save.has("oregano_seeds"), "Aktuální schema dál ukládá jediný seed_inventory a nevytváří druhý zdroj pravdy ve starých klíčích")
@@ -1546,7 +1554,7 @@ func _test_phase78_botanical_packs() -> void:
 	var odds_total := 0.0
 	for raw_chance in initial_odds.values():
 		odds_total += float(raw_chance)
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and GameSession.BOTANICAL_PACK_SEED_COUNT == 1 and GameSession.MAX_PENDING_BOTANICAL_PACKS == 32, "Aktuální schema 28 navazuje na botanické balíčky ze schema 22, jeden výsledek na balíček a pevně omezenou frontu")
+	_check(GameSession.SAVE_SCHEMA == 32 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and GameSession.BOTANICAL_PACK_SEED_COUNT == 1 and GameSession.MAX_PENDING_BOTANICAL_PACKS == 32, "Aktuální schema 32 navazuje na botanické balíčky ze schema 22, jeden výsledek na balíček a pevně omezenou frontu")
 	_check(int(initial_state.get("count", -1)) == 0 and int(initial_state.get("capacity", -1)) == GameSession.MAX_PENDING_BOTANICAL_PACKS and (initial_state.get("pending", []) as Array).is_empty() and not bool(initial_state.get("queue_full", true)), "Nová hra začíná bez skrytě přidělených balíčků a veřejný stav pravdivě vrací prázdnou frontu")
 	_check(absf(float(initial_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(initial_odds.get("legendary", -1.0))) and is_zero_approx(float(initial_odds.get("special", -1.0))) and absf(odds_total - 100.0) < 0.001, "Bez Legendary profilu se aktivní váhy 55/30/10 normalizují na Common/Rare/Epic/Legendary/Special 57,894737/31,578947/10,526316/0/0 a dávají 100 %")
 	_check(int(initial_state.get("pity", -1)) == 0 and int(initial_state.get("pity_threshold", -1)) == 4 and int(initial_state.get("duplicates_until_guaranteed_new", -1)) == 4 and not bool(initial_state.get("next_grant_guaranteed_new", true)) and int(initial_state.get("eligible_species_count", -1)) == 11 and int(initial_state.get("ungranted_new_species_count", -1)) == 9, "Veřejný stav ukazuje hranici čtyř duplicit i devět dosud neobjevených druhů bez odhalení zapečetěného výsledku")
@@ -1602,7 +1610,7 @@ func _test_phase78_botanical_packs() -> void:
 	var sealed_save := session.to_dict()
 	var sealed_restored := GameSession.new(catalog)
 	sealed_restored.from_dict(sealed_save)
-	_check(int(sealed_save.get("schema", 0)) == 28 and sealed_restored.pending_botanical_packs == session.pending_botanical_packs and sealed_restored.next_botanical_pack_id == session.next_botanical_pack_id and sealed_restored.botanical_pack_rng_state == session.botanical_pack_rng_state and sealed_restored.botanical_pack_pity == session.botanical_pack_pity, "Aktuální schema 28 zachová zapečetěný výsledek, další ID, RNG i pity beze změny")
+	_check(int(sealed_save.get("schema", 0)) == 32 and sealed_restored.pending_botanical_packs == session.pending_botanical_packs and sealed_restored.next_botanical_pack_id == session.next_botanical_pack_id and sealed_restored.botanical_pack_rng_state == session.botanical_pack_rng_state and sealed_restored.botanical_pack_pity == session.botanical_pack_pity, "Aktuální schema 32 zachová zapečetěný výsledek, další ID, RNG i pity beze změny")
 	var next_original := session._grant_botanical_pack("test_grant", "after_save", false)
 	var next_restored := sealed_restored._grant_botanical_pack("test_grant", "after_save", false)
 	_check(next_original == next_restored and not next_original.is_empty(), "Další přidělení po round-trip pokračuje deterministicky a načtení nemůže změnit budoucí výsledek")
@@ -1691,7 +1699,7 @@ func _test_phase78_botanical_packs() -> void:
 	_check(legacy_completed_a.get_botanical_pack_count() == 1 and legacy_completed_a.pending_botanical_packs == legacy_completed_b.pending_botanical_packs and int(legacy_completed_a.pending_botanical_packs[0].get("pack_id", 0)) == 1 and str(legacy_completed_a.pending_botanical_packs[0].get("source_id", "")) == "legacy_journey", "Schema 21 ignoruje podvržený částečný pack stav a dokončené historické cestě přidá právě jeden deterministický welcome balíček")
 	var legacy_roundtrip := GameSession.new(catalog)
 	legacy_roundtrip.from_dict(legacy_completed_a.to_dict())
-	_check(legacy_roundtrip.get_botanical_pack_count() == 1 and legacy_roundtrip.pending_botanical_packs == legacy_completed_a.pending_botanical_packs, "Welcome balíček se po prvním převodu uloží v aktuálním schema 28 a při dalším načtení se už neduplikuje")
+	_check(legacy_roundtrip.get_botanical_pack_count() == 1 and legacy_roundtrip.pending_botanical_packs == legacy_completed_a.pending_botanical_packs, "Welcome balíček se po prvním převodu uloží v aktuálním schema 32 a při dalším načtení se už neduplikuje")
 	var legacy_incomplete_data := legacy_base.duplicate(true)
 	legacy_incomplete_data["journey_step"] = int(GameSession.JourneyStep.PLANT_SEED)
 	legacy_incomplete_data["journey_completed"] = false
@@ -1995,7 +2003,7 @@ func _test_phase79_botanical_behaviors() -> void:
 	var serialized_behavior_key := false
 	for raw_key in restored_slot.keys():
 		serialized_behavior_key = serialized_behavior_key or str(raw_key).begins_with("behavior")
-	_check(int(restored_save.get("schema", 0)) == 28 and restored_behavior_save.plant.get_behavior_ids() == ["resilient_leaves"] and not serialized_behavior_key, "Schema 28 round-trip odvozuje chování jen z autoritativního profilu, ignoruje vložený runtime stav a žádné behavior klíče neukládá")
+	_check(int(restored_save.get("schema", 0)) == 32 and restored_behavior_save.plant.get_behavior_ids() == ["resilient_leaves"] and not serialized_behavior_key, "Schema 32 round-trip odvozuje chování jen z autoritativního profilu, ignoruje vložený runtime stav a žádné behavior klíče neukládá")
 
 	var no_behavior_catalog := catalog.duplicate(true)
 	for raw_species_id in no_behavior_catalog:
@@ -2234,7 +2242,7 @@ func _test_phase80_scalable_catalog() -> void:
 	var expanded_save := expanded.to_dict()
 	var expanded_restored := GameSession.new(expanded_catalog)
 	expanded_restored.from_dict(expanded_save)
-	_check(int(expanded_save.get("schema", 0)) == 28 and expanded_restored.get_seed_count("phase80_epic") == 1 and expanded_restored.is_species_discovered("phase80_epic") and expanded_restored.get_available_species().size() == 12, "Syntetický dvanáctý datový druh používá aktuální schema 28 a jeho inventář i objevení přežijí round-trip")
+	_check(int(expanded_save.get("schema", 0)) == 32 and expanded_restored.get_seed_count("phase80_epic") == 1 and expanded_restored.is_species_discovered("phase80_epic") and expanded_restored.get_available_species().size() == 12, "Syntetický dvanáctý datový druh používá aktuální schema 32 a jeho inventář i objevení přežijí round-trip")
 	var expanded_odds: Dictionary = expanded.get_botanical_pack_odds()
 	_check(absf(float(expanded_odds.get("common", 0.0)) - PACK_COMMON_NO_LEGENDARY) < 0.0001 and absf(float(expanded_odds.get("rare", 0.0)) - PACK_RARE_NO_LEGENDARY) < 0.0001 and absf(float(expanded_odds.get("epic", 0.0)) - PACK_EPIC_NO_LEGENDARY) < 0.0001 and is_zero_approx(float(expanded_odds.get("legendary", -1.0))), "Přidání způsobilého Epic profilu bez Legendary rarity zachová normalizované veřejné šance 57,894737/31,578947/10,526316/0")
 
@@ -2391,7 +2399,7 @@ func _test_phase81_epic_lavender() -> void:
 	var serialized_trait_state := false
 	for raw_key in restored_slot:
 		serialized_trait_state = serialized_trait_state or str(raw_key).begins_with("behavior")
-	_check(int(roundtrip.get("schema", 0)) == 28 and restored.plant.get_species_id() == LAVENDER_ID and restored.plant.get_behavior_ids() == ["fragrant_bloom"] and not serialized_trait_state, "Schema 28 odvodí fragrant_bloom jen z profilu a round-trip neukládá žádný runtime trait stav")
+	_check(int(roundtrip.get("schema", 0)) == 32 and restored.plant.get_species_id() == LAVENDER_ID and restored.plant.get_behavior_ids() == ["fragrant_bloom"] and not serialized_trait_state, "Schema 32 odvodí fragrant_bloom jen z profilu a round-trip neukládá žádný runtime trait stav")
 
 	var order_template: Dictionary = {}
 	for raw_template in GameSession.ORDER_TEMPLATES:
@@ -2560,7 +2568,7 @@ func _test_phase82_behavior_feedback() -> void:
 	var qualified_restored := GameSession.new(catalog)
 	qualified_restored.from_dict(qualified_save)
 	var serialized_feedback_state := "plant_behavior" in JSON.stringify(qualified_save) or "behavior_feedback" in JSON.stringify(qualified_save)
-	_check(int(qualified_save.get("schema", 0)) == 28 and qualified_restored.plant.get_species_id() == "mint_peppermint" and not serialized_feedback_state, "Fáze 82 zůstává bezstavová i v schema 28 a jednorázový vizuální feedback nevytváří žádný nový uložený stav")
+	_check(int(qualified_save.get("schema", 0)) == 32 and qualified_restored.plant.get_species_id() == "mint_peppermint" and not serialized_feedback_state, "Fáze 82 zůstává bezstavová i v schema 32 a jednorázový vizuální feedback nevytváří žádný nový uložený stav")
 
 	var behavior_panel := PanelContainer.new()
 	var behavior_title := Label.new()
@@ -2810,7 +2818,7 @@ func _test_phase83_chives() -> void:
 	var serialized_behavior_key := false
 	for raw_key in saved_chives_slot:
 		serialized_behavior_key = serialized_behavior_key or str(raw_key).begins_with("behavior")
-	_check(migrated_clean and GameSession.SAVE_SCHEMA == 28 and chives_roundtrip.get_seed_count(CHIVES_ID) == 1 and chives_roundtrip.is_species_discovered(CHIVES_ID) and not serialized_behavior_key, "Schema 28 bezpečně doplní chybějící pažitku na nulu, zachová její inventář i objev a neukládá bezstavové chování")
+	_check(migrated_clean and GameSession.SAVE_SCHEMA == 32 and chives_roundtrip.get_seed_count(CHIVES_ID) == 1 and chives_roundtrip.is_species_discovered(CHIVES_ID) and not serialized_behavior_key, "Schema 32 bezpečně doplní chybějící pažitku na nulu, zachová její inventář i objev a neukládá bezstavové chování")
 
 	var pack_odds: Dictionary = session.get_botanical_pack_odds()
 	var preferred_new := GameSession.new(catalog)
@@ -3038,7 +3046,7 @@ func _test_phase84_marjoram() -> void:
 	var serialized_behavior_key := false
 	for raw_key in restored_slot:
 		serialized_behavior_key = serialized_behavior_key or str(raw_key).begins_with("behavior")
-	_check(migrated_clean and GameSession.SAVE_SCHEMA == 28 and restored.get_seed_count(MARJORAM_ID) == 1 and restored.is_species_discovered(MARJORAM_ID) and not serialized_behavior_key, "Schema 28 bezpečně doplní chybějící majoránku na nulu, zachová její inventář i objev a neukládá bezstavové chování")
+	_check(migrated_clean and GameSession.SAVE_SCHEMA == 32 and restored.get_seed_count(MARJORAM_ID) == 1 and restored.is_species_discovered(MARJORAM_ID) and not serialized_behavior_key, "Schema 32 bezpečně doplní chybějící majoránku na nulu, zachová její inventář i objev a neukládá bezstavové chování")
 
 	var pack_odds: Dictionary = session.get_botanical_pack_odds()
 	var pity := GameSession.new(catalog)
@@ -3293,7 +3301,7 @@ func _test_phase85_parsley() -> void:
 	var serialized_behavior_key := false
 	for raw_key in restored_slot:
 		serialized_behavior_key = serialized_behavior_key or str(raw_key).begins_with("behavior")
-	_check(migrated_clean and GameSession.SAVE_SCHEMA == 28 and restored.get_seed_count(PARSLEY_ID) == 1 and restored.is_species_discovered(PARSLEY_ID) and not serialized_behavior_key, "Schema 28 bezpečně doplní chybějící petržel na nulu, zachová její inventář i objev a neukládá bezstavové chování")
+	_check(migrated_clean and GameSession.SAVE_SCHEMA == 32 and restored.get_seed_count(PARSLEY_ID) == 1 and restored.is_species_discovered(PARSLEY_ID) and not serialized_behavior_key, "Schema 32 bezpečně doplní chybějící petržel na nulu, zachová její inventář i objev a neukládá bezstavové chování")
 
 	var pack_odds: Dictionary = session.get_botanical_pack_odds()
 	var pity := GameSession.new(catalog)
@@ -3533,7 +3541,7 @@ func _test_phase86_lemon_balm() -> void:
 	restored.from_dict(migrated_save)
 	var restored_again := GameSession.new(catalog)
 	restored_again.from_dict(restored.to_dict())
-	_check(migrated_clean and GameSession.SAVE_SCHEMA == 28 and restored.get_seed_count(LEMON_BALM_ID) == 1 and restored.is_species_discovered(LEMON_BALM_ID) and restored_again.get_shop_stock(lemon_balm_item) == backfilled_stock and not JSON.stringify(migrated_save).contains("self_seeding"), "Schema 28 bezpečně doplní chybějící meduňku i sklad, zachová její inventář a neukládá bezstavové chování")
+	_check(migrated_clean and GameSession.SAVE_SCHEMA == 32 and restored.get_seed_count(LEMON_BALM_ID) == 1 and restored.is_species_discovered(LEMON_BALM_ID) and restored_again.get_shop_stock(lemon_balm_item) == backfilled_stock and not JSON.stringify(migrated_save).contains("self_seeding"), "Schema 32 bezpečně doplní chybějící meduňku i sklad, zachová její inventář a neukládá bezstavové chování")
 
 	var pity := GameSession.new(catalog)
 	for species_id in pity.get_available_species():
@@ -3803,8 +3811,12 @@ func _test_phase91_technical_hardening() -> void:
 	var validation_index := release_source.find("run_validation.ps1")
 	var export_index := release_source.find("tools\\export_android.ps1")
 	var immutable_move_index := release_source.find("Move-Item -LiteralPath $temporaryApkPath -Destination $versionedApkPath")
-	_check("requiredScriptPayloadEntries" in export_source and "APK contains orphan script payload entry" in export_source and "APK contains raw script text resources" in export_source and "both .gdc and .gd.remap" in export_source and "[string]$ToolRoot = ''" in export_source and "GetFullPath($ToolRoot)" in export_source and "$quotedApkArgument" in export_source and "'--export-debug', 'Android', $quotedApkArgument" in export_source, "Fáze 91 Android export bezpečně přijme oddělený nástrojový runtime i cílovou cestu s mezerou, vyžaduje přesnou dvojici každého současného skriptu a odmítne raw i osiřelý retired payload")
-	_check(immutable_guard_index >= 0 and immutable_guard_index < validation_index and immutable_guard_index < export_index and immutable_move_index > export_index and "-ApkPath $temporaryApkPath" in release_source and ".pending.apk" in release_source and "remains untouched" in release_source and not "-ApkPath $versionedApkPath" in release_source and not "bazals-pocket-garden-debug.apk'" in release_source, "Fáze 91 immutable RC kolizi odmítne před validací a nový APK instaluje do finální cesty až po úplném auditu dočasného artefaktu")
+	var immutable_hash_index := release_source.find("$installedApkHash =")
+	var alias_copy_index := release_source.find("Copy-Item -LiteralPath $temporaryApkPath -Destination $defaultApkPendingPath")
+	var alias_move_index := release_source.find("Move-Item -LiteralPath $defaultApkPendingPath -Destination $defaultApkPath -Force")
+	var alias_hash_index := release_source.find("$defaultApkHash =")
+	_check("requiredScriptPayloadEntries" in export_source and "APK contains orphan script payload entry" in export_source and "APK contains raw script text resources" in export_source and "both .gdc and .gd.remap" in export_source and "[string]$ToolRoot = ''" in export_source and "GetFullPath($ToolRoot)" in export_source and "$quotedApkArgument" in export_source and "[string]$PresetName = 'Android'" in export_source and "$quotedPresetArgument" in export_source and "'--export-debug', $quotedPresetArgument, $quotedApkArgument" in export_source, "Fáze 91 Android export bezpečně přijme oddělený nástrojový runtime, bezpečný volitelný profil i cílovou cestu s mezerou, vyžaduje přesnou dvojici každého současného skriptu a odmítne raw i osiřelý retired payload")
+	_check(immutable_guard_index >= 0 and immutable_guard_index < validation_index and immutable_guard_index < export_index and alias_copy_index > export_index and alias_copy_index < immutable_move_index and immutable_move_index > export_index and immutable_hash_index > immutable_move_index and alias_move_index > immutable_hash_index and alias_hash_index > alias_move_index and "-ApkPath $temporaryApkPath" in release_source and ".pending.apk" in release_source and "remains untouched" in release_source and not "-ApkPath $versionedApkPath" in release_source and not "-ApkPath $defaultApkPath" in release_source, "Fáze 108 immutable RC kolizi odmítne před validací, před finálním přesunem ověří zapisovatelný alias a po auditu synchronizuje jeho hash s immutable kandidátem")
 	_check("Do not run Godot 4.7 as `--check-only --script`" in skill_source and "relative staged subdirectory" in skill_source and "`--path` and `--log-file`" in skill_source and "complete project mirror" in skill_source and "Do not retry the same standalone command in parallel" in skill_source, "Fáze 91 validační postup zakazuje nestabilní samostatný parser i relativní pracovní cestu/log a používá úplné projektové zrcadlo bez opakovaných pádových oken")
 
 
@@ -3980,7 +3992,7 @@ func _test_phase93_professor_story() -> void:
 	var catalog := _load_plant_catalog()
 	var eligible_species: Array[String] = GameSession.new(catalog).get_available_species()
 	var chapter_id := "lost_herbarium_pages"
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.PROFESSOR_STORY_SCHEMA == 23 and GameSession.PROFESSOR_STORY_CHAPTER_TWO_SCHEMA == 24 and GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA == 26 and GameSession.BOTANICAL_PACK_SCHEMA == 22, "Fáze 99 drží save schema 28, explicitní hranice kapitol 23/24/26 a zapečetěné balíčky schema 22")
+	_check(GameSession.SAVE_SCHEMA == 32 and GameSession.PROFESSOR_STORY_SCHEMA == 23 and GameSession.PROFESSOR_STORY_CHAPTER_TWO_SCHEMA == 24 and GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA == 26 and GameSession.BOTANICAL_PACK_SCHEMA == 22, "Aktuální save schema 32 drží explicitní hranice kapitol 23/24/26 a zapečetěné balíčky schema 22")
 
 	var legacy_data := GameSession.new(catalog).to_dict()
 	legacy_data["schema"] = 22
@@ -4007,7 +4019,7 @@ func _test_phase93_professor_story() -> void:
 	_check(not bool(migrated_chapter.get("patient_return_completed", true)) and (migrated_chapter.get("quality_species", []) as Array).is_empty() and not bool(migrated_chapter.get("specific_order_completed", true)) and (migrated_chapter.get("daily_claim_days", []) as Array).is_empty() and _phase93_goal_currents(migrated_state) == [0, 0, 0, 2, 0], "Migrace 22→23 nuluje všechny nové akční čítače, ale objev 2/5 odvodí pravdivě ze stávajícího herbáře")
 	var migrated_roundtrip := GameSession.new(catalog)
 	migrated_roundtrip.from_dict(migrated.to_dict())
-	_check(int(migrated.to_dict().get("schema", 0)) == 28 and str(migrated_roundtrip.get_professor_story_state().get("status", "")) == "active" and bool(migrated_roundtrip.get_professor_story_state().get("unread", false)), "Aktivní nečtená kapitola z migrace 22 přežije první schema 28 round-trip bez falešného postupu")
+	_check(int(migrated.to_dict().get("schema", 0)) == 32 and str(migrated_roundtrip.get_professor_story_state().get("status", "")) == "active" and bool(migrated_roundtrip.get_professor_story_state().get("unread", false)), "Aktivní nečtená kapitola z migrace 22 přežije první schema 32 round-trip bez falešného postupu")
 
 	var incomplete_data := legacy_data.duplicate(true)
 	incomplete_data["journey_step"] = int(GameSession.JourneyStep.PLANT_SEED)
@@ -4091,7 +4103,7 @@ func _test_phase93_professor_story() -> void:
 	var ready_data := ready.to_dict()
 	var ready_restored := GameSession.new(catalog)
 	ready_restored.from_dict(ready_data)
-	_check(str(ready_state.get("status", "")) == "ready" and bool(ready_state.get("can_claim", false)) and bool(ready_state.get("attention_required", false)) and _phase93_goal_currents(ready_state) == [1, 2, 1, 5, 2] and str(ready_restored.get_professor_story_state().get("status", "")) == "ready", "Všech pět cílů vytvoří připravenou kapitolu [1,2,1,5,2], která zůstane ready i po schema 28 round-trip")
+	_check(str(ready_state.get("status", "")) == "ready" and bool(ready_state.get("can_claim", false)) and bool(ready_state.get("attention_required", false)) and _phase93_goal_currents(ready_state) == [1, 2, 1, 5, 2] and str(ready_restored.get_professor_story_state().get("status", "")) == "ready", "Všech pět cílů vytvoří připravenou kapitolu [1,2,1,5,2], která zůstane ready i po schema 32 round-trip")
 	ready.mark_professor_story_seen()
 	_check(bool(ready.get_professor_story_state().get("attention_required", false)), "Připravená odměna drží vykřičník i po přečtení až do skutečného claimu")
 
@@ -4130,7 +4142,7 @@ func _test_phase93_professor_story() -> void:
 	var claimed_restored := GameSession.new(catalog)
 	claimed_restored.from_dict(deterministic_a.to_dict())
 	var claimed_state := claimed_restored.get_professor_story_state()
-	_check(str(claimed_state.get("status", "")) == "active" and not bool(claimed_state.get("claimed", true)) and bool(claimed_state.get("unread", false)) and claimed_restored.get_active_story_chapter_id() == "silver_sage_legacy" and claimed_restored.get_professor_seal_count() == 1, "Po claimu první kapitoly schema 28 round-trip kanonicky otevře nepřečtenou druhou kapitolu a zachová první Profesorovu pečeť")
+	_check(str(claimed_state.get("status", "")) == "active" and not bool(claimed_state.get("claimed", true)) and bool(claimed_state.get("unread", false)) and claimed_restored.get_active_story_chapter_id() == "silver_sage_legacy" and claimed_restored.get_professor_seal_count() == 1, "Po claimu první kapitoly schema 32 round-trip kanonicky otevře nepřečtenou druhou kapitolu a zachová první Profesorovu pečeť")
 
 	var fallback := _phase93_ready_session(catalog)
 	var fallback_eligible: Array[String] = fallback._get_botanical_pack_eligible_species_ids()
@@ -4324,7 +4336,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 	var sage_herbarium: Texture2D = presentation.species_herbarium_texture(SAGE_ID)
 	_check(sage_assets_exact and sage_preview != null and sage_preview.resource_path == str(expected_sage_paths.sprout) and sage_herbarium != null and sage_herbarium.resource_path == str(expected_sage_paths.mature), "Všech šest šalvějových stavů, náhled i herbář používají vlastní přesné assety")
 
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.PROFESSOR_STORY_SCHEMA == 23 and GameSession.PROFESSOR_STORY_CHAPTER_TWO_SCHEMA == 24 and GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA == 26 and story_scene.CHAPTER_ONE_SCHEMA == 23 and story_scene.CHAPTER_TWO_SCHEMA == 24 and story_scene.CHAPTER_THREE_SCHEMA == 26, "Save 28 výslovně odděluje důvěryhodné hranice tří kapitol schema 23/24/26")
+	_check(GameSession.SAVE_SCHEMA == 32 and GameSession.PROFESSOR_STORY_SCHEMA == 23 and GameSession.PROFESSOR_STORY_CHAPTER_TWO_SCHEMA == 24 and GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA == 26 and story_scene.CHAPTER_ONE_SCHEMA == 23 and story_scene.CHAPTER_TWO_SCHEMA == 24 and story_scene.CHAPTER_THREE_SCHEMA == 26, "Save 32 výslovně odděluje důvěryhodné hranice tří kapitol schema 23/24/26")
 	var schema22_data := GameSession.new(catalog).to_dict()
 	schema22_data["schema"] = 22
 	schema22_data["journey_step"] = int(GameSession.JourneyStep.COMPLETE)
@@ -4485,7 +4497,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 	var reward_roundtrip := GameSession.new(catalog)
 	reward_roundtrip.from_dict(reward_session.to_dict())
 	var roundtrip_state := reward_roundtrip.get_professor_story_state()
-	_check(int(reward_roundtrip.to_dict().get("schema", 0)) == 28 and reward_roundtrip.get_seed_count(SAGE_ID) == reward_session.get_seed_count(SAGE_ID) and reward_roundtrip.get_professor_seal_count() == 2 and str(roundtrip_state.get("chapter_id", "")) == "grand_herbarium_exhibition" and str(roundtrip_state.get("status", "")) == "active" and bool(roundtrip_state.get("unread", false)), "Schema 28 round-trip zachová šalvějová semínka, obě pečeti a čistou nepřečtenou třetí kapitolu")
+	_check(int(reward_roundtrip.to_dict().get("schema", 0)) == 32 and reward_roundtrip.get_seed_count(SAGE_ID) == reward_session.get_seed_count(SAGE_ID) and reward_roundtrip.get_professor_seal_count() == 2 and str(roundtrip_state.get("chapter_id", "")) == "grand_herbarium_exhibition" and str(roundtrip_state.get("status", "")) == "active" and bool(roundtrip_state.get("unread", false)), "Schema 32 round-trip zachová šalvějová semínka, obě pečeti a čistou nepřečtenou třetí kapitolu")
 
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
 	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "const CYCLES_PER_SPECIES := 12" in progression_source and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source, "Dynamická progression brána nyní odvodí 132/132 cyklů a přesně 27 save/load round-tripů")
@@ -4561,7 +4573,7 @@ func _test_phase96_blended_orders() -> void:
 			blend_templates[str(template.get("blend_id", ""))] = template.duplicate(true)
 		else:
 			single_template_count += 1
-	_check(GameSession.SAVE_SCHEMA == 28 and GameSession.BLEND_ORDER_SCHEMA == 25 and blend_templates.keys() == blend_order and blend_templates.size() == 4 and single_template_count == 13 and GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT == 12, "Fáze 102 drží čtyři kanonické směsi, třináct jednotlivých zakázek a beze změny dvanáctipoložkovou legacy migraci; save zůstává 28")
+	_check(GameSession.SAVE_SCHEMA == 32 and GameSession.BLEND_ORDER_SCHEMA == 25 and blend_templates.keys() == blend_order and blend_templates.size() == 4 and single_template_count == 13 and GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT == 12, "Fáze 108 drží čtyři kanonické směsi, třináct jednotlivých zakázek a beze změny dvanáctipoložkovou legacy migraci; save je 32")
 	var phase96_sequence_ids: Array[String] = []
 	for sequence in range(GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT, GameSession.LEGACY_SINGLE_ORDER_TEMPLATE_COUNT + GameSession.ACTIVE_ORDER_COUNT):
 		phase96_sequence_ids.append(str((GameSession.ORDER_TEMPLATES[sequence] as Dictionary).get("blend_id", "")))
@@ -4771,7 +4783,7 @@ func _test_phase96_blended_orders() -> void:
 		and str(migrated_single.get("species_id", "")) == str(legacy_original.get("species_id", "")) \
 		and is_equal_approx(float(migrated_single.get("min_dry_g", 0.0)), float(legacy_original.get("min_dry_g", -1.0))) \
 		and is_equal_approx(float(migrated_single.get("min_quality", 0.0)), float(legacy_original.get("min_quality", -1.0)))
-	_check(legacy_preserved and int(migrated_legacy.to_dict().get("schema", 0)) == 28, "Migrace schema 24 zachová původní jednoduchou zakázku, ignoruje podvržené kind/blend/requirements a první zápis bezpečně přejde na schema 28")
+	_check(legacy_preserved and int(migrated_legacy.to_dict().get("schema", 0)) == 32, "Migrace schema 24 zachová původní jednoduchou zakázku, ignoruje podvržené kind/blend/requirements a první zápis bezpečně přejde na schema 32")
 
 	var canonical := GameSession.new(catalog)
 	for species_id in canonical.get_available_species():
@@ -4782,13 +4794,13 @@ func _test_phase96_blended_orders() -> void:
 	var canonical_save := canonical.to_dict()
 	var canonical_restored := GameSession.new(catalog)
 	canonical_restored.from_dict(canonical_save)
-	var canonical_roundtrip_exact := int(canonical_save.get("schema", 0)) == 28 and canonical_restored.orders.size() == 3
+	var canonical_roundtrip_exact := int(canonical_save.get("schema", 0)) == 32 and canonical_restored.orders.size() == 3
 	for index in range(3):
 		canonical_roundtrip_exact = canonical_roundtrip_exact \
 			and str(canonical_restored.orders[index].get("kind", "")) == "blend" \
 			and str(canonical_restored.orders[index].get("blend_id", "")) == blend_order[index] \
 			and canonical_restored.get_order_requirements(index) == expected[blend_order[index]].requirements
-	_check(canonical_roundtrip_exact, "Schema 28 round-trip zachová tři známé a objevené směsi v kanonickém pořadí se znovu odvozenými přesnými recepty")
+	_check(canonical_roundtrip_exact, "Schema 30 round-trip zachová tři známé a objevené směsi v kanonickém pořadí se znovu odvozenými přesnými recepty")
 
 	var hostile_data := canonical_save.duplicate(true)
 	hostile_data["order_rotation"] = 0
@@ -4816,7 +4828,7 @@ func _test_phase96_blended_orders() -> void:
 		and str(hostile.orders[2].get("blend_id", "")) == "aromatic_sachet" \
 		and not JSON.stringify(hostile.orders).contains("PODVOD") \
 		and not JSON.stringify(hostile.orders).contains("unknown_recipe")
-	_check(hostile_exact, "Schema 28 dál kanonizuje známou směs jen podle blend_id, odmítne podvržený recept a copy, opraví duplicitní či hostilní ID/kind/typy a ořízne nabídku na tři bezpečné unikátní zakázky")
+	_check(hostile_exact, "Schema 29 dál kanonizuje známou směs jen podle blend_id, odmítne podvržený recept a copy, opraví duplicitní či hostilní ID/kind/typy a ořízne nabídku na tři bezpečné unikátní zakázky")
 
 	var int64_max := 9223372036854775807
 	var overflow_data := canonical_save.duplicate(true)
@@ -4833,7 +4845,7 @@ func _test_phase96_blended_orders() -> void:
 	for overflow_order in overflow.orders:
 		overflow_sequences.append(int(overflow_order.get("sequence", -1)))
 		overflow_ids.append(str(overflow_order.get("id", "")))
-	_check(GameSession.MAX_ORDER_SEQUENCE == 2147483646 and overflow_sequences == [GameSession.MAX_ORDER_SEQUENCE, 0, 1] and overflow_ids == ["order_2147483646", "order_0000", "order_0001"] and overflow.order_rotation == GameSession.MAX_ORDER_SEQUENCE and _phase96_orders_are_bounded_unique(overflow), "Schema 28 ořízne INT64_MAX rotaci i první sekvenci na 2147483646 a duplicitám deterministicky přidělí bezpečná unikátní ID 0 a 1")
+	_check(GameSession.MAX_ORDER_SEQUENCE == 2147483646 and overflow_sequences == [GameSession.MAX_ORDER_SEQUENCE, 0, 1] and overflow_ids == ["order_2147483646", "order_0000", "order_0001"] and overflow.order_rotation == GameSession.MAX_ORDER_SEQUENCE and _phase96_orders_are_bounded_unique(overflow), "Schema 29 ořízne INT64_MAX rotaci i první sekvenci na 2147483646 a duplicitám deterministicky přidělí bezpečná unikátní ID 0 a 1")
 	overflow.xp = 100000
 	overflow.order_refreshes_remaining = GameSession.DAILY_ORDER_REFRESHES
 	var overflow_declined := overflow.decline_order(0)
@@ -4859,7 +4871,7 @@ func _test_phase96_blended_orders() -> void:
 	var overflow_roundtrip_data := overflow.to_dict()
 	var overflow_roundtrip := GameSession.new(catalog)
 	overflow_roundtrip.from_dict(overflow_roundtrip_data)
-	_check(overflow_roundtrip.order_rotation == GameSession.MAX_ORDER_SEQUENCE and JSON.stringify(overflow_roundtrip.orders, "", true) == JSON.stringify(overflow_roundtrip_data.get("orders", []), "", true) and _phase96_orders_are_bounded_unique(overflow_roundtrip), "Saturované schema 28 zůstane po kanonickém round-trip přesně stabilní, ohraničené a s trojicí unikátních ID")
+	_check(overflow_roundtrip.order_rotation == GameSession.MAX_ORDER_SEQUENCE and JSON.stringify(overflow_roundtrip.orders, "", true) == JSON.stringify(overflow_roundtrip_data.get("orders", []), "", true) and _phase96_orders_are_bounded_unique(overflow_roundtrip), "Saturované schema 32 zůstane po kanonickém round-trip přesně stabilní, ohraničené a s trojicí unikátních ID")
 
 	var partial := GameSession.new(catalog)
 	partial._discover_species(LEMON_BALM_ID)
@@ -4892,7 +4904,7 @@ func _test_phase96_blended_orders() -> void:
 	var partial_declined := partial_single_index >= 0 and partial_restored.decline_order(partial_single_index)
 	var partial_replacement: Dictionary = partial_restored.orders[partial_single_index] if partial_single_index >= 0 else {}
 	_check(partial_restore_unique and partial_declined and int(partial_replacement.get("sequence", -1)) == 57 and str(partial_replacement.get("id", "")) == "order_0057" and str(partial_replacement.get("kind", "")) == "single" and _phase96_active_blend_count(partial_restored, "evening_freshness") == 1 and _phase96_orders_are_bounded_unique(partial_restored), "Restore i pozdější výměna odmítnou duplicitní aktivní blend_id; sekvence 57 zůstane auditovatelná, ale deterministicky dostane jednoduchou bazalkovou náhradu")
-	_check(SaveManager._decode_supported_data('{"schema":29,"orders":[]}').is_empty() and str(SaveManager._decode_data_result('{"schema":29}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema 29 zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
+	_check(SaveManager._decode_supported_data('{"schema":33,"orders":[]}').is_empty() and str(SaveManager._decode_data_result('{"schema":33}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema 33 zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
 
 	var mastery := GameSession.new(catalog)
 	mastery.species_progress["basil_genovese"] = {"discovered": true, "harvests": 3, "best_quality": 0.74, "orders_completed": 1, "total_dry_g": 11.5, "claimed_tier": 2}
@@ -4974,7 +4986,7 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 	var story_scene = preload("res://scripts/professor_story.gd")
 	var chapter_id := "grand_herbarium_exhibition"
 	_check(
-		GameSession.SAVE_SCHEMA == 28
+		GameSession.SAVE_SCHEMA == 32
 		and GameSession.BLEND_ORDER_SCHEMA == 25
 		and GameSession.PROFESSOR_STORY_SCHEMA == 23
 		and GameSession.PROFESSOR_STORY_CHAPTER_TWO_SCHEMA == 24
@@ -4982,7 +4994,7 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 		and story_scene.CHAPTER_ONE_SCHEMA == 23
 		and story_scene.CHAPTER_TWO_SCHEMA == 24
 		and story_scene.CHAPTER_THREE_SCHEMA == 26,
-		"Fáze 99 zapisuje schema 28, zachová hranici směsí 25 a oddělí důvěru kapitol na 23/24/26"
+		"Aktuální schema 32 zachová hranici směsí 25 a oddělí důvěru kapitol na 23/24/26"
 	)
 	_check(
 		story_scene.CHAPTER_ORDER == ["lost_herbarium_pages", "silver_sage_legacy", chapter_id]
@@ -5272,20 +5284,20 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 	final_roundtrip.from_dict(final_save)
 	var final_state := final_roundtrip.get_professor_story_state()
 	_check(
-		int(final_save.get("schema", 0)) == 28
-		and int(final_roundtrip.to_dict().get("schema", 0)) == 28
+		int(final_save.get("schema", 0)) == 32
+		and int(final_roundtrip.to_dict().get("schema", 0)) == 32
 		and final_roundtrip.get_active_story_chapter_id() == chapter_id
 		and final_roundtrip.get_professor_seal_count() == 3
 		and final_roundtrip.get_professor_title_id() == "herbarium_master"
 		and final_roundtrip.get_professor_title() == "MISTR HERBÁŘE"
 		and str(final_state.get("status", "")) == "claimed"
 		and bool(final_state.get("seen", false)),
-		"Schema 28 round-trip zachová claimed finále, tři pečeti a oba odvozené title gettery"
+		"Schema 32 round-trip zachová claimed finále, tři pečeti a oba odvozené title gettery"
 	)
 	_check(
-		SaveManager._decode_supported_data('{"schema":29,"story_chapters":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":29}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"Budoucí schema 29 zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
+		SaveManager._decode_supported_data('{"schema":33,"story_chapters":{}}').is_empty()
+		and str(SaveManager._decode_data_result('{"schema":33}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"Budoucí schema 33 zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
 	)
 
 
@@ -5301,14 +5313,14 @@ func _test_phase98_professor_research() -> void:
 	var base_day := base_cycle * 7 - 3
 	var base_unix := float(base_day) * GameSession.SHOP_REAL_DAY_SECONDS
 	_check(
-		GameSession.SAVE_SCHEMA == 28
+		GameSession.SAVE_SCHEMA == 32
 		and GameSession.PROFESSOR_RESEARCH_SCHEMA == 27
 		and GameSession.PROFESSOR_RESEARCH_VARIANT_SCHEMA == 28
 		and research_scene.RESEARCH_SCHEMA == 27
 		and research_scene.PROTOCOL_VARIANT_SCHEMA == 28
 		and story_scene.CHAPTER_ORDER.size() == 3
 		and GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA == 26,
-		"Fáze 99 navazuje schema 28 variantami nad základním výzkumem 27 bez čtvrté příběhové kapitoly a zachová hranici finále 26"
+		"Aktuální schema 32 navazuje variantami schema 28 nad základním výzkumem 27 bez čtvrté příběhové kapitoly a zachová hranici finále 26"
 	)
 	_check(
 		research_scene.SYSTEM_ID == "professor_weekly_protocol"
@@ -5365,8 +5377,8 @@ func _test_phase98_professor_research() -> void:
 	_check(
 		corrupt_schema_results == [SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT]
 		and SaveManager._decode_supported_data('{"schema":27.5}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":29}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema 29 jako unsupported"
+		and str(SaveManager._decode_data_result('{"schema":33}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema 33 jako unsupported"
 	)
 	var poisoned_research := {
 		"max_seen_utc_day": base_day,
@@ -5776,11 +5788,11 @@ func _test_phase98_professor_research() -> void:
 	var claimed_roundtrip := GameSession.new(catalog)
 	claimed_roundtrip.from_dict(claimed_roundtrip_data)
 	_check(
-		int(claimed_roundtrip_data.get("schema", 0)) == 28
+		int(claimed_roundtrip_data.get("schema", 0)) == 32
 		and claimed_roundtrip.get_professor_research_completed_count() == 1
 		and claimed_roundtrip.professor_research.to_dict() == claimed_roundtrip_data.get("professor_research", {})
 		and str(claimed_roundtrip.get_professor_hub_state(float(base_day + 1) * GameSession.SHOP_REAL_DAY_SECONDS).get("status", "")) == "cooldown",
-		"Schema 28 round-trip zachová přesně claimed cyklus, completed_count i cooldown bez odvozeného backlogu"
+		"Schema 32 round-trip zachová přesně claimed cyklus, completed_count i cooldown bez odvozeného backlogu"
 	)
 	var skipped_weeks_day := base_day + 22
 	var skipped_weeks_cycle := research_scene.get_cycle_id_for_utc_day(skipped_weeks_day)
@@ -5876,7 +5888,7 @@ func _test_phase99_research_variants_and_study() -> void:
 		},
 	]
 	_check(
-		GameSession.SAVE_SCHEMA == 28
+		GameSession.SAVE_SCHEMA == 32
 		and GameSession.PROFESSOR_RESEARCH_SCHEMA == 27
 		and GameSession.PROFESSOR_RESEARCH_VARIANT_SCHEMA == 28
 		and research_scene.RESEARCH_SCHEMA == 27
@@ -6066,19 +6078,19 @@ func _test_phase99_research_variants_and_study() -> void:
 	var saved_research: Dictionary = active_roundtrip_data.get("professor_research", {})
 	var saved_active: Dictionary = saved_research.get("active", {})
 	_check(
-		int(active_roundtrip_data.get("schema", 0)) == 28
+		int(active_roundtrip_data.get("schema", 0)) == 32
 		and str(saved_active.get("protocol_id", "")) == research_scene.PROTOCOL_PROCESSING_FOCUS_ID
 		and str(active_roundtrip_state.get("status", "")) == "active"
 		and int(active_roundtrip_state.get("cycle_id", -1)) == immutable_cycle
 		and str(active_roundtrip_state.get("protocol_id", "")) == research_scene.PROTOCOL_PROCESSING_FOCUS_ID
 		and int(_phase98_goal_currents(active_roundtrip_state).get("care_variety", -1)) == 1,
-		"GameSession schema-28 load zachová starý neexpirující processing assignment, jeho protocol_id i rozpracovaný cíl přes rollback hodin"
+		"GameSession schema-32 load zachová starý neexpirující processing assignment, jeho protocol_id i rozpracovaný cíl přes rollback hodin"
 	)
 	_check(
-		int(SaveManager._decode_supported_data('{"schema":28,"professor_research":{}}').get("schema", 0)) == 28
-		and SaveManager._decode_supported_data('{"schema":29,"professor_research":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":29}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager přijme přesné schema 28, ale budoucí schema 29 nepustí do migrace výzkumných variant ani pracovny"
+		int(SaveManager._decode_supported_data('{"schema":32,"professor_research":{}}').get("schema", 0)) == 32
+		and SaveManager._decode_supported_data('{"schema":33,"professor_research":{}}').is_empty()
+		and str(SaveManager._decode_data_result('{"schema":33}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager přijme přesné schema 32, ale budoucí schema 33 nepustí do migrace výzkumných variant ani pracovny"
 	)
 
 	var hook_cycle := 302
@@ -6151,11 +6163,11 @@ func _test_phase99_research_variants_and_study() -> void:
 	var restored_study := study_restored.get_room_theme_unlock_state(study_id)
 	_check(
 		str(unknown_theme.get("reason", "")) == "unknown" and not bool(unknown_theme.get("known", true))
-		and int(study_saved.get("schema", 0)) == 28
+		and int(study_saved.get("schema", 0)) == 32
 		and study_restored.is_room_theme_unlocked(study_id)
 		and study_restored.selected_room_theme == study_id
 		and str(restored_study.get("reason", "")) == "selected",
-		"Schema 28 zachová jednou koupenou pracovnu i výběr a neznámý vzhled vrací bezpečný stav unknown"
+		"Schema 32 zachová jednou koupenou pracovnu i výběr a neznámý vzhled vrací bezpečný stav unknown"
 	)
 	var injected_schema27 := study_saved.duplicate(true)
 	injected_schema27["schema"] = 27
@@ -6548,7 +6560,7 @@ func _test_phase102_common_thyme() -> void:
 	var saved := shop.to_dict()
 	var restored := GameSession.new(catalog)
 	restored.from_dict(saved)
-	_check(planted and shop.plant.get_species_id() == THYME_ID and restored.plant.get_species_id() == THYME_ID and restored.get_seed_count(THYME_ID) == 0 and restored.is_species_discovered(THYME_ID) and int(saved.get("schema", 0)) == 28, "Nákup, zasazení, discovery a tymiánový profil přežijí schema 28 round-trip bez nového migračního pole")
+	_check(planted and shop.plant.get_species_id() == THYME_ID and restored.plant.get_species_id() == THYME_ID and restored.get_seed_count(THYME_ID) == 0 and restored.is_species_discovered(THYME_ID) and int(saved.get("schema", 0)) == 32, "Nákup, zasazení, discovery a tymiánový profil přežijí schema 32 round-trip bez nového druhového migračního pole")
 
 	var thyme_order_template: Dictionary = {}
 	var provence_template: Dictionary = {}
@@ -6598,6 +6610,734 @@ func _test_phase102_common_thyme() -> void:
 	_check(assets_exact and preview != null and preview.resource_path == str(expected_paths.sprout) and herbarium != null and herbarium.resource_path == str(expected_paths.mature), "Všech šest tymiánových stavů je vlastní průhledný asset 570×640; náhled používá klíček a herbář zralý trs")
 	var progression_source := FileAccess.get_file_as_string("res://tools/progression_smoke.gd")
 	_check(session.get_available_species().size() * 12 == 132 and int(132 / 5) + 1 == 27 and "var cycle_count := CYCLES_PER_SPECIES * species_rotation.size()" in progression_source and "var expected_save_roundtrips := int(cycle_count / SAVE_ROUNDTRIP_INTERVAL) + 1" in progression_source and "mastery_orders_before < 6" in progression_source, "Progression brána automaticky rozšíří obsah na 132 cyklů a 27 skutečných save/load round-tripů a před šestou mistrovskou zakázkou používá legitimní denní výměny")
+
+
+func _test_phase103_home_locations() -> void:
+	var player_room_source := FileAccess.get_file_as_string("res://scripts/ui/player_room_view.gd")
+	var greenhouse_source := FileAccess.get_file_as_string("res://scripts/ui/greenhouse_preview_view.gd")
+	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
+	_check("class_name PlayerRoomView" in player_room_source and "signal rack_requested" in player_room_source and "signal theme_requested" in player_room_source and "DECORATION_SLOT_COUNT := 5" in player_room_source and "set_meta(\"gameplay_bonuses\", false)" in player_room_source, "Fáze 103 přidá samostatný hráčský pokoj s bezpečným návratem, vstupem do vzhledů a pěti pouze kosmetickými místy")
+	_check(player_room_source.count("\"sunrise\"") >= 2 and "\"lagoon\"" in player_room_source and "\"amethyst\"" in player_room_source and "\"research_study\"" in player_room_source and "func set_cosmetic_theme" in player_room_source, "Hráčský pokoj používá všechny čtyři existující uložené vzhledy bez nového save pole nebo oddělené ekonomiky")
+	_check("class_name GreenhousePreviewView" in greenhouse_source and "BED_COUNT := 4" in greenhouse_source and "set_meta(\"functional_beds\", BED_COUNT)" in greenhouse_source and "set_meta(\"preview_only\", false)" in greenhouse_source and "3 PLODINY" in greenhouse_source, "Skleníková lokace fáze 103 zůstává samostatná a čtyři záhony zůstávají funkční i po rozšíření nabídky fáze 107")
+	_check("GARDEN_LOCATION_RACK" in main_source and "GARDEN_LOCATION_PLAYER_ROOM" in main_source and "GARDEN_LOCATION_GREENHOUSE" in main_source and "phase103_rack_greenhouse_arrow_v1" in main_source and "phase103_rack_player_room_arrow_v1" in main_source and "←  STOJAN" in main_source, "Tři domácí lokace zůstávají uvnitř první záložky, používají dvě šipky a detail rostliny se jednoznačně vrací na stojan")
+	_check("comic-player-room.png" in capture_source and "comic-greenhouse-preview.png" in capture_source and "phase103_player_room_amethyst_report_only_v1" in capture_source and "phase105_greenhouse_empty_report_only_v1" in capture_source, "Validační capture drží pokoj i prázdný skleník jako samostatné report-only obrazy bez tiché změny schválených referencí")
+
+
+func _test_phase104_room_decorations() -> void:
+	var catalog := _load_plant_catalog()
+	var session := GameSession.new(catalog)
+	var ids := session.get_room_decoration_ids()
+	var prices: Array[int] = []
+	for decoration_id in ids:
+		prices.append(int(session.get_room_decoration(decoration_id).get("price", 0)))
+	_check(
+		GameSession.SAVE_SCHEMA == 32
+		and GameSession.ROOM_DECORATION_SCHEMA == 29
+		and GameSession.ROOM_DECORATION_SLOT_COUNT == 5
+		and ids == ["botanical_books", "mini_monstera", "snake_plant", "golden_lamp", "room_fern", "flowering_begonia"]
+		and prices == [14, 18, 24, 26, 28, 32],
+		"Fáze 104 přidává šest pevně oceněných kosmetických dekorací a pět míst pod samostatnou hranicí save schema 29"
+	)
+	_check(
+		session.owned_room_decorations.is_empty()
+		and session.get_room_decoration_slots() == ["", "", "", "", ""]
+		and not session.purchase_or_place_room_decoration("future_decoration", 0)
+		and not session.purchase_or_place_room_decoration("botanical_books", -1)
+		and not session.purchase_or_place_room_decoration("botanical_books", 5),
+		"Nová hra začíná bez výzdoby a neznámé ID ani slot mimo rozsah nemohou změnit stav"
+	)
+
+	session.coins = 13
+	var plant_before := JSON.stringify(session.plant.to_dict(), "", true)
+	_check(
+		not session.purchase_or_place_room_decoration("botanical_books", 0)
+		and session.coins == 13
+		and session.owned_room_decorations.is_empty()
+		and session.get_room_decoration_slots() == ["", "", "", "", ""],
+		"Nedostatek mincí odmítne nákup atomicky bez vlastnictví nebo částečného umístění"
+	)
+
+	session.coins = 100
+	var bought_books := session.purchase_or_place_room_decoration("botanical_books", 0)
+	var snapshot_after_books := session.to_dict()
+	var repeated_books := session.purchase_or_place_room_decoration("botanical_books", 0)
+	var bought_monstera := session.purchase_or_place_room_decoration("mini_monstera", 1)
+	var moved_books := session.purchase_or_place_room_decoration("botanical_books", 3)
+	_check(
+		bought_books and not repeated_books and bought_monstera and moved_books
+		and session.coins == 68
+		and session.owned_room_decorations == ["botanical_books", "mini_monstera"]
+		and session.get_room_decoration_slots() == ["", "mini_monstera", "", "botanical_books", ""]
+		and int(snapshot_after_books.get("coins", 0)) == 86,
+		"Dekorace se koupí právě jednou, opakované stejné místo je no-op a pozdější přesun je zdarma a unikátní"
+	)
+	var cleared_books := session.clear_room_decoration_slot(3)
+	var coins_after_clear := session.coins
+	var placed_books_again := session.purchase_or_place_room_decoration("botanical_books", 2)
+	var replaced_slot := session.purchase_or_place_room_decoration("mini_monstera", 2)
+	_check(
+		cleared_books and placed_books_again and replaced_slot
+		and session.coins == coins_after_clear
+		and session.is_room_decoration_owned("botanical_books")
+		and session.is_room_decoration_owned("mini_monstera")
+		and session.get_room_decoration_slot_index("botanical_books") == -1
+		and session.get_room_decoration_slots() == ["", "", "mini_monstera", "", ""]
+		and not session.clear_room_decoration_slot(0)
+		and JSON.stringify(session.plant.to_dict(), "", true) == plant_before,
+		"Odstranění nic nevrací, vlastnictví zůstane, obsazené místo lze nahradit a výzdoba nikdy nemění pěstování"
+	)
+
+	var saved := session.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	_check(
+		int(saved.get("schema", 0)) == 32
+		and restored.owned_room_decorations == session.owned_room_decorations
+		and restored.get_room_decoration_slots() == session.get_room_decoration_slots()
+		and restored.coins == session.coins,
+		"Schema 29 round-trip zachová přesné vlastnictví, rozmístění i společnou mincovou peněženku"
+	)
+
+	var injected_legacy := saved.duplicate(true)
+	injected_legacy["schema"] = 28
+	injected_legacy["owned_room_decorations"] = ["flowering_begonia"]
+	injected_legacy["room_decoration_slots"] = ["flowering_begonia", "", "", "", ""]
+	var legacy := GameSession.new(catalog)
+	legacy.from_dict(injected_legacy)
+	_check(
+		legacy.owned_room_decorations.is_empty()
+		and legacy.get_room_decoration_slots() == ["", "", "", "", ""],
+		"Schema 28 nemůže podvrženými budoucími klíči autorizovat placené dekorace"
+	)
+
+	var hostile := saved.duplicate(true)
+	hostile["schema"] = 29
+	hostile["owned_room_decorations"] = ["mini_monstera", "mini_monstera", "future_decoration", 7, "botanical_books"]
+	hostile["room_decoration_slots"] = ["mini_monstera", "mini_monstera", "future_decoration", "botanical_books", 7, "flowering_begonia"]
+	var sanitized := GameSession.new(catalog)
+	sanitized.from_dict(hostile)
+	_check(
+		sanitized.owned_room_decorations == ["mini_monstera", "botanical_books"]
+		and sanitized.get_room_decoration_slots() == ["mini_monstera", "", "", "botanical_books", ""],
+		"Schema 29 zahodí neznámá a neřetězcová ID, duplicity vlastnictví, duplicitní umístění i položky bez vlastnictví"
+	)
+
+	var modal_source := FileAccess.get_file_as_string("res://scripts/ui/room_decoration_modal.gd")
+	var room_source := FileAccess.get_file_as_string("res://scripts/ui/player_room_view.gd")
+	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	_check(
+		"class_name RoomDecorationModal" in modal_source
+		and "fullscreen_room_decoration_modal_v1" in modal_source
+		and "gameplay_bonuses\", false" in modal_source
+		and "signal decoration_requested" in modal_source
+		and "signal clear_requested" in modal_source
+		and "custom_minimum_size.y = 56" in modal_source
+		and "phase104_room_decoration_slot_v1" in room_source
+		and "room_decoration_open" in main_source
+		and "purchase_or_place_room_decoration" in main_source
+		and "comic-player-room-decorated.png" in FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
+		and "comic-room-decoration-shop.png" in FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd"),
+		"Pokoj používá pět 56px cílů, blokující rolovatelný modal, stejnou ekonomiku a nulové herní bonusy"
+	)
+
+
+func _test_phase105_functional_greenhouse() -> void:
+	var catalog := _load_plant_catalog()
+	var session := GameSession.new(catalog)
+	var crop_catalog: Dictionary = session.get_greenhouse_crop_catalog()
+	var tomato: Dictionary = crop_catalog.get("cherry_tomato", {})
+	var initial_states := session.get_greenhouse_bed_states()
+	var all_empty := initial_states.size() == 4
+	for state in initial_states:
+		all_empty = all_empty and str((state as Dictionary).get("stage", "")) == "empty"
+	_check(
+		GameSession.SAVE_SCHEMA >= 30
+		and GameSession.GREENHOUSE_SCHEMA == 30
+		and all_empty
+		and crop_catalog.size() >= 1
+		and str(tomato.get("name", "")) == "Cherry rajče"
+		and int(tomato.get("seed_price", 0)) == 10
+		and is_equal_approx(float(tomato.get("growth_seconds", 0.0)), 21600.0)
+		and int(tomato.get("reward_coins", 0)) == 24
+		and int(tomato.get("reward_xp", 0)) == 8,
+		"Fáze 105 zavádí přesně čtyři prázdné záhony a jedinou plodinu za 10 mincí, šest hodin růstu a odměnu 24 mincí + 8 XP"
+	)
+
+	session.coins = 9
+	_check(
+		not session.perform_greenhouse_bed_action(-1)
+		and not session.perform_greenhouse_bed_action(4)
+		and not session.perform_greenhouse_bed_action(0)
+		and session.coins == 9
+		and str(session.get_greenhouse_bed_state(0).get("stage", "")) == "empty",
+		"Neplatný záhon ani nedostatek mincí nikdy neodečtou peněženku nebo nevytvoří úrodu"
+	)
+
+	session.coins = 40
+	var planted := session.perform_greenhouse_bed_action(0)
+	var duplicate_plant := session.greenhouse.plant(0, "cherry_tomato")
+	var needs_water := session.get_greenhouse_bed_state(0)
+	var watered := session.perform_greenhouse_bed_action(0)
+	var duplicate_water := session.greenhouse.water(0)
+	_check(
+		planted and not duplicate_plant and watered and not duplicate_water
+		and session.coins == 30
+		and str(needs_water.get("stage", "")) == "needs_water"
+		and str(session.get_greenhouse_bed_state(0).get("stage", "")) == "growing",
+		"Výsadba odečte 10 mincí právě jednou, bezplatná zálivka spustí růst a opakované akce jsou no-op"
+	)
+
+	session.paused = false
+	session.advance(10800.0)
+	var halfway := session.get_greenhouse_bed_state(0)
+	_check(
+		str(halfway.get("stage", "")) == "growing"
+		and absf(float(halfway.get("progress", 0.0)) - 0.5) < 0.0001
+		and absf(float(halfway.get("remaining_seconds", 0.0)) - 10800.0) < 0.001,
+		"Zalité rajče po třech hodinách ukazuje přesně polovinu šestihodinového růstu"
+	)
+
+	var saved := session.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	_check(
+		int(saved.get("schema", 0)) == GameSession.SAVE_SCHEMA
+		and JSON.stringify(restored.get_greenhouse_beds(), "", true) == JSON.stringify(session.get_greenhouse_beds(), "", true)
+		and str(restored.get_greenhouse_bed_state(0).get("stage", "")) == "growing",
+		"Schema 30 round-trip zachová přesný stav všech čtyř skleníkových záhonů"
+	)
+
+	var injected_legacy := saved.duplicate(true)
+	injected_legacy["schema"] = 29
+	injected_legacy["greenhouse_beds"] = [{"crop_id": "cherry_tomato", "watered": true, "growth_seconds": 21600.0}]
+	var legacy := GameSession.new(catalog)
+	legacy.from_dict(injected_legacy)
+	_check(
+		str(legacy.get_greenhouse_bed_state(0).get("stage", "")) == "empty"
+		and legacy.get_greenhouse_beds().size() == 4,
+		"Schema 29 nemůže podvrženým budoucím klíčem autorizovat hotovou placenou úrodu"
+	)
+
+	var hostile := saved.duplicate(true)
+	hostile["schema"] = 30
+	hostile["greenhouse_beds"] = [
+		{"crop_id": "cherry_tomato", "watered": true, "growth_seconds": 999999999.0},
+		{"crop_id": "cherry_tomato", "watered": false, "growth_seconds": 12000.0},
+		{"crop_id": "future_crop", "watered": true, "growth_seconds": 21600.0},
+		"invalid",
+		{"crop_id": "cherry_tomato", "watered": true, "growth_seconds": 21600.0},
+	]
+	var sanitized := GameSession.new(catalog)
+	sanitized.from_dict(hostile)
+	var sanitized_beds := sanitized.get_greenhouse_beds()
+	_check(
+		sanitized_beds.size() == 4
+		and str(sanitized.get_greenhouse_bed_state(0).get("stage", "")) == "ready"
+		and is_equal_approx(float(sanitized_beds[0].get("growth_seconds", 0.0)), 21600.0)
+		and str(sanitized.get_greenhouse_bed_state(1).get("stage", "")) == "needs_water"
+		and is_zero_approx(float(sanitized_beds[1].get("growth_seconds", -1.0)))
+		and str(sanitized.get_greenhouse_bed_state(2).get("stage", "")) == "empty"
+		and str(sanitized.get_greenhouse_bed_state(3).get("stage", "")) == "empty",
+		"Schema 30 omezí růst, vynuluje nezalitou plodinu, odmítne neznámé ID i vadný typ a načte nejvýše čtyři záhony"
+	)
+
+	var applied_offline := restored.advance_offline(10800.0)
+	var ready := restored.get_greenhouse_bed_state(0)
+	var coins_before_harvest := restored.coins
+	var xp_before_harvest := restored.xp
+	var harvested := restored.perform_greenhouse_bed_action(0)
+	var repeated_harvest := not restored.greenhouse.harvest(0).is_empty()
+	_check(
+		is_equal_approx(applied_offline, 10800.0)
+		and str(ready.get("stage", "")) == "ready"
+		and harvested and not repeated_harvest
+		and restored.coins == coins_before_harvest + 24
+		and restored.xp == xp_before_harvest + 8
+		and str(restored.get_greenhouse_bed_state(0).get("stage", "")) == "empty",
+		"Offline čas dokončí růst, sklizeň právě jednou přidá 24 mincí a 8 XP a bezpečně uvolní záhon"
+	)
+
+	var greenhouse_source := FileAccess.get_file_as_string("res://scripts/ui/greenhouse_preview_view.gd")
+	var simulation_source := FileAccess.get_file_as_string("res://scripts/greenhouse_simulation.gd")
+	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
+	_check(
+		"phase105_greenhouse_v1" in greenhouse_source
+		and "TOUCH_TARGET_MIN := 64.0" in greenhouse_source
+		and "phase105_greenhouse_bed_target_v1" in greenhouse_source
+		and "phase105_greenhouse_primary_action_v1" in greenhouse_source
+		and "BED_COUNT := 4" in simulation_source
+		and "comic-greenhouse-growing.png" in capture_source
+		and "comic-greenhouse-ready.png" in capture_source,
+		"Mobilní skleník má čtyři velké cíle, jednu 64px kontextovou akci a report-only obrazy prázdného, rostoucího i zralého stavu"
+	)
+
+
+func _test_phase106_greenhouse_crop_choice() -> void:
+	var catalog := _load_plant_catalog()
+	var session := GameSession.new(catalog)
+	var crop_catalog: Dictionary = session.get_greenhouse_crop_catalog()
+	var pepper: Dictionary = crop_catalog.get("sweet_pepper", {})
+	_check(
+		GameSession.GREENHOUSE_SECOND_CROP_SCHEMA == 31
+		and str(pepper.get("name", "")) == "Sladká paprika"
+		and int(pepper.get("seed_price", 0)) == 14
+		and is_equal_approx(float(pepper.get("growth_seconds", 0.0)), 28800.0)
+		and int(pepper.get("reward_coins", 0)) == 34
+		and int(pepper.get("reward_xp", 0)) == 11,
+		"Fáze 106 přidává přesně druhou skleníkovou plodinu: papriku za 14 mincí, osm hodin růstu a sklizeň 34 mincí + 11 XP"
+	)
+
+	session.coins = 13
+	_check(
+		not session.plant_greenhouse_crop(0, "sweet_pepper")
+		and not session.plant_greenhouse_crop(0, "future_crop")
+		and session.coins == 13
+		and str(session.get_greenhouse_bed_state(0).get("stage", "")) == "empty",
+		"Nedostatek mincí ani neznámé ID nemohou přes explicitní výběr vytvořit skleníkovou plodinu"
+	)
+
+	session.xp = 100
+	session.coins = 50
+	var planted := session.plant_greenhouse_crop(1, "sweet_pepper")
+	var duplicate := session.plant_greenhouse_crop(1, "cherry_tomato")
+	var needs_water := session.get_greenhouse_bed_state(1)
+	var watered := session.perform_greenhouse_bed_action(1)
+	session.advance(14400.0)
+	var halfway := session.get_greenhouse_bed_state(1)
+	_check(
+		planted and not duplicate and watered
+		and session.coins == 36
+		and str(needs_water.get("crop_id", "")) == "sweet_pepper"
+		and str(needs_water.get("stage", "")) == "needs_water"
+		and str(halfway.get("stage", "")) == "growing"
+		and absf(float(halfway.get("progress", 0.0)) - 0.5) < 0.0001,
+		"Výběr papriky odečte 14 mincí právě jednou, zálivka ji spustí a po čtyřech hodinách ukáže polovinu růstu"
+	)
+
+	var schema30_payload := session.to_dict()
+	schema30_payload["schema"] = 30
+	schema30_payload["greenhouse_beds"] = [
+		{"crop_id": "sweet_pepper", "watered": true, "growth_seconds": 28800.0},
+		{"crop_id": "cherry_tomato", "watered": true, "growth_seconds": 10800.0},
+	]
+	var schema30_session := GameSession.new(catalog)
+	schema30_session.from_dict(schema30_payload)
+	_check(
+		str(schema30_session.get_greenhouse_bed_state(0).get("stage", "")) == "empty"
+		and str(schema30_session.get_greenhouse_bed_state(1).get("crop_id", "")) == "cherry_tomato"
+		and absf(float(schema30_session.get_greenhouse_bed_state(1).get("progress", 0.0)) - 0.5) < 0.0001,
+		"Schema 30 zachová oprávněné rajče z RC33, ale nemůže podvrhnout zralou papriku přidanou až ve schema 31"
+	)
+
+	var saved := session.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	restored.advance_offline(14400.0)
+	var coins_before := restored.coins
+	var xp_before := restored.xp
+	var harvested := restored.perform_greenhouse_bed_action(1)
+	_check(
+		harvested
+		and restored.coins == coins_before + 34
+		and restored.xp == xp_before + 11
+		and str(restored.get_greenhouse_bed_state(1).get("stage", "")) == "empty",
+		"Aktuální schema round-trip a offline čas dokončí papriku a sklizeň připíše její vlastní odměnu právě jednou"
+	)
+
+	var greenhouse_source := FileAccess.get_file_as_string("res://scripts/ui/greenhouse_preview_view.gd")
+	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	_check(
+		"crop_plant_requested" in greenhouse_source
+		and "_draw_pepper_crop" in greenhouse_source
+		and "_on_greenhouse_crop_plant_requested" in main_source,
+		"Mobilní skleník zachovává explicitní 64px volbu osiva a kreslí papriku odlišně od rajčete"
+	)
+
+
+func _test_phase107_greenhouse_progression() -> void:
+	var catalog := _load_plant_catalog()
+	var session := GameSession.new(catalog)
+	var crop_catalog: Dictionary = session.get_greenhouse_crop_catalog()
+	var tomato: Dictionary = crop_catalog.get("cherry_tomato", {})
+	var pepper: Dictionary = crop_catalog.get("sweet_pepper", {})
+	var cucumber: Dictionary = crop_catalog.get("salad_cucumber", {})
+	_check(
+		GameSession.SAVE_SCHEMA == 32
+		and GameSession.GREENHOUSE_PROGRESSION_SCHEMA == 32
+		and crop_catalog.size() == 3
+		and int(tomato.get("unlock_level", 0)) == 1
+		and int(pepper.get("unlock_level", 0)) == 2
+		and str(cucumber.get("name", "")) == "Salátová okurka"
+		and int(cucumber.get("unlock_level", 0)) == 4
+		and int(cucumber.get("seed_price", 0)) == 18
+		and is_equal_approx(float(cucumber.get("growth_seconds", 0.0)), 36000.0)
+		and int(cucumber.get("reward_coins", 0)) == 46
+		and int(cucumber.get("reward_xp", 0)) == 14,
+		"Fáze 107 přidává třetí plodinu: okurku od úrovně 4 za 18 mincí, deset hodin růstu a sklizeň 46 mincí + 14 XP"
+	)
+
+	_check(
+		bool(tomato.get("unlocked", false))
+		and not bool(pepper.get("unlocked", true))
+		and not bool(cucumber.get("unlocked", true))
+		and session.get_level_unlocks(2).has("Skleník: Paprika")
+		and session.get_level_unlocks(4).has("Skleník: Okurka"),
+		"Nový hráč má rajče, zatímco paprika a okurka jsou viditelně navázané na úrovně 2 a 4"
+	)
+
+	session.coins = 100
+	var locked_coins := session.coins
+	_check(
+		not session.plant_greenhouse_crop(0, "sweet_pepper")
+		and not session.plant_greenhouse_crop(0, "salad_cucumber")
+		and session.coins == locked_coins
+		and str(session.get_greenhouse_bed_state(0).get("stage", "")) == "empty",
+		"Serverová herní vrstva odmítne zamčenou papriku i okurku bez odečtení mincí nebo změny záhonu"
+	)
+
+	session.xp = 100
+	var level_two_catalog := session.get_greenhouse_crop_catalog()
+	_check(
+		bool((level_two_catalog.get("sweet_pepper", {}) as Dictionary).get("unlocked", false))
+		and not bool((level_two_catalog.get("salad_cucumber", {}) as Dictionary).get("unlocked", true)),
+		"Úroveň 2 odemkne papriku, ale okurka zůstane uzamčená"
+	)
+
+	session.xp = 300
+	var planted := session.plant_greenhouse_crop(2, "salad_cucumber")
+	var watered := session.perform_greenhouse_bed_action(2)
+	session.advance(18000.0)
+	var halfway := session.get_greenhouse_bed_state(2)
+	_check(
+		planted and watered
+		and session.coins == 82
+		and str(halfway.get("crop_id", "")) == "salad_cucumber"
+		and str(halfway.get("stage", "")) == "growing"
+		and absf(float(halfway.get("progress", 0.0)) - 0.5) < 0.0001,
+		"Úroveň 4 dovolí zasadit okurku, odečte 18 mincí právě jednou a po pěti hodinách ukáže polovinu růstu"
+	)
+
+	var schema31_payload := session.to_dict()
+	schema31_payload["schema"] = 31
+	schema31_payload["greenhouse_beds"] = [
+		{"crop_id": "salad_cucumber", "watered": true, "growth_seconds": 36000.0},
+		{"crop_id": "sweet_pepper", "watered": true, "growth_seconds": 14400.0},
+	]
+	var schema31_session := GameSession.new(catalog)
+	schema31_session.from_dict(schema31_payload)
+	_check(
+		str(schema31_session.get_greenhouse_bed_state(0).get("stage", "")) == "empty"
+		and str(schema31_session.get_greenhouse_bed_state(1).get("crop_id", "")) == "sweet_pepper"
+		and absf(float(schema31_session.get_greenhouse_bed_state(1).get("progress", 0.0)) - 0.5) < 0.0001,
+		"Schema 31 zachová oprávněnou papriku z RC34, ale nemůže podvrhnout okurku přidanou až ve schema 32"
+	)
+
+	var saved := session.to_dict()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	restored.advance_offline(18000.0)
+	var coins_before := restored.coins
+	var xp_before := restored.xp
+	var harvested := restored.perform_greenhouse_bed_action(2)
+	_check(
+		harvested
+		and restored.coins == coins_before + 46
+		and restored.xp == xp_before + 14
+		and str(restored.get_greenhouse_bed_state(2).get("stage", "")) == "empty",
+		"Schema 32 round-trip a offline čas dokončí okurku a sklizeň připíše její vlastní odměnu právě jednou"
+	)
+
+	var greenhouse_source := FileAccess.get_file_as_string("res://scripts/ui/greenhouse_preview_view.gd")
+	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
+	_check(
+		"phase107_greenhouse_progression_v1" in greenhouse_source
+		and "OD ÚR." in greenhouse_source
+		and "_draw_cucumber_crop" in greenhouse_source
+		and "comic-greenhouse-locked-crops.png" in capture_source
+		and "comic-greenhouse-cucumber-growing.png" in capture_source,
+		"Mobilní skleník má tři samostatné 64px volby, čitelný zamčený stav a vlastní report-only kresbu okurky"
+	)
+
+
+func _test_phase108_rc35_stabilization() -> void:
+	var test_runner_source := FileAccess.get_file_as_string("res://tools/run_tests.ps1")
+	var release_source := FileAccess.get_file_as_string("res://tools/run_release_candidate.ps1")
+	var preset_source := FileAccess.get_file_as_string("res://export_presets.cfg")
+	var project_source := FileAccess.get_file_as_string("res://project.godot")
+	_check(
+		"$process.ExitCode -eq 0" in test_runner_source
+		and "MVP_TESTS_PASSED=\\d+" in test_runner_source
+		and "SCRIPT ERROR|Parse Error|MVP TESTY SELHALY" in test_runner_source,
+		"Fáze 108 přijme regresní běh jen při nulovém nativním exit kódu, PASS markeru a bez parserové nebo testové chyby"
+	)
+	_check(
+		"android_debug_alias = $defaultApkPath" in release_source
+		and "android_debug_alias_sha256 = $defaultApkHash" in release_source
+		and "RELEASE_CANDIDATE_ALIAS=PASSED" in release_source,
+		"Fáze 108 release report dokládá přepisovatelný APK alias i jeho shodu s immutable kandidátem"
+	)
+	_check(
+		"RESPONSIVE_ARTIFACTS=" in release_source
+		and "$responsiveArtifactsLine" in release_source
+		and "Responsive artifact directory escaped the project audit root" in release_source
+		and "responsive-layout.json" in release_source
+		and "responsive_report = $responsiveReportPath" in release_source
+		and "responsive_layout = \"PASSED_${responsiveCaseCount}_DISPLAY_AND_SAFE_AREA_CASES\"" in release_source,
+		"RC36 váže release důkaz na právě spuštěný responsive audit a odvozuje počet případů z jeho úspěšného JSON reportu"
+	)
+	_check(
+		preset_source.count("gradle_build/min_sdk=\"24\"") == 3
+		and preset_source.count("gradle_build/target_sdk=\"36\"") == 3
+		and preset_source.count("version/code=53") == 3
+		and preset_source.count("version/name=\"0.50.0-rc36\"") == 2
+		and "version/name=\"0.50.0-rc36-emulator\"" in preset_source
+		and "bazals-pocket-garden-phase109-rc36-emulator-x86_64-debug.apk" in preset_source
+		and "config/version=\"0.50.0-rc36\"" in project_source
+		and GameSession.SAVE_SCHEMA == 32,
+		"RC36 sjednocuje Android presety na code 53, zachovává minSdk 24, targetSdk 36 a save schema 32"
+	)
+
+
+func _test_phase109_greenhouse_lifecycle_feedback() -> void:
+	var primitive = preload("res://scripts/greenhouse_simulation.gd").new()
+	primitive.plant(0, "cherry_tomato")
+	var unwatered_events: Array[Dictionary] = primitive.advance(21600.0)
+	_check(
+		unwatered_events.is_empty()
+		and is_zero_approx(float(primitive.get_bed(0).get("growth_seconds", -1.0)))
+		and str(primitive.get_bed_state(0, 100).get("stage", "")) == "needs_water",
+		"Fáze 109 nezalitou skleníkovou plodinu neposune ani pro ni nevytvoří falešné oznámení o dozrání"
+	)
+
+	primitive.water(0)
+	var early_events: Array[Dictionary] = primitive.advance(21599.0)
+	var ready_events: Array[Dictionary] = primitive.advance(1.0)
+	var repeated_events: Array[Dictionary] = primitive.advance(600.0)
+	_check(
+		early_events.is_empty()
+		and ready_events.size() == 1
+		and str(ready_events[0].get("kind", "")) == "greenhouse_ready"
+		and str(ready_events[0].get("source", "")) == "greenhouse"
+		and int(ready_events[0].get("bed_index", -1)) == 0
+		and int(ready_events[0].get("bed_number", -1)) == 1
+		and str(ready_events[0].get("crop_id", "")) == "cherry_tomato"
+		and str(ready_events[0].get("crop_name", "")) == "Cherry rajče"
+		and repeated_events.is_empty(),
+		"Fáze 109 online primitivum vrátí právě jednu úplnou událost pouze při přechodu rostoucího záhonu do připraveného stavu"
+	)
+
+	var loaded_ready = preload("res://scripts/greenhouse_simulation.gd").new()
+	loaded_ready.load_state([
+		{"crop_id": "cherry_tomato", "watered": true, "growth_seconds": 21600.0},
+	], ["cherry_tomato"])
+	_check(
+		str(loaded_ready.get_bed_state(0, 100).get("stage", "")) == "ready"
+		and loaded_ready.advance(60.0).is_empty(),
+		"Načtení už zralého záhonu ani jeho další časový krok znovu nevytvoří jednorázovou událost"
+	)
+
+	var multi = preload("res://scripts/greenhouse_simulation.gd").new()
+	multi.plant(3, "salad_cucumber")
+	multi.water(3)
+	multi.plant(1, "sweet_pepper")
+	multi.water(1)
+	multi.plant(0, "cherry_tomato")
+	multi.water(0)
+	var multi_events: Array[Dictionary] = multi.advance(36000.0)
+	_check(
+		multi_events.size() == 3
+		and int(multi_events[0].get("bed_index", -1)) == 0
+		and int(multi_events[0].get("bed_number", -1)) == 1
+		and str(multi_events[0].get("crop_id", "")) == "cherry_tomato"
+		and int(multi_events[1].get("bed_index", -1)) == 1
+		and int(multi_events[1].get("bed_number", -1)) == 2
+		and str(multi_events[1].get("crop_id", "")) == "sweet_pepper"
+		and int(multi_events[2].get("bed_index", -1)) == 3
+		and int(multi_events[2].get("bed_number", -1)) == 4
+		and str(multi_events[2].get("crop_id", "")) == "salad_cucumber",
+		"Více současně dozrálých záhonů vrací stabilní pořadí podle indexu a uživatelská čísla 1, 2 a 4"
+	)
+
+	var catalog := _load_plant_catalog()
+	var offline := GameSession.new(catalog)
+	offline.xp = 300
+	offline.coins = 100
+	var cucumber_planted := offline.plant_greenhouse_crop(2, "salad_cucumber")
+	var cucumber_watered := offline.perform_greenhouse_bed_action(2)
+	var coins_after_planting := offline.coins
+	var xp_before_maturity := offline.xp
+	var applied_offline := offline.advance_offline(36000.0)
+	var offline_events := offline.consume_offline_lifecycle_events()
+	_check(
+		cucumber_planted and cucumber_watered
+		and is_equal_approx(applied_offline, 36000.0)
+		and offline_events.size() == 1
+		and str(offline_events[0].get("kind", "")) == "greenhouse_ready"
+		and int(offline_events[0].get("bed_number", -1)) == 3
+		and str(offline_events[0].get("crop_name", "")) == "Salátová okurka"
+		and offline.coins == coins_after_planting
+		and offline.xp == xp_before_maturity,
+		"Offline GameSession zachytí dozrání okurky pro návratový souhrn, ale samotná zralost nepřidá mince ani XP"
+	)
+	var harvested_once := offline.perform_greenhouse_bed_action(2)
+	var coins_after_harvest := offline.coins
+	var xp_after_harvest := offline.xp
+	var repeated_harvest := offline.greenhouse.harvest(2)
+	_check(
+		harvested_once and repeated_harvest.is_empty()
+		and coins_after_harvest == coins_after_planting + 46
+		and xp_after_harvest == xp_before_maturity + 14
+		and offline.coins == coins_after_harvest
+		and offline.xp == xp_after_harvest
+		and str(offline.get_greenhouse_bed_state(2).get("stage", "")) == "empty",
+		"Teprve jediná skutečná sklizeň připíše přesných 46 mincí a 14 XP a opakování zůstane no-op"
+	)
+
+	var attention := GameSession.new(catalog)
+	attention.xp = 100
+	attention.coins = 100
+	attention.plant_greenhouse_crop(0, "cherry_tomato")
+	attention.plant_greenhouse_crop(1, "sweet_pepper")
+	attention.perform_greenhouse_bed_action(1)
+	attention.greenhouse.advance(28800.0)
+	var pending_summary := attention.get_greenhouse_attention_summary()
+	attention.perform_greenhouse_bed_action(0)
+	attention.perform_greenhouse_bed_action(1)
+	var cleared_summary := attention.get_greenhouse_attention_summary()
+	_check(
+		int(pending_summary.get("needs_water", -1)) == 1
+		and int(pending_summary.get("ready", -1)) == 1
+		and int(pending_summary.get("action_count", -1)) == 2
+		and int(cleared_summary.get("needs_water", -1)) == 0
+		and int(cleared_summary.get("ready", -1)) == 0
+		and int(cleared_summary.get("action_count", -1)) == 0,
+		"Odvozená pozornost přesně sečte zálivku a sklizeň a po provedení obou akcí se okamžitě vyčistí"
+	)
+
+	var saved := attention.to_dict()
+	var saved_keys := saved.keys()
+	saved_keys.sort()
+	var restored := GameSession.new(catalog)
+	restored.from_dict(saved)
+	var roundtrip := restored.to_dict()
+	var roundtrip_keys := roundtrip.keys()
+	roundtrip_keys.sort()
+	_check(
+		GameSession.SAVE_SCHEMA == 32
+		and int(saved.get("schema", 0)) == 32
+		and saved_keys == roundtrip_keys
+		and JSON.stringify(saved.get("greenhouse_beds", []), "", true) == JSON.stringify(roundtrip.get("greenhouse_beds", []), "", true)
+		and not saved.has("greenhouse_attention")
+		and not saved.has("greenhouse_ready_events")
+		and not saved.has("greenhouse_lifecycle_events")
+		and not saved.has("offline_lifecycle_events"),
+		"Fáze 109 zachová schema 32, přesný round-trip záhonů a nepřidá do save žádný odvozený badge ani přechodnou frontu událostí"
+	)
+
+	var presenter = preload("res://scripts/ui/return_summary_presenter.gd").new()
+	var summary_label := Label.new()
+	presenter.bind(summary_label)
+	presenter.refresh(3600.0, "Jasno", "Zkontroluj zahradu", [
+		{"kind": "matured", "slot_number": 2, "species_name": "Bazalka"},
+		{"kind": "greenhouse_ready", "bed_number": 4, "crop_name": "Salátová okurka"},
+	])
+	_check(
+		"Květináč 2 · Bazalka · PŘIPRAVENO KE SKLIZNI" in summary_label.text
+		and "Skleník · záhon 4 · SALÁTOVÁ OKURKA · PŘIPRAVENO KE SKLIZNI" in summary_label.text,
+		"Návratový presenter odliší dozrálý květináč od konkrétního skleníkového záhonu a zachová obě sdělení"
+	)
+	summary_label.free()
+
+	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var greenhouse_source := FileAccess.get_file_as_string("res://scripts/ui/greenhouse_preview_view.gd")
+	var responsive_source := FileAccess.get_file_as_string("res://tools/responsive_layout_smoke.gd")
+	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
+	var visual_manifest := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json")
+	_check(
+		"phase109_greenhouse_attention_v1" in main_source
+		and "rack_greenhouse_button.size = Vector2(124.0, 64.0)" in main_source
+		and "ZKONTROLOVAT ZAHRADU" in main_source
+		and "phase109_return_summary_garden_cta_v1" in main_source
+		and "phase109_greenhouse_compact_layout_v1" in greenhouse_source
+		and "Vector2i(360, 620)" in greenhouse_source
+		and "phase109_greenhouse_360x800" in responsive_source
+		and "comic-greenhouse-level2-compact.png" in capture_source
+		and "comic-return-summary-greenhouse-ready.png" in capture_source
+		and "comic-rack-greenhouse-attention.png" in capture_source
+		and not "comic-greenhouse-level2-compact.png" in visual_manifest
+		and not "comic-return-summary-greenhouse-ready.png" in visual_manifest
+		and not "comic-rack-greenhouse-attention.png" in visual_manifest,
+		"Fáze 109 drží 124×64 rack badge, zahradní návratové CTA, skutečný 360×800 audit a tři nové obrazy výhradně jako report-only důkaz"
+	)
+
+
+func _test_phase110_project_automation() -> void:
+	var automation_source := FileAccess.get_file_as_string("res://tools/run_project_automation.ps1")
+	var phase_doc := FileAccess.get_file_as_string("res://docs/PHASE110_AUTOMATED_WORKFLOW.md")
+	var readiness_doc := FileAccess.get_file_as_string("res://docs/RELEASE_READINESS.md")
+	_check(
+		not automation_source.is_empty()
+		and "ValidateSet('Quick', 'Full', 'Release', 'ReleaseDevice')" in automation_source
+		and "[string]$Mode = 'Full'" in automation_source
+		and ".godot\\automation\\$timestamp" in automation_source,
+		"Fáze 110 nabízí jediný runner se čtyřmi explicitními režimy a bezpečným výchozím úplným průchodem"
+	)
+	_check(
+		"'Quick'" in automation_source
+		and "tools\\run_tests.ps1" in automation_source
+		and "MVP_TESTS_PASSED=\\d+" in automation_source,
+		"Quick režim znovu používá autoritativní regresní runner a vyžaduje jeho početní PASS marker"
+	)
+	_check(
+		"'Full'" in automation_source
+		and "run_validation.ps1" in automation_source
+		and "run_performance_smoke.ps1" in automation_source
+		and "run_endurance_smoke.ps1" in automation_source
+		and "run_progression_smoke.ps1" in automation_source
+		and "run_responsive_layout_smoke.ps1" in automation_source
+		and "HOW_TO_GROW_VALIDATION=PASSED" in automation_source,
+		"Full režim skládá existující obrazovou, výkonovou, endurance, postupovou a responzivní bránu bez duplikace jejich logiky"
+	)
+	_check(
+		"tools\\run_release_candidate.ps1" in automation_source
+		and "RELEASE_CANDIDATE=PASSED_LOCAL" in automation_source
+		and "RELEASE_CANDIDATE_ALIAS=PASSED" in automation_source
+		and "Immutable Android artifact already exists and remains untouched" in automation_source
+		and not "bazals-pocket-garden-debug.apk" in automation_source,
+		"Release režim deleguje jedinému immutable runneru, odmítá kolizi před prací a nikdy nevybírá přepisovatelný APK alias"
+	)
+	_check(
+		"tools\\run_android_device_audit.ps1" in automation_source
+		and "'-Install', '-ApkPath', $versionedApkPath" in automation_source
+		and "ANDROID_TECHNICAL_GATE=PASSED" in automation_source
+		and "ANDROID_DEVICE_AUDIT=CAPTURED" in automation_source
+		and not "ClearAppData" in automation_source,
+		"ReleaseDevice instaluje pouze právě vytvořený verzovaný APK, vyžaduje platný technický audit a nikdy nemaže data aplikace"
+	)
+	_check(
+		"$exitCode -eq 0" in automation_source
+		and "$missingMarkers.Count -eq 0" in automation_source
+		and "SCRIPT ERROR|Parse Error|MVP TESTY SELHALY" in automation_source
+		and "HOW_TO_GROW_AUTOMATION=FAILED" in automation_source
+		and "HOW_TO_GROW_AUTOMATION=PASSED" in automation_source,
+		"Každý krok selže uzavřeně při nenulovém exit kódu, chybějícím markeru nebo parserové a testové chybě"
+	)
+	_check(
+		"automation-report.json" in automation_source
+		and "automation-report.md" in automation_source
+		and "worktree-status.txt" in automation_source
+		and "AUTOMATION_ARTIFACTS=" in automation_source
+		and "AUTOMATION_MANUAL_GATE=" in automation_source,
+		"Automatizace vždy zanechá strojový i lidský report, stav pracovního stromu a stabilní výstupní markery"
+	)
+	_check(
+		"PENDING_SINGLE_HUMAN_BATCH" in automation_source
+		and "nejvýše jednou jako závěrečný dávkový checklist" in phase_doc
+		and "tools\\run_project_automation.ps1" in phase_doc
+		and "Fáze 110" in readiness_doc,
+		"Neautomatizovatelné hardwarové a systémové důkazy zůstávají pravdivě v jediném závěrečném lidském bloku"
+	)
 
 
 func _test_phase41_level_progression() -> void:
@@ -7251,7 +7991,11 @@ func _test_phase54_notification_deep_link() -> void:
 
 func _test_phase55_mobile_back_contract() -> void:
 	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var project_source := FileAccess.get_file_as_string("res://project.godot")
+	var android_manifest_source := FileAccess.get_file_as_string("res://android/build/src/main/AndroidManifest.xml")
 	_check("get_tree().quit_on_go_back = false" in main_source and "NOTIFICATION_WM_GO_BACK_REQUEST" in main_source, "Fáze 55 Android předá systémové Zpět hře místo okamžitého ukončení procesu")
+	_check("config/quit_on_go_back=false" in project_source, "Fáze 55 vypíná automatické ukončení už při inicializaci SceneTree, ne až po spuštění hlavní scény")
+	_check("android:enableOnBackInvokedCallback=\"false\"" in android_manifest_source, "Fáze 55 Android 16 používá kompatibilní Back callback, který Godot předá herní navigaci")
 	_check("func _consume_mobile_back_navigation() -> bool:" in main_source and "_request_safe_exit()" in main_source, "Fáze 55 používá jednu auditovatelnou cestu pro návrat i bezpečné ukončení")
 	_check("if save_failure_open or save_recovery_open:" in main_source, "Fáze 55 gesto Zpět nemůže potichu zahodit varování o neuloženém nebo nečitelném postupu")
 
@@ -8380,9 +9124,145 @@ func _test_main_scene_smoke() -> void:
 	instance._open_daily_challenge()
 	var back_closed_daily: bool = instance._consume_mobile_back_navigation()
 	_check(back_closed_daily and not instance.daily_challenge_open and not instance.daily_challenge_modal.visible, "Fáze 55 systémové Zpět nejprve zavře právě otevřený běžný dialog")
+	_check(instance.rack_greenhouse_button.get_parent() == instance.plants_room_panel and instance.rack_player_room_button.get_parent() == instance.plants_room_panel and instance.rack_greenhouse_button.size == Vector2(124.0, 64.0) and instance.rack_greenhouse_button.get_meta("touch_target_min", Vector2.ZERO) == Vector2(124.0, 64.0) and instance.rack_greenhouse_button.get_meta("attention_component", "") == "phase109_greenhouse_attention_v1" and instance.rack_greenhouse_button.text == "←  SKLENÍK" and instance.rack_player_room_button.size.y >= 64.0 and instance.rack_greenhouse_button.get_meta("location_target", "") == "greenhouse" and instance.rack_player_room_button.get_meta("location_target", "") == "player_room", "Fáze 109 stojan zachová přesnou 124×64 skleníkovou šipku s odvozeným badge kontraktem a 64px vstup do hráčského pokoje")
+	instance._open_player_room()
+	await process_frame
+	_check(instance.garden_location_id == "player_room" and instance.player_room_panel.visible and not instance.plants_room_panel.visible and not instance.greenhouse_panel.visible and not instance.plant_detail_panel.visible and instance.player_room_view.get_meta("decoration_slots", 0) == 5 and not instance.player_room_view.get_meta("gameplay_bonuses", true), "Fáze 103 pravá šipka otevře samostatný kosmetický pokoj s pěti budoucími místy bez herních bonusů")
+	_check(instance.player_room_view.back_button.size.y >= 60.0 and instance.player_room_view.theme_button.size.y >= 60.0 and instance.player_room_view.selected_theme_id == instance.session.selected_room_theme, "Hráčský pokoj má velký návrat, přímý vstup do existujícího showroomu a ihned zobrazuje zvolený vzhled")
+	var room_slot_targets_valid: bool = instance.player_room_view.decoration_buttons.size() == 5
+	for room_slot_button in instance.player_room_view.decoration_buttons:
+		room_slot_targets_valid = room_slot_targets_valid and room_slot_button.size == Vector2(56.0, 56.0)
+	_check(room_slot_targets_valid, "Fáze 104 všech pět míst v pokoji používá samostatný přesný 56px dotykový cíl")
+	var decoration_coins_before: int = int(instance.session.coins)
+	instance.player_room_view.decoration_buttons[0].pressed.emit()
+	await process_frame
+	await process_frame
+	var books_card: Dictionary = instance.room_decoration_modal.decoration_cards.get("botanical_books", {})
+	_check(
+		instance.room_decoration_open
+		and instance.room_decoration_modal.visible
+		and instance.room_decoration_modal.get_meta("component", "") == "fullscreen_room_decoration_modal_v1"
+		and instance.room_decoration_modal.decoration_cards.size() == 6
+		and _has_mobile_scroll_contract(instance.room_decoration_modal.scroll, "room_decorations")
+		and _scroll_descendant_buttons_are_pass(instance.room_decoration_modal.scroll)
+		and _scroll_control_descendants_are_passthrough(instance.room_decoration_modal.list_root)
+		and not books_card.is_empty()
+		and (books_card.action_button as Button).custom_minimum_size.y >= 56.0,
+		"Klepnutí na místo otevře blokující rolovatelný výběr šesti dekorací a všechny dynamické potomky předají dotykový tah scrollu"
+	)
+	(books_card.action_button as Button).pressed.emit()
+	await process_frame
+	_check(
+		instance.session.is_room_decoration_owned("botanical_books")
+		and instance.session.get_room_decoration_slots()[0] == "botanical_books"
+		and instance.session.coins == decoration_coins_before - 14
+		and instance.player_room_view.decoration_slots[0] == "botanical_books",
+		"Skutečné tlačítko modalu koupí knihy jednou, odečte 14 mincí a okamžitě je vykreslí v zvoleném místě"
+	)
+	var back_closed_decorations: bool = instance._consume_mobile_back_navigation()
+	_check(back_closed_decorations and not instance.room_decoration_open and not instance.room_decoration_modal.visible and instance.garden_location_id == "player_room", "Systémové Zpět zavře nejprve dekorace a ponechá hráče v pokoji")
+	instance.player_room_view.theme_button.pressed.emit()
+	await process_frame
+	_check(instance.cosmetic_modal_open and instance.cosmetic_modal.visible, "VZHLED POKOJE otevře existující kosmetický showroom bez druhé ekonomiky")
+	instance._consume_mobile_back_navigation()
+	var back_closed_player_room: bool = instance._consume_mobile_back_navigation()
+	_check(back_closed_player_room and instance.garden_location_id == "rack" and instance.plants_room_panel.visible and not instance.player_room_panel.visible, "Systémové Zpět vrátí hráčský pokoj na stojan před pokusem ukončit hru")
+	instance._open_greenhouse()
+	await process_frame
+	var greenhouse_targets_valid: bool = instance.greenhouse_preview_view.bed_buttons.size() == 4
+	for greenhouse_bed_button in instance.greenhouse_preview_view.bed_buttons:
+		greenhouse_targets_valid = greenhouse_targets_valid and greenhouse_bed_button.size.x >= 64.0 and greenhouse_bed_button.size.y >= 64.0
+	_check(
+		instance.garden_location_id == "greenhouse"
+		and instance.greenhouse_panel.visible
+		and not instance.plants_room_panel.visible
+		and not instance.player_room_panel.visible
+		and instance.greenhouse_preview_view.get_meta("component", "") == "phase105_greenhouse_v1"
+		and instance.greenhouse_preview_view.get_meta("functional_beds", 0) == 4
+		and not instance.greenhouse_preview_view.get_meta("preview_only", true)
+		and greenhouse_targets_valid
+		and instance.greenhouse_preview_view.action_button.size.y >= 64.0,
+		"Fáze 105 levá šipka otevře funkční skleník se čtyřmi velkými záhony a jednou kontextovou 64px akcí"
+	)
+	instance.nav_buttons[1].pressed.emit()
+	await process_frame
+	var greenhouse_storage_navigation_valid: bool = instance.active_screen == 1
+	instance.nav_buttons[0].pressed.emit()
+	await process_frame
+	_check(
+		greenhouse_storage_navigation_valid
+		and instance.active_screen == 0
+		and instance.garden_location_id == "rack"
+		and instance.plants_room_panel.visible
+		and not instance.greenhouse_panel.visible,
+		"ROSTLINY po cestě skleník → Sklad vždy vrátí hráče na stojan místo do zapamatovaného skleníku"
+	)
+	instance._open_greenhouse()
+	await process_frame
+	var greenhouse_coins_before: int = instance.session.coins
+	var greenhouse_xp_before: int = instance.session.xp
+	instance.greenhouse_preview_view.select_bed(0)
+	var tomato_choice: Button = instance.greenhouse_preview_view.crop_buttons[0]
+	var tomato_choice_was_player_path: bool = tomato_choice.visible and not tomato_choice.disabled and tomato_choice.size.y >= 64.0
+	tomato_choice.pressed.emit()
+	_check(
+		tomato_choice_was_player_path
+		and instance.session.coins == greenhouse_coins_before - 10
+		and str(instance.session.get_greenhouse_bed_state(0).get("stage", "")) == "needs_water"
+		and instance.greenhouse_preview_view.action_button.text == "ZALÍT ZÁHON",
+		"Viditelná 64px volba rajčete skutečně zasadí plodinu za 10 mincí a okamžitě nabídne zálivku"
+	)
+	instance.greenhouse_preview_view.action_button.pressed.emit()
+	_check(
+		str(instance.session.get_greenhouse_bed_state(0).get("stage", "")) == "growing"
+		and instance.greenhouse_preview_view.action_button.disabled,
+		"Druhé stisknutí zalije záhon a během růstu bezpečně zablokuje další akci"
+	)
+	instance.session.greenhouse.advance(21600.0)
+	instance._refresh_greenhouse_view()
+	_check(
+		str(instance.session.get_greenhouse_bed_state(0).get("stage", "")) == "ready"
+		and not instance.greenhouse_preview_view.action_button.disabled
+		and instance.greenhouse_preview_view.action_button.text.begins_with("SKLIDIT"),
+		"Po dokončení času skleník zobrazí zralý záhon a odemkne sklizeň"
+	)
+	instance.greenhouse_preview_view.action_button.pressed.emit()
+	_check(
+		str(instance.session.get_greenhouse_bed_state(0).get("stage", "")) == "empty"
+		and instance.session.coins == greenhouse_coins_before + 14
+		and instance.session.xp == greenhouse_xp_before + 8,
+		"Skutečné tlačítko sklizně uvolní záhon a po započtení semínka přidá čistě 14 mincí a 8 XP"
+	)
+	instance.session.xp = 100
+	instance._refresh_greenhouse_view()
+	var pepper_coins_before: int = instance.session.coins
+	_check(
+		instance.greenhouse_preview_view.crop_buttons.size() == 3
+		and instance.greenhouse_preview_view.crop_buttons[0].visible
+		and instance.greenhouse_preview_view.crop_buttons[1].visible
+		and instance.greenhouse_preview_view.crop_buttons[2].visible
+		and not instance.greenhouse_preview_view.crop_buttons[1].disabled
+		and instance.greenhouse_preview_view.crop_buttons[2].disabled
+		and "OD ÚR. 4" in instance.greenhouse_preview_view.crop_buttons[2].text
+		and not instance.greenhouse_preview_view.action_button.visible,
+		"Prázdný záhon fáze 107 zobrazí tři samostatné volby, odemčenou papriku a čitelně zamčenou okurku"
+	)
+	instance.greenhouse_preview_view.crop_buttons[1].pressed.emit()
+	_check(
+		instance.session.coins == pepper_coins_before - 14
+		and str(instance.session.get_greenhouse_bed_state(0).get("crop_id", "")) == "sweet_pepper"
+		and str(instance.session.get_greenhouse_bed_state(0).get("stage", "")) == "needs_water"
+		and instance.greenhouse_preview_view.action_button.visible
+		and not instance.greenhouse_preview_view.crop_buttons[0].visible
+		and not instance.greenhouse_preview_view.crop_buttons[1].visible
+		and not instance.greenhouse_preview_view.crop_buttons[2].visible,
+		"Druhá 64px volba zasadí papriku za 14 mincí a okamžitě vrátí kontextovou akci zálivky"
+	)
+	var back_closed_greenhouse: bool = instance._consume_mobile_back_navigation()
+	_check(back_closed_greenhouse and instance.garden_location_id == "rack" and instance.plants_room_panel.visible and not instance.greenhouse_panel.visible, "Systémové Zpět vrátí funkční skleník bezpečně na stojan")
 	instance._open_plant_detail(0)
 	var back_closed_detail: bool = instance._consume_mobile_back_navigation()
-	_check(back_closed_detail and instance.plants_room_panel.visible and not instance.plant_detail_panel.visible, "Fáze 55 systémové Zpět vrátí detail rostliny do pokoje")
+	_check(back_closed_detail and instance.plants_room_panel.visible and not instance.plant_detail_panel.visible, "Fáze 55 systémové Zpět vrátí detail rostliny na stojan")
 	instance._change_screen(2)
 	var back_returned_home: bool = instance._consume_mobile_back_navigation()
 	_check(back_returned_home and instance.active_screen == 0, "Fáze 55 systémové Zpět vrátí Sklad, Obchod nebo Měření nejprve k rostlinám")
@@ -8390,7 +9270,7 @@ func _test_main_scene_smoke() -> void:
 	var back_protected_recovery: bool = instance._consume_mobile_back_navigation()
 	_check(back_protected_recovery and instance.save_recovery_open and instance.save_recovery_modal.visible, "Fáze 55 systémové Zpět neobejde povinné rozhodnutí při chráněném save")
 	instance._close_save_recovery()
-	_check(not instance._consume_mobile_back_navigation(), "Fáze 55 až čistý pokoj předá další Zpět bezpečnému ukončení a uložení")
+	_check(not instance._consume_mobile_back_navigation(), "Fáze 55 až čistý stojan předá další Zpět bezpečnému ukončení a uložení")
 	var real_notification_service = instance.care_notification_service
 	var lifecycle_backend := FakeCareNotificationBackend.new()
 	lifecycle_backend.permission_granted = true
@@ -8650,10 +9530,10 @@ func _test_main_scene_smoke() -> void:
 	_check(not study_cosmetic_card.is_empty() and (study_cosmetic_card.button as Button).disabled and "6" in (study_cosmetic_card.button as Button).text, "Nová hra vidí pracovnu v témže showroomu, ale tlačítko pravdivě zůstane zamčené do šesti Profesorových protokolů")
 	instance.session.coins = 100
 	instance._on_room_theme_pressed("amethyst")
-	_check(instance.session.selected_room_theme == "amethyst" and instance.room_overview.cosmetic_theme == "amethyst", "Zvolený kosmetický vzhled se ihned propíše do pokoje")
+	_check(instance.session.selected_room_theme == "amethyst" and instance.room_overview.cosmetic_theme == "amethyst" and instance.player_room_view.selected_theme_id == "amethyst", "Zvolený kosmetický vzhled se ihned propíše do stojanu i hráčského pokoje")
 	var coins_after_amethyst: int = int(instance.session.coins)
 	instance._on_room_theme_pressed("sunrise")
-	var switched_to_owned_theme: bool = instance.session.selected_room_theme == "sunrise" and instance.room_overview.cosmetic_theme == "sunrise" and instance.session.coins == coins_after_amethyst
+	var switched_to_owned_theme: bool = instance.session.selected_room_theme == "sunrise" and instance.room_overview.cosmetic_theme == "sunrise" and instance.player_room_view.selected_theme_id == "sunrise" and instance.session.coins == coins_after_amethyst
 	instance._on_room_theme_pressed("amethyst")
 	_check(switched_to_owned_theme and instance.session.selected_room_theme == "amethyst" and instance.session.coins == coins_after_amethyst, "Showroom přepíná oba již vlastněné vzhledy zdarma i když doménový stav unlocked není nová koupě")
 	instance._close_cosmetic_modal()
@@ -8914,7 +9794,7 @@ func _test_main_scene_smoke() -> void:
 	instance.session.paused = false
 	instance._refresh_ui()
 	instance._open_room()
-	_check(instance.plants_room_panel.visible and not instance.plant_detail_panel.visible, "Tlačítko POKOJ vrátí hráče do přehledu")
+	_check(instance.plants_room_panel.visible and not instance.plant_detail_panel.visible and instance.garden_location_id == "rack", "Tlačítko STOJAN vrátí hráče do přehledu")
 	var storage_screen: Control = instance.screens[1]
 	var shop_screen: Control = instance.screens[2]
 	var measurement_screen: Control = instance.screens[3]
@@ -9121,6 +10001,15 @@ func _scroll_descendant_buttons_are_pass(scroll: ScrollContainer) -> bool:
 		return false
 	for node in scroll.find_children("*", "Button", true, false):
 		if (node as Control).mouse_filter != Control.MOUSE_FILTER_PASS:
+			return false
+	return true
+
+
+func _scroll_control_descendants_are_passthrough(content_root: Control) -> bool:
+	if content_root == null or content_root.mouse_filter == Control.MOUSE_FILTER_STOP:
+		return false
+	for node in content_root.find_children("*", "Control", true, false):
+		if (node as Control).mouse_filter == Control.MOUSE_FILTER_STOP:
 			return false
 	return true
 

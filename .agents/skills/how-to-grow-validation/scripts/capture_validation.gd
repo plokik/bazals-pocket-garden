@@ -130,6 +130,70 @@ func _capture() -> void:
 		quit(2)
 		return
 
+	_prepare_phase103_player_room_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-player-room.png"):
+		quit(2)
+		return
+
+	_prepare_phase104_decorated_player_room_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-player-room-decorated.png"):
+		quit(2)
+		return
+
+	_prepare_phase104_decoration_shop_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-room-decoration-shop.png"):
+		quit(2)
+		return
+	instance._close_room_decoration_modal()
+
+	_prepare_phase105_greenhouse_empty_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-preview.png"):
+		quit(2)
+		return
+
+	_prepare_phase105_greenhouse_growing_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-growing.png"):
+		quit(2)
+		return
+
+	_prepare_phase105_greenhouse_ready_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-ready.png"):
+		quit(2)
+		return
+
+	_prepare_phase106_greenhouse_pepper_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-pepper-growing.png"):
+		quit(2)
+		return
+
+	_prepare_phase107_greenhouse_locked_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-locked-crops.png"):
+		quit(2)
+		return
+
+	_prepare_phase107_greenhouse_cucumber_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-cucumber-growing.png"):
+		quit(2)
+		return
+
+	var phase109_compact_capture_ok := await _capture_phase109_greenhouse_level2_compact(instance)
+	if not phase109_compact_capture_ok:
+		quit(2)
+		return
+
+	_prepare_room_state(instance)
+	instance._open_rack_location()
+	await _settle(instance)
+
 	_prepare_phase6_guide_state(instance, GuideCharacter.Mood.EXPLAIN, "Každý list něco prozradí. Sleduj vláhu, světlo a růst.", 0.44)
 	await _settle(instance)
 	if not _save_full_viewport("comic-guide-explain.png"):
@@ -380,6 +444,24 @@ func _capture() -> void:
 		quit(2)
 		return
 	instance._finish_return_summary_capture()
+
+	if not _prepare_phase109_return_summary_greenhouse_state(instance):
+		quit(2)
+		return
+	await _settle(instance)
+	if not _save_full_viewport("comic-return-summary-greenhouse-ready.png"):
+		quit(2)
+		return
+	instance._finish_return_summary_capture()
+
+	if not _prepare_phase109_rack_attention_state(instance):
+		quit(2)
+		return
+	await _settle(instance)
+	if not _save_full_viewport("comic-rack-greenhouse-attention.png"):
+		quit(2)
+		return
+	_finish_phase109_rack_attention_state(instance)
 
 	instance._prepare_save_failure_capture()
 	await _settle(instance)
@@ -1564,6 +1646,7 @@ func _prepare_locked_state(instance) -> void:
 
 
 func _prepare_room_state(instance) -> void:
+	instance.session.selected_room_theme = "sunrise"
 	for plant in instance.session.plants:
 		plant.reset()
 		plant.configure_profile(instance.profile)
@@ -1593,6 +1676,236 @@ func _prepare_room_state(instance) -> void:
 	instance.room_overview.refresh()
 	instance._refresh_ui()
 	instance._set_day_display(10)
+
+
+func _prepare_phase103_player_room_state(instance) -> void:
+	instance.session.unlocked_room_themes.assign(["sunrise", "amethyst"])
+	instance.session.selected_room_theme = "amethyst"
+	instance._open_player_room()
+	instance.player_room_view.set_cosmetic_theme("amethyst")
+	instance.player_room_view.set_meta("capture_state", "phase103_player_room_amethyst_report_only_v1")
+
+
+func _prepare_phase104_decorated_player_room_state(instance) -> void:
+	instance.session.unlocked_room_themes.assign(["sunrise", "amethyst"])
+	instance.session.selected_room_theme = "amethyst"
+	instance.session.coins = 84
+	instance.session.owned_room_decorations.assign([
+		"mini_monstera",
+		"botanical_books",
+		"golden_lamp",
+		"room_fern",
+		"flowering_begonia",
+	])
+	instance.session.room_decoration_slots.assign([
+		"mini_monstera",
+		"botanical_books",
+		"golden_lamp",
+		"room_fern",
+		"flowering_begonia",
+	])
+	instance._open_player_room()
+	instance.player_room_view.set_cosmetic_theme("amethyst")
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	instance.player_room_view.set_meta("capture_state", "phase104_player_room_decorated_report_only_v1")
+
+
+func _prepare_phase104_decoration_shop_state(instance) -> void:
+	_prepare_phase104_decorated_player_room_state(instance)
+	instance._open_room_decoration_modal(2)
+	instance.room_decoration_modal.set_meta("capture_state", "phase104_room_decoration_shop_report_only_v1")
+
+
+func _prepare_phase105_greenhouse_empty_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_empty_report_only_v1")
+
+
+func _prepare_phase105_greenhouse_growing_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.coins = maxi(instance.session.coins, 10)
+	instance.session.perform_greenhouse_bed_action(0)
+	instance.session.perform_greenhouse_bed_action(0)
+	instance.session.greenhouse.advance(10800.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_growing_report_only_v1")
+
+
+func _prepare_phase105_greenhouse_ready_state(instance) -> void:
+	instance.session.greenhouse.advance(10800.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_ready_report_only_v1")
+
+
+func _prepare_phase106_greenhouse_pepper_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = maxi(instance.session.xp, 100)
+	instance.session.coins = maxi(instance.session.coins, 14)
+	instance.session.plant_greenhouse_crop(1, "sweet_pepper")
+	instance.session.perform_greenhouse_bed_action(1)
+	instance.session.greenhouse.advance(21600.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(1)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase106_greenhouse_pepper_growing_report_only_v1")
+
+
+func _prepare_phase107_greenhouse_locked_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 0
+	instance.session.coins = maxi(instance.session.coins, 18)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase107_greenhouse_locked_crops_report_only_v1")
+
+
+func _prepare_phase107_greenhouse_cucumber_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 300
+	instance.session.coins = maxi(instance.session.coins, 18)
+	instance.session.plant_greenhouse_crop(2, "salad_cucumber")
+	instance.session.perform_greenhouse_bed_action(2)
+	instance.session.greenhouse.advance(27000.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(2)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase107_greenhouse_cucumber_growing_report_only_v1")
+
+
+func _capture_phase109_greenhouse_level2_compact(instance) -> bool:
+	var previous_content_scale_size: Vector2i = root.content_scale_size
+	root.content_scale_size = Vector2i(360, 800)
+	await process_frame
+	await process_frame
+	_prepare_phase109_greenhouse_level2_state(instance)
+	await _settle(instance)
+	var greenhouse = instance.greenhouse_preview_view
+	var capture_valid: bool = (
+		greenhouse.size == Vector2(360.0, 620.0)
+		and greenhouse.get_meta("responsive_layout_component", "") == "phase109_greenhouse_compact_layout_v1"
+		and greenhouse.crop_buttons.size() == 3
+		and greenhouse.crop_buttons[0].visible
+		and not greenhouse.crop_buttons[0].disabled
+		and greenhouse.crop_buttons[1].visible
+		and not greenhouse.crop_buttons[1].disabled
+		and greenhouse.crop_buttons[2].visible
+		and greenhouse.crop_buttons[2].disabled
+		and "OD ÚR. 4" in greenhouse.crop_buttons[2].text
+	)
+	if not capture_valid:
+		push_error("Phase 109 compact capture did not render exact 360x620 content with level-2 tomato, pepper and locked cucumber choices.")
+	else:
+		capture_valid = _save_full_viewport("comic-greenhouse-level2-compact.png")
+	root.content_scale_size = previous_content_scale_size
+	await process_frame
+	await process_frame
+	instance.session.greenhouse.reset()
+	instance._refresh_greenhouse_view()
+	instance._refresh_rack_greenhouse_attention()
+	return capture_valid
+
+
+func _prepare_phase109_greenhouse_level2_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 100
+	instance.session.coins = maxi(instance.session.coins, 100)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase109_greenhouse_level2_compact_report_only_v1")
+
+
+func _prepare_phase109_return_summary_greenhouse_state(instance) -> bool:
+	instance._finish_return_summary_capture()
+	instance.session.greenhouse.reset()
+	instance.session.xp = 100
+	instance.session.coins = maxi(instance.session.coins, 100)
+	if not instance.session.plant_greenhouse_crop(2, "cherry_tomato") \
+			or not instance.session.perform_greenhouse_bed_action(2):
+		push_error("Phase 109 return-summary capture could not prepare a growing greenhouse crop.")
+		return false
+	var coins_before_maturity: int = instance.session.coins
+	var xp_before_maturity: int = instance.session.xp
+	if not is_equal_approx(instance.session.advance_offline(21600.0), 21600.0):
+		push_error("Phase 109 return-summary capture did not apply the exact offline interval.")
+		return false
+	var lifecycle_events: Array[Dictionary] = instance.session.consume_offline_lifecycle_events()
+	var greenhouse_events: Array[Dictionary] = []
+	for lifecycle_event in lifecycle_events:
+		if str(lifecycle_event.get("kind", "")) == "greenhouse_ready":
+			greenhouse_events.append(lifecycle_event)
+	if greenhouse_events.size() != 1 \
+			or int(greenhouse_events[0].get("bed_number", -1)) != 3 \
+			or instance.session.coins != coins_before_maturity \
+			or instance.session.xp != xp_before_maturity:
+		push_error("Phase 109 return-summary capture did not preserve the one-shot no-reward greenhouse event contract.")
+		return false
+	instance._change_screen(0)
+	instance._open_rack_location()
+	instance._refresh_rack_greenhouse_attention()
+	instance.return_summary_presenter.refresh(21600.0, "Jasno", "Zkontroluj zahradu", greenhouse_events)
+	instance.return_summary_open = true
+	instance.return_summary_modal.visible = true
+	instance.return_summary_modal.move_to_front()
+	instance.return_summary_modal.set_meta("capture_state", "phase109_greenhouse_return_summary_report_only_v1")
+	var cta_found := false
+	for child in instance.return_summary_modal.find_children("*", "Button", true, false):
+		if child.get_meta("component", "") == "phase109_return_summary_garden_cta_v1":
+			cta_found = child.text == "ZKONTROLOVAT ZAHRADU" and child.size.y >= 68.0
+			break
+	if not cta_found \
+			or "Skleník · záhon 3 · CHERRY RAJČE · PŘIPRAVENO KE SKLIZNI" not in instance.return_summary_label.text:
+		push_error("Phase 109 return-summary capture is missing its greenhouse line or garden CTA.")
+		return false
+	return true
+
+
+func _prepare_phase109_rack_attention_state(instance) -> bool:
+	instance._finish_return_summary_capture()
+	if not instance.session.plant_greenhouse_crop(1, "sweet_pepper"):
+		push_error("Phase 109 rack-attention capture could not prepare a needs-water pepper bed.")
+		return false
+	instance._change_screen(0)
+	instance._open_rack_location()
+	instance._refresh_rack_greenhouse_attention()
+	var attention: Dictionary = instance.session.get_greenhouse_attention_summary()
+	if int(attention.get("needs_water", -1)) != 1 \
+			or int(attention.get("ready", -1)) != 1 \
+			or int(attention.get("action_count", -1)) != 2 \
+			or instance.rack_greenhouse_button.size != Vector2(124.0, 64.0) \
+			or instance.rack_greenhouse_button.text != "←  SKLENÍK\n2 AKCE":
+		push_error("Phase 109 rack-attention capture did not render the exact derived two-action 124x64 badge.")
+		return false
+	instance.plants_room_panel.set_meta("capture_state", "phase109_rack_greenhouse_attention_report_only_v1")
+	return true
+
+
+func _finish_phase109_rack_attention_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance._refresh_greenhouse_view()
+	instance._refresh_rack_greenhouse_attention()
+	instance.plants_room_panel.remove_meta("capture_state")
+
+
+func _sync_capture_coin_hud(instance) -> void:
+	instance.last_coins_seen = instance.session.coins
+	instance._set_coin_count(float(instance.session.coins))
+	instance.last_xp_seen = -1
+	instance._refresh_xp_display()
 
 
 func _prepare_hud_state(instance) -> void:

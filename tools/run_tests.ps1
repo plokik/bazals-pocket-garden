@@ -50,7 +50,8 @@ try {
 
 $output = Get-Content -LiteralPath $logPath -Raw
 Write-Output $output
-if ($output -match 'MVP_TESTS_PASSED=\d+' -and
+if ($process.ExitCode -eq 0 -and
+    $output -match 'MVP_TESTS_PASSED=\d+' -and
     $output -notmatch 'SCRIPT ERROR|Parse Error|MVP TESTY SELHALY') {
     exit 0
 }

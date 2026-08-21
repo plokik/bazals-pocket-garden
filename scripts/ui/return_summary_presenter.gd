@@ -21,8 +21,17 @@ func refresh(elapsed_seconds: float, weather_name: String, challenge_title: Stri
 		if not raw_event is Dictionary:
 			continue
 		var event := raw_event as Dictionary
+		var event_kind := str(event.get("kind", ""))
+		if event_kind == "greenhouse_ready":
+			outcome_lines.append("Skleník · záhon %d · %s · PŘIPRAVENO KE SKLIZNI" % [
+				maxi(1, int(event.get("bed_number", int(event.get("bed_index", 0)) + 1))),
+				str(event.get("crop_name", "Plodina")).to_upper(),
+			])
+			if outcome_lines.size() >= 4:
+				break
+			continue
 		var state_text := "ZMĚNA"
-		match str(event.get("kind", "")):
+		match event_kind:
 			"matured": state_text = "PŘIPRAVENO KE SKLIZNI"
 			"wilted": state_text = "ZVADLÁ · ZACHRAŇ JI"
 			"dead": state_text = "UHYNULA · VYČISTI KVĚTINÁČ"

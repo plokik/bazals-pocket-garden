@@ -52,6 +52,14 @@ const CASES := [
 		"safe": Rect2(0.0, 0.0, 0.0, 0.0),
 		"expected": Vector4.ZERO,
 	},
+	{
+		"id": "phase109_greenhouse_360x800",
+		"window": Vector2(360.0, 800.0),
+		"logical": Vector2i(360, 800),
+		"safe": Rect2(0.0, 0.0, 360.0, 800.0),
+		"expected": Vector4.ZERO,
+		"phase109_compact_greenhouse": true,
+	},
 ]
 
 
@@ -131,6 +139,7 @@ func _run() -> void:
 
 func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_directory: String) -> Dictionary:
 	var logical_size: Vector2i = test_case.logical
+	var capture_compact_greenhouse := bool(test_case.get("phase109_compact_greenhouse", false))
 	viewport.size = logical_size
 	await _settle_frames(2)
 	instance._apply_safe_area_rect(test_case.safe, test_case.window, Vector2(logical_size))
@@ -162,6 +171,19 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 		if failure.is_empty() and not _is_full_rect(modal):
 			failure = "%s found a blocking modal without full viewport coverage." % test_case.id
 	if failure.is_empty():
+		failure = _validate_phase103_home_locations(instance, str(test_case.id))
+	if failure.is_empty():
+		instance._open_player_room()
+		instance._open_room_decoration_modal(0)
+		await _settle_frames(2)
+		failure = _validate_phase104_room_decorations(instance, str(test_case.id))
+		instance._close_room_decoration_modal()
+		instance._open_rack_location()
+	if failure.is_empty() and capture_compact_greenhouse:
+		instance._open_greenhouse()
+		await _settle_frames(2)
+		failure = _validate_phase109_compact_greenhouse(instance, str(test_case.id))
+	if failure.is_empty():
 		var geometry_failure := _validate_professor_story_geometry(instance, test_case.id)
 		if not geometry_failure.is_empty():
 			failure = geometry_failure
@@ -174,6 +196,9 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 	elif image != null and not image.is_empty():
 		image.save_png(screenshot_path)
 		failure = _validate_exposed_edges(image, actual, instance.edge_background.color, str(test_case.id), failure)
+	if capture_compact_greenhouse:
+		instance._open_rack_location()
+		await _settle_frames(2)
 
 	return {
 		"id": test_case.id,
@@ -197,6 +222,12 @@ func _validate_structure(instance) -> String:
 		return "The safe-content container contract is missing."
 	if instance.screens.size() != 4:
 		return "Expected four main mobile screens."
+	if instance.player_room_view == null or instance.player_room_view.get_meta("component", "") != "phase103_player_room_v1":
+		return "The Phase 103 player-room location contract is missing."
+	if instance.greenhouse_preview_view == null or instance.greenhouse_preview_view.get_meta("component", "") != "phase105_greenhouse_v1":
+		return "The Phase 105 functional-greenhouse location contract is missing."
+	if instance.room_decoration_modal == null or instance.room_decoration_modal.get_meta("component", "") != "fullscreen_room_decoration_modal_v1":
+		return "The Phase 104 room-decoration modal contract is missing."
 	var blocking_modal_count := _blocking_modals(instance).size()
 	var required_modal_components := _required_blocking_modal_components()
 	if blocking_modal_count != required_modal_components.size():
@@ -221,6 +252,7 @@ func _blocking_modals(instance) -> Array[Control]:
 		instance.seed_selector_modal,
 		instance.herbarium_modal,
 		instance.cosmetic_modal,
+		instance.room_decoration_modal,
 		instance.daily_challenge_modal,
 		instance.botanical_pack_modal,
 		instance.level_progression_modal,
@@ -242,6 +274,7 @@ func _required_blocking_modal_components() -> PackedStringArray:
 		"comic_mobile_seed_selector_v1",
 		"fullscreen_herbarium_modal_v1",
 		"fullscreen_cosmetic_showroom_v1",
+		"fullscreen_room_decoration_modal_v1",
 		"fullscreen_daily_challenge_modal_v1",
 		"fullscreen_botanical_pack_modal_v1",
 		"fullscreen_level_progression_modal_v1",
@@ -287,6 +320,149 @@ func _validate_professor_story_geometry(instance, test_case_id: String) -> Strin
 		return "%s does not keep five story goal cards scroll contract." % test_case_id
 	if not instance.professor_story_scroll.is_queued_for_deletion() and instance.professor_story_action_button.get_meta("touch_target_min_height", 0) < 44:
 		return "%s has an insufficient professor story action touch target minimum height." % test_case_id
+	return ""
+
+
+func _validate_phase103_home_locations(instance, test_case_id: String) -> String:
+	for control in [instance.plants_room_panel, instance.player_room_panel, instance.greenhouse_panel, instance.player_room_view, instance.greenhouse_preview_view]:
+		if control == null or not _is_full_rect(control):
+			return "%s found a Phase 103 home location without full safe-content coverage." % test_case_id
+	var rack_size: Vector2 = instance.plants_room_panel.size
+	for arrow in [instance.rack_greenhouse_button, instance.rack_player_room_button]:
+		if arrow == null or arrow.size.y < 64.0 or arrow.position.x < 0.0 or arrow.position.y < 80.0 or arrow.position.x + arrow.size.x > rack_size.x or arrow.position.y + arrow.size.y > rack_size.y - 90.0:
+			return "%s found a rack location arrow outside its safe 64px window target." % test_case_id
+	if instance.player_room_view.back_button == null or instance.player_room_view.theme_button == null or instance.player_room_view.back_button.size.y < 60.0 or instance.player_room_view.theme_button.size.y < 60.0:
+		return "%s found an undersized player-room navigation target." % test_case_id
+	if instance.player_room_view.decoration_buttons.size() != 5:
+		return "%s found an incomplete player-room decoration slot set." % test_case_id
+	var room_rect: Rect2 = instance.player_room_view.get_global_rect()
+	for button in instance.player_room_view.decoration_buttons:
+		if button == null or button.size.x < 56.0 or button.size.y < 56.0:
+			return "%s found an undersized player-room decoration target." % test_case_id
+		var button_rect: Rect2 = button.get_global_rect()
+		if button_rect.position.x < room_rect.position.x or button_rect.end.x > room_rect.end.x or button_rect.position.y < room_rect.position.y or button_rect.end.y > room_rect.end.y:
+			return "%s found a player-room decoration target outside the room surface." % test_case_id
+	var greenhouse = instance.greenhouse_preview_view
+	if greenhouse.get_meta("functional_beds", 0) != 4 or greenhouse.get_meta("preview_only", true) or greenhouse.bed_buttons.size() != 4:
+		return "%s found an incomplete Phase 105 functional-greenhouse contract." % test_case_id
+	if greenhouse.back_button == null or greenhouse.back_button.size.x < 64.0 or greenhouse.back_button.size.y < 64.0:
+		return "%s found an undersized greenhouse navigation target." % test_case_id
+	if greenhouse.action_button == null or greenhouse.action_button.size.x < 64.0 or greenhouse.action_button.size.y < 64.0:
+		return "%s found an undersized greenhouse primary action." % test_case_id
+	if greenhouse.get_meta("extension_component", "") != "phase107_greenhouse_progression_v1" or greenhouse.get_meta("crop_count", 0) != 3 or greenhouse.crop_buttons.size() != 3:
+		return "%s found an incomplete Phase 107 greenhouse progression contract." % test_case_id
+	if greenhouse.size.x > 360.0 and greenhouse.size.y > 620.0 and greenhouse._uses_compact_layout():
+		return "%s replaced the preserved 432px greenhouse branch with compact geometry." % test_case_id
+	var greenhouse_rect: Rect2 = greenhouse.get_global_rect()
+	var action_rect: Rect2 = greenhouse.action_button.get_global_rect()
+	if action_rect.position.x < greenhouse_rect.position.x or action_rect.end.x > greenhouse_rect.end.x or action_rect.position.y < greenhouse_rect.position.y or action_rect.end.y > greenhouse_rect.end.y:
+		return "%s placed the greenhouse primary action outside the safe location surface." % test_case_id
+	for crop_index in range(greenhouse.crop_buttons.size()):
+		var crop_button: Button = greenhouse.crop_buttons[crop_index]
+		if crop_button == null or crop_button.size.x < 64.0 or crop_button.size.y < 64.0:
+			return "%s found an undersized greenhouse crop choice." % test_case_id
+		var crop_rect: Rect2 = crop_button.get_global_rect()
+		if crop_rect.position.x < greenhouse_rect.position.x or crop_rect.end.x > greenhouse_rect.end.x or crop_rect.position.y < greenhouse_rect.position.y or crop_rect.end.y > greenhouse_rect.end.y:
+			return "%s placed greenhouse crop choice %d outside the safe location surface." % [test_case_id, crop_index + 1]
+		for other_crop_index in range(crop_index):
+			if crop_rect.intersects(greenhouse.crop_buttons[other_crop_index].get_global_rect()):
+				return "%s overlapped greenhouse crop choices %d and %d." % [test_case_id, other_crop_index + 1, crop_index + 1]
+	for bed_index in range(greenhouse.bed_buttons.size()):
+		var bed_button: Button = greenhouse.bed_buttons[bed_index]
+		if bed_button == null or bed_button.size.x < 64.0 or bed_button.size.y < 64.0:
+			return "%s found an undersized greenhouse bed target." % test_case_id
+		var bed_rect: Rect2 = bed_button.get_global_rect()
+		if bed_rect.position.x < greenhouse_rect.position.x or bed_rect.end.x > greenhouse_rect.end.x or bed_rect.position.y < greenhouse_rect.position.y or bed_rect.end.y > greenhouse_rect.end.y:
+			return "%s placed greenhouse bed %d outside the safe location surface." % [test_case_id, bed_index + 1]
+		if bed_rect.intersects(action_rect):
+			return "%s overlapped greenhouse bed %d with the primary action." % [test_case_id, bed_index + 1]
+		for other_index in range(bed_index):
+			if bed_rect.intersects(greenhouse.bed_buttons[other_index].get_global_rect()):
+				return "%s overlapped greenhouse bed targets %d and %d." % [test_case_id, other_index + 1, bed_index + 1]
+	return ""
+
+
+func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> String:
+	var greenhouse = instance.greenhouse_preview_view
+	var expected_content_size := Vector2(360.0, 620.0)
+	if greenhouse.size != expected_content_size:
+		return "%s produced greenhouse content %s instead of exact 360x620 after the 74px HUD and 106px dock." % [test_case_id, greenhouse.size]
+	if greenhouse.get_meta("responsive_layout_component", "") != "phase109_greenhouse_compact_layout_v1" \
+			or greenhouse.get_meta("compact_content_size", Vector2i.ZERO) != Vector2i(360, 620) \
+			or not greenhouse._uses_compact_layout():
+		return "%s is missing the frozen Phase 109 compact-layout contract." % test_case_id
+
+	var expected_house := Rect2(18.0, 174.0, 324.0, 240.0)
+	var expected_status := Rect2(16.0, 430.0, 328.0, 96.0)
+	if greenhouse._house_rect() != expected_house:
+		return "%s produced greenhouse house rect %s instead of %s." % [test_case_id, greenhouse._house_rect(), expected_house]
+	if greenhouse._status_rect() != expected_status:
+		return "%s produced greenhouse status rect %s instead of %s." % [test_case_id, greenhouse._status_rect(), expected_status]
+
+	var expected_beds: Array[Rect2] = [
+		Rect2(30.0, 246.0, 146.0, 74.0),
+		Rect2(184.0, 246.0, 146.0, 74.0),
+		Rect2(30.0, 328.0, 146.0, 74.0),
+		Rect2(184.0, 328.0, 146.0, 74.0),
+	]
+	var minimum_bed_status_gap := INF
+	for bed_index in range(expected_beds.size()):
+		var computed_bed: Rect2 = greenhouse._bed_rect(bed_index)
+		var live_bed: Rect2 = greenhouse.bed_buttons[bed_index].get_rect()
+		if computed_bed != expected_beds[bed_index] or live_bed != expected_beds[bed_index]:
+			return "%s produced bed %d geometry %s/%s instead of %s." % [test_case_id, bed_index + 1, computed_bed, live_bed, expected_beds[bed_index]]
+		if live_bed.size.x < 64.0 or live_bed.size.y < 64.0:
+			return "%s produced an undersized compact greenhouse bed %d." % [test_case_id, bed_index + 1]
+		if live_bed.intersects(expected_status):
+			return "%s overlapped compact greenhouse bed %d with its status panel." % [test_case_id, bed_index + 1]
+		minimum_bed_status_gap = minf(minimum_bed_status_gap, expected_status.position.y - live_bed.end.y)
+	if minimum_bed_status_gap < 16.0:
+		return "%s left only %.1fpx between a bed and status panel instead of at least 16px." % [test_case_id, minimum_bed_status_gap]
+
+	var expected_action := Rect2(16.0, 542.0, 328.0, 64.0)
+	if greenhouse.action_button.get_rect() != expected_action:
+		return "%s produced compact primary action %s instead of %s." % [test_case_id, greenhouse.action_button.get_rect(), expected_action]
+	var expected_crops: Array[Rect2] = [
+		Rect2(16.0, 542.0, 104.0, 64.0),
+		Rect2(128.0, 542.0, 104.0, 64.0),
+		Rect2(240.0, 542.0, 104.0, 64.0),
+	]
+	for crop_index in range(expected_crops.size()):
+		var crop_rect: Rect2 = greenhouse.crop_buttons[crop_index].get_rect()
+		if crop_rect != expected_crops[crop_index]:
+			return "%s produced crop choice %d geometry %s instead of %s." % [test_case_id, crop_index + 1, crop_rect, expected_crops[crop_index]]
+		if crop_rect.size.x < 64.0 or crop_rect.size.y < 64.0:
+			return "%s produced an undersized compact crop choice %d." % [test_case_id, crop_index + 1]
+	if greenhouse.back_button.get_rect() != Rect2(10.0, 10.0, 124.0, 64.0):
+		return "%s did not preserve the exact 124x64 greenhouse return CTA." % test_case_id
+	return ""
+
+
+func _validate_phase104_room_decorations(instance, test_case_id: String) -> String:
+	var modal = instance.room_decoration_modal
+	if modal == null or not modal.visible or not bool(modal.get_meta("blocks_game_input", false)):
+		return "%s did not open the blocking Phase 104 room-decoration modal." % test_case_id
+	if modal.scroll == null or modal.list_root == null or modal.decoration_cards.size() != 6:
+		return "%s did not render all six room-decoration cards in the mobile scroll." % test_case_id
+	if modal.scroll.size.x <= 0.0 or modal.scroll.size.y <= 0.0:
+		return "%s produced an empty room-decoration scroll viewport." % test_case_id
+	if modal.list_root.mouse_filter == Control.MOUSE_FILTER_STOP:
+		return "%s found a room-decoration content root that blocks vertical drag scrolling." % test_case_id
+	for descendant in modal.list_root.find_children("*", "Control", true, false):
+		if (descendant as Control).mouse_filter == Control.MOUSE_FILTER_STOP:
+			return "%s found a dynamic room-decoration descendant that blocks vertical drag scrolling." % test_case_id
+	var scroll_rect: Rect2 = modal.scroll.get_global_rect()
+	for decoration_id in modal.decoration_cards:
+		var entry: Dictionary = modal.decoration_cards.get(decoration_id, {})
+		var card := entry.get("card") as Control
+		var action_button := entry.get("action_button") as Button
+		if card == null or action_button == null or action_button.custom_minimum_size.y < 56.0:
+			return "%s found an incomplete or undersized room-decoration card." % test_case_id
+		var card_rect: Rect2 = card.get_global_rect()
+		if card_rect.position.x < scroll_rect.position.x - 1.0 or card_rect.end.x > scroll_rect.end.x + 1.0:
+			return "%s found horizontal overflow in a room-decoration card." % test_case_id
+		if action_button.mouse_filter != Control.MOUSE_FILTER_PASS:
+			return "%s found a room-decoration action that blocks vertical drag scrolling." % test_case_id
 	return ""
 
 

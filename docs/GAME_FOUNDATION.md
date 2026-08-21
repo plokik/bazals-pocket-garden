@@ -2,7 +2,7 @@
 
 Tento dokument je zdroj pravdy pro vertikální řez. Odděluje skutečně hratelný základ od budoucího obsahu a chrání projekt před tím, aby každá nová obrazovka vznikala jako samostatná minihra bez vazby na celek.
 
-Aktuální interní Android snapshot je RC29 `0.45.0-rc29` / code 46 se zdrojovým i save schema 28. Obsahuje celý níže popsaný stav včetně fáze 99; automatická technická release a instalační brána prošla, zatímco 18bodová ruční mobilní kontrola a veřejné publikování zůstávají otevřené.
+Aktuální zdrojový stav je fáze 111 se save schema 32. Poslední immutable Android snapshot je RC36 `0.50.0-rc36` / code 53 a obsahuje runtime fáze 109. Fáze 110 přidala autonomní validační a release workflow a fáze 111 uzavírá zdroje fází 103–110 do Git baseline; ani jedna nemění runtime nebo exportovaný payload RC36. Automatické lokální i technické telefonní brány prošly, zatímco jediný sloučený lidský mobilní blok a veřejné publikování zůstávají otevřené.
 
 ## Herní příslib
 
@@ -867,3 +867,35 @@ Stav fáze 101: **hotovo v hlavním projektu · 100 %**. Výběr denní výzvy n
 Samotná zálivka, jiná pečovatelská akce ani neplatný pokus o předčasné ostříhání výzvu nedokončí. Autoritativním dokončením je pouze úspěšné jednorázové `prune_damaged_leaves`; opakování je bezpečný no-op. Zdravá zralá rostlina dál vybírá `harvest`. Rozpracovaný identifikátor se ukládá ve stávajícím poli denní výzvy, proto se hlavní save schema 28, výše odměny, ekonomika a UTC rytmus nemění.
 
 Hlavní projekt prošel `MVP_TESTS_PASSED=1212`. Úplná validace `.godot/validation/20260820-063931Z` skončila `HOW_TO_GROW_CAPTURE=PASSED`, `HOW_TO_GROW_VISUALS=PASSED`, `HOW_TO_GROW_VALIDATION=PASSED` a 14/14 aktivními gate. Fáze nemění zdrojové PNG, scény, mobilní layout, schválené reference, crop, masky ani tolerance. Nevytvořila nový APK nebo AAB a nezměnila stav `PHYSICAL_ANDROID_MANUAL_GATE=PENDING` ani `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW`; immutable RC29 zůstává historickým kandidátem před touto source-only změnou.
+
+# Fáze 106: volba plodiny ve skleníku
+
+Prázdný záhon už neprovádí skrytou výchozí výsadbu. Zobrazí dvě samostatné 64px volby: cherry rajče za 10 mincí a sladkou papriku za 14 mincí. Rajče zachovává šestihodinový růst a sklizeň 24 mincí + 8 XP. Paprika roste osm hodin a sklizeň dává 34 mincí + 11 XP. Po zasazení obě plodiny používají stejný bezpečný stavový tok `čeká na zálivku → roste → sklizeň`, stejnou peněženku a stejné čtyři nezávislé záhony.
+
+Hlavní save schema 31 autorizuje obě známá ID. Save schema 30 smí obnovit pouze původní cherry rajče a podvrženou papriku zahodí; budoucí nebo neznámá ID odmítá i schema 31. Online a offline čas, limity růstu, atomické odečtení ceny a jednorázová odměna zůstávají doménovou odpovědností `GameSession` a `GreenhouseSimulation`, zatímco UI pouze odešle explicitně vybrané ID.
+
+Release validace `.godot/validation/20260820-204609Z` prošla `MVP_TESTS_PASSED=1278`, capture, všemi povinnými obrazovými branami a `HOW_TO_GROW_VALIDATION=PASSED`; zvláštní regrese provádí skutečná stisknutí `skleník → Sklad → ROSTLINY` a vyžaduje stojan. Responzivní matice `.godot/responsive/20260820-204826Z` prošla 7/7 a ověřila obě tlačítka, jejich minimální výšku, hranice viewportu i vzájemné nepřekrytí. Nové snímky skleníku jsou pouze reportovací; schválené reference, masky ani tolerance se nezměnily.
+
+Immutable ARM64 debug APK `0.48.0-rc34` / code 51 / schema 31 má 101,27 MiB a SHA-256 `D31E42B303319020CDBB839B3935F1008190D410172EEAEC88BE9986C2CCAB02`. Lokální release audit `.godot/release-candidate/20260820-204608Z` prošel validací, výkonem, endurance, postupem, responzivitou, podpisem v2 i payload kontrolami. Fyzický audit `.godot/android-device-audit/20260820-204916Z` potvrdil instalaci přes RC33, migraci save 30 → 31, shodný hash, 11/11 platných vzorků, 100 % popředí a nulový počet fatálních nálezů. Ruční dotyk, upozornění, baterie a teplota zůstávají oddělené od technického průchodu.
+
+# Fáze 107: postup skleníku a salátová okurka
+
+Skleník nově nabízí tři samostatné dvouřádkové volby s minimální výškou 64 px. Cherry rajče je od úrovně 1, stojí 10 mincí, roste 6 hodin a sklizeň dává 24 mincí + 8 XP. Sladká paprika je od úrovně 2, stojí 14 mincí, roste 8 hodin a dává 34 mincí + 11 XP. Salátová okurka se odemkne na úrovni 4, stojí 18 mincí, roste 10 hodin a dává 46 mincí + 14 XP. Místní panel ukazuje mince i aktuální úroveň; zamčené volby pravdivě zobrazí `OD ÚR. 2` nebo `OD ÚR. 4` a nelze je stisknout.
+
+UI zámek není důvěryhodná hranice. `GameSession` při každé výsadbě znovu ověří hráčovu úroveň a zamčenou plodinu odmítne bez odečtení mincí nebo změny záhonu. Save schema 32 autorizuje všechna tři známá ID; schema 31 zachová legitimní rajče a papriku, ale neumí podvrhnout okurku. Už zasazená legitimní plodina po migraci zůstane zachovaná, zatímco nová výsadba vždy respektuje aktuální odemčení. Okurka má vlastní kódově kreslený porost a oporu, takže nebyly upraveny zdrojové PNG ani schválené obrazové reference.
+
+Release validace `.godot/validation/20260820-212051Z` prošla `MVP_TESTS_PASSED=1286`, capture, visuals i všemi povinnými gate bez přepsání referencí nebo změny tolerancí. Performance `.godot/performance/20260820-212215Z` naměřilo nejvyšší CPU p95 8,876 ms, frame p95 16,698 ms, nejvýše 449 draw calls a 85,71 MiB. Endurance `.godot/endurance/20260820-212259Z` prošlo 48/48 cykly, progression `.godot/progression/20260820-212310Z` 132/132 cykly a responsive `.godot/responsive/20260820-212315Z` 7/7 rozměry.
+
+Immutable ARM64 debug APK `0.49.0-rc35` / code 52 / schema 32 má 106 191 776 B (101,27 MiB) a SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`. Lokální release audit `.godot/release-candidate/20260820-212051Z` prošel exportem, podpisem APK v2 i payload kontrolami. Předinstalační snímek `.godot/android-device-audit/20260820-212422Z` zachytil schema 31 a platný audit `.godot/android-device-audit/20260820-212656Z` schema 32 se stejnými 22 mincemi, 127 XP, 10 sloty a 1 obsazeným květináčem. Platný 60sekundový běh měl 11/11 vzorků v popředí, 100% foreground poměr a 0 fatálních nálezů. Ruční čitelnost tří voleb a zámku okurky, skutečné upozornění, delší bateriový běh a teplota zůstávají oddělené od technického průchodu.
+
+# Fáze 109: skleníkový návrat a kompaktní mobilní rozložení
+
+Stav fáze 109: **hotovo ve zdrojovém projektu · automatické desktopové brány prošly**. Skleníková simulace při skutečném přechodu zalitého záhonu `growing → ready` vrátí právě jednu událost `greenhouse_ready` s přesným číslem záhonu a ID/názvem plodiny. Již hotový, nezalitý, neplatný nebo nulový krok nic nevytvoří. Offline postup přidává události v pořadí záhonů do společné lifecycle fronty, takže mohou bezpečně koexistovat s návratovými událostmi květináčů. Samotné dozrání nepřidává mince ani XP; odměna zůstává součástí jediné skutečné sklizně. Návratový souhrn pouze informuje a zavře se přes `ZKONTROLOVAT ZAHRADU`; sám záhon nesklízí ani jinak nemění.
+
+Stojan odvozuje `needs_water`, `ready` a jejich součet `action_count` bez nového uloženého pole. Tlačítko skleníku zůstává 124×64 px a druhý řádek `N AKCE` zobrazí jen při nenulovém součtu. Obnovuje se při běžném UI refreshi, po skleníkové akci, po offline návratu a během aktivního běhu přibližně po 0,25 s. Katalog tří plodin, ceny, časy, odměny a zámky úrovní 1/2/4 se nemění.
+
+Pro skutečný obsah 360×620 px používá skleník samostatnou kompaktní geometrii: budova `Rect2(18,174,324,240)`, záhony 146×74 na `x=30/184` a `y=246/328`, stavový panel `Rect2(16,430,328,96)` a tři volby 104×64 na `x=16/128/240`, `y=542`. Spodní rezerva je 14 px; dolní záhony se stavem už nepřekrývají. Dosavadní větev 432×780 zůstává zachovaná.
+
+Hlavní projekt prošel `MVP_TESTS_PASSED=1299`. Úplná validace `.godot/validation/20260821-143411Z` skončila capture, visuals i full validation `PASSED`. Progression `.godot/progression/20260821-143705Z` dokončila 132/132 cyklů a 27 roundtripů; endurance `.godot/endurance/20260821-143720Z` 48/48 cyklů, 7 roundtripů a nulový růst uzlů/orphanů/zdrojů; responsive `.godot/responsive/20260821-143741Z` 8/8 včetně 360×800; performance `.godot/performance/20260821-143755Z` zůstalo v limitech s CPU p95 max. 9,429 ms. Tři nové obrazové záznamy jsou report-only a schválené reference, manifest, crop, masky, tolerance i zdrojové PNG se nezměnily.
+
+Save schema zůstává 32 a nebyl přidán nový save klíč. Fáze 109 nevytvořila ani neinstalovala APK/AAB a immutable RC35 se nepřepisoval; RC35 tuto runtime změnu neobsahuje. Případná Android distribuce fáze 109 proto musí být nový RC36. Lidská L2 kontrola na cílovém telefonu, přirozené dozrání s aktualizací odznaku, skutečné upozornění, delší bateriový/tepelný běh a veřejná publikační brána zůstávají `PENDING`.

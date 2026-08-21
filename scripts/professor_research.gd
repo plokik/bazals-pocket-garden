@@ -575,7 +575,10 @@ func _sanitize_utc_day(raw: Variant, fallback: int, allow_unset := false) -> int
 
 func _normalize_schema(raw: Variant) -> int:
 	var schema := _sanitize_whole_int(raw, 0)
-	return schema if schema >= 0 and schema <= PROTOCOL_VARIANT_SCHEMA else 0
+	# The enclosing SaveManager rejects unsupported future top-level saves. This
+	# submodel must still accept later known top-level schemas so adding an
+	# unrelated append-only feature does not erase an authoritative protocol.
+	return schema if schema >= 0 else 0
 
 
 func _sanitize_protocol_id(raw: Variant) -> String:

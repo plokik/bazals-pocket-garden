@@ -2,6 +2,9 @@ extends Control
 
 const PlantViewScene := preload("res://scripts/ui/plant_view.gd")
 const RoomOverviewScene := preload("res://scripts/ui/room_overview.gd")
+const PlayerRoomViewScene := preload("res://scripts/ui/player_room_view.gd")
+const GreenhousePreviewViewScene := preload("res://scripts/ui/greenhouse_preview_view.gd")
+const RoomDecorationModalScene := preload("res://scripts/ui/room_decoration_modal.gd")
 const MetricGraphScene := preload("res://scripts/ui/metric_graph.gd")
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const ComicHudScene := preload("res://scripts/ui/comic_hud.gd")
@@ -60,6 +63,9 @@ const GUIDE_APPROVAL_CAPTURE_CHARACTER_OFFSET := Vector2(-7.2, 12.0)
 const GUIDE_APPROVAL_CAPTURE_CARD_OFFSET := Vector2(36.0, 0.0)
 const SIMULATION_TICK_SECONDS := 0.1
 const HUD_HEIGHT := 74.0
+const GARDEN_LOCATION_RACK := "rack"
+const GARDEN_LOCATION_PLAYER_ROOM := "player_room"
+const GARDEN_LOCATION_GREENHOUSE := "greenhouse"
 const HUD_CARD_RECTS := [
 	Rect2(0.005, 0.02, 0.324, 0.96),
 	Rect2(0.335, 0.02, 0.319, 0.96),
@@ -250,6 +256,8 @@ var cosmetic_modal_open := false
 var cosmetic_status_label: Label
 var cosmetic_theme_cards: Dictionary = {}
 var cosmetic_showroom_scroll: ScrollContainer
+var room_decoration_modal: RoomDecorationModal
+var room_decoration_open := false
 var return_summary_modal: Control
 var return_summary_open := false
 var return_summary_label: Label
@@ -356,8 +364,15 @@ var settings_music_slider: HSlider
 var settings_sfx_slider: HSlider
 var settings_status_label: Label
 var plants_room_panel: Control
+var player_room_panel: Control
+var greenhouse_panel: Control
 var plant_detail_panel: Control
 var room_overview: PlantRoomOverview
+var player_room_view: PlayerRoomView
+var greenhouse_preview_view: GreenhousePreviewView
+var rack_greenhouse_button: Button
+var rack_player_room_button: Button
+var garden_location_id := GARDEN_LOCATION_RACK
 var plant_count_label: Label
 var plant_position_label: Label
 var plant_view: PlantView
@@ -589,6 +604,9 @@ func _consume_mobile_back_navigation() -> bool:
 	if care_center_open:
 		_close_care_center()
 		return true
+	if room_decoration_open:
+		_close_room_decoration_modal()
+		return true
 	if cosmetic_modal_open:
 		_close_cosmetic_modal()
 		return true
@@ -597,6 +615,9 @@ func _consume_mobile_back_navigation() -> bool:
 		return true
 	if active_screen == 0 and plant_detail_panel != null and plant_detail_panel.visible:
 		_open_room()
+		return true
+	if active_screen == 0 and garden_location_id != GARDEN_LOCATION_RACK:
+		_open_rack_location()
 		return true
 	if active_screen != 0:
 		_change_screen(0)
@@ -620,7 +641,7 @@ func _request_safe_exit() -> bool:
 
 
 func _input(event: InputEvent) -> void:
-	if dialog_open or professor_story_open or settings_modal_open or seed_selector_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open:
+	if dialog_open or professor_story_open or settings_modal_open or seed_selector_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open:
 		return
 	if event is InputEventScreenTouch:
 		if event.pressed:
@@ -792,6 +813,12 @@ func _build_ui() -> void:
 	add_child(herbarium_modal)
 	cosmetic_modal = _build_cosmetic_modal()
 	add_child(cosmetic_modal)
+	room_decoration_modal = RoomDecorationModalScene.new()
+	room_decoration_modal.close_requested.connect(_close_room_decoration_modal)
+	room_decoration_modal.decoration_requested.connect(_on_room_decoration_requested)
+	room_decoration_modal.clear_requested.connect(_on_room_decoration_clear_requested)
+	add_child(room_decoration_modal)
+	_configure_mobile_scroll(room_decoration_modal.scroll, room_decoration_modal.list_root, "room_decorations")
 	daily_challenge_modal = _build_daily_challenge_modal()
 	add_child(daily_challenge_modal)
 	botanical_pack_modal = _build_botanical_pack_modal()
@@ -1028,6 +1055,27 @@ func _build_garden_screen() -> Control:
 	room_guide.offset_bottom = GUIDE_PANEL_HEIGHT
 	room_guide.set_meta("presentation", "overlay")
 	plants_room_panel.add_child(room_guide)
+	rack_greenhouse_button = _build_rack_location_button("←  SKLENÍK", ComicUITheme.TEAL)
+	rack_greenhouse_button.position = Vector2(10.0, 96.0)
+	rack_greenhouse_button.size = Vector2(124.0, 64.0)
+	rack_greenhouse_button.set_meta("component", "phase103_rack_greenhouse_arrow_v1")
+	rack_greenhouse_button.set_meta("attention_component", "phase109_greenhouse_attention_v1")
+	rack_greenhouse_button.set_meta("touch_target_min", Vector2(124, 64))
+	rack_greenhouse_button.set_meta("location_target", GARDEN_LOCATION_GREENHOUSE)
+	rack_greenhouse_button.pressed.connect(_open_greenhouse)
+	plants_room_panel.add_child(rack_greenhouse_button)
+	_refresh_rack_greenhouse_attention()
+	rack_player_room_button = _build_rack_location_button("POKOJ  →", ComicUITheme.PURPLE)
+	rack_player_room_button.set_anchor(SIDE_LEFT, 1.0)
+	rack_player_room_button.set_anchor(SIDE_RIGHT, 1.0)
+	rack_player_room_button.offset_left = -122.0
+	rack_player_room_button.offset_right = -10.0
+	rack_player_room_button.offset_top = 96.0
+	rack_player_room_button.offset_bottom = 160.0
+	rack_player_room_button.set_meta("component", "phase103_rack_player_room_arrow_v1")
+	rack_player_room_button.set_meta("location_target", GARDEN_LOCATION_PLAYER_ROOM)
+	rack_player_room_button.pressed.connect(_open_player_room)
+	plants_room_panel.add_child(rack_player_room_button)
 	settings_launcher_button = Button.new()
 	settings_launcher_button.text = "ZVUK"
 	settings_launcher_button.set_anchor(SIDE_LEFT, 1.0)
@@ -1049,6 +1097,32 @@ func _build_garden_screen() -> Control:
 	settings_launcher_button.pressed.connect(_open_settings_modal)
 	plants_room_panel.add_child(settings_launcher_button)
 
+	player_room_panel = Control.new()
+	player_room_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	player_room_panel.visible = false
+	player_room_panel.set_meta("location_id", GARDEN_LOCATION_PLAYER_ROOM)
+	view_stack.add_child(player_room_panel)
+	player_room_view = PlayerRoomViewScene.new()
+	player_room_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	player_room_view.rack_requested.connect(_open_rack_location)
+	player_room_view.theme_requested.connect(_open_cosmetic_modal)
+	player_room_view.decoration_slot_requested.connect(_open_room_decoration_modal)
+	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	player_room_panel.add_child(player_room_view)
+
+	greenhouse_panel = Control.new()
+	greenhouse_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	greenhouse_panel.visible = false
+	greenhouse_panel.set_meta("location_id", GARDEN_LOCATION_GREENHOUSE)
+	view_stack.add_child(greenhouse_panel)
+	greenhouse_preview_view = GreenhousePreviewViewScene.new()
+	greenhouse_preview_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	greenhouse_preview_view.rack_requested.connect(_open_rack_location)
+	greenhouse_preview_view.bed_action_requested.connect(_on_greenhouse_bed_action_requested)
+	greenhouse_preview_view.crop_plant_requested.connect(_on_greenhouse_crop_plant_requested)
+	greenhouse_panel.add_child(greenhouse_preview_view)
+	greenhouse_preview_view.set_greenhouse_state(session.get_greenhouse_bed_states(), session.get_greenhouse_crop_catalog(), session.coins, session.xp)
+
 	plant_detail_panel = VBoxContainer.new()
 	plant_detail_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	plant_detail_panel.add_theme_constant_override("separation", 5)
@@ -1062,7 +1136,7 @@ func _build_garden_screen() -> Control:
 	selector.custom_minimum_size.y = 50
 	selector.add_theme_constant_override("separation", 5)
 	plant_detail_panel.add_child(selector)
-	var room_button := _action_button("←  POKOJ", _open_room)
+	var room_button := _action_button("←  STOJAN", _open_room)
 	room_button.custom_minimum_size = Vector2(108, 50)
 	room_button.add_theme_font_override("font", FontExtraBold)
 	room_button.add_theme_font_size_override("font_size", 13)
@@ -3118,6 +3192,7 @@ func _build_return_summary_modal() -> Control:
 	overlay.z_index = 230
 	overlay.visible = false
 	overlay.set_meta("component", "phase15_mobile_return_summary_v1")
+	overlay.set_meta("extension_component", "phase109_greenhouse_return_summary_v1")
 	var scrim := ColorRect.new()
 	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scrim.color = Color("#06131f", 0.92)
@@ -3149,12 +3224,13 @@ func _build_return_summary_modal() -> Control:
 	return_summary_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	column.add_child(return_summary_label)
 	return_summary_presenter.bind(return_summary_label)
-	var close_button := _action_button("ZKONTROLOVAT ROSTLINY", _close_return_summary)
+	var close_button := _action_button("ZKONTROLOVAT ZAHRADU", _close_return_summary)
 	close_button.custom_minimum_size.y = 68
 	close_button.add_theme_font_override("font", FontExtraBold)
 	close_button.add_theme_font_size_override("font_size", 15)
 	ComicUITheme.apply_button(close_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 14)
 	close_button.set_meta("touch_target_min_height", 68)
+	close_button.set_meta("component", "phase109_return_summary_garden_cta_v1")
 	column.add_child(close_button)
 	return overlay
 
@@ -3662,9 +3738,88 @@ func _on_room_theme_pressed(theme_id: String) -> void:
 		return
 	cosmetic_showroom_presenter.restore_status_color()
 	room_overview.set_cosmetic_theme(session.selected_room_theme)
+	player_room_view.set_cosmetic_theme(session.selected_room_theme)
 	_save_current_session()
 	_refresh_ui()
 	_refresh_cosmetic_showroom()
+
+
+func _open_room_decoration_modal(slot_index: int) -> void:
+	if session == null or room_decoration_modal == null:
+		return
+	if active_screen != 0 or garden_location_id != GARDEN_LOCATION_PLAYER_ROOM:
+		return
+	if cosmetic_modal_open:
+		_close_cosmetic_modal()
+	room_decoration_open = true
+	room_decoration_modal.open_for_slot(session, slot_index)
+	if audio_haptics != null:
+		audio_haptics.play_ui("tap")
+
+
+func _close_room_decoration_modal() -> void:
+	if room_decoration_modal == null:
+		return
+	room_decoration_open = false
+	room_decoration_modal.close_modal()
+	if audio_haptics != null:
+		audio_haptics.play_ui("tap")
+
+
+func _on_room_decoration_requested(decoration_id: String, slot_index: int) -> void:
+	if session == null or room_decoration_modal == null or not room_decoration_open:
+		return
+	var changed := session.purchase_or_place_room_decoration(decoration_id, slot_index)
+	if changed:
+		player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+		_save_current_session()
+		_refresh_coin_display()
+	room_decoration_modal.refresh(session)
+	if audio_haptics != null:
+		audio_haptics.play_ui("confirm" if changed else "error")
+
+
+func _on_room_decoration_clear_requested(slot_index: int) -> void:
+	if session == null or room_decoration_modal == null or not room_decoration_open:
+		return
+	var changed := session.clear_room_decoration_slot(slot_index)
+	if changed:
+		player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+		_save_current_session()
+	room_decoration_modal.refresh(session)
+	if audio_haptics != null:
+		audio_haptics.play_ui("confirm" if changed else "error")
+
+
+func _on_greenhouse_bed_action_requested(bed_index: int) -> void:
+	if session == null or greenhouse_preview_view == null:
+		return
+	if active_screen != 0 or garden_location_id != GARDEN_LOCATION_GREENHOUSE:
+		return
+	var changed := session.perform_greenhouse_bed_action(bed_index)
+	if changed:
+		_save_current_session()
+		_refresh_coin_display()
+		_refresh_xp_display()
+	_refresh_greenhouse_view()
+	_refresh_rack_greenhouse_attention()
+	if audio_haptics != null:
+		audio_haptics.play_ui("confirm" if changed else "error")
+
+
+func _on_greenhouse_crop_plant_requested(bed_index: int, crop_id: String) -> void:
+	if session == null or greenhouse_preview_view == null:
+		return
+	if active_screen != 0 or garden_location_id != GARDEN_LOCATION_GREENHOUSE:
+		return
+	var changed := session.plant_greenhouse_crop(bed_index, crop_id)
+	if changed:
+		_save_current_session()
+		_refresh_coin_display()
+	_refresh_greenhouse_view()
+	_refresh_rack_greenhouse_attention()
+	if audio_haptics != null:
+		audio_haptics.play_ui("confirm" if changed else "error")
 
 
 func _resume_from_background() -> void:
@@ -3679,6 +3834,7 @@ func _apply_resume_elapsed(elapsed: float) -> float:
 	if session == null or elapsed <= 1.0:
 		return 0.0
 	var applied := session.advance_offline(elapsed)
+	_refresh_rack_greenhouse_attention()
 	_save_current_session()
 	_present_return_summary(applied)
 	return applied
@@ -5965,6 +6121,10 @@ func _build_navigation() -> Control:
 
 func _on_navigation_pressed(index: int) -> void:
 	_play_navigation_shine(index)
+	# ROSTLINY is the canonical entrance to the rack. Garden sublocations stay
+	# remembered only while the player deliberately remains inside that screen.
+	if index == 0:
+		_open_rack_location()
 	_change_screen(index)
 
 
@@ -6233,6 +6393,19 @@ func _action_button(text_value: String, callback: Callable) -> Button:
 	return button
 
 
+func _build_rack_location_button(text_value: String, fill: Color) -> Button:
+	var button := Button.new()
+	button.text = text_value
+	button.focus_mode = Control.FOCUS_NONE
+	button.z_index = 9
+	button.add_theme_font_override("font", FontExtraBold)
+	button.add_theme_font_size_override("font_size", 12)
+	ComicUITheme.apply_button(button, fill, Color.WHITE, 18)
+	button.set_meta("touch_target_min", Vector2(112, 64))
+	button.set_meta("navigation_scope", "garden_sublocation")
+	return button
+
+
 func _change_screen(index: int, refresh_active := true) -> void:
 	var previous_screen := active_screen
 	active_screen = screen_navigation_controller.apply_screen(index, active_screen, screens, nav_buttons, session, feedback_layer)
@@ -6247,7 +6420,10 @@ func _open_plant_detail(index: int) -> void:
 		return
 	plant_behavior_presenter.reset_observation()
 	plant_view.set_simulation(session.plant)
+	garden_location_id = GARDEN_LOCATION_RACK
 	plants_room_panel.visible = false
+	player_room_panel.visible = false
+	greenhouse_panel.visible = false
 	plant_detail_panel.visible = true
 	plant_detail_panel.modulate.a = 0.0
 	var tween := create_tween()
@@ -6256,12 +6432,66 @@ func _open_plant_detail(index: int) -> void:
 
 
 func _open_room() -> void:
-	plant_detail_panel.visible = false
-	plants_room_panel.visible = true
+	_show_garden_location(GARDEN_LOCATION_RACK)
 	plant_view.clear_behavior_trigger()
 	room_overview.refresh()
 	room_overview.set_cosmetic_theme(session.selected_room_theme)
 	_show_dialog("Vyber rostlinu, o kterou se chceš postarat, nebo přidej novou do prázdného květináče.")
+
+
+func _open_rack_location() -> void:
+	_show_garden_location(GARDEN_LOCATION_RACK)
+
+
+func _open_player_room() -> void:
+	_show_garden_location(GARDEN_LOCATION_PLAYER_ROOM)
+
+
+func _open_greenhouse() -> void:
+	_show_garden_location(GARDEN_LOCATION_GREENHOUSE)
+
+
+func _show_garden_location(location_id: String) -> void:
+	var normalized_id := location_id
+	if normalized_id not in [GARDEN_LOCATION_RACK, GARDEN_LOCATION_PLAYER_ROOM, GARDEN_LOCATION_GREENHOUSE]:
+		normalized_id = GARDEN_LOCATION_RACK
+	garden_location_id = normalized_id
+	set_meta("garden_location_id", garden_location_id)
+	plant_detail_panel.visible = false
+	plants_room_panel.visible = normalized_id == GARDEN_LOCATION_RACK
+	player_room_panel.visible = normalized_id == GARDEN_LOCATION_PLAYER_ROOM
+	greenhouse_panel.visible = normalized_id == GARDEN_LOCATION_GREENHOUSE
+	if plant_view != null:
+		plant_view.clear_behavior_trigger()
+	if normalized_id == GARDEN_LOCATION_RACK and room_overview != null:
+		room_overview.refresh()
+		if session != null:
+			room_overview.set_cosmetic_theme(session.selected_room_theme)
+	if normalized_id == GARDEN_LOCATION_PLAYER_ROOM and player_room_view != null and session != null:
+		player_room_view.set_cosmetic_theme(session.selected_room_theme)
+		player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	if normalized_id == GARDEN_LOCATION_GREENHOUSE:
+		_refresh_greenhouse_view()
+
+
+func _refresh_greenhouse_view() -> void:
+	if greenhouse_preview_view == null or session == null:
+		return
+	greenhouse_preview_view.set_greenhouse_state(
+		session.get_greenhouse_bed_states(),
+		session.get_greenhouse_crop_catalog(),
+		session.coins,
+		session.xp
+	)
+
+
+func _refresh_rack_greenhouse_attention() -> void:
+	if rack_greenhouse_button == null or session == null:
+		return
+	var summary := session.get_greenhouse_attention_summary()
+	var action_count := maxi(0, int(summary.get("action_count", 0)))
+	rack_greenhouse_button.text = "←  SKLENÍK\n%d AKCE" % action_count if action_count > 0 else "←  SKLENÍK"
+	rack_greenhouse_button.set_meta("greenhouse_action_count", action_count)
 
 
 func _select_adjacent_plant(offset: int) -> void:
@@ -6278,6 +6508,13 @@ func _refresh_ui() -> void:
 	garden_selection_presenter.refresh(session.get_occupied_count(), GameSession.MAX_PLANT_SLOTS, session.selected_plant_index, plant.stage == PlantSimulation.Stage.EMPTY, selected_plant_name)
 	room_overview.refresh()
 	room_overview.set_paused(session.paused)
+	room_overview.set_cosmetic_theme(session.selected_room_theme)
+	player_room_view.set_cosmetic_theme(session.selected_room_theme)
+	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	player_room_view.set_paused(session.paused)
+	_refresh_greenhouse_view()
+	_refresh_rack_greenhouse_attention()
+	greenhouse_preview_view.set_paused(session.paused)
 	plant_view.set_paused(session.paused)
 	plant_vitals_presenter.refresh(plant)
 	plant_action_presenter.refresh(plant, session.fertilizer_doses, float(session.get_equipment_level_data("watering_can").get("water_ml", 120.0)), float(session.get_equipment_level_data("protective_spray").get("disease_treatment_relief", 52.0)))
@@ -6307,6 +6544,8 @@ func _refresh_ui() -> void:
 		_refresh_care_center()
 	if plant_diagnosis_open:
 		_refresh_plant_diagnosis()
+	if room_decoration_open and room_decoration_modal != null:
+		room_decoration_modal.refresh(session)
 	if professor_story_open:
 		_refresh_professor_story()
 
@@ -6319,6 +6558,7 @@ func _refresh_active_ui() -> void:
 	_refresh_professor_story_badges()
 	var selected_plant_name := str(plant.profile.get("ui_name", plant.get_display_name()))
 	garden_selection_presenter.refresh(session.get_occupied_count(), GameSession.MAX_PLANT_SLOTS, session.selected_plant_index, plant.stage == PlantSimulation.Stage.EMPTY, selected_plant_name)
+	_refresh_rack_greenhouse_attention()
 	if professor_story_open:
 		_refresh_professor_story()
 		return
@@ -6346,6 +6586,9 @@ func _refresh_active_ui() -> void:
 	if plant_diagnosis_open:
 		_refresh_plant_diagnosis()
 		return
+	if room_decoration_open and room_decoration_modal != null:
+		room_decoration_modal.refresh(session)
+		return
 	if dialog_open or settings_modal_open or botanical_pack_open or cosmetic_modal_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open:
 		return
 	match active_screen:
@@ -6353,6 +6596,13 @@ func _refresh_active_ui() -> void:
 			if plants_room_panel.visible:
 				room_overview.refresh()
 				room_overview.set_paused(session.paused)
+			if player_room_panel.visible:
+				player_room_view.set_cosmetic_theme(session.selected_room_theme)
+				player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+				player_room_view.set_paused(session.paused)
+			if greenhouse_panel.visible:
+				_refresh_greenhouse_view()
+				greenhouse_preview_view.set_paused(session.paused)
 			if plant_detail_panel.visible:
 				plant_view.set_paused(session.paused)
 				plant_vitals_presenter.refresh(plant)
@@ -6396,7 +6646,7 @@ func _refresh_plant_behavior(allow_transition_feedback: bool) -> void:
 
 
 func _is_blocking_modal_open() -> bool:
-	return dialog_open or professor_story_open or settings_modal_open or seed_selector_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
+	return dialog_open or professor_story_open or settings_modal_open or seed_selector_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
 
 
 func _sync_background_animation_state() -> void:
@@ -6404,6 +6654,10 @@ func _sync_background_animation_state() -> void:
 	var stabilize_fast_time_visuals := session.speed_multiplier >= 100.0
 	room_overview.set_paused(should_pause)
 	room_overview.set_fast_time_visuals(stabilize_fast_time_visuals)
+	player_room_view.set_paused(should_pause)
+	player_room_view.set_fast_time_visuals(stabilize_fast_time_visuals)
+	greenhouse_preview_view.set_paused(should_pause)
+	greenhouse_preview_view.set_fast_time_visuals(stabilize_fast_time_visuals)
 	plant_view.set_paused(should_pause)
 	plant_view.set_fast_time_visuals(stabilize_fast_time_visuals)
 
@@ -6844,6 +7098,10 @@ func _apply_motion_preference() -> void:
 		plant_view.set_reduced_motion(session.reduced_motion)
 	if room_overview != null:
 		room_overview.set_reduced_motion(session.reduced_motion)
+	if player_room_view != null:
+		player_room_view.set_reduced_motion(session.reduced_motion)
+	if greenhouse_preview_view != null:
+		greenhouse_preview_view.set_reduced_motion(session.reduced_motion)
 	if guide_modal_character != null:
 		guide_modal_character.set_reduced_motion(session.reduced_motion)
 	if reduce_motion_button != null:

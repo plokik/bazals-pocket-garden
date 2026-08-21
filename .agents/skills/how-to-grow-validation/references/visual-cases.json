@@ -239,14 +239,16 @@
     },
     {
       "id": "feedback-unlock",
-      "description": "Approved Phase 89 shared rack-slot unlock feedback with status badges above the right edge of each readable plant label; the later mobile care launcher is masked independently.",
+      "description": "Approved Phase 89 shared rack-slot unlock feedback with status badges above the right edge of each readable plant label; the later mobile care launcher and approved Phase 103 home-location arrows are masked independently.",
       "reference": "assets/ui/comic/reference_phase89_feedback_unlock_v2.png",
       "actual": "comic-feedback-unlock.png",
       "size": [432, 960],
       "reference_crop": [0.0, 0.0, 1.0, 1.0],
       "actual_crop": [0.0, 0.0, 1.0, 1.0],
       "masks": [
-        [0.66, 0.80, 0.17, 0.10]
+        [0.66, 0.80, 0.17, 0.10],
+        [0.0185, 0.1740, 0.2986, 0.0729],
+        [0.7106, 0.1740, 0.2708, 0.0729]
       ],
       "pixel_tolerance": 12,
       "gate": true,
@@ -258,14 +260,16 @@
     },
     {
       "id": "screen-transition",
-      "description": "Approved Phase 89 directional cyan-gold mobile screen transition with status badges above the right edge of each readable plant label; the later mobile care launcher is masked independently.",
+      "description": "Approved Phase 89 directional cyan-gold mobile screen transition with status badges above the right edge of each readable plant label; the later mobile care launcher and approved Phase 103 home-location arrows are masked independently.",
       "reference": "assets/ui/comic/reference_phase89_screen_transition_v2.png",
       "actual": "comic-screen-transition.png",
       "size": [432, 960],
       "reference_crop": [0.0, 0.0, 1.0, 1.0],
       "actual_crop": [0.0, 0.0, 1.0, 1.0],
       "masks": [
-        [0.66, 0.80, 0.17, 0.10]
+        [0.66, 0.80, 0.17, 0.10],
+        [0.0185, 0.1740, 0.2986, 0.0729],
+        [0.7106, 0.1740, 0.2708, 0.0729]
       ],
       "pixel_tolerance": 12,
       "gate": true,

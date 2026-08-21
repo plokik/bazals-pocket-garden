@@ -1,7 +1,8 @@
 param(
     [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
     [string]$ApkPath = '',
-    [string]$ToolRoot = ''
+    [string]$ToolRoot = '',
+    [string]$PresetName = 'Android'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -43,11 +44,15 @@ if (-not (Test-Path -LiteralPath $logDirectory)) {
 }
 $logPath = Join-Path $logDirectory 'android-export.log'
 $quotedApkArgument = '"' + $apkPath.Replace('\','/') + '"'
+if ($PresetName -notmatch '^[A-Za-z0-9 _-]{1,64}$') {
+    throw 'Android export preset name contains unsupported characters.'
+}
+$quotedPresetArgument = '"' + $PresetName + '"'
 
 $godotArguments = @(
     '--headless',
     '--path', '.',
-    '--export-debug', 'Android', $quotedApkArgument,
+    '--export-debug', $quotedPresetArgument, $quotedApkArgument,
     '--log-file', '.godot/android-export.log'
 )
 Write-Output 'ANDROID_EXPORT=STARTED'
@@ -263,11 +268,12 @@ $requiredManifestTokens = @(
     'android.permission.POST_NOTIFICATIONS',
     'android.permission.RECEIVE_BOOT_COMPLETED',
     'com.howtogrow.notifications.CareNotificationReceiver',
-    'com.howtogrow.notifications.CareBootReceiver'
+    'com.howtogrow.notifications.CareBootReceiver',
+    'android:enableOnBackInvokedCallback="false"'
 )
 foreach ($token in $requiredManifestTokens) {
     if ($manifestText -notmatch [regex]::Escape($token)) {
-        throw "APK is missing required notification manifest entry: $token"
+        throw "APK is missing required Android manifest entry: $token"
     }
 }
 $dexPackages = (& $javaPath $apkAnalyzerSystemProperty -classpath $apkAnalyzerClasspath com.android.tools.apk.analyzer.ApkAnalyzerCli dex packages $apkPath) -join "`n"

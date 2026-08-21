@@ -25,6 +25,7 @@
         android:appCategory="game"
         android:isGame="true"
         android:hasFragileUserData="false"
+        android:enableOnBackInvokedCallback="false"
         android:requestLegacyExternalStorage="false"
         tools:ignore="GoogleAppIndexingWarning" >
         <profileable

@@ -5,8 +5,9 @@ const PlantRarityCatalogScene := preload("res://scripts/plant_rarity_catalog.gd"
 const PlantBehaviorCatalogScene := preload("res://scripts/plant_behavior_catalog.gd")
 const ProfessorStoryScene := preload("res://scripts/professor_story.gd")
 const ProfessorResearchScene := preload("res://scripts/professor_research.gd")
+const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
-const SAVE_SCHEMA := 28
+const SAVE_SCHEMA := 32
 const DAILY_CHALLENGE_REAL_DAY_SCHEMA := 15
 const REAL_TIME_GROWTH_SCHEMA := 19
 const PLANT_LIFECYCLE_SCHEMA := 20
@@ -22,6 +23,20 @@ const PROFESSOR_STORY_CHAPTER_THREE_SCHEMA := 26
 ## authorizes only the immutable protocol variant selected on acceptance.
 const PROFESSOR_RESEARCH_SCHEMA := 27
 const PROFESSOR_RESEARCH_VARIANT_SCHEMA := 28
+## Schema 29 is the trust boundary for purchased room decorations and their
+## five cosmetic placements. Older saves cannot author ownership by injecting
+## future keys; they always migrate to an empty decoration collection.
+const ROOM_DECORATION_SCHEMA := 29
+## Schema 30 authorizes only the closed greenhouse crop catalog and four
+## sanitized bed states. Older saves cannot inject a mature paid crop.
+const GREENHOUSE_SCHEMA := 30
+## Schema 31 extends the trusted greenhouse catalog with sweet pepper. A schema
+## 30 save may keep authored tomato beds, but cannot inject the later crop.
+const GREENHOUSE_SECOND_CROP_SCHEMA := 31
+## Schema 32 adds level-gated greenhouse progression and authorizes salad
+## cucumber. Older saves may keep their legitimate tomato and pepper beds, but
+## cannot inject the later crop or bypass its planting unlock.
+const GREENHOUSE_PROGRESSION_SCHEMA := 32
 const BLEND_ORDER_SCHEMA := 25
 ## Defensive ceiling for malformed saves and future grant sources. This is high
 ## enough for normal play while keeping arithmetic and UI values bounded.
@@ -59,6 +74,59 @@ const ROOM_THEMES := {
 const CORE_ROOM_THEME_IDS: Array[String] = ["sunrise", "lagoon", "amethyst"]
 const RESEARCH_STUDY_THEME_ID := "research_study"
 const RESEARCH_STUDY_COMPLETED_REQUIRED := 6
+const ROOM_DECORATION_SLOT_COUNT := 5
+const ROOM_DECORATION_IDS: Array[String] = [
+	"botanical_books",
+	"mini_monstera",
+	"snake_plant",
+	"golden_lamp",
+	"room_fern",
+	"flowering_begonia",
+]
+const ROOM_DECORATIONS := {
+	"botanical_books": {
+		"name": "Botanické knihy",
+		"price": 14,
+		"kind": "books",
+		"accent": "#ef8c2f",
+		"description": "Malá sbírka pěstitelských zápisků a atlasů.",
+	},
+	"mini_monstera": {
+		"name": "Mini monstera",
+		"price": 18,
+		"kind": "broad_leaf_plant",
+		"accent": "#55b85a",
+		"description": "Výrazné listy v kompaktním tyrkysovém květináči.",
+	},
+	"snake_plant": {
+		"name": "Tchynin jazyk",
+		"price": 24,
+		"kind": "tall_leaf_plant",
+		"accent": "#91bd39",
+		"description": "Vysoká nenáročná pokojovka se žlutým lemem.",
+	},
+	"golden_lamp": {
+		"name": "Zlatá lampička",
+		"price": 26,
+		"kind": "lamp",
+		"accent": "#ffd42a",
+		"description": "Teplé světlo pro útulný večerní kout.",
+	},
+	"room_fern": {
+		"name": "Pokojová kapradina",
+		"price": 28,
+		"kind": "fern",
+		"accent": "#27a65b",
+		"description": "Bohaté zelené vějíře v terakotovém květináči.",
+	},
+	"flowering_begonia": {
+		"name": "Kvetoucí begonie",
+		"price": 32,
+		"kind": "flowering_plant",
+		"accent": "#ef6c9e",
+		"description": "Pokojová rostlina s růžovými květy a tmavými listy.",
+	},
+}
 const MAX_PLANT_SLOTS := 10
 const SLOT_UNLOCK_LEVELS := [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const ACTIVE_ORDER_COUNT := 3
@@ -452,6 +520,9 @@ var order_refreshes_remaining := DAILY_ORDER_REFRESHES
 var saved_at_unix := 0.0
 var unlocked_room_themes: Array[String] = ["sunrise"]
 var selected_room_theme := "sunrise"
+var owned_room_decorations: Array[String] = []
+var room_decoration_slots: Array[String] = ["", "", "", "", ""]
+var greenhouse = GreenhouseSimulationScene.new()
 var claimed_level_rewards: Array[int] = []
 var equipment_levels: Dictionary = {
 	"watering_can": 1,
@@ -2819,6 +2890,7 @@ func advance(real_seconds: float) -> void:
 	var suppress_mature_lifecycle := _legacy_lifecycle_protection_pending
 	for index in range(plants.size()):
 		_advance_slot(index, simulation_seconds, world_start, suppress_mature_lifecycle, false)
+	greenhouse.advance(simulation_seconds)
 	_legacy_lifecycle_protection_pending = false
 	world_elapsed_seconds += simulation_seconds
 	_daily_challenge_refresh_accumulator += real_seconds
@@ -2845,6 +2917,9 @@ func advance_offline(real_seconds: float) -> float:
 	var suppress_mature_lifecycle := _legacy_lifecycle_protection_pending
 	for index in range(plants.size()):
 		_advance_slot(index, capped_seconds, world_start, suppress_mature_lifecycle, true)
+	var greenhouse_events: Array[Dictionary] = greenhouse.advance(capped_seconds)
+	for greenhouse_event in greenhouse_events:
+		_offline_lifecycle_events.append(greenhouse_event)
 	_legacy_lifecycle_protection_pending = false
 	world_elapsed_seconds += capped_seconds
 	for slot in plants:
@@ -3353,6 +3428,10 @@ func get_level_unlocks(reward_level: int) -> Array[String]:
 		for level_data in levels:
 			if level_data is Dictionary and int((level_data as Dictionary).get("unlock_level", -1)) == reward_level:
 				unlocks.append("%s %d" % [str((definition as Dictionary).get("name", equipment_id)).capitalize(), int((level_data as Dictionary).get("level", 1))])
+	for crop_id in GreenhouseSimulationScene.CROP_IDS:
+		var crop := greenhouse.get_crop(crop_id)
+		if int(crop.get("unlock_level", -1)) == reward_level:
+			unlocks.append("Skleník: %s" % str(crop.get("short_name", crop_id)).capitalize())
 	return unlocks
 
 
@@ -3701,6 +3780,197 @@ func unlock_or_select_room_theme(theme_id: String) -> bool:
 	selected_room_theme = theme_id
 	feedback_requested.emit("coins", selected_plant_index, {"amount": -price, "cosmetic": theme_id})
 	return true
+
+
+func get_room_decoration_ids() -> Array[String]:
+	var result: Array[String] = []
+	result.assign(ROOM_DECORATION_IDS)
+	return result
+
+
+func get_room_decoration(decoration_id: String) -> Dictionary:
+	if not ROOM_DECORATIONS.has(decoration_id):
+		return {}
+	return (ROOM_DECORATIONS[decoration_id] as Dictionary).duplicate(true)
+
+
+func get_room_decoration_slots() -> Array[String]:
+	var result: Array[String] = []
+	result.assign(room_decoration_slots)
+	return result
+
+
+func is_room_decoration_owned(decoration_id: String) -> bool:
+	return ROOM_DECORATIONS.has(decoration_id) and decoration_id in owned_room_decorations
+
+
+func get_room_decoration_slot_index(decoration_id: String) -> int:
+	if not ROOM_DECORATIONS.has(decoration_id):
+		return -1
+	return room_decoration_slots.find(decoration_id)
+
+
+func get_room_decoration_action_state(decoration_id: String, slot_index: int) -> Dictionary:
+	var valid_slot := slot_index >= 0 and slot_index < ROOM_DECORATION_SLOT_COUNT
+	if not ROOM_DECORATIONS.has(decoration_id) or not valid_slot:
+		return {
+			"known": ROOM_DECORATIONS.has(decoration_id),
+			"valid_slot": valid_slot,
+			"owned": false,
+			"placed_slot": -1,
+			"placed_here": false,
+			"can_apply": false,
+			"reason": "invalid_slot" if not valid_slot else "unknown",
+			"price": 0,
+		}
+	var decoration: Dictionary = ROOM_DECORATIONS[decoration_id]
+	var price := maxi(0, int(decoration.get("price", 0)))
+	var owned := is_room_decoration_owned(decoration_id)
+	var placed_slot := get_room_decoration_slot_index(decoration_id)
+	var placed_here := placed_slot == slot_index
+	var reason := "placed_here" if placed_here else ("move" if owned and placed_slot >= 0 else ("place" if owned else "available"))
+	if not owned and coins < price:
+		reason = "insufficient_coins"
+	return {
+		"known": true,
+		"valid_slot": true,
+		"owned": owned,
+		"placed_slot": placed_slot,
+		"placed_here": placed_here,
+		"can_apply": reason in ["available", "place", "move"],
+		"reason": reason,
+		"price": price,
+	}
+
+
+func purchase_or_place_room_decoration(decoration_id: String, slot_index: int) -> bool:
+	var state := get_room_decoration_action_state(decoration_id, slot_index)
+	if not bool(state.get("can_apply", false)):
+		return false
+	var purchased := not bool(state.get("owned", false))
+	if purchased:
+		var price := int(state.get("price", 0))
+		if coins < price:
+			return false
+		_change_coins(-price, "room_decoration")
+		owned_room_decorations.append(decoration_id)
+	for existing_slot in range(room_decoration_slots.size()):
+		if room_decoration_slots[existing_slot] == decoration_id:
+			room_decoration_slots[existing_slot] = ""
+	room_decoration_slots[slot_index] = decoration_id
+	return true
+
+
+func clear_room_decoration_slot(slot_index: int) -> bool:
+	if slot_index < 0 or slot_index >= room_decoration_slots.size():
+		return false
+	var decoration_id := room_decoration_slots[slot_index]
+	if decoration_id.is_empty():
+		return false
+	room_decoration_slots[slot_index] = ""
+	return true
+
+
+func get_greenhouse_crop_catalog() -> Dictionary:
+	var catalog := greenhouse.get_crop_catalog()
+	for crop_id in catalog:
+		var crop := (catalog[crop_id] as Dictionary).duplicate(true)
+		crop["unlocked"] = is_greenhouse_crop_unlocked(str(crop_id))
+		catalog[crop_id] = crop
+	return catalog
+
+
+func get_greenhouse_crop_unlock_level(crop_id: String) -> int:
+	var crop := greenhouse.get_crop(crop_id)
+	if crop.is_empty():
+		return -1
+	return maxi(1, int(crop.get("unlock_level", 1)))
+
+
+func is_greenhouse_crop_unlocked(crop_id: String) -> bool:
+	var unlock_level := get_greenhouse_crop_unlock_level(crop_id)
+	return unlock_level > 0 and get_level() >= unlock_level
+
+
+func get_greenhouse_beds() -> Array[Dictionary]:
+	return greenhouse.get_beds()
+
+
+func get_greenhouse_bed_state(slot_index: int) -> Dictionary:
+	return greenhouse.get_bed_state(slot_index, coins)
+
+
+func get_greenhouse_bed_states() -> Array[Dictionary]:
+	var states: Array[Dictionary] = []
+	for slot_index in range(GreenhouseSimulationScene.BED_COUNT):
+		states.append(get_greenhouse_bed_state(slot_index))
+	return states
+
+
+func get_greenhouse_attention_summary() -> Dictionary:
+	var needs_water := 0
+	var ready := 0
+	for state in get_greenhouse_bed_states():
+		match str(state.get("stage", "invalid")):
+			"needs_water":
+				needs_water += 1
+			"ready":
+				ready += 1
+	return {
+		"needs_water": needs_water,
+		"ready": ready,
+		"action_count": needs_water + ready,
+	}
+
+
+func plant_greenhouse_crop(slot_index: int, crop_id: String) -> bool:
+	var state := get_greenhouse_bed_state(slot_index)
+	if not bool(state.get("valid", false)) or str(state.get("stage", "")) != "empty":
+		return false
+	var crop := greenhouse.get_crop(crop_id)
+	if crop.is_empty():
+		return false
+	if not is_greenhouse_crop_unlocked(crop_id):
+		event_created.emit("Plodina %s se odemkne na úrovni %d." % [str(crop.get("name", crop_id)).to_lower(), get_greenhouse_crop_unlock_level(crop_id)])
+		return false
+	var price := int(crop.get("seed_price", 0))
+	if price < 0 or coins < price or not greenhouse.plant(slot_index, crop_id):
+		return false
+	_change_coins(-price, "greenhouse_plant")
+	feedback_requested.emit("growth", selected_plant_index, {"source": "greenhouse", "bed_index": slot_index, "action": "plant", "crop_id": crop_id})
+	event_created.emit("Záhon %d: zasazena plodina %s. Teď ji zalij." % [slot_index + 1, str(crop.get("name", crop_id)).to_lower()])
+	return true
+
+
+func perform_greenhouse_bed_action(slot_index: int) -> bool:
+	var state := get_greenhouse_bed_state(slot_index)
+	if not bool(state.get("valid", false)) or not bool(state.get("can_action", false)):
+		return false
+	var action := str(state.get("action", "none"))
+	var crop_id := str(state.get("crop_id", ""))
+	var crop := state.get("crop", {}) as Dictionary
+	match action:
+		"plant":
+			return plant_greenhouse_crop(slot_index, GreenhouseSimulationScene.CROP_IDS[0])
+		"water":
+			if not greenhouse.water(slot_index):
+				return false
+			feedback_requested.emit("water", selected_plant_index, {"source": "greenhouse", "bed_index": slot_index, "action": "water"})
+			event_created.emit("Záhon %d je zalitý. %s začíná růst." % [slot_index + 1, str(crop.get("name", crop_id))])
+			return true
+		"harvest":
+			var harvest_result := greenhouse.harvest(slot_index)
+			if harvest_result.is_empty():
+				return false
+			var reward_coins := int(harvest_result.get("reward_coins", 0))
+			var reward_xp := int(harvest_result.get("reward_xp", 0))
+			_change_coins(reward_coins, "greenhouse_harvest")
+			_grant_xp(reward_xp, "greenhouse_harvest")
+			feedback_requested.emit("growth", selected_plant_index, {"source": "greenhouse", "bed_index": slot_index, "action": "harvest", "coins": reward_coins, "xp": reward_xp})
+			event_created.emit("Sklizeň plodiny %s ze záhonu %d přinesla %d mincí a %d XP." % [str(harvest_result.get("name", crop_id)).to_lower(), slot_index + 1, reward_coins, reward_xp])
+			return true
+		_:
+			return false
 
 
 func _complete_journey() -> void:
@@ -4258,6 +4528,9 @@ func to_dict() -> Dictionary:
 		"shop_stock": shop_stock,
 		"unlocked_room_themes": unlocked_room_themes,
 		"selected_room_theme": selected_room_theme,
+		"owned_room_decorations": owned_room_decorations.duplicate(),
+		"room_decoration_slots": room_decoration_slots.duplicate(),
+		"greenhouse_beds": greenhouse.to_dict(),
 		"claimed_level_rewards": claimed_level_rewards.duplicate(),
 		"equipment_levels": equipment_levels.duplicate(true),
 		"care_reminders_enabled": care_reminders_enabled,
@@ -4482,6 +4755,36 @@ func from_dict(data: Dictionary) -> void:
 	selected_room_theme = str(data.get("selected_room_theme", "sunrise"))
 	if not ROOM_THEMES.has(selected_room_theme) or selected_room_theme not in unlocked_room_themes:
 		selected_room_theme = "sunrise"
+	owned_room_decorations.clear()
+	room_decoration_slots.assign(["", "", "", "", ""])
+	if stored_schema >= ROOM_DECORATION_SCHEMA:
+		var stored_decorations = data.get("owned_room_decorations", [])
+		if stored_decorations is Array:
+			for raw_decoration_id in stored_decorations:
+				if not (raw_decoration_id is String or raw_decoration_id is StringName):
+					continue
+				var decoration_id := str(raw_decoration_id)
+				if ROOM_DECORATIONS.has(decoration_id) and decoration_id not in owned_room_decorations:
+					owned_room_decorations.append(decoration_id)
+		var stored_decoration_slots = data.get("room_decoration_slots", [])
+		var restored_placements: Dictionary = {}
+		if stored_decoration_slots is Array:
+			for slot_index in range(mini(ROOM_DECORATION_SLOT_COUNT, stored_decoration_slots.size())):
+				var raw_slot_id = stored_decoration_slots[slot_index]
+				if not (raw_slot_id is String or raw_slot_id is StringName):
+					continue
+				var slot_decoration_id := str(raw_slot_id)
+				if slot_decoration_id in owned_room_decorations and not restored_placements.has(slot_decoration_id):
+					room_decoration_slots[slot_index] = slot_decoration_id
+					restored_placements[slot_decoration_id] = true
+	var authorized_greenhouse_crop_ids: Array[String] = []
+	if stored_schema >= GREENHOUSE_SCHEMA:
+		authorized_greenhouse_crop_ids.append("cherry_tomato")
+	if stored_schema >= GREENHOUSE_SECOND_CROP_SCHEMA:
+		authorized_greenhouse_crop_ids.append("sweet_pepper")
+	if stored_schema >= GREENHOUSE_PROGRESSION_SCHEMA:
+		authorized_greenhouse_crop_ids.append("salad_cucumber")
+	greenhouse.load_state(data.get("greenhouse_beds", []), authorized_greenhouse_crop_ids)
 	if stored_schema < REAL_TIME_GROWTH_SCHEMA:
 		_migrate_first_guided_cycle_to_real_time()
 	saved_at_unix = stored_saved_at_unix
