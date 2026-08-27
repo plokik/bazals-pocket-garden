@@ -103,11 +103,22 @@ Get-ChildItem -LiteralPath (Join-Path $projectRoot 'scripts') -Recurse -File -Fi
 }
 $runtimeTextFiles.Add((Get-Item -LiteralPath (Join-Path $projectRoot 'main.tscn')))
 $runtimeTextFiles.Add((Get-Item -LiteralPath (Join-Path $projectRoot 'project.godot')))
-$resourcePathPattern = [regex]'res://[^"''\)\],\s]+'
+# Accept only canonical resource-path characters. A runtime script can contain a
+# regex literal such as `res://assets/[A-Za-z0-9_./-]+\.png`; treating the regex
+# character class as part of an APK entry would create a false missing-payload
+# failure after an otherwise valid export.
+$resourcePathPattern = [regex]'res://[A-Za-z0-9_./-]+'
 foreach ($runtimeTextFile in $runtimeTextFiles) {
     $runtimeText = Get-Content -LiteralPath $runtimeTextFile.FullName -Raw
     foreach ($match in $resourcePathPattern.Matches($runtimeText)) {
         $relativeResourcePath = $match.Value.Substring(6)
+        # Approved visual targets under docs/ are local validation references,
+        # not runtime payload. The Android presets intentionally exclude the
+        # entire documentation tree, so requiring those report-only PNGs here
+        # would contradict the export contract and bloat the installed game.
+        if ($relativeResourcePath.StartsWith('docs/', [System.StringComparison]::OrdinalIgnoreCase)) {
+            continue
+        }
         if ($relativeResourcePath.EndsWith('.tscn', [System.StringComparison]::OrdinalIgnoreCase)) {
             continue
         }

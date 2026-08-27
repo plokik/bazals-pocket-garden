@@ -1,0 +1,152 @@
+{
+  "schema": "phase150_runtime_crops_v1",
+  "policy": "source_rgb_immutable_alpha_only_soil_contact_cleanup_v1",
+  "status": "PASSED",
+  "crops": {
+    "seedlings": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_seedlings_v1.png",
+      "source_sha256": "BF0F6FF1A745C9FD26B3CD1DC04D67BDB0596BA7C12056C2B6BAA62AA5CEE51E",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_seedlings_phase150_v1.png",
+      "source_size": [
+        322,
+        346
+      ],
+      "soil_start_y": 122,
+      "source_crop_xyxy": [
+        54,
+        83,
+        306,
+        284
+      ],
+      "output_size": [
+        252,
+        201
+      ],
+      "opaque_pixels_removed": 26358,
+      "edge_pixels_softened": 2623,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "2CC73A225EC6FF20660A0ADAD1644C8EFCAC8AAB5828F7D011496C8BD1DE0411"
+    },
+    "cherry_tomato": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_tomato_v1.png",
+      "source_sha256": "833A7B2B895E01DC9987DB264F759EEA3AA04000033915E88FAA941C5892287A",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_tomato_phase150_v1.png",
+      "source_size": [
+        319,
+        328
+      ],
+      "soil_start_y": 220,
+      "source_crop_xyxy": [
+        19,
+        11,
+        300,
+        271
+      ],
+      "output_size": [
+        281,
+        260
+      ],
+      "opaque_pixels_removed": 16783,
+      "edge_pixels_softened": 1393,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "183660FE50A64E85D28E12646BDC5C6F80F849F0AC0BDADFED51CC562717E3C4"
+    },
+    "sweet_pepper": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_pepper_v1.png",
+      "source_sha256": "3E9E691A4AC7E506308C0BFD7D2D4DB31E99428353AF445072A49B5EBD52FD3F",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_pepper_phase150_v1.png",
+      "source_size": [
+        313,
+        325
+      ],
+      "soil_start_y": 218,
+      "source_crop_xyxy": [
+        19,
+        37,
+        299,
+        277
+      ],
+      "output_size": [
+        280,
+        240
+      ],
+      "opaque_pixels_removed": 17856,
+      "edge_pixels_softened": 1583,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "551A560828365D3BC16FDB23A979ED3B19310E9A6BE9D8099FE06968C2881AE9"
+    },
+    "garden_radish": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_radish_v1.png",
+      "source_sha256": "33C4D7A570D84506A6A3F9DBFB636C59AA3430A40E0E4792E29FCFBA1C0DB0BB",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_radish_phase150_v1.png",
+      "source_size": [
+        313,
+        306
+      ],
+      "soil_start_y": 174,
+      "source_crop_xyxy": [
+        21,
+        28,
+        301,
+        253
+      ],
+      "output_size": [
+        280,
+        225
+      ],
+      "opaque_pixels_removed": 18302,
+      "edge_pixels_softened": 2873,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "1FB710F4AAD88A51A0A819DA36F8A73E76384605D50A1C1CCB77F3AE0B8B841B"
+    },
+    "salad_cucumber": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_cucumber_v1.png",
+      "source_sha256": "899ADECAB2A4C640D8042D116FAF69E001E60E59E640978230C30663F45A3056",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_cucumber_phase150_v1.png",
+      "source_size": [
+        332,
+        348
+      ],
+      "soil_start_y": 208,
+      "source_crop_xyxy": [
+        30,
+        14,
+        311,
+        293
+      ],
+      "output_size": [
+        281,
+        279
+      ],
+      "opaque_pixels_removed": 19192,
+      "edge_pixels_softened": 2059,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "E8A1F003A0695CFD3A87A344C53D3D9AEB535A7C6D58E06708A82383ECB20E2F"
+    },
+    "garden_eggplant": {
+      "source": "assets/ui/visual/phase127/greenhouse_sprites/greenhouse_crop_eggplant_v1.png",
+      "source_sha256": "C7E77DCCF7045F05A3EE01B763BCD7602FEFDAE23613EA604BBEF03AA072816B",
+      "output": "assets/ui/visual/phase150/greenhouse/crops/greenhouse_crop_eggplant_phase150_v1.png",
+      "source_size": [
+        332,
+        348
+      ],
+      "soil_start_y": 202,
+      "source_crop_xyxy": [
+        28,
+        34,
+        312,
+        270
+      ],
+      "output_size": [
+        284,
+        236
+      ],
+      "opaque_pixels_removed": 19685,
+      "edge_pixels_softened": 1812,
+      "retained_rgb_unchanged": true,
+      "output_sha256": "CBEB083349FEABA067DB806D2F98481EAF679B56D2AF10BA42C0EF7E73555603"
+    }
+  },
+  "qa_contact_sheet": "docs/visual-proposals/phase150/qa/phase150-runtime-crop-layers-v1.png"
+}

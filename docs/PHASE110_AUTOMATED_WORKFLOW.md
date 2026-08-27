@@ -81,3 +81,7 @@ Fáze 110 mění pouze nástroje, testy a dokumentaci. Nemění runtime hry, eko
 - Responsive `.godot/responsive/20260821-180148Z`: 8/8 včetně přesného `phase109_greenhouse_360x800`.
 
 `Release` a `ReleaseDevice` nebyly znovu spuštěny, protože immutable RC36 už existuje a nový runner správně vyžaduje nejprve vědomé zvýšení verze. Tím zůstalo RC36 i jeho historické důkazy nedotčené.
+
+## Rozšíření fáze 114
+
+Fáze 114 zachovává všechny výše uvedené režimy a fail-closed chování, ale opravuje publikační stav podle současného rozsahu projektu. Bez parametru reporty vracejí `AUTOMATION_PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER`. Pouze vědomé `-PublishingRequested` vrátí `PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW` a u režimů Release/ReleaseDevice se předá stejný záměr release runneru. Přepínač nic nepublikuje a nevytváří AAB.

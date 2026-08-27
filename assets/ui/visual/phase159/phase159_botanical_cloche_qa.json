@@ -1,0 +1,71 @@
+{
+  "phase": 159,
+  "status": "PASSED",
+  "policy": "deterministic_central_chroma_key_rgba_v1",
+  "source": {
+    "path": "assets/ui/visual/phase159/source/botanical_cloche_chroma_source_phase159_v1.png",
+    "sha256": "7DC2BD2D2D80BAE064D0703A06E6387342A019515478FBD6503ADFAE1098AAB5",
+    "mode": "RGB",
+    "dimensions": [
+      1419,
+      1109
+    ],
+    "modified": false
+  },
+  "output": {
+    "path": "assets/ui/visual/phase159/player_room/decor/botanical_cloche_phase159_v1.png",
+    "sha256": "CCF57B18306F73DD97B71A686A7A8DC550956BD8B27283ADDDC6814C8A259B55",
+    "mode": "RGBA",
+    "dimensions": [
+      615,
+      1013
+    ],
+    "source_crop_xyxy": [
+      426,
+      49,
+      977,
+      998
+    ],
+    "transparent_padding_pixels": 32
+  },
+  "parameters": {
+    "border_sample_pixels": 32,
+    "transparent_distance": 12.0,
+    "opaque_distance": 168.0,
+    "magenta_dominance_min": 12.0,
+    "component_alpha_min": 16,
+    "edge_support_dilations": 3,
+    "fringe_alpha_min": 8,
+    "fringe_magenta_dominance": 24
+  },
+  "extraction": {
+    "estimated_key_rgb": [
+      249,
+      3,
+      242
+    ],
+    "seed_component_count": 1,
+    "largest_component_seed_pixels": 380806,
+    "discarded_seed_pixels": 0
+  },
+  "qa": {
+    "checks": {
+      "mode_is_rgba": true,
+      "has_fully_transparent_pixels": true,
+      "has_fully_opaque_pixels": true,
+      "has_partial_alpha_pixels": true,
+      "border_alpha_is_zero": true,
+      "transparent_rgb_is_zero": true,
+      "significant_visible_magenta_fringe_absent": true
+    },
+    "counts": {
+      "total_pixels": 622995,
+      "alpha_zero": 241545,
+      "alpha_full": 378683,
+      "alpha_partial": 2767,
+      "visible_pixels": 381450,
+      "visible_magenta_fringe_pixels": 0
+    },
+    "visible_magenta_fringe_fraction": 0.0
+  }
+}

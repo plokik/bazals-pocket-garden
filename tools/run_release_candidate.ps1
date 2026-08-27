@@ -1,6 +1,7 @@
 ﻿param(
     [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
-    [string]$PythonPath = 'C:\Users\drikv\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+    [string]$PythonPath = 'C:\Users\drikv\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe',
+    [switch]$PublishingRequested
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,6 +21,7 @@ $artifactDirectory = Join-Path $projectRoot ".godot\release-candidate\$timestamp
 $safeVersion = $projectVersion -replace '[^0-9A-Za-z._-]', '-'
 $versionedApkPath = Join-Path $projectRoot "builds\android\bazals-pocket-garden-$safeVersion-arm64-debug.apk"
 $defaultApkPath = Join-Path $projectRoot 'builds\android\bazals-pocket-garden-debug.apk'
+$publishingGate = if ($PublishingRequested) { 'PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW' } else { 'OUT_OF_SCOPE_BY_USER' }
 $defaultApkPendingPath = "$defaultApkPath.$timestamp.pending"
 if (Test-Path -LiteralPath $versionedApkPath) {
     throw "Immutable Android artifact already exists at $versionedApkPath and remains untouched. Bump the release version before rerun."
@@ -28,14 +30,43 @@ if (Test-Path -LiteralPath $versionedApkPath) {
 New-Item -ItemType Directory -Path $artifactDirectory -Force | Out-Null
 $temporaryApkPath = Join-Path $artifactDirectory "bazals-pocket-garden-$safeVersion-arm64-debug.pending.apk"
 
-& (Join-Path $projectRoot '.agents\skills\how-to-grow-validation\scripts\run_validation.ps1') -GodotPath $GodotPath -PythonPath $PythonPath
-if ($LASTEXITCODE -ne 0) { throw 'Deterministic validation failed.' }
-& (Join-Path $projectRoot 'tools\run_performance_smoke.ps1') -GodotPath $GodotPath
-if ($LASTEXITCODE -ne 0) { throw 'Performance smoke failed.' }
-& (Join-Path $projectRoot 'tools\run_endurance_smoke.ps1') -GodotPath $GodotPath
-if ($LASTEXITCODE -ne 0) { throw 'Endurance smoke failed.' }
-& (Join-Path $projectRoot 'tools\run_progression_smoke.ps1') -GodotPath $GodotPath
-if ($LASTEXITCODE -ne 0) { throw 'Progression smoke failed.' }
+function Invoke-ReleaseGate {
+	param(
+		[string]$Name,
+		[string]$ScriptPath,
+		[string[]]$Arguments,
+		[string[]]$RequiredMarkers
+	)
+	$previousErrorActionPreference = $ErrorActionPreference
+	try {
+		# Expected negative-path regression checks and Godot cleanup diagnostics
+		# may use stderr. Capture both streams and decide only from the child exit,
+		# required markers and the explicit forbidden marker set below.
+		$ErrorActionPreference = 'Continue'
+		$rawOutput = @(& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptPath @Arguments 2>&1)
+		$exitCode = $LASTEXITCODE
+	} finally {
+		$ErrorActionPreference = $previousErrorActionPreference
+	}
+	$rawOutput | ForEach-Object { Write-Host $_ }
+	$outputText = ($rawOutput | ForEach-Object { $_.ToString() }) -join [Environment]::NewLine
+	$missingMarkers = @($RequiredMarkers | Where-Object { $outputText -notmatch $_ })
+	$forbiddenErrors = $outputText -match 'SCRIPT ERROR|Parse Error|MVP TESTY SELHALY|HOW_TO_GROW_[A-Z_]+=FAILED'
+	if ($exitCode -ne 0 -or $missingMarkers.Count -ne 0 -or $forbiddenErrors) {
+		throw "$Name failed: exit=$exitCode missing_markers=$($missingMarkers -join ',') forbidden_error_marker=$forbiddenErrors"
+	}
+	return [pscustomobject]@{
+		Lines = $rawOutput
+		Text = $outputText
+		ExitCode = $exitCode
+	}
+}
+
+$visualContractGate = Invoke-ReleaseGate -Name 'Phase 127 visual contract audit' -ScriptPath (Join-Path $projectRoot 'tools\run_visual_contract_audit.ps1') -Arguments @('-GodotPath', $GodotPath) -RequiredMarkers @('VISUAL_CONTRACT_AUDIT=PASSED')
+$validationGate = Invoke-ReleaseGate -Name 'Deterministic validation' -ScriptPath (Join-Path $projectRoot '.agents\skills\how-to-grow-validation\scripts\run_validation.ps1') -Arguments @('-GodotPath', $GodotPath, '-PythonPath', $PythonPath) -RequiredMarkers @('MVP_TESTS_PASSED=\d+', 'HOW_TO_GROW_VALIDATION=PASSED')
+$performanceGate = Invoke-ReleaseGate -Name 'Performance smoke' -ScriptPath (Join-Path $projectRoot 'tools\run_performance_smoke.ps1') -Arguments @('-GodotPath', $GodotPath) -RequiredMarkers @('PERFORMANCE_SMOKE=PASSED')
+$enduranceGate = Invoke-ReleaseGate -Name 'Endurance smoke' -ScriptPath (Join-Path $projectRoot 'tools\run_endurance_smoke.ps1') -Arguments @('-GodotPath', $GodotPath) -RequiredMarkers @('ENDURANCE_SMOKE=PASSED')
+$progressionGate = Invoke-ReleaseGate -Name 'Progression smoke' -ScriptPath (Join-Path $projectRoot 'tools\run_progression_smoke.ps1') -Arguments @('-GodotPath', $GodotPath) -RequiredMarkers @('PROGRESSION_SMOKE=PASSED')
 $progressionReportPath = Get-ChildItem -LiteralPath (Join-Path $projectRoot '.godot\progression') -Directory |
     Sort-Object LastWriteTimeUtc -Descending |
     ForEach-Object { Join-Path $_.FullName 'progression-smoke.json' } |
@@ -52,10 +83,8 @@ $progressionSpeciesCount = @($progressionReport.species.PSObject.Properties).Cou
 if ([string]$progressionReport.result -ne 'PASSED' -or $progressionCycles -ne $progressionTargetCycles -or $progressionSpeciesCount -lt 1) {
     throw "Progression report is incomplete: cycles=$progressionCycles/$progressionTargetCycles species=$progressionSpeciesCount"
 }
-$responsiveOutput = @(& (Join-Path $projectRoot 'tools\run_responsive_layout_smoke.ps1') -GodotPath $GodotPath 2>&1)
-$responsiveExitCode = $LASTEXITCODE
-$responsiveOutput | ForEach-Object { Write-Output $_ }
-if ($responsiveExitCode -ne 0) { throw 'Responsive layout smoke failed.' }
+$responsiveGate = Invoke-ReleaseGate -Name 'Responsive layout smoke' -ScriptPath (Join-Path $projectRoot 'tools\run_responsive_layout_smoke.ps1') -Arguments @('-GodotPath', $GodotPath) -RequiredMarkers @('RESPONSIVE_LAYOUT_SMOKE=PASSED')
+$responsiveOutput = @($responsiveGate.Lines)
 $responsiveArtifactsLine = $responsiveOutput |
     Where-Object { [string]$_ -match '^RESPONSIVE_ARTIFACTS=(.+)$' } |
     Select-Object -Last 1
@@ -86,8 +115,7 @@ if (
 ) {
     throw "Responsive report is incomplete: result=$($responsiveReport.result) cases=$($responsiveCases.Count)/$responsiveCaseCount failures=$($responsiveFailures.Count)"
 }
-& (Join-Path $projectRoot 'tools\export_android.ps1') -GodotPath $GodotPath -ApkPath $temporaryApkPath
-if ($LASTEXITCODE -ne 0) { throw 'Android debug export failed.' }
+$exportGate = Invoke-ReleaseGate -Name 'Android debug export' -ScriptPath (Join-Path $projectRoot 'tools\export_android.ps1') -Arguments @('-GodotPath', $GodotPath, '-ApkPath', $temporaryApkPath) -RequiredMarkers @('GODOT_GRADLE_EXPORT=PASSED', 'APK_SIGNATURE_CHECK=PASSED', 'APK_PAYLOAD_CHECK=PASSED', 'APK_READY=')
 $apkHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $temporaryApkPath).Hash
 if (Test-Path -LiteralPath $versionedApkPath) {
     throw "Immutable Android artifact appeared during the release run at $versionedApkPath; the validated pending APK remains in the release evidence directory."
@@ -117,6 +145,7 @@ $report = [ordered]@{
     version_code = $androidVersionCode
     save_schema = $saveSchema
     validation = 'PASSED'
+    visual_contract = 'PASSED_PHASE127_ALL_PNG_PROFILED'
     performance = 'PASSED_DESKTOP_ACTIVE_FULL_RACK'
     endurance = 'PASSED_48_UI_SIMULATION_SAVE_CYCLES'
     progression = "PASSED_${progressionCycles}_CYCLES_${progressionSpeciesCount}_SPECIES_${progressionSaveRoundtrips}_SAVE_ROUNDTRIPS"
@@ -129,7 +158,7 @@ $report = [ordered]@{
     android_debug_alias_sha256 = $defaultApkHash
     android_notification_payload = 'PASSED_STATIC_AND_APK'
     physical_android_gate = 'PENDING'
-    publishing_gate = 'PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW'
+    publishing_gate = $publishingGate
 }
 $report | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $artifactDirectory 'release-candidate.json') -Encoding utf8
 $markdown = @"
@@ -138,6 +167,7 @@ $markdown = @"
 - Version code: $androidVersionCode
 - Save schema: $saveSchema
 - Deterministic validation: PASSED
+- Phase 127 visual contract: PASSED (all PNG assets have an explicit or family profile)
 - Active full-rack desktop performance: PASSED
 - Endurance UI/simulation/save cycles: PASSED
 - Progression/economy/save campaign: PASSED ($progressionCycles/$progressionTargetCycles cycles, $progressionSpeciesCount species, $progressionSaveRoundtrips save/load roundtrips)
@@ -148,10 +178,11 @@ $markdown = @"
 - Android debug alias SHA-256: $defaultApkHash
 - Android notification payload: PASSED_STATIC_AND_APK
 - PHYSICAL_ANDROID_GATE: PENDING
-- PUBLISHING_GATE: PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW
+- PUBLISHING_GATE: $publishingGate
 "@
 $markdown | Set-Content -LiteralPath (Join-Path $artifactDirectory 'release-candidate.md') -Encoding utf8
 Write-Output "RELEASE_CANDIDATE=PASSED_LOCAL"
 Write-Output "RELEASE_CANDIDATE_ALIAS=PASSED"
 Write-Output "PHYSICAL_ANDROID_GATE=PENDING"
+Write-Output "PUBLISHING_GATE=$publishingGate"
 Write-Output "RELEASE_CANDIDATE_ARTIFACTS=$artifactDirectory"

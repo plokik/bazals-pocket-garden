@@ -5,13 +5,17 @@ const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 
 var summary_label: Label
 var status_label: Label
+var collection_summary_label: Label
+var mastery_summary_label: Label
 var species_cards: Dictionary = {}
 
 
-func bind(summary: Label, status: Label, cards: Dictionary) -> void:
+func bind(summary: Label, status: Label, cards: Dictionary, collection_summary: Label = null, mastery_summary: Label = null) -> void:
 	summary_label = summary
 	status_label = status
 	species_cards = cards
+	collection_summary_label = collection_summary
+	mastery_summary_label = mastery_summary
 
 
 func is_bound() -> bool:
@@ -87,6 +91,11 @@ func refresh(game_session: GameSession) -> void:
 	var completion_percent := game_session.get_collection_completion_percent()
 	var waiting_text := "   ·   %d ODMĚNA ČEKÁ" % claimable if claimable == 1 else ("   ·   %d ODMĚNY ČEKAJÍ" % claimable if claimable > 1 else "")
 	summary_label.text = "SBÍRKA  %d/%d DRUHŮ   ·   %d %%   ·   MISTROVSTVÍ  %d/%d%s" % [discovered_count, species_count, completion_percent, total_tiers, species_count * GameSession.MASTERY_TIERS.size(), waiting_text]
+	if collection_summary_label != null:
+		collection_summary_label.text = "SBÍRKA\n%d/%d DRUHŮ · %d %%" % [discovered_count, species_count, completion_percent]
+	if mastery_summary_label != null:
+		var short_waiting := " · %d ČEKÁ" % claimable if claimable > 0 else ""
+		mastery_summary_label.text = "MISTROVSTVÍ\n%d/%d%s" % [total_tiers, species_count * GameSession.MASTERY_TIERS.size(), short_waiting]
 
 
 func show_intro() -> void:

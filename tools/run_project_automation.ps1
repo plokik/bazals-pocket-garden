@@ -5,6 +5,7 @@ param(
     [string]$PythonPath = 'C:\Users\drikv\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe',
     [string]$AdbPath = '',
     [string]$Serial = '',
+    [switch]$PublishingRequested,
     [ValidateRange(20, 1800)]
     [int]$DeviceSampleSeconds = 300
 )
@@ -34,7 +35,7 @@ $technicalStatus = 'RUNNING'
 $deviceStatus = if ($Mode -eq 'ReleaseDevice') { 'RUNNING' } else { 'NOT_REQUESTED' }
 $failureMessage = ''
 $manualGate = 'PENDING_SINGLE_HUMAN_BATCH'
-$publishingGate = 'PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW'
+$publishingGate = if ($PublishingRequested) { 'PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW' } else { 'OUT_OF_SCOPE_BY_USER' }
 $reportJsonPath = Join-Path $artifactDirectory 'automation-report.json'
 $reportMarkdownPath = Join-Path $artifactDirectory 'automation-report.md'
 $worktreePath = Join-Path $artifactDirectory 'worktree-status.txt'
@@ -179,12 +180,22 @@ try {
     switch ($Mode) {
         'Quick' {
             Invoke-CheckedScript `
+                -Name 'VisualContract' `
+                -ScriptPath (Join-Path $projectRoot 'tools\run_visual_contract_audit.ps1') `
+                -Arguments @('-GodotPath', $GodotPath) `
+                -RequiredMarkers @('VISUAL_CONTRACT_AUDIT=PASSED')
+            Invoke-CheckedScript `
                 -Name 'Regression' `
                 -ScriptPath (Join-Path $projectRoot 'tools\run_tests.ps1') `
                 -Arguments @('-GodotPath', $GodotPath) `
                 -RequiredMarkers @('MVP_TESTS_PASSED=\d+')
         }
         'Full' {
+            Invoke-CheckedScript `
+                -Name 'VisualContract' `
+                -ScriptPath (Join-Path $projectRoot 'tools\run_visual_contract_audit.ps1') `
+                -Arguments @('-GodotPath', $GodotPath) `
+                -RequiredMarkers @('VISUAL_CONTRACT_AUDIT=PASSED')
             Invoke-CheckedScript `
                 -Name 'Validation' `
                 -ScriptPath (Join-Path $projectRoot '.agents\skills\how-to-grow-validation\scripts\run_validation.ps1') `
@@ -199,10 +210,14 @@ try {
             if (Test-Path -LiteralPath $versionedApkPath -PathType Leaf) {
                 throw "Immutable Android artifact already exists and remains untouched: $versionedApkPath. Bump the release version before using $Mode."
             }
+            $releaseArguments = @('-GodotPath', $GodotPath, '-PythonPath', $PythonPath)
+            if ($PublishingRequested) {
+                $releaseArguments += '-PublishingRequested'
+            }
             Invoke-CheckedScript `
                 -Name 'ReleaseCandidate' `
                 -ScriptPath (Join-Path $projectRoot 'tools\run_release_candidate.ps1') `
-                -Arguments @('-GodotPath', $GodotPath, '-PythonPath', $PythonPath) `
+                -Arguments $releaseArguments `
                 -RequiredMarkers @('RELEASE_CANDIDATE=PASSED_LOCAL', 'RELEASE_CANDIDATE_ALIAS=PASSED')
             if (-not (Test-Path -LiteralPath $versionedApkPath -PathType Leaf)) {
                 throw "Release runner passed without creating the expected immutable APK: $versionedApkPath"

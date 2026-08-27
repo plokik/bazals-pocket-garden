@@ -184,8 +184,41 @@ Tento checklist odděluje technicky ověřené části vertikálního řezu od k
 | Úplná validace fáze 109 | Prošla v hlavním projektu | `.godot/validation/20260821-143411Z`: 1299/1299, capture, visuals a full validation `PASSED`; tři nové snímky jsou report-only a schválené vizuální kontrakty beze změny |
 | Dlouhé technické brány fáze 109 | Prošly v hlavním projektu | Progression `20260821-143705Z` 132/132, endurance `20260821-143720Z` 48/48, responsive `20260821-143741Z` 8/8 a performance `20260821-143755Z` v limitech |
 | Android artefakt RC35 po stabilizaci | Immutable kandidát zachován, alias synchronizován | RC35/code 52/schema 32: `106 191 776` B, SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`; přepisovatelný alias je bajtově shodný |
+| Krátké fyzické přijetí RC36 / fáze 112 | Prošlo na Xiaomi / Android 13 | Uživatel jedním průchodem potvrdil výběr a zálivku skleníkové plodiny, Back/tahy, `.htgbackup` export/import, novou hru/návrat, oprávnění i skutečné oznámení s cílem; `PHASE112_SHORT_PHYSICAL_GATE=PASSED` |
+| Readback a finální validace po fázi 112 | Automatická technická část prošla | Android `.godot/android-device-audit/20260821-190953Z`: přesný RC36 hash, save 32 → 32, 66 mincí / 159 XP, 11/11 foreground, fatal 0, oprávnění granted a skutečný notification record; validation `.godot/validation/20260821-191441Z`: 1308/1308 a 14/14 aktivních obrazových gate |
+| Reboot a přirozený návrat RC36 / fáze 112 | Prošly | `.godot/android-long-delay/20260821-213651Z`: `BOOT_COMPLETED` 21:35:57, obnovený alarm a skutečné oznámení; po 8 h 47 min. jediný návrat ukázal `greenhouse_ready` / `PŘIPRAVENO KE SKLIZNI` pro všechny čtyři záhony, fatal 0 |
+| Fáze 113 / RC37 — skleníková ředkvička | Lokální release prošel, telefon odložen | Schema 33, 4 plodiny, 1 317/1 317 kontrol; release `.godot/release-candidate/20260821-200404Z` PASS, APK 106 195 376 B, SHA-256 `F985BA22C278B74C1AEBE8D7A878BA21B6EE11053234BA062A9A098A57C3898B`; RC37 zatím není instalováno |
+| Fáze 114 — publikační rozsah | Zdrojové nástroje prošly | 1 321/1 321; výchozí Quick `.godot/automation/20260821-202456Z` vrací `OUT_OF_SCOPE_BY_USER`, opt-in Quick `.godot/automation/20260821-202538Z` vrací `PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW`; runtime, schema a RC37 beze změny |
+| Fáze 115 / RC38 — skleníkový lilek | Lokální release prošel, telefon odložen | Schema 34, 5 plodin, 1 330/1 330 kontrol; release `.godot/release-candidate/20260821-210729Z` PASS, APK 106 197 360 B, SHA-256 `939E3E931DC32CD527A0207106DA2C1EDE3A9BD9B63F1F9718D40CB322FB3E0D`; RC38 zatím není instalováno |
+| Fáze 116 / RC39 — skleníkové zakázky | Lokální release prošel, telefon odložen | Schema 35, jedna trvalá kanonická zakázka, 1 342/1 342 kontrol; release `.godot/release-candidate/20260821-214027Z` PASS, APK 106 203 248 B, SHA-256 `3F110A4E187C9AFE0034D149E6E47B7B2C7B643CE2DDDA3F5ACD7701F83F3C78`; RC39 zatím není instalováno |
+| Fáze 117 / RC40 — prémiové vícezáhonové zakázky | Lokální release prošel, telefon odložen | Schema 36, `multi_bed` vyžaduje dva různé záhony, 1 351/1 351 kontrol; release `.godot/release-candidate/20260822-040931Z` PASS, APK 106 206 088 B, SHA-256 `99927E0D24B4C7DDDBF3B13B191C1ACCB8EB562C6F553B25E685113A163F0D97`; RC40 není instalováno |
+| Fáze 118 / RC41 — reputace skleníku | Lokální release prošel, telefon nevyžádán | Schema 37, milníky 3/8/15 s jednorázovými odměnami a finální kosmetickou cedulí, 1 360/1 360 kontrol; release `.godot/release-candidate/20260822-045830Z` PASS, APK 106 209 964 B, SHA-256 `A8E14970A5A6F09B67493B34DE701D2E9ACC8496617D2453B93DD7690159D6AE`; RC41 není instalováno |
+| Fáze 119 / RC43 — globální swipe | Lokální release prošel, telefon nevyžádán | Čtyři hlavní obrazovky, 18px axis lock, 90px swipe, scroll arbitráž a směrová odezva, schema 37 beze změny, 1 370/1 370 kontrol; release `.godot/release-candidate/20260822-054242Z` PASS, APK 106 213 160 B, SHA-256 `8D890542F3C49274225E5847E64C503E7E529DEAF5C8252717EC1AAC6E4990F8`; RC42 i RC43 nejsou instalované |
+| Fáze 120 / RC45 — živý perspektivní skleník | Lokální release prošel, připojení telefonu čeká | Originální prostředí, menší zadní a větší přední vyvýšené záhony, schema 37 beze změny, 1 374/1 374 kontrol; release `.godot/release-candidate/20260822-102540Z` PASS, APK 108 222 968 B, SHA-256 `F58C6A79965B9DB77ACEF7338050CA46D444E0882DB56C531F6133D072F425A0`; RC44 zachováno, device gate `PENDING_DEVICE_CONNECTION` |
+| Fáze 121 / RC46 — vodorovná ochrana transakcí | Částečný fyzický PASS, vertikální nález předán fázi 122 | Vodorovný tah přes nákupní tlačítko už nekoupí osivo; RC46 108 222 272 B, SHA-256 `1266E897FD8D0CDB23BD1F2FC27F1B19894BAD92989060A4EAB2C7412ED7F1C5`. Svislý scroll ale fyzicky odhalil nechtěný nákup lampy; save byl přesně obnoven a RC46 zůstalo immutable. |
+| Fáze 122 / RC47 — svislá ochrana transakcí | Technické a cílené fyzické brány prošly | 1 377/1 377, 14/14 aktivních obrazových bran, release `.godot/release-candidate/20260822-120356Z`, automation `.godot/automation/20260822-120356Z`, device audit `.godot/android-device-audit/20260822-120721Z`; APK 108 222 588 B, SHA-256 `3BC47AB155065EDE0E0AECB246026E62A324B4B25CDF5BAF76FD117AA5FCDC7F`; svislý stav okamžitě i po 20 s beze změny, vodorovný tah přes Pažitku také beze změny. |
+| Fáze 123 / RC48 — sbírkový pokoj | Lokální release prošel, historický kandidát zachován | Schema 38, osm pokojovek, šest pevných dekorací a vitrína úspěchů; 1 378/1 378, release `.godot/release-candidate/20260822-133618Z`, APK 110 185 562 B, SHA-256 `D28E3D33AC95B14F8B79067C3F90C639833A25A9F133EF3BDBB41E36BB936F58`. |
+| Fáze 124 / RC49 — živý pokoj a budoucí mazlíček | Technická mobilní brána prošla, lidské hodnocení čeká | Schema 39, kočičí kout, sklenice s bylinkami a živé okno; 1 384/1 384, release `.godot/release-candidate/20260822-144818Z`, device audit `.godot/android-device-audit/20260822-150135Z`; APK 110 188 738 B, SHA-256 `86A1F064581BC8DD3FE8026BD4A2B7ACAAB8DED0C3E00D47FD80B9EC427CDE79`, save 37 → 39 zachován. |
+| Fáze 125 / RC50 — čistý stojan a hráčské nastavení | Technická mobilní brána prošla, lidské hodnocení čeká | Schema 39; sklizené a zpracovávané rostliny mizí ze stojanu, samostatná Péče a PNG Nastavení, rezervovaný dok pro budoucí obsah; 1 390/1 390, validation `.godot/validation/20260822-155002Z`, release `.godot/release-candidate/20260822-155610Z`, device audit `.godot/android-device-audit/20260822-162951Z`; APK 110 260 465 B, SHA-256 `C7227D3FC8ACE61CEB214EF1F83B4BAEE3BE5402F564D013E8031D49CEAFE14D`, save 39 → 39 zachován. |
+| Fáze 126 / RC51 — sjednocená vizuální kamera | Lokální i fyzická technická brána prošly; lidská brána čeká | Schema 39; společný framing stojanu, pokoje a skleníku, blízký pokoj 2 × 4, zdrojové kotvy, 360 × 800 gate; 1 394/1 394, validation `.godot/validation/20260822-171510Z`, release `.godot/release-candidate/20260822-171510Z`, responsive 9/9; APK 111 812 793 B, SHA-256 `6B48C70E4A80B369E83EF50121760A1F598088D933F1CE499EFD73B17211410F`. Instalace a technický audit `.godot/android-device-audit/20260822-172854Z` prošly se zachovaným savem. |
+| Fáze 127 / RC53 — finální vizuální systém | Lokální i fyzická technická brána prošly; lidská brána čeká | Schema 39; společné tokeny, šest rodin, tři scénové profily, 32 explicitních profilů a 241/241 klasifikovaných PNG. Validation `.godot/validation/20260822-193736Z` má 1 400/1 400, release `.godot/release-candidate/20260822-193734Z` a responsive 9/9 prošly. APK 119 704 601 B, SHA-256 `1224BFB7BF54CBFA866E99914A9D19ADADB712FDDB1C1DE9477608B964104131`; audit `.godot/android-device-audit/20260822-194103Z` potvrdil přesnou instalaci a save 39 → 39. RC52 zůstává immutable mezisestavení. |
+| Fáze 138 / RC54 — integrovaný pokoj na Androidu | Lokální i fyzická technická brána prošly; lidský vzhled čeká | Schema 40; schválená sada osmi integrovaných RGBA ve funkční mřížce 3 × 4, 265/265 profilovaných PNG a 0 neprofilovaných. Validation `.godot/validation/20260823-115514Z` má 1 440/1 440, release `.godot/release-candidate/20260823-115502Z` a responsive 9/9 prošly. APK 150 226 188 B, SHA-256 `31373DA90973A2F131A9A5177BA8D9B958F8767B13BED5493015EC1FE19A23E5`; audit `.godot/android-device-audit/20260823-115900Z` potvrdil přesnou instalaci, save 39 → 40, 11/11 foreground vzorků a 0 crash/ANR nálezů. |
+| Fáze 139 — sjednocená výtvarná sada Pokoje | Lokální technická brána prošla; mobilní vzhled čeká | Source-only nad immutable RC54. Schválený celý pokoj, 12 funkčních slotů, osm hladkých 591 × 887 RGBA a společná 84 × 126 geometrie květináče/podmisky. Validation `.godot/validation/20260823-132935Z` má 1 445/1 445, responsive `.godot/responsive/20260823-133225Z` 9/9, visual contract 278 profilovaných / 0 neprofilovaných PNG a závěrečný Quick `.godot/automation/20260823-133606Z` prošly. APK, telefon i save beze změny. |
+| Fáze 140 — společná sada dekorací Pokoje | Implementovaná, technická a lidská brána stále čeká | Source-only nad immutable RC54. Deset nových pravostranných dekorací, druhá nástěnná police, šest držáků úspěchů, samostatná konvička a prázdný pelíšek bez misek; samostatný Godot render je report-only. |
+| Fáze 141 — finální koupitelný stojan | Lokální technická i Godot vizuální brána prošly; mobil čeká | Source-only nad immutable RC54. Schema 41, 12 koupitelných pokojovek, čtyři police po třech, jednotná keramika a 12 hladkých 591 × 887 RGBA. Validation `.godot/validation/20260823-173713Z` má 1 456/1 456, responsive `.godot/responsive/20260823-174052Z` 9/9, visual contract `.godot/visual-contract/20260823-174114Z` 313 profilovaných / 0 neprofilovaných PNG a Quick po schválení `.godot/automation/20260823-181336Z` prošel. Uživatel schválil skutečný Godot render; APK, telefon i obrazovka Rostliny beze změny. |
+| Fáze 142 — věrná referenční sada stojanu | Implementovaná a technicky prošla; skutečný Godot render čeká na uživatele | Source-only nad immutable RC54. RGB všech 12 aktivních rostlin pochází přímo z odsouhlasené celopokojové předlohy; samostatná maska dodává pouze průhlednost. Nový prázdný podklad a přesné kotvy `y = 743/955/1180/1395` zachovávají 4 × 3 nákupní a přesouvatelné sloty, schema 41 i obrazovku Rostliny. Validation `.godot/validation/20260823-192225Z` má 1 460/1 460, responsive 9/9, visual contract 329/329 profilovaných PNG a Quick `.godot/automation/20260823-192642Z` prošel. Lidské přijetí Godot renderu, APK a mobilní brána jsou oddělené. |
+| Fáze 143 — schválená jednotná sada stojanu | Zdroj, technická brána i skutečný Godot render schváleny; mobil čeká | RGB 12 aktivních sestav pochází přímo ze schváleného společného náhledu; maska dodává jen alfa kanál. Jediné izotropní měřítko, 4 × 3 společných os a beze změny schema 41, nákupu, přesunu i obrazovky Rostliny. Validation `.godot/validation/20260823-201449Z` má 1 464/1 464, responsive 9/9, visual contract 343/343 profilovaných PNG a Quick `.godot/automation/20260823-201840Z` prošel. Skutečný Godot capture je `APPROVED_BY_USER`; mobilní přijetí zůstává oddělené. |
+| Fáze 144 / RC55 — schválený stojan v Android kandidátu | Lokální technická brána prošla; instalace a mobilní vzhled čekají | `0.66.0-rc55` / code 72 / schema 41. Release `.godot/release-candidate/20260824-045554Z`, validation `.godot/validation/20260824-045602Z` 1 467/1 467, performance, endurance 48/48, progression 132/132, responsive 9/9, podpis i payload prošly. APK 175 560 935 B, SHA-256 `A6F7DF58FC58DCBCFBEDF568B7B43FCF47766AFFE8BF289BE330B028B9D25ECD`; RC54 zůstalo nezměněné. Zařízení `NOT_REQUESTED`, publikování `OUT_OF_SCOPE_BY_USER`. |
+| Fáze 145 — vrstvené detaily Pokoje | Lokální technická brána prošla; Godot vzhled čeká na uživatele, mobil je odložen | Source-only nad immutable RC55. Pelíšek a vnořené květináče dostaly kontaktní stíny a povrchové okluze; kočičí kout přidává samostatnou přední RGBA vrstvu dvou stejně velkých keramických misek. Schema 41, ekonomika, Rostliny a skleník beze změny. Validation `.godot/validation/20260824-072859Z` 1 472/1 472, responsive `.godot/responsive/20260824-073137Z` 9/9, visual contract `.godot/visual-contract/20260824-073157Z` 345 profilovaných / 0 neprofilovaných PNG. APK nevzniklo. |
+| Fáze 146 — schválený celoplošný master Pokoje | Lokální technická brána prošla; Godot vzhled čeká na uživatele, mobil je odložen | Source-only nad immutable RC55. Schválený prázdný master, 12 funkčních Phase143 rostlin a osm pevných dekorací z bezstínové RGBA vrstvy; zdrojové PNG zůstávají nedotčené. Následná korekce posunula vnořené květináče o 8 zdrojových pixelů níž a znovu nad jejich spodkem vykreslila přední hranu police. Validation `.godot/validation/20260824-173415Z` 1 477/1 477, responsive `.godot/responsive/20260824-173637Z` 9/9, visual contract `.godot/visual-contract/20260824-165444Z` 353 profilovaných / 0 neprofilovaných PNG. APK nevzniklo. |
+| Fáze 147 — schválený malovaný cartoon master | Style-lock a lokální technická brána prošly; první rodinu dokončila fáze 148 | Source-only nad immutable RC55. Uživatelem schválený sytý malovaný master má hashově uzamčenou linku, barvu, světlo, stín, materiály a produkční pořadí. RGB atlasy s napevno vykreslenou šachovnicí zůstávají zakázané v runtime. Validation `.godot/validation/20260824-182814Z` 1 478/1 478, capture i visuals `PASSED`; Quick `.godot/automation/20260824-183156Z` prošel. |
+| Fáze 148 — malovaný cartoon Pokoj | Technická brána i interní Godot render QA prošly; uživatelský a mobilní vzhled čekají | První kompletní obrazovková rodina nového masteru: prostředí 853 × 1844, 12 funkčních rostlin a 9 dekorací jako 21 samostatných RGBA vrstev. Alpha-only v3 zachovává RGB bajtově, checker i halo risk jsou nula; podmisky mají jednotné optické měřítko a bez natahování. Validation `.godot/validation/20260824-194329Z` 1 485/1 485, capture, visuals i úplná brána `PASSED`; Quick `.godot/automation/20260824-195259Z` i nezávislý vizuální audit prošly. Uživatel `PENDING_USER_APPROVAL`, mobil `DEFERRED_PHONE_UNAVAILABLE`, APK nevzniklo. |
+| Fáze 149 — přesný hráčský pokoj | Lokální technická i uživatelská vizuální brána prošly; mobil je odložen | Přesný target crop 853 × 1548, kanonický master shodný se zdrojem, 20 funkčních slotů a 21 target-derived vrstev. Validation `.godot/validation/20260824-214738Z` má 1 490/1 490, responsive 9/9 a gated diff MAE 6,805 / RMSE 12,005. Uživatel 25. 8. 2026 schválil skutečný Godot render a navazující Quick `.godot/automation/20260825-042058Z` prošel. Mobil `DEFERRED_PHONE_UNAVAILABLE`, APK nevzniklo a RC55 zůstává immutable. |
+| Fáze 150 — schválený malovaný skleník | Lokální technická, interní Godot cohesion i uživatelská vizuální brána prošly; mobil čeká | Schválený target 864 × 1544, dvě společné vyvýšené krabice, čtyři funkční záhony a šest alfa-only runtime crop vrstev se zachovanými Phase127 RGB/SHA. Půdní ostrůvky byly odstraněny, sazenic je přesně šest a stavové ikony patří rámu záhonu. Finální validation `.godot/validation/20260825-071114Z` má 1 496/1 496, capture i visuals `PASSED`; responsive `.godot/responsive/20260825-061207Z` prošel 9/9, Quick `.godot/automation/20260825-071439Z` prošel a report-only konceptuální diff je MAE 40,199 / RMSE 63,783. Uživatel 25. 8. 2026 skutečný render schválil (`APPROVED_BY_USER`), mobil `DEFERRED_PHONE_UNAVAILABLE`, APK nevzniklo a RC55 zůstává immutable. |
+| Fáze 154 — schválené malované Měření | Lokální technická, interní Godot cohesion i uživatelská vizuální brána prošly; mobil čeká | Schválený koncept je report-only. Živý runtime používá byte-exact malovanou laboratoř, deset dynamických hodnot, hladké ikony, 72hodinový graf, nápovědu a svislý scroll. Finální validation `.godot/validation/20260825-132647Z` má 1 510/1 510 a 20/20 tvrdých bran; nový append-only runtime baseline má přesnou shodu 0/0/0. Responsive `.godot/responsive/20260825-124928Z` prošel 11/11 a Quick `.godot/automation/20260825-132926Z` je PASS. Uživatel 25. 8. 2026 schválil skutečný render. Telefon je nedostupný, APK nevzniklo a RC55 zůstává immutable. |
+| Fáze 155 — schválený malovaný Herbář | Lokální technická, interní cohesion i uživatelská vizuální brána prošly; mobil čeká | Schválený koncept zůstává report-only. Čistá malovaná kniha neobsahuje zapečené hodnoty ani druhy; 11 portrétů, popisy, vlastnosti, mistrovství, odměny, předání zahrady a mobilní scroll zůstávají dynamické. Finální validation `.godot/validation/20260825-155831Z` má 1515/1515 a 21/21 tvrdých bran; nový append-only runtime gate SHA `8af651…4530` dosáhl přesné shody 0/0/0. Responsive `.godot/responsive/20260825-154636Z` prošel 12/12 a Quick `.godot/automation/20260825-160228Z` je PASS. Telefon je nedostupný, APK nevzniklo a RC55 zůstává immutable. |
 
-Aktuální autoritativní zdrojový stav je fáze 111 se save schema 32. Poslední immutable Android kandidát je RC36 `0.50.0-rc36` / code 53 a obsahuje runtime fáze 109; fáze 110–111 mění pouze nástroje, testy, dokumentaci a zdrojovou dohledatelnost. Automatické lokální i technické telefonní brány RC36 prošly. Jediný sloučený lidský mobilní blok a veřejné publikování nejsou dokončené.
+Aktuální autoritativní zdrojový stav je lokálně dokončená fáze 154 nad posledním immutable lokálním releasem RC55 `0.66.0-rc55` / code 72 / save schema 41. Nainstalovaný stav telefonu zůstává fáze 138 / RC54 se schema 40; RC55 ani Phase146–154 se neinstalovaly. Historické RC47–RC55 i jejich důkazy zůstávají platné a immutable. Phase154 má `TECHNICAL_VALIDATION=PASSED`, `GODOT_RENDER_ACCEPTANCE=PASSED_INTERNAL_COHESION_AUDIT`, `USER_VISUAL_ACCEPTANCE=APPROVED_BY_USER`, `VISUAL_BASELINE_TRANSITION=PASSED_APPEND_ONLY_RUNTIME_GATE`, mobil `DEFERRED_PHONE_UNAVAILABLE`, APK `NOT_CREATED` a publikování `OUT_OF_SCOPE`.
 
 Fáze 16–72 uzavřely obsahovou, save a základní mobilní technickou kostru včetně čtvrtého druhu, předpovědi a dlouhodobých technických bran. Fáze 73–75 převedly růst na návratové reálné cykly a přidaly bezpečný životní cyklus po dozrání. Fáze 76–79 zavedly rarity, obecný inventář semen, férové Botanické balíčky a čtyři explicitní profilové vlastnosti bez skrytého bonusu rarity. Fáze 80 odstranila pevné čtyřdruhové produkční routování: manifest nyní řídí profily, textury, runtime obchod, exportní payload i počet postupových cyklů. Fáze 81–86 rozšířily katalog na devět druhů. RC27 všechny tyto fáze balí do schema 22 a jeho automatická fyzická technická brána prošla na odemčeném telefonu v popředí. Publikační brána dál čeká na release keystore, AAB, store review a ruční dokončení zálohy, oznámení a hardwarového UX.
 
@@ -303,10 +336,23 @@ Navazující autoritativní sanitizovaný audit `.godot/android-device-audit/202
 - Následný technický audit stejného immutable RC29 `.godot/android-device-audit/20260820-043712Z` znovu prošel: instalovaný hash přesně odpovídal, save schema zůstalo 28 → 28 a zachovalo 23 mincí, 37 XP, počet slotů i jeden obsazený květináč. Běh trval 300 sekund, měl 54/54 platných odemčených a interaktivních vzorků, 100 % v popředí a 0 crash/ANR/Godot fatal nálezů. `gfxinfo` z 45 snímků uvádí 3 janky (6,67 %), p95 16 ms a p99 450 ms; jde o lepší krátký vzorek, nikoli ruční výkonový PASS. Baterie zůstala na 100 % a její teplota vzrostla z 29,3 °C na 31,9 °C. Thermal service hlásil maximum 10 °C, které není s bateriovým čidlem konzistentní, proto se pro rozhodnutí o teplotě nepoužívá. Čtyři package-scoped notification řádky ani nulový alarm nedokládají skutečné herní oznámení. Všech 18 ručních bodů proto správně zůstává otevřených. Auditní skript nyní místo neexistujícího souhrnného pole čte samostatně AC, USB, bezdrátové a dokové napájení; parser smoke prošel a úplná validace `.godot/validation/20260820-044727Z` skončila 1204/1204 a všemi aktivními gate `PASSED`.
 - Lokální publikační cesta nyní obsahuje oddělený Gradle preset `Android Release AAB`, explicitní minSdk 24 / targetSdk 36 a skript, který přijímá release heslo pouze proměnnou prostředí a odmítá přepsat existující balíček. Smoke `.godot/android-release-aab/20260820-062151Z` vytvořil testovací AAB o 50 745 011 B (48,39 MiB), SHA-256 `8D48D4FBF64CE7BB49C62C946444611C2A605BFBD476F9525506F95B5BB560A7`; export, JAR podpis, payload ARM64 a notification/deep-link DEX kontrola jsou `PASSED`. Jednorázový 30denní testovací klíč byl po běhu odstraněn a AAB je záměrně pouze smoke důkaz, nikoli balíček pro Play Console. Exportem generovaný install-time asset-pack payload a release manifest jsou přesně ignorované, vlastní `src/main` Android zdroje zůstávají sledované. `PUBLISHING_GATE` dál čeká na produkční upload key, finální verzování, Play App Signing a store review.
 
-## Aktuální připravený Android artefakt RC36
+## Aktuální připravený a nainstalovaný Android artefakt RC47
+
+- Soubor: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.59.0-rc47-arm64-debug.apk`
+- Výchozí exportní alias: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` — bajtově shodný s RC47, ale přepisovatelný při dalším úspěšném release běhu
+- Velikost: `108 222 588` B
+- Verze: `0.59.0-rc47`, version code `64`, save schema `37`
+- SHA-256 obou současných souborů: `3BC47AB155065EDE0E0AECB246026E62A324B4B25CDF5BAF76FD117AA5FCDC7F`
+- Release audit: `.godot/release-candidate/20260822-120356Z`
+- Automatizace: `.godot/automation/20260822-120356Z`
+- Fyzická instalace a technický audit: `.godot/android-device-audit/20260822-120721Z`, `PASSED_TECHNICAL`
+
+RC47 je finální immutable interní kandidát fáze 122 po fyzickém uzavření vodorovné i svislé transakční ochrany. RC45 zůstává immutable: 108 222 968 B, SHA-256 `F58C6A79965B9DB77ACEF7338050CA46D444E0882DB56C531F6133D072F425A0`; RC46 zůstává immutable: 108 222 272 B, SHA-256 `1266E897FD8D0CDB23BD1F2FC27F1B19894BAD92989060A4EAB2C7412ED7F1C5`. AAB ani veřejný upload nevznikly.
+
+## Historický fyzicky přijatý Android artefakt RC36
 
 - Soubor: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk`
-- Výchozí exportní alias: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` — bajtově shodný s RC36, ale přepisovatelný při dalším úspěšném release běhu
+- Výchozí exportní alias byl v době RC36 release bajtově shodný; dnes ukazuje na aktuální RC47
 - Architektura: ARM64
 - Verze: `0.50.0-rc36`, version code `53`, save schema `32`
 - Velikost: `101,27 MiB` (`106 193 804` B)
@@ -314,12 +360,12 @@ Navazující autoritativní sanitizovaný audit `.godot/android-device-audit/202
 - Podpis: standardní Godot debug certifikát, ověřené APK Signature Scheme v2
 - Účel: interní instalace a kontrola na telefonu; nejde o Google Play release balíček.
 
-Úplný lokální release audit RC36 je `.godot/release-candidate/20260821-160145Z` a platný technický fyzický záznam `.godot/android-device-audit/20260821-163933Z`. Verzovaný RC36 APK je immutable; alias je pouze ověřená aktuální kopie. Fáze 110–111 nemění runtime ani payload, takže nový Android kandidát nevzniká.
+Úplný lokální release audit RC36 je `.godot/release-candidate/20260821-160145Z`, instalační technický záznam `.godot/android-device-audit/20260821-163933Z`, finální readback po krátkém lidském přijetí `.godot/android-device-audit/20260821-190953Z` a uzavřený reboot/greenhouse-ready důkaz `.godot/android-long-delay/20260821-213651Z`. Verzovaný RC36 APK je immutable a zůstává posledním kandidátem s dokončeným tehdejším úplným lidským přijetím. Obecný alias už patří RC47 a nesmí se používat jako důkaz identity RC36.
 
 ## Historický Android artefakt RC29
 
 - Soubor: `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.45.0-rc29-arm64-debug.apk`
-- Stav v době RC29 auditu: výchozí exportní alias `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` byl bajtově shodný s RC29; dnes ukazuje na aktuální RC36
+- Stav v době RC29 auditu: výchozí exportní alias `C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-debug.apk` byl bajtově shodný s RC29; dnes ukazuje na aktuální RC47
 - Architektura: ARM64
 - Verze: `0.45.0-rc29`, version code `46`, zdrojové i save schema `28`
 - Velikost: `105,44 MiB` (`110 561 232` B)
@@ -400,7 +446,7 @@ Při dokončení samotné fáze 109 nevznikl APK/AAB a immutable RC35 ani jeho t
 
 ## RC36 — fáze 109 na fyzickém Androidu
 
-`0.50.0-rc36` / code 53 / save schema 32 je aktuální immutable interní Android kandidát. Release `.godot/release-candidate/20260821-160145Z` prošel validací, performance, endurance, progression, responsive maticí 8/8, Android exportem, podpisem, payloadem i notification payloadem. Verzovaný APK `builds/android/bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk` má 106 193 804 B a SHA-256 `9987F544E5FC692BA0F05BE183FDCDB6E426572A769FDC6D9CA01DDB44936860`; přepisovatelný alias byl v době release bajtově shodný. RC35 zůstalo 106 191 776 B se svým původním SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`.
+`0.50.0-rc36` / code 53 / save schema 32 bylo v době této fáze posledním nainstalovaným immutable interním Android kandidátem a dnes zůstává historickým kandidátem s úplným tehdejším lidským přijetím. Release `.godot/release-candidate/20260821-160145Z` prošel validací, performance, endurance, progression, responsive maticí 8/8, Android exportem, podpisem, payloadem i notification payloadem. Verzovaný APK `builds/android/bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk` má 106 193 804 B a SHA-256 `9987F544E5FC692BA0F05BE183FDCDB6E426572A769FDC6D9CA01DDB44936860`; přepisovatelný alias byl v době release bajtově shodný a dnes ukazuje na RC47. RC35 zůstalo 106 191 776 B se svým původním SHA-256 `54F4CBE062693324E1C01AD7A3F371166E5ACAB3997D634A762FA324F5D876A2`.
 
 Platný pětiminutový audit `.godot/android-device-audit/20260821-163933Z` nainstaloval RC36 přes RC35 bez mazání dat. Očekávaný a nainstalovaný hash se shodují, save zůstal schema 32 → 32 a stabilní mince, XP, počet slotů i obsazených květináčů byly zachované. Audit získal 54/54 odemčených a interaktivních vzorků, hra byla ve 100 % vzorků v popředí a fatal count byl 0; `PHYSICAL_ANDROID_TECHNICAL_GATE=PASSED`. Krátké `gfxinfo` mělo 45 snímků, p95 12 ms a 2 janky snímky; konečná baterie byla 100 % při USB napájení a 32,3 °C. Jde o technický podklad, ne automatický lidský výkonový nebo tepelný PASS.
 
@@ -422,7 +468,783 @@ První skutečný `Quick` běh `.godot/automation/20260821-175834Z` prošel s `M
 
 Fáze 111 ukládá ověřený stav fází 103–110 jako jediný zdrojový commit a anotovaný tag `v0.50.0-rc36`. Před snapshotem byly zkontrolovány všechny sledované i nesledované změny, textová povaha souborů, diff whitespace, exportní identita a absence vloženého keystoru, hesla nebo generovaných APK/AAB. `.godot`, `.tooling`, `builds` a lokální tajemství zůstávají mimo Git.
 
-Snapshot nemění runtime, ekonomiku, save schema 32, export preset ani existující APK. Autoritativní RC36 proto zůstává nedotčené a fáze 111 pouze přidává reprodukovatelný zdrojový bod pro další vývoj. Přesné validační artefakty jsou uvedené v `docs/PHASE111_SOURCE_BASELINE.md`; lidský mobilní blok zůstává `PENDING_SINGLE_HUMAN_BATCH` a veřejná distribuce `PUBLISHING_GATE=PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW`.
+Snapshot nemění runtime, ekonomiku, save schema 32, export preset ani existující APK. Autoritativní RC36 proto zůstává nedotčené a fáze 111 pouze přidává reprodukovatelný zdrojový bod pro další vývoj. Přesné validační artefakty jsou uvedené v `docs/PHASE111_SOURCE_BASELINE.md`; tehdy otevřený lidský blok následně uzavřela krátká část fáze 112 a veřejná distribuce zůstává mimo současný rozsah.
+
+## Fáze 112 — lokální mobilní přijetí RC36
+
+Uživatel 21. srpna 2026 jednou souhrnnou odpovědí `hotovo` potvrdil všech šest bodů `docs/PHASE112_LOCAL_MOBILE_ACCEPTANCE.md`: bezpečné zrušení pickeru a export `.htgbackup`, skutečný dotyk výběru a zálivky skleníkové plodiny, systémové Zpět a oba směry tahu, systémové povolení a doručení 20sekundového upozornění s cílem květináče 1, import s náhledem a restartem a dvoukrokovou novou hru i návrat předchozího postupu. Krátký subjektivní průchod byl ovladatelný, animace příjemná a bez nezvyklého zahřívání.
+
+Navazující nedestruktivní audit `.godot/android-device-audit/20260821-190953Z` bez instalace a bez mazání dat znovu potvrdil přesný SHA-256 RC36, save schema `32_TO_32`, původních 66 mincí, 159 XP, 10 slotů a 0 obsazených pokojových květináčů. Měl 11/11 platných foreground vzorků, fatal count 0 a `ANDROID_TECHNICAL_GATE=PASSED`. Systém hlásil udělené `POST_NOTIFICATIONS`, tři package-scoped alarm řádky a třináct notification řádků; `phase112-final.png` zachycuje skutečné testovací oznámení v Android liště. Tato evidence doplňuje, ale nenahrazuje lidské potvrzení deep linku.
+
+Závěrečná validace `.godot/validation/20260821-191441Z` prošla s `MVP_TESTS_PASSED=1308`, capture, visuals a full validation `PASSED`. Všech 14 aktivních pixelových gate je zelených, `room` a `locked-slots` zůstávají pouze reportovací a schválené reference, crop, masky ani tolerance se nezměnily.
+
+Finální `Quick` `.godot/automation/20260821-191729Z` po zápisu původní krátké dokumentace prošel: regression exit 0, `MVP_TESTS_PASSED=1308`, `AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`. Po skutečném long-delay návratu prošla aktuální fáze 117 navíc úplnou validací `.godot/validation/20260822-042334Z` s 1 351/1 351 kontrolami a finálním Quick `.godot/automation/20260822-042507Z`. Obecný statický lidský checklist se automaticky nepřepisuje na PASS; autoritativní důkaz fáze 112 odděleně potvrzuje krátkou lidskou, reboot i long-delay bránu.
+
+`PHASE112_SHORT_PHYSICAL_GATE=PASSED`. Reboot větev navíc prošla bez otevření hry: `.godot/android-long-delay/20260821-213651Z` zaznamenal `BOOT_COMPLETED`, obnovený alarm a skutečné oznámení pro květináč 1, takže `PHASE112_REBOOT_REMINDER_GATE=PASSED`. Stejná složka obsahuje `phase112-greenhouse-ready-return.png` a `greenhouse-ready-evidence.md`: po 8 h 47 min. jediný úspěšný návrat bez nové instalace, změny času nebo ADB dotykové injekce zobrazil `PŘIPRAVENO KE SKLIZNI` pro všechny čtyři záhony; sanitizovaný save potvrdil schema 32 a čtyři `READY` stavy, targeted fatal count 0. `PHASE112_LONG_DELAY_GATE=PASSED`. `PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER`, takže nevzniká AAB, produkční klíč ani upload do obchodu.
+
+## Fáze 113 — ředkvička a RC37
+
+Fáze 113 je runtime změna navazující na RC36. Skleník má čtyři plodiny a nový chybějící krok úrovně 3: `garden_radish` / `Ředkvička zahradní` za 12 mincí, se čtyřhodinovým růstem a sklizní 22 mincí + 9 XP. Čtyři volby používají samostatné mobilní cíle; kompaktní větev 360×620 drží přesně 76×64 px na x = 16/100/184/268. Kódově kreslená ředkvička nemění zdrojové PNG.
+
+Save schema 33 přidává samostatnou trust boundary `GREENHOUSE_RADISH_SCHEMA`. Schema 32 zachová oprávněné rajče, papriku a okurku, ale vloženou placenou ředkvičku odmítne. Doménová vrstva znovu kontroluje úroveň 3 i cenu a zamčený pokus je atomický no-op.
+
+Regrese skončila `MVP_TESTS_PASSED=1317`. Responzivní audit `.godot/responsive/20260821-195525Z` prošel 8/8. Úplná validace `.godot/validation/20260821-195615Z` skončila capture, visuals i full validation `PASSED`; všech 14 aktivních pixelových gate je zelených a schválené reference, crop, masky ani tolerance se nezměnily. Autonomní Full `.godot/automation/20260821-200116Z` prošel všemi pěti kroky. Release `.godot/release-candidate/20260821-200404Z` vytvořil nový immutable `0.51.0-rc37` / code 54 / schema 33 o velikosti 106 195 376 B a SHA-256 `F985BA22C278B74C1AEBE8D7A878BA21B6EE11053234BA062A9A098A57C3898B`; export, podpis APK v2, payload i notification payload jsou `PASSED`. RC36 nebylo přepsáno. RC37 se na telefon neinstaluje před dokončením přirozeného RC36 long-delay důkazu. AAB, produkční signing a publikování zůstávají `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 114 — publikační rozsah automatizace
+
+Pracovní i release runner nyní považují publikování za explicitní opt-in. Výchozí lokální běh zapisuje `publishing_gate = OUT_OF_SCOPE_BY_USER` do JSON i Markdown reportu a emituje stejný CLI marker. Pouze parametr `-PublishingRequested` vrátí `PENDING_RELEASE_KEYSTORE_AAB_STORE_REVIEW`; sám nic nepublikuje, nevytváří AAB a nečte signing tajemství.
+
+PowerShell AST obou runnerů prošel. Quick `.godot/automation/20260821-202456Z` ověřil výchozí větev a `MVP_TESTS_PASSED=1321`; Quick `.godot/automation/20260821-202538Z` ověřil opt-in větev se stejnými 1 321 kontrolami. Fáze mění pouze nástroje, testy a dokumentaci, takže runtime, save schema 33, immutable RC37 i nainstalované RC36 zůstávají beze změny.
+
+## Fáze 115 — lilek a RC38
+
+Fáze 115 rozšiřuje skleník o pátou plodinu `garden_eggplant` / `Lilek vejcoplodý`. Odemkne se na úrovni 5, stojí 22 mincí, po zálivce roste 12 hodin a sklizeň dává 60 mincí + 18 XP. Kompaktní obsah 360×620 používá pět samostatných voleb 64×64 px s x = 16/82/148/214/280. Kódově kreslený lilek nemění zdrojové PNG.
+
+Save schema 34 přidává `GREENHOUSE_EGGPLANT_SCHEMA`. Schema 33 zachová rajče, papriku, ředkvičku i okurku, ale podvržený placený lilek odmítne. Doménová výsadba ověřuje úroveň i cenu a zamčený pokus zůstává atomický no-op.
+
+Úplná validace `.godot/validation/20260821-210729Z` prošla s `MVP_TESTS_PASSED=1330`, capture, visuals i full validation `PASSED`; všech 14 aktivních pixelových bran zůstalo zelených bez změny schválených referencí, cropů, masek nebo tolerancí. Release audit `.godot/release-candidate/20260821-210729Z` navíc prošel performance s CPU p95 max. 15,246 ms, endurance 48/48 s nulovým růstem uzlů/orphanů/zdrojů, progression 132/132 a 27 save roundtripy, responsive 8/8, Android exportem, APK v2 podpisem, payloadem i notification payloadem.
+
+Immutable RC38 `0.52.0-rc38` / code 55 / schema 34 má 106 197 360 B a SHA-256 `939E3E931DC32CD527A0207106DA2C1EDE3A9BD9B63F1F9718D40CB322FB3E0D`. RC36 i RC37 si zachovaly své původní velikosti a SHA-256. RC38 nebylo instalováno, aby nepřerušilo přirozený RC36 long-delay důkaz; device gate je `NOT_REQUESTED` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 116 — skleníkové zakázky a RC39
+
+Fáze 116 přidává jednu trvalou skleníkovou zakázku bez denního timeoutu. Odpovídající sklizeň posune postup a poslední požadovaná sklizeň atomicky přidá kanonický bonus; jiná plodina dostane pouze svou běžnou odměnu. Rotace nabízí jen plodiny skutečně odemčené hráčovou úrovní a nevytváří druhý inventář ani nový modal.
+
+Save schema 35 přidává `GREENHOUSE_ORDER_SCHEMA`. Schema 34 zahodí vložený postup, rotaci, počet dokončení i bonus. Schema 35 přijme jen známou odemčenou plodinu a nedokončený postup, zatímco zákazníka, cíl a odměnu vždy znovu sestaví z kanonického katalogu. UI refresh, načtení, zálivka ani plynutí času odměnu nevytvářejí.
+
+Quick `.godot/automation/20260821-213450Z` prošel s `MVP_TESTS_PASSED=1342`. Úplná validation `.godot/validation/20260821-213535Z` skončila capture, visuals i full validation `PASSED` a zachovala všech 14 aktivních pixelových bran i jejich reference a tolerance. Full `.godot/automation/20260821-213725Z` prošel validation, performance, endurance, progression i responsive: CPU p95 max. 10,091 ms, endurance 48/48 bez růstu uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy a responsive 8/8. `comic-greenhouse-order-ready.png` je pouze reportovací.
+
+Release `.godot/release-candidate/20260821-214027Z` vytvořil immutable RC39 `0.53.0-rc39` / code 56 / schema 35 o velikosti 106 203 248 B a SHA-256 `3F110A4E187C9AFE0034D149E6E47B7B2C7B643CE2DDDA3F5ACD7701F83F3C78`. Export, podpis APK v2, payload i notification payload jsou `PASSED`; alias je bajtově shodný. RC36–RC38 zůstaly hashově beze změny. RC39 nebylo instalováno, device gate je `NOT_REQUESTED` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 117 — prémiové vícezáhonové zakázky a RC40
+
+Fáze 117 přidává kanonickou variantu `multi_bed` každé druhé dvousklizňové skleníkové nabídky. Odpovídající sklizně musí pocházet ze dvou různých záhonů. Opakovaná sklizeň již započteného záhonu dál dává běžnou odměnu plodiny, ale prémiový postup neposune. Varianta nemá timeout, nevytváří novou měnu ani inventář a proti standardu přidává přesně 8 mincí a 4 XP.
+
+Save schema 36 přidává `GREENHOUSE_QUALITY_ORDER_SCHEMA`. Schema 35 nemůže vložit prémiový typ, vyšší odměnu ani seznam záhonů. Schema 36 povolí `multi_bed` jen na deterministicky způsobilé sekvenci, indexy deduplikuje a omezí na čtyři záhony a postup odvodí pouze z autorizovaného seznamu. Cíl, zákazník i bonusy se vždy kanonizují.
+
+Finální validation `.godot/validation/20260822-042334Z` prošla s `MVP_TESTS_PASSED=1351`, capture, visuals i full validation `PASSED` a zachovala všech 14 aktivních pixelových bran. Full `.godot/automation/20260822-040627Z` prošel validation, performance, endurance, progression i responsive: CPU p95 max. 9,164 ms, endurance 48/48 bez růstu uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy a responsive 8/8. `comic-greenhouse-quality-order-ready.png` je pouze reportovací.
+
+Release `.godot/release-candidate/20260822-040931Z` vytvořil immutable RC40 `0.54.0-rc40` / code 57 / schema 36 o velikosti 106 206 088 B a SHA-256 `99927E0D24B4C7DDDBF3B13B191C1ACCB8EB562C6F553B25E685113A163F0D97`. Export, podpis APK v2, payload i notification payload jsou `PASSED`; alias je bajtově shodný. RC36–RC39 zůstaly hashově beze změny. RC40 nebylo instalováno, device gate je `NOT_REQUESTED` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 118 — reputace skleníku a RC41
+
+Fáze 118 přidává tři pevné reputační milníky nad `greenhouse_orders_completed`: za 3 zakázky `SPOLEHLIVÝ PĚSTITEL` + 40 mincí + 20 XP, za 8 zakázek `DODAVATEL TRHU` + 80 mincí + 40 XP a za 15 zakázek čistě kosmetický `MISTR SKLENÍKU`. Stávající pravá horní cedule ukazuje postup k dalšímu milníku a po maximu mistrovský titul. Nevznikla nová měna, časovač, modal ani tlačítko.
+
+Save schema 37 přidává `GREENHOUSE_REPUTATION_SCHEMA`. Uložený claimed tier je auditní stopa, zatímco autoritou je počet dokončených skleníkových zakázek. Schema 36 získá při migraci odpovídající titul bez zpětných mincí nebo XP; hostilní schema 37 nemůže vyšším tierem přeskočit počet ani odměnu. Živá odměna vzniká pouze při překročení hranice dokončením nové zakázky a round-trip ji neopakuje.
+
+Validace `.godot/validation/20260822-045354Z` prošla s `MVP_TESTS_PASSED=1360`, capture, visuals i full validation `PASSED`; všech 14 aktivních pixelových bran zůstalo zelených a nové snímky reputace jsou report-only. Full `.godot/automation/20260822-045548Z` prošel validation, performance, endurance 48/48, progression 132/132 s 27 roundtripy a responsive 8/8. Schválené reference, crop, masky a tolerance se nezměnily.
+
+Release `.godot/release-candidate/20260822-045830Z` vytvořil immutable RC41 `0.55.0-rc41` / code 58 / schema 37 o velikosti 106 209 964 B a SHA-256 `A8E14970A5A6F09B67493B34DE701D2E9ACC8496617D2453B93DD7690159D6AE`. Export, podpis APK v2, payload i notification payload jsou `PASSED`; alias je bajtově shodný. Hashy RC36–RC40 zůstaly beze změny. RC41 nebylo instalováno, device gate je `NOT_REQUESTED` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 119 — globální swipe a RC43
+
+Fáze 119 sjednocuje vodorovnou navigaci přes čtyři hlavní obrazovky `Rostliny ↔ Sklad ↔ Obchod ↔ Měření`. Tah může začít i uvnitř svislého seznamu. Po 18 px se uzamkne zřetelná osa; vodorovná událost se zpracuje jen navigací, svislá zůstane ScrollContaineru a nejasná diagonála nic neprovede. Samotné přepnutí vyžaduje 90 px a převahu 1,3×, krajní obrazovky se neobtáčejí. Modro-zlatý přechod a cílový lesk záložky sledují fyzický směr prstu, klikací odezva zůstává beze změny.
+
+Globální swipe je aktivní pouze na čtyřech top-level površích. Vypíná se přes blokující modaly, onboarding, systémový picker, skleník, hráčský pokoj a detail rostliny. Přechod na Rostliny vždy otevře stojan. Fáze nemění save payload, schema 37, ekonomiku, růst ani obsah skleníku.
+
+Finální validation `.godot/validation/20260822-054057Z` prošla s `MVP_TESTS_PASSED=1370`, capture, visuals i všemi 14 aktivními pixelovými branami. Dva směrové snímky jsou report-only a schválené reference, crop, masky i tolerance se nezměnily. Release `.godot/release-candidate/20260822-054242Z` prošel výkonem (CPU p95 max. 11,940 ms, frame p95 16,768 ms, 449 draw calls, 86,12 MiB), endurance 48/48 se 7 roundtripy a nulovým růstem uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem APK v2 a payloadem.
+
+Finální immutable RC43 `0.56.0-rc43` / code 60 / schema 37 má 106 213 160 B a SHA-256 `8D890542F3C49274225E5847E64C503E7E529DEAF5C8252717EC1AAC6E4990F8`. Mezilehlé RC42 `0.56.0-rc42` / code 59 má 106 212 556 B a SHA-256 `D0873803DFD5854BE0E3DB2B992A81B2C527422BC1E11D31B7B4887D0A985885`; nebylo přepsáno. Hashy RC36–RC41 zůstaly beze změny. RC42 ani RC43 nebyly instalovány, device gate je `NOT_REQUESTED` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 120 — živý perspektivní skleník a RC45
+
+Fáze 120 převádí technický skleníkový náhled na originální živé prostředí se čtyřmi vyvýšenými dřevěnými záhony. Bitmapové pozadí neobsahuje text, tlačítka, HUD ani záhony; interaktivní stav zůstává plně v Godotu. Po uživatelském připomínkování používá kompaktní 360×620 geometrie menší zadní dvojici 145×96 px a větší přední dvojici 162×128 px; běžná 432×780 geometrie používá 178×144 px vzadu a 196×200 px vpředu. Zadní řada je užší a výš, přední širší a níž, takže sledují perspektivu podlahy. Zálivka, růst, připravená sklizeň, výběr, zakázky, reputace i pět osiv zůstávají čitelné a funkční. Pauza a reduced-motion zastaví ambientní pohyb.
+
+Save schema zůstává 37 a ekonomika, plodiny i odměny se nemění. Finální validation `.godot/validation/20260822-102541Z` prošla s `MVP_TESTS_PASSED=1374`, capture, visuals i všemi 14 aktivními pixelovými branami bez změny schválených referencí, cropů, masek nebo tolerancí. Release `.godot/release-candidate/20260822-102540Z` prošel výkonem (CPU p95 max. 12,643 ms, frame p95 16,700 ms, 449 draw calls, 86,16 MiB), endurance 48/48 se sedmi roundtripy a nulovým růstem uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem APK v2 a payloadem.
+
+Finální immutable RC45 `0.57.0-rc45` / code 62 / schema 37 má 108 222 968 B a SHA-256 `F58C6A79965B9DB77ACEF7338050CA46D444E0882DB56C531F6133D072F425A0`. Alias je bajtově shodný; RC44 zůstalo immutable s původním SHA-256 `3C72EE3261DB5E23BB0B16EEB71C7FC95827028CF0923A62388A61D12CF7C850`. Telefon nebyl dostupný, proto je lokální technická část `PASSED`, instalační device gate `PENDING_DEVICE_CONNECTION` a lidské potvrzení dotyku, čitelnosti, prostorového dojmu a pocitu z animací zůstává oddělené. Publikování je `OUT_OF_SCOPE_BY_USER`.
+
+Následná recovery validation `.godot/validation/20260822-104207Z` obnovila současné validační pokrytí po odstranění 13 necitovaných meziběhů a jednoho prázdného failed-release adresáře. Vytvořila 215 souborů o 209 277 613 B, prošla 1 374 testy, capture, visuals i všemi 14 aktivními branami; finální skleníkový PNG je bajtově shodný s release validací. Historické časové značky nebyly uměle rekonstruovány a autoritativní RC45 release evidence zůstává `.godot/validation/20260822-102541Z` plus `.godot/release-candidate/20260822-102540Z`.
+
+## Fáze 121 — vodorovná ochrana transakcí a RC46
+
+Fyzický audit RC45 odhalil, že vodorovný tah zahájený nad nákupním tlačítkem může přepnout hlavní obrazovku a zároveň dokončit nákup. Fáze 121 zavedla společnou ochrannou callback vrstvu a podržela potlačení akce přes release téhož gesta. RC46 `0.58.0-rc46` / code 63 / schema 37 má 108 222 272 B a SHA-256 `1266E897FD8D0CDB23BD1F2FC27F1B19894BAD92989060A4EAB2C7412ED7F1C5`; cílený vodorovný retest prošel.
+
+Svislý scroll přes katalog však následně nechtěně koupil `grow_lamp`, proto je fáze 121 pravdivě historický částečný PASS a vertikální větev přešla do fáze 122. Diagnosticky změněný save byl přesně opraven bez odinstalace a raw save neopustil telefon. RC45 i RC46 zůstávají immutable.
+
+## Fáze 122 — svislá ochrana transakcí a RC47
+
+Ochrana nyní potlačí akční tlačítka při každé jednoznačně uzamčené ose až do odloženého uvolnění po release. Vodorovný tah dál naviguje, svislý zůstává `ScrollContaineru` a následující samostatný tap se znovu propustí. Generační pojistka odděluje po sobě jdoucí dotyky. Integrační regrese používá skutečné tlačítko `grow_lamp`, dostatečný zůstatek a ověřuje drag, release i následný tap.
+
+Úplná validace `.godot/validation/20260822-115223Z` prošla s `MVP_TESTS_PASSED=1377`, capture, visuals, full validation a 14/14 aktivními obrazovými branami. Release `.godot/release-candidate/20260822-120356Z` a automatizace `.godot/automation/20260822-120356Z` prošly výkonem, endurance 48/48, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem a payloadem. Závěrečný Quick po uzavření dokumentace `.godot/automation/20260822-122741Z` znovu prošel 1 377 kontrolami a technickou bránou. Immutable RC47 `0.59.0-rc47` / code 64 / schema 37 má 108 222 588 B a SHA-256 `3BC47AB155065EDE0E0AECB246026E62A324B4B25CDF5BAF76FD117AA5FCDC7F`.
+
+Audit `.godot/android-device-audit/20260822-120721Z` potvrdil přesný nainstalovaný hash, 22 platných vzorků během 120 sekund, 100 % času v popředí, 0 fatálních nálezů a schema 37 → 37. Původně chybné svislé gesto nezměnilo stav ihned ani po 20 sekundách; prošel opačný svislý směr, vodorovný tah přes Pažitku i systémové Zpět. Konečný autorizovaný stav zůstal 73 mincí, 206 XP, lampa úrovně 1, 2 semínka Bazalky, 0 semínek Pažitky a 10 rostlinných pozic. `PHASE122_VERTICAL_SCROLL_TRANSACTION_GUARD=PASSED`, technický Android stav je `PASSED_TECHNICAL`, subjektivní lidské potvrzení `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 123 — sbírkový hráčský pokoj a RC48
+
+Hráčský pokoj nově obsahuje osm menších neumírajících pokojovek na samostatném stojanu, šest pevných dekorací a šest prázdných pozic budoucí vitríny úspěchů. Všechny předměty jsou čistě kosmetické a používají stávající mince; nákup je jednorázový, přesun zdarma a odstranění bez refundace. Popínavka fyzicky vychází z vlastního květináče a její šlahoun se kreslí za ostatními rostlinami. Bitmapové pozadí neobsahuje herní stav ani UI.
+
+Save schema 38 a `ROOM_COLLECTION_SCHEMA` oddělují nových čtrnáct kategoriálních míst od historického schema 29. Migrace schema 29–37 zachová pouze oprávněné staré nákupy a přemapuje jejich univerzální pozice na první kompatibilní polici nebo stojan; neznámé položky, duplicity a nekompatibilní indexy se zahodí bez změny mincí.
+
+Úplná validace `.godot/validation/20260822-132344Z` prošla s `MVP_TESTS_PASSED=1378`, capture, visuals a `HOW_TO_GROW_VALIDATION=PASSED`; všech 14 aktivních obrazových bran zůstalo zelených bez změny referencí, cropů, masek nebo tolerancí. Nové snímky pokoje jsou report-only a finální `comic-player-room-collection.png` byl vizuálně zkontrolovaný. První Release běh bezpečně skončil před exportem na příliš malém dotykovém cíli kompaktního formátu; cíle byly zvětšeny na 64 × 64 px a cílený responsive retest `.godot/responsive/20260822-133558Z` následně prošel 8/8.
+
+Finální Release automatizace `.godot/automation/20260822-133618Z` a kandidát `.godot/release-candidate/20260822-133618Z` prošly. Performance skončilo s CPU p95 nejvýše 12,114 ms, frame p95 nejvýše 16,746 ms, 449 draw calls a 86,52 MiB; endurance dokončilo 48/48 cyklů, 7 roundtripů a nulový růst uzlů/orphanů/zdrojů; progression dokončilo 132/132 cyklů s 27 roundtripy; finální responsive matice prošla 8/8. Export, podpis APK v2, entry scan, runtime payload i notification payload jsou `PASSED`.
+
+Immutable RC48 `0.60.0-rc48` / code 65 / schema 38 má 110 185 562 B (105,08 MiB) a SHA-256 `D28E3D33AC95B14F8B79067C3F90C639833A25A9F133EF3BDBB41E36BB936F58`. Přepisovatelný alias je hashově shodný; RC45, RC46 a RC47 zůstaly nedotčené. RC48 zatím nebylo instalováno, takže device gate je `NOT_REQUESTED`, poslední nainstalovaný artefakt je RC47 a lidské potvrzení pocitu z dotyku i čitelnosti nového pokoje zůstává `PENDING_SINGLE_HUMAN_BATCH`. Publikování je `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 124 — živý pokoj a budoucí mazlíček
+
+Pokoj přidává jednorázově kupovatelné sklenice se sušenými bylinkami za 24 mincí a kočičí kout za 54 mincí. Koutek obsahuje pelíšek, vodu a krmivo na podlaze u koberce a připravuje jediný budoucí pet spot, ale nevytváří neexistující kočku, péči, spotřební zásoby ani bonusy. Mrak, pták a motýl za oknem oživují interiér a při pauze nebo Méně pohybu zůstanou statické.
+
+Save schema 39 a `ROOM_LIVING_DETAILS_SCHEMA` oddělují nové placené položky od RC48 schema 38. Starší pokoj zachová všechna legitimní data fáze 123, ale nemůže vložit dvě pozdější ID. Regrese prošla 1 384/1 384 a finální obrazová validace `.godot/validation/20260822-144550Z` má capture, visuals i úplný stav `PASSED`; `comic-player-room-living.png` byl vizuálně zkontrolovaný a schválené reference, cropy, masky ani tolerance se nezměnily.
+
+Release automatizace `.godot/automation/20260822-144818Z` a kandidát `.godot/release-candidate/20260822-144818Z` prošly výkonem (CPU p95 9,570 ms, frame p95 16,689 ms, 449 draw calls, 86,61 MiB), endurance 48/48 se sedmi roundtripy a nulovým růstem uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem APK v2, entry scanem i payloadem. Immutable RC49 `0.61.0-rc49` / code 66 / schema 39 má 110 188 738 B (105,08 MiB) a SHA-256 `86A1F064581BC8DD3FE8026BD4A2B7ACAAB8DED0C3E00D47FD80B9EC427CDE79`; alias je bajtově shodný a RC47/RC48 zůstaly immutable. Audit `.godot/android-device-audit/20260822-150135Z` potvrdil přesnou instalaci, 100 % času v popředí, nulové fatální nálezy a zachovaný save schema 37 → 39. Technická Android brána je `PASSED`, lidský pocit z animací zůstává `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 125 — čistý stojan a hráčské nastavení
+
+Oprava prezentační vrstvy stojanu mapuje `HARVESTED`, `DRYING`, `DRY` a `PACKAGED` na prázdný květináč s popiskem „VE SKLADU“, zatímco `MATURE` zůstává viditelné do skutečné sklizně. Odstraněnou kartu „Bazalka · růst“ nahradil neinteraktivní dok pro budoucí doplňky a mazlíka. Péče zůstává na Rostlinách jako 68 × 68 px zelený cíl a vedle ní je stejně velké hráčské Nastavení s 48 × 48 px transparentním PNG ozubeným kolečkem. Herní ekonomika ani save data se nemění; schema zůstává 39.
+
+Úplná validace `.godot/validation/20260822-155002Z` prošla 1 390/1 390 kontrolami, capture, visuals i full stavem `PASSED`; všech 14 aktivních obrazových bran je zelených. Nový report-only `comic-rack-post-harvest.png` dokládá současně sklizený a sušený slot bez rostliny. Dvě historické efektové brány izolují záměrně změněný spodní 10% dok maskou; schválené reference, cropy a tolerance zůstaly beze změny. Responsive audit prošel 8/8 a kontroluje velikost, hranice i nulové kolize obou launcherů a PNG ikony.
+
+Release automatizace `.godot/automation/20260822-155609Z` a kandidát `.godot/release-candidate/20260822-155610Z` prošly. Performance skončilo s CPU p95 nejvýše 14,567 ms, frame p95 16,710 ms, 476 draw calls a 86,57 MiB; endurance dokončilo 48/48 cyklů, sedm roundtripů a nulový růst uzlů/orphanů/zdrojů; progression dokončilo 132/132 cyklů s 27 roundtripy; responsive prošlo 8/8. Export, podpis APK v2, entry scan, runtime payload i notification payload jsou `PASSED`.
+
+Závěrečný Quick po dokumentaci `.godot/automation/20260822-160608Z` znovu prošel regression krokem, skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED` a správně ponechal `AUTOMATION_MANUAL_GATE=PENDING_SINGLE_HUMAN_BATCH`.
+
+Immutable RC50 `0.62.0-rc50` / code 67 / schema 39 má 110 260 465 B a SHA-256 `C7227D3FC8ACE61CEB214EF1F83B4BAEE3BE5402F564D013E8031D49CEAFE14D`. Přepisovatelný alias je bajtově shodný a RC49 zůstal nedotčený. Fyzický audit `.godot/android-device-audit/20260822-162951Z` nainstaloval přesně tento artefakt bez mazání dat a potvrdil shodný hash, 11 platných runtime vzorků, 100 % času v popředí, nulové fatální nálezy a save schema 39 → 39. Sanitizovaný snímek `phase125-rc50-installed.png` dokládá skutečné spuštění na Xiaomi 2201116SG. Technická Android brána je `PASSED`; lidské vizuální potvrzení zůstává `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 126 — sjednocená vizuální kamera zahrady
+
+Stojan, hráčský pokoj a skleník sdílejí `phase126_garden_visual_camera_v1` s referenčním obsahem 432 × 780, společným cover-cropem, titulním pásem a měřitelnými cíli obsazenosti. Pokoj používá nový blízký asset 887 × 1774, dvě rostliny na čtyřech policích, šest pozic úspěchů a zdrojové kotvy osmi pevných dekorací. Transparentní cíle zůstávají nejméně 64 px a na 360 × 800 jsou omezené dovnitř povrchu. Původní phase123 PNG zůstalo bajtově nedotčené.
+
+Finální validace `.godot/validation/20260822-171510Z` skončila `MVP_TESTS_PASSED=1394`, capture, visuals a full `PASSED`. Všech 14 aktivních obrazových bran prošlo bez změny schválených referencí, cropů, masek nebo tolerancí; nový pokoj zůstává report-only do lidského potvrzení. Responsive `.godot/responsive/20260822-171752Z` prošlo 9/9 včetně samostatného pokoje 360 × 800.
+
+Release automatizace `.godot/automation/20260822-171509Z` a kandidát `.godot/release-candidate/20260822-171510Z` prošly. Performance `.godot/performance/20260822-171652Z` má CPU p95 10,187 ms, frame p95 16,738 ms, nejvýše 476 draw calls a 86,65 MiB. Endurance `.godot/endurance/20260822-171736Z` dokončilo 48/48 cyklů, sedm roundtripů a nulový růst uzlů, orphanů i zdrojů. Progression `.godot/progression/20260822-171747Z` dokončilo 132/132 cyklů všech jedenácti druhů a 27 save/load roundtripů. Export, podpis APK v2, entry scan, runtime payload i notification payload jsou `PASSED`.
+
+Immutable RC51 `0.63.0-rc51` / code 68 / schema 39 má 111 812 793 B a SHA-256 `6B48C70E4A80B369E83EF50121760A1F598088D933F1CE499EFD73B17211410F`; alias je bajtově shodný. RC50 má stále původní SHA-256 `C7227D3FC8ACE61CEB214EF1F83B4BAEE3BE5402F564D013E8031D49CEAFE14D` a zůstává immutable jako historický kandidát. RC51 bylo nainstalováno přes předchozí build a fyzický technický audit `.godot/android-device-audit/20260822-172854Z` potvrdil přesnou identitu APK, zachování save, schema `39_TO_39`, 11/11 platných foreground vzorků a nulový fatal count. Lokální i fyzická technická brána jsou `PASSED`; lidské hodnocení `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 127 — finální vizuální systém a RC53
+
+Autoritativní kontrakt `phase127_final_visual_system_v1` sjednocuje paletu, typografii, spacing, vrstvy, šest rodin assetů a tři scénové profily pro stojan, pokoj a skleník. Každý živý pokojový nebo skleníkový prvek má explicitní rozměr, pivot, vrstvu a případný bezpečný výřez; ostatní PNG musí projít adresářovým rodinným profilem. Quick a release proto nejprve spouštějí `tools/run_visual_contract_audit.ps1` a zastaví se při neznámém nebo chybějícím assetu.
+
+Quick `.godot/automation/20260822-193623Z` potvrdil 32 explicitních profilů, 241/241 klasifikovaných PNG, 0 neprofilovaných a `MVP_TESTS_PASSED=1400`. Úplná validation `.godot/validation/20260822-193736Z` prošla capture, visuals, full stavem i všemi 14 schválenými obrazovými branami bez přepsání jejich referencí, cropů, masek nebo tolerancí. Nové pokojové a skleníkové důkazy jsou report-only a byly zkontrolovány v plném i 360 × 800 formátu.
+
+Release automatizace `.godot/automation/20260822-193733Z` a kandidát `.godot/release-candidate/20260822-193734Z` prošly. Performance skončilo s CPU p95 9,631 ms, frame p95 16,699 ms, nejvýše 476 draw calls a 86,94 MiB; endurance dokončilo 48/48 cyklů bez růstu uzlů, orphanů nebo zdrojů; progression dokončilo 132/132 cyklů a 27 roundtripů; responsive prošlo 9/9. Export, podpis APK v2, entry scan, runtime payload i notification payload jsou `PASSED`.
+
+Immutable RC53 `0.64.0-rc53` / code 70 / schema 39 má 119 704 601 B a SHA-256 `1224BFB7BF54CBFA866E99914A9D19ADADB712FDDB1C1DE9477608B964104131`; alias je bajtově shodný. Immutable RC52 má dál 119 704 397 B a SHA-256 `3381B58B82D6F1BA223AE99120825BDC342F218837B54C7AC3BE9EBBF8EC1B35`. Nedestruktivní audit `.godot/android-device-audit/20260822-194103Z` potvrdil nainstalovanou verzi RC53/code 70, shodný hash, save schema `39_TO_39`, 11/11 foreground vzorků a nulový crash/ANR nález. Technická lokální i fyzická brána je `PASSED`; lidská čitelnost, dotyk a subjektivní vzhled zůstávají `PENDING_SINGLE_HUMAN_BATCH`, publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 130–131 — dva skleníkové boxy a živý botanický master
+
+Skleník používá nový verzovaný podklad `greenhouse_interior_phase130_two_boxes_v1.png` se dvěma fyzickými vyvýšenými boxy a čtyřmi samostatnými funkčními částmi. Zdrojové souřadnice zeminy, plodin i dotykových zón se mapují stejným cover-camera kontraktem jako pozadí; čtyři samostatné truhlíkové sprity a cedulky už runtime nekreslí. Původní Phase 120 asset zůstává 887 × 1774 a SHA-256 `83C8A58CB3B775DDCB67F3B9A62F6ABD2FCF2EE128DB656D8431404DAB03372B`; nový sourozenec má stejné rozměry a SHA-256 `1CD27B4F32B1C7039FDD3CF2CC8903963F01D44A77DBD223BAC85EDE06DF9321`.
+
+Výtvarný kontrakt `phase131_living_botanical_master_v1` používá jako autoritativní referenci `measurement_corner_backdrop_v1.png` s SHA-256 `FF3E920E8CC432240EBE9C0620E570A12B7E19AAFAAFB5FAED7A817E849DD0F5`. Audit `.godot/visual-contract/20260823-072707Z` potvrdil 246/246 klasifikovaných PNG, 0 neprofilovaných a všech 122 PNG odkazovaných runtime zdroji v master profilu.
+
+Finální validation `.godot/validation/20260823-073335Z` prošla s `MVP_TESTS_PASSED=1414`, capture, všemi aktivními vizuálními branami a `HOW_TO_GROW_VALIDATION=PASSED`. Responzivní audit `.godot/responsive/20260823-073241Z` prošel 9/9 včetně 360 × 800 Skleníku; všechny čtyři části mají nejméně 64 px, patří do správného boxu a neprotínají spodní stavovou kartu. Report-only `comic-phase130-greenhouse-two-boxes.png` byl vizuálně zkontrolovaný v běžném i kompaktním řezu.
+
+Jde o source-only vývoj nad immutable RC53: nový APK ani AAB nevznikl, telefon nebyl měněn, save schema zůstává 39 a publikování je `OUT_OF_SCOPE_BY_USER`. Uživatel schválil výtvarný směr; fyzická čitelnost a dotyk nové verze na telefonu zůstávají `PENDING` do budoucího release/device průchodu.
+
+## Fáze 132 — živý botanický Pokoj
+
+Pokoj používá nový verzovaný podklad `player_room_interior_phase132_living_v1.png` o rozměrech 887 × 1774 px a SHA-256 `ED59856A43EF174F3D85D8D04FAC409E841E984A89D19C9C1F43933BB7D11E69`. Navazuje na uživatelem přijatý Skleník a master `phase131_living_botanical_master_v1`: zachovává čtyři police se dvěma rostlinnými místy, šest úspěchových pozic, osm pevných dekorativních míst a budoucí kočičí kout, ale přidává výraznější hloubku, živější okno, čistší materiálové stíny a tyrkysové kovové akcenty. Runtime obsah zůstává samostatný; nový podklad neobsahuje zapečené rostliny, dekorace, úspěchy, mazlíčka, sloty, text ani UI.
+
+Předchozí `player_room_interior_phase128_v2.png` zůstalo beze změny se SHA-256 `E3B33900A2BD6F432A403498B636F4955C3749F2C6E3B5A7743FFEDB9E81DFE`. Obrazovka Rostliny, `scripts/main.gd`, ekonomika dekorací, save schema 39 a všechny transakce zůstaly nedotčené.
+
+Úplná validace `.godot/validation/20260823-080628Z` prošla s `MVP_TESTS_PASSED=1418`, capture, všemi aktivními vizuálními branami a `HOW_TO_GROW_VALIDATION=PASSED`. Responzivní audit `.godot/responsive/20260823-080548Z` prošel 9/9 včetně samostatného 360 × 800 Pokoje; všech šestnáct dotykových cílů zůstává nejméně 64 × 64 px a uvnitř scénové plochy. Report-only `comic-phase132-player-room.png` byl zkontrolovaný v plném i kompaktním řezu. Závěrečná Quick automatizace `.godot/automation/20260823-081006Z` prošla visual contractem i regresí; audit `.godot/visual-contract/20260823-081007Z` potvrdil 247 profilovaných PNG, 0 neprofilovaných a všech 122 runtime PNG v master profilu.
+
+Fáze 132 je source-only: immutable RC53, nainstalovaná APK i telefon zůstaly beze změny. Technický lokální stav je `PASSED`; fyzická čitelnost a dotyk Phase 132 na telefonu jsou `PENDING`, publikování zůstává `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 133 — tři pokojové rostliny na polici
+
+Zdrojový Pokoj nyní používá 12 rostlinných slotů v přesné mřížce 3 × 4 a zachovává osm pevných dekorativních pozic. Každý rostlinný slot vykreslí profilovanou podmisku `room_plant_saucer_v1.png` přímo na polici a teprve nad ní menší květináč s vegetací. Obrazovka Rostliny, osm existujících kosmetických ID, jejich ceny, pet kontrakt i všechny herní bonusy zůstávají beze změny.
+
+Save schema 40 zavádí `ROOM_THREE_PER_SHELF_SCHEMA`. Explicitní mapa schema 38–39 zachová původní levé a pravé rostliny na stejných policích, nové prostřední sloty nechá prázdné a pevné dekorace přesune z 8–15 na 12–19. Immutable RC53 `0.64.0-rc53` / code 70 / schema 39 a nainstalovaná APK zůstávají autoritativním vydaným artefaktem; nový APK zatím nevzniká.
+
+Úplná validace `.godot/validation/20260823-084346Z` prošla s `MVP_TESTS_PASSED=1424`, capture, visuals i full stavem `PASSED`; schválené reference, cropy, masky a tolerance zůstaly beze změny. Responsive audit `.godot/responsive/20260823-083747Z` prošel 9/9 a vizuální kontrakt `.godot/visual-contract/20260823-084558Z` potvrdil 248 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG v master profilu. Report-only `comic-phase133-player-room-shelf-plants.png` byl zkontrolovaný v plném záběru. Quick `.godot/automation/20260823-084635Z` skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`. Lokální technická část je tedy `PASSED`; lidská mobilní čitelnost a dotyk zůstávají `PENDING_SINGLE_HUMAN_BATCH`, device gate nebyla vyžádaná a publikování je `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 134 — realistické zaplnění pokojového stojanu
+
+Zdrojový Pokoj zachovává mřížku 3 × 4 i save schema 40, ale rostliny už nepoužívají jeden malý univerzální profil. Každý druh se vejde do 64px sloupce a řádkových výšek 80 / 70 / 68 / 58 px, takže horní police působí plněji a prostřední ani spodní rostliny nepřerůstají přes polici nad sebou. Podmiska má vyvážených 50 × 18 px a skládá se jako kontaktní stín, zadní keramika, teple modulovaná rostlina a přední lem. Zdrojové Phase 127 PNG zůstávají immutable; odpojené horní slivery řeší pouze runtime UV výřez.
+
+Úplná validace `.godot/validation/20260823-091213Z` prošla s `MVP_TESTS_PASSED=1429`, capture, visuals i full stavem `PASSED`. Responsive `.godot/responsive/20260823-091152Z` má 9/9, visual contract `.godot/visual-contract/20260823-091431Z` má 248 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG a Quick `.godot/automation/20260823-091456Z` skončil `AUTOMATION_TECHNICAL_GATE=PASSED`. Report-only `comic-phase134-player-room-shelf-fit.png` byl ručně zkontrolovaný v plném záběru. Lokální technická část je `PASSED`; nový APK nevznikl, fyzická a lidská mobilní brána je `PENDING_SINGLE_HUMAN_BATCH` a publikování zůstává `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 135 — referenční překreslení stojanu a pokojovek
+
+Aktivní Pokoj nyní používá nový verzovaný podklad `player_room_interior_phase135_reference_regraph_v1.png` se čtyřmi čistými dřevěnými policemi. Osm druhů pokojovek bylo překresleno do osmi samostatných RGBA; každý sprite obsahuje vlastní květináč, odpovídající podmisku, připojené uzemnění a jednotné teplé světlo zleva nahoře. Starší univerzální podmiska i všechny zdrojové Phase 127/132 PNG zůstaly bajtově zachované, ale aktivní kreslení už nevytváří dvojitou podmisku.
+
+Funkční kontrakt se nemění: 12 dynamických nákupních a přesouvatelných slotů zůstává v mřížce 3 × 4, osm pevných dekorativních míst i šest budoucích úspěchů zůstává aktivních, pokojové rostliny neumírají a neposkytují herní bonus. Save schema zůstává 40, obrazovka Rostliny je beze změny a immutable RC53 ani nainstalovaná APK nebyly přepsány.
+
+Úplná validace `.godot/validation/20260823-101228Z` prošla s `MVP_TESTS_PASSED=1433`, capture, visuals i full stavem `PASSED`. Report-only `comic-phase135-player-room-reference-regraph.png` byl ručně zkontrolovaný v plném záběru: všech 12 podmisek stojí na své polici, rostliny nepřesahují výše ani do sousedních sloupců. Quick `.godot/automation/20260823-101219Z` prošel visual contractem, validací, výkonem, endurance, progression i responsive auditem. Finální responsive `.godot/responsive/20260823-101525Z` má 9/9 a visual contract `.godot/visual-contract/20260823-101219Z` eviduje 257 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG. Lokální technická brána je `PASSED`; nový APK nevznikl, fyzická a lidská mobilní brána zůstává `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 136 — výraznější pokojovky podle reference B
+
+Uživatelská reference B určuje pouze cílový poměr viditelné rostliny vůči polici. Pokoj proto zachovává vlastní osmici druhů, tři dynamická místa na polici a čistě kosmetické chování bez růstu či umírání; nepřebírá čtyři bazalky, názvy, stavové ikony ani růstové fáze. Aktivní profily odstraňují jen změřené průhledné okraje přes bezpečný `source_uv`, zvětšují maximální šířku na 70 px a řádkové výškové obálky na 88 / 82 / 80 / 76 px. Zdrojové Phase 135 PNG zůstávají bajtově nedotčené.
+
+Úplná validace `.godot/validation/20260823-103818Z` prošla s `MVP_TESTS_PASSED=1436`, capture, visuals i full stavem `PASSED`. Report-only `comic-phase136-player-room-shelf-prominence.png` byl ručně zkontrolovaný v plném záběru: rostliny jsou výraznější, podmisky stojí na policích, sousední sloupce se nepřekrývají a nižší patra nepřerůstají do vyšších. Responsive `.godot/responsive/20260823-103756Z` má 9/9 a visual contract `.godot/visual-contract/20260823-104042Z` eviduje 257 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG. Quick `.godot/automation/20260823-104102Z` prošel visual contractem, validací, výkonem, endurance, progression i responsive auditem a skončil `HOW_TO_GROW_AUTOMATION=PASSED`. Lokální technická brána je `PASSED`; nový APK nevznikl, fyzická a lidská mobilní brána zůstává `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 137 — schválená integrovaná sada pokojovek
+
+Pokoj používá osm nových verzovaných RGBA vytvořených podle uživatelem schváleného náhledu. Každý dynamický sprite spojuje botanicky odlišnou rostlinu, hlínu, jeden keramický květináč, o něco širší podmisku a připojený kontaktní stín. Aktivní spodní pivot fyzicky uzemňuje celý objekt na polici; mřížka zůstává funkční 3 × 4 bez textů, stavových ikon, růstových fází nebo herních bonusů. Starší Phase 135 assety ani obrazovka Rostliny nebyly přepsány.
+
+Úplná validace `.godot/validation/20260823-113059Z` prošla s `MVP_TESTS_PASSED=1440`, capture, visuals i full stavem `PASSED`. Report-only `comic-phase137-player-room-integrated-shelf-set.png` byl ručně zkontrolovaný v plném záběru: všech 12 podmisek sedí na dřevěné ploše, sousední sloty se nepřekrývají a žádná nižší rostlina nepřerůstá do vyšší police. Responsive `.godot/responsive/20260823-113035Z` má 9/9 a visual contract `.godot/visual-contract/20260823-113321Z` eviduje 265 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG. Automatizace `.godot/automation/20260823-113341Z` prošla visual contractem, validací, výkonem, endurance, progression i responsive auditem a skončila `HOW_TO_GROW_AUTOMATION=PASSED`. Lokální technická brána je `PASSED`; nový APK nevznikl, immutable RC53 i nainstalovaná APK zůstávají beze změny, fyzická a lidská mobilní brána je `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 138 — RC54 Android handoff
+
+Aktuální projekt má identitu `0.65.0-rc54` / code 71 / save schema 40 a balí celý schválený Phase 137 pokoj. První orchestrace `.godot/automation/20260823-114827Z` bezpečně skončila před instalací na falešně zachyceném regex literálu v payload skeneru; nevytvořila immutable APK ani nezměnila telefon. Skener nyní rozlišuje kanonickou resource path od regexu a existující Phase 91 regresní kontrakt tuto opravu hlídá.
+
+Finální orchestrace `.godot/automation/20260823-115501Z` prošla release i device krokem. Visual contract `.godot/visual-contract/20260823-115502Z` eviduje 265 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG; validation `.godot/validation/20260823-115514Z` má 1 440/1 440, performance `.godot/performance/20260823-115715Z`, endurance `.godot/endurance/20260823-115759Z` 48/48, progression `.godot/progression/20260823-115811Z` 132/132 a responsive `.godot/responsive/20260823-115816Z` 9/9 jsou `PASSED`.
+
+Immutable APK `builds/android/bazals-pocket-garden-0.65.0-rc54-arm64-debug.apk` má 150 226 188 B a SHA-256 `31373DA90973A2F131A9A5177BA8D9B958F8767B13BED5493015EC1FE19A23E5`; debug alias je bajtově shodný. Audit `.godot/android-device-audit/20260823-115900Z` potvrdil nainstalovanou identitu a hash, save schema `39_TO_40`, stabilní herní hodnoty, 11/11 platných odemčených interaktivních vzorků, 100 % času v popředí a 0 crash/ANR nálezů. Technická lokální i fyzická brána je `PASSED`; telefon se po auditu uzamkl a subjektivní vzhled po běžném odemčení zůstává `PENDING_SINGLE_HUMAN_BATCH`. Publikování je `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 139 — sjednocená výtvarná sada Pokoje
+
+Uživatelem schválený celý pokoj je nyní závazným zdrojem pravdy pro Pokoj: okno, vegetace, stojan, police, dřevo, kov, keramika, podmisky, stíny a světlo tvoří jednu hladkou malovanou sadu bez pixel-artu a bílých vystřižených lemů. Aktivní podklad `player_room_interior_phase139_unified_empty_v1.png` neobsahuje zapečené sbírkové rostliny. Osm dynamických RGBA používá společný canvas 591 × 887, designovou obálku 84 × 126, stejný spodní pivot a jednu geometrii nádoby i podmisky; liší se jen barvou, dekorem a botanickou siluetou. Všechny 12 slotů zůstávají nakupovatelné, odstranitelné a přesouvatelné. Nižší police ořezávají pouze listoví, nikoli keramiku.
+
+Extrakční nástroj odstraňuje neutrální atlasové pozadí i světlý studiový stín, čistí poloprůhledné hrany a tónuje podmisku podle květináče. Kontaktní stín vzniká až v Godotu s teplou barvou police. Finální úplná validation `.godot/validation/20260823-132935Z` prošla s `MVP_TESTS_PASSED=1445`, capture, visuals i `HOW_TO_GROW_VALIDATION=PASSED`. Report-only `comic-phase139-player-room-unified-room-set.png` byl zkontrolovaný v nativním 1080 × 2400 renderu. Responsive `.godot/responsive/20260823-133225Z` má 9/9, visual contract `.godot/visual-contract/20260823-133246Z` eviduje 278 profilovaných PNG, 0 neprofilovaných a 124 runtime PNG a závěrečný Quick po dokumentaci `.godot/automation/20260823-133606Z` skončil `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+Fáze 139 je source-only: immutable RC54, nainstalovaná APK, telefon a save nebyly změněny. Technická lokální brána je `PASSED`; fyzická čitelnost, dotyk a subjektivní vzhled Phase 139 zůstávají `PENDING_SINGLE_HUMAN_BATCH`. Publikování zůstává `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 140 — společná sada dekorací Pokoje
+
+Pravá část Pokoje používá nové dynamické Phase 140 RGBA se stejným hladkým světlem a perspektivou jako schválené prostředí. Horní nástěnná police obsahuje knihy a tři sklenice; druhá trvale kreslená podpůrná police nese hnojiva a botanický obraz i v herním záběru, kde původní horní nábytek překrývá akční tlačítko. Komoda používá šest integrovaných prázdných držáků úspěchů a na spodní polici lampičku s vnořenými květináči. Konvička je uklizená u komody a prázdný pelíšek stojí u pravého okraje; žádný z nich nesmí blokovat koberec nebo průchod. Pelíšek výslovně neobsahuje misky, vodu, krmivo ani mazlíčka.
+
+Implementace zachovává nákupní sloty, ekonomiku, save schema 40, Phase 139 rostliny i pozadí a nepřepisuje starší PNG. Report-only skutečný Godot render `comic-phase140-player-room-shared-decor-set.png`, úplná technická validace, uživatelské vizuální přijetí a mobilní přijetí jsou zatím `PENDING`. Immutable RC54, alias APK, telefon i hráčský save zůstávají beze změny; žádný APK se v tomto kroku nevytváří ani neinstaluje.
+
+## Fáze 141 — finální koupitelná sada stojanu
+
+Schválený vzhled stojanu je aktivní zdroj pravdy pro všech 12 nákupních slotů. Osm původních dekorativních pokojovek doplňují stříbrná aglaonema, růžová fitónie, citronová maranta a barevný koleus; každá vrstva obsahuje rostlinu, hlínu, stejně široký květináč, podmisku a společný kontaktní základ. Save schema 41 autorizuje nové položky, zatímco schema 40 je při načtení neumí podvrhnout. Vše zůstává čistě kosmetické a obrazovka `ROSTLINY` se nemění.
+
+Úplná validation `.godot/validation/20260823-173713Z` prošla s 1 456/1 456 kontrolami a všemi povinnými vizuálními branami. Responsive `.godot/responsive/20260823-174052Z` má 9/9, visual contract `.godot/visual-contract/20260823-174114Z` eviduje 313 profilovaných PNG, 0 neprofilovaných a 130 runtime PNG a Quick po schválení `.godot/automation/20260823-181336Z` skončil `HOW_TO_GROW_AUTOMATION=PASSED`. Uživatel následně schválil report-only `comic-phase141-player-room-final-rack-set.png` jako finální Godot vzhled stojanu. Mobilní přijetí zůstává odděleně `PENDING`; immutable RC54, alias APK, telefon i hráčský save nebyly změněny.
+
+## Fáze 142 — věrná referenční sada stojanu
+
+Phase 142 superseduje pouze aktivní kresbu Phase 141, nikoli její historické schválení. Dvanáct nových transparentních vrstev bere RGB přímo z odsouhlasené předlohy `player_room_rack_approved_reference_v1.png`; prázdný obraz a segmentační maska slouží jen k oddělení popředí. Nové profily zachovávají původní rozměry, vlastní spodní pivot a přesné source-space měřítko `432 / 887`, takže keramika, podmisky, listová kresba, květy a společné osvětlení nejsou znovu interpretované.
+
+Kontrolní recompozice všech 12 vrstev do prázdného pokoje je `.godot/phase142-reference-extraction-v3/player_room_rack_recomposed_preview_v3.png`; celková MAE proti schválenému plnému obrazu je 6,854. Runtime stále zachovává nákup jednou, bezplatné přesouvání a odstranění ve všech 12 rostlinných slotech, schema 41, Phase 140 dekorace a neměnnou obrazovku `ROSTLINY`. Úplná validation `.godot/validation/20260823-192225Z` prošla s 1 460/1 460 kontrolami, capture i visuals; responsive `.godot/responsive/20260823-192111Z` má 9/9, visual contract `.godot/visual-contract/20260823-192135Z` eviduje 329 profilovaných PNG, 0 neprofilovaných a 130 runtime PNG a závěrečný Quick `.godot/automation/20260823-192642Z` skončil `HOW_TO_GROW_AUTOMATION=PASSED`. Technická brána je `PASSED`; skutečný Godot capture čeká na výslovné uživatelské schválení a mobilní APK na samostatnou budoucí bránu. Immutable RC54 ani telefon nebyly změněny.
+
+Phase 143 superseduje pouze aktivní rostlinné vrstvy Phase 142. Nový uživatelem schválený rack-only zdroj má hash `61EFDD17C01D02EAB5D21CE3D3E8F48A4C777558C4B02913108C9B44E7B05AB8`; deterministická extrakce zachovává jeho RGB a z oddělené masky přebírá pouze alfa kanál. Dvanáct aktivních vrstev používá stejné izotropní měřítko, čtyři společné kontaktní hrany polic a tři jednotné osy bez individuálního stretch nebo row-fit. Úplná validation `.godot/validation/20260823-201449Z` prošla s 1 464/1 464 kontrolami, capture i visuals; responsive `.godot/responsive/20260823-201723Z` má 9/9, visual contract `.godot/visual-contract/20260823-201722Z` eviduje 343 profilovaných PNG, 0 neprofilovaných a 130 runtime PNG a Quick `.godot/automation/20260823-201840Z` skončil `HOW_TO_GROW_AUTOMATION=PASSED`. Zdrojové přijetí i následně zobrazený skutečný Godot render jsou `APPROVED_BY_USER` a technická brána `PASSED`; mobilní přijetí zůstává `PENDING`. Obrazovka `ROSTLINY` nebyla změněna.
+
+## Fáze 144 — RC55 Android candidate
+
+Nová interní identita `0.66.0-rc55` / code 72 / save schema 41 balí schválený Phase 143 render bez změny uloženého datového kontraktu. První běh `.godot/automation/20260824-045005Z` bezpečně skončil před vytvořením immutable APK, protože payload audit našel source-only obraz z `assets/ui/visual/phase141/source/`. Android exportní profily nyní jednotně vylučují `assets/ui/visual/**/source/**`; runtime Phase 143 výřezy se dál exportují a žádný schválený zdroj se nepřepisuje.
+
+Finální orchestrace `.godot/automation/20260824-045554Z` a release `.godot/release-candidate/20260824-045554Z` jsou `PASSED`. Validation `.godot/validation/20260824-045602Z` má 1 467/1 467, capture i visuals `PASSED`; visual contract `.godot/visual-contract/20260824-045555Z` eviduje 343 profilovaných, 0 neprofilovaných a 130 runtime PNG. Performance `.godot/performance/20260824-045800Z`, endurance `.godot/endurance/20260824-045844Z` 48/48, progression `.godot/progression/20260824-045855Z` 132/132 s 27 roundtripy a responsive `.godot/responsive/20260824-045901Z` 9/9 jsou `PASSED`. Podpis APK v2, entry scan, payload a notification payload také prošly.
+
+Immutable `builds/android/bazals-pocket-garden-0.66.0-rc55-arm64-debug.apk` má 175 560 935 B a SHA-256 `A6F7DF58FC58DCBCFBEDF568B7B43FCF47766AFFE8BF289BE330B028B9D25ECD`; debug alias je bajtově shodný. Historické RC54 zůstalo přesně 150 226 188 B a SHA-256 `31373DA90973A2F131A9A5177BA8D9B958F8767B13BED5493015EC1FE19A23E5`. Lokální technická brána je `PASSED`; RC55 nebylo nainstalováno, zařízení je `NOT_REQUESTED`, mobilní přijetí `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 145 — vrstvené detaily Pokoje
+
+Phase145 pokračuje pouze ve zdrojové kresbě pravé části Pokoje. Kočičí koutek
+skládá měkký podlahový stín, původní hladký pelíšek a samostatnou přední RGBA
+vrstvu dvou stejně velkých keramických misek. Vnořené květináče na komodě mají
+vlastní kontaktní stín a jemnou přední okluzi police. Původní Phase140 assety
+zůstaly hashově nezměněné, zatímco nová miska má reprodukovatelný chroma zdroj
+a Godot extrakci bez zeleného halo.
+
+Validation `.godot/validation/20260824-072859Z` je `PASSED` s 1 472/1 472,
+capture i visuals. Responsive `.godot/responsive/20260824-073137Z` má 9/9 a
+visual contract `.godot/visual-contract/20260824-073157Z` eviduje 345
+profilovaných, 0 neprofilovaných a 131 runtime PNG. Závěrečný Quick
+`.godot/automation/20260824-073738Z` skončil
+`HOW_TO_GROW_AUTOMATION=PASSED`. Save schema 41, ekonomika,
+Rostliny, skleník i immutable RC55 jsou beze změny. Skutečný report-only Godot
+render čeká na uživatelské posouzení; telefon je nedostupný a APK nevzniklo.
+
+## Fáze 146 — schválený celoplošný master Pokoje
+
+Pokoj používá nový uživatelem schválený 887 × 1774 master jako společný
+výtvarný základ. Architektura, čtyři police stojanu, pravé nástěnné police,
+vitrína úspěchů, komoda a koberec jsou součástí prázdné desky. Dvanáct Phase
+143 pokojovek zůstává samostatně koupitelných, přesouvatelných a odstranitelných.
+Osm pevných dekorací kreslí jedna odvozená průhledná RGBA vrstva, takže se do
+scény nevracejí obdélníkové kusy okolního pozadí. Aktivní oprava `v3` odděluje
+všechny předměty v bezstínovém sprite-listu, odstraňuje zapečené šedé a černé
+lemy i překryvy konvičky, pelíšku a misek a kontaktní stín kreslí samostatně až
+Godot podle povrchu. Zdrojová PNG se nemění a vrstvu reprodukovatelně vytváří
+`tools/extract_phase146_room_master_layer.gd`; starší v1/v2 zůstaly zachované,
+ale runtime je nepoužívá.
+Vnořené květináče po cílené vizuální kontrole dostaly zdrojový posun `8 px`
+dolů. Godot následně znovu vykreslí úzkou přední hranu police nad jejich
+spodkem, takže sestava sedí za hranou nábytku a nevypadá jako nalepený výřez;
+samotný dekorativní PNG asset se nepřemaloval.
+Ovládání Pokoje je seskupené vlevo nad oknem a nezakrývá knihy ani bylinkové
+sklenice na horní pravé polici. Obrazovka Rostliny, skleník, ekonomika, save
+schema 41 i immutable RC55 zůstávají beze změny.
+
+Validation `.godot/validation/20260824-173415Z` je `PASSED` s 1 477/1 477,
+capture i visuals. Visual contract `.godot/visual-contract/20260824-165444Z`
+eviduje 353 profilovaných, 0 neprofilovaných a 133 runtime PNG. Responsive
+`.godot/responsive/20260824-173637Z` prošel 9/9 a závěrečný Quick
+`.godot/automation/20260824-173839Z` skončil
+`HOW_TO_GROW_AUTOMATION=PASSED`. Technická lokální brána je `PASSED`.
+Schválení zdrojového masteru je `APPROVED_BY_USER`, ale subjektivní přijetí
+tohoto skutečného Godot renderu zůstává `PENDING`; telefon je nedostupný,
+APK nevzniklo a publikování zůstává `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 147 — schválený malovaný cartoon master
+
+Uživatel schválil `docs/visual-proposals/phase147/approved-painted-cartoon-style-master-v1.png`
+jako závaznou kalibraci budoucí grafiky celé hry. `VisualDesignSystem` ukládá jeho
+SHA-256, sytou ručně malovanou 2D cartoon gramatiku, zachování současného UI
+chrome a zákaz pixel artu, nalepených výřezů, bílých lemů i napevno vykreslené
+šachovnice. Přechod je po kompletních obrazovkách: Pokoj, skleník, stojan a
+detail, sklad, obchod, měření a modaly. Staré runtime assety zůstávají pod
+původním profilem, dokud jejich obrazovková rodina nebude skutečně kompletní.
+
+Uložený prázdný malovaný Pokoj je návrhový source. Dva vygenerované atlasové
+zdroje jsou RGB a šachovnici mají zapečenou do obrazu, proto je regresní pojistka
+zakazuje v runtime. Fáze 148 z nich po souhlasu uživatele vytvořila skutečné
+samostatné RGBA vrstvy změnou pouze alfa kanálu. Validation
+`.godot/validation/20260824-182814Z` prošla s 1 478/1 478, capture i visuals.
+Jde o historický technický PASS style-locku; první kompletní herní render už
+dokončila fáze 148 a jeho lidské přijetí zůstává samostatné. Immutable RC55,
+schema 41, telefon i APK jsou beze změny. Quick `.godot/automation/20260824-183156Z` skončil
+`HOW_TO_GROW_AUTOMATION=PASSED`; visual contract eviduje 353 profilovaných,
+0 neprofilovaných a 133 runtime PNG.
+
+## Fáze 148 — první kompletně přemalovaný Pokoj
+
+Aktivní Pokoj je první obrazovková rodina dokončená pod schváleným masterem fáze
+147. Malované prázdné prostředí `853 × 1844` skládá 12 funkčních pokojových
+rostlin a 9 dekorací z celkem 21 samostatných RGBA vrstev. Nákup, přesun, dvacet
+64px hitboxů, ekonomika a save schema 41 zůstávají beze změny.
+
+Deterministický extraktor v3 upravuje výhradně průhlednost. Zachované RGB pixely
+jsou bajtově shodné se zdrojovými atlasy, výstupní hrany mají alfu 0 a QA hlásí
+21/21, checker 0 a halo risk 0. Dvanáct rostlin používá izotropní měřítko bez
+deformace a společnou optickou šířku podmisek; kontaktní stín je součást malby a
+runtime jej neduplikuje. Obrazové a dotykové středy sdílejí stejnou source-space
+geometrii a dvojice kočičích misek se ve 432px viewportu neořezává.
+
+Úplná validation `.godot/validation/20260824-194329Z` skončila
+`MVP_TESTS_PASSED=1485`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`. Interní kontrola
+i nezávislý audit skutečného Godot capture jsou `PASSED`. Finální Quick
+`.godot/automation/20260824-195259Z` potvrdil visual contract, regresi,
+`AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`.
+Subjektivní uživatelská
+brána však zůstává `PENDING_USER_APPROVAL`; telefon je nedostupný, proto je mobil
+`DEFERRED_PHONE_UNAVAILABLE`. APK nevzniklo, publishing je
+`OUT_OF_SCOPE_BY_USER` a immutable RC55 zůstává beze změny.
+
+## Fáze 149 — přesný hráčský pokoj podle schválené obrazovky
+
+Uživatelem určená obrazovka je nyní přímý zdroj pravdy, ne pouze stylová
+inspirace. Produkční výřez 853 × 1548 má samostatný target-derived clean plate,
+12 vrstev pokojovek, 9 vrstev dekorací a jednu horní nábytkovou occlusion
+vrstvu. Runtime zachovává 20 skutečných nákupních a přesouvatelných míst, ceny,
+ekonomiku i save schema 41. Zapečený titulek a tlačítkový chrome mají průhledné
+Godot hitboxy mapované ze stejné source-space geometrie.
+
+Při přesně schváleném obsahu a pořadí slotů runtime vykreslí kanonický master se
+SHA-256 `82D14A3B872C218B37B860F22E3980466974461A8A05784784BBD7ACEBDED8F7`,
+který je bajtově shodný se závazným cropem. Po přesunu nebo odstranění používá
+čistou desku a 21 funkčních target-derived RGBA vrstev. Kanonická rekonstrukce
+má MAE/RMSE 0/0; dynamická vrstvová rekonstrukce má MAE 3,736, RMSE 16,269 a
+11,358 % pixelů nad tolerancí 12, proto je `PHASE149_DYNAMIC_LAYER_COVERAGE`
+poctivě `FAILED`. Rozšiřování masek by znovu vytvořilo viditelné nalepené části
+pozadí; tato diagnostika nemění průchod kanonické obrazovky ani funkčnost slotů.
+
+Validation `.godot/validation/20260824-214738Z` skončila
+`MVP_TESTS_PASSED=1490`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`. Gated porovnání
+skutečného Godot renderu proti normalizované předloze prošlo s MAE 6,805, RMSE
+12,005 a změnovým poměrem 18,172 %. Responsive
+`.godot/responsive/20260824-214420Z` prošel 9/9. Interní technická a obrazová
+brána je `PASSED`. Uživatel 25. 8. 2026 skutečný Godot render výslovně
+schválil, proto je vizuální přijetí
+`APPROVED_BY_USER`. Telefon je
+nedostupný, takže mobil je `DEFERRED_PHONE_UNAVAILABLE`, APK `NOT_CREATED`,
+publikování `OUT_OF_SCOPE_BY_USER` a immutable RC55 zůstává beze změny.
+Navazující Quick `.godot/automation/20260825-042058Z` potvrdil visual contract i
+regresi a skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+
+## Fáze 150 — malovaný skleník podle schválené obrazovky
+
+Schválený koncept 864 × 1544 určuje dva společné vyvýšené boxy, čtyři funkční
+záhony a pořadí prázdný / šest sazenic / rajče 50 % / připravený lilek. Jeho
+kanonická kopie je bajtově shodná, ale zůstává reference-only, protože konkrétní
+stav je v obrazu zapečený. Původní Phase127 PNG nebyla změněna; deterministický
+alfa-only builder z nich vytváří šest runtime vrstev se zachovaným RGB a
+ověřenými zdrojovými i výstupními SHA-256. Odstranil tím hnědé půdní ostrůvky,
+které předtím působily jako nalepené výřezy.
+
+Runtime zachovává Phase130 prostředí, čtyři hitboxy, zálivku, růst, sklizeň,
+ekonomiku, schema 41, HUD i navigaci. Sazenice jsou složené do tří sloupců po
+dvou a stavové ikony sedí na rámu příslušného záhonu. Finální úplná validation
+`.godot/validation/20260825-071114Z` skončila `MVP_TESTS_PASSED=1496`,
+`PHASE150_GREENHOUSE_CAPTURE=PASSED`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`.
+Konceptuální diff zůstává report-only a žádná existující reference ani
+tolerance se neoslabila.
+
+Responzivní audit `.godot/responsive/20260825-061207Z` prošel všech 9/9 případů
+a vydal `PHASE150_RESPONSIVE_GREENHOUSE=PASSED`.
+
+Závěrečný Quick `.godot/automation/20260825-071439Z` skončil
+`AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+Interní Godot cohesion audit je `PASSED_INTERNAL_COHESION_AUDIT`; samostatné
+uživatelské přijetí skutečného renderu je `APPROVED_BY_USER`.
+Telefon není dostupný, proto je mobil `DEFERRED_PHONE_UNAVAILABLE`, APK
+`NOT_CREATED`, publikování `OUT_OF_SCOPE_BY_USER` a immutable RC55 zůstává
+beze změny.
+
+## Fáze 151–152 — malovaný Stojan, Detail a Sklad
+
+Stojan a Detail používají Phase151 dynamický malovaný profil: větší policové
+rostliny, sdílené baseline a podmisky, mipmapy a samostatný průhledný fialový
+zámek s dynamickým textem úrovně. Sklad navazuje Phase152 workshopovou scénou
+s cíleným horním výřezem; inventář, pipeline, akce, scroll a zakázky zůstávají
+dynamické. Žádná zapečená hodnota schválených náhledů se nepoužívá jako herní
+stav a zdrojová PNG rostlin ani workshopu se nezměnila.
+
+Funkční regrese skončila `MVP_TESTS_PASSED=1502`. Report-only validační běh
+`.godot/validation/20260825-094537Z` úspěšně vytvořil všechny capture a nové
+konceptuální diffy. Responsive `.godot/responsive/20260825-095148Z` prošel 9/9.
+Závěrečný Quick `.godot/automation/20260825-095505Z` skončil
+`AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`.
+Interní cohesion audit skutečných renderů i následné uživatelské vizuální
+schválení jsou `PASSED`. Pět kompozitních baseline průvodce a stojanových
+efektů přešlo na nové append-only Phase151 reference; původní soubory nebyly
+přepsané ani odstraněné. Telefon je nedostupný, APK nevzniklo, publikování
+zůstává mimo rozsah a RC55 je immutable.
+
+Závěrečný přesný běh `.godot/validation/20260825-102405Z` potvrdil
+`MVP_TESTS_PASSED=1502`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`. Všech 18
+tvrdých případů prošlo; patří mezi ně také tři nové přesné runtime brány pro
+uživatelem schválený Stojan, Detail a Sklad. Konceptuální targety zůstávají
+report-only, protože záměrně obsahují zapečený konkrétní herní stav.
+
+## Fáze 153 — dynamický malovaný Obchod
+
+Uživatelem schválený návrh Obchodu byl převeden do živého runtime bez zapečení
+konkrétní peněženky, zásob nebo vybrané kategorie. Pan Kořínek, integrovaná
+cedule, dialogová plaketa, peněženka, třísloupcové produktové karty a čtyři
+kategorie používají Phase153 profil, zatímco všech 11 semen, hnojivo, pět
+vylepšení, ceny, vzácnost, denní zásoby, nákup, výkup, scroll a transakce
+zůstávají dynamické. Zdrojové PNG obchodníka nebylo změněno; import pouze
+zapíná mipmapy.
+
+Regrese skončila `MVP_TESTS_PASSED=1506`. Responsive
+`.godot/responsive/20260825-111352Z` prošel 10/10 včetně samostatného případu
+Obchodu na 360×800. Uživatel 25. 8. 2026 skutečný Godot render výslovně
+schválil; nový append-only baseline
+`assets/ui/comic/reference_phase153_shop_runtime_v1.png` má SHA-256
+`3DD2EEFC3ECB1B50D6394E1368B67B62FD64D4C0CD65CE48C5784C6602754C12`.
+Původní koncept zůstává report-only.
+
+Finální úplná validace `.godot/validation/20260825-115747Z` skončila
+`HOW_TO_GROW_CAPTURE=PASSED`, `HOW_TO_GROW_VISUALS=PASSED` a
+`HOW_TO_GROW_VALIDATION=PASSED`; všech 19 závazných obrazových bran prošlo.
+Nový `phase153-shop-runtime-approved` dosáhl přesné shody MAE 0, RMSE 0 a
+0 % změněných pixelů. Závěrečný Quick `.godot/automation/20260825-120031Z`
+skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+
+Interní cohesion audit i samostatné uživatelské vizuální přijetí jsou
+`PASSED`; append-only přechod baseline je uzavřený. Telefon není dostupný, mobil je
+`DEFERRED_PHONE_UNAVAILABLE`, APK `NOT_CREATED`, publikování
+`OUT_OF_SCOPE_BY_USER` a immutable RC55 zůstává beze změny.
+
+## Fáze 154 — dynamické malované Měření
+
+Uživatelem schválená kompozice je uložená append-only a zůstává report-only.
+Runtime nepoužívá zapečený screenshot: existující byte-exact malovanou laboratoř
+ořezává do výraznějšího hero obrazu a skládá ji s deseti skutečnými senzorovými
+hodnotami, hladkými ikonami, online stavem, 72hodinovým grafem a pěstitelskou
+nápovědou. Svislý mobilní scroll i presenter zůstávají funkční. Historický
+`comic-measurement.png` se nadále pořizuje v původním režimu a není přepsán.
+
+Úplná validace `.godot/validation/20260825-132647Z` prošla 1510/1510 kontrol,
+capture i všemi 20 tvrdými obrazovými branami. Nový schválený runtime případ má
+MAE 0,000 / RMSE 0,000 / 0,000 % změněných pixelů. Historický případ Měření má
+MAE 0,437 / RMSE 7,000 / 0,570 % změněných pixelů. Phase154 koncept zůstává
+report-only s MAE 75,602 / RMSE 104,860, protože záměrně není skutečným
+dynamickým stavem. Responzivní matice `.godot/responsive/20260825-124928Z`
+prošla 11/11 včetně samostatného Měření na 360×800. Interní cohesion audit je
+`PASSED`; skutečný dynamický render uživatel 25. 8. 2026 schválil a jeho
+append-only kopie `assets/ui/comic/reference_phase154_measurement_runtime_v1.png`
+se stala novou tvrdou branou. Koncept zůstává report-only. Telefon není dostupný, mobil je
+`DEFERRED_PHONE_UNAVAILABLE`, APK `NOT_CREATED`, publikování `OUT_OF_SCOPE` a
+immutable RC55 zůstává beze změny.
+
+Závěrečný Quick `.godot/automation/20260825-132926Z` skončil
+`AUTOMATION_TECHNICAL_GATE=PASSED`, zařízení `NOT_REQUESTED`, lidská brána
+`PENDING_SINGLE_HUMAN_BATCH`, publikování `OUT_OF_SCOPE_BY_USER` a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+
+## Fáze 155 — dynamický malovaný Herbář
+
+Uživatelem schválená kompozice je archivovaná append-only a zůstává report-only.
+Runtime používá samostatnou čistou malovanou knihu bez zapečeného textu, čísel,
+rostlin a odměn. Godot nad ni skládá oba živé souhrny, všech 11 druhů, jejich
+portréty, vzácnost, popis, vlastnosti, statistiky, mistrovský postup a funkční
+odměny. Přehrání předání zahrady, stavová zpráva, zavírání i svislý mobilní
+scroll zůstávají zachované.
+
+Finální validace `.godot/validation/20260825-155831Z` prošla 1515/1515,
+capture, visuals i plným markerem a všemi 21 tvrdými branami. Nový
+`phase155-herbarium-runtime-approved` má MAE 0,000 / RMSE 0,000 / 0,000 %
+změněných pixelů.
+Responzivní audit `.godot/responsive/20260825-154636Z` prošel 12/12 včetně
+samostatného 360×800 Herbáře. Uživatel skutečný Godot render 25. 8. 2026
+schválil. Jeho append-only reference
+`assets/ui/comic/reference_phase155_herbarium_runtime_v1.png` má SHA-256
+`8af6514760bba55dd78f47a0945febbd744ed65ae4462c1703399f32e9cc4530` a nový
+tvrdý případ `phase155-herbarium-runtime-approved` jej chrání bez masky.
+Závěrečný Quick po uzavření baseline `.godot/automation/20260825-160228Z` skončil
+`AUTOMATION_TECHNICAL_GATE=PASSED`, `AUTOMATION_DEVICE_GATE=NOT_REQUESTED`,
+`AUTOMATION_PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER` a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+`phase155-herbarium-approved-target` zůstává pouze report-only; skutečný runtime
+má vlastní schválenou tvrdou bránu. Telefon je nedostupný, APK `NOT_CREATED`,
+publikování `OUT_OF_SCOPE` a immutable RC55 zůstává beze změny.
+
+## Fáze 156–157 — RC56 handoff a opravené RC57
+
+RC56 `0.67.0-rc56` / code 73 / schema 41 bezpečně zabalilo současný malovaný
+runtime a prošlo automatickou technickou instalací. Následná fyzická navigace
+ale našla přetečení záhlaví detailu, které částečně skrývalo tlačítko `HERBÁŘ`;
+proto zůstal jeho vizuální výsledek pravdivě `FAILED` a immutable RC56 nebylo
+přepsáno.
+
+Fáze 157 zachovává schválené rozměry a styl záhlaví. Pouze omezuje dlouhý
+prostřední název výpustkou, takže plný 68 × 50 cíl Herbáře zůstane uvnitř
+mobilního obsahu. ReleaseDevice orchestrace `.godot/automation/20260825-174557Z`
+prošla: validation `.godot/validation/20260825-174611Z` má 1 521/1 521,
+capture i visuals `PASSED`; performance `.godot/performance/20260825-174849Z`,
+endurance `.godot/endurance/20260825-174935Z`, progression
+`.godot/progression/20260825-174948Z` 132/132 a responsive
+`.godot/responsive/20260825-174955Z` 13/13 jsou `PASSED`.
+
+Immutable APK
+`builds/android/bazals-pocket-garden-0.67.1-rc57-arm64-debug.apk` má
+215 818 726 B a SHA-256
+`4908F3C0A09278ABE9B8BEB433F6F9576FE8343343908BF40858F5B2B5D5F081`.
+Audit `.godot/android-device-audit/20260825-175109Z` potvrdil přesně tento
+nainstalovaný hash, verzi/code, save 41 → 41, zachování stabilních hodnot,
+11 platných foreground vzorků a 0 crash/ANR nálezů. Fyzické snímky v téže
+složce potvrzují celý header a skutečné otevření Herbáře. Technická i cílená
+fyzická brána opravy jsou `PASSED`; celkové lidské mobilní posouzení zůstává
+`PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 158 — oprava dynamického skládání Pokoje
+
+Fyzický audit RC57 odhalil, že plný stav 20/20 používal čistý schválený master,
+ale částečně zaplněný Pokoj skládal historické Phase 149 výřezy s přimíchaným
+okolím. To vytvářelo nalepené fragmenty, přesahy polic a rozpadlé textury.
+Immutable RC57 ani schválený plný master se nepřepisují.
+
+Nekanonické stavy nyní používají 21 objektově čistých Phase 148 RGBA vrstev,
+novou objektově čistou přední vrstvu nábytku a prázdné interakční značky
+kreslené až nad ní. U vysokých rostlin v nižších policích se přizpůsobuje pouze
+listoví nad hranou keramiky; podmiska, květináč, šířka a baseline zůstávají
+beze změny.
+
+Původní technická validation `.godot/validation/20260825-204357Z` zachytila
+čtyři deterministické skutečné rendery: prázdný 0/20, řídký 4/20,
+sanitizovanou přesnou topologii telefonu 10/20 a plný stav 20/20. Uživatel
+následně všechny čtyři stavy výslovně schválil. Jejich přesné append-only
+reference jsou nyní čtyři samostatné tvrdé runtime brány bez cropu a masek.
+Závěrečná úplná validation `.godot/validation/20260827-153641Z` prošla
+`MVP_TESTS_PASSED=1556`, capture, visuals i full stavem; všechny čtyři Phase158
+brány mají MAE/RMSE/changed ratio `0/0/0`. Nové APK nevzniklo, publishing je
+`OUT_OF_SCOPE_BY_USER` a save schema zůstává 41.
+
+Navazující vizuální oprava mění pouze dynamickou keramiku orchideje: její
+viditelná šířka a výška jsou odvozené od správného modrého květináče, oba
+objekty sdílejí střed slotu a spodní baseline a listoví se vodorovně
+neroztahuje. Ostatní rostliny ani kanonický master 20/20 se nemění. Detailní
+důkaz je `phase158-orchid-pot-parity-preview.png` v uvedené validační složce.
+
+## Fáze 159 — botanické terárium místo lampičky a květináčů
+
+Uživatel schválil jeden malovaný skleněný poklop s kapradinou a mechem jako
+náhradu za dvě drobné dekorace spodní police komody. Produkční asset
+`assets/ui/visual/phase159/player_room/decor/botanical_cloche_phase159_v1.png`
+je append-only RGBA 615 × 1013. Deterministický
+`tools/build_phase159_botanical_cloche.py` zachovává verzovaný RGB zdroj,
+odstraňuje pouze magenta plate, vytváří antialiasovanou alfu a kontroluje nulový
+okraj, nulové RGB pod průhledností i absenci viditelného magenta lemu. Přesné
+hashy a počty jsou v `phase159_botanical_cloche_qa.json`.
+
+Save schema zůstává 41. Existující `golden_lamp` je jediný aktivní entitlement
+nového terária a zachovává cenu 26 i slot 15. `nested_pots` zůstává pouze jako
+historický doklad nákupu; nový nákup je zakázán a legitimní schema 38–41 save se
+bez změny mincí normalizuje na jedno terárium. Persistovaný slot 14 zůstává kvůli
+kompatibilitě, ale jeho marker i hitbox jsou skryté. Schema 37 jej nemůže
+podvrhnout.
+
+Runtime po uživatelem vyžádaném zvětšení používá source rect
+`Rect2(610.6, 1018.8, 128.8, 193.2)`, tedy přesných 115 %, a kotvu
+`Vector2(675, 1212)` se zachovaným středem i spodní baseline. Phase158 přední
+hrana police zakryje spodní část objektu, takže není složený jako nálepka před
+nábytkem. Uživatel oba skutečné Godot rendery v této velikosti výslovně
+schválil; dvě nové append-only tvrdé runtime brány se v závěrečné validation
+`.godot/validation/20260827-153641Z` shodují přesně `0/0/0`. Historický Phase149
+master, save schema 41 i immutable RC57 zůstávají beze změny. Asset QA,
+validation, render inspection i Godot visual acceptance jsou `PASSED`, APK
+`NOT_CREATED` a publishing `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 160 — čistá podlaha Pokoje a rezervovaný pet kout
+
+Uživatel schválil odstranění plastové konvičky, starého pelíšku a dvojice misek
+ze současného Pokoje. `plastic_watering_can` ve slotu 17 a `cat_corner` ve slotu
+19 zůstávají v katalogu, vlastnictví i uložených pozicích jako historické
+účtenky, ale jsou dormant: nový nákup vrací `reserved_for_redesign`, jejich
+sloty nemají sprite, marker ani hitbox a obě misky se s pet koutem nekreslí.
+
+Schema zůstává 41. Round-trip starého save nesmí smazat zaplacené vlastnictví
+ani jeho původní pozice. Historický Phase149 full master, který tyto objekty
+obsahuje, je nově dostupný pouze explicitnímu report-only capture a nikdy
+produkčnímu Pokoji. Zdrojové PNG, jejich profily, reference i immutable RC57
+zůstávají beze změny.
+
+Budoucí slot 19 je rezervovaný pro jednotně namalovaný pet kout spojený se
+skutečným nákupem mazlíčka. Phase160 nepřidává samostatnou péči, misky ani nový
+coin sink. Deterministický capture
+`comic-phase160-player-room-clean-floor.png` obsahuje uložené dormant účtenky,
+ale musí zobrazit čistou pravou část podlahy.
+
+Skutečný `comic-phase160-player-room-clean-floor.png` byl v původním rozlišení
+zkontrolován: žádný ze čtyř odmítnutých objektů není viditelný a ostatní obsah
+Pokoje zůstal celistvý. Uživatel tento přesný Godot render výslovně schválil.
+Proto byl append-only uložen jako
+`assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png`
+se SHA-256
+`A0A7D7D1A4120320FC0084AF65429E9F997AC9CAD29E51DECF20278869363BD2` a případ
+`phase160-player-room-clean-floor-runtime-approved` se stal 22. tvrdou
+obrazovou branou bez cropu a masek.
+
+Úplná validation po povýšení baseline
+`.godot/validation/20260826-064438Z` prošla s
+`MVP_TESTS_PASSED=1535`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`. Všech 22
+tvrdých bran prošlo; Phase160 případ má `mean_abs_error=0.000`,
+`rmse=0.000` a `changed_ratio=0.000 %`.
+
+Responzivní matice `.godot/responsive/20260826-050545Z` prošla 13/13 včetně
+Pokoje na 360 × 800 a skrytých neinteraktivních slotů 17/19. Immutable RC57 má
+po změně stále SHA-256
+`4908F3C0A09278ABE9B8BEB433F6F9576FE8343343908BF40858F5B2B5D5F081`.
+
+Aktuální brány: implementace `IMPLEMENTED`, save schema `41_UNCHANGED`, RC57
+`PRESERVED`, technical validation `PASSED`, render inspection `PASSED`, Godot
+visual acceptance `APPROVED_BY_USER`, append-only runtime baseline
+`PASSED`, APK `NOT_CREATED`, publishing `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 161 — vrstvená malovaná Denní výzva
+
+Uživatel schválil Phase161 výtvarný koncept Denní výzvy. Přesný 853 × 1844
+náhled se SHA-256 `797235…533e` je archivovaný append-only a zůstává
+report-only, protože obsahuje konkrétní HUD, texty a stav `prepare_rain`.
+
+Runtime proto používá samostatný textless 853 × 1844 RGBA plate se SHA-256
+`678fa2…72b6`, živé Godot popisky a skutečná tlačítka. Neutrální botanická
+scéna dostává procedurální kontext pro všech 14 typů výzvy i dnešní a zítřejší
+počasí. Presenter, schema 41, UTC denní obnova, cílová navigace a odměna
+12 mincí + 10 XP + botanický balíček zůstávají beze změny.
+
+Deterministický audit odděluje `ACTIVE`, `READY`, `READY + queue_full`,
+`CLAIMED` a `NO_TARGET`. Uživatel všech pět skutečných Godot stavů výslovně
+schválil; každý je nyní chráněný vlastní append-only tvrdou runtime branou bez
+cropu nebo masek, zatímco výtvarný koncept zůstává `gate=false`. Závěrečná
+validation `.godot/validation/20260827-153641Z` prošla 1 556/1 556, capture,
+visuals i full stavem a všech pět Phase161 bran má přesnou shodu `0/0/0`.
+Responsive audit `.godot/responsive/20260826-092316Z` zůstává 14/14 včetně
+skutečného modalu 360 × 800 bez vodorovného overflow. Technická i uživatelská
+vizuální brána jsou `PASSED`; mobil je nedostupný, APK `NOT_CREATED`,
+publikování `OUT_OF_SCOPE` a RC57 zůstává immutable.
+
+## Fáze 162 — dynamický malovaný Kosmetický showroom
+
+Uživatel schválil Phase162 výtvarný koncept Kosmetického showroomu. Přesný
+841 × 1870 návrh je archivovaný append-only v
+`docs/visual-proposals/phase162/user-approved-painted-cosmetic-showroom-v1.png`
+se SHA-256
+`BC524F1D2C3111630385256481A4ACB04CC51D99C2E4CF342D7FA468C3FC5DC0`.
+Obsahuje konkrétní copy, ceny, mince a stav odemčení, proto zůstává report-only.
+
+Runtime používá samostatný čistý 841 × 1871 plate
+`assets/ui/visual/phase162/cosmetic_showroom/cosmetic_showroom_clean_backdrop_v1.png`
+se SHA-256
+`A696D1759EF1FE830984E0DC2C8C292FCEDC3B9B4CFEB55DBCB7E2849542FCF6`.
+Čtyři pokojové miniatury, dřevěný rám a prázdné malované akční plochy jsou
+obrazové; názvy, popisy, skutečná tlačítka, peněženka, ceny, výběr, nedostatek
+mincí a výzkumný zámek zůstávají živými Godot vrstvami. Funkční svislý scroll a
+blokování vstupu za modalem zůstávají zachované.
+
+Fáze nemění ceny, ekonomiku, herní bonusy, pořadí ani pravidla čtyř existujících
+vzhledů. `Badatelská pracovna` stále vyžaduje šest dokončených Profesorových
+protokolů. Save schema zůstává 41 a immutable RC57 se nepřepisuje.
+
+Koncept zůstává ve vizuální sadě pouze report-only (`gate=false`). Uživatel
+26. srpna 2026 výslovně schválil skutečný Godot render vybraného stavu. Jeho
+byte-exact append-only kopie
+`assets/ui/comic/reference_phase162_cosmetic_showroom_runtime_v1.png` má SHA-256
+`DFCC10B8B1B89F6D637100E6C781B6D9097976F0A9600E8B093E5665430EFE18` a nový
+případ `phase162-cosmetic-showroom-runtime-approved` jej chrání jako 23. tvrdou
+bránu bez cropu a masek. Úplná validation po povýšení baseline
+`.godot/validation/20260826-153955Z` prošla 1 548/1 548 kontrolami, Phase162
+capture i všemi 23 tvrdými obrazovými branami; nový runtime případ má přesnou
+shodu MAE 0, RMSE 0 a 0 % změněných pixelů. Responsive audit
+`.godot/responsive/20260826-151922Z` prošel 15/15 a závěrečná Quick automatizace
+`.godot/automation/20260826-154305Z` skončila
+`HOW_TO_GROW_AUTOMATION=PASSED`. Čtyři cílené stavové rendery jsou v
+`.godot/phase162-only/20260826-171948Z`. Technický PASS a uživatelské schválení
+jsou doloženy odděleně; `PHASE162_GODOT_RENDER_ACCEPTANCE=APPROVED_BY_USER` a
+`PHASE162_VISUAL_BASELINE_TRANSITION=PASSED_APPEND_ONLY_RUNTIME_GATE`. Telefon
+není dostupný, mobilní audit je
+`DEFERRED_PHONE_UNAVAILABLE`, APK `NOT_CREATED`, publikování `OUT_OF_SCOPE` a
+RC57 zůstává immutable.
+
+## Fáze 163 — jednotné zamčené květináče Stojanu
+
+Uživatel schválil přesný 872 × 1804 náhled nové podoby Stojanu uložený jako
+`docs/visual-proposals/phase163/user-approved-locked-planter-rack-screen-v1.png`
+se SHA-256
+`BD906524ED677FB996098578E3EFBED3F19C797AC8078CBC8C7DB86AEB1BC349`.
+Schválení se vztahuje na jeden typ kompaktního fialového zamčeného květináče a
+jednotnou mosazně tmavou kresbu pěstebních světel. Náhled obsahuje konkrétní HUD
+a herní stav, proto je evidovaný pouze jako report-only cíl (`gate=false`) a
+nesmí se stát zapečenou náhradou živé obrazovky.
+
+Dynamický runtime používá jeden transparentní master
+`rack_locked_planter_phase163_v1.png` pro všech osm zamčených pozic a jeden
+transparentní master `rack_grow_light_phase163_v1.png` pro všechna svítidla.
+Assety vznikly deterministickým alfa-only oddělením: viditelné RGB pixely
+schválené malby zůstávají beze změny, mění se pouze průhlednost a čistý
+transparentní okraj.
+Deset slotů, živé texty úrovní, odemčení, růst, péče, deset světelných stavů,
+kliknutí a navigace zůstávají funkční. Save schema 41, ekonomika a immutable
+RC57 se nemění.
+
+Konceptuální případ `phase163-rack-locked-planter-approved-target` zůstává
+report-only. Uživatel následně výslovně schválil skutečný Godot render a jeho
+přesná append-only kopie je novou tvrdou Phase163 runtime branou. Historická
+Phase151 rack reference zůstává zachovaná jako report-only doklad. Stejný
+append-only přechod dostaly dvě kompozitní brány `feedback-unlock` a
+`screen-transition`, protože jejich efekty zůstaly beze změny, ale staré
+reference pod nimi obsahovaly Phase151 stojan; masky, tolerance ani pevné
+capture časy se nezměnily.
+
+Závěrečná úplná validation `.godot/validation/20260827-153641Z` prošla
+`MVP_TESTS_PASSED=1556`, `HOW_TO_GROW_CAPTURE=PASSED`,
+`HOW_TO_GROW_VISUALS=PASSED` a `HOW_TO_GROW_VALIDATION=PASSED`. Samostatný
+Phase163 stojan i oba navazující efekty mají přesnou shodu `0/0/0` a celkem
+prošlo všech 34 aktivních tvrdých vizuálních bran. Technická, Godot render,
+uživatelská vizuální i baseline transition brána jsou `PASSED`. Mobilní audit
+je `DEFERRED`, APK `NOT_CREATED`, publikování `OUT_OF_SCOPE` a RC57 zůstává
+immutable.
+
+## Fáze 164 — zdrojový baseline po vizuálním uzavření
+
+Celý ověřený zdrojový rozsah po baseline RC36 až po uživatelem schválené
+Phase163 je uzavřený anotovaným tagem `phase164-source-baseline`. Snapshot
+obsahuje výhradně projektové zdroje v `assets`, `docs`, `scripts` a `tools`;
+ignorované `.godot`, buildy, APK, AAB, keystore ani dočasná data nejsou jeho
+součástí. Před snapshotem bylo inventarizováno 95 upravených sledovaných a 645
+nových nesledovaných souborů bez nalezeného nového tajemství nebo privátního
+klíče. Immutable RC57 i jeho alias zůstaly byte-exact.
+
+Úplná orchestrace `.godot/automation/20260827-175234Z` prošla visual
+contractem 450 profilovaných / 0 neprofilovaných PNG, validací 1 556/1 556 a
+34/34 aktivními obrazovými branami, výkonem, endurance 48/48, progression
+132/132 s 27 roundtripy a responsive maticí 15/15. Po dokumentaci musí projít
+ještě Quick automatizace. Technická source brána je `PASSED`; identita
+`0.67.1-rc57` / code 74, save schema 41, telefon a publikování se v této fázi
+nemění. RC58 vzniká až ze samostatného navazujícího release commitu.
 
 ## Reprodukce technických bran
 
@@ -440,7 +1262,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_responsive_lay
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1 -ToolRoot 'C:\_projekty\How to grow_\.tooling' -ApkPath 'C:\temp\Bazal build\candidate.apk'
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android_release_aab.ps1 -KeystorePath 'D:\private\bazal-upload.jks' -KeyAlias 'bazal-upload'
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.50.0-rc36-arm64-debug.apk' -SampleSeconds 300
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.64.0-rc53-arm64-debug.apk' -SampleSeconds 300
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_release_candidate.ps1
 ```
 

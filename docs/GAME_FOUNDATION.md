@@ -2,7 +2,7 @@
 
 Tento dokument je zdroj pravdy pro vertikální řez. Odděluje skutečně hratelný základ od budoucího obsahu a chrání projekt před tím, aby každá nová obrazovka vznikala jako samostatná minihra bez vazby na celek.
 
-Aktuální zdrojový stav je fáze 111 se save schema 32. Poslední immutable Android snapshot je RC36 `0.50.0-rc36` / code 53 a obsahuje runtime fáze 109. Fáze 110 přidala autonomní validační a release workflow a fáze 111 uzavírá zdroje fází 103–110 do Git baseline; ani jedna nemění runtime nebo exportovaný payload RC36. Automatické lokální i technické telefonní brány prošly, zatímco jediný sloučený lidský mobilní blok a veřejné publikování zůstávají otevřené.
+Aktuální zdrojový a lokálně vydaný stav je fáze 144 se save schema 41 a immutable RC55 `0.66.0-rc55` / code 72; nainstalovaný stav telefonu zůstává fáze 138 / RC54 se schema 40. Čtyři hlavní obrazovky používají globální swipe s uzamčením osy nad svislými seznamy a směrovou modro-zlatou odezvou; skleník, hráčský pokoj, detail rostliny a blokující dialogy si ponechávají vlastní vstup. Stojan po sklizni i během zpracování ukazuje prázdný květináč, spodní duplicitní kartu růstu nahradil rezervovaný dok pro budoucí doplňky a mazlíka a Péče i hráčské Nastavení mají samostatné kompaktní cíle. Stojan, hráčský pokoj a skleník sdílejí portrétní kamerový kontrakt 432 × 780 a nad ním finální vizuální systém s paletou, typografií, spacingem, šesti rodinami assetů a třemi scénovými profily. Pokoj používá blízký záběr s mřížkou 3 × 4 a dvanácti vlastnitelnými kosmetickými rostlinami; každý aktivní sprite pochází z uživatelem schválené jednotné sady a zachovává společnou velikost květináče, podmisky, baseline a stínování. Osm pevných dekorací, vitrína 3 × 2 a připravený kočičí kout zůstávají beze změny. Za oknem se pohybuje mrak, pták a motýl; pauza a Méně pohybu je zastaví. Skleník drží čtyři profilované perspektivní vyvýšené záhony, pět plodin, dřevěné stavové štítky, postup úrovní 1–5, trvalou zakázku, prémiovou variantu a reputaci. RC55 prošlo úplnou lokální technickou bránou, ale nebylo instalováno; RC54 dál reprezentuje fyzicky ověřenou instalaci a migraci save 39 → 40. RC47–RC54 zůstávají nedotčené historické kandidáty. Subjektivní mobilní vzhled RC55 čeká na hráčovo potvrzení a publikování zůstává na přání uživatele mimo rozsah.
 
 ## Herní příslib
 
@@ -12,7 +12,7 @@ Hráč buduje živou, barevnou bylinkovou dílnu. Nevyhrává mechanickým mačk
 
 1. **Pozoruj a pochop.** Vlhkost, světlo, vzduch, zdraví a biomasa mají srozumitelnou příčinu i následek.
 2. **Pečuj a proměňuj.** Rostlina projde čitelnými stavy od semínka po sklizeň; úroda pokračuje přes sušení, balení a prodej.
-3. **Rozšiřuj dílnu.** XP odemyká deset fyzických míst na stojanu. Mince financují semínka a hnojivo, takže ekonomika vrací hráče k pěstování.
+3. **Rozšiřuj dílnu.** XP odemyká deset fyzických míst na stojanu. Mince financují semínka, hnojivo a dobrovolnou kosmetickou sbírku pokoje, takže ekonomika vrací hráče k pěstování bez placených herních bonusů.
 
 ## Uzavřená smyčka vertical slice
 
@@ -29,6 +29,7 @@ Celá smyčka je odehratelná v jedné uložené relaci. Simulace pokračuje vš
 | Měření | Proč se rostlině daří nebo nedaří? | Porovnat živé hodnoty a graf | Informované rozhodnutí |
 | Sklad | Co se děje s úrodou? | Sklidit, sušit, zabalit, prodat | Produkt, mince a XP |
 | Obchod | Co potřebuji pro další cyklus? | Koupit semínko nebo hnojivo | Zásoby pro nový cyklus |
+| Hráčský pokoj | Za co utratím přebytečné vydělané mince? | Koupit, vystavit, přesunout nebo schovat kosmetiku | Trvalá osobní sbírka bez herní výhody |
 
 Spodní navigace má čtyři stálé destinace; detail je vnořený do Rostlin. Nepřidávat další hlavní tab bez důkazu, že se nevejde do některé z těchto rolí.
 
@@ -899,3 +900,147 @@ Pro skutečný obsah 360×620 px používá skleník samostatnou kompaktní geom
 Hlavní projekt prošel `MVP_TESTS_PASSED=1299`. Úplná validace `.godot/validation/20260821-143411Z` skončila capture, visuals i full validation `PASSED`. Progression `.godot/progression/20260821-143705Z` dokončila 132/132 cyklů a 27 roundtripů; endurance `.godot/endurance/20260821-143720Z` 48/48 cyklů, 7 roundtripů a nulový růst uzlů/orphanů/zdrojů; responsive `.godot/responsive/20260821-143741Z` 8/8 včetně 360×800; performance `.godot/performance/20260821-143755Z` zůstalo v limitech s CPU p95 max. 9,429 ms. Tři nové obrazové záznamy jsou report-only a schválené reference, manifest, crop, masky, tolerance i zdrojové PNG se nezměnily.
 
 Save schema zůstává 32 a nebyl přidán nový save klíč. Fáze 109 nevytvořila ani neinstalovala APK/AAB a immutable RC35 se nepřepisoval; RC35 tuto runtime změnu neobsahuje. Případná Android distribuce fáze 109 proto musí být nový RC36. Lidská L2 kontrola na cílovém telefonu, přirozené dozrání s aktualizací odznaku, skutečné upozornění, delší bateriový/tepelný běh a veřejná publikační brána zůstávají `PENDING`.
+
+# Fáze 113: ředkvička a úplný postup skleníku
+
+Skleník nyní nabízí čtyři plodiny v úplném postupu úrovní 1–4. Cherry rajče zůstává na úrovni 1 za 10 mincí / 6 hodin / 24 mincí + 8 XP, sladká paprika na úrovni 2 za 14 mincí / 8 hodin / 34 mincí + 11 XP a salátová okurka na úrovni 4 za 18 mincí / 10 hodin / 46 mincí + 14 XP. Nová ředkvička zahradní vyplňuje úroveň 3: stojí 12 mincí, po bezplatné zálivce roste 4 hodiny a sklizeň dává 22 mincí + 9 XP.
+
+Všechny plodiny používají jeden `GreenhouseSimulation`, stejnou čtveřici záhonů, offline postup, jednorázový `greenhouse_ready`, odvozený badge a návratový souhrn. `GameSession` kontroluje úroveň znovu při transakci. Hlavní save schema 33 autorizuje nové ID `garden_radish`; schema 32 zachová dříve oprávněná rajčata, papriky a okurky, ale podvrženou ředkvičku zahodí. Do save nepřibyl odvozený UI stav.
+
+Mobilní výběr má čtyři samostatné cíle. V kompaktním obsahu 360×620 měří každý 76×64 px a celý spodní řádek se vejde bez vodorovného scrollu nebo překryvu s panelem stavu. Ředkvička používá vlastní kódově kreslené růstové stavy, takže zdrojová PNG i schválené pixelové reference zůstaly nedotčené.
+
+Regrese prošla `MVP_TESTS_PASSED=1317`. Úplná validace `.godot/validation/20260821-195615Z` skončila capture, visuals i full validation `PASSED`; všech 14 aktivních pixelových gate je zelených. Responzivní matice `.godot/responsive/20260821-195525Z` prošla 8/8 včetně přesné čtyřvolbové geometrie 360×800. Autonomní Full `.godot/automation/20260821-200116Z` prošel všemi pěti kroky. Release `.godot/release-candidate/20260821-200404Z` vytvořil nový immutable APK `0.51.0-rc37` / code 54 / schema 33 o velikosti 106 195 376 B a SHA-256 `F985BA22C278B74C1AEBE8D7A878BA21B6EE11053234BA062A9A098A57C3898B`; export, podpis APK v2 a payload jsou `PASSED`. Do telefonu se RC37 nesmí instalovat, dokud nainstalované RC36 nedokončí přirozený long-delay důkaz fáze 112.
+
+# Fáze 115: lilek a pátý krok skleníku
+
+Skleník nyní nabízí pět plodin. `garden_eggplant` / `Lilek vejcoplodý` se odemyká na úrovni 5, stojí 22 mincí, po bezplatné zálivce roste 12 hodin a sklizeň dává 60 mincí + 18 XP. Navazuje tak na rajče L1, papriku L2, ředkvičku L3 a okurku L4 bez zavedení druhé měny nebo paralelní simulace.
+
+Save schema 34 přidává samostatnou hranici `GREENHOUSE_EGGPLANT_SCHEMA`. Schema 33 zachová všechny čtyři dřívější plodiny, ale vložený placený lilek odmítne. Zamčená nebo nezaplacená výsadba je v doméně atomický no-op; dozrání samo odměnu nepřidává a sklizeň zůstává jedinou odměnovou transakcí.
+
+Kompaktní obsah 360×620 používá pět samostatných cílů 64×64 px na x = 16/82/148/214/280. Lilek má vlastní kódově kreslené růstové stavy. Úplný release `.godot/release-candidate/20260821-210729Z` prošel 1 330/1 330 kontrolami, 14 aktivními obrazovými branami, performance, endurance 48/48, progression 132/132, responsive 8/8, exportem, podpisem i payloadem. Immutable RC38 má 106 197 360 B a SHA-256 `939E3E931DC32CD527A0207106DA2C1EDE3A9BD9B63F1F9718D40CB322FB3E0D`; telefon ani starší RC36/RC37 se nezměnily.
+
+# Fáze 116: trvalé skleníkové zakázky
+
+Skleník má vždy právě jednu neexpirující zakázku na jednu ze skutečně odemčených plodin. Nová hra začíná rajčetem; po dokončení se nabídka deterministicky otočí mezi plodinami dostupnými na hráčově úrovni. Odpovídající sklizeň posune postup, jiná plodina poskytne pouze svou běžnou odměnu. Po poslední požadované sklizni se kanonický bonus připíše atomicky, zvýší společný i skleníkový počet dokončených zakázek a zaznamená jednu skutečnou dodávku Profesorova výzkumu.
+
+Save schema 35 přidává `GREENHOUSE_ORDER_SCHEMA`. Schema 34 odmítne vložený placený postup, rotaci i odměny a založí čistou nabídku. Schema 35 přijme jen známou odemčenou plodinu a bezpečný nedokončený postup; odběratele, cíl a odměnu vždy znovu odvodí z kanonického katalogu. Zobrazení, načtení, zálivka ani plynutí času bonus nevytvářejí.
+
+Stávající skleníkový panel ukazuje druhý stručný řádek s postupem a bonusem. Připravená odpovídající plodina promítne budoucí stav přímo do stávajícího 64px tlačítka sklizně. Žádný nový modal ani paralelní inventář nevznikl a pět voleb 64×64 px z fáze 115 zůstává beze změny.
+
+Regrese skončila `MVP_TESTS_PASSED=1342`. Úplná validace `.godot/validation/20260821-213535Z`, Full `.godot/automation/20260821-213725Z` a release `.godot/release-candidate/20260821-214027Z` prošly. Performance CPU p95 nepřekročilo 10,091 ms, endurance dokončilo 48/48 bez růstu uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy a responsive 8/8. Immutable RC39 `0.53.0-rc39` / code 56 / schema 35 má 106 203 248 B a SHA-256 `3F110A4E187C9AFE0034D149E6E47B7B2C7B643CE2DDDA3F5ACD7701F83F3C78`. Nový snímek zakázky je report-only; schválené reference, crop, masky, tolerance i zdrojové PNG zůstaly beze změny. Telefon nebyl instalací dotčen.
+
+# Fáze 117: prémiové vícezáhonové zakázky
+
+Každá druhá kanonická dvousklizňová zakázka je varianta `multi_bed`. Obě odpovídající sklizně musí pocházet ze dvou různých záhonů; opakovaná sklizeň stejného záhonu dál přidá běžnou odměnu plodiny, ale prémiový postup neposune. Ředkvičková zakázka se třemi sklizněmi zůstává standardní. Prémiový cíl nemá časový limit a proti standardu přidává přesně 8 mincí a 4 XP.
+
+Save schema 36 přidává `GREENHOUSE_QUALITY_ORDER_SCHEMA`. Schema 35 zachová plodinu i číselný postup jako standardní nabídku, ale nemůže vložit prémiový typ, vyšší odměnu ani započtené záhony. Schema 36 povolí `multi_bed` jen na deterministicky způsobilé sekvenci, deduplikuje a omezí indexy na čtyři skutečné záhony a postup vždy znovu odvodí z autorizovaného seznamu. Cíl, zákazník a bonusy se při načtení kanonizují.
+
+Stávající panel používá stručný řádek `ZAKÁZKA+` a jedno původní 64px tlačítko. To před sklizní rozliší nový započitatelný záhon od již použitého; nový modal, měna ani inventář nevznikly. Diagnostický snímek `comic-greenhouse-quality-order-ready.png` je report-only a schválené reference, crop, masky, tolerance i zdrojové PNG se nezměnily.
+
+Regrese skončila `MVP_TESTS_PASSED=1351`. Finální validace `.godot/validation/20260822-042334Z`, Full `.godot/automation/20260822-040627Z` a release `.godot/release-candidate/20260822-040931Z` prošly. Performance CPU p95 nepřekročilo 9,164 ms, endurance dokončilo 48/48 bez růstu uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy a responsive 8/8. Immutable RC40 `0.54.0-rc40` / code 57 / schema 36 má 106 206 088 B a SHA-256 `99927E0D24B4C7DDDBF3B13B191C1ACCB8EB562C6F553B25E685113A163F0D97`. Hashy RC36–RC39 zůstaly beze změny a telefon nebyl instalací dotčen.
+
+# Fáze 118: reputace skleníku
+
+Reputace používá jediný existující údaj `greenhouse_orders_completed`. Při 3, 8 a 15 dokončených skleníkových zakázkách postupně odemkne tituly `SPOLEHLIVÝ PĚSTITEL`, `DODAVATEL TRHU` a `MISTR SKLENÍKU`. První dvě hranice přidají právě jednou 40 mincí + 20 XP a 80 mincí + 40 XP; poslední nemění ekonomiku a pouze přepne stávající pravou horní ceduli na kosmetické `MISTR / SKLENÍKU`. Před posledním milníkem cedule ukazuje stručný postup `POVĚST / n/cíl ZAK.`. Nevznikla nová měna, časovač, modal ani akční tlačítko.
+
+Save schema 37 přidává `GREENHOUSE_REPUTATION_SCHEMA` a ukládá `greenhouse_reputation_claimed_tier` jako auditní stopu. Autoritou zůstává počet dokončených zakázek: schema 36 při načtení získá odpovídající titul bez zpětného vyplacení odměn a podvržené schema 37 nemůže vyšším tierem obejít počet dokončení. Odměna se spouští pouze v transakci nové dokončené zakázky a po round-trip je idempotentní.
+
+Regrese skončila `MVP_TESTS_PASSED=1360`. Validace `.godot/validation/20260822-045354Z` prošla capture, visuals i full validation a zachovala všech 14 aktivních pixelových bran bez změny referencí nebo tolerancí. Full `.godot/automation/20260822-045548Z` prošel validation, performance, endurance 48/48, progression 132/132 s 27 roundtripy a responsive 8/8. Dva snímky reputace jsou pouze reportovací. Release `.godot/release-candidate/20260822-045830Z` vytvořil immutable RC41 `0.55.0-rc41` / code 58 / schema 37 o velikosti 106 209 964 B a SHA-256 `A8E14970A5A6F09B67493B34DE701D2E9ACC8496617D2453B93DD7690159D6AE`. Hashy RC36–RC40 zůstaly beze změny; RC41 nebylo instalováno ani publikováno.
+
+# Fáze 119: globální swipe navigace
+
+Čtyři hlavní obrazovky `Rostliny ↔ Sklad ↔ Obchod ↔ Měření` se přepínají vodorovným tahem začatým kdekoli na jejich povrchu, včetně svislých seznamů. Navigační služba po 18 px uzamkne zřetelnou osu, teprve 90px vodorovný tah s převahou 1,3× provede přepnutí a první ani poslední obrazovku neobtáčí. Svislé gesto zůstává ScrollContaineru; po vodorovném uzamčení je událost označená jako zpracovaná, takže stejný tah neposune i seznam nebo neaktivuje tlačítko pod prstem.
+
+Úspěšný swipe spustí stávající modro-zlatý pás ve fyzickém směru prstu a současně krátký lesk cílové záložky. Klepnutí zachovává dosavadní animaci podle cíle. Globální gesto se vypne přes všechny blokující modaly, předání zahrady, systémový výběr souboru, skleník, hráčský pokoj i detail rostliny. Návrat na záložku Rostliny vždy otevře kanonický stojan. Ekonomika, růst, katalog, save payload i schema 37 zůstávají beze změny.
+
+Finální validace `.godot/validation/20260822-054057Z` prošla s `MVP_TESTS_PASSED=1370`, capture, visuals i všemi 14 aktivními pixelovými branami. Report-only snímky `comic-swipe-transition-left.png` a `comic-swipe-transition-right.png` byly vizuálně zkontrolovány; schválené reference, crop, masky a tolerance se nezměnily. Release `.godot/release-candidate/20260822-054242Z` prošel výkonem, endurance 48/48 bez růstu uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem v2 a payloadem. Finální immutable RC43 `0.56.0-rc43` / code 60 / schema 37 má 106 213 160 B a SHA-256 `8D890542F3C49274225E5847E64C503E7E529DEAF5C8252717EC1AAC6E4990F8`. Mezilehlé RC42 s SHA-256 `D0873803DFD5854BE0E3DB2B992A81B2C527422BC1E11D31B7B4887D0A985885` zůstalo immutable; telefon ani publikování nebyly vyžádány.
+
+# Fáze 120: živý skleník s vyvýšenými záhony
+
+Skleník používá originální portrétní ilustraci pouze jako klidné prostředí pod skutečným Godot UI. Čtyři interaktivní záhony mají horní zeminu, hluboký dřevěný rám, vysokou přední stěnu, nohy, kovové spoje a stavové akcenty. Po uživatelském připomínkování používá kompaktní obsah 360×620 menší zadní dvojici 145×96 px a větší přední dvojici 162×128 px; běžný obsah 432×780 používá 178×144 px vzadu a 196×200 px vpředu. Zadní řada je užší a výš, přední širší a níž, takže záhony sledují perspektivu podlahy a nejde o ploché karty ani truhlíky. Vybraný záhon pulzuje pouze při povoleném pohybu; pauza a reduced-motion ambientní animace zastaví.
+
+Fáze nemění ekonomiku, plodiny, objednávky, reputaci ani save schema 37. Regrese prošla `MVP_TESTS_PASSED=1374` včetně přesných perspektivních rozměrů. Finální validation `.godot/validation/20260822-102541Z` potvrdila capture, visuals, všech 14 aktivních pixelových bran a neměnné reference/crop/masky/tolerance. Release `.godot/release-candidate/20260822-102540Z` prošel výkonem (CPU p95 max. 12,643 ms, frame p95 16,700 ms, 449 draw calls, 86,16 MiB), endurance 48/48, progression 132/132, responsive 8/8, exportem, podpisem v2 a payloadem.
+
+Immutable RC45 `0.57.0-rc45` / code 62 / schema 37 má 108 222 968 B a SHA-256 `F58C6A79965B9DB77ACEF7338050CA46D444E0882DB56C531F6133D072F425A0`. RC44 zůstalo nedotčené s původním SHA-256 `3C72EE3261DB5E23BB0B16EEB71C7FC95827028CF0923A62388A61D12CF7C850`. Lokální technické brány jsou `PASSED`; instalační device gate je `PENDING_DEVICE_CONNECTION`, protože telefon během závěru fáze nebyl připojen. Publikování je `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 121 — ochrana nákupu při vodorovném swipe
+
+Fyzický audit RC45 prokázal, že vodorovný tah zahájený na nákupním tlačítku dokázal současně změnit hlavní obrazovku a dokončit nákup. Oprava proto směruje akce přes společnou ochrannou callback vrstvu a drží jejich potlačení i při uvolnění téhož vodorovného gesta. RC46 `0.58.0-rc46` / code 63 / schema 37 má 108 222 272 B a SHA-256 `1266E897FD8D0CDB23BD1F2FC27F1B19894BAD92989060A4EAB2C7412ED7F1C5`; fyzický vodorovný retest prošel a RC45 zůstalo immutable.
+
+Následný svislý scroll v obchodním katalogu ale odhalil druhou větev stejné chyby: přes tlačítko `grow_lamp` nechtěně proběhl nákup za 32 mincí. Fáze 121 je proto pravdivě pouze částečný historický PASS a vertikální větev uzavírá fáze 122. Po obou diagnostických nálezech byl save přesně opraven bez odinstalace aplikace a bez přenosu raw save mimo telefon.
+
+## Fáze 122 — ochrana transakcí při svislém scrollu a RC47
+
+Jakmile se osa gesta jednoznačně uzamkne vodorovně nebo svisle, potlačí se akční tlačítka až do odloženého uvolnění v následujícím průchodu smyčkou. Vodorovná větev dál přepíná hlavní obrazovku a událost spotřebuje; svislá větev ji ponechá `ScrollContaineru`, takže seznam přirozeně roluje. Generační pojistka zabraňuje starému odloženému odemknutí ovlivnit nový dotyk. Regrese používá skutečné nákupní tlačítko lampy, dostatečný zůstatek a ověřuje potlačení během dragu i release spolu s opětovným otevřením běžného tapu v dalším snímku.
+
+Validace `.godot/validation/20260822-115223Z` prošla s `MVP_TESTS_PASSED=1377`, capture, visuals, úplnou validací a 14/14 aktivními obrazovými branami. Release `.godot/release-candidate/20260822-120356Z` a automatizace `.godot/automation/20260822-120356Z` prošly výkonem, endurance 48/48, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem i payloadem.
+
+Immutable RC47 `0.59.0-rc47` / code 64 / schema 37 má 108 222 588 B a SHA-256 `3BC47AB155065EDE0E0AECB246026E62A324B4B25CDF5BAF76FD117AA5FCDC7F`. Audit `.godot/android-device-audit/20260822-120721Z` potvrdil přesný nainstalovaný hash, 22 platných vzorků během 120 sekund, 100 % času v popředí, 0 fatálních nálezů a schema 37 → 37. Původně chybné svislé gesto nezměnilo stav ihned ani po 20 sekundách; prošel i opačný svislý směr, vodorovný tah přes Pažitku a systémové Zpět na Rostliny. Konečný autorizovaný stav je 73 mincí, 206 XP, lampa úrovně 1, 2 semínka Bazalky, 0 semínek Pažitky a 10 rostlinných pozic. `PHASE122_VERTICAL_SCROLL_TRANSACTION_GUARD=PASSED`; technická část je `PASSED_TECHNICAL`, subjektivní lidský souhrn `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`.
+
+## Fáze 123 — sbírkový hráčský pokoj
+
+Pokoj sdílí stejnou domácí lokaci a společnou mincovou peněženku, ale nově funguje jako dlouhodobý kosmetický cíl. Osm menších rostlin používá třípatrový stojan 3 + 3 + 2; popínavý šplhavník má vlastní spodní květináč a šlahoun za ostatními rostlinami. Knihy, dekorativní hnojiva, složené květináče, lampička, botanický obraz a plastová konvička mají vlastní místa na policích a stole. Žádná položka nepotřebuje péči, neumírá, nečerpá zásoby a nemění simulaci.
+
+Vitrína kreslí šest prázdných pozic a publikuje připravený prezentační kontrakt, ale zatím nepřijímá smyšlené achievement ID ani neposkytuje odměnu. Až vznikne autoritativní achievement systém, může se k těmto pozicím připojit bez dalšího překreslení místnosti.
+
+Save schema 38 zavádí `ROOM_COLLECTION_SCHEMA`, osm rostlinných a šest pevných míst. Schema 29–37 obnoví pouze historicky oprávněné položky a přemapuje starých pět univerzálních indexů podle nové kategorie; schema 28 a podvržená nová ID zůstávají odmítnutá. Nákup je jednorázový, přesun zdarma a odstranění bez refundace.
+
+Regrese prošla `MVP_TESTS_PASSED=1378`. Úplná validace `.godot/validation/20260822-132344Z` potvrdila capture, visuals, všech 14 aktivních obrazových bran a nezměněné reference, cropy, masky i tolerance. Report-only snímek `comic-player-room-collection.png` byl ručně zkontrolovaný na plátně 432 × 960. Release `.godot/release-candidate/20260822-133618Z` prošel výkonem, endurance 48/48, progression 132/132, responsive 8/8, exportem, podpisem i payloadem. Immutable RC48 má 110 185 562 B a SHA-256 `D28E3D33AC95B14F8B79067C3F90C639833A25A9F133EF3BDBB41E36BB936F58`; na telefonu zůstává RC47. Přesný rozsah popisuje `docs/PHASE123_PLAYER_ROOM_COLLECTION.md`.
+
+## Fáze 124 — živý pokoj a budoucí mazlíček
+
+Pokoj rozšiřují dvě samostatné kosmetické kategorie. Tři sklenice se sušenými bylinkami stojí 24 mincí a sedí na horní polici. Kočičí kout stojí 54 mincí a na podlaze u koberce vykresluje pelíšek, vodu a krmivo. Prezentační bod budoucího mazlíčka je připravený, ale skutečná kočka, hlad, žízeň, sklad krmiva i odměny záměrně nevznikají; pokoj stále nemá herní bonusy.
+
+Život za oknem tvoří pohybující se mrak, vzdálený pták a motýl. Efekty se kreslí pod pokojovými předměty a respektují společnou pauzu i Méně pohybu. Save schema 39 a `ROOM_LIVING_DETAILS_SCHEMA` autorizují pouze dvě nová placená ID. RC48 schema 38 zachová všechny oprávněné položky fáze 123, ale nové ID odmítne; aktuální round-trip uchová šestnáct kategoriálních míst. Regrese prošla `MVP_TESTS_PASSED=1384` a finální obrazová validace `.godot/validation/20260822-144550Z` skončila capture, visuals i full stavem `PASSED` bez změny schválených referencí nebo tolerancí.
+
+Release automatizace `.godot/automation/20260822-144818Z` a kandidát `.godot/release-candidate/20260822-144818Z` prošly výkonem, endurance 48/48, progression 132/132, responsive 8/8, exportem, podpisem i payloadem. Immutable RC49 `0.61.0-rc49` / code 66 / schema 39 má 110 188 738 B a SHA-256 `86A1F064581BC8DD3FE8026BD4A2B7ACAAB8DED0C3E00D47FD80B9EC427CDE79`. Android audit `.godot/android-device-audit/20260822-150135Z` potvrdil instalaci přesně tohoto APK, 100% foreground, nulové fatální nálezy a zachovaný save schema 37 → 39. Technická Android brána je `PASSED`, lidský pocit z animací je `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`. Přesný rozsah popisuje `docs/PHASE124_PLAYER_ROOM_LIVING_DETAILS.md`.
+
+## Fáze 125 — čistý stojan a hráčské nastavení
+
+Stojan nyní rozlišuje rostlinu ještě zralou v květináči od úrody, která už byla sklizená. Fáze `HARVESTED`, `DRYING`, `DRY` a `PACKAGED` proto používají prázdný květináč a štítek „VE SKLADU“; obraz sklizené rostliny se nevrací ani během sušení. Odstraněnou spodní kartu vybrané rostliny nahrazuje neinteraktivní výstavní dok pro budoucí kosmetiku a mazlíka. Péče zůstává na obrazovce Rostliny a vedle ní je samostatné hráčské Nastavení s transparentním PNG ozubeným kolečkem. Modal používá titul „NASTAVENÍ HRÁČE“ a zachovává dosavadní bezpečné volby zvuku, vibrací a omezení pohybu.
+
+Save schema zůstává 39, protože se nemění autoritativní herní data. Úplná validace `.godot/validation/20260822-155002Z` prošla `MVP_TESTS_PASSED=1390`, capture, visuals i full stavem `PASSED`; všech 14 aktivních obrazových bran je zelených. Dva historické efektové případy maskují jen záměrně proměněný spodní 10% dok, zatímco nové rozložení a sklizené sloty kryjí report-only důkazy. Schválené reference, cropy a tolerance se nezměnily.
+
+Release automatizace `.godot/automation/20260822-155609Z` a kandidát `.godot/release-candidate/20260822-155610Z` prošly výkonem (CPU p95 14,567 ms, frame p95 16,710 ms, 476 draw calls, 86,57 MiB), endurance 48/48 se sedmi roundtripy a nulovým růstem uzlů/orphanů/zdrojů, progression 132/132 s 27 roundtripy, responsive 8/8, exportem, podpisem APK v2, entry scanem i payloadem. Závěrečný Quick po dokumentaci `.godot/automation/20260822-160608Z` znovu potvrdil regression i technickou bránu `PASSED`. Immutable RC50 `0.62.0-rc50` / code 67 / schema 39 má 110 260 465 B a SHA-256 `C7227D3FC8ACE61CEB214EF1F83B4BAEE3BE5402F564D013E8031D49CEAFE14D`; alias je shodný a RC49 zůstal immutable. Fyzický audit `.godot/android-device-audit/20260822-162951Z` potvrdil přesnou instalaci, 11 platných runtime vzorků, 100 % času v popředí, nulové fatální nálezy a zachovaný save schema 39 → 39. Technická Android brána je `PASSED`, lidské hodnocení zůstává `PENDING_SINGLE_HUMAN_BATCH`. Přesný rozsah popisuje `docs/PHASE125_RACK_CLEANUP_AND_PLAYER_SETTINGS.md`.
+
+## Fáze 126 — sjednocená vizuální kamera zahrady
+
+`GardenSceneFraming` je jediný zdroj geometrie pro cover-crop, titulní pás a metadata tří domácích lokací. Referenční obsah 432 × 780 odděluje navigační oblast, hlavní hero scénu a spodní doplňkový prostor. Pokoj mapuje všech osm rostlin, osm pevných dekorací a šest budoucích úspěchů ze souřadnic nového pozadí 887 × 1774, takže objekty zůstávají na policích i při změně poměru stran. Transparentní 64px cíle se na úzkém povrchu omezí dovnitř bez posunu kresby.
+
+Nový `assets/ui/player_room/player_room_interior_phase126.png` používá blízký čelní záběr se čtyřpolicovým stojanem 2 × 4 a vitrínou 3 × 2. Je to nový verzovaný runtime asset; původní phase123 PNG zůstává beze změny. Všechny nákupy, společná peněženka, kosmetická povaha, živé okno, kočičí kout i save schema 39 jsou beze změny.
+
+Finální validace `.godot/validation/20260822-171510Z` prošla 1 394/1 394 kontrolami, capture, visuals i úplným stavem `PASSED`; všech 14 schválených bran zůstalo zelených bez změny referencí, cropů, masek nebo tolerancí. Nové pokojové obrazy jsou report-only. Release `.godot/release-candidate/20260822-171510Z` prošel výkonem (CPU p95 10,187 ms, frame p95 16,738 ms, 476 draw calls, 86,65 MiB), endurance 48/48, progression 132/132, responsive 9/9, exportem, podpisem a payloadem. Immutable RC51 má 111 812 793 B a SHA-256 `6B48C70E4A80B369E83EF50121760A1F598088D933F1CE499EFD73B17211410F`; RC50 zůstalo nedotčené a nainstalované. Technická lokální brána je `PASSED`, fyzická Android brána a lidské vizuální potvrzení jsou `PENDING`, publikování `OUT_OF_SCOPE_BY_USER`. Přesný rozsah popisuje `docs/PHASE126_GARDEN_VISUAL_CAMERA.md`.
+
+## Fáze 127 — finální vizuální systém
+
+`VisualDesignSystem` je povinný zdroj pravdy pro vizuální tokeny, scénové profily a runtime assety. Každý PNG pod `assets` musí patřit do jedné ze šesti rodin; aktivní pokojové dekorace, skleníkové záhony, plodiny, ikony a stavový štítek mají navíc explicitní designovou velikost, pivot, vrstvu a případný zdrojový výřez. Nový obsah proto nesmí odvozovat rozměr ani pozici přímo z náhodných pixelových rozměrů souboru. `tools/run_visual_contract_audit.ps1` tuto podmínku vynucuje před Quick, Full i release během.
+
+Pokoj používá 16 profilovaných dekorací ze samostatných transparentních výřezů; skleník profilované vyvýšené záhony, sazenice, pět plodin, stavové ikony a dřevěný stavový štítek. Zdrojová pozadí i starší PNG zůstávají beze změny. Deterministický splitter ukládá manifesty a SHA-256 zdrojových atlasů, takže lze nové sady reprodukovat bez tiché úpravy originálu.
+
+Quick `.godot/automation/20260822-193623Z` a release `.godot/release-candidate/20260822-193734Z` prošly 1 400/1 400 kontrolami, 32 explicitními profily, klasifikací 241/241 PNG, nulovým počtem neprofilovaných assetů, všemi 14 schválenými obrazovými branami, responsive 9/9, výkonem, endurance 48/48, progression 132/132, exportem, podpisem a payloadem. Immutable RC53 má 119 704 601 B a SHA-256 `1224BFB7BF54CBFA866E99914A9D19ADADB712FDDB1C1DE9477608B964104131`; fyzický audit `.godot/android-device-audit/20260822-194103Z` potvrdil přesnou instalaci, 11/11 foreground vzorků, nulové fatální nálezy a save 39 → 39. Technická brána je `PASSED`, lidské vizuální potvrzení `PENDING_SINGLE_HUMAN_BATCH` a publikování `OUT_OF_SCOPE_BY_USER`. Přesný rozsah popisuje `docs/PHASE127_FINAL_VISUAL_SYSTEM.md`.
+
+## Fáze 135 — referenční pokojový sprite set
+
+Pokojový stojan je nový verzovaný environment plate 887 × 1774 se čtyřmi prázdnými dřevěnými policemi. Osm aktivních pokojovek je osm samostatných RGBA v jednom výtvarném jazyce: čitelný tmavý obrys, teplé světlo zleva nahoře, vlastní keramický květináč, vlastní podmiska a připojené uzemnění. Runtime stále obsluhuje 12 kosmetických rostlinných míst 3 × 4, takže rostliny nejsou zapečené do pozadí a nákup i přesouvání zůstávají funkční. Obrazovka Rostliny, ekonomika, schema 40 a původní PNG se nemění.
+
+Úplná validace `.godot/validation/20260823-101228Z` prošla 1 433/1 433 kontrolami, capture, visuals i full stavem `PASSED`. Quick `.godot/automation/20260823-101219Z` prošel všemi technickými kroky, responsive `.godot/responsive/20260823-101525Z` má 9/9 a visual contract `.godot/visual-contract/20260823-101219Z` eviduje 257 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG. Jde o source-only změnu; immutable RC53 zůstává autoritativní APK a mobilní lidská kontrola Phase 135 je `PENDING_SINGLE_HUMAN_BATCH`. Přesný rozsah a reprodukční prompt set jsou v `docs/PHASE135_ROOM_REFERENCE_REGRAPH.md`.
+
+## Fáze 136 — výraznější pokojovky podle reference B
+
+Referenční obrázek B je použitý pouze jako měřítko poměru a ukotvení. Pokoj dál obsahuje tři čistě kosmetické pokojovky na každé ze čtyř polic; nepřebírá popisky, stavové ikony ani růstové fáze. Aktivní profily odřezávají pouze průhlednou rezervu zdrojových RGBA přes `source_uv`, zvětšují maximální šířku na 70 px a používají řádkové obálky 88 / 82 / 80 / 76 px. Tím koruny a květináče vyplní polici výrazněji, ale zůstanou v bezpečných sloupcích a pod hranou vyšší police. Zdrojové Phase 135 PNG jsou beze změny.
+
+Úplná validace `.godot/validation/20260823-103818Z` prošla 1 436/1 436 kontrolami, capture, visuals i full stavem `PASSED`. Responsive `.godot/responsive/20260823-103756Z` má 9/9, visual contract `.godot/visual-contract/20260823-104042Z` eviduje 257 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG a Quick `.godot/automation/20260823-104102Z` prošel všemi technickými kroky. Report-only snímek `comic-phase136-player-room-shelf-prominence.png` byl ručně zkontrolovaný. Jde o source-only změnu; immutable RC53 zůstává autoritativní APK a mobilní lidská kontrola Phase 136 je `PENDING_SINGLE_HUMAN_BATCH`. Přesný rozsah popisuje `docs/PHASE136_ROOM_SHELF_PROMINENCE.md`.
+
+## Fáze 137 — schválená integrovaná sada pokojovek
+
+Osm nových verzovaných RGBA převádí schválený obrazový cíl do aktivní dynamické mřížky pokoje. Každý sprite je výtvarně i fyzicky jediný objekt: rostlina, hlína, keramický květináč, vlastní širší podmiska a kontaktní stín. Společné horní levé světlo, tmavý komiksový obrys, bezpečný alpha crop a spodní pivot sjednocují assety s dřevěným stojanem. Tři sloty na každé ze čtyř polic nadále zůstávají nakupovatelné a přesouvatelné; nejde o zapečenou kresbu pozadí.
+
+Úplná validace `.godot/validation/20260823-113059Z` prošla 1 440/1 440 kontrolami, capture, visuals i full stavem `PASSED`. Responsive `.godot/responsive/20260823-113035Z` má 9/9, visual contract `.godot/visual-contract/20260823-113321Z` eviduje 265 profilovaných PNG, 0 neprofilovaných a 123 runtime PNG a automatizace `.godot/automation/20260823-113341Z` prošla všemi technickými kroky. Report-only snímek `comic-phase137-player-room-integrated-shelf-set.png` byl ručně zkontrolovaný v plném záběru. Starší PNG, obrazovka Rostliny a immutable RC53 zůstávají nedotčené; nový APK nevznikl a mobilní lidská kontrola Phase 137 je `PENDING_SINGLE_HUMAN_BATCH`. Přesný rozsah a reprodukční prompt jsou v `docs/PHASE137_APPROVED_INTEGRATED_SHELF_SET.md`.
+
+## Fáze 138 — RC54 Android handoff
+
+Schválený Phase 137 pokoj je zabalený v nové immutable identitě `0.65.0-rc54` / Android code 71 / save schema 40. Opravený payload skener rozlišuje skutečnou kanonickou `res://` cestu od regex literálu, který původně bezpečně zastavil první exportní pokus před instalací. Historické RC53 a starší APK zůstaly beze změny.
+
+Finální orchestrace `.godot/automation/20260823-115501Z` a release `.godot/release-candidate/20260823-115502Z` prošly 1 440/1 440 kontrolami, visual contractem 265/265, obrazovými branami, výkonem, endurance 48/48, progression 132/132, responsive 9/9, exportem, podpisem APK v2 i payloadem. Immutable APK má 150 226 188 B a SHA-256 `31373DA90973A2F131A9A5177BA8D9B958F8767B13BED5493015EC1FE19A23E5`.
+
+Audit `.godot/android-device-audit/20260823-115900Z` potvrdil přesnou instalaci na Xiaomi, shodný hash, save 39 → 40, zachované stabilní hodnoty, 11/11 platných vzorků, 100 % času v popředí a nulový crash/ANR nález. Technická Android brána je `PASSED`; telefon se po auditu zamkl a hráčovo subjektivní vizuální potvrzení zůstává `PENDING_SINGLE_HUMAN_BATCH`. Přesný rozsah popisuje `docs/PHASE138_RC54_ANDROID_HANDOFF.md`.

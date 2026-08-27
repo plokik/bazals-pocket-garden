@@ -1,0 +1,347 @@
+{
+  "contract": "phase127_greenhouse_atlas_v1",
+  "source": "greenhouse_atlas_v1.png",
+  "source_size": [
+    1224,
+    1285
+  ],
+  "source_sha256": "F4F80D5A121978F6FF71B6BA94F6BDD098051C601D096335DF2C483A8994DA6A",
+  "sprites": [
+    {
+      "id": "greenhouse_bed_empty",
+      "source_region": [
+        0,
+        0,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        78,
+        306,
+        321
+      ],
+      "output": "greenhouse_bed_empty_v1.png",
+      "size": [
+        330,
+        267
+      ],
+      "sha256": "9861E35C3BD7F875EB3F750BDAD4C0574AC48FB02212190C5261DAD17352CA6E"
+    },
+    {
+      "id": "greenhouse_bed_watered",
+      "source_region": [
+        306,
+        0,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        78,
+        306,
+        307
+      ],
+      "output": "greenhouse_bed_watered_v1.png",
+      "size": [
+        330,
+        253
+      ],
+      "sha256": "AE13D374061B47AE9FAFFAFDB37F5B8E25B2DA9B5E6966A502CE8C648F74253A"
+    },
+    {
+      "id": "greenhouse_bed_locked",
+      "source_region": [
+        612,
+        0,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        47,
+        306,
+        317
+      ],
+      "output": "greenhouse_bed_locked_v1.png",
+      "size": [
+        330,
+        294
+      ],
+      "sha256": "D065ACEB95D6E8A6BA5F1E0C8AA8261907FA7F182F73F906F5263FE0C4F00CC7"
+    },
+    {
+      "id": "greenhouse_bed_selected",
+      "source_region": [
+        918,
+        0,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        41,
+        306,
+        321
+      ],
+      "output": "greenhouse_bed_selected_v1.png",
+      "size": [
+        330,
+        304
+      ],
+      "sha256": "74B7C9C26DB6AA528CAA42F673C49160DCBFCDFAC20E433AF731F1785D2A8377"
+    },
+    {
+      "id": "greenhouse_crop_seedlings",
+      "source_region": [
+        0,
+        321,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        1,
+        296,
+        321
+      ],
+      "output": "greenhouse_crop_seedlings_v1.png",
+      "size": [
+        322,
+        346
+      ],
+      "sha256": "BF0F6FF1A745C9FD26B3CD1DC04D67BDB0596BA7C12056C2B6BAA62AA5CEE51E"
+    },
+    {
+      "id": "greenhouse_crop_tomato",
+      "source_region": [
+        306,
+        321,
+        306,
+        321
+      ],
+      "trim_region": [
+        7,
+        17,
+        302,
+        321
+      ],
+      "output": "greenhouse_crop_tomato_v1.png",
+      "size": [
+        319,
+        328
+      ],
+      "sha256": "833A7B2B895E01DC9987DB264F759EEA3AA04000033915E88FAA941C5892287A"
+    },
+    {
+      "id": "greenhouse_crop_pepper",
+      "source_region": [
+        612,
+        321,
+        306,
+        321
+      ],
+      "trim_region": [
+        5,
+        3,
+        294,
+        304
+      ],
+      "output": "greenhouse_crop_pepper_v1.png",
+      "size": [
+        313,
+        325
+      ],
+      "sha256": "3E9E691A4AC7E506308C0BFD7D2D4DB31E99428353AF445072A49B5EBD52FD3F"
+    },
+    {
+      "id": "greenhouse_crop_radish",
+      "source_region": [
+        918,
+        321,
+        306,
+        321
+      ],
+      "trim_region": [
+        1,
+        23,
+        290,
+        305
+      ],
+      "output": "greenhouse_crop_radish_v1.png",
+      "size": [
+        313,
+        306
+      ],
+      "sha256": "33C4D7A570D84506A6A3F9DBFB636C59AA3430A40E0E4792E29FCFBA1C0DB0BB"
+    },
+    {
+      "id": "greenhouse_crop_cucumber",
+      "source_region": [
+        0,
+        642,
+        306,
+        322
+      ],
+      "trim_region": [
+        0,
+        0,
+        306,
+        322
+      ],
+      "output": "greenhouse_crop_cucumber_v1.png",
+      "size": [
+        332,
+        348
+      ],
+      "sha256": "899ADECAB2A4C640D8042D116FAF69E001E60E59E640978230C30663F45A3056"
+    },
+    {
+      "id": "greenhouse_crop_eggplant",
+      "source_region": [
+        306,
+        642,
+        306,
+        322
+      ],
+      "trim_region": [
+        0,
+        0,
+        306,
+        322
+      ],
+      "output": "greenhouse_crop_eggplant_v1.png",
+      "size": [
+        332,
+        348
+      ],
+      "sha256": "C7E77DCCF7045F05A3EE01B763BCD7602FEFDAE23613EA604BBEF03AA072816B"
+    },
+    {
+      "id": "greenhouse_status_water",
+      "source_region": [
+        612,
+        642,
+        306,
+        322
+      ],
+      "trim_region": [
+        0,
+        17,
+        290,
+        316
+      ],
+      "output": "greenhouse_status_water_v1.png",
+      "size": [
+        314,
+        323
+      ],
+      "sha256": "0BAF125EE290004FC0E9C713DBDB82F9F2F9E4C3E16E74EC20D4ABB31A24C0EA"
+    },
+    {
+      "id": "greenhouse_status_ready",
+      "source_region": [
+        918,
+        642,
+        306,
+        322
+      ],
+      "trim_region": [
+        23,
+        3,
+        274,
+        322
+      ],
+      "output": "greenhouse_status_ready_v1.png",
+      "size": [
+        277,
+        345
+      ],
+      "sha256": "995ED6AAD01A699A30CE535FEEB926199F436CFBF296745811AE4AC6926831D2"
+    },
+    {
+      "id": "greenhouse_soil_wet",
+      "source_region": [
+        0,
+        964,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        0,
+        306,
+        321
+      ],
+      "output": "greenhouse_soil_wet_v1.png",
+      "size": [
+        332,
+        347
+      ],
+      "sha256": "5259C629D9F5B3AAF546DE4B57E4D51C09899F56C073CE816A712527DC848DA6"
+    },
+    {
+      "id": "greenhouse_status_plaque",
+      "source_region": [
+        306,
+        964,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        1,
+        306,
+        299
+      ],
+      "output": "greenhouse_status_plaque_v1.png",
+      "size": [
+        330,
+        322
+      ],
+      "sha256": "B737A413E69F0C193B191AC682A1C61FE3FA1C95D9868C25F4C80BFCB40FEEAD"
+    },
+    {
+      "id": "greenhouse_progress_fill",
+      "source_region": [
+        612,
+        964,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        7,
+        306,
+        321
+      ],
+      "output": "greenhouse_progress_fill_v1.png",
+      "size": [
+        332,
+        340
+      ],
+      "sha256": "E667CD0113A0A49F54E84BAE0A75BB6A2F152CD45A6E9A624BA387CE7A636D16"
+    },
+    {
+      "id": "greenhouse_order_crate",
+      "source_region": [
+        918,
+        964,
+        306,
+        321
+      ],
+      "trim_region": [
+        0,
+        0,
+        290,
+        321
+      ],
+      "output": "greenhouse_order_crate_v1.png",
+      "size": [
+        316,
+        347
+      ],
+      "sha256": "4CCDE4C5761667CFE1AC922F59B02DECEBB3ED3545FCDEAACD5BA92148AD46F5"
+    }
+  ]
+}

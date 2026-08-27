@@ -203,14 +203,18 @@ func _on_clear_pressed() -> void:
 
 
 func _is_slot_valid() -> bool:
-	return session != null and target_slot_index >= 0 and target_slot_index < 5
+	return session != null and target_slot_index >= 0 and target_slot_index < GameSession.ROOM_DECORATION_SLOT_COUNT
 
 
 func _refresh_slot_context() -> void:
 	if not _is_slot_valid():
 		slot_title_label.text = "Místo pokoje: neplatné"
 	else:
-		slot_title_label.text = "Místo pokoje: %d / 5" % (target_slot_index + 1)
+		slot_title_label.text = "%s · MÍSTO %d / %d" % [
+			session.get_room_decoration_slot_label(target_slot_index),
+			target_slot_index + 1,
+			GameSession.ROOM_DECORATION_SLOT_COUNT,
+		]
 
 
 func _refresh_decoration_list() -> void:
@@ -243,7 +247,7 @@ func _refresh_decoration_list() -> void:
 		list_root.add_child(missing_state)
 		return
 
-	var decoration_ids := session.get_room_decoration_ids()
+	var decoration_ids := session.get_room_decoration_ids_for_slot(target_slot_index)
 	for decoration_id in decoration_ids:
 		var card := _build_decoration_card(str(decoration_id))
 		list_root.add_child(card)
@@ -431,6 +435,8 @@ func _format_state_text(state: Dictionary) -> String:
 			return "Chybí mince."
 		"unknown":
 			return "Neznámý stav."
+		"incompatible_slot":
+			return "Tato dekorace patří na jiné místo."
 		_:
 			return "Tuto dekoraci teď nelze použít."
 

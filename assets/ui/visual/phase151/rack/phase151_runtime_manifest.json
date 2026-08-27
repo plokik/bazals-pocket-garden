@@ -1,0 +1,555 @@
+{
+  "schema": "phase151_dynamic_rack_detail_assets_v1",
+  "runtime_set": "phase151_rack_dynamic_painted_v1",
+  "approved_references": {
+    "rack": {
+      "path": "res://docs/visual-proposals/phase151/user-approved-painted-rack-screen-v1.png",
+      "sha256": "7540369ad83e2dcb0a707052c649e8c0e919d621086b970985ea891eff02697c"
+    },
+    "detail": {
+      "path": "res://docs/visual-proposals/phase151/user-approved-painted-detail-screen-v1.png",
+      "sha256": "599283f38afd50cfc6d121613f9687e15707cdf56ed1de6fe743765727bcafde"
+    }
+  },
+  "source_policy": "source_png_bytes_immutable_import_sidecars_mipmaps_only_v1",
+  "species_count": 11,
+  "states_per_species": 6,
+  "stage_texture_count": 66,
+  "mipmapped_import_count": 68,
+  "locked_slot_asset": {
+    "path": "res://assets/ui/visual/phase151/rack/rack_locked_cylinder_phase151_v1.png",
+    "sha256": "2bfef1216cb102d9e7c19e801dae52060edd3875e674a7eab45ca941c29b4fe3",
+    "width": 1024,
+    "height": 1536
+  },
+  "stage_textures": [
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "seed",
+      "path": "res://assets/plants/comic/chives_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "11eec0349106300bc1e5a7951e33eb7a0dc4eb73223ec4a1fdd49ccca1990d98"
+    },
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/chives_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "1ede26e9fc52e86f2090f5fee853dbbfc86f899e91b5b978709421050e095ecf"
+    },
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "young",
+      "path": "res://assets/plants/comic/chives_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "ab1baca8fb74ac7fb9f1269b869899d5270e59df1ea82adfe54e70fb4248253b"
+    },
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "mature",
+      "path": "res://assets/plants/comic/chives_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c3bc6216752d6131b1ad2c95cd00bb36c86181bc2401c844408db5680b8ebc9c"
+    },
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "sick",
+      "path": "res://assets/plants/comic/chives_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "e3c1df06c355672153a682f29c90930884d98029bad3c50b8e74feb0b2b783c9"
+    },
+    {
+      "species_id": "allium_schoenoprasum",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/chives_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c5d4acadfba9c2179c0737d7eab41f90ab13ee78de56fd8cbc3938d2163d8b86"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "seed",
+      "path": "res://assets/plants/comic/basil_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "58cde2d49d3c6a97c71c60cb6ffe074647802679d90233899a064e12c98d535f"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/basil_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "9643dac51dd991919c32f454bd518ffbf992eaf399fe4cdb74f3ab14b1032f01"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "young",
+      "path": "res://assets/plants/comic/basil_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "b8e51915f263153b8260c95ed4618d368f080be56be376992fbf34272190312b"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "mature",
+      "path": "res://assets/plants/comic/basil_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "414b6d54877f4dc54976d8fe39f912bc3c22bfbb48cc4ca4c5123e0c998692e9"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "sick",
+      "path": "res://assets/plants/comic/basil_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "fe097d8b90ae6d62c1d7b8e864dc31f209131fc8ee080044d5eab28caea8c7cb"
+    },
+    {
+      "species_id": "basil_genovese",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/basil_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "f4d22a020384f4e2c7fbc69639f63fa5d1cb8ec0ae221001fa7fb549bc673f3d"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "seed",
+      "path": "res://assets/plants/comic/lavender_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "18567a3dfea360ff94259954eeeab199aeb6a2e14ff0103a28b2842a3d45ba11"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/lavender_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "dadc8ab5a3e1771b2df69cdbea2754d4ea9ced49b3dec111350afa0330b0f388"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "young",
+      "path": "res://assets/plants/comic/lavender_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "84e4f4eb61e477ec9a725ab91d4a845fcf677a454c90e97ed4cd389d960da6fb"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "mature",
+      "path": "res://assets/plants/comic/lavender_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "cc6fa850602bbcbf207bc3dcca38616ef1831165225372f921bbbb15cfcd4031"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "sick",
+      "path": "res://assets/plants/comic/lavender_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c4e7a0c2f2eae19ab8be55627e8a59c5212b8c676a038fd401561a5b527b4d64"
+    },
+    {
+      "species_id": "lavandula_angustifolia",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/lavender_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "5a8056dfbdcf4b7e2b448881c753f9cafce245059232e05eb9601a91ffb754c0"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "seed",
+      "path": "res://assets/plants/comic/lemon_balm_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "fac879b059950f0f28af08bfe4f4bb757c83779f1c6b30de732f5906f18aa1d3"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/lemon_balm_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "4637c20aa128f58f9af6425808d14911daaa3d60a3d9793966cd2cb1d933bdb9"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "young",
+      "path": "res://assets/plants/comic/lemon_balm_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "62608698e20b5d8fea3120ff75fa05a7c0f2d580808a214828cd8565b096c0d0"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "mature",
+      "path": "res://assets/plants/comic/lemon_balm_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "39014fd0762947f6074acf37b3b6b1a3d367ba8a3bef12c3ab9d24cc29a359a4"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "sick",
+      "path": "res://assets/plants/comic/lemon_balm_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "cbaebff77b05dff68b7433d53354f6ee2e0e4816b8f122f0ce9d120a51c6ffae"
+    },
+    {
+      "species_id": "melissa_officinalis",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/lemon_balm_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "dbe9e26c7cb582009f0f83ff8cd50d8e04ff1c4953067b54dc711c685206058b"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "seed",
+      "path": "res://assets/plants/comic/mint_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "1d3aee8c18f55e72c66e8265c7c663451b4508194bcb4dabd811f1f0a05ca3eb"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/mint_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "0591dd345dcd09f41ce390d1bdbe13b874a1f26efa27da72834c7ec9e35bcc10"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "young",
+      "path": "res://assets/plants/comic/mint_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "e79f3711e042d995c3a69f8ce432597a20839291976d3402ec3b9e6cce58cf4e"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "mature",
+      "path": "res://assets/plants/comic/mint_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "5758ac8cf3f3d2b367c9d3fafde5f1607e4b40b6383b1713743f942d5d45650c"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "sick",
+      "path": "res://assets/plants/comic/mint_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "913bc5b3d2aebf9c56a3d1d91e7194548d324861a5586ca2beec11381a65ea9f"
+    },
+    {
+      "species_id": "mint_peppermint",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/mint_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "f7013c30887aacbe4bb88d0de8048331aa120431d16167cf66a36c8822c8124c"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "seed",
+      "path": "res://assets/plants/comic/oregano_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "1225cfd8164b568d2eeec9cc3ffb4a3333a3711e40c7fb276a4f52da92c17335"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/oregano_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "4bbe626eb05ace0d54bebe915397f3edd7eb4761b6bfd9f8a5b1705cc6f76966"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "young",
+      "path": "res://assets/plants/comic/oregano_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "a250a14d5fdf9b7a8be53e04bd473ce649dcb52b406539bcd545077a8465063c"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "mature",
+      "path": "res://assets/plants/comic/oregano_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "364c86c19761ad46cdee4a8770655c3f6487afa313e767025e36cdc19643a71b"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "sick",
+      "path": "res://assets/plants/comic/oregano_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "1a583407dfc3d2d61ae12c0dfb591d4d67baa6911247bb39e9a193620b1503f9"
+    },
+    {
+      "species_id": "oregano_vulgare",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/oregano_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "b8888d2fe1ef5ad15bd3dcfb8a6a314de59f8a73a7cd285999cfc3811e908e72"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "seed",
+      "path": "res://assets/plants/comic/marjoram_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "5008e4de0ad51aa3274d0b3f43598641becaee3598eeba7a4e6aa5850887eb24"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/marjoram_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "67d2ed5aeeeb02d0ba33322f6d5c697ad2fb955f61f9adecc29af1e9e7b2449c"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "young",
+      "path": "res://assets/plants/comic/marjoram_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "61909ca61a2591d1da1d06e3867d05bcc683f1d8291ba96d87ccf7dff046ee0c"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "mature",
+      "path": "res://assets/plants/comic/marjoram_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c06f8c87abcbadc291134fd01cca150ffb7880521799bb16d51280945ce86db0"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "sick",
+      "path": "res://assets/plants/comic/marjoram_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "89fd424fce5795a1379f1cecce6580c21d2df8e0565e3e9226eedfe9b9707601"
+    },
+    {
+      "species_id": "origanum_majorana",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/marjoram_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "2ae89165661092380ce2950900f9feaa025c12ae2293a78057e1ad828a77433c"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "seed",
+      "path": "res://assets/plants/comic/parsley_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "79a899b57594b13db80063e950548690cc6698b95bfe92b3d937948cfc7388b0"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/parsley_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "84cfdef7c71f29dd493e0a44ab273dce8069cf8c27dc135afefdefe016735bce"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "young",
+      "path": "res://assets/plants/comic/parsley_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "a0a29ac1d75b0457450526b923b5d056cc02d59ef04c08dd157e4205e81bb9ce"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "mature",
+      "path": "res://assets/plants/comic/parsley_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "a3837f42a3bd53d13fe617cdef0ae2aba221992360002c19508df0007597af87"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "sick",
+      "path": "res://assets/plants/comic/parsley_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c97faf17b0fc02679a2ac7515ced22f99843845502fc0267bc757c18690e47c1"
+    },
+    {
+      "species_id": "petroselinum_crispum",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/parsley_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c9f734a60db26d73a6ebfc658a3ce094fd43d68da6505c375d3a06033d52e21a"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "seed",
+      "path": "res://assets/plants/comic/rosemary_seed_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "a79945b93082dfa1b330f1a221af7fc1fb5f76b655b42e6dc28162a61b3a8f43"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/rosemary_sprout_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "43e4e006c9c9e288999c2321a95307fc0a4e7b31a5ba6fcf7223b9d2d2edf528"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "young",
+      "path": "res://assets/plants/comic/rosemary_young_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "1c54501af1ddda21a45255c0e4bce0c42911d1ce8b3174116948c2f67e45ab76"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "mature",
+      "path": "res://assets/plants/comic/rosemary_mature_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "9e75a5a605dde4272ecf1221235800aa96dbc74b395f518bae184aaea773bdaf"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "sick",
+      "path": "res://assets/plants/comic/rosemary_sick_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "14756f31d6ecef3abba3a518fbaa2af7d78fb40ce24af5fdcb957a6369508247"
+    },
+    {
+      "species_id": "rosemary_officinalis",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/rosemary_harvest_ready_v2.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "4c8c900893d7fa2838a45639dbf624b39c223ae19604982ddb3448825329c58b"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "seed",
+      "path": "res://assets/plants/comic/sage_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "8a4435a29d5adf9b8598ed05ef18cc89818e847102aaf64b59e93fbc59b85737"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/sage_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "538ed763d85954f4150d3d5cdd7a3e94f371639b3ae546b524b59931f8faf255"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "young",
+      "path": "res://assets/plants/comic/sage_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "d126824dd392d37ac0cbd8817228c2d3ee443a4bcd91ada4764c2f6e66ca6eeb"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "mature",
+      "path": "res://assets/plants/comic/sage_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "b7a17a7a8eaeefde0922c10449a39e1c85d6b510aede0c7cc7eca45767691375"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "sick",
+      "path": "res://assets/plants/comic/sage_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "c6b28a0d3a15a577989a132aed7bd76ced3f92765b674d51c7374be8413e52a7"
+    },
+    {
+      "species_id": "salvia_officinalis",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/sage_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "d10b6b69e10d2a248f24c38200c62c5eef3277af5662210e1b337cd4c810edce"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "seed",
+      "path": "res://assets/plants/comic/thyme_seed_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "a2cc7e7602ea2eb6cb586d5bec2d080aa113ee9f1bb3947195076ef5e2241e20"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "sprout",
+      "path": "res://assets/plants/comic/thyme_sprout_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "0e1255ad58c1c27b5a72e8c0ae99db5812c10bc4ac39ea0ef1ab4e0fa54f3b02"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "young",
+      "path": "res://assets/plants/comic/thyme_young_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "0ef6da1a03d958b86dbef6fe78ef44f87f8baa63981ed24e206df59ab17f766c"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "mature",
+      "path": "res://assets/plants/comic/thyme_mature_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "25b8668c8bc523597118c64a2294e7118c4af6519f9f6a9965b6737ca719570a"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "sick",
+      "path": "res://assets/plants/comic/thyme_sick_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "feba0a3714fc7e04903952bed7502877ed262a53e5a9e17b9186e46263b059fb"
+    },
+    {
+      "species_id": "thymus_vulgaris",
+      "state": "harvest_ready",
+      "path": "res://assets/plants/comic/thyme_harvest_ready_v1.png",
+      "width": 570,
+      "height": 640,
+      "source_sha256": "29e799d1ec45e33d823df81b53091fb531ec4ecbad3cd1bab7e67f18e6aad08b"
+    }
+  ]
+}

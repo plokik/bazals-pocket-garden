@@ -1,0 +1,49 @@
+{
+  "schema": "phase163_approved_rack_overlay_assets_v1",
+  "approved_reference": {
+    "path": "res://docs/visual-proposals/phase163/user-approved-locked-planter-rack-screen-v1.png",
+    "sha256": "bd906524ed677fb996098578e3efbed3f19c797ac8078cbc8c7db86aeb1bc349",
+    "size": [
+      872,
+      1804
+    ],
+    "acceptance": "APPROVED_BY_USER_20260826"
+  },
+  "runtime_policy": "single_master_asset_reused_for_every_locked_slot_v1",
+  "locked_planter": {
+    "path": "res://assets/ui/visual/phase163/rack/rack_locked_planter_phase163_v1.png",
+    "sha256": "9c362af2fdbf6c32d818ca174692db60d2b806d579ec3ed80578b99addc43706",
+    "size": [
+      137,
+      166
+    ],
+    "source_rect": [
+      356,
+      735,
+      486,
+      910
+    ],
+    "source_rgb_policy": "approved_reference_rgb_preserved_alpha_only_v1",
+    "alpha_nonzero_pixels": 15545,
+    "alpha_partial_pixels": 1126,
+    "border_alpha_max": 0
+  },
+  "grow_light": {
+    "path": "res://assets/ui/visual/phase163/rack/rack_grow_light_phase163_v1.png",
+    "sha256": "fda5b231de47ab419f67843dacc2b2a985a866456b4f2c90e50788d470810764",
+    "size": [
+      108,
+      49
+    ],
+    "source_rect": [
+      112,
+      600,
+      212,
+      668
+    ],
+    "source_rgb_policy": "approved_reference_rgb_preserved_alpha_only_v1",
+    "alpha_nonzero_pixels": 2994,
+    "alpha_partial_pixels": 525,
+    "border_alpha_max": 0
+  }
+}

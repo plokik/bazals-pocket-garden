@@ -2,10 +2,13 @@ class_name PlantRoomOverview
 extends Control
 
 signal slot_selected(index: int)
-signal care_center_requested
 
 const RoomTexture := preload("res://assets/backgrounds/comic_room_rack_v1.png")
+const GardenSceneFraming := preload("res://scripts/ui/garden_scene_framing.gd")
+const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
+const Phase163LockedPlanterTexture := preload("res://assets/ui/visual/phase163/rack/rack_locked_planter_phase163_v1.png")
+const Phase163GrowLightTexture := preload("res://assets/ui/visual/phase163/rack/rack_grow_light_phase163_v1.png")
 const PlantPresentationCatalogScene := preload("res://scripts/plant_presentation_catalog.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
@@ -35,10 +38,13 @@ const COMIC_DEAD_BADGE_SHADOW := Color("#111426")
 const SOURCE_WIDTH := 941.0
 const GRID_SOURCE_WIDTH := 887.0
 const GRID_SOURCE_HEIGHT := 1420.0
-const SUMMARY_HEIGHT := 180.0
-const SUMMARY_SOURCE_SIZE := Vector2(941.0, 180.0)
-const SUMMARY_PROGRESS_TRACK := Rect2(191.0, 84.0, 398.0, 34.0)
-const SUMMARY_PROGRESS_INNER := Rect2(199.0, 91.0, 382.0, 22.0)
+const FUTURE_CONTENT_SOURCE_HEIGHT := 180.0
+const POST_HARVEST_RACK_STAGES := [
+	PlantSimulation.Stage.HARVESTED,
+	PlantSimulation.Stage.DRYING,
+	PlantSimulation.Stage.DRY,
+	PlantSimulation.Stage.PACKAGED,
+]
 const SLOT_SELECTION_DURATION := 0.34
 const LOCK_FEEDBACK_DURATION := 0.34
 const SLOT_UNLOCK_DURATION := 0.72
@@ -66,12 +72,13 @@ const LIGHT_SOURCE_STEP_X := SLOT_SOURCE_STEP_X
 const LIGHT_SOURCE_HEIGHT := 20.0
 const LIGHT_SOURCE_FIRST_Y := 482.0
 const LIGHT_SOURCE_SECOND_Y := 840.0
+const LOCKED_PLANTER_WIDTH_SCALE := 1.05
+const LOWER_FIXTURE_COVER_SOURCE_RECT := Rect2(69.0, 802.0, 749.0, 32.0)
+const LOWER_FIXTURE_COVER_DEST_RECT := Rect2(69.0, 832.0, 749.0, 42.0)
 
 var session: GameSession
 var slot_rects: Array[Rect2] = []
 var slot_layout_size := Vector2(-1.0, -1.0)
-var detail_rect := Rect2()
-var care_button_rect := Rect2()
 var animation_time := 0.0
 var ambient_redraw_accumulator := 0.0
 var animations_paused := false
@@ -88,61 +95,73 @@ var unlock_slot_index := -1
 var unlock_elapsed := 0.0
 var previous_unlocked_count := -1
 var displayed_unlocked_count := 0
-var displayed_growth_percent := 0.0
-var target_growth_percent := 0.0
-var growth_display_initialized := false
 var displayed_occupied_count := 0
-var displayed_care_attention_count := 0
 var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	set_meta("visual_source", "comic_room_phase_2_dynamic")
-	set_meta("summary_asset", "comic_code_drawn_v1")
+	set_meta("selected_growth_summary", "removed_phase125_future_content_space_v1")
+	set_meta("future_content_space", "reserved_display_dock_phase125_v1")
+	set_meta("future_content_hint", "cosmetics_and_pets_display_only_v1")
 	set_meta("edge_background", "full_width_frame_no_filler")
-	set_meta("growth_animation", "left_to_right_tween")
 	set_meta("slot_label_source", "comic_code_drawn_v1")
 	set_meta("grid_source", "comic_rack_fixed_grid_2x5_v1")
-	set_meta("locked_slot_asset", "comic_code_drawn_v1")
+	set_meta("locked_slot_asset", "rack_locked_planter_phase163_v1")
+	set_meta("grow_light_asset", "rack_grow_light_phase163_v1")
 	set_meta("room_asset", "comic_room_rack_v1")
 	set_meta("header_asset", "comic_code_drawn_v1")
 	set_meta("lighting", "optional_two_rows_five_weather_ready")
 	set_meta("geometry_set", "comic_room_887x1420_v1")
 	set_meta("light_geometry", "background_socket_aligned_segments")
-	set_meta("summary_progress_style", "comic_live_percent_v1")
-	set_meta("care_center_launcher", "selected_summary_button_v1")
-	set_meta("summary_icon_source", "profile_driven_catalog_v1")
+	set_meta("post_harvest_rack_visual", "empty_pot_storage_label_v1")
 	set_meta("ambient_motion", "window_dust_and_weather_tint_v1")
 	set_meta("lamp_policy", "manual_supplemental_light_day_night_cloud")
+	set_meta("visual_camera_component", GardenSceneFraming.CONTRACT_ID)
+	set_meta("phase127_visual_design_system", VisualDesignSystem.CONTRACT_ID)
+	set_meta("scene_visual_profile", str(VisualDesignSystem.scene_profile("rack").get("id", "")))
+	set_meta("asset_profile_policy", "explicit_profile_or_family_gate_v1")
+	set_meta("plant_asset_family", "gameplay_plant")
+	set_meta("visual_camera_reference_size", GardenSceneFraming.REFERENCE_CONTENT_SIZE)
+	set_meta("visual_camera_hero_band", GardenSceneFraming.HERO_BAND_REFERENCE)
+	set_meta("visual_camera_lower_band", GardenSceneFraming.LOWER_BAND_REFERENCE)
+	set_meta("primary_width_occupancy_target", GardenSceneFraming.PRIMARY_WIDTH_OCCUPANCY_TARGET)
+	set_meta("primary_height_occupancy_target", GardenSceneFraming.PRIMARY_HEIGHT_OCCUPANCY_TARGET)
 	set_meta("comic_vertical_slice", "profile_driven_catalog_v1")
 	set_meta("comic_mature_asset", "catalog:species_stage_texture")
 	set_meta("comic_plant_family", "profile_driven_catalog_v1")
 	set_meta("comic_plant_states", "seed,sprout,young,mature,sick,harvest_ready,empty")
 	set_meta("sprite_canvas", "570x640_bottom_center")
+	set_meta("phase151_visual_component", VisualDesignSystem.RACK_PHASE151_RUNTIME_SET_ID)
+	set_meta("phase151_scene_profile", VisualDesignSystem.RACK_PHASE151_SCENE_PROFILE_ID)
+	set_meta("phase151_reference_asset", VisualDesignSystem.RACK_PHASE151_TARGET_ASSET)
+	set_meta("phase151_dynamic_policy", "ten_live_slots_no_baked_game_state_v1")
+	set_meta("phase151_plant_grounding", "painted_saucer_contact_shadow_shelf_baseline_v1")
+	set_meta("phase151_locked_slot_policy", "superseded_by_phase163_compact_planter_v1")
+	set_meta("phase151_source_png_policy", "rgb_assets_unchanged_import_mipmaps_only_v1")
+	set_meta("phase163_visual_component", VisualDesignSystem.RACK_PHASE163_RUNTIME_SET_ID)
+	set_meta("phase163_reference_asset", VisualDesignSystem.RACK_PHASE163_TARGET_ASSET)
+	set_meta("phase163_locked_slot_policy", "single_approved_compact_planter_master_reused_all_slots_v1")
+	set_meta("phase163_grow_light_policy", "single_approved_brass_fixture_master_reused_all_sockets_v1")
+	set_meta("phase163_fixture_visibility_policy", "upper_row_always_lower_row_when_unlocked_v1")
+	set_meta("phase163_baked_fixture_cleanup", "same_background_wood_fascia_runtime_composite_v1")
+	set_meta("phase163_source_policy", "approved_reference_rgb_preserved_alpha_only_v1")
 	set_process(true)
 
 
 func set_session(value: GameSession) -> void:
 	session = value
 	if session != null:
-		target_growth_percent = session.plant.growth_percent
-		displayed_growth_percent = target_growth_percent
-		growth_display_initialized = true
 		previous_unlocked_count = session.get_unlocked_slot_count()
 		displayed_unlocked_count = previous_unlocked_count
 		displayed_occupied_count = session.get_occupied_count()
-		displayed_care_attention_count = session.get_care_attention_count()
 	queue_redraw()
 
 
 func refresh() -> void:
 	if session != null:
-		target_growth_percent = clampf(session.plant.growth_percent, 0.0, 100.0)
-		if not growth_display_initialized or target_growth_percent < displayed_growth_percent:
-			displayed_growth_percent = target_growth_percent
-			growth_display_initialized = true
 		var unlocked_count := session.get_unlocked_slot_count()
 		if previous_unlocked_count >= 0 and unlocked_count > previous_unlocked_count:
 			unlock_slot_index = unlocked_count - 1
@@ -150,7 +169,6 @@ func refresh() -> void:
 		previous_unlocked_count = unlocked_count
 		displayed_unlocked_count = unlocked_count
 		displayed_occupied_count = session.get_occupied_count()
-		displayed_care_attention_count = session.get_care_attention_count()
 	queue_redraw()
 
 
@@ -167,8 +185,6 @@ func set_paused(value: bool) -> void:
 func set_reduced_motion(value: bool) -> void:
 	reduced_motion = value
 	set_meta("reduced_motion", value)
-	if value:
-		displayed_growth_percent = target_growth_percent
 	queue_redraw()
 
 
@@ -205,10 +221,6 @@ func _process(delta: float) -> void:
 		if ambient_redraw_accumulator >= AMBIENT_REDRAW_INTERVAL:
 			ambient_redraw_accumulator = fmod(ambient_redraw_accumulator, AMBIENT_REDRAW_INTERVAL)
 			redraw_needed = true
-		if not is_equal_approx(displayed_growth_percent, target_growth_percent):
-			var distance := absf(target_growth_percent - displayed_growth_percent)
-			var speed := maxf(5.0, distance / 0.42)
-			displayed_growth_percent = move_toward(displayed_growth_percent, target_growth_percent, speed * delta)
 	var ui_delta := delta * (3.0 if reduced_motion else 1.0)
 	if selection_pending:
 		selection_elapsed += ui_delta
@@ -251,15 +263,6 @@ func _gui_input(event: InputEvent) -> void:
 			start_slot_selection(index)
 			accept_event()
 			return
-	if session != null and care_button_rect.has_point(position):
-		care_center_requested.emit()
-		accept_event()
-		return
-	if session != null and detail_rect.has_point(position):
-		slot_selected.emit(session.selected_plant_index)
-		accept_event()
-
-
 func start_slot_selection(index: int) -> void:
 	if index < 0 or index >= slot_rects.size():
 		return
@@ -277,9 +280,12 @@ func start_slot_selection(index: int) -> void:
 
 
 func _draw() -> void:
-	var summary_height := _summary_height()
-	var room_rect := Rect2(0.0, 0.0, size.x, maxf(1.0, size.y - summary_height))
+	var future_content_height := _future_content_height()
+	var room_rect := Rect2(0.0, 0.0, size.x, maxf(1.0, size.y - future_content_height))
 	draw_texture_rect(RoomTexture, room_rect, false)
+	_draw_phase163_baked_fixture_cleanup()
+	var future_content_rect := Rect2(0.0, room_rect.end.y, size.x, future_content_height)
+	_draw_future_content_space(future_content_rect)
 	_draw_room_atmosphere(room_rect)
 	_draw_cosmetic_atmosphere(room_rect)
 	_layout_slots()
@@ -295,10 +301,6 @@ func _draw() -> void:
 		_draw_slot_selection_animation()
 	if unlock_slot_index >= 0:
 		_draw_slot_unlock_animation()
-	if session != null:
-		_draw_selected_summary()
-
-
 func _draw_cosmetic_atmosphere(room_rect: Rect2) -> void:
 	if cosmetic_theme == "sunrise":
 		return
@@ -342,17 +344,50 @@ func _draw_research_study_atmosphere(room_rect: Rect2) -> void:
 		draw_circle(Vector2(x, y + 12.0), 1.5 + float((row + 2) % 2) * 0.7, Color(DEEP_GREEN.lightened(0.34), 0.32), true, -1.0, true)
 
 
-func _summary_height() -> float:
-	# Preserve the native 941 × 180 ratio instead of flattening the card.
-	return clampf(size.x * SUMMARY_HEIGHT / SOURCE_WIDTH, 90.0, 93.0)
-
-
 func _title_height() -> float:
 	return _source_rect_to_room(TITLE_SOURCE_RECT).size.y
 
 
+func _future_content_height() -> float:
+	return clampf(size.x * FUTURE_CONTENT_SOURCE_HEIGHT / SOURCE_WIDTH, 90.0, 93.0)
+
+
+func _draw_future_content_space(rect: Rect2) -> void:
+	draw_rect(rect, COMIC_INK)
+	var outer := rect.grow(-3.0)
+	_draw_rounded(outer, COMIC_BLUE, COMIC_INK, 3, 13, Color("#0b1520", 0.34), 3)
+	var inner := outer.grow(-5.0)
+	_draw_rounded(inner, COMIC_CREAM, Color("#ff9f1f"), 2, 9)
+	var icon_panel := Rect2(rect.position + Vector2(10.0, 10.0), Vector2(70.0, rect.size.y - 20.0))
+	_draw_rounded(icon_panel, COMIC_CYAN, COMIC_INK, 2, 10)
+	_draw_future_paw(icon_panel)
+	var dock_font_size := 10 if size.x < 400.0 else 12
+	draw_string(FontExtraBold, rect.position + Vector2(89.0, 34.0), "DOPLŇKY · MAZLÍK", HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 238.0, dock_font_size, COMIC_INK)
+	var display_rail := Rect2(rect.position + Vector2(89.0, 45.0), Vector2(178.0, maxf(24.0, rect.size.y - 57.0)))
+	_draw_rounded(display_rail, Color("#ffd77e"), COMIC_INK, 2, 7)
+	var rail_inner := display_rail.grow(-5.0)
+	_draw_rounded(rail_inner, Color("#174f56"), COMIC_INK, 1, 5)
+	var socket_colors := [COMIC_GREEN, LOCK_PURPLE, Color("#ffae24")]
+	for socket_index in range(3):
+		var socket_center := Vector2(
+			rail_inner.position.x + rail_inner.size.x * (0.25 + float(socket_index) * 0.25),
+			rail_inner.get_center().y
+		)
+		draw_circle(socket_center, 6.0, COMIC_INK, true, -1.0, true)
+		draw_circle(socket_center, 3.8, socket_colors[socket_index], true, -1.0, true)
+
+
+func _draw_future_paw(area: Rect2) -> void:
+	var center := area.get_center() + Vector2(0.0, 8.0)
+	draw_circle(center, 12.0, COMIC_INK, true, -1.0, true)
+	draw_circle(center, 8.5, COMIC_GREEN, true, -1.0, true)
+	for toe_offset in [Vector2(-15.0, -13.0), Vector2(-5.0, -18.0), Vector2(5.0, -18.0), Vector2(15.0, -13.0)]:
+		draw_circle(center + toe_offset, 6.0, COMIC_INK, true, -1.0, true)
+		draw_circle(center + toe_offset, 3.8, Color("#ffae24"), true, -1.0, true)
+
+
 func _grid_height() -> float:
-	return maxf(1.0, size.y - _summary_height())
+	return maxf(1.0, size.y - _future_content_height())
 
 
 func _layout_slots() -> void:
@@ -360,7 +395,6 @@ func _layout_slots() -> void:
 		return
 	slot_layout_size = size
 	slot_rects.clear()
-	var summary_y := size.y - _summary_height()
 	for index in range(GameSession.MAX_PLANT_SLOTS):
 		var column := index % 5
 		var row := int(index / 5)
@@ -368,7 +402,6 @@ func _layout_slots() -> void:
 		var source_height := SLOT_SOURCE_FIRST_HEIGHT if row == 0 else SLOT_SOURCE_SECOND_HEIGHT
 		var source_x := SLOT_SOURCE_X + column * SLOT_SOURCE_STEP_X
 		slot_rects.append(_source_rect_to_room(Rect2(source_x, source_y, SLOT_SOURCE_WIDTH, source_height)))
-	detail_rect = Rect2(0.0, summary_y, size.x, _summary_height())
 
 
 func _draw_slot_selection_animation() -> void:
@@ -474,15 +507,19 @@ func _draw_light_segment_states() -> void:
 	for row in range(2):
 		for column in range(5):
 			var index := row * 5 + column
-			var segment := _light_segment_rect(row, column)
-			var active := index < displayed_unlocked_count and session.plants[index].stage != PlantSimulation.Stage.EMPTY and session.plants[index].lamp_on
+			var fixture_rect := _light_fixture_rect(row, column)
+			var active := index < displayed_unlocked_count and _is_visible_on_rack(session.plants[index]) and session.plants[index].lamp_on
+			var fixture_visible := row == 0 or index < displayed_unlocked_count
+			if fixture_visible:
+				draw_texture_rect(Phase163GrowLightTexture, fixture_rect, false, Color.WHITE)
 			if not active:
-				# The background already contains an unobtrusive dark fixture.
+				# The approved brass fixture remains readable while its inner glow is off.
 				continue
+			var lens := _active_light_lens_rect(fixture_rect)
 			var glow_alpha := 0.22 + low_ambient * 0.20
-			draw_circle(segment.get_center() + Vector2(0.0, segment.size.y * 1.7), segment.size.x * 0.63, Color(1.0, 0.75, 0.18, glow_alpha * 0.25), true, -1.0, true)
-			_draw_rounded(segment.grow(1.2), Color("#ffe98b"), Color("#8f5516"), 1, 5, Color(1.0, 0.67, 0.08, glow_alpha), 4)
-			draw_line(segment.position + Vector2(5.0, segment.size.y * 0.40), Vector2(segment.end.x - 5.0, segment.position.y + segment.size.y * 0.40), Color("#fffdf1"), 1.5, true)
+			draw_circle(lens.get_center() + Vector2(0.0, fixture_rect.size.y * 0.42), fixture_rect.size.x * 0.34, Color(1.0, 0.75, 0.18, glow_alpha * 0.25), true, -1.0, true)
+			_draw_rounded(lens.grow(0.6), Color("#ffe98b"), Color("#8f5516"), 1, maxi(2, roundi(lens.size.y * 0.5)), Color(1.0, 0.67, 0.08, glow_alpha), 3)
+			draw_line(lens.position + Vector2(lens.size.x * 0.15, lens.size.y * 0.38), Vector2(lens.end.x - lens.size.x * 0.15, lens.position.y + lens.size.y * 0.38), Color("#fffdf1"), 1.0, true)
 
 
 func _light_segment_rect(row: int, column: int) -> Rect2:
@@ -493,6 +530,35 @@ func _light_segment_rect(row: int, column: int) -> Rect2:
 		LIGHT_SOURCE_WIDTH,
 		LIGHT_SOURCE_HEIGHT
 	))
+
+
+func _light_fixture_rect(row: int, column: int) -> Rect2:
+	var source_y := LIGHT_SOURCE_FIRST_Y if row == 0 else LIGHT_SOURCE_SECOND_Y
+	return _source_rect_to_room(Rect2(
+		LIGHT_SOURCE_X - 12.0 + column * LIGHT_SOURCE_STEP_X,
+		source_y - 14.0,
+		108.0,
+		49.0
+	))
+
+
+func _active_light_lens_rect(fixture_rect: Rect2) -> Rect2:
+	return Rect2(
+		fixture_rect.position + Vector2(fixture_rect.size.x * 0.19, fixture_rect.size.y * 0.56),
+		Vector2(fixture_rect.size.x * 0.62, fixture_rect.size.y * 0.23)
+	)
+
+
+func _draw_phase163_baked_fixture_cleanup() -> void:
+	# Phase163 keeps the original painted rack immutable. Extending its own
+	# middle wooden fascia hides the historical lower-row fixtures until those
+	# slots actually unlock; this matches the approved composition without a
+	# foreign patch or a baked gameplay state.
+	draw_texture_rect_region(
+		RoomTexture,
+		_source_rect_to_room(LOWER_FIXTURE_COVER_DEST_RECT),
+		LOWER_FIXTURE_COVER_SOURCE_RECT
+	)
 
 
 func _draw_title() -> void:
@@ -521,13 +587,21 @@ func _draw_slot(index: int, rect: Rect2, slot: PlantSimulation) -> void:
 	# Every generated sprite shares a bottom-center pivot. The explicit shelf
 	# baseline keeps all growth states planted instead of vertically centered.
 	var baseline_y := _slot_plant_baseline(index)
-	var plant_area := Rect2(rect.position + Vector2(2.0, -6.0), Vector2(rect.size.x - 4.0, baseline_y - rect.position.y + 6.0))
-	var texture := EmptyPotTexture if slot.stage == PlantSimulation.Stage.EMPTY else _texture_for(slot)
+	# The approved Phase151 rack treats each plant as a display piece rather
+	# than a small icon.  A controlled shelf overhang increases prominence
+	# while the shared baseline still prevents vertical drift.
+	var overhang := rect.size.x * 0.11
+	var plant_area := Rect2(rect.position + Vector2(-overhang, -8.0), Vector2(rect.size.x + overhang * 2.0, baseline_y - rect.position.y + 8.0))
+	var rack_empty_visual := not _is_visible_on_rack(slot)
+	var texture := _rack_texture_for(slot)
+	var texture_profile := VisualDesignSystem.profile_for_path(texture.resource_path if texture != null else "")
+	set_meta("last_plant_visual_family", str(texture_profile.get("family", "")))
 	var plant_rect := _fit_texture_bottom_rect(texture, plant_area)
-	var idle_strength := 0.0 if _is_dead(slot) else (0.38 if slot.stage == PlantSimulation.Stage.EMPTY else (1.6 if selected else 0.65))
+	_draw_phase151_rack_grounding(rect.get_center().x, baseline_y, plant_rect.size.x, rack_empty_visual)
+	var idle_strength := 0.0 if _is_dead(slot) else (0.38 if rack_empty_visual else (1.6 if selected else 0.65))
 	plant_rect.position.y += sin(animation_time * 2.0 + index * 0.7) * idle_strength
 	var idle_scale := 0.97 if _is_dead(slot) else 1.0 + sin(animation_time * 2.15 + index * 0.4) * (0.006 if selected else 0.003)
-	var idle_rotation := 0.0 if slot.stage == PlantSimulation.Stage.EMPTY else sin(animation_time * 1.65 + index * 0.2) * (0.012 if selected else 0.005)
+	var idle_rotation := 0.0 if rack_empty_visual else sin(animation_time * 1.65 + index * 0.2) * (0.012 if selected else 0.005)
 	if _is_dead(slot):
 		idle_rotation = -0.035
 	elif _is_wilted(slot):
@@ -545,7 +619,8 @@ func _draw_slot(index: int, rect: Rect2, slot: PlantSimulation) -> void:
 		_draw_slot_harvest_ready(plant_rect, index)
 
 	_draw_comic_slot_label(plaque, slot)
-	_draw_status_badge(_status_badge_center(plaque), slot)
+	if not _is_post_harvest_storage_stage(slot):
+		_draw_status_badge(_status_badge_center(plaque), slot)
 
 
 func _draw_locked_slot(index: int, rect: Rect2) -> void:
@@ -568,31 +643,10 @@ func _draw_comic_locked_slot(visual_rect: Rect2, required_level: int, pulse: flo
 	if pulse > 0.0:
 		_draw_rounded(visual_rect.grow(unit * (1.0 + pulse)), Color.TRANSPARENT, Color(LOCK_GOLD, 0.70 + pulse * 0.30), maxi(2, roundi(unit * 2.0)), maxi(8, roundi(unit * 8.0)), Color(LOCK_GOLD, pulse * 0.30), maxi(2, roundi(unit * 3.0)))
 
-	var pot_body := Rect2(visual_rect.position + Vector2(visual_rect.size.x * 0.18, visual_rect.size.y * 0.61), Vector2(visual_rect.size.x * 0.64, visual_rect.size.y * 0.22))
-	_draw_rounded(pot_body, TERRACOTTA, COMIC_INK, maxi(2, roundi(unit * 3.0)), maxi(5, roundi(unit * 6.0)))
-	var pot_rim := Rect2(pot_body.position + Vector2(-visual_rect.size.x * 0.05, -visual_rect.size.y * 0.035), Vector2(pot_body.size.x + visual_rect.size.x * 0.10, visual_rect.size.y * 0.075))
-	_draw_rounded(pot_rim, Color("#ff9a32"), COMIC_INK, maxi(2, roundi(unit * 3.0)), maxi(5, roundi(unit * 5.0)))
+	var glow_tint := Color.WHITE.lerp(Color("#fff3a1"), pulse * 0.24)
+	draw_texture_rect(Phase163LockedPlanterTexture, visual_rect, false, glow_tint)
 
-	var cover := Rect2(visual_rect.position + Vector2(visual_rect.size.x * 0.10, visual_rect.size.y * 0.14), Vector2(visual_rect.size.x * 0.80, visual_rect.size.y * 0.55))
-	_draw_rounded(cover, LOCK_PURPLE, COMIC_INK, maxi(2, roundi(unit * 3.2)), maxi(10, roundi(unit * 11.0)), Color("#2c1640", 0.30), maxi(2, roundi(unit * 3.0)))
-	draw_line(cover.position + Vector2(cover.size.x * 0.20, cover.size.y * 0.14), cover.position + Vector2(cover.size.x * 0.13, cover.size.y * 0.72), LOCK_PURPLE_LIGHT, maxf(1.5, unit * 3.0), true)
-	for scallop_index in range(4):
-		var scallop_center := Vector2(cover.position.x + cover.size.x * (0.17 + scallop_index * 0.22), cover.end.y - unit * 1.0)
-		draw_circle(scallop_center, unit * 9.0, COMIC_INK, true, -1.0, true)
-		draw_circle(scallop_center + Vector2(0.0, -unit * 1.2), unit * 6.2, LOCK_PURPLE, true, -1.0, true)
-
-	var lock_center := cover.get_center() + Vector2(0.0, cover.size.y * 0.10)
-	var shackle_radius := cover.size.x * 0.16
-	draw_arc(lock_center + Vector2(0.0, -cover.size.y * 0.12), shackle_radius, PI, TAU, 24, COMIC_INK, maxf(5.0, unit * 9.0), true)
-	draw_arc(lock_center + Vector2(0.0, -cover.size.y * 0.12), shackle_radius, PI, TAU, 24, Color("#fff0a5"), maxf(2.0, unit * 4.5), true)
-	var lock_body := Rect2(lock_center - Vector2(cover.size.x * 0.22, cover.size.y * 0.11), Vector2(cover.size.x * 0.44, cover.size.y * 0.27))
-	_draw_rounded(lock_body, LOCK_GOLD, COMIC_INK, maxi(2, roundi(unit * 3.0)), maxi(5, roundi(unit * 6.0)), Color("#3b2305", 0.24), maxi(1, roundi(unit * 2.0)))
-	draw_line(lock_body.position + Vector2(lock_body.size.x * 0.16, lock_body.size.y * 0.23), lock_body.position + Vector2(lock_body.size.x * 0.78, lock_body.size.y * 0.16), Color("#fff19b"), maxf(1.2, unit * 2.2), true)
-	var keyhole := lock_body.get_center() + Vector2(0.0, unit * 1.5)
-	draw_circle(keyhole, unit * 3.7, COMIC_INK, true, -1.0, true)
-	draw_line(keyhole, keyhole + Vector2(0.0, unit * 7.0), COMIC_INK, maxf(2.0, unit * 4.5), true)
-
-	var plaque := Rect2(visual_rect.position + Vector2(visual_rect.size.x * 0.05, visual_rect.size.y * 0.85), Vector2(visual_rect.size.x * 0.90, visual_rect.size.y * 0.12))
+	var plaque := _locked_plaque_rect(visual_rect)
 	_draw_rounded(plaque, CREAM, COMIC_INK, maxi(2, roundi(unit * 2.4)), maxi(4, roundi(unit * 5.0)))
 	var text := "ÚROVEŇ %d" % required_level
 	var font_size := maxi(8, roundi(plaque.size.y * (0.46 if required_level >= 10 else 0.52)))
@@ -627,25 +681,49 @@ func _slot_plant_baseline(index: int) -> float:
 
 func _draw_comic_slot_label(rect: Rect2, slot: PlantSimulation) -> void:
 	var is_empty := slot.stage == PlantSimulation.Stage.EMPTY
+	var is_in_storage := _is_post_harvest_storage_stage(slot)
 	var shadow := Rect2(rect.position + Vector2(0.0, maxf(1.0, rect.size.y * 0.09)), rect.size)
 	_draw_rounded(shadow, Color("#17212b", 0.48), Color.TRANSPARENT, 0, maxi(4, roundi(rect.size.y * 0.22)))
-	var fill := COMIC_CYAN if is_empty else COMIC_BLUE
+	var fill := COMIC_CYAN if is_empty or is_in_storage else COMIC_BLUE
 	_draw_rounded(rect, fill, COMIC_INK, maxi(2, roundi(rect.size.y * 0.08)), maxi(4, roundi(rect.size.y * 0.22)))
 	var inner := rect.grow(-maxf(2.0, rect.size.y * 0.12))
 	_draw_rounded(inner, COMIC_CREAM, Color("#ffae24"), maxi(1, roundi(rect.size.y * 0.05)), maxi(3, roundi(rect.size.y * 0.16)))
 	var font_size := maxi(8, roundi(rect.size.y * 0.42))
-	var text := "PŘIDAT" if is_empty else slot.get_short_name().to_upper()
+	var text := "PŘIDAT" if is_empty else ("VE SKLADU" if is_in_storage else slot.get_short_name().to_upper())
 	draw_string(FontExtraBold, rect.position + Vector2(0.0, rect.size.y * 0.68), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, COMIC_INK)
 
 
 func _locked_texture_rect(rect: Rect2) -> Rect2:
-	var locked_size := Vector2(rect.size.x * 0.88, rect.size.y * 0.92)
+	var locked_width := rect.size.x * LOCKED_PLANTER_WIDTH_SCALE
+	var texture_size := Phase163LockedPlanterTexture.get_size()
+	var locked_size := Vector2(locked_width, locked_width * texture_size.y / texture_size.x)
 	var baseline := rect.position.y + rect.size.y * (220.0 / 305.0)
-	return Rect2(Vector2(rect.get_center().x - locked_size.x * 0.5, baseline - locked_size.y * 0.83), locked_size)
+	return Rect2(Vector2(rect.get_center().x - locked_size.x * 0.5, baseline - locked_size.y), locked_size)
+
+
+func _locked_plaque_rect(visual_rect: Rect2) -> Rect2:
+	var plaque_width := visual_rect.size.x / LOCKED_PLANTER_WIDTH_SCALE
+	var plaque_height := plaque_width / SLOT_LABEL_ASPECT
+	var gap := visual_rect.size.x / 100.0 * 3.0
+	return Rect2(
+		Vector2(visual_rect.get_center().x - plaque_width * 0.5, visual_rect.end.y + gap),
+		Vector2(plaque_width, plaque_height)
+	)
+
+
+func _draw_phase151_rack_grounding(center_x: float, baseline_y: float, plant_width: float, empty_visual: bool) -> void:
+	var saucer_width := clampf(plant_width * (0.76 if empty_visual else 0.82), 28.0, 64.0)
+	var shadow_alpha := 0.24 if empty_visual else 0.34
+	draw_set_transform(Vector2(center_x, baseline_y - 1.0), 0.0, Vector2(1.0, 0.24))
+	draw_circle(Vector2(0.0, 5.0), saucer_width * 0.53, Color("#32180b", shadow_alpha), true, -1.0, true)
+	draw_circle(Vector2.ZERO, saucer_width * 0.50, COMIC_INK, true, -1.0, true)
+	draw_circle(Vector2(0.0, -2.0), saucer_width * 0.44, Color("#11a9b9"), true, -1.0, true)
+	draw_circle(Vector2(0.0, -4.0), saucer_width * 0.36, Color("#70edf1"), true, -1.0, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 func _source_rect_to_room(source_rect: Rect2) -> Rect2:
-	var room_size := Vector2(size.x, maxf(1.0, size.y - _summary_height()))
+	var room_size := Vector2(size.x, _grid_height())
 	var scale_factor := room_size / Vector2(GRID_SOURCE_WIDTH, GRID_SOURCE_HEIGHT)
 	return Rect2(source_rect.position * scale_factor, source_rect.size * scale_factor)
 
@@ -704,77 +782,6 @@ func _draw_status_badge(center: Vector2, slot: PlantSimulation) -> void:
 	draw_polyline(PackedVector2Array([right_leaf[0], right_leaf[1], right_leaf[2], right_leaf[3]]), COMIC_INK, 1.1, true)
 
 
-func _draw_selected_summary() -> void:
-	draw_rect(detail_rect, COMIC_INK)
-	var outer := detail_rect.grow(-3.0)
-	_draw_rounded(outer, COMIC_BLUE, COMIC_INK, 3, 13, Color("#0b1520", 0.34), 3)
-	var inner := outer.grow(-5.0)
-	_draw_rounded(inner, COMIC_CREAM, Color("#ff9f1f"), 2, 9)
-	var plant := session.plant
-	var icon_panel := Rect2(detail_rect.position + Vector2(10.0, 10.0), Vector2(70.0, detail_rect.size.y - 20.0))
-	_draw_rounded(icon_panel, COMIC_CYAN, COMIC_INK, 2, 10)
-	var icon_area := icon_panel.grow(-5.0)
-	var icon_texture: Texture2D = EmptyPotTexture
-	if plant.stage != PlantSimulation.Stage.EMPTY:
-		icon_texture = _texture_for(plant)
-	draw_texture_rect(icon_texture, _fit_texture_rect(icon_texture, icon_area), false)
-	var title := _selected_summary_title(plant)
-	draw_string(FontExtraBold, detail_rect.position + Vector2(89.0, 34.0), title, HORIZONTAL_ALIGNMENT_LEFT, detail_rect.size.x - 238.0, 13, COMIC_INK)
-	if plant.stage != PlantSimulation.Stage.EMPTY:
-		var track := _summary_progress_track_rect()
-		_draw_rounded(track, Color("#ffd77e"), COMIC_INK, 2, 7)
-		var progress_inner := _summary_progress_inner_rect()
-		_draw_rounded(progress_inner, Color("#174f56"), COMIC_INK, 1, 5)
-		var fill := _summary_progress_fill_rect(displayed_growth_percent)
-		if fill.size.x > 0.0:
-			_draw_rounded(fill, COMIC_GREEN, COMIC_GREEN_DARK, 1, 5)
-		if fill.size.x >= 42.0:
-			var percent_text := "%d%%" % roundi(displayed_growth_percent)
-			var percent_font_size := maxi(10, roundi(progress_inner.size.y * 0.69))
-			var percent_width := minf(52.0, fill.size.x - 4.0)
-			var percent_x := fill.end.x - percent_width - 3.0
-			draw_string(FontExtraBold, Vector2(percent_x, progress_inner.position.y + progress_inner.size.y * 0.78), percent_text, HORIZONTAL_ALIGNMENT_CENTER, percent_width, percent_font_size, Color.WHITE)
-
-	# Preserve the approved green summary surface. The separate sound button owns
-	# its right half; the visible left half is now a dedicated 64+ px care target.
-	var button_rect := Rect2(detail_rect.end.x - 142.0, detail_rect.position.y + 14.0, 130.0, detail_rect.size.y - 28.0)
-	care_button_rect = Rect2(button_rect.position + Vector2(0.0, -2.0), Vector2(button_rect.size.x, button_rect.size.y + 4.0))
-	_draw_rounded(Rect2(button_rect.position + Vector2(0.0, 3.0), button_rect.size), Color("#17212b", 0.42), Color.TRANSPARENT, 0, 9)
-	_draw_rounded(button_rect, COMIC_GREEN, COMIC_INK, 3, 9)
-	var button_inner := button_rect.grow(-5.0)
-	_draw_rounded(button_inner, Color("#35b967"), Color("#b8f34b"), 2, 6)
-	var care_text := "PÉČE" if displayed_care_attention_count <= 0 else "PÉČE %d" % displayed_care_attention_count
-	draw_string(FontExtraBold, button_rect.position + Vector2(0.0, button_rect.size.y * 0.63), care_text, HORIZONTAL_ALIGNMENT_CENTER, 66.0, 11, Color.WHITE)
-
-
-func _selected_summary_title(plant: PlantSimulation) -> String:
-	if plant.stage == PlantSimulation.Stage.EMPTY:
-		return "Volný květináč"
-	return "%s · růst %d %%" % [plant.get_short_name(), roundi(plant.growth_percent)]
-
-
-func _summary_progress_track_rect() -> Rect2:
-	var source_scale := detail_rect.size / SUMMARY_SOURCE_SIZE
-	return Rect2(
-		detail_rect.position + SUMMARY_PROGRESS_TRACK.position * source_scale,
-		SUMMARY_PROGRESS_TRACK.size * source_scale
-	)
-
-
-func _summary_progress_fill_rect(growth_percent: float) -> Rect2:
-	var fill := _summary_progress_inner_rect()
-	fill.size.x *= clampf(growth_percent / 100.0, 0.0, 1.0)
-	return fill
-
-
-func _summary_progress_inner_rect() -> Rect2:
-	var source_scale := detail_rect.size / SUMMARY_SOURCE_SIZE
-	return Rect2(
-		detail_rect.position + SUMMARY_PROGRESS_INNER.position * source_scale,
-		SUMMARY_PROGRESS_INNER.size * source_scale
-	)
-
-
 func _fit_texture_rect(texture: Texture2D, area: Rect2) -> Rect2:
 	var texture_size := texture.get_size()
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
@@ -791,6 +798,18 @@ func _fit_texture_bottom_rect(texture: Texture2D, area: Rect2) -> Rect2:
 	var scale_factor := minf(area.size.x / texture_size.x, area.size.y / texture_size.y)
 	var fitted_size := texture_size * scale_factor
 	return Rect2(Vector2(area.get_center().x - fitted_size.x * 0.5, area.end.y - fitted_size.y), fitted_size)
+
+
+func _is_post_harvest_storage_stage(slot: PlantSimulation) -> bool:
+	return slot.stage in POST_HARVEST_RACK_STAGES
+
+
+func _is_visible_on_rack(slot: PlantSimulation) -> bool:
+	return slot.stage != PlantSimulation.Stage.EMPTY and not _is_post_harvest_storage_stage(slot)
+
+
+func _rack_texture_for(slot: PlantSimulation) -> Texture2D:
+	return _texture_for(slot) if _is_visible_on_rack(slot) else EmptyPotTexture
 
 
 func _texture_for(slot: PlantSimulation) -> Texture2D:

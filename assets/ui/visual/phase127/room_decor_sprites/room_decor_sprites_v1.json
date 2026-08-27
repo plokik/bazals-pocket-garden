@@ -1,0 +1,347 @@
+{
+  "contract": "phase127_room_decor_atlas_v1",
+  "source": "room_decor_atlas_v2.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "source_sha256": "27EAE4A9087B1A9C03EE2116D126408F7F434297FD273CAEE250BA3B4C71E991",
+  "sprites": [
+    {
+      "id": "room_orchid",
+      "source_region": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "trim_region": [
+        49,
+        26,
+        271,
+        314
+      ],
+      "output": "room_orchid_v1.png",
+      "size": [
+        246,
+        312
+      ],
+      "sha256": "621F550CC2231EF5B626CAE74601D37B137D2A14BDEAF7ABA5EEAF66FD3D0FB2"
+    },
+    {
+      "id": "room_fern",
+      "source_region": [
+        314,
+        0,
+        313,
+        314
+      ],
+      "trim_region": [
+        8,
+        43,
+        313,
+        314
+      ],
+      "output": "room_fern_v1.png",
+      "size": [
+        329,
+        295
+      ],
+      "sha256": "542DB0E5D984A3EF38D698D4691DC65D1277775DB6EE6D51AE3A29BFCB05CFC3"
+    },
+    {
+      "id": "room_broad_leaf",
+      "source_region": [
+        627,
+        0,
+        313,
+        314
+      ],
+      "trim_region": [
+        5,
+        32,
+        279,
+        314
+      ],
+      "output": "room_broad_leaf_v1.png",
+      "size": [
+        296,
+        304
+      ],
+      "sha256": "C8D781A8D4F94B3EA288FCE5B16583003ADB7973978C04AFE16C363A1C4F1ADF"
+    },
+    {
+      "id": "room_striped_leaf",
+      "source_region": [
+        940,
+        0,
+        314,
+        314
+      ],
+      "trim_region": [
+        9,
+        33,
+        268,
+        314
+      ],
+      "output": "room_striped_leaf_v1.png",
+      "size": [
+        281,
+        303
+      ],
+      "sha256": "9B7C5C668D90302D07E121A65B19A40CF88BC4D8FA272EA24EF4E8658F9EF96D"
+    },
+    {
+      "id": "room_tall_leaf",
+      "source_region": [
+        0,
+        314,
+        314,
+        313
+      ],
+      "trim_region": [
+        59,
+        0,
+        259,
+        313
+      ],
+      "output": "room_tall_leaf_v1.png",
+      "size": [
+        226,
+        339
+      ],
+      "sha256": "FFBB3A2F5D60A47DB08E1E5B2462A00F36E20254B2A363D4AD9B45B68321022A"
+    },
+    {
+      "id": "room_flowering",
+      "source_region": [
+        314,
+        314,
+        313,
+        313
+      ],
+      "trim_region": [
+        13,
+        0,
+        313,
+        313
+      ],
+      "output": "room_flowering_v1.png",
+      "size": [
+        326,
+        339
+      ],
+      "sha256": "97D3182FDCEA904D7F2AA18F39829C60D250DE87BEB543AB7DF91322ECB6724F"
+    },
+    {
+      "id": "room_round_leaf",
+      "source_region": [
+        627,
+        314,
+        313,
+        313
+      ],
+      "trim_region": [
+        15,
+        0,
+        269,
+        313
+      ],
+      "output": "room_round_leaf_v1.png",
+      "size": [
+        280,
+        339
+      ],
+      "sha256": "81BE68AAAC397CFFFDA1F5CC6D0F2874C28A1F30D7FEF16DE703602BB4A4404E"
+    },
+    {
+      "id": "room_climbing_vine",
+      "source_region": [
+        940,
+        314,
+        314,
+        313
+      ],
+      "trim_region": [
+        20,
+        0,
+        298,
+        313
+      ],
+      "output": "room_climbing_vine_v1.png",
+      "size": [
+        304,
+        339
+      ],
+      "sha256": "09850D3B29C06C2EB97D4BC0A47CBAB601FFD7A93631E050D57C862F85299DB3"
+    },
+    {
+      "id": "room_books",
+      "source_region": [
+        0,
+        627,
+        314,
+        313
+      ],
+      "trim_region": [
+        0,
+        0,
+        312,
+        304
+      ],
+      "output": "room_books_v1.png",
+      "size": [
+        336,
+        328
+      ],
+      "sha256": "98B0C97DD28F372C63ACB8AC4335689655F56DE5C226CDB24688BD2F4AFB984F"
+    },
+    {
+      "id": "room_fertilizer",
+      "source_region": [
+        314,
+        627,
+        313,
+        313
+      ],
+      "trim_region": [
+        3,
+        0,
+        307,
+        291
+      ],
+      "output": "room_fertilizer_v1.png",
+      "size": [
+        328,
+        315
+      ],
+      "sha256": "4E94C5F228088B6313FC33D604746949EDEEAAB39D2B9CE46FAD4313F1400778"
+    },
+    {
+      "id": "room_nested_pots",
+      "source_region": [
+        627,
+        627,
+        313,
+        313
+      ],
+      "trim_region": [
+        30,
+        0,
+        313,
+        313
+      ],
+      "output": "room_nested_pots_v1.png",
+      "size": [
+        309,
+        339
+      ],
+      "sha256": "F11AD714A8D81165A59799AED7C0CB861F89B91AF304EFCF81C5EC73DA865EF6"
+    },
+    {
+      "id": "room_lamp",
+      "source_region": [
+        940,
+        627,
+        314,
+        313
+      ],
+      "trim_region": [
+        0,
+        0,
+        282,
+        313
+      ],
+      "output": "room_lamp_v1.png",
+      "size": [
+        308,
+        339
+      ],
+      "sha256": "118FFD8252C2CC7138F8E8AE55DBE1141A1414610BE968EA94934CE59C86B5E7"
+    },
+    {
+      "id": "room_botanical_art",
+      "source_region": [
+        0,
+        940,
+        314,
+        314
+      ],
+      "trim_region": [
+        0,
+        6,
+        314,
+        314
+      ],
+      "output": "room_botanical_art_v1.png",
+      "size": [
+        340,
+        334
+      ],
+      "sha256": "8A0128DD00C9D19C6332D7CA7164626FD045F41545C68B0D424D61F56ED78C2B"
+    },
+    {
+      "id": "room_watering_can",
+      "source_region": [
+        314,
+        940,
+        313,
+        314
+      ],
+      "trim_region": [
+        0,
+        9,
+        313,
+        250
+      ],
+      "output": "room_watering_can_v1.png",
+      "size": [
+        339,
+        267
+      ],
+      "sha256": "1FB27231A233080371960CCEBEE8D5D487BF2C078E3015507492808D9456573F"
+    },
+    {
+      "id": "room_herb_jars",
+      "source_region": [
+        627,
+        940,
+        313,
+        314
+      ],
+      "trim_region": [
+        0,
+        0,
+        313,
+        272
+      ],
+      "output": "room_herb_jars_v1.png",
+      "size": [
+        339,
+        298
+      ],
+      "sha256": "A2DB367616A477489A813AA92024B51A6CCD697B439245C5E8169B0DFAF3E270"
+    },
+    {
+      "id": "room_cat_corner",
+      "source_region": [
+        940,
+        940,
+        314,
+        314
+      ],
+      "trim_region": [
+        0,
+        0,
+        286,
+        288
+      ],
+      "output": "room_cat_corner_v1.png",
+      "size": [
+        310,
+        312
+      ],
+      "sha256": "D695728FF0DF8365A9303927DE2DC2B562CC7867A87708E92302C5E43516466B"
+    }
+  ]
+}

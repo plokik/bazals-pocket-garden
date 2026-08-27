@@ -2,7 +2,7 @@ class_name GreenhouseSimulation
 extends RefCounted
 
 const BED_COUNT := 4
-const CROP_IDS: Array[String] = ["cherry_tomato", "sweet_pepper", "salad_cucumber"]
+const CROP_IDS: Array[String] = ["cherry_tomato", "sweet_pepper", "garden_radish", "salad_cucumber", "garden_eggplant"]
 const CROP_CATALOG := {
 	"cherry_tomato": {
 		"name": "Cherry rajče",
@@ -26,6 +26,28 @@ const CROP_CATALOG := {
 		"accent": "#f4b52c",
 		"description": "Pomalejší skleníková plodina s vyšší sklizňovou odměnou.",
 	},
+	"garden_radish": {
+		"name": "Ředkvička zahradní",
+		"short_name": "ŘEDKVIČKA",
+		"unlock_level": 3,
+		"seed_price": 12,
+		"growth_seconds": 14400.0,
+		"reward_coins": 22,
+		"reward_xp": 9,
+		"accent": "#e74962",
+		"description": "Rychlá kořenová plodina pro pravidelnou vláhu a kratší návraty.",
+		"knowledge_intro": "Ředkvička je rychlá chladnomilná kořenová zelenina. Pro kvalitní bulvu potřebuje kyprou propustnou půdu a rovnoměrnou vláhu; sucho a kolísání vody zhoršují kvalitu a mohou způsobit praskání.",
+		"sources": [
+			{
+				"title": "University of Minnesota Extension – Growing radishes in home gardens",
+				"url": "https://extension.umn.edu/vegetables/growing-radishes",
+			},
+			{
+				"title": "Utah State University Extension – Radishes in the Garden",
+				"url": "https://extension.usu.edu/yardandgarden/research/radishes-in-the-garden",
+			},
+		],
+	},
 	"salad_cucumber": {
 		"name": "Salátová okurka",
 		"short_name": "OKURKA",
@@ -36,6 +58,28 @@ const CROP_CATALOG := {
 		"reward_xp": 14,
 		"accent": "#35b874",
 		"description": "Popínavá zelenina pro zkušenější pěstitele s desetihodinovým cyklem.",
+	},
+	"garden_eggplant": {
+		"name": "Lilek vejcoplodý",
+		"short_name": "LILEK",
+		"unlock_level": 5,
+		"seed_price": 22,
+		"growth_seconds": 43200.0,
+		"reward_coins": 60,
+		"reward_xp": 18,
+		"accent": "#7b4ab2",
+		"description": "Teplomilná skleníková plodina s dlouhým cyklem a vysokou sklizňovou odměnou.",
+		"knowledge_intro": "Lilek je teplomilná plodina příbuzná paprice a rajčeti. Daří se mu v teple, na slunném místě a v úrodné propustné půdě; pravidelná vláha pomáhá udržet zdravý růst a kvalitu plodů.",
+		"sources": [
+			{
+				"title": "University of Minnesota Extension – Growing eggplant in home gardens",
+				"url": "https://extension.umn.edu/vegetables/growing-eggplant",
+			},
+			{
+				"title": "Utah State University Extension – Eggplant in the Garden",
+				"url": "https://extension.usu.edu/yardandgarden/research/eggplant-in-the-garden",
+			},
+		],
 	},
 }
 

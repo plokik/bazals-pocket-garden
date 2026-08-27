@@ -84,6 +84,7 @@ const PHASE97_STORY_GOAL_TARGETS := [10, 3, 3, 3, 4]
 const PHASE97_RESPONSIVE_TEST_VIEWPORTS := [Vector2i(432, 960), Vector2i(360, 800)]
 const PHASE98_RESEARCH_CAPTURE_UTC_DAY := 100000
 const PHASE98_RESEARCH_GOAL_IDS := ["care_variety", "quality_samples", "packaged_samples", "delivered_packages", "observation_days"]
+const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
 var output_directory := ""
 
@@ -99,7 +100,7 @@ func _init() -> void:
 		push_error("Could not create validation output directory: %s" % error_string(directory_error))
 		quit(2)
 		return
-	call_deferred("_capture")
+	call_deferred("_capture_phase162_only" if _has_user_flag("--phase162-only") else "_capture")
 
 
 func _capture() -> void:
@@ -130,6 +131,15 @@ func _capture() -> void:
 		quit(2)
 		return
 
+	if not _prepare_phase125_post_harvest_rack_state(instance):
+		quit(2)
+		return
+	await _settle(instance)
+	if not _save_full_viewport("comic-rack-post-harvest.png"):
+		quit(2)
+		return
+	_prepare_room_state(instance)
+
 	_prepare_phase103_player_room_state(instance)
 	await _settle(instance)
 	if not _save_full_viewport("comic-player-room.png"):
@@ -139,6 +149,136 @@ func _capture() -> void:
 	_prepare_phase104_decorated_player_room_state(instance)
 	await _settle(instance)
 	if not _save_full_viewport("comic-player-room-decorated.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-player-room-collection.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-player-room-living.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase158_partial_room_compositing_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase158_partial_compositing_v1")
+	if not _save_full_viewport("comic-phase158-player-room-partial-compositing.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase128-player-room.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase129-player-room.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase132_room_living_visual_report_only_v1")
+	if not _save_full_viewport("comic-phase132-player-room.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase133_three_per_shelf_saucer_display_report_only_v1")
+	if not _save_full_viewport("comic-phase133-player-room-shelf-plants.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase134_full_shelf_fit_report_only_v1")
+	if not _save_full_viewport("comic-phase134-player-room-shelf-fit.png"):
+		quit(2)
+		return
+	_prepare_phase135_reference_room_state(instance)
+	await _settle(instance)
+	instance.player_room_view.set_meta("capture_state", "phase135_reference_regraph_report_only_v1")
+	if not _save_full_viewport("comic-phase135-player-room-reference-regraph.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase136_reference_b_shelf_fill_report_only_v1")
+	if not _save_full_viewport("comic-phase136-player-room-shelf-prominence.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase137_approved_integrated_shelf_set_report_only_v1")
+	if not _save_full_viewport("comic-phase137-player-room-integrated-shelf-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase139_unified_room_set_report_only_v1")
+	if not _save_full_viewport("comic-phase139-player-room-unified-room-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase140_shared_room_decor_set_report_only_v1")
+	if not _save_full_viewport("comic-phase140-player-room-shared-decor-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase141_final_purchasable_rack_set_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase141_final_rack_set_v1")
+	if not _save_full_viewport("comic-phase141-player-room-final-rack-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase142_reference_exact_rack_set_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase142_reference_exact_rack_set_v1")
+	if not _save_full_viewport("comic-phase142-player-room-reference-exact-rack-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase143_user_approved_uniform_rack_set_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase143_user_approved_uniform_rack_set_v1")
+	if not _save_full_viewport("comic-phase143-player-room-user-approved-uniform-rack-set.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase145_layered_room_details_report_only_v1")
+	instance.player_room_view.set_meta("detail_layer_capture", "phase145_layered_room_details_v1")
+	if not _save_full_viewport("comic-phase145-player-room-layered-details.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase146_approved_room_master_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase146_approved_master_v1")
+	if not _save_full_viewport("comic-phase146-player-room-approved-master.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase148_painted_cartoon_room_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase148_painted_cartoon_v1")
+	if not _save_full_viewport("comic-phase148-player-room-painted-cartoon.png"):
+		quit(2)
+		return
+	instance.player_room_view.set_meta("capture_state", "phase149_exact_player_room_target_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase149_exact_target_v1")
+	_prepare_phase149_exact_target_room_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase149-player-room-exact-target.png"):
+		quit(2)
+		return
+
+	_prepare_phase158_room_acceptance_state(instance, _phase158_empty_room_slots(), "empty_0_of_20")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase158-player-room-empty-0-of-20.png"):
+		quit(2)
+		return
+
+	_prepare_phase158_room_acceptance_state(instance, _phase158_sparse_room_slots(), "sparse_4_of_20")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase158-player-room-sparse-4-of-20.png"):
+		quit(2)
+		return
+
+	_prepare_phase158_room_acceptance_state(instance, _phase158_phone_room_slots(), "phone_save_10_of_20_sanitized")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase158-player-room-phone-save-10-of-20.png"):
+		quit(2)
+		return
+
+	_prepare_phase158_room_acceptance_state(instance, _phase158_full_room_slots(), "full_20_of_20")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase158-player-room-full-20-of-20.png"):
+		quit(2)
+		return
+
+	_prepare_phase159_botanical_cloche_state(instance, false)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase159-player-room-botanical-cloche.png"):
+		quit(2)
+		return
+
+	_prepare_phase159_botanical_cloche_state(instance, true)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase159-player-room-full-cloche.png"):
+		quit(2)
+		return
+
+	_prepare_phase160_room_floor_declutter_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase160-player-room-clean-floor.png"):
 		quit(2)
 		return
 
@@ -152,6 +292,13 @@ func _capture() -> void:
 	_prepare_phase105_greenhouse_empty_state(instance)
 	await _settle(instance)
 	if not _save_full_viewport("comic-greenhouse-preview.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase129-greenhouse.png"):
+		quit(2)
+		return
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase130_greenhouse_two_boxes_report_only_v1")
+	if not _save_full_viewport("comic-phase130-greenhouse-two-boxes.png"):
 		quit(2)
 		return
 
@@ -182,6 +329,56 @@ func _capture() -> void:
 	_prepare_phase107_greenhouse_cucumber_state(instance)
 	await _settle(instance)
 	if not _save_full_viewport("comic-greenhouse-cucumber-growing.png"):
+		quit(2)
+		return
+
+	_prepare_phase113_greenhouse_radish_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-radish-growing.png"):
+		quit(2)
+		return
+
+	_prepare_phase115_greenhouse_eggplant_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-eggplant-growing.png"):
+		quit(2)
+		return
+
+	_prepare_phase116_greenhouse_order_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-order-ready.png"):
+		quit(2)
+		return
+
+	_prepare_phase117_greenhouse_quality_order_state(instance)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-quality-order-ready.png"):
+		quit(2)
+		return
+
+	_prepare_phase118_greenhouse_reputation_state(instance, false)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-reputation-progress.png"):
+		quit(2)
+		return
+
+	_prepare_phase118_greenhouse_reputation_state(instance, true)
+	await _settle(instance)
+	if not _save_full_viewport("comic-greenhouse-reputation-master.png"):
+		quit(2)
+		return
+
+	if not _prepare_phase150_approved_greenhouse_state(instance):
+		quit(2)
+		return
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase150-greenhouse-approved-target.png"):
+		quit(2)
+		return
+	print("PHASE150_GREENHOUSE_CAPTURE=PASSED")
+
+	var phase115_compact_capture_ok := await _capture_phase115_greenhouse_level4_compact(instance)
+	if not phase115_compact_capture_ok:
 		quit(2)
 		return
 
@@ -221,8 +418,14 @@ func _capture() -> void:
 	instance._finish_audio_settings_capture()
 
 	_prepare_phase5_storage_state(instance)
+	instance._set_phase128_plants_style_enabled(false)
 	await _settle(instance)
 	if not _save_full_viewport("comic-storage.png"):
+		quit(2)
+		return
+	instance._set_phase128_plants_style_enabled(true)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase128-storage.png"):
 		quit(2)
 		return
 
@@ -245,6 +448,12 @@ func _capture() -> void:
 	instance._set_shop_mode("buy")
 	await _settle(instance)
 	if not _save_full_viewport("comic-botanist-shop-buy.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase128-shop.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase153-shop.png"):
 		quit(2)
 		return
 	_prepare_phase40_equipment_shop_state(instance)
@@ -283,11 +492,24 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-herbarium.png"):
 		quit(2)
 		return
+	if not _save_full_viewport("comic-phase155-herbarium.png"):
+		quit(2)
+		return
+	print("PHASE155_HERBARIUM_CAPTURE=PASSED")
 	instance._set_herbarium_open(false)
 
 	_prepare_phase5_measurement_state(instance)
+	instance._set_phase128_plants_style_enabled(false)
 	await _settle(instance)
 	if not _save_full_viewport("comic-measurement.png"):
+		quit(2)
+		return
+	instance._set_phase128_plants_style_enabled(true)
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase128-measurement.png"):
+		quit(2)
+		return
+	if not _save_full_viewport("comic-phase154-measurement.png"):
 		quit(2)
 		return
 
@@ -386,12 +608,17 @@ func _capture() -> void:
 		return
 
 	_prepare_phase5_storage_state(instance)
+	# The approved Phase 7 feedback gate predates the Phase 128 illustrated
+	# Storage treatment. Keep the animation test isolated from the report-only
+	# style preview without changing its reference image or tolerance.
+	instance._set_phase128_plants_style_enabled(false)
 	instance.feedback_layer.finish_all()
 	instance.feedback_layer.set_capture_feedback("coins", 0.30, Vector2(0.55, 0.64), 1.0)
 	await process_frame
 	if not _save_full_viewport("comic-feedback-coins.png"):
 		quit(2)
 		return
+	instance._set_phase128_plants_style_enabled(true)
 
 	_prepare_room_state(instance)
 	instance._change_screen(0, false)
@@ -410,6 +637,25 @@ func _capture() -> void:
 		return
 	instance.feedback_layer.finish_all()
 
+	# Fáze 119: report-only directional evidence. The approved transition
+	# reference above remains byte-for-byte independent and unchanged.
+	instance._change_screen(2, false)
+	instance._refresh_active_ui()
+	instance.feedback_layer.set_capture_transition(0.52, -1)
+	await process_frame
+	if not _save_full_viewport("comic-swipe-transition-left.png"):
+		quit(2)
+		return
+	instance.feedback_layer.finish_all()
+	instance._change_screen(1, false)
+	instance._refresh_active_ui()
+	instance.feedback_layer.set_capture_transition(0.52, 1)
+	await process_frame
+	if not _save_full_viewport("comic-swipe-transition-right.png"):
+		quit(2)
+		return
+	instance.feedback_layer.finish_all()
+
 	_prepare_hud_state(instance)
 	await _settle(instance)
 	var hud_image := _viewport_image()
@@ -422,6 +668,30 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-daily-challenge.png"):
 		quit(2)
 		return
+	if not _save_full_viewport("comic-phase161-daily-challenge-active.png"):
+		quit(2)
+		return
+	_prepare_phase161_daily_challenge_state(instance, "ready")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase161-daily-challenge-completed.png"):
+		quit(2)
+		return
+	_prepare_phase161_daily_challenge_state(instance, "ready_queue_full")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase161-daily-challenge-ready-queue-full.png"):
+		quit(2)
+		return
+	_prepare_phase161_daily_challenge_state(instance, "claimed")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase161-daily-challenge-claimed.png"):
+		quit(2)
+		return
+	_prepare_phase161_daily_challenge_state(instance, "unavailable")
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase161-daily-challenge-unavailable.png"):
+		quit(2)
+		return
+	print("PHASE161_DAILY_CHALLENGE_CAPTURE=PASSED")
 	instance._finish_daily_challenge_capture()
 
 	_prepare_phase78_botanical_pack_state(instance)
@@ -437,6 +707,23 @@ func _capture() -> void:
 		quit(2)
 		return
 	instance._finish_cosmetic_showroom_capture()
+
+	# Phase 162 keeps the Phase 14 filename above intact and adds explicit
+	# painted-runtime evidence for the two ordinary economy states. Text,
+	# wallet values and button states are still live Godot controls.
+	instance._prepare_phase162_cosmetic_showroom_selected_capture()
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-selected.png"):
+		quit(2)
+		return
+	instance._finish_phase162_cosmetic_showroom_capture()
+
+	instance._prepare_phase162_cosmetic_showroom_insufficient_capture()
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-insufficient.png"):
+		quit(2)
+		return
+	instance._finish_phase162_cosmetic_showroom_capture()
 
 	instance._prepare_return_summary_capture()
 	await _settle(instance)
@@ -1315,6 +1602,9 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-cosmetic-showroom-research-study-locked.png"):
 		quit(2)
 		return
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-locked.png"):
+		quit(2)
+		return
 	instance._finish_research_study_showroom_capture()
 
 	if not instance._prepare_research_study_showroom_selected_capture():
@@ -1324,7 +1614,11 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-cosmetic-showroom-research-study-selected.png"):
 		quit(2)
 		return
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-selected.png"):
+		quit(2)
+		return
 	instance._finish_research_study_showroom_capture()
+	print("PHASE162_COSMETIC_SHOWROOM_CAPTURE=PASSED")
 
 	instance.queue_free()
 	await process_frame
@@ -1333,6 +1627,60 @@ func _capture() -> void:
 	packed = null
 	room_image = null
 	hud_image = null
+	call_deferred("_finish_capture_success")
+
+
+func _capture_phase162_only() -> void:
+	# Focused iteration path for the approved painted showroom. The default
+	# capture remains byte-for-byte additive and still exercises every legacy
+	# frame; this flag only avoids generating unrelated raster artifacts.
+	var packed := load("res://main.tscn") as PackedScene
+	if packed == null:
+		push_error("Could not load res://main.tscn")
+		quit(2)
+		return
+	var instance = packed.instantiate()
+	root.add_child(instance)
+	await process_frame
+	await process_frame
+	_prepare_common_state(instance)
+
+	instance._prepare_phase162_cosmetic_showroom_selected_capture()
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-selected.png"):
+		quit(2)
+		return
+	instance._finish_phase162_cosmetic_showroom_capture()
+
+	instance._prepare_phase162_cosmetic_showroom_insufficient_capture()
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-insufficient.png"):
+		quit(2)
+		return
+	instance._finish_phase162_cosmetic_showroom_capture()
+
+	instance._prepare_research_study_showroom_locked_capture()
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-locked.png"):
+		quit(2)
+		return
+	instance._finish_research_study_showroom_capture()
+
+	if not instance._prepare_research_study_showroom_selected_capture():
+		quit(2)
+		return
+	await _settle(instance)
+	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-selected.png"):
+		quit(2)
+		return
+	instance._finish_research_study_showroom_capture()
+	print("PHASE162_COSMETIC_SHOWROOM_CAPTURE=PASSED")
+
+	instance.queue_free()
+	await process_frame
+	await process_frame
+	instance = null
+	packed = null
 	call_deferred("_finish_capture_success")
 
 
@@ -1378,7 +1726,19 @@ func _prepare_common_state(instance) -> void:
 	instance._set_care_center_open(false)
 	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
+	# Historical detail baselines intentionally predate the Herbarium launcher
+	# and hide it below. Restore the original unconstrained label only in this
+	# deterministic legacy capture so its approved composition remains exact;
+	# production keeps Phase 157 clipping while all five controls are visible.
 	instance.herbarium_launcher_button.visible = false
+	instance.plant_position_label.clip_text = false
+	instance.plant_position_label.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	instance.plant_position_label.custom_minimum_size.x = 152.0
+	instance.plant_position_label.update_minimum_size()
+	instance.plant_detail_selector.queue_sort()
+	var legacy_detail_back_button := instance.plant_detail_selector.get_child(0) as Button
+	if legacy_detail_back_button != null:
+		legacy_detail_back_button.text = "←  POKOJ"
 	instance.last_coins_seen = instance.session.coins
 	instance.plant_view.set_paused(true)
 	instance.room_overview.set_paused(true)
@@ -1629,6 +1989,34 @@ func _prepare_phase78_botanical_pack_state(instance) -> void:
 	instance.botanical_pack_modal.set_meta("capture_state", "phase78_botanical_pack_diagnostic_v1")
 
 
+func _prepare_phase161_daily_challenge_state(instance, state: String) -> void:
+	instance.session.daily_challenge_id = "prepare_rain"
+	instance.session.daily_challenge_completed = state in ["ready", "ready_queue_full", "claimed"]
+	instance.session.daily_challenge_claimed = state == "claimed"
+	instance.session.pending_botanical_packs.clear()
+	if state == "ready_queue_full":
+		for index in range(GameSession.MAX_PENDING_BOTANICAL_PACKS):
+			instance.session.pending_botanical_packs.append({
+				"pack_id": index + 1,
+				"species_id": "ocimum_basilicum",
+				"rarity": "common",
+				"source_id": "daily_challenge",
+				"source_token": "phase161_capture_%d" % index,
+			})
+	elif state == "unavailable":
+		instance.session.daily_challenge_id = "fertilize"
+		instance.session.fertilizer_doses = 0
+		for plant in instance.session.plants:
+			plant.stage = PlantSimulation.Stage.VEGETATIVE
+			plant.growth_percent = 50.0
+			plant.nutrients = 100.0
+	instance.daily_challenge_presenter.refresh(instance.session)
+	var pack_count: int = int(instance.session.get_botanical_pack_count())
+	instance.botanical_pack_launcher_button.text = "BOTANICKÉ BALÍČKY · %d" % pack_count
+	instance._refresh_phase161_daily_challenge_visual()
+	instance.daily_challenge_modal.set_meta("capture_state", "phase161_daily_challenge_%s_v1" % state)
+
+
 func _prepare_locked_state(instance) -> void:
 	for plant in instance.session.plants:
 		plant.reset()
@@ -1640,7 +2028,6 @@ func _prepare_locked_state(instance) -> void:
 	for plant in instance.session.plants:
 		plant.sync_environment(instance.session.world_elapsed_seconds)
 	instance.room_overview.previous_unlocked_count = 1
-	instance.room_overview.displayed_growth_percent = 0.0
 	instance.room_overview.refresh()
 	instance._refresh_ui()
 
@@ -1672,10 +2059,26 @@ func _prepare_room_state(instance) -> void:
 	instance.session.plants[2].condition_score = 0.91
 	instance.session.plants[3].condition_score = 0.94
 	instance.room_overview.previous_unlocked_count = 4
-	instance.room_overview.displayed_growth_percent = 73.0
 	instance.room_overview.refresh()
 	instance._refresh_ui()
 	instance._set_day_display(10)
+
+
+func _prepare_phase125_post_harvest_rack_state(instance) -> bool:
+	_prepare_room_state(instance)
+	instance.session.plants[2].stage = PlantSimulation.Stage.HARVESTED
+	instance.session.plants[3].stage = PlantSimulation.Stage.DRYING
+	instance.session.plants[3].drying_progress = 42.0
+	instance.session.select_plant(2)
+	instance.room_overview.refresh()
+	instance._refresh_ui()
+	instance.room_overview.set_meta("capture_state", "phase125_post_harvest_empty_rack_report_only_v1")
+	for slot_index in [2, 3]:
+		var texture: Texture2D = instance.room_overview._rack_texture_for(instance.session.plants[slot_index])
+		if texture == null or not texture.resource_path.ends_with("comic/empty_pot_v1.png"):
+			push_error("Phase 125 post-harvest rack must show an empty pot for harvested and drying plants.")
+			return false
+	return true
 
 
 func _prepare_phase103_player_room_state(instance) -> void:
@@ -1689,25 +2092,196 @@ func _prepare_phase103_player_room_state(instance) -> void:
 func _prepare_phase104_decorated_player_room_state(instance) -> void:
 	instance.session.unlocked_room_themes.assign(["sunrise", "amethyst"])
 	instance.session.selected_room_theme = "amethyst"
-	instance.session.coins = 84
+	instance.session.coins = 420
 	instance.session.owned_room_decorations.assign([
+		"room_orchid",
 		"mini_monstera",
-		"botanical_books",
-		"golden_lamp",
+		"snake_plant",
 		"room_fern",
 		"flowering_begonia",
+		"round_leaf_pilea",
+		"striped_calathea",
+		"climbing_pothos",
+		"botanical_books",
+		"fertilizer_collection",
+		"nested_pots",
+		"golden_lamp",
+		"botanical_print",
+		"plastic_watering_can",
+		"preserved_herb_jars",
+		"cat_corner",
+		"silver_aglaonema",
+		"pink_fittonia",
+		"lemon_maranta",
+		"colorful_coleus",
 	])
 	instance.session.room_decoration_slots.assign([
+		"room_orchid",
+		"",
 		"mini_monstera",
-		"botanical_books",
-		"golden_lamp",
+		"snake_plant",
+		"",
 		"room_fern",
 		"flowering_begonia",
+		"",
+		"round_leaf_pilea",
+		"striped_calathea",
+		"",
+		"climbing_pothos",
+		"botanical_books",
+		"fertilizer_collection",
+		"nested_pots",
+		"golden_lamp",
+		"botanical_print",
+		"plastic_watering_can",
+		"preserved_herb_jars",
+		"cat_corner",
 	])
 	instance._open_player_room()
 	instance.player_room_view.set_cosmetic_theme("amethyst")
 	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
-	instance.player_room_view.set_meta("capture_state", "phase104_player_room_decorated_report_only_v1")
+	instance.player_room_view.set_meta("capture_state", "phase127_player_room_final_visual_report_only_v1")
+	instance.player_room_view.set_meta("visual_camera_capture", "phase126_garden_visual_camera_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase127_v1")
+
+
+func _prepare_phase135_reference_room_state(instance) -> void:
+	instance.session.room_decoration_slots.assign([
+		"room_orchid",
+		"mini_monstera",
+		"snake_plant",
+		"room_fern",
+		"flowering_begonia",
+		"round_leaf_pilea",
+		"striped_calathea",
+		"climbing_pothos",
+		"silver_aglaonema",
+		"pink_fittonia",
+		"lemon_maranta",
+		"colorful_coleus",
+		"botanical_books",
+		"fertilizer_collection",
+		"nested_pots",
+		"golden_lamp",
+		"botanical_print",
+		"plastic_watering_can",
+		"preserved_herb_jars",
+		"cat_corner",
+	])
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase141_final_rack_set_v1")
+
+
+func _prepare_phase149_exact_target_room_state(instance) -> void:
+	instance.session.selected_room_theme = "sunrise"
+	instance.session.room_decoration_slots.assign(_phase158_full_room_slots())
+	instance.player_room_view.set_cosmetic_theme("sunrise")
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+
+
+func _prepare_phase158_room_acceptance_state(instance, slot_ids: Array[String], state_id: String) -> void:
+	if slot_ids.size() != GameSession.ROOM_DECORATION_SLOT_COUNT:
+		push_error("Phase 158 room acceptance state must contain exactly 20 slots.")
+		return
+	instance.session.selected_room_theme = "sunrise"
+	instance.session.room_decoration_slots.assign(slot_ids)
+	instance.player_room_view.set_cosmetic_theme("sunrise")
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	instance.player_room_view.set_meta("capture_state", "phase158_%s_report_only_v1" % state_id)
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase158_four_state_acceptance_v1")
+
+
+func _phase158_empty_room_slots() -> Array[String]:
+	var slots: Array[String] = []
+	slots.resize(GameSession.ROOM_DECORATION_SLOT_COUNT)
+	slots.fill("")
+	return slots
+
+
+func _phase158_sparse_room_slots() -> Array[String]:
+	var slots := _phase158_empty_room_slots()
+	slots[0] = "room_orchid"
+	slots[4] = "room_fern"
+	slots[8] = "round_leaf_pilea"
+	slots[11] = "colorful_coleus"
+	return slots
+
+
+func _phase158_phone_room_slots() -> Array[String]:
+	# Sanitized placement summary from the connected schema-41 save. No raw save
+	# is persisted in validation evidence.
+	var slots := _phase158_empty_room_slots()
+	slots[0] = "flowering_begonia"
+	slots[3] = "room_fern"
+	slots[4] = "room_orchid"
+	slots[5] = "mini_monstera"
+	slots[12] = "botanical_books"
+	slots[13] = "fertilizer_collection"
+	slots[14] = "nested_pots"
+	slots[15] = "golden_lamp"
+	slots[17] = "plastic_watering_can"
+	slots[18] = "preserved_herb_jars"
+	return slots
+
+
+func _phase158_full_room_slots() -> Array[String]:
+	return [
+		"room_orchid",
+		"mini_monstera",
+		"snake_plant",
+		"room_fern",
+		"flowering_begonia",
+		"round_leaf_pilea",
+		"striped_calathea",
+		"lemon_maranta",
+		"silver_aglaonema",
+		"pink_fittonia",
+		"climbing_pothos",
+		"colorful_coleus",
+		"botanical_books",
+		"fertilizer_collection",
+		"nested_pots",
+		"golden_lamp",
+		"botanical_print",
+		"plastic_watering_can",
+		"preserved_herb_jars",
+		"cat_corner",
+	]
+
+
+func _prepare_phase159_botanical_cloche_state(instance, full_room: bool) -> void:
+	var slots := _phase158_full_room_slots() if full_room else _phase158_empty_room_slots()
+	# Slot 14 remains a save-compatible retired placeholder. Slot 15 uses the
+	# existing golden_lamp entitlement for one centered botanical cloche.
+	slots[GameSession.PHASE159_RETIRED_POTS_SLOT_INDEX] = ""
+	slots[GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX] = GameSession.PHASE159_BOTANICAL_CLOCHE_ID
+	instance.session.selected_room_theme = "sunrise"
+	instance.session.room_decoration_slots.assign(slots)
+	instance.player_room_view.set_cosmetic_theme("sunrise")
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	instance.player_room_view.set_meta(
+		"capture_state",
+		"phase159_%s_report_only_v1" % ("full_19_of_20" if full_room else "botanical_cloche_only")
+	)
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase159_botanical_cloche_v1")
+
+
+func _prepare_phase160_room_floor_declutter_state(instance) -> void:
+	var slots := _phase158_full_room_slots()
+	# Keep the two historical receipts in the sanitized capture state. Phase160
+	# must prove that the renderer hides them without erasing owned save data.
+	slots[GameSession.PHASE159_RETIRED_POTS_SLOT_INDEX] = ""
+	slots[GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX] = GameSession.PHASE159_BOTANICAL_CLOCHE_ID
+	for dormant_decoration_id in GameSession.DORMANT_ROOM_DECORATION_IDS:
+		if dormant_decoration_id not in instance.session.owned_room_decorations:
+			instance.session.owned_room_decorations.append(dormant_decoration_id)
+	instance.session.selected_room_theme = "sunrise"
+	instance.session.room_decoration_slots.assign(slots)
+	instance.player_room_view.set_cosmetic_theme("sunrise")
+	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	instance.player_room_view.set_meta("capture_state", "phase160_clean_floor_dormant_receipts_report_only_v1")
+	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase160_clean_floor_v1")
+	instance.player_room_view.set_meta("dormant_slot_receipts_present", true)
 
 
 func _prepare_phase104_decoration_shop_state(instance) -> void:
@@ -1733,6 +2307,7 @@ func _prepare_phase105_greenhouse_growing_state(instance) -> void:
 	_sync_capture_coin_hud(instance)
 	instance._open_greenhouse()
 	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.set_meta("visual_profile_capture", "greenhouse_phase127_v1")
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_growing_report_only_v1")
 
@@ -1742,6 +2317,7 @@ func _prepare_phase105_greenhouse_ready_state(instance) -> void:
 	_sync_capture_coin_hud(instance)
 	instance._open_greenhouse()
 	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.set_meta("visual_profile_capture", "greenhouse_phase127_v1")
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_ready_report_only_v1")
 
@@ -1785,6 +2361,213 @@ func _prepare_phase107_greenhouse_cucumber_state(instance) -> void:
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase107_greenhouse_cucumber_growing_report_only_v1")
 
 
+func _prepare_phase113_greenhouse_radish_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 200
+	instance.session.coins = maxi(instance.session.coins, 12)
+	instance.session.plant_greenhouse_crop(1, "garden_radish")
+	instance.session.perform_greenhouse_bed_action(1)
+	instance.session.greenhouse.advance(10800.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(1)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase113_greenhouse_radish_growing_report_only_v1")
+
+
+func _prepare_phase115_greenhouse_eggplant_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 400
+	instance.session.coins = maxi(instance.session.coins, 22)
+	instance.session.plant_greenhouse_crop(3, "garden_eggplant")
+	instance.session.perform_greenhouse_bed_action(3)
+	instance.session.greenhouse.advance(32400.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(3)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase115_greenhouse_eggplant_growing_report_only_v1")
+
+
+func _prepare_phase116_greenhouse_order_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 400
+	instance.session.coins = maxi(instance.session.coins, 100)
+	instance.session.greenhouse_order = {
+		"id": "greenhouse_order_0000",
+		"sequence": 0,
+		"crop_id": "cherry_tomato",
+		"customer": "Bistro U Skleníku",
+		"title": "Bedýnka cherry rajčat",
+		"target_harvests": 2,
+		"progress": 1,
+		"bonus_coins": 14,
+		"bonus_xp": 6,
+	}
+	instance.session.greenhouse_order_rotation = 1
+	instance.session.plant_greenhouse_crop(0, "cherry_tomato")
+	instance.session.perform_greenhouse_bed_action(0)
+	instance.session.greenhouse.advance(21600.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase116_greenhouse_order_ready_report_only_v1")
+
+
+func _prepare_phase117_greenhouse_quality_order_state(instance) -> void:
+	instance.session.greenhouse.reset()
+	instance.session.xp = 400
+	instance.session.coins = maxi(instance.session.coins, 120)
+	instance.session.greenhouse_order = {
+		"id": "greenhouse_order_0001",
+		"sequence": 1,
+		"crop_id": "sweet_pepper",
+		"customer": "Tržnice Slunečný dvůr",
+		"title": "Koš sladkých paprik",
+		"target_harvests": 2,
+		"progress": 1,
+		"bonus_coins": 28,
+		"bonus_xp": 12,
+		"quality_tier": "multi_bed",
+		"required_distinct_beds": 2,
+		"credited_bed_indices": [0],
+	}
+	instance.session.greenhouse_order_rotation = 2
+	for bed_index in [0, 1]:
+		instance.session.greenhouse.plant(bed_index, "sweet_pepper")
+		instance.session.greenhouse.water(bed_index)
+	instance.session.greenhouse.advance(28800.0)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(1)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase117_greenhouse_quality_order_ready_report_only_v1")
+
+
+func _prepare_phase118_greenhouse_reputation_state(instance, mastered: bool) -> void:
+	instance.session.greenhouse_orders_completed = 15 if mastered else 7
+	instance.session.greenhouse_reputation_claimed_tier = 3 if mastered else 1
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase118_greenhouse_reputation_master_report_only_v1" if mastered else "phase118_greenhouse_reputation_progress_report_only_v1")
+
+
+func _prepare_phase150_approved_greenhouse_state(instance) -> bool:
+	# The approved composition intentionally combines a level-four HUD with a
+	# mature level-five eggplant. Build that impossible-in-normal-play state in a
+	# detached simulation used only by the screenshot harness; gameplay,
+	# progression and persisted greenhouse beds remain untouched.
+	var synthetic_greenhouse = GreenhouseSimulationScene.new()
+	if not synthetic_greenhouse.plant(3, "garden_eggplant") \
+			or not synthetic_greenhouse.water(3):
+		push_error("Phase 150 capture could not prepare the detached eggplant bay.")
+		return false
+	synthetic_greenhouse.advance(43200.0)
+	if not synthetic_greenhouse.plant(2, "cherry_tomato") \
+			or not synthetic_greenhouse.water(2):
+		push_error("Phase 150 capture could not prepare the detached tomato bay.")
+		return false
+	synthetic_greenhouse.advance(10800.0)
+	if not synthetic_greenhouse.plant(1, "cherry_tomato"):
+		push_error("Phase 150 capture could not prepare the detached seedling bay.")
+		return false
+
+	var states: Array[Dictionary] = []
+	for bed_index in range(GreenhouseSimulationScene.BED_COUNT):
+		states.append(synthetic_greenhouse.get_bed_state(bed_index, 420))
+	var canonical_state_valid := (
+		states.size() == 4
+		and str(states[0].get("stage", "")) == "empty"
+		and str(states[1].get("stage", "")) == "needs_water"
+		and str(states[2].get("stage", "")) == "growing"
+		and str(states[2].get("crop_id", "")) == "cherry_tomato"
+		and is_equal_approx(float(states[2].get("progress", 0.0)), 0.5)
+		and str(states[3].get("stage", "")) == "ready"
+		and str(states[3].get("crop_id", "")) == "garden_eggplant"
+	)
+	if not canonical_state_valid:
+		push_error("Phase 150 detached greenhouse did not reproduce empty / seedlings / tomato-growing / eggplant-ready.")
+		return false
+
+	instance.session.coins = 420
+	instance.session.xp = 300
+	instance.session.greenhouse_orders_completed = 0
+	instance.session.greenhouse_reputation_claimed_tier = 0
+	instance.session.greenhouse_order = {
+		"id": "greenhouse_order_0000",
+		"sequence": 0,
+		"crop_id": "cherry_tomato",
+		"customer": "Bistro U Skleníku",
+		"title": "Bedýnka cherry rajčat",
+		"target_harvests": 2,
+		"progress": 0,
+		"bonus_coins": 14,
+		"bonus_xp": 6,
+	}
+	_sync_capture_coin_hud(instance)
+	instance._set_day_display(10)
+	instance._open_greenhouse()
+	instance.greenhouse_preview_view.set_greenhouse_state(
+		states,
+		synthetic_greenhouse.get_crop_catalog(),
+		420,
+		300,
+		instance.session.get_greenhouse_order_state()
+	)
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase150_approved_greenhouse_target_report_only_v1")
+	instance.greenhouse_preview_view.set_meta("visual_profile_capture", "greenhouse_phase150_dynamic_alpha_v1")
+	return (
+		instance.session.get_level() == 4
+		and instance.greenhouse_preview_view.player_level == 4
+		and instance.greenhouse_preview_view.wallet_coins == 420
+		and instance.greenhouse_preview_view.selected_bed_index == 0
+	)
+
+
+func _capture_phase115_greenhouse_level4_compact(instance) -> bool:
+	var previous_content_scale_size: Vector2i = root.content_scale_size
+	root.content_scale_size = Vector2i(360, 800)
+	await process_frame
+	await process_frame
+	instance.session.greenhouse.reset()
+	instance.session.greenhouse_orders_completed = 0
+	instance.session.greenhouse_reputation_claimed_tier = 0
+	instance.session.xp = 300
+	instance.session.coins = maxi(instance.session.coins, 100)
+	_sync_capture_coin_hud(instance)
+	instance._open_greenhouse()
+	instance._refresh_greenhouse_view()
+	instance.greenhouse_preview_view.select_bed(0)
+	instance.greenhouse_preview_view.set_meta("capture_state", "phase115_greenhouse_level4_compact_report_only_v1")
+	await _settle(instance)
+	var greenhouse = instance.greenhouse_preview_view
+	var capture_valid: bool = (
+		greenhouse.size == Vector2(360.0, 620.0)
+		and greenhouse._uses_compact_layout()
+		and greenhouse.crop_buttons.size() == 5
+		and greenhouse.crop_buttons[0].visible
+		and not greenhouse.crop_buttons[0].disabled
+		and greenhouse.crop_buttons[1].visible
+		and not greenhouse.crop_buttons[1].disabled
+		and greenhouse.crop_buttons[2].visible
+		and not greenhouse.crop_buttons[2].disabled
+		and greenhouse.crop_buttons[3].visible
+		and not greenhouse.crop_buttons[3].disabled
+		and greenhouse.crop_buttons[4].visible
+		and greenhouse.crop_buttons[4].disabled
+		and "OD ÚR. 5" in greenhouse.crop_buttons[4].text
+	)
+	if not capture_valid:
+		push_error("Phase 115 compact capture did not render exact 360x620 content with four unlocked crops and locked eggplant.")
+	else:
+		capture_valid = _save_full_viewport("comic-greenhouse-level4-compact.png")
+	root.content_scale_size = previous_content_scale_size
+	await process_frame
+	await process_frame
+	return capture_valid
+
+
 func _capture_phase109_greenhouse_level2_compact(instance) -> bool:
 	var previous_content_scale_size: Vector2i = root.content_scale_size
 	root.content_scale_size = Vector2i(360, 800)
@@ -1796,23 +2579,31 @@ func _capture_phase109_greenhouse_level2_compact(instance) -> bool:
 	var capture_valid: bool = (
 		greenhouse.size == Vector2(360.0, 620.0)
 		and greenhouse.get_meta("responsive_layout_component", "") == "phase109_greenhouse_compact_layout_v1"
-		and greenhouse.crop_buttons.size() == 3
+		and greenhouse.crop_buttons.size() == 5
 		and greenhouse.crop_buttons[0].visible
 		and not greenhouse.crop_buttons[0].disabled
 		and greenhouse.crop_buttons[1].visible
 		and not greenhouse.crop_buttons[1].disabled
 		and greenhouse.crop_buttons[2].visible
 		and greenhouse.crop_buttons[2].disabled
-		and "OD ÚR. 4" in greenhouse.crop_buttons[2].text
+		and "OD ÚR. 3" in greenhouse.crop_buttons[2].text
+		and greenhouse.crop_buttons[3].visible
+		and greenhouse.crop_buttons[3].disabled
+		and "OD ÚR. 4" in greenhouse.crop_buttons[3].text
+		and greenhouse.crop_buttons[4].visible
+		and greenhouse.crop_buttons[4].disabled
+		and "OD ÚR. 5" in greenhouse.crop_buttons[4].text
 	)
 	if not capture_valid:
-		push_error("Phase 109 compact capture did not render exact 360x620 content with level-2 tomato, pepper and locked cucumber choices.")
+		push_error("Phase 115 compact capture did not render exact 360x620 content with level-2 tomato/pepper and locked radish/cucumber/eggplant choices.")
 	else:
 		capture_valid = _save_full_viewport("comic-greenhouse-level2-compact.png")
 	root.content_scale_size = previous_content_scale_size
 	await process_frame
 	await process_frame
 	instance.session.greenhouse.reset()
+	instance.session.greenhouse_orders_completed = 0
+	instance.session.greenhouse_reputation_claimed_tier = 0
 	instance._refresh_greenhouse_view()
 	instance._refresh_rack_greenhouse_attention()
 	return capture_valid
@@ -2114,7 +2905,6 @@ func _prepare_phase11_mint_room_state(instance) -> void:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 4
-	instance.room_overview.displayed_growth_percent = 72.0
 	instance.room_overview.refresh()
 	instance._refresh_ui()
 
@@ -2235,7 +3025,6 @@ func _prepare_phase71_oregano_room_state(instance) -> void:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 4
-	instance.room_overview.displayed_growth_percent = 70.0
 	instance.room_overview.refresh()
 	instance._refresh_ui()
 
@@ -2592,7 +3381,6 @@ func _prepare_phase81_lavender_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 5
-	instance.room_overview.displayed_growth_percent = 84.0
 	instance.room_overview.set_meta("capture_state", "phase81_lavender_room_mature_v1")
 	instance.room_overview.set_meta("species_id", LAVENDER_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -2809,7 +3597,6 @@ func _prepare_phase83_chives_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 5
-	instance.room_overview.displayed_growth_percent = 84.0
 	instance.room_overview.set_meta("capture_state", "phase83_chives_room_mature_v1")
 	instance.room_overview.set_meta("species_id", CHIVES_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -3037,7 +3824,6 @@ func _prepare_phase84_marjoram_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 5
-	instance.room_overview.displayed_growth_percent = 84.0
 	instance.room_overview.set_meta("capture_state", "phase84_marjoram_room_mature_v1")
 	instance.room_overview.set_meta("species_id", MARJORAM_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -3272,7 +4058,6 @@ func _prepare_phase85_parsley_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 5
-	instance.room_overview.displayed_growth_percent = 100.0
 	instance.room_overview.set_meta("capture_state", "phase85_parsley_room_mature_v1")
 	instance.room_overview.set_meta("species_id", PARSLEY_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -3512,7 +4297,6 @@ func _prepare_phase86_lemon_balm_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 5
-	instance.room_overview.displayed_growth_percent = 100.0
 	instance.room_overview.set_meta("capture_state", "phase86_lemon_balm_room_mature_v1")
 	instance.room_overview.set_meta("species_id", LEMON_BALM_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -3762,7 +4546,6 @@ func _prepare_phase95_sage_room_state(instance) -> bool:
 	instance._change_screen(0)
 	instance._open_room()
 	instance.room_overview.previous_unlocked_count = 7
-	instance.room_overview.displayed_growth_percent = 100.0
 	instance.room_overview.set_meta("capture_state", "phase95_sage_room_mature_report_only_v1")
 	instance.room_overview.set_meta("species_id", SAGE_SPECIES_ID)
 	instance.room_overview.refresh()
@@ -4412,6 +5195,10 @@ func _read_output_directory() -> String:
 		if arguments[index].begins_with("--output-dir="):
 			return _absolute_path(arguments[index].trim_prefix("--output-dir="))
 	return ""
+
+
+func _has_user_flag(flag: String) -> bool:
+	return flag in OS.get_cmdline_user_args()
 
 
 func _absolute_path(value: String) -> String:

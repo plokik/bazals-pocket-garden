@@ -1,0 +1,1714 @@
+{
+  "schema": "phase149_target_room_layers_v1",
+  "tool_version": 1,
+  "deterministic": true,
+  "coordinate_space": {
+    "full_master_size": [
+      853,
+      1844
+    ],
+    "content_crop_xyxy": [
+      0,
+      137,
+      853,
+      1685
+    ],
+    "content_size": [
+      853,
+      1548
+    ],
+    "bbox_format": "x_y_width_height",
+    "asset_png_policy": "canvas_size_equals_content_bbox_size_no_extra_padding"
+  },
+  "sources": {
+    "target": {
+      "path": "docs/visual-proposals/phase147/player-room-painted-cartoon-production-target-v1.png",
+      "sha256": "26A4387743AEBA8B9F464493D2563BF584620D28E2539E13E73EB076B421794D",
+      "mode": "RGB",
+      "size": [
+        853,
+        1844
+      ],
+      "immutable": true
+    },
+    "content_reference": {
+      "path": "docs/visual-proposals/phase149/player-room-exact-content-target-v1.png",
+      "sha256": "82D14A3B872C218B37B860F22E3980466974461A8A05784784BBD7ACEBDED8F7",
+      "size": [
+        853,
+        1548
+      ],
+      "immutable": true
+    },
+    "clean_donor": {
+      "path": "docs/visual-proposals/phase149/player-room-object-free-clean-donor-v2.png",
+      "sha256": "C61E60B39C14182EDADC57FFA43F3DEDD31C7BE1BD5FBECD1502D9BCF415B6A6",
+      "source_size": [
+        931,
+        1689
+      ],
+      "registration": "deterministic_lanczos_full_frame_resize_to_853x1548",
+      "usage": "only_under_solid_target_object_masks"
+    }
+  },
+  "clean_plate": {
+    "output": "assets/ui/player_room/player_room_phase149_target_clean_v1.png",
+    "output_sha256": "5ED3D2D5E6969DE2D3C49225C0B0421352739827AE467F7F214EEC4E31570A75",
+    "mode": "RGB",
+    "size": [
+      853,
+      1548
+    ],
+    "layer_solid_union_pixels": 402820,
+    "removal_mask_nonzero_pixels": 792224,
+    "removal_mask_solid_pixels": 522719,
+    "outside_removal_mask_rgb_mismatch_pixels": 0,
+    "solid_removal_pixels_not_equal_registered_donor": 0,
+    "removal_mask_policy": "rounded_target_bbox_union_per_group_5_to_12px_feather_plus_locked_fragment_patch_v1",
+    "locked_fragment_rects_content": [
+      [
+        278,
+        932,
+        28,
+        24
+      ]
+    ],
+    "empty_ghost_qa": {
+      "status": "PASSED",
+      "rack_leaf_fragments": "covered_by_plant_envelopes_and_locked_x278_y932_patch",
+      "floor_bowl_outlines": "covered_by_corrected_paired_bowls_removal_envelope",
+      "right_wall_rectangular_artifact": "covered_by_expanded_botanical_print_mask_with_12px_feather"
+    }
+  },
+  "canonical_full_master": {
+    "output": "assets/ui/player_room/player_room_phase149_target_full_v1.png",
+    "output_sha256": "82D14A3B872C218B37B860F22E3980466974461A8A05784784BBD7ACEBDED8F7",
+    "mode": "RGB",
+    "size": [
+      853,
+      1548
+    ],
+    "byte_exact_content_reference_copy": true,
+    "coverage": {
+      "status": "PASSED",
+      "mean_abs_error": 0.0,
+      "rgb_rmse": 0.0,
+      "max_channel_error": 0,
+      "exact_pixel_ratio": 1.0
+    }
+  },
+  "slot_contract": {
+    "slot_count": 20,
+    "visual_layer_count": 21,
+    "plant_slot_count": 12,
+    "fixed_slot_count": 8,
+    "slot_visual_counts": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1,
+      "16": 1,
+      "17": 1,
+      "18": 1,
+      "19": 2
+    },
+    "slot_19_layers": [
+      "cat_bed",
+      "paired_bowls"
+    ]
+  },
+  "assets": [
+    {
+      "id": "orchid",
+      "group": "plants",
+      "slot_index": 0,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        80,
+        499,
+        127,
+        310
+      ],
+      "content_bbox": [
+        80,
+        362,
+        127,
+        310
+      ],
+      "anchor_full": [
+        130,
+        811
+      ],
+      "anchor_content": [
+        130,
+        674
+      ],
+      "pivot_in_output": [
+        50,
+        312
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_orchid_phase149.png",
+      "output_size": [
+        127,
+        310
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "511D95CF2B04A7B555B93B2C5826D34DF02D4A0570A6591A2C47D1015AA2960E",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_orchid_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          8,
+          3,
+          2
+        ],
+        "target_template_colour_offset_rgb": [
+          -19,
+          -12,
+          -6
+        ],
+        "background_noise_p90": 111.7522,
+        "background_noise_p97": 159.1755,
+        "weak_threshold": 113.7522,
+        "strong_threshold": 164.1755,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 101.6304,
+        "appearance_p94": 149.0837,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 31320,
+        "solid_alpha_pixels": 27200,
+        "soft_alpha_pixels": 4120,
+        "transparent_ratio": 0.20447,
+        "solid_coverage_ratio": 0.690881,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "glossy_broadleaf",
+      "group": "plants",
+      "slot_index": 1,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        197,
+        582,
+        145,
+        228
+      ],
+      "content_bbox": [
+        197,
+        445,
+        145,
+        228
+      ],
+      "anchor_full": [
+        274,
+        811
+      ],
+      "anchor_content": [
+        274,
+        674
+      ],
+      "pivot_in_output": [
+        77,
+        229
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_glossy_broadleaf_phase149.png",
+      "output_size": [
+        145,
+        228
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "0C9D5FE58AA4B1CF0C6418CDDA91A4EA68537CE1427602F83A3BA23B6182198C",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_glossy_broadleaf_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -2,
+          -3,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          2,
+          1,
+          0
+        ],
+        "background_noise_p90": 75.1043,
+        "background_noise_p97": 109.8813,
+        "weak_threshold": 77.1043,
+        "strong_threshold": 114.8813,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 88.7076,
+        "appearance_p94": 136.1951,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 27146,
+        "solid_alpha_pixels": 24744,
+        "soft_alpha_pixels": 2402,
+        "transparent_ratio": 0.178887,
+        "solid_coverage_ratio": 0.748457,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "snake_plant",
+      "group": "plants",
+      "slot_index": 2,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        330,
+        542,
+        139,
+        267
+      ],
+      "content_bbox": [
+        330,
+        405,
+        139,
+        267
+      ],
+      "anchor_full": [
+        416,
+        811
+      ],
+      "anchor_content": [
+        416,
+        674
+      ],
+      "pivot_in_output": [
+        86,
+        269
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_snake_plant_phase149.png",
+      "output_size": [
+        139,
+        267
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "8A0102C884430D5A38725460EF054376A56DD81A3C6EA955B21388E1A091ED32",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_snake_plant_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -1,
+          1,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          3,
+          3,
+          0
+        ],
+        "background_noise_p90": 73.6231,
+        "background_noise_p97": 104.5243,
+        "weak_threshold": 75.6231,
+        "strong_threshold": 109.5243,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 103.6482,
+        "appearance_p94": 149.3518,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 28073,
+        "solid_alpha_pixels": 23746,
+        "soft_alpha_pixels": 4327,
+        "transparent_ratio": 0.24358,
+        "solid_coverage_ratio": 0.63983,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "fern",
+      "group": "plants",
+      "slot_index": 3,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        58,
+        826,
+        158,
+        208
+      ],
+      "content_bbox": [
+        58,
+        689,
+        158,
+        208
+      ],
+      "anchor_full": [
+        130,
+        1046
+      ],
+      "anchor_content": [
+        130,
+        909
+      ],
+      "pivot_in_output": [
+        72,
+        220
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_fern_phase149.png",
+      "output_size": [
+        158,
+        208
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "0DA751A65C58407E63696BA62BACD06F93EFA4B37F8CBCF19995661F71AC0DDC",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -14,
+          -2,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -7,
+          -15,
+          -1
+        ],
+        "background_noise_p90": 64.0989,
+        "background_noise_p97": 79.0441,
+        "weak_threshold": 66.0989,
+        "strong_threshold": 84.0441,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 83.1003,
+        "appearance_p94": 121.5125,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 24336,
+        "solid_alpha_pixels": 20858,
+        "soft_alpha_pixels": 3478,
+        "transparent_ratio": 0.259494,
+        "solid_coverage_ratio": 0.634676,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "flowering_begonia",
+      "group": "plants",
+      "slot_index": 4,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        199,
+        826,
+        158,
+        208
+      ],
+      "content_bbox": [
+        199,
+        689,
+        158,
+        208
+      ],
+      "anchor_full": [
+        274,
+        1046
+      ],
+      "anchor_content": [
+        274,
+        909
+      ],
+      "pivot_in_output": [
+        75,
+        220
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_flowering_begonia_phase149.png",
+      "output_size": [
+        158,
+        208
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "53A518698D3CD42CD5E91B44BFDF5358D7C7315DD50E6448944374035E8B0BCF",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_flowering_begonia_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -64,
+          -7,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          -2,
+          -5,
+          -1
+        ],
+        "background_noise_p90": 47.2539,
+        "background_noise_p97": 67.6567,
+        "weak_threshold": 49.2539,
+        "strong_threshold": 72.6567,
+        "capped_strong_threshold": 72.6567,
+        "appearance_p82": 104.6184,
+        "appearance_p94": 153.5085,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 25610,
+        "solid_alpha_pixels": 22025,
+        "soft_alpha_pixels": 3585,
+        "transparent_ratio": 0.220728,
+        "solid_coverage_ratio": 0.670186,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "roundleaf_pilea",
+      "group": "plants",
+      "slot_index": 5,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        339,
+        829,
+        136,
+        205
+      ],
+      "content_bbox": [
+        339,
+        692,
+        136,
+        205
+      ],
+      "anchor_full": [
+        416,
+        1046
+      ],
+      "anchor_content": [
+        416,
+        909
+      ],
+      "pivot_in_output": [
+        77,
+        217
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_roundleaf_pilea_phase149.png",
+      "output_size": [
+        136,
+        205
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "13BEE67EE4DC73F7615CE33593BF35B589BCCABE43B9D63A692EF660DD0026D1",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_roundleaf_pilea_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -40,
+          -8,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          -2,
+          -7,
+          0
+        ],
+        "background_noise_p90": 53.2644,
+        "background_noise_p97": 74.8451,
+        "weak_threshold": 55.2644,
+        "strong_threshold": 79.8451,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 80.4521,
+        "appearance_p94": 122.7829,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 22145,
+        "solid_alpha_pixels": 20139,
+        "soft_alpha_pixels": 2006,
+        "transparent_ratio": 0.205703,
+        "solid_coverage_ratio": 0.722346,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "striped_calathea",
+      "group": "plants",
+      "slot_index": 6,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        58,
+        1072,
+        156,
+        214
+      ],
+      "content_bbox": [
+        58,
+        935,
+        156,
+        214
+      ],
+      "anchor_full": [
+        130,
+        1286
+      ],
+      "anchor_content": [
+        130,
+        1149
+      ],
+      "pivot_in_output": [
+        72,
+        214
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_striped_calathea_phase149.png",
+      "output_size": [
+        156,
+        214
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "FCDA12CB470E4DABDD6D4FF1ACC183B841D07B2FA218FD687F82E8698B578569",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_striped_calathea_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -23,
+          -4,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -28,
+          -5,
+          -2
+        ],
+        "background_noise_p90": 59.9772,
+        "background_noise_p97": 95.6435,
+        "weak_threshold": 61.9772,
+        "strong_threshold": 100.6435,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 79.8102,
+        "appearance_p94": 123.3234,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 26265,
+        "solid_alpha_pixels": 24113,
+        "soft_alpha_pixels": 2152,
+        "transparent_ratio": 0.213246,
+        "solid_coverage_ratio": 0.722292,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "lemon_maranta",
+      "group": "plants",
+      "slot_index": 7,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        199,
+        1087,
+        155,
+        199
+      ],
+      "content_bbox": [
+        199,
+        950,
+        155,
+        199
+      ],
+      "anchor_full": [
+        274,
+        1286
+      ],
+      "anchor_content": [
+        274,
+        1149
+      ],
+      "pivot_in_output": [
+        75,
+        199
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_lemon_maranta_phase149.png",
+      "output_size": [
+        155,
+        199
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "B8CB8D0B518DFC475BDDE704B59F818C0ABEF174CE0667D4F1A1AB88A3A21749",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_lemon_maranta_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -73,
+          -12,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          -9,
+          -14,
+          0
+        ],
+        "background_noise_p90": 46.9539,
+        "background_noise_p97": 91.4157,
+        "weak_threshold": 48.9539,
+        "strong_threshold": 96.4157,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 101.2843,
+        "appearance_p94": 139.0354,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 23506,
+        "solid_alpha_pixels": 18955,
+        "soft_alpha_pixels": 4551,
+        "transparent_ratio": 0.237932,
+        "solid_coverage_ratio": 0.614524,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "compact_aglaonema",
+      "group": "plants",
+      "slot_index": 8,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        341,
+        1082,
+        134,
+        204
+      ],
+      "content_bbox": [
+        341,
+        945,
+        134,
+        204
+      ],
+      "anchor_full": [
+        414,
+        1286
+      ],
+      "anchor_content": [
+        414,
+        1149
+      ],
+      "pivot_in_output": [
+        73,
+        204
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_compact_aglaonema_phase149.png",
+      "output_size": [
+        134,
+        204
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "3A8B6FB76635FC8B411E5BAFA63C81D9DD60909CFDD04FF3A29EE6ACDE6648DD",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_compact_aglaonema_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -48,
+          -13,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          0,
+          -9,
+          0
+        ],
+        "background_noise_p90": 49.485,
+        "background_noise_p97": 68.697,
+        "weak_threshold": 51.485,
+        "strong_threshold": 73.697,
+        "capped_strong_threshold": 73.697,
+        "appearance_p82": 82.7949,
+        "appearance_p94": 130.9302,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 21495,
+        "solid_alpha_pixels": 18930,
+        "soft_alpha_pixels": 2565,
+        "transparent_ratio": 0.213674,
+        "solid_coverage_ratio": 0.692493,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "fittonia",
+      "group": "plants",
+      "slot_index": 9,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        63,
+        1315,
+        149,
+        193
+      ],
+      "content_bbox": [
+        63,
+        1178,
+        149,
+        193
+      ],
+      "anchor_full": [
+        130,
+        1507
+      ],
+      "anchor_content": [
+        130,
+        1370
+      ],
+      "pivot_in_output": [
+        67,
+        192
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_fittonia_phase149.png",
+      "output_size": [
+        149,
+        193
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "AF10C149637D22B207699EE5E04B4B53130B1C3023F6F89788DD3779F1D43FFA",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_fittonia_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -13,
+          -2,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -33,
+          -27,
+          0
+        ],
+        "background_noise_p90": 53.785,
+        "background_noise_p97": 88.5102,
+        "weak_threshold": 55.785,
+        "strong_threshold": 93.5102,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 83.5268,
+        "appearance_p94": 121.5988,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 23184,
+        "solid_alpha_pixels": 19553,
+        "soft_alpha_pixels": 3631,
+        "transparent_ratio": 0.193796,
+        "solid_coverage_ratio": 0.679939,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "pothos",
+      "group": "plants",
+      "slot_index": 10,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        199,
+        1308,
+        157,
+        199
+      ],
+      "content_bbox": [
+        199,
+        1171,
+        157,
+        199
+      ],
+      "anchor_full": [
+        274,
+        1507
+      ],
+      "anchor_content": [
+        274,
+        1370
+      ],
+      "pivot_in_output": [
+        75,
+        199
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_pothos_phase149.png",
+      "output_size": [
+        157,
+        199
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "33DE0B10DD00A80157CE7A30AD0A5843EC9F823231F60D84D0D04C4291814B40",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_pothos_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -72,
+          -14,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          9,
+          -28,
+          -3
+        ],
+        "background_noise_p90": 55.5652,
+        "background_noise_p97": 108.2424,
+        "weak_threshold": 57.5652,
+        "strong_threshold": 113.2424,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 103.8051,
+        "appearance_p94": 141.6701,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 23544,
+        "solid_alpha_pixels": 21164,
+        "soft_alpha_pixels": 2380,
+        "transparent_ratio": 0.246423,
+        "solid_coverage_ratio": 0.6774,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "coleus",
+      "group": "plants",
+      "slot_index": 11,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        339,
+        1308,
+        138,
+        199
+      ],
+      "content_bbox": [
+        339,
+        1171,
+        138,
+        199
+      ],
+      "anchor_full": [
+        414,
+        1507
+      ],
+      "anchor_content": [
+        414,
+        1370
+      ],
+      "pivot_in_output": [
+        75,
+        199
+      ],
+      "output": "assets/ui/visual/phase149/player_room/plants/room_plant_coleus_phase149.png",
+      "output_size": [
+        138,
+        199
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "7D22E1E85215150D36DD40C0936F897466A746A1E2CE27EA0F367013EC62732F",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_coleus_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -65,
+          -16,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -12,
+          -11,
+          -3
+        ],
+        "background_noise_p90": 45.5646,
+        "background_noise_p97": 76.7199,
+        "weak_threshold": 47.5646,
+        "strong_threshold": 81.7199,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 71.515,
+        "appearance_p94": 112.1489,
+        "appearance_threshold": 71.515,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 21247,
+        "solid_alpha_pixels": 17959,
+        "soft_alpha_pixels": 3288,
+        "transparent_ratio": 0.226313,
+        "solid_coverage_ratio": 0.653958,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "books",
+      "group": "decor",
+      "slot_index": 12,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        512,
+        282,
+        145,
+        129
+      ],
+      "content_bbox": [
+        512,
+        145,
+        145,
+        129
+      ],
+      "anchor_full": [
+        584,
+        412
+      ],
+      "anchor_content": [
+        584,
+        275
+      ],
+      "pivot_in_output": [
+        72,
+        130
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_books_phase149.png",
+      "output_size": [
+        145,
+        129
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "88BCA67EF85F55C8B43B8EA9E889A7DF9DF7A113E304D6B916FA1180C1745868",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_books_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -4,
+          -5,
+          -5
+        ],
+        "target_template_colour_offset_rgb": [
+          4,
+          -2,
+          0
+        ],
+        "background_noise_p90": 54.0648,
+        "background_noise_p97": 140.8618,
+        "weak_threshold": 56.0648,
+        "strong_threshold": 145.8618,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 90.0822,
+        "appearance_p94": 130.4887,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 17525,
+        "solid_alpha_pixels": 16359,
+        "soft_alpha_pixels": 1166,
+        "transparent_ratio": 0.063085,
+        "solid_coverage_ratio": 0.874579,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "herb_jars",
+      "group": "decor",
+      "slot_index": 18,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        670,
+        298,
+        159,
+        113
+      ],
+      "content_bbox": [
+        670,
+        161,
+        159,
+        113
+      ],
+      "anchor_full": [
+        750,
+        412
+      ],
+      "anchor_content": [
+        750,
+        275
+      ],
+      "pivot_in_output": [
+        80,
+        114
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_herb_jars_phase149.png",
+      "output_size": [
+        159,
+        113
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "FEEE3CC76A96D1A897F41E5617C3FAFFAE3E274ECE1565913F3C96B7490513A2",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_herb_jars_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -1,
+          3,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          -14,
+          -16,
+          -2
+        ],
+        "background_noise_p90": 20.7213,
+        "background_noise_p97": 33.8746,
+        "weak_threshold": 22.7213,
+        "strong_threshold": 38.8746,
+        "capped_strong_threshold": 38.8746,
+        "appearance_p82": 94.3256,
+        "appearance_p94": 131.1051,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 17327,
+        "solid_alpha_pixels": 16101,
+        "soft_alpha_pixels": 1226,
+        "transparent_ratio": 0.035621,
+        "solid_coverage_ratio": 0.896143,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "fertilizer_bags",
+      "group": "decor",
+      "slot_index": 13,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        512,
+        474,
+        172,
+        133
+      ],
+      "content_bbox": [
+        512,
+        337,
+        172,
+        133
+      ],
+      "anchor_full": [
+        598,
+        608
+      ],
+      "anchor_content": [
+        598,
+        471
+      ],
+      "pivot_in_output": [
+        86,
+        134
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_fertilizer_bags_phase149.png",
+      "output_size": [
+        172,
+        133
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "848C3480217F29BE5F1B13EEB5B44E1C958DDE4692F69D17CF63412078C64E82",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_fertilizer_bags_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -4,
+          -3,
+          -2
+        ],
+        "target_template_colour_offset_rgb": [
+          -1,
+          -5,
+          1
+        ],
+        "background_noise_p90": 83.259,
+        "background_noise_p97": 144.182,
+        "weak_threshold": 85.259,
+        "strong_threshold": 149.182,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 72.8168,
+        "appearance_p94": 116.479,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 21815,
+        "solid_alpha_pixels": 20232,
+        "soft_alpha_pixels": 1583,
+        "transparent_ratio": 0.04638,
+        "solid_coverage_ratio": 0.88442,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "botanical_print",
+      "group": "decor",
+      "slot_index": 16,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        709,
+        472,
+        118,
+        136
+      ],
+      "content_bbox": [
+        709,
+        335,
+        118,
+        136
+      ],
+      "anchor_full": [
+        768,
+        608
+      ],
+      "anchor_content": [
+        768,
+        471
+      ],
+      "pivot_in_output": [
+        59,
+        136
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_botanical_print_phase149.png",
+      "output_size": [
+        118,
+        136
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "B44AECB741A85A7E9C0830F44D4CBB78BAC86F795716278CEA2E44C727F7F0EF",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_botanical_print_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -22,
+          -33,
+          -8
+        ],
+        "target_template_colour_offset_rgb": [
+          1,
+          8,
+          1
+        ],
+        "background_noise_p90": 99.8375,
+        "background_noise_p97": 125.9674,
+        "weak_threshold": 101.8375,
+        "strong_threshold": 130.9674,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 117.8403,
+        "appearance_p94": 158.697,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 15200,
+        "solid_alpha_pixels": 14090,
+        "soft_alpha_pixels": 1110,
+        "transparent_ratio": 0.052841,
+        "solid_coverage_ratio": 0.877991,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "table_lamp",
+      "group": "decor",
+      "slot_index": 15,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        550,
+        1044,
+        99,
+        164
+      ],
+      "content_bbox": [
+        550,
+        907,
+        99,
+        164
+      ],
+      "anchor_full": [
+        600,
+        1210
+      ],
+      "anchor_content": [
+        600,
+        1073
+      ],
+      "pivot_in_output": [
+        50,
+        166
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_table_lamp_phase149.png",
+      "output_size": [
+        99,
+        164
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "1DEAE1AA2A32BF6EB4F2204356ED8755C79256768D922A6C44ECB4DCB241C3B8",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_table_lamp_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          3,
+          3,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -5,
+          -11,
+          0
+        ],
+        "background_noise_p90": 31.6291,
+        "background_noise_p97": 62.775,
+        "weak_threshold": 33.6291,
+        "strong_threshold": 67.775,
+        "capped_strong_threshold": 67.775,
+        "appearance_p82": 66.8547,
+        "appearance_p94": 114.4556,
+        "appearance_threshold": 66.8547,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 12236,
+        "solid_alpha_pixels": 10868,
+        "soft_alpha_pixels": 1368,
+        "transparent_ratio": 0.246366,
+        "solid_coverage_ratio": 0.669377,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "nested_pots",
+      "group": "decor",
+      "slot_index": 14,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        678,
+        1052,
+        122,
+        158
+      ],
+      "content_bbox": [
+        678,
+        915,
+        122,
+        158
+      ],
+      "anchor_full": [
+        739,
+        1212
+      ],
+      "anchor_content": [
+        739,
+        1075
+      ],
+      "pivot_in_output": [
+        61,
+        160
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_nested_pots_phase149.png",
+      "output_size": [
+        122,
+        158
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "E0E584122A7194D1CCB5AAF1B8B46B572ABE9FD6CE61FEE4E21DE6BD6C1DE7EB",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_nested_pots_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          2,
+          3,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          -17,
+          -7,
+          1
+        ],
+        "background_noise_p90": 52.1983,
+        "background_noise_p97": 87.6733,
+        "weak_threshold": 54.1983,
+        "strong_threshold": 92.6733,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 54.9119,
+        "appearance_p94": 107.7942,
+        "appearance_threshold": 54.9119,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 16659,
+        "solid_alpha_pixels": 15319,
+        "soft_alpha_pixels": 1340,
+        "transparent_ratio": 0.135765,
+        "solid_coverage_ratio": 0.794719,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "watering_can",
+      "group": "decor",
+      "slot_index": 17,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        520,
+        1360,
+        140,
+        150
+      ],
+      "content_bbox": [
+        520,
+        1223,
+        140,
+        150
+      ],
+      "anchor_full": [
+        590,
+        1511
+      ],
+      "anchor_content": [
+        590,
+        1374
+      ],
+      "pivot_in_output": [
+        70,
+        151
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_watering_can_phase149.png",
+      "output_size": [
+        140,
+        150
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "C9F2AB28E12F25E72543BC3DF6A01005E257E4C822241505495211B826E3C17B",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_watering_can_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          1,
+          9,
+          1
+        ],
+        "target_template_colour_offset_rgb": [
+          -4,
+          -21,
+          -20
+        ],
+        "background_noise_p90": 59.1323,
+        "background_noise_p97": 88.6426,
+        "weak_threshold": 61.1323,
+        "strong_threshold": 93.6426,
+        "capped_strong_threshold": 75.0,
+        "appearance_p82": 74.654,
+        "appearance_p94": 116.7513,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 14659,
+        "solid_alpha_pixels": 12639,
+        "soft_alpha_pixels": 2020,
+        "transparent_ratio": 0.301952,
+        "solid_coverage_ratio": 0.601857,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "cat_bed",
+      "group": "decor",
+      "slot_index": 19,
+      "visual_index_in_slot": 0,
+      "source_bbox_full": [
+        638,
+        1355,
+        200,
+        155
+      ],
+      "content_bbox": [
+        638,
+        1218,
+        200,
+        155
+      ],
+      "anchor_full": [
+        736,
+        1511
+      ],
+      "anchor_content": [
+        736,
+        1374
+      ],
+      "pivot_in_output": [
+        98,
+        156
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_cat_bed_phase149.png",
+      "output_size": [
+        200,
+        155
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "31165660FB2926931BFE167AE7CEA4F2A03FE4368FAAA538D11225605A1A835B",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_cat_bed_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -22,
+          -6,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          4,
+          1,
+          1
+        ],
+        "background_noise_p90": 51.7977,
+        "background_noise_p97": 58.9254,
+        "weak_threshold": 53.7977,
+        "strong_threshold": 63.9254,
+        "capped_strong_threshold": 63.9254,
+        "appearance_p82": 94.8783,
+        "appearance_p94": 138.434,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 27583,
+        "solid_alpha_pixels": 25985,
+        "soft_alpha_pixels": 1598,
+        "transparent_ratio": 0.110226,
+        "solid_coverage_ratio": 0.838226,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    },
+    {
+      "id": "paired_bowls",
+      "group": "decor",
+      "slot_index": 19,
+      "visual_index_in_slot": 1,
+      "source_bbox_full": [
+        574,
+        1505,
+        205,
+        105
+      ],
+      "content_bbox": [
+        574,
+        1368,
+        205,
+        105
+      ],
+      "anchor_full": [
+        681,
+        1610
+      ],
+      "anchor_content": [
+        681,
+        1473
+      ],
+      "pivot_in_output": [
+        107,
+        105
+      ],
+      "output": "assets/ui/visual/phase149/player_room/decor/room_decor_paired_bowls_phase149.png",
+      "output_size": [
+        205,
+        105
+      ],
+      "output_mode": "RGBA",
+      "output_sha256": "EBC2E63DF8535AB9AD7C20EAA8EF77AFE8644BF567ECC6B71E70809821BE3E16",
+      "rgb_policy": "all_nontransparent_rgb_is_byte_exact_target_crop_rgb",
+      "topology_template": "assets/ui/visual/phase148/player_room/decor/room_decor_paired_bowls_phase148.png",
+      "qa": {
+        "template_prior_only_not_rgb_source": true,
+        "target_donor_colour_offset_rgb": [
+          -18,
+          -1,
+          0
+        ],
+        "target_template_colour_offset_rgb": [
+          0,
+          -11,
+          -1
+        ],
+        "background_noise_p90": 47.5464,
+        "background_noise_p97": 69.2397,
+        "weak_threshold": 49.5464,
+        "strong_threshold": 74.2397,
+        "capped_strong_threshold": 74.2397,
+        "appearance_p82": 81.8167,
+        "appearance_p94": 111.8999,
+        "appearance_threshold": 72.0,
+        "loose_appearance_threshold": 105.0,
+        "nonzero_alpha_pixels": 14813,
+        "solid_alpha_pixels": 13178,
+        "soft_alpha_pixels": 1635,
+        "transparent_ratio": 0.311823,
+        "solid_coverage_ratio": 0.612218,
+        "edge_max_alpha": 0,
+        "visible_target_rgb_mismatch_pixels": 0
+      }
+    }
+  ],
+  "foreground_occlusion": {
+    "output": "assets/ui/visual/phase149/player_room/player_room_furniture_foreground_v1.png",
+    "output_sha256": "4122DBC2F6DF1D0B1A43735C322E9DDC99F1E094586B4BA51C3E8DA0D21422D1",
+    "mode": "RGBA",
+    "size": [
+      853,
+      1548
+    ],
+    "qa": {
+      "source_rects_full": [
+        [
+          48,
+          811,
+          442,
+          32
+        ],
+        [
+          49,
+          1044,
+          442,
+          22
+        ],
+        [
+          49,
+          1284,
+          442,
+          27
+        ],
+        [
+          49,
+          1505,
+          442,
+          20
+        ],
+        [
+          506,
+          409,
+          335,
+          24
+        ],
+        [
+          507,
+          605,
+          333,
+          25
+        ],
+        [
+          536,
+          1208,
+          277,
+          23
+        ]
+      ],
+      "content_rects": [
+        [
+          48,
+          674,
+          442,
+          32
+        ],
+        [
+          49,
+          907,
+          442,
+          22
+        ],
+        [
+          49,
+          1147,
+          442,
+          27
+        ],
+        [
+          49,
+          1368,
+          442,
+          20
+        ],
+        [
+          506,
+          272,
+          335,
+          24
+        ],
+        [
+          507,
+          468,
+          333,
+          25
+        ],
+        [
+          536,
+          1071,
+          277,
+          23
+        ]
+      ],
+      "nonzero_alpha_pixels": 67378,
+      "edge_max_alpha": 0,
+      "role": "target_native_furniture_front_lips_drawn_above_collectibles"
+    }
+  },
+  "reconstruction": {
+    "mean_abs_error": 3.73603752,
+    "rgb_mae": 3.73603752,
+    "rgb_rmse": 16.26878357,
+    "max_channel_error": 255,
+    "exact_pixel_ratio": 0.78267992,
+    "changed_pixel_count": 286959,
+    "pixels_over_tolerance_12": 149970,
+    "ratio_over_tolerance_12": 0.11357543,
+    "pixels_over_tolerance_48": 64270,
+    "ratio_over_tolerance_48": 0.04867302
+  },
+  "full_layer_coverage": {
+    "status": "FAILED",
+    "thresholds": {
+      "mean_abs_error_max": 2.0,
+      "rgb_rmse_max": 12.0,
+      "ratio_over_tolerance_12_max": 0.08
+    },
+    "metrics": {
+      "mean_abs_error": 3.73603752,
+      "rgb_mae": 3.73603752,
+      "rgb_rmse": 16.26878357,
+      "max_channel_error": 255,
+      "exact_pixel_ratio": 0.78267992,
+      "changed_pixel_count": 286959,
+      "pixels_over_tolerance_12": 149970,
+      "ratio_over_tolerance_12": 0.11357543,
+      "pixels_over_tolerance_48": 64270,
+      "ratio_over_tolerance_48": 0.04867302
+    },
+    "reconstruction_output": "assets/ui/visual/phase149/player_room/qa/phase149_canonical_reconstruction_qa.png",
+    "reconstruction_sha256": "11F01C3E7F84BB62D2A79322B3D860B42CC71B738DC507190A12E480F9449EF8",
+    "heatmap_output": "assets/ui/visual/phase149/player_room/qa/phase149_layer_coverage_heatmap.png",
+    "heatmap_sha256": "F5661DAEE70988551268EA08D32A92FC51A48938A301A0E37A387B87F20FE56C"
+  },
+  "qa": {
+    "status": "PASSED",
+    "expected_slot_count": 20,
+    "expected_visual_layer_count": 21,
+    "written_visual_layer_count": 21,
+    "expected_collectible_layer_count": 21,
+    "written_collectible_layer_count": 21,
+    "target_source_rgb_mutation": false,
+    "canonical_reconstruction_is_metric_not_claimed_byte_exact": true,
+    "full_layer_coverage_status": "FAILED",
+    "canonical_full_master_coverage_status": "PASSED",
+    "rectangular_sticker_backgrounds": false,
+    "errors": []
+  }
+}

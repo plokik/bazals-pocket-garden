@@ -43,7 +43,14 @@ func refresh(game_session: GameSession) -> void:
 			button.text = "ODEMKNOUT · %d MINCÍ" % int(state.get("price", 0))
 		else:
 			button.text = "ODEMKNOUT · %d MINCÍ" % int(state.get("price", 0))
-		ComicUITheme.apply_button(button, Color("#74848b") if selected else (ComicUITheme.GREEN if unlocked else card.accent), ComicUITheme.CREAM if selected else ComicUITheme.INK, 12)
+		var action_label := card.get("action_label", null) as Label
+		if action_label != null:
+			action_label.text = button.text
+			action_label.add_theme_font_size_override("font_size", 9 if "ODEMKNOUT" in button.text or theme_id == "research_study" else 12)
+		if bool(card.get("painted_surface", false)):
+			_apply_painted_card_state(card, button, selected, unlocked, can_unlock, reason)
+		else:
+			ComicUITheme.apply_button(button, Color("#74848b") if selected else (ComicUITheme.GREEN if unlocked else card.accent), ComicUITheme.CREAM if selected else ComicUITheme.INK, 12)
 		if unlocked:
 			unlocked_count += 1
 	var total_themes := maxi(1, theme_cards.size())
@@ -77,6 +84,53 @@ func show_room_theme_unlock_state(state: Dictionary) -> void:
 func restore_status_color() -> void:
 	if status_label != null:
 		status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
+
+
+func _apply_painted_card_state(card: Dictionary, button: Button, selected: bool, unlocked: bool, can_unlock: bool, reason: String) -> void:
+	var state_name := "available"
+	var overlay_color := Color.TRANSPARENT
+	var overlay_visible := false
+	if selected:
+		state_name = "selected"
+		overlay_color = Color("#6f7b80", 0.78)
+		overlay_visible = true
+	elif reason == "research_required":
+		state_name = "research_locked"
+		overlay_color = Color("#5d676b", 0.80)
+		overlay_visible = true
+	elif unlocked:
+		state_name = "unlocked"
+	elif not can_unlock:
+		state_name = "insufficient_coins"
+		overlay_color = Color("#7b6f61", 0.50)
+		overlay_visible = true
+
+	button.set_meta("presented_state", state_name)
+	var action_label := card.get("action_label", null) as Label
+	if action_label != null:
+		action_label.text = button.text
+		for color_name in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color", "font_outline_color"]:
+			button.add_theme_color_override(color_name, Color.TRANSPARENT)
+		button.add_theme_constant_override("outline_size", 0)
+	else:
+		button.add_theme_color_override("font_color", ComicUITheme.CREAM)
+		button.add_theme_color_override("font_hover_color", ComicUITheme.CREAM)
+		button.add_theme_color_override("font_pressed_color", ComicUITheme.CREAM)
+		button.add_theme_color_override("font_focus_color", ComicUITheme.CREAM)
+		button.add_theme_color_override("font_disabled_color", Color("#fff2c4", 0.90))
+		button.add_theme_color_override("font_outline_color", ComicUITheme.INK)
+		button.add_theme_constant_override("outline_size", 2)
+	for style_name in ["normal", "hover", "pressed", "disabled", "focus"]:
+		button.add_theme_stylebox_override(style_name, StyleBoxEmpty.new())
+
+	var overlay := card.get("state_overlay", null) as PanelContainer
+	if overlay != null:
+		overlay.visible = overlay_visible
+		overlay.set_meta("presented_state", state_name)
+		overlay.add_theme_stylebox_override(
+			"panel",
+			ComicUITheme.style_box(overlay_color, Color(overlay_color, 0.0), 0, 14, Color.TRANSPARENT, 0, 0.0) if overlay_visible else StyleBoxEmpty.new()
+		)
 
 
 func _get_room_theme_unlock_state(game_session: GameSession, theme_id: Variant) -> Dictionary:

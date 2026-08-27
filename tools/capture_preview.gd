@@ -36,7 +36,6 @@ func _capture() -> void:
 	instance.room_overview.previous_unlocked_count = 4
 	instance.session.select_plant(2)
 	instance.room_overview.refresh()
-	instance.room_overview.displayed_growth_percent = 73.0
 	instance._refresh_ui()
 	await process_frame
 	await process_frame

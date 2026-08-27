@@ -2,10 +2,11 @@
     [string]$AdbPath = '',
     [string]$Serial = '',
     [string]$ApkPath = '',
-    [int]$SampleSeconds = 120,
-    [switch]$Install,
-    [switch]$ClearAppData,
-    [switch]$SkipLaunch
+	[int]$SampleSeconds = 120,
+	[switch]$Install,
+	[switch]$ClearAppData,
+	[switch]$SkipLaunch,
+	[switch]$KeepAdbServer
 )
 
 $ErrorActionPreference = 'Stop'
@@ -958,6 +959,22 @@ $evaluationReason = if ($invalidUnlockedSamples -gt 0) {
     [System.Text.UTF8Encoding]::new($false)
 )
 Write-AuditReport -AuditState $auditState -TechnicalStatus $evaluationStatus -Reason $evaluationReason -FatalCount $fatalFindings.Count -CrashEvidenceStatus $crashEvidenceStatus -GfxStatus $gfxStatus -SaveStatus $saveStatus -SemanticStatus $semanticComparison.Status -SchemaTransition $semanticComparison.SchemaTransition -NotificationMatchCount $notificationMatchCount -AlarmMatchCount $alarmMatchCount -SampleCount $sampleCount -ForegroundPercent $foregroundPercent
+# On Windows a daemon first spawned under redirected child-process output may
+# inherit that pipe and keep the parent automation waiting after this script has
+# already finished its report.  Device state and app data are unaffected by
+# stopping the host-side daemon; the next adb command restarts it on demand.
+if (-not $KeepAdbServer) {
+	$previousErrorActionPreference = $ErrorActionPreference
+	try {
+		$ErrorActionPreference = 'Continue'
+		& $AdbPath kill-server 2>&1 | Out-Null
+	} finally {
+		$ErrorActionPreference = $previousErrorActionPreference
+	}
+	Write-Output 'ADB_SERVER_LIFECYCLE=STOPPED_AFTER_AUDIT'
+} else {
+	Write-Output 'ADB_SERVER_LIFECYCLE=KEPT_BY_REQUEST'
+}
 Write-Output "ANDROID_AUDIT_STATE=$auditState"
 Write-Output "ANDROID_CAPTURE_VALIDITY=$(if ($runtimeConditionsValid) { 'VALID' } else { 'INVALID' })"
 Write-Output "ANDROID_RUNTIME_GATE=$runtimeStatus"

@@ -4,6 +4,7 @@ extends Control
 const DetailBackground := preload("res://assets/backgrounds/comic_detail_window_v1.png")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
 const PlantPresentationCatalogScene := preload("res://scripts/plant_presentation_catalog.gd")
+const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 
 const COMIC_INK := Color("#17212b")
 const COMIC_WATER := Color("#27bde2")
@@ -45,7 +46,7 @@ var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	set_meta("visual_direction", "western_comic_botanical_v1")
 	set_meta("mature_asset", "catalog:species_stage_texture")
 	set_meta("plant_asset_family", "profile_driven_catalog_v1")
@@ -62,6 +63,12 @@ func _ready() -> void:
 	set_meta("behavior_active", false)
 	set_meta("behavior_id", "")
 	set_meta("behavior_label", "")
+	set_meta("phase151_visual_component", VisualDesignSystem.RACK_PHASE151_RUNTIME_SET_ID)
+	set_meta("phase151_scene_profile", VisualDesignSystem.PLANT_DETAIL_PHASE151_SCENE_PROFILE_ID)
+	set_meta("phase151_reference_asset", VisualDesignSystem.PLANT_DETAIL_PHASE151_TARGET_ASSET)
+	set_meta("phase151_dynamic_policy", "eleven_species_six_states_no_baked_game_state_v1")
+	set_meta("phase151_plant_grounding", "painted_saucer_contact_shadow_window_ledge_v1")
+	set_meta("phase151_source_png_policy", "rgb_assets_unchanged_import_mipmaps_only_v1")
 	visibility_changed.connect(_sync_process_state)
 	_sync_process_state()
 
@@ -235,6 +242,8 @@ func _draw() -> void:
 	_draw_contact_shadow(pot_center)
 	if behavior_active or behavior_pulse > 0.0:
 		_draw_behavior_halo(pot_center)
+	if not _is_harvest_state(simulation.stage):
+		_draw_phase151_detail_saucer(pot_center)
 	if simulation.stage == PlantSimulation.Stage.EMPTY:
 		_draw_empty_pot(pot_center)
 	elif _is_harvest_state(simulation.stage):
@@ -277,6 +286,18 @@ func _draw_contact_shadow(center: Vector2) -> void:
 	draw_set_transform(center + Vector2(0.0, -5.0), 0.0, Vector2(1.0, 0.23))
 	draw_circle(Vector2.ZERO, shadow_width, Color(0.18, 0.09, 0.03, 0.30), true, -1.0, true)
 	draw_circle(Vector2(0.0, -4.0), shadow_width * 0.72, Color(1.0, 0.66, 0.12, 0.13), true, -1.0, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _draw_phase151_detail_saucer(center: Vector2) -> void:
+	# Keep the saucer close to the ceramic footprint.  The earlier broad oval
+	# read as a separate UI badge instead of a grounded painted object.
+	var saucer_width := minf(size.x * 0.49, 206.0)
+	draw_set_transform(center + Vector2(0.0, -1.0), 0.0, Vector2(1.0, 0.16))
+	draw_circle(Vector2(0.0, 9.0), saucer_width * 0.52, Color("#25120a", 0.34), true, -1.0, true)
+	draw_circle(Vector2.ZERO, saucer_width * 0.50, COMIC_INK, true, -1.0, true)
+	draw_circle(Vector2(0.0, -3.0), saucer_width * 0.45, COMIC_TEAL_SHADOW, true, -1.0, true)
+	draw_circle(Vector2(0.0, -6.0), saucer_width * 0.37, COMIC_TEAL, true, -1.0, true)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 

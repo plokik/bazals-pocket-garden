@@ -1,0 +1,699 @@
+{
+  "schema": "phase150_greenhouse_assets_v1",
+  "tool_version": 1,
+  "deterministic": true,
+  "coordinate_space": {
+    "full_screen_size": [
+      864,
+      1821
+    ],
+    "content_crop_xyxy": [
+      0,
+      145,
+      864,
+      1689
+    ],
+    "content_size": [
+      864,
+      1544
+    ],
+    "bbox_format": "x_y_width_height",
+    "mapping_policy": "map all runtime geometry through normalized content coordinates"
+  },
+  "sources": {
+    "user_approved_full_reference": {
+      "path": "docs/visual-proposals/phase150/user-approved-greenhouse-screen-reference-v1.png",
+      "sha256": "0595991E42929303CAD1B0D033ABE22B16AA927599BE79BC23A0189E09654637",
+      "size": [
+        864,
+        1821
+      ],
+      "mode": "RGB",
+      "immutable": true,
+      "approval": "APPROVED_BY_USER_2026-08-25"
+    },
+    "content_reference": {
+      "path": "docs/visual-proposals/phase150/greenhouse-exact-content-target-v1.png",
+      "sha256": "0A780E8C4A707966ED694C7933A15EE5A61B5ED04E88179687D4F46940DE2EB2",
+      "size": [
+        864,
+        1544
+      ],
+      "mode": "RGB",
+      "immutable": true
+    },
+    "phase130_clean_donor": {
+      "path": "assets/ui/greenhouse/greenhouse_interior_phase130_two_boxes_v1.png",
+      "sha256": "1CD27B4F32B1C7039FDD3CF2CC8903963F01D44A77DBD223BAC85EDE06DF9321",
+      "size": [
+        887,
+        1774
+      ],
+      "mode": "RGB",
+      "immutable": true
+    }
+  },
+  "canonical_content_master": {
+    "output": "assets/ui/visual/phase150/greenhouse/greenhouse_phase150_canonical_content_v1.png",
+    "output_sha256": "0A780E8C4A707966ED694C7933A15EE5A61B5ED04E88179687D4F46940DE2EB2",
+    "mode": "RGB",
+    "size": [
+      864,
+      1544
+    ],
+    "byte_exact_content_reference_copy": true,
+    "coverage": {
+      "status": "PASSED",
+      "mean_abs_error": 0.0,
+      "rgb_rmse": 0.0,
+      "max_channel_error": 0,
+      "exact_pixel_ratio": 1.0
+    },
+    "canonical_state": [
+      {
+        "bed_index": 0,
+        "stage": "empty",
+        "selected": true
+      },
+      {
+        "bed_index": 1,
+        "stage": "needs_water",
+        "crop_visual": "seedlings",
+        "selected": false
+      },
+      {
+        "bed_index": 2,
+        "stage": "growing",
+        "crop_id": "cherry_tomato",
+        "selected": false
+      },
+      {
+        "bed_index": 3,
+        "stage": "ready",
+        "crop_id": "garden_eggplant",
+        "selected": false
+      }
+    ],
+    "baked_elements": [
+      "location_title_and_subtitle",
+      "rack_return_button",
+      "reputation_panel",
+      "two_raised_growing_boxes",
+      "four_bay_number_badges",
+      "selected_bed_status_card",
+      "five_crop_choice_buttons",
+      "bed_2_seedlings",
+      "bed_3_tomatoes",
+      "bed_4_eggplants"
+    ]
+  },
+  "geometry": {
+    "visual_box_count": 2,
+    "functional_bay_count": 4,
+    "bays_per_box": 2,
+    "regions": [
+      {
+        "id": "rear_box",
+        "kind": "visual_box",
+        "full_bbox": [
+          123,
+          744,
+          628,
+          191
+        ],
+        "content_bbox": [
+          123,
+          599,
+          628,
+          191
+        ],
+        "normalized_content_bbox": [
+          0.14236111,
+          0.38795337,
+          0.72685185,
+          0.12370466
+        ]
+      },
+      {
+        "id": "front_box",
+        "kind": "visual_box",
+        "full_bbox": [
+          15,
+          977,
+          834,
+          341
+        ],
+        "content_bbox": [
+          15,
+          832,
+          834,
+          341
+        ],
+        "normalized_content_bbox": [
+          0.01736111,
+          0.5388601,
+          0.96527778,
+          0.22085492
+        ]
+      },
+      {
+        "id": "bed_1",
+        "kind": "functional_bay",
+        "full_bbox": [
+          123,
+          744,
+          309,
+          191
+        ],
+        "content_bbox": [
+          123,
+          599,
+          309,
+          191
+        ],
+        "normalized_content_bbox": [
+          0.14236111,
+          0.38795337,
+          0.35763889,
+          0.12370466
+        ],
+        "full_polygon": [
+          [
+            150,
+            764
+          ],
+          [
+            414,
+            764
+          ],
+          [
+            413,
+            855
+          ],
+          [
+            127,
+            855
+          ]
+        ],
+        "content_polygon": [
+          [
+            150,
+            619
+          ],
+          [
+            414,
+            619
+          ],
+          [
+            413,
+            710
+          ],
+          [
+            127,
+            710
+          ]
+        ],
+        "normalized_content_polygon": [
+          [
+            0.17361111,
+            0.40090674
+          ],
+          [
+            0.47916667,
+            0.40090674
+          ],
+          [
+            0.47800926,
+            0.45984456
+          ],
+          [
+            0.14699074,
+            0.45984456
+          ]
+        ]
+      },
+      {
+        "id": "bed_2",
+        "kind": "functional_bay",
+        "full_bbox": [
+          432,
+          744,
+          319,
+          191
+        ],
+        "content_bbox": [
+          432,
+          599,
+          319,
+          191
+        ],
+        "normalized_content_bbox": [
+          0.5,
+          0.38795337,
+          0.36921296,
+          0.12370466
+        ],
+        "full_polygon": [
+          [
+            432,
+            764
+          ],
+          [
+            704,
+            764
+          ],
+          [
+            746,
+            855
+          ],
+          [
+            432,
+            855
+          ]
+        ],
+        "content_polygon": [
+          [
+            432,
+            619
+          ],
+          [
+            704,
+            619
+          ],
+          [
+            746,
+            710
+          ],
+          [
+            432,
+            710
+          ]
+        ],
+        "normalized_content_polygon": [
+          [
+            0.5,
+            0.40090674
+          ],
+          [
+            0.81481481,
+            0.40090674
+          ],
+          [
+            0.86342593,
+            0.45984456
+          ],
+          [
+            0.5,
+            0.45984456
+          ]
+        ]
+      },
+      {
+        "id": "bed_3",
+        "kind": "functional_bay",
+        "full_bbox": [
+          15,
+          977,
+          414,
+          341
+        ],
+        "content_bbox": [
+          15,
+          832,
+          414,
+          341
+        ],
+        "normalized_content_bbox": [
+          0.01736111,
+          0.5388601,
+          0.47916667,
+          0.22085492
+        ],
+        "full_polygon": [
+          [
+            104,
+            978
+          ],
+          [
+            410,
+            978
+          ],
+          [
+            405,
+            1196
+          ],
+          [
+            22,
+            1196
+          ]
+        ],
+        "content_polygon": [
+          [
+            104,
+            833
+          ],
+          [
+            410,
+            833
+          ],
+          [
+            405,
+            1051
+          ],
+          [
+            22,
+            1051
+          ]
+        ],
+        "normalized_content_polygon": [
+          [
+            0.12037037,
+            0.53950777
+          ],
+          [
+            0.47453704,
+            0.53950777
+          ],
+          [
+            0.46875,
+            0.68069948
+          ],
+          [
+            0.02546296,
+            0.68069948
+          ]
+        ]
+      },
+      {
+        "id": "bed_4",
+        "kind": "functional_bay",
+        "full_bbox": [
+          429,
+          977,
+          420,
+          341
+        ],
+        "content_bbox": [
+          429,
+          832,
+          420,
+          341
+        ],
+        "normalized_content_bbox": [
+          0.49652778,
+          0.5388601,
+          0.48611111,
+          0.22085492
+        ],
+        "full_polygon": [
+          [
+            453,
+            978
+          ],
+          [
+            770,
+            978
+          ],
+          [
+            835,
+            1196
+          ],
+          [
+            430,
+            1196
+          ]
+        ],
+        "content_polygon": [
+          [
+            453,
+            833
+          ],
+          [
+            770,
+            833
+          ],
+          [
+            835,
+            1051
+          ],
+          [
+            430,
+            1051
+          ]
+        ],
+        "normalized_content_polygon": [
+          [
+            0.52430556,
+            0.53950777
+          ],
+          [
+            0.8912037,
+            0.53950777
+          ],
+          [
+            0.96643519,
+            0.68069948
+          ],
+          [
+            0.49768519,
+            0.68069948
+          ]
+        ]
+      }
+    ],
+    "bed_number_badge_centers_full": [
+      [
+        175,
+        800
+      ],
+      [
+        468,
+        800
+      ],
+      [
+        116,
+        1028
+      ],
+      [
+        469,
+        1028
+      ]
+    ],
+    "bed_number_badge_centers_content": [
+      [
+        175,
+        655
+      ],
+      [
+        468,
+        655
+      ],
+      [
+        116,
+        883
+      ],
+      [
+        469,
+        883
+      ]
+    ],
+    "soil_baseline_y_full": [
+      855,
+      855,
+      1196,
+      1196
+    ],
+    "soil_baseline_y_content": [
+      710,
+      710,
+      1051,
+      1051
+    ]
+  },
+  "registered_clean_donor_candidate": {
+    "output": "assets/ui/visual/phase150/greenhouse/greenhouse_phase150_registered_clean_donor_candidate_v1.png",
+    "output_sha256": "8158EA5385A009E05BFF28B0875403A0FC804D3E04347D97B76AA373BB1036E2",
+    "mode": "RGB",
+    "size": [
+      864,
+      1544
+    ],
+    "registration": "PIL_ImageOps.fit_LANCZOS_center_0.5_0.5_to_864x1544",
+    "full_frame_metrics": {
+      "sample_pixels": 1334016,
+      "mean_abs_error": 55.15391159,
+      "rgb_rmse": 79.6529541,
+      "max_channel_error": 255,
+      "ratio_pixels_over_12": 0.89947347,
+      "ratio_pixels_over_24": 0.78296737
+    },
+    "background_evaluation_rects_content": [
+      [
+        275,
+        145,
+        330,
+        435
+      ],
+      [
+        0,
+        300,
+        140,
+        280
+      ],
+      [
+        725,
+        300,
+        139,
+        270
+      ],
+      [
+        0,
+        790,
+        864,
+        40
+      ],
+      [
+        0,
+        1170,
+        864,
+        15
+      ]
+    ],
+    "background_evaluation_metrics": {
+      "sample_pixels": 267800,
+      "mean_abs_error": 49.30621338,
+      "rgb_rmse": 69.25315857,
+      "max_channel_error": 255,
+      "ratio_pixels_over_12": 0.93306572,
+      "ratio_pixels_over_24": 0.82746079
+    },
+    "qa_thresholds": {
+      "mean_abs_error_max": 8.0,
+      "rgb_rmse_max": 20.0,
+      "ratio_pixels_over_12_max": 0.08
+    },
+    "qa_status": "FAILED",
+    "integration_authorized_as_clean_plate": false
+  },
+  "clean_plate": {
+    "status": "FAILED",
+    "output": null,
+    "reason": "the only object-free donor fails target-style and pixel-similarity thresholds; exporting it as the approved clean plate would be misleading"
+  },
+  "standalone_dynamic_rgba_layers": {
+    "status": "FAILED",
+    "emitted_count": 0,
+    "policy": "do not emit target crops as RGBA unless target background can be removed against a sufficiently matching clean plate",
+    "candidates": [
+      {
+        "id": "bed_2_seedlings",
+        "kind": "candidate_dynamic_crop",
+        "full_bbox": [
+          459,
+          747,
+          233,
+          111
+        ],
+        "content_bbox": [
+          459,
+          602,
+          233,
+          111
+        ],
+        "normalized_content_bbox": [
+          0.53125,
+          0.38989637,
+          0.26967593,
+          0.07189119
+        ],
+        "target_vs_registered_donor": {
+          "sample_pixels": 25863,
+          "mean_abs_error": 45.9738884,
+          "rgb_rmse": 67.67460632,
+          "max_channel_error": 243,
+          "ratio_pixels_over_12": 0.92046553,
+          "ratio_pixels_over_24": 0.78548506
+        },
+        "standalone_rgba_emitted": false,
+        "qa_status": "FAILED",
+        "reason": "flattened RGB target plus failed clean-donor similarity cannot prove an alpha-safe silhouette"
+      },
+      {
+        "id": "bed_3_tomatoes",
+        "kind": "candidate_dynamic_crop",
+        "full_bbox": [
+          88,
+          943,
+          327,
+          254
+        ],
+        "content_bbox": [
+          88,
+          798,
+          327,
+          254
+        ],
+        "normalized_content_bbox": [
+          0.10185185,
+          0.51683938,
+          0.37847222,
+          0.16450777
+        ],
+        "target_vs_registered_donor": {
+          "sample_pixels": 83058,
+          "mean_abs_error": 44.90630722,
+          "rgb_rmse": 64.25082397,
+          "max_channel_error": 250,
+          "ratio_pixels_over_12": 0.94561632,
+          "ratio_pixels_over_24": 0.84716704
+        },
+        "standalone_rgba_emitted": false,
+        "qa_status": "FAILED",
+        "reason": "flattened RGB target plus failed clean-donor similarity cannot prove an alpha-safe silhouette"
+      },
+      {
+        "id": "bed_4_eggplants",
+        "kind": "candidate_dynamic_crop",
+        "full_bbox": [
+          451,
+          951,
+          361,
+          247
+        ],
+        "content_bbox": [
+          451,
+          806,
+          361,
+          247
+        ],
+        "normalized_content_bbox": [
+          0.52199074,
+          0.52202073,
+          0.41782407,
+          0.15997409
+        ],
+        "target_vs_registered_donor": {
+          "sample_pixels": 89167,
+          "mean_abs_error": 43.61505508,
+          "rgb_rmse": 61.26284027,
+          "max_channel_error": 255,
+          "ratio_pixels_over_12": 0.96863189,
+          "ratio_pixels_over_24": 0.88300604
+        },
+        "standalone_rgba_emitted": false,
+        "qa_status": "FAILED",
+        "reason": "flattened RGB target plus failed clean-donor similarity cannot prove an alpha-safe silhouette"
+      }
+    ]
+  },
+  "qa_outputs": {
+    "geometry_overlay": {
+      "path": "assets/ui/visual/phase150/greenhouse/qa/phase150_geometry_overlay.png",
+      "sha256": "71D66DCF57834FF955B2C3EA86EEF3B4E73AFCA5D83B80BB243579C1C5883B7F"
+    },
+    "registered_donor_difference_heatmap": {
+      "path": "assets/ui/visual/phase150/greenhouse/qa/phase150_registered_donor_difference_heatmap.png",
+      "sha256": "84F51075B205BF2C1005C7233E8DC3C871D13AF44E1B08DF062DC32CB30562F5"
+    }
+  }
+}

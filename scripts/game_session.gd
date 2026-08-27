@@ -7,7 +7,7 @@ const ProfessorStoryScene := preload("res://scripts/professor_story.gd")
 const ProfessorResearchScene := preload("res://scripts/professor_research.gd")
 const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
-const SAVE_SCHEMA := 32
+const SAVE_SCHEMA := 41
 const DAILY_CHALLENGE_REAL_DAY_SCHEMA := 15
 const REAL_TIME_GROWTH_SCHEMA := 19
 const PLANT_LIFECYCLE_SCHEMA := 20
@@ -37,6 +37,40 @@ const GREENHOUSE_SECOND_CROP_SCHEMA := 31
 ## cucumber. Older saves may keep their legitimate tomato and pepper beds, but
 ## cannot inject the later crop or bypass its planting unlock.
 const GREENHOUSE_PROGRESSION_SCHEMA := 32
+## Schema 33 authorizes the level-three garden radish. Schema 32 saves retain
+## tomato, pepper, and cucumber, but cannot inject a later paid radish crop.
+const GREENHOUSE_RADISH_SCHEMA := 33
+## Schema 34 authorizes the level-five garden eggplant. Schema 33 saves retain
+## the four earlier crops, but cannot inject the later paid eggplant crop.
+const GREENHOUSE_EGGPLANT_SCHEMA := 34
+## Schema 35 authorizes one canonical persistent greenhouse order. Schema 34
+## saves cannot inject its crop, progress, rotation, completion count, or bonus.
+const GREENHOUSE_ORDER_SCHEMA := 35
+## Schema 36 authorizes the multi-bed service tier and its credited bed list.
+## Schema 35 orders remain standard and cannot inject the larger bonus.
+const GREENHOUSE_QUALITY_ORDER_SCHEMA := 36
+## Schema 37 records the canonical greenhouse reputation tier. The serialized
+## tier is evidence only: completion count remains authoritative, so older or
+## hostile saves cannot mint deferred milestone rewards.
+const GREENHOUSE_REPUTATION_SCHEMA := 37
+## Schema 38 expands the cosmetic room from five generic placements to a
+## category-safe collection wall: eight houseplant positions plus six fixed
+## display positions. Schema 29-37 ownership is preserved and remapped to the
+## first compatible new position; only schema 38 may authorize the new items.
+const ROOM_COLLECTION_SCHEMA := 38
+## Schema 39 adds two category-safe cosmetic positions: preserved herb jars
+## and a future-pet corner. Schema 38 saves retain the complete Phase 123 room,
+## but cannot inject ownership of either later paid decoration.
+const ROOM_LIVING_DETAILS_SCHEMA := 39
+## Schema 40 expands the four-shelf houseplant stand from two to three places
+## per shelf. Schema 38-39 saves used indices 8-15 for fixed decorations, so
+## those placements must move to 12-19 instead of being reinterpreted as plants.
+const ROOM_THREE_PER_SHELF_SCHEMA := 40
+## Schema 41 authorizes the four additional purchasable houseplants that make
+## every position on the approved four-by-three rack visually unique. Schema
+## 40 saves retain their complete room but cannot inject ownership of the new
+## cosmetics before the catalog expansion exists.
+const ROOM_FINAL_RACK_PLANTS_SCHEMA := 41
 const BLEND_ORDER_SCHEMA := 25
 ## Defensive ceiling for malformed saves and future grant sources. This is high
 ## enough for normal play while keeping arithmetic and UI values bounded.
@@ -74,8 +108,17 @@ const ROOM_THEMES := {
 const CORE_ROOM_THEME_IDS: Array[String] = ["sunrise", "lagoon", "amethyst"]
 const RESEARCH_STUDY_THEME_ID := "research_study"
 const RESEARCH_STUDY_COMPLETED_REQUIRED := 6
-const ROOM_DECORATION_SLOT_COUNT := 5
-const ROOM_DECORATION_IDS: Array[String] = [
+const ROOM_DECORATION_SLOT_COUNT := 20
+const ROOM_PLANT_SLOT_COUNT := 12
+const ROOM_DECORATION_SLOT_GROUPS: Array[String] = [
+	"plant", "plant", "plant", "plant", "plant", "plant", "plant", "plant", "plant", "plant", "plant", "plant",
+	"books", "fertilizer", "pots", "lamp", "art", "watering_can", "herb_jars", "pet_corner",
+]
+const LEGACY_ROOM_COLLECTION_SLOT_MIGRATION: Array[int] = [
+	0, 2, 3, 5, 6, 8, 9, 11,
+	12, 13, 14, 15, 16, 17, 18, 19,
+]
+const LEGACY_ROOM_DECORATION_IDS: Array[String] = [
 	"botanical_books",
 	"mini_monstera",
 	"snake_plant",
@@ -83,11 +126,77 @@ const ROOM_DECORATION_IDS: Array[String] = [
 	"room_fern",
 	"flowering_begonia",
 ]
+const ROOM_DECORATION_IDS: Array[String] = [
+	"room_orchid",
+	"mini_monstera",
+	"snake_plant",
+	"room_fern",
+	"flowering_begonia",
+	"round_leaf_pilea",
+	"striped_calathea",
+	"climbing_pothos",
+	"botanical_books",
+	"fertilizer_collection",
+	"nested_pots",
+	"golden_lamp",
+	"botanical_print",
+	"plastic_watering_can",
+	"preserved_herb_jars",
+	"cat_corner",
+	"silver_aglaonema",
+	"pink_fittonia",
+	"lemon_maranta",
+	"colorful_coleus",
+]
+## Phase 159 keeps these IDs readable as historical purchase receipts, but
+## never offers them for a new purchase. Their live representation is migrated
+## to an existing entitlement so schema 41 remains the trust boundary.
+const RETIRED_ROOM_DECORATION_IDS: Array[String] = ["nested_pots"]
+## Phase 160 keeps these purchases and placements round-trippable as historical
+## receipts, but removes them from the live room and showroom until a coherent
+## pet-corner redesign exists. No save field or schema bump is required.
+const DORMANT_ROOM_DECORATION_IDS: Array[String] = ["plastic_watering_can", "cat_corner"]
+const PHASE160_DORMANT_ROOM_DECORATION_SLOT_INDICES: Array[int] = [17, 19]
+const PHASE159_BOTANICAL_CLOCHE_ID := "golden_lamp"
+const PHASE159_LEGACY_POTS_ID := "nested_pots"
+const PHASE159_RETIRED_POTS_SLOT_INDEX := 14
+const PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX := 15
+const PHASE123_ROOM_DECORATION_IDS: Array[String] = [
+	"room_orchid",
+	"mini_monstera",
+	"snake_plant",
+	"room_fern",
+	"flowering_begonia",
+	"round_leaf_pilea",
+	"striped_calathea",
+	"climbing_pothos",
+	"botanical_books",
+	"fertilizer_collection",
+	"nested_pots",
+	"golden_lamp",
+	"botanical_print",
+	"plastic_watering_can",
+]
+const PHASE141_ROOM_PLANT_IDS: Array[String] = [
+	"silver_aglaonema",
+	"pink_fittonia",
+	"lemon_maranta",
+	"colorful_coleus",
+]
 const ROOM_DECORATIONS := {
+	"room_orchid": {
+		"name": "Pokojová orchidej",
+		"price": 22,
+		"kind": "orchid",
+		"slot_group": "plant",
+		"accent": "#ec78c9",
+		"description": "Kvetoucí orchidej pro stojan; je čistě kosmetická a nevyžaduje péči.",
+	},
 	"botanical_books": {
 		"name": "Botanické knihy",
 		"price": 14,
 		"kind": "books",
+		"slot_group": "books",
 		"accent": "#ef8c2f",
 		"description": "Malá sbírka pěstitelských zápisků a atlasů.",
 	},
@@ -95,36 +204,151 @@ const ROOM_DECORATIONS := {
 		"name": "Mini monstera",
 		"price": 18,
 		"kind": "broad_leaf_plant",
+		"slot_group": "plant",
 		"accent": "#55b85a",
-		"description": "Výrazné listy v kompaktním tyrkysovém květináči.",
+		"description": "Výrazné listy v kompaktním květináči bez péče a umírání.",
 	},
 	"snake_plant": {
 		"name": "Tchynin jazyk",
 		"price": 24,
 		"kind": "tall_leaf_plant",
+		"slot_group": "plant",
 		"accent": "#91bd39",
-		"description": "Vysoká nenáročná pokojovka se žlutým lemem.",
+		"description": "Menší dekorativní pokojovka se žlutým lemem.",
 	},
 	"golden_lamp": {
-		"name": "Zlatá lampička",
+		"name": "Botanické terárium",
 		"price": 26,
-		"kind": "lamp",
-		"accent": "#ffd42a",
-		"description": "Teplé světlo pro útulný večerní kout.",
+		"kind": "botanical_cloche",
+		"slot_group": "lamp",
+		"accent": "#18a9a5",
+		"description": "Malovaná kapradina a mech pod skleněným poklopem; čistě kosmetická dekorace bez péče.",
 	},
 	"room_fern": {
 		"name": "Pokojová kapradina",
 		"price": 28,
 		"kind": "fern",
+		"slot_group": "plant",
 		"accent": "#27a65b",
-		"description": "Bohaté zelené vějíře v terakotovém květináči.",
+		"description": "Kompaktní zelené vějíře v terakotovém květináči.",
 	},
 	"flowering_begonia": {
 		"name": "Kvetoucí begonie",
 		"price": 32,
 		"kind": "flowering_plant",
+		"slot_group": "plant",
 		"accent": "#ef6c9e",
-		"description": "Pokojová rostlina s růžovými květy a tmavými listy.",
+		"description": "Pokojová dekorace s růžovými květy a tmavými listy.",
+	},
+	"round_leaf_pilea": {
+		"name": "Pilea penízková",
+		"price": 20,
+		"kind": "round_leaf_plant",
+		"slot_group": "plant",
+		"accent": "#62bd55",
+		"description": "Drobná pokojová rostlina s kulatými listy pro sběratelský stojan.",
+	},
+	"striped_calathea": {
+		"name": "Pruhovaná kalatea",
+		"price": 34,
+		"kind": "striped_leaf_plant",
+		"slot_group": "plant",
+		"accent": "#8bc85a",
+		"description": "Výrazné pruhované listy v menším fialovém květináči.",
+	},
+	"climbing_pothos": {
+		"name": "Popínavý šplhavník",
+		"price": 38,
+		"kind": "climbing_vine",
+		"slot_group": "plant",
+		"accent": "#54b74a",
+		"description": "Koření v květináči na stojanu a přirozeně šplhá po rámu okna.",
+	},
+	"fertilizer_collection": {
+		"name": "Sbírka hnojiv",
+		"price": 20,
+		"kind": "fertilizer",
+		"slot_group": "fertilizer",
+		"accent": "#6aa857",
+		"description": "Barevné pokojové balíčky a lahvičky; zásoby ve skladu nijak nemění.",
+	},
+	"nested_pots": {
+		"name": "Složené květináče",
+		"price": 16,
+		"kind": "nested_pots",
+		"slot_group": "pots",
+		"accent": "#d57938",
+		"description": "Historický nákup; po načtení jej bezpečně zastoupí botanické terárium.",
+		"retired": true,
+		"replacement_id": "golden_lamp",
+	},
+	"botanical_print": {
+		"name": "Botanický obrázek",
+		"price": 30,
+		"kind": "botanical_art",
+		"slot_group": "art",
+		"accent": "#d5a34b",
+		"description": "Malý zarámovaný list pro prázdnou stěnu pokoje.",
+	},
+	"plastic_watering_can": {
+		"name": "Plastová konvička",
+		"price": 22,
+		"kind": "plastic_watering_can",
+		"slot_group": "watering_can",
+		"accent": "#8b58d6",
+		"description": "Historický nákup uložený pro kompatibilitu; v pokoji je do dokončení nového vizuálního konceptu skrytý.",
+		"dormant": true,
+		"future_replacement_scope": "room_floor_visual_redesign",
+	},
+	"preserved_herb_jars": {
+		"name": "Sklenice se sušenými bylinkami",
+		"price": 24,
+		"kind": "herb_jars",
+		"slot_group": "herb_jars",
+		"accent": "#7da34b",
+		"description": "Tři zavařovací sklenice s barevnými sušenými bylinkami pro autentickou horní polici.",
+	},
+	"cat_corner": {
+		"name": "Kočičí pelíšek",
+		"price": 54,
+		"kind": "cat_corner",
+		"slot_group": "pet_corner",
+		"accent": "#d76f8f",
+		"description": "Historický nákup uložený pro kompatibilitu; vrátí se až jako jednotně namalovaný kout společně s budoucím mazlíčkem.",
+		"dormant": true,
+		"future_replacement_scope": "pet_purchase_and_integrated_corner",
+	},
+	"silver_aglaonema": {
+		"name": "Stříbrná aglaonema",
+		"price": 30,
+		"kind": "silver_leaf_plant",
+		"slot_group": "plant",
+		"accent": "#a7c987",
+		"description": "Kompaktní stříbřitě zelená pokojovka pro jednu z dvanácti pozic finálního stojanu.",
+	},
+	"pink_fittonia": {
+		"name": "Růžová fitónie",
+		"price": 34,
+		"kind": "pink_vein_plant",
+		"slot_group": "plant",
+		"accent": "#ec6fa7",
+		"description": "Sytě zelené listy s růžovou žilnatinou v jednotném fialovém květináči a podmisce.",
+	},
+	"lemon_maranta": {
+		"name": "Citronová maranta",
+		"price": 36,
+		"kind": "lemon_leaf_plant",
+		"slot_group": "plant",
+		"accent": "#b9d83f",
+		"description": "Světlá kresba listů doplňuje spodní police bez přesahu do sousedních míst.",
+	},
+	"colorful_coleus": {
+		"name": "Barevný koleus",
+		"price": 40,
+		"kind": "coleus",
+		"slot_group": "plant",
+		"accent": "#b44855",
+		"description": "Výrazná vínově zelená pokojovka uzavírá dvanáctidílnou kosmetickou sbírku stojanu.",
 	},
 }
 const MAX_PLANT_SLOTS := 10
@@ -145,6 +369,37 @@ const ORDER_MAX_FLAT_BONUS := 24
 const ORDER_MAX_BONUS_XP := 30
 const ORDER_MAX_REWARD_COINS := 100
 const BLEND_ORDER_MAX_REWARD_COINS := 180
+const GREENHOUSE_ORDER_MAX_COMPLETIONS := 2147483646
+const GREENHOUSE_ORDER_TIER_STANDARD := "standard"
+const GREENHOUSE_ORDER_TIER_MULTI_BED := "multi_bed"
+const GREENHOUSE_MULTI_BED_BONUS_COINS := 8
+const GREENHOUSE_MULTI_BED_BONUS_XP := 4
+const GREENHOUSE_REPUTATION_MILESTONES := [
+	{
+		"tier": 1,
+		"target_orders": 3,
+		"title": "SPOLEHLIVÝ PĚSTITEL",
+		"reward_coins": 40,
+		"reward_xp": 20,
+		"cosmetic_sign": "",
+	},
+	{
+		"tier": 2,
+		"target_orders": 8,
+		"title": "DODAVATEL TRHU",
+		"reward_coins": 80,
+		"reward_xp": 40,
+		"cosmetic_sign": "",
+	},
+	{
+		"tier": 3,
+		"target_orders": 15,
+		"title": "MISTR SKLENÍKU",
+		"reward_coins": 0,
+		"reward_xp": 0,
+		"cosmetic_sign": "MISTR SKLENÍKU",
+	},
+]
 const DAILY_CHALLENGE_IDS := ["plant", "rescue", "treat", "harvest", "start_drying", "package", "sell", "ventilate", "lamp", "fertilize", "water", "prepare_rain", "prepare_cloud", "prepare_dry"]
 const DAILY_CHALLENGE_WEATHER_NAMES := ["Jasno", "Polojasno", "Větrno", "Zataženo", "Déšť"]
 const EQUIPMENT_MAX_LEVEL := 3
@@ -422,6 +677,48 @@ const ORDER_TEMPLATES := [
 		"requires_discovery": true,
 	},
 ]
+const GREENHOUSE_ORDER_TEMPLATES := [
+	{
+		"crop_id": "cherry_tomato",
+		"customer": "Bistro U Skleníku",
+		"title": "Bedýnka cherry rajčat",
+		"target_harvests": 2,
+		"bonus_coins": 14,
+		"bonus_xp": 6,
+	},
+	{
+		"crop_id": "sweet_pepper",
+		"customer": "Tržnice Slunečný dvůr",
+		"title": "Koš sladkých paprik",
+		"target_harvests": 2,
+		"bonus_coins": 20,
+		"bonus_xp": 8,
+	},
+	{
+		"crop_id": "garden_radish",
+		"customer": "Farmářský stánek",
+		"title": "Svazek křupavých ředkviček",
+		"target_harvests": 3,
+		"bonus_coins": 18,
+		"bonus_xp": 8,
+	},
+	{
+		"crop_id": "salad_cucumber",
+		"customer": "Letní jídelna",
+		"title": "Čerstvé salátové okurky",
+		"target_harvests": 2,
+		"bonus_coins": 28,
+		"bonus_xp": 10,
+	},
+	{
+		"crop_id": "garden_eggplant",
+		"customer": "Restaurace Fialová zahrada",
+		"title": "Výběrový lilek",
+		"target_harvests": 2,
+		"bonus_coins": 36,
+		"bonus_xp": 12,
+	},
+]
 
 enum JourneyStep {
 	PLANT_SEED,
@@ -521,8 +818,12 @@ var saved_at_unix := 0.0
 var unlocked_room_themes: Array[String] = ["sunrise"]
 var selected_room_theme := "sunrise"
 var owned_room_decorations: Array[String] = []
-var room_decoration_slots: Array[String] = ["", "", "", "", ""]
+var room_decoration_slots: Array[String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 var greenhouse = GreenhouseSimulationScene.new()
+var greenhouse_order: Dictionary = {}
+var greenhouse_order_rotation := 0
+var greenhouse_orders_completed := 0
+var greenhouse_reputation_claimed_tier := 0
 var claimed_level_rewards: Array[int] = []
 var equipment_levels: Dictionary = {
 	"watering_can": 1,
@@ -551,6 +852,7 @@ func _init(profile_or_catalog: Dictionary = {}) -> void:
 	_create_plant_slots(get_plant_profile("basil_genovese"))
 	_sync_equipment_effects()
 	_ensure_orders()
+	_ensure_greenhouse_order()
 	refresh_order_declines_for_unix()
 	_ensure_daily_challenge()
 	refresh_shop_stock_for_unix()
@@ -3794,6 +4096,58 @@ func get_room_decoration(decoration_id: String) -> Dictionary:
 	return (ROOM_DECORATIONS[decoration_id] as Dictionary).duplicate(true)
 
 
+func get_room_decoration_slot_group(slot_index: int) -> String:
+	if slot_index < 0 or slot_index >= ROOM_DECORATION_SLOT_COUNT:
+		return ""
+	return ROOM_DECORATION_SLOT_GROUPS[slot_index]
+
+
+func get_room_decoration_slot_label(slot_index: int) -> String:
+	if slot_index == PHASE159_RETIRED_POTS_SLOT_INDEX:
+		return "VYŘAZENÉ MÍSTO"
+	var group := get_room_decoration_slot_group(slot_index)
+	match group:
+		"plant":
+			return "ROSTLINA %d / %d" % [slot_index + 1, ROOM_PLANT_SLOT_COUNT]
+		"books":
+			return "KNIHY"
+		"fertilizer":
+			return "HNOJIVA"
+		"pots":
+			return "KVĚTINÁČE"
+		"lamp":
+			return "BOTANICKÉ TERÁRIUM"
+		"art":
+			return "BOTANICKÝ OBRAZ"
+		"watering_can":
+			return "KONVIČKA"
+		"herb_jars":
+			return "BYLINKOVÉ SKLENICE"
+		"pet_corner":
+			return "KOČIČÍ KOUTEK"
+		_:
+			return "NEPLATNÉ MÍSTO"
+
+
+func is_room_decoration_compatible(decoration_id: String, slot_index: int) -> bool:
+	if not ROOM_DECORATIONS.has(decoration_id):
+		return false
+	var slot_group := get_room_decoration_slot_group(slot_index)
+	if slot_group.is_empty():
+		return false
+	return str((ROOM_DECORATIONS[decoration_id] as Dictionary).get("slot_group", "")) == slot_group
+
+
+func get_room_decoration_ids_for_slot(slot_index: int) -> Array[String]:
+	var result: Array[String] = []
+	for decoration_id in ROOM_DECORATION_IDS:
+		if decoration_id in RETIRED_ROOM_DECORATION_IDS or decoration_id in DORMANT_ROOM_DECORATION_IDS:
+			continue
+		if is_room_decoration_compatible(decoration_id, slot_index):
+			result.append(decoration_id)
+	return result
+
+
 func get_room_decoration_slots() -> Array[String]:
 	var result: Array[String] = []
 	result.assign(room_decoration_slots)
@@ -3812,15 +4166,42 @@ func get_room_decoration_slot_index(decoration_id: String) -> int:
 
 func get_room_decoration_action_state(decoration_id: String, slot_index: int) -> Dictionary:
 	var valid_slot := slot_index >= 0 and slot_index < ROOM_DECORATION_SLOT_COUNT
-	if not ROOM_DECORATIONS.has(decoration_id) or not valid_slot:
+	var compatible := valid_slot and is_room_decoration_compatible(decoration_id, slot_index)
+	if decoration_id in RETIRED_ROOM_DECORATION_IDS:
 		return {
 			"known": ROOM_DECORATIONS.has(decoration_id),
 			"valid_slot": valid_slot,
+			"compatible": false,
+			"owned": is_room_decoration_owned(decoration_id),
+			"placed_slot": get_room_decoration_slot_index(decoration_id),
+			"placed_here": false,
+			"can_apply": false,
+			"reason": "retired",
+			"price": 0,
+		}
+	if decoration_id in DORMANT_ROOM_DECORATION_IDS:
+		var dormant_placed_slot := get_room_decoration_slot_index(decoration_id)
+		return {
+			"known": ROOM_DECORATIONS.has(decoration_id),
+			"valid_slot": valid_slot,
+			"compatible": compatible,
+			"owned": is_room_decoration_owned(decoration_id),
+			"placed_slot": dormant_placed_slot,
+			"placed_here": dormant_placed_slot == slot_index,
+			"can_apply": false,
+			"reason": "reserved_for_redesign",
+			"price": 0,
+		}
+	if not ROOM_DECORATIONS.has(decoration_id) or not valid_slot or not compatible:
+		return {
+			"known": ROOM_DECORATIONS.has(decoration_id),
+			"valid_slot": valid_slot,
+			"compatible": compatible,
 			"owned": false,
 			"placed_slot": -1,
 			"placed_here": false,
 			"can_apply": false,
-			"reason": "invalid_slot" if not valid_slot else "unknown",
+			"reason": "invalid_slot" if not valid_slot else ("incompatible_slot" if not compatible else "unknown"),
 			"price": 0,
 		}
 	var decoration: Dictionary = ROOM_DECORATIONS[decoration_id]
@@ -3834,6 +4215,7 @@ func get_room_decoration_action_state(decoration_id: String, slot_index: int) ->
 	return {
 		"known": true,
 		"valid_slot": true,
+		"compatible": true,
 		"owned": owned,
 		"placed_slot": placed_slot,
 		"placed_here": placed_here,
@@ -3869,6 +4251,48 @@ func clear_room_decoration_slot(slot_index: int) -> bool:
 		return false
 	room_decoration_slots[slot_index] = ""
 	return true
+
+
+func _empty_room_decoration_slots() -> Array[String]:
+	var result: Array[String] = []
+	result.resize(ROOM_DECORATION_SLOT_COUNT)
+	result.fill("")
+	return result
+
+
+func _room_decoration_authorized_for_schema(decoration_id: String, stored_schema: int) -> bool:
+	if decoration_id in LEGACY_ROOM_DECORATION_IDS:
+		return stored_schema >= ROOM_DECORATION_SCHEMA
+	if decoration_id in PHASE123_ROOM_DECORATION_IDS:
+		return stored_schema >= ROOM_COLLECTION_SCHEMA
+	if decoration_id in PHASE141_ROOM_PLANT_IDS:
+		return stored_schema >= ROOM_FINAL_RACK_PLANTS_SCHEMA
+	return ROOM_DECORATIONS.has(decoration_id) and stored_schema >= ROOM_LIVING_DETAILS_SCHEMA
+
+
+func _first_empty_compatible_room_slot(decoration_id: String) -> int:
+	for slot_index in range(ROOM_DECORATION_SLOT_COUNT):
+		if room_decoration_slots[slot_index].is_empty() and is_room_decoration_compatible(decoration_id, slot_index):
+			return slot_index
+	return -1
+
+
+func _normalize_phase159_botanical_cloche_legacy_state() -> void:
+	var legacy_owned := PHASE159_LEGACY_POTS_ID in owned_room_decorations
+	if not legacy_owned:
+		return
+	var legacy_was_placed := room_decoration_slots.find(PHASE159_LEGACY_POTS_ID) >= 0
+	if PHASE159_BOTANICAL_CLOCHE_ID not in owned_room_decorations:
+		owned_room_decorations.append(PHASE159_BOTANICAL_CLOCHE_ID)
+	for slot_index in range(room_decoration_slots.size()):
+		if room_decoration_slots[slot_index] == PHASE159_LEGACY_POTS_ID:
+			room_decoration_slots[slot_index] = ""
+	if (
+			legacy_was_placed
+			and room_decoration_slots.find(PHASE159_BOTANICAL_CLOCHE_ID) < 0
+			and PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX < room_decoration_slots.size()
+	):
+		room_decoration_slots[PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX] = PHASE159_BOTANICAL_CLOCHE_ID
 
 
 func get_greenhouse_crop_catalog() -> Dictionary:
@@ -3923,6 +4347,227 @@ func get_greenhouse_attention_summary() -> Dictionary:
 	}
 
 
+func get_greenhouse_order_state() -> Dictionary:
+	_ensure_greenhouse_order()
+	var state := greenhouse_order.duplicate(true)
+	var crop_id := str(state.get("crop_id", ""))
+	var crop := greenhouse.get_crop(crop_id)
+	state["crop"] = crop
+	state["crop_name"] = str(crop.get("name", crop_id))
+	state["crop_short_name"] = str(crop.get("short_name", crop_id)).to_upper()
+	state["remaining_harvests"] = maxi(0, int(state.get("target_harvests", 1)) - int(state.get("progress", 0)))
+	state["completed_count"] = greenhouse_orders_completed
+	state["reputation"] = get_greenhouse_reputation_state()
+	return state
+
+
+func _get_greenhouse_reputation_tier_for_count(completed_count: int) -> int:
+	var tier := 0
+	var safe_count := clampi(completed_count, 0, GREENHOUSE_ORDER_MAX_COMPLETIONS)
+	for raw_milestone in GREENHOUSE_REPUTATION_MILESTONES:
+		var milestone: Dictionary = raw_milestone
+		if safe_count < int(milestone.get("target_orders", GREENHOUSE_ORDER_MAX_COMPLETIONS)):
+			break
+		tier = int(milestone.get("tier", tier))
+	return clampi(tier, 0, GREENHOUSE_REPUTATION_MILESTONES.size())
+
+
+func _get_greenhouse_reputation_milestone(tier: int) -> Dictionary:
+	if tier < 1 or tier > GREENHOUSE_REPUTATION_MILESTONES.size():
+		return {}
+	return (GREENHOUSE_REPUTATION_MILESTONES[tier - 1] as Dictionary).duplicate(true)
+
+
+func get_greenhouse_reputation_state() -> Dictionary:
+	var completed_count := clampi(greenhouse_orders_completed, 0, GREENHOUSE_ORDER_MAX_COMPLETIONS)
+	var earned_tier := _get_greenhouse_reputation_tier_for_count(completed_count)
+	var tier := clampi(greenhouse_reputation_claimed_tier, 0, earned_tier)
+	var current_title := "NOVÝ PĚSTITEL"
+	if tier > 0:
+		current_title = str(_get_greenhouse_reputation_milestone(tier).get("title", current_title))
+	var is_max := tier >= GREENHOUSE_REPUTATION_MILESTONES.size()
+	var next_milestone := {} if is_max else _get_greenhouse_reputation_milestone(tier + 1)
+	var next_target := completed_count if is_max else int(next_milestone.get("target_orders", completed_count))
+	return {
+		"tier": tier,
+		"title": current_title,
+		"completed_orders": completed_count,
+		"is_max": is_max,
+		"next_tier": tier if is_max else tier + 1,
+		"next_title": current_title if is_max else str(next_milestone.get("title", "")),
+		"next_target": next_target,
+		"next_reward_coins": 0 if is_max else int(next_milestone.get("reward_coins", 0)),
+		"next_reward_xp": 0 if is_max else int(next_milestone.get("reward_xp", 0)),
+		"cosmetic_sign": str(_get_greenhouse_reputation_milestone(tier).get("cosmetic_sign", "")) if tier > 0 else "",
+		"sign_top": "MISTR" if is_max else "POVĚST",
+		"sign_bottom": "SKLENÍKU" if is_max else "%d/%d ZAK." % [mini(completed_count, next_target), next_target],
+	}
+
+
+func _claim_new_greenhouse_reputation_milestones() -> Array[Dictionary]:
+	var claims: Array[Dictionary] = []
+	var earned_tier := _get_greenhouse_reputation_tier_for_count(greenhouse_orders_completed)
+	while greenhouse_reputation_claimed_tier < earned_tier:
+		var next_tier := greenhouse_reputation_claimed_tier + 1
+		var milestone := _get_greenhouse_reputation_milestone(next_tier)
+		if milestone.is_empty():
+			break
+		greenhouse_reputation_claimed_tier = next_tier
+		var reward_coins := int(milestone.get("reward_coins", 0))
+		var reward_xp := int(milestone.get("reward_xp", 0))
+		if reward_coins > 0:
+			_change_coins(reward_coins, "greenhouse_reputation")
+		if reward_xp > 0:
+			_grant_xp(reward_xp, "greenhouse_reputation")
+		claims.append(milestone)
+	return claims
+
+
+func _get_greenhouse_order_template(crop_id: String) -> Dictionary:
+	for raw_template in GREENHOUSE_ORDER_TEMPLATES:
+		var template: Dictionary = raw_template
+		if str(template.get("crop_id", "")) == crop_id:
+			return template
+	return {}
+
+
+func _build_greenhouse_order(sequence: int) -> Dictionary:
+	var safe_sequence := _sanitize_order_sequence(sequence, 0)
+	for offset in range(GREENHOUSE_ORDER_TEMPLATES.size()):
+		var template: Dictionary = GREENHOUSE_ORDER_TEMPLATES[posmod(safe_sequence + offset, GREENHOUSE_ORDER_TEMPLATES.size())]
+		if not is_greenhouse_crop_unlocked(str(template.get("crop_id", ""))):
+			continue
+		var order := template.duplicate(true)
+		order["id"] = "greenhouse_order_%04d" % safe_sequence
+		order["sequence"] = safe_sequence
+		order["progress"] = 0
+		_apply_greenhouse_order_tier(order, GREENHOUSE_ORDER_TIER_MULTI_BED if _is_greenhouse_multi_bed_sequence(safe_sequence, int(order.get("target_harvests", 1))) else GREENHOUSE_ORDER_TIER_STANDARD)
+		return order
+	# Tomato is available from level one; this is only a defensive fallback for
+	# malformed catalog changes.
+	var fallback: Dictionary = GREENHOUSE_ORDER_TEMPLATES[0].duplicate(true)
+	fallback["id"] = "greenhouse_order_%04d" % safe_sequence
+	fallback["sequence"] = safe_sequence
+	fallback["progress"] = 0
+	_apply_greenhouse_order_tier(fallback, GREENHOUSE_ORDER_TIER_MULTI_BED if _is_greenhouse_multi_bed_sequence(safe_sequence, int(fallback.get("target_harvests", 1))) else GREENHOUSE_ORDER_TIER_STANDARD)
+	return fallback
+
+
+func _is_greenhouse_multi_bed_sequence(sequence: int, target_harvests: int) -> bool:
+	return target_harvests == 2 and posmod(sequence, 2) == 1
+
+
+func _apply_greenhouse_order_tier(order: Dictionary, requested_tier: String) -> void:
+	var sequence := _sanitize_order_sequence(order.get("sequence", 0), 0)
+	var target := maxi(1, int(order.get("target_harvests", 1)))
+	var tier := GREENHOUSE_ORDER_TIER_STANDARD
+	if requested_tier == GREENHOUSE_ORDER_TIER_MULTI_BED and _is_greenhouse_multi_bed_sequence(sequence, target):
+		tier = GREENHOUSE_ORDER_TIER_MULTI_BED
+	order["quality_tier"] = tier
+	order["required_distinct_beds"] = target if tier == GREENHOUSE_ORDER_TIER_MULTI_BED else 0
+	order["credited_bed_indices"] = []
+	if tier == GREENHOUSE_ORDER_TIER_MULTI_BED:
+		order["bonus_coins"] = int(order.get("bonus_coins", 0)) + GREENHOUSE_MULTI_BED_BONUS_COINS
+		order["bonus_xp"] = int(order.get("bonus_xp", 0)) + GREENHOUSE_MULTI_BED_BONUS_XP
+
+
+func _ensure_greenhouse_order() -> void:
+	if not greenhouse_order.is_empty():
+		var sanitized := _sanitize_greenhouse_order(greenhouse_order)
+		if not sanitized.is_empty():
+			greenhouse_order = sanitized
+			greenhouse_order_rotation = maxi(
+				_sanitize_order_sequence(greenhouse_order_rotation, 0),
+				_next_order_sequence(int(greenhouse_order.get("sequence", 0)))
+			)
+			return
+		greenhouse_order.clear()
+	var sequence := _sanitize_order_sequence(greenhouse_order_rotation, 0)
+	greenhouse_order = _build_greenhouse_order(sequence)
+	greenhouse_order_rotation = _next_order_sequence(sequence)
+
+
+func _sanitize_greenhouse_order(raw: Variant, authorize_quality_tier := true) -> Dictionary:
+	if not raw is Dictionary:
+		return {}
+	var raw_order: Dictionary = raw
+	var crop_id := str(raw_order.get("crop_id", ""))
+	var template := _get_greenhouse_order_template(crop_id)
+	if template.is_empty() or not is_greenhouse_crop_unlocked(crop_id):
+		return {}
+	var sequence := _sanitize_order_sequence(raw_order.get("sequence", greenhouse_order_rotation), greenhouse_order_rotation)
+	var order := template.duplicate(true)
+	var target := maxi(1, int(order.get("target_harvests", 1)))
+	order["id"] = "greenhouse_order_%04d" % sequence
+	order["sequence"] = sequence
+	var requested_tier := str(raw_order.get("quality_tier", GREENHOUSE_ORDER_TIER_STANDARD)) if authorize_quality_tier else GREENHOUSE_ORDER_TIER_STANDARD
+	_apply_greenhouse_order_tier(order, requested_tier)
+	if str(order.get("quality_tier", GREENHOUSE_ORDER_TIER_STANDARD)) == GREENHOUSE_ORDER_TIER_MULTI_BED:
+		var credited_beds: Array[int] = []
+		var raw_credited = raw_order.get("credited_bed_indices", [])
+		if raw_credited is Array:
+			for raw_index in raw_credited:
+				var bed_index := _sanitize_int(raw_index, -1)
+				if bed_index >= 0 and bed_index < GreenhouseSimulationScene.BED_COUNT and bed_index not in credited_beds and credited_beds.size() < target - 1:
+					credited_beds.append(bed_index)
+		order["credited_bed_indices"] = credited_beds
+		order["progress"] = credited_beds.size()
+	else:
+		order["progress"] = clampi(_sanitize_nonnegative_int(raw_order.get("progress", 0), 0), 0, target - 1)
+	return order
+
+
+func _record_greenhouse_order_harvest(crop_id: String, bed_index := -1) -> Dictionary:
+	_ensure_greenhouse_order()
+	if crop_id != str(greenhouse_order.get("crop_id", "")):
+		return {"matched": false, "credited": false, "completed": false}
+	var completed_order := greenhouse_order.duplicate(true)
+	var target := maxi(1, int(completed_order.get("target_harvests", 1)))
+	var credited := true
+	var progress := 0
+	if str(completed_order.get("quality_tier", GREENHOUSE_ORDER_TIER_STANDARD)) == GREENHOUSE_ORDER_TIER_MULTI_BED:
+		var credited_beds: Array[int] = []
+		for raw_index in completed_order.get("credited_bed_indices", []):
+			credited_beds.append(int(raw_index))
+		if bed_index < 0 or bed_index >= GreenhouseSimulationScene.BED_COUNT or bed_index in credited_beds:
+			credited = false
+			progress = credited_beds.size()
+		else:
+			credited_beds.append(bed_index)
+			progress = mini(target, credited_beds.size())
+			greenhouse_order["credited_bed_indices"] = credited_beds.duplicate()
+	else:
+		progress = mini(target, int(completed_order.get("progress", 0)) + 1)
+	if not credited:
+		return {
+			"matched": true,
+			"credited": false,
+			"completed": false,
+			"progress": progress,
+			"target_harvests": target,
+			"quality_tier": str(completed_order.get("quality_tier", GREENHOUSE_ORDER_TIER_STANDARD)),
+		}
+	if progress < target:
+		greenhouse_order["progress"] = progress
+		return {
+			"matched": true,
+			"credited": true,
+			"completed": false,
+			"progress": progress,
+			"target_harvests": target,
+			"quality_tier": str(completed_order.get("quality_tier", GREENHOUSE_ORDER_TIER_STANDARD)),
+		}
+	completed_order["progress"] = target
+	greenhouse_orders_completed = mini(GREENHOUSE_ORDER_MAX_COMPLETIONS, greenhouse_orders_completed + 1)
+	var next_sequence := _sanitize_order_sequence(greenhouse_order_rotation, _next_order_sequence(int(completed_order.get("sequence", 0))))
+	greenhouse_order = _build_greenhouse_order(next_sequence)
+	greenhouse_order_rotation = _next_order_sequence(next_sequence)
+	completed_order["matched"] = true
+	completed_order["credited"] = true
+	completed_order["completed"] = true
+	return completed_order
+
+
 func plant_greenhouse_crop(slot_index: int, crop_id: String) -> bool:
 	var state := get_greenhouse_bed_state(slot_index)
 	if not bool(state.get("valid", false)) or str(state.get("stage", "")) != "empty":
@@ -3967,7 +4612,42 @@ func perform_greenhouse_bed_action(slot_index: int) -> bool:
 			_change_coins(reward_coins, "greenhouse_harvest")
 			_grant_xp(reward_xp, "greenhouse_harvest")
 			feedback_requested.emit("growth", selected_plant_index, {"source": "greenhouse", "bed_index": slot_index, "action": "harvest", "coins": reward_coins, "xp": reward_xp})
-			event_created.emit("Sklizeň plodiny %s ze záhonu %d přinesla %d mincí a %d XP." % [str(harvest_result.get("name", crop_id)).to_lower(), slot_index + 1, reward_coins, reward_xp])
+			var order_result := _record_greenhouse_order_harvest(str(harvest_result.get("crop_id", crop_id)), slot_index)
+			if bool(order_result.get("completed", false)):
+				var bonus_coins := int(order_result.get("bonus_coins", 0))
+				var bonus_xp := int(order_result.get("bonus_xp", 0))
+				_change_coins(bonus_coins, "greenhouse_order")
+				_grant_xp(bonus_xp, "greenhouse_order")
+				orders_completed += 1
+				_record_professor_research_event(professor_research.record_delivery(1))
+				var reputation_claims := _claim_new_greenhouse_reputation_milestones()
+				feedback_requested.emit("order_complete", selected_plant_index, {
+					"order_kind": "greenhouse",
+					"customer": str(order_result.get("customer", "odběratele")),
+					"crop_id": crop_id,
+					"crop_name": str(harvest_result.get("name", crop_id)),
+					"coins": bonus_coins,
+					"xp": bonus_xp,
+					"base_coins": reward_coins,
+					"base_xp": reward_xp,
+					"reputation_milestones": reputation_claims.duplicate(true),
+				})
+				var completion_message := "Skleníková zakázka pro %s je hotová! Sklizeň přinesla %d mincí a %d XP, bonus dalších %d mincí a %d XP." % [str(order_result.get("customer", "odběratele")), reward_coins, reward_xp, bonus_coins, bonus_xp]
+				for raw_claim in reputation_claims:
+					var claim: Dictionary = raw_claim
+					var claim_coins := int(claim.get("reward_coins", 0))
+					var claim_xp := int(claim.get("reward_xp", 0))
+					if claim_coins > 0 or claim_xp > 0:
+						completion_message += " Milník %s přidal %d mincí a %d XP." % [str(claim.get("title", "POVĚST")), claim_coins, claim_xp]
+					else:
+						completion_message += " Odemčena kosmetická cedule %s." % str(claim.get("cosmetic_sign", claim.get("title", "MISTR SKLENÍKU")))
+				event_created.emit(completion_message)
+			elif bool(order_result.get("matched", false)) and not bool(order_result.get("credited", true)):
+				event_created.emit("Sklizeň plodiny %s přinesla %d mincí a %d XP. Prémiová zakázka vyžaduje jiný záhon; postup zůstává %d/%d." % [str(harvest_result.get("name", crop_id)).to_lower(), reward_coins, reward_xp, int(order_result.get("progress", 0)), int(order_result.get("target_harvests", 1))])
+			elif bool(order_result.get("matched", false)):
+				event_created.emit("Sklizeň plodiny %s přinesla %d mincí a %d XP. Zakázka pokračuje %d/%d." % [str(harvest_result.get("name", crop_id)).to_lower(), reward_coins, reward_xp, int(order_result.get("progress", 0)), int(order_result.get("target_harvests", 1))])
+			else:
+				event_created.emit("Sklizeň plodiny %s ze záhonu %d přinesla %d mincí a %d XP." % [str(harvest_result.get("name", crop_id)).to_lower(), slot_index + 1, reward_coins, reward_xp])
 			return true
 		_:
 			return false
@@ -4531,6 +5211,10 @@ func to_dict() -> Dictionary:
 		"owned_room_decorations": owned_room_decorations.duplicate(),
 		"room_decoration_slots": room_decoration_slots.duplicate(),
 		"greenhouse_beds": greenhouse.to_dict(),
+		"greenhouse_order": greenhouse_order.duplicate(true),
+		"greenhouse_order_rotation": greenhouse_order_rotation,
+		"greenhouse_orders_completed": greenhouse_orders_completed,
+		"greenhouse_reputation_claimed_tier": greenhouse_reputation_claimed_tier,
 		"claimed_level_rewards": claimed_level_rewards.duplicate(),
 		"equipment_levels": equipment_levels.duplicate(true),
 		"care_reminders_enabled": care_reminders_enabled,
@@ -4681,6 +5365,27 @@ func from_dict(data: Dictionary) -> void:
 			if stored_schema >= BLEND_ORDER_SCHEMA:
 				_advance_order_rotation_after(restored_sequence)
 	_ensure_orders()
+	greenhouse_order.clear()
+	greenhouse_order_rotation = 0
+	greenhouse_orders_completed = 0
+	greenhouse_reputation_claimed_tier = 0
+	if stored_schema >= GREENHOUSE_ORDER_SCHEMA:
+		greenhouse_order_rotation = _sanitize_order_sequence(data.get("greenhouse_order_rotation", 0), 0)
+		greenhouse_orders_completed = clampi(
+			_sanitize_nonnegative_int(data.get("greenhouse_orders_completed", 0), 0),
+			0,
+			GREENHOUSE_ORDER_MAX_COMPLETIONS
+		)
+		greenhouse_order = _sanitize_greenhouse_order(data.get("greenhouse_order", {}), stored_schema >= GREENHOUSE_QUALITY_ORDER_SCHEMA)
+		if not greenhouse_order.is_empty():
+			greenhouse_order_rotation = maxi(
+				greenhouse_order_rotation,
+				_next_order_sequence(int(greenhouse_order.get("sequence", 0)))
+			)
+	# The count is the only authority. Schema 36 migrations and malformed schema
+	# 37 tiers both receive the earned cosmetic title without retroactive coins.
+	greenhouse_reputation_claimed_tier = _get_greenhouse_reputation_tier_for_count(greenhouse_orders_completed)
+	_ensure_greenhouse_order()
 	var stored_plants = data.get("plants", [])
 	if stored_plants is Array and not stored_plants.is_empty():
 		for index in range(mini(stored_plants.size(), plants.size())):
@@ -4756,7 +5461,7 @@ func from_dict(data: Dictionary) -> void:
 	if not ROOM_THEMES.has(selected_room_theme) or selected_room_theme not in unlocked_room_themes:
 		selected_room_theme = "sunrise"
 	owned_room_decorations.clear()
-	room_decoration_slots.assign(["", "", "", "", ""])
+	room_decoration_slots.assign(_empty_room_decoration_slots())
 	if stored_schema >= ROOM_DECORATION_SCHEMA:
 		var stored_decorations = data.get("owned_room_decorations", [])
 		if stored_decorations is Array:
@@ -4764,19 +5469,56 @@ func from_dict(data: Dictionary) -> void:
 				if not (raw_decoration_id is String or raw_decoration_id is StringName):
 					continue
 				var decoration_id := str(raw_decoration_id)
-				if ROOM_DECORATIONS.has(decoration_id) and decoration_id not in owned_room_decorations:
+				if _room_decoration_authorized_for_schema(decoration_id, stored_schema) and decoration_id not in owned_room_decorations:
 					owned_room_decorations.append(decoration_id)
 		var stored_decoration_slots = data.get("room_decoration_slots", [])
 		var restored_placements: Dictionary = {}
 		if stored_decoration_slots is Array:
-			for slot_index in range(mini(ROOM_DECORATION_SLOT_COUNT, stored_decoration_slots.size())):
-				var raw_slot_id = stored_decoration_slots[slot_index]
-				if not (raw_slot_id is String or raw_slot_id is StringName):
-					continue
-				var slot_decoration_id := str(raw_slot_id)
-				if slot_decoration_id in owned_room_decorations and not restored_placements.has(slot_decoration_id):
-					room_decoration_slots[slot_index] = slot_decoration_id
-					restored_placements[slot_decoration_id] = true
+			if stored_schema >= ROOM_THREE_PER_SHELF_SCHEMA:
+				for slot_index in range(mini(ROOM_DECORATION_SLOT_COUNT, stored_decoration_slots.size())):
+					var raw_slot_id = stored_decoration_slots[slot_index]
+					if not (raw_slot_id is String or raw_slot_id is StringName):
+						continue
+					var slot_decoration_id := str(raw_slot_id)
+					if (
+							slot_decoration_id in owned_room_decorations
+							and not restored_placements.has(slot_decoration_id)
+							and is_room_decoration_compatible(slot_decoration_id, slot_index)
+					):
+						room_decoration_slots[slot_index] = slot_decoration_id
+						restored_placements[slot_decoration_id] = true
+			elif stored_schema >= ROOM_COLLECTION_SCHEMA:
+				# Schema 38-39 used eight plants followed immediately by eight
+				# fixed decorations. Preserve every legitimate placement while
+				# inserting four new plant positions before the fixed section.
+				for legacy_slot_index in range(mini(16, stored_decoration_slots.size())):
+					var raw_slot_id = stored_decoration_slots[legacy_slot_index]
+					if not (raw_slot_id is String or raw_slot_id is StringName):
+						continue
+					var slot_decoration_id := str(raw_slot_id)
+					var migrated_slot_index := LEGACY_ROOM_COLLECTION_SLOT_MIGRATION[legacy_slot_index]
+					if (
+							slot_decoration_id in owned_room_decorations
+							and not restored_placements.has(slot_decoration_id)
+							and is_room_decoration_compatible(slot_decoration_id, migrated_slot_index)
+					):
+						room_decoration_slots[migrated_slot_index] = slot_decoration_id
+						restored_placements[slot_decoration_id] = true
+			else:
+				# Schema 29-37 used five interchangeable floor slots. Preserve each
+				# legitimate owned item, but remap it to the first compatible place
+				# in the new stand/shelf topology instead of trusting the old index.
+				for raw_slot_id in stored_decoration_slots:
+					if not (raw_slot_id is String or raw_slot_id is StringName):
+						continue
+					var slot_decoration_id := str(raw_slot_id)
+					if slot_decoration_id not in owned_room_decorations or restored_placements.has(slot_decoration_id):
+						continue
+					var compatible_slot := _first_empty_compatible_room_slot(slot_decoration_id)
+					if compatible_slot >= 0:
+						room_decoration_slots[compatible_slot] = slot_decoration_id
+						restored_placements[slot_decoration_id] = true
+	_normalize_phase159_botanical_cloche_legacy_state()
 	var authorized_greenhouse_crop_ids: Array[String] = []
 	if stored_schema >= GREENHOUSE_SCHEMA:
 		authorized_greenhouse_crop_ids.append("cherry_tomato")
@@ -4784,6 +5526,10 @@ func from_dict(data: Dictionary) -> void:
 		authorized_greenhouse_crop_ids.append("sweet_pepper")
 	if stored_schema >= GREENHOUSE_PROGRESSION_SCHEMA:
 		authorized_greenhouse_crop_ids.append("salad_cucumber")
+	if stored_schema >= GREENHOUSE_RADISH_SCHEMA:
+		authorized_greenhouse_crop_ids.append("garden_radish")
+	if stored_schema >= GREENHOUSE_EGGPLANT_SCHEMA:
+		authorized_greenhouse_crop_ids.append("garden_eggplant")
 	greenhouse.load_state(data.get("greenhouse_beds", []), authorized_greenhouse_crop_ids)
 	if stored_schema < REAL_TIME_GROWTH_SCHEMA:
 		_migrate_first_guided_cycle_to_real_time()

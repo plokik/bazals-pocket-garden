@@ -1,0 +1,98 @@
+{
+  "phase": 158,
+  "status": "PASSED",
+  "policy": "append_only_object_free_foreground_same_alpha_geometry_v2",
+  "clean_plate": {
+    "path": "assets/ui/player_room/player_room_phase149_target_clean_v1.png",
+    "sha256": "5ED3D2D5E6969DE2D3C49225C0B0421352739827AE467F7F214EEC4E31570A75"
+  },
+  "historical_foreground": {
+    "path": "assets/ui/visual/phase149/player_room/player_room_furniture_foreground_v1.png",
+    "sha256": "4122DBC2F6DF1D0B1A43735C322E9DDC99F1E094586B4BA51C3E8DA0D21422D1",
+    "preserved": true
+  },
+  "foreground": {
+    "output": "assets/ui/visual/phase158/player_room/player_room_furniture_foreground_phase158_v2.png",
+    "sha256": "902F2E07E25B35A6E37BCE0929CEB301D87E57B16BB90C4948CD0BB968D98C92",
+    "size": [
+      853,
+      1548
+    ],
+    "source_rects_full": [
+      [
+        48,
+        811,
+        442,
+        32
+      ],
+      [
+        49,
+        1044,
+        442,
+        22
+      ],
+      [
+        49,
+        1284,
+        442,
+        27
+      ],
+      [
+        49,
+        1505,
+        442,
+        20
+      ],
+      [
+        507,
+        411,
+        336,
+        22
+      ],
+      [
+        508,
+        607,
+        335,
+        23
+      ],
+      [
+        536,
+        1207,
+        277,
+        24
+      ]
+    ],
+    "content_crop_y": 137,
+    "qa": {
+      "alpha_geometry_byte_exact_to_phase149": true,
+      "visible_rgb_byte_exact_to_clean_plate": true,
+      "changed_visible_pixels_vs_phase149": 66906,
+      "baked_collectible_pixels_possible": false
+    }
+  },
+  "cleaned_assets": [
+    {
+      "id": "fern",
+      "source": "assets/ui/visual/phase149/player_room/plants/room_plant_fern_phase149.png",
+      "source_sha256": "0DA751A65C58407E63696BA62BACD06F93EFA4B37F8CBCF19995661F71AC0DDC",
+      "topology_template": "assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png",
+      "topology_template_sha256": "CF81428C349D63601CD7C670E46AAFB18A43A9100A49D6A701FA305388E8FBAA",
+      "output": "assets/ui/visual/phase158/player_room/plants/room_plant_fern_phase158_v2.png",
+      "output_sha256": "E7EDCE77C8A946C074635A3EF4FCEE1DA6E5091ABDCA4E57500CAAF0A04E38C1",
+      "size": [
+        158,
+        208
+      ],
+      "qa": {
+        "policy": "phase148_orthogonal_envelope_margin4_bottom_right_contour_alpha_only_v3",
+        "visible_rgb_byte_exact_to_phase149": true,
+        "alpha_is_subset_of_phase149": true,
+        "removed_visible_alpha_pixels": 4028,
+        "envelope_margin_pixels": 4,
+        "bottom_right_contour_start_y": 168,
+        "bottom_right_contour_offset_pixels": -6,
+        "shelf_tail_possible": false
+      }
+    }
+  ]
+}
