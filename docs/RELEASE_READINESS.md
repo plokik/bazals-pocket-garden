@@ -1246,6 +1246,28 @@ ještě Quick automatizace. Technická source brána je `PASSED`; identita
 `0.67.1-rc57` / code 74, save schema 41, telefon a publikování se v této fázi
 nemění. RC58 vzniká až ze samostatného navazujícího release commitu.
 
+## Fáze 165 — RC58 Android handoff
+
+Samostatná Phase165 povyšuje pouze release identitu na `0.68.0-rc58` / code
+75. Vychází z anotovaného tagu `phase164-source-baseline`, zachovává save
+schema 41 a nepřepisuje immutable RC57.
+
+Úplná orchestrace `.godot/automation/20260827-181126Z` a release candidate
+`.godot/release-candidate/20260827-181127Z` prošly visual contractem 450/0,
+regresí 1 558/1 558, capture, všemi 34 aktivními obrazovými branami, výkonem,
+endurance 48/48, progression 132/132, responsive maticí 15/15, Android
+exportem, podpisem a payloadem. Immutable APK má 224 368 317 B a SHA-256
+`0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5`.
+
+Sanitizovaný audit `.godot/android-device-audit/20260827-181643Z` potvrdil na
+Xiaomi 2201116SG nainstalovanou identitu RC58 code 75 se shodným APK hashem,
+22 platných vzorků, 100% foreground, nula fatal/ANR nálezů a save přechod
+41_TO_41 se zachovanými 6 mincemi, 292 XP, 10 sloty a 2 obsazenými pozicemi.
+Technická device brána je `PASSED_TECHNICAL`. Lidská čitelnost, dotyk,
+systémové Zpět, document picker, destruktivní potvrzení, reálná upozornění,
+restart, teplota a baterie zůstávají jedinou oddělenou bránou
+`PENDING_SINGLE_BATCH`. Publikování zůstává `OUT_OF_SCOPE_BY_USER`.
+
 ## Reprodukce technických bran
 
 ```powershell
