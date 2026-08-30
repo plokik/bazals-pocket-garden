@@ -7,6 +7,7 @@ const GreenhousePreviewViewScene := preload("res://scripts/ui/greenhouse_preview
 const RoomDecorationModalScene := preload("res://scripts/ui/room_decoration_modal.gd")
 const MetricGraphScene := preload("res://scripts/ui/metric_graph.gd")
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const PaintedModalShell := preload("res://scripts/ui/painted_modal_shell.gd")
 const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const ComicHudScene := preload("res://scripts/ui/comic_hud.gd")
@@ -1231,7 +1232,7 @@ func _build_garden_screen() -> Control:
 		ComicUITheme.CYAN,
 		"phase183_rack_pet_launcher_v1",
 		"pet_paw_phase183_v1.png",
-		"Doplňky, mazlíček a vzhled pokoje",
+		"Doplňky a vzhled pokoje",
 		_open_cosmetic_modal
 	)
 	rack_pet_launcher_icon = rack_pet_launcher_button.get_node("Icon") as TextureRect
@@ -1928,33 +1929,15 @@ func _build_professor_story_goal_card(goal_index: int) -> Control:
 
 
 func _build_settings_modal() -> Control:
-	var overlay := Control.new()
-	overlay.name = "PlayerSettingsModal"
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.z_index = 190
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.visible = false
-	overlay.set_meta("component", "fullscreen_player_settings_v1")
-	overlay.set_meta("blocks_game_input", true)
-
-	var dimmer := ColorRect.new()
-	dimmer.color = Color("#071823", 0.88)
-	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(dimmer)
-
-	var card := PanelContainer.new()
-	card.set_anchor(SIDE_LEFT, 0.055)
-	card.set_anchor(SIDE_TOP, 0.145)
-	card.set_anchor(SIDE_RIGHT, 0.945)
-	card.set_anchor(SIDE_BOTTOM, 0.835)
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff8df"), ComicUITheme.PURPLE, 5, 23, Color("#050d16", 0.58), 9, 16.0))
-	card.set_meta("component", "comic_audio_settings_card_v1")
-	overlay.add_child(card)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 10)
-	card.add_child(column)
+	var modal := PaintedModalShell.create_overlay("fullscreen_player_settings_v1", 190, Color("#071823", 0.88), "PlayerSettingsModal")
+	var overlay: Control = modal.overlay
+	var card := PaintedModalShell.create_anchored_card(
+		overlay,
+		Rect2(0.055, 0.145, 0.89, 0.69),
+		ComicUITheme.style_box(Color("#fff8df"), ComicUITheme.PURPLE, 5, 23, Color("#050d16", 0.58), 9, 16.0),
+		"comic_audio_settings_card_v1"
+	)
+	var column := PaintedModalShell.create_column(card, 10)
 	var banner := PanelContainer.new()
 	banner.custom_minimum_size.y = 78
 	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.PURPLE, ComicUITheme.GOLD, 4, 17, Color("#08131e", 0.35), 4, 8.0))
@@ -2143,33 +2126,15 @@ func _build_local_backup_modal() -> Control:
 
 
 func _build_seed_selector_modal() -> Control:
-	var overlay := Control.new()
-	overlay.name = "SeedSelectorModal"
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.z_index = 195
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.visible = false
-	overlay.set_meta("component", "comic_mobile_seed_selector_v1")
-	overlay.set_meta("blocks_game_input", true)
-
-	var dimmer := ColorRect.new()
-	dimmer.color = Color("#071823", 0.90)
-	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(dimmer)
-
-	var card := PanelContainer.new()
-	card.set_anchor(SIDE_LEFT, 0.045)
-	card.set_anchor(SIDE_TOP, 0.07)
-	card.set_anchor(SIDE_RIGHT, 0.955)
-	card.set_anchor(SIDE_BOTTOM, 0.91)
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff8df"), ComicUITheme.CYAN, 5, 23, Color("#050d16", 0.60), 10, 15.0))
-	card.set_meta("component", "comic_seed_selector_card_v1")
-	overlay.add_child(card)
-
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 9)
-	card.add_child(column)
+	var modal := PaintedModalShell.create_overlay("comic_mobile_seed_selector_v1", 195, Color("#071823", 0.90), "SeedSelectorModal")
+	var overlay: Control = modal.overlay
+	var card := PaintedModalShell.create_anchored_card(
+		overlay,
+		Rect2(0.045, 0.07, 0.91, 0.84),
+		ComicUITheme.style_box(Color("#fff8df"), ComicUITheme.CYAN, 5, 23, Color("#050d16", 0.60), 10, 15.0),
+		"comic_seed_selector_card_v1"
+	)
+	var column := PaintedModalShell.create_column(card, 9)
 	var banner := PanelContainer.new()
 	banner.custom_minimum_size.y = 74
 	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.BLUE, ComicUITheme.GOLD, 4, 16, Color("#08131e", 0.35), 4, 8.0))
@@ -3007,34 +2972,21 @@ func _build_grower_journal_card(badge_id: String, badge_index: int) -> Control:
 
 
 func _build_care_center_modal() -> Control:
-	var overlay := Control.new()
-	overlay.name = "CareCenterModal"
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 228
-	overlay.visible = false
-	overlay.set_meta("component", "fullscreen_care_center_modal_v1")
-	overlay.set_meta("blocks_game_input", true)
-	overlay.set_meta("covers_full_viewport", true)
-	var scrim := ColorRect.new()
-	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#061826", 0.96)
-	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(scrim)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 13)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_right", 13)
-	margin.add_theme_constant_override("margin_bottom", 16)
-	overlay.add_child(margin)
-	var shell := PanelContainer.new()
-	shell.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff8dc"), ComicUITheme.CYAN, 5, 22, Color("#000713", 0.66), 10, 12.0))
-	shell.set_meta("component", "comic_care_center_shell_v1")
-	margin.add_child(shell)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
-	shell.add_child(column)
+	var modal := PaintedModalShell.create_overlay(
+		"fullscreen_care_center_modal_v1",
+		228,
+		Color("#061826", 0.96),
+		"CareCenterModal",
+		{"covers_full_viewport": true}
+	)
+	var overlay: Control = modal.overlay
+	var shell := PaintedModalShell.create_margin_shell(
+		overlay,
+		Vector4(13, 16, 13, 16),
+		ComicUITheme.style_box(Color("#fff8dc"), ComicUITheme.CYAN, 5, 22, Color("#000713", 0.66), 10, 12.0),
+		"comic_care_center_shell_v1"
+	)
+	var column := PaintedModalShell.create_column(shell, 8)
 	var banner := PanelContainer.new()
 	banner.custom_minimum_size.y = 70
 	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.TEAL, ComicUITheme.GOLD, 4, 17, Color("#07131c", 0.36), 4, 8.0))
@@ -3539,29 +3491,20 @@ func _get_cosmetic_theme_data(theme_id: String) -> Dictionary:
 
 
 func _build_return_summary_modal() -> Control:
-	var overlay := Control.new()
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 230
-	overlay.visible = false
-	overlay.set_meta("component", "phase15_mobile_return_summary_v1")
-	overlay.set_meta("extension_component", "phase109_greenhouse_return_summary_v1")
-	var scrim := ColorRect.new()
-	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#06131f", 0.92)
-	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(scrim)
-	var card := PanelContainer.new()
-	card.set_anchor(SIDE_LEFT, 0.06)
-	card.set_anchor(SIDE_TOP, 0.25)
-	card.set_anchor(SIDE_RIGHT, 0.94)
-	card.set_anchor(SIDE_BOTTOM, 0.70)
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff7d8"), ComicUITheme.CYAN, 5, 22, Color("#000713", 0.64), 10, 15.0))
-	overlay.add_child(card)
-	var column := VBoxContainer.new()
-	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_theme_constant_override("separation", 16)
-	card.add_child(column)
+	var modal := PaintedModalShell.create_overlay(
+		"phase15_mobile_return_summary_v1",
+		230,
+		Color("#06131f", 0.92),
+		"",
+		{"extension_component": "phase109_greenhouse_return_summary_v1"}
+	)
+	var overlay: Control = modal.overlay
+	var card := PaintedModalShell.create_anchored_card(
+		overlay,
+		Rect2(0.06, 0.25, 0.88, 0.45),
+		ComicUITheme.style_box(Color("#fff7d8"), ComicUITheme.CYAN, 5, 22, Color("#000713", 0.64), 10, 15.0)
+	)
+	var column := PaintedModalShell.create_column(card, 16, BoxContainer.ALIGNMENT_CENTER)
 	var title := Label.new()
 	title.text = "NÁVRAT DO ZAHRADY"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -3589,28 +3532,14 @@ func _build_return_summary_modal() -> Control:
 
 
 func _build_save_recovery_modal() -> Control:
-	var overlay := Control.new()
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 240
-	overlay.visible = false
-	overlay.set_meta("component", "phase15_safe_save_recovery_v1")
-	var scrim := ColorRect.new()
-	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#120b1d", 0.96)
-	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(scrim)
-	var card := PanelContainer.new()
-	card.set_anchor(SIDE_LEFT, 0.055)
-	card.set_anchor(SIDE_TOP, 0.18)
-	card.set_anchor(SIDE_RIGHT, 0.945)
-	card.set_anchor(SIDE_BOTTOM, 0.77)
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff6dc"), ComicUITheme.ORANGE, 5, 22, Color("#000713", 0.68), 10, 15.0))
-	overlay.add_child(card)
-	var column := VBoxContainer.new()
-	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_theme_constant_override("separation", 14)
-	card.add_child(column)
+	var modal := PaintedModalShell.create_overlay("phase15_safe_save_recovery_v1", 240, Color("#120b1d", 0.96))
+	var overlay: Control = modal.overlay
+	var card := PaintedModalShell.create_anchored_card(
+		overlay,
+		Rect2(0.055, 0.18, 0.89, 0.59),
+		ComicUITheme.style_box(Color("#fff6dc"), ComicUITheme.ORANGE, 5, 22, Color("#000713", 0.68), 10, 15.0)
+	)
+	var column := PaintedModalShell.create_column(card, 14, BoxContainer.ALIGNMENT_CENTER)
 	var title := Label.new()
 	title.text = "OCHRANA ULOŽENÉ HRY"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -3640,30 +3569,14 @@ func _build_save_recovery_modal() -> Control:
 
 
 func _build_save_failure_modal() -> Control:
-	var overlay := Control.new()
-	overlay.name = "SaveFailureModal"
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 250
-	overlay.visible = false
-	overlay.set_meta("component", "phase46_save_failure_modal_v1")
-	overlay.set_meta("blocks_game_input", true)
-	var scrim := ColorRect.new()
-	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#120b1d", 0.96)
-	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.add_child(scrim)
-	var card := PanelContainer.new()
-	card.set_anchor(SIDE_LEFT, 0.055)
-	card.set_anchor(SIDE_TOP, 0.21)
-	card.set_anchor(SIDE_RIGHT, 0.945)
-	card.set_anchor(SIDE_BOTTOM, 0.75)
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff6dc"), ComicUITheme.ORANGE, 5, 22, Color("#000713", 0.68), 10, 15.0))
-	overlay.add_child(card)
-	var column := VBoxContainer.new()
-	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_theme_constant_override("separation", 14)
-	card.add_child(column)
+	var modal := PaintedModalShell.create_overlay("phase46_save_failure_modal_v1", 250, Color("#120b1d", 0.96), "SaveFailureModal")
+	var overlay: Control = modal.overlay
+	var card := PaintedModalShell.create_anchored_card(
+		overlay,
+		Rect2(0.055, 0.21, 0.89, 0.54),
+		ComicUITheme.style_box(Color("#fff6dc"), ComicUITheme.ORANGE, 5, 22, Color("#000713", 0.68), 10, 15.0)
+	)
+	var column := PaintedModalShell.create_column(card, 14, BoxContainer.ALIGNMENT_CENTER)
 	var title := Label.new()
 	title.text = "UKLÁDÁNÍ SE NEZDAŘILO"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
