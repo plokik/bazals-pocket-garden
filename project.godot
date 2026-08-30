@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Bazal’s Pocket Garden"
 config/description="A playful, science-grounded plant growing simulator."
-config/version="0.68.0-rc58"
+config/version="0.69.0-rc59"
 run/main_scene="res://main.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.7", "GL Compatibility")

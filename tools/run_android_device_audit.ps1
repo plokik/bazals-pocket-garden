@@ -56,7 +56,7 @@ if (-not $Serial) {
     }
     $Serial = ($deviceRows[0] -split '\s+')[0]
 } elseif (-not ($deviceRows | Where-Object { $_ -match ('^' + [regex]::Escape($Serial) + '\s') })) {
-    throw "The requested authorized device is not connected: $Serial"
+    throw 'The requested authorized Android device is not connected.'
 }
 
 $timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssZ')
@@ -542,7 +542,7 @@ function Write-AuditReport {
         "# Bazal’s Pocket Garden Android device audit",
         '',
         "- UTC run: $timestamp",
-        "- Device serial: $Serial",
+        '- Device: authorized connected Android device (serial intentionally omitted)',
         "- Package: $packageName",
         "- Installed version: $installedVersionName ($installedVersionCode)",
         "- Expected APK SHA-256: $expectedApkSha256",
@@ -613,7 +613,7 @@ function Stop-InvalidAudit {
     exit 2
 }
 
-Write-Output "ANDROID_AUDIT_DEVICE=$Serial"
+Write-Output 'ANDROID_AUDIT_DEVICE=AUTHORIZED_CONNECTED_DEVICE_SERIAL_OMITTED'
 Write-Output "ANDROID_AUDIT_ARTIFACTS=$outputRoot"
 Write-Output "ANDROID_EXPECTED_VERSION=$expectedVersionName"
 Write-Output "ANDROID_EXPECTED_VERSION_CODE=$expectedVersionCode"
@@ -906,7 +906,7 @@ if ($totalFramesMatch.Success -and [int64]$totalFramesMatch.Groups[1].Value -eq 
 Write-Output "ANDROID_GFXINFO_STATUS=$gfxStatus"
 
 $saveSchemaVerified = -not $packageDebuggable -or $saveStatus -eq 'PASSED'
-$semanticProgressVerified = $semanticComparison.Status -ne 'MISMATCH'
+$semanticProgressVerified = $semanticComparison.Status -eq 'PASSED'
 $apkIdentityVerified = $installedApkSha256 -ne 'UNAVAILABLE' -and ($expectedApkSha256 -eq 'NOT_PROVIDED' -or $apkIdentityStatus -eq 'PASSED')
 $technicalStatus = if ($crashEvidenceStatus -eq 'AVAILABLE' -and $fatalFindings.Count -eq 0 -and $apkIdentityVerified -and $saveSchemaVerified -and $semanticProgressVerified) { 'PASSED' } else { 'FAILED' }
 $runtimeStatus = if ($runtimeConditionsValid) { 'VALID' } else { 'INVALID' }
@@ -928,6 +928,10 @@ $evaluationReason = if ($invalidUnlockedSamples -gt 0) {
     'INSTALLED_APP_SAVE_SCHEMA_MISMATCH'
 } elseif (-not $saveSchemaVerified) {
     'DEBUG_SAVE_SCHEMA_COULD_NOT_BE_VERIFIED'
+} elseif ($semanticComparison.Status -eq 'CLEARED_BY_EXPLICIT_REQUEST') {
+    'APP_DATA_WAS_CLEARED_SO_SAVE_PRESERVATION_CANNOT_PASS'
+} elseif ($semanticComparison.Status -eq 'NOT_EVALUATED') {
+    'SAVE_PRESERVATION_COULD_NOT_BE_EVALUATED'
 } elseif ($semanticComparison.Status -eq 'MISMATCH') {
     'STABLE_SAVE_FIELDS_CHANGED_ACROSS_INSTALL'
 } else {

@@ -7,6 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'android_export_contract.ps1')
 $toolRoot = if ([string]::IsNullOrWhiteSpace($ToolRoot)) {
     Join-Path $projectRoot '.tooling'
 } else {
@@ -18,8 +19,11 @@ $javaHome = Get-ChildItem -LiteralPath $javaRoot -Directory | Select-Object -Fir
 $buildToolsDirectory = Get-ChildItem -LiteralPath (Join-Path $androidSdkRoot 'build-tools') -Directory |
     Sort-Object { [version]$_.Name } -Descending |
     Select-Object -First 1
+$zipAlignPath = if ($buildToolsDirectory) { Join-Path $buildToolsDirectory.FullName 'zipalign.exe' } else { '' }
 
-if (-not $javaHome -or -not $buildToolsDirectory -or -not (Test-Path -LiteralPath (Join-Path $buildToolsDirectory.FullName 'apksigner.bat'))) {
+if (-not $javaHome -or -not $buildToolsDirectory -or
+    -not (Test-Path -LiteralPath (Join-Path $buildToolsDirectory.FullName 'apksigner.bat')) -or
+    -not (Test-Path -LiteralPath $zipAlignPath)) {
     throw 'Portable Android toolchain is missing. See README.md for setup details.'
 }
 
@@ -47,6 +51,11 @@ $quotedApkArgument = '"' + $apkPath.Replace('\','/') + '"'
 if ($PresetName -notmatch '^[A-Za-z0-9 _-]{1,64}$') {
     throw 'Android export preset name contains unsupported characters.'
 }
+$presetContract = Assert-AndroidPresetSetContract -ProjectRoot $projectRoot -PresetName $PresetName
+if ($presetContract.ExportFormat -ne 0) {
+    throw "The APK exporter requires an APK preset: $PresetName"
+}
+Write-Output 'ANDROID_SOURCE_CONTRACT=PASSED'
 $quotedPresetArgument = '"' + $PresetName + '"'
 
 $godotArguments = @(
@@ -85,6 +94,8 @@ $apkEntries = @(& $jarPath tf $apkPath)
 if ($LASTEXITCODE -ne 0) {
     throw 'Could not inspect the APK payload.'
 }
+Assert-AndroidArchiveAbiContract -Entries $apkEntries -PresetContract $presetContract -Format APK
+Write-Output 'APK_ABI_CHECK=PASSED'
 Write-Output 'APK_ENTRY_SCAN=PASSED'
 $requiredEntries = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
 $requiredScriptPayloadEntries = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
@@ -297,6 +308,8 @@ foreach ($token in $requiredManifestTokens) {
         throw "APK is missing required Android manifest entry: $token"
     }
 }
+Assert-AndroidMergedManifestContract -ManifestText $manifestText -PresetContract $presetContract
+Write-Output 'APK_MANIFEST_CONTRACT=PASSED'
 $dexPackages = (& $javaPath $apkAnalyzerSystemProperty -classpath $apkAnalyzerClasspath com.android.tools.apk.analyzer.ApkAnalyzerCli dex packages $apkPath) -join "`n"
 if ($LASTEXITCODE -ne 0) {
 	throw 'Could not inspect compiled Android DEX packages.'
@@ -314,6 +327,11 @@ foreach ($token in $requiredDexTokens) {
 	}
 }
 Write-Output 'ANDROID_NOTIFICATION_PAYLOAD_CHECK=PASSED'
+Assert-AndroidDexPrivacyContract -DexPackagesText $dexPackages
+Write-Output 'APK_PRIVACY_SDK_ALLOWLIST=PASSED'
+
+Assert-Apk16KiBAlignment -ApkPath $apkPath -ZipAlignPath $zipAlignPath
+Write-Output 'APK_16K_ALIGNMENT_CHECK=PASSED'
 
 $hash = Get-FileHash -Algorithm SHA256 -LiteralPath $apkPath
 $sizeMiB = [math]::Round((Get-Item -LiteralPath $apkPath).Length / 1MB, 2)
