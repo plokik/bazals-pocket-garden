@@ -1,0 +1,480 @@
+{
+  "schema": "phase172_source_only_validation_v1",
+  "recorded_local_date": "2026-08-29",
+  "reference_policy": "unchanged_no_baseline_promotion",
+  "user_visual_acceptance": "PENDING_USER_REVIEW",
+  "android_acceptance": "NOT_RUN_APK_DEFERRED_BY_USER",
+  "phase171_user_acceptance": {
+    "status": "APPROVED_BY_USER",
+    "message": "Souhlasím s výsledkem",
+    "scope": "main rack shown in Phase171; does not approve all independent dialog/transition references"
+  },
+  "checks": {
+    "focused": {
+      "marker": "PHASE172_TESTS_PASSED=84",
+      "path": ".godot/phase172-focused-v1",
+      "exit_code": 0
+    },
+    "capture": {
+      "marker": "PHASE172_DETAIL_CAPTURE=PASSED",
+      "path": ".godot/phase172-detail-final",
+      "images": 12,
+      "exit_code": 0
+    },
+    "full": {
+      "marker": "MVP_TESTS_PASSED=6662",
+      "path": ".godot/validation/20260828-220639Z",
+      "visual_status": "FAILED",
+      "visual_gates_passed": 24,
+      "visual_gates_failed": 10,
+      "exit_code": 1
+    },
+    "quick": {
+      "marker": "HOW_TO_GROW_AUTOMATION=PASSED",
+      "path": ".godot/automation/20260828-221540Z",
+      "exit_code": 0
+    }
+  },
+  "protected_files_unchanged": [
+    {
+      "path": ".agents/skills/how-to-grow-validation/references/visual-cases.json",
+      "sha256": "6953C84CA8116C5DB393D9DACD9B3273435DC5C0AD85D5ACD9E09F86D3C46280"
+    },
+    {
+      "path": "assets/backgrounds/comic_room_rack_v1.png",
+      "sha256": "DB74637F59793CB5DCB8382E839D24CDA1D188C95E8409EA708B73421B6DDB71"
+    },
+    {
+      "path": "assets/plants/comic/basil_harvest_ready_v1.png",
+      "sha256": "F4D22A020384F4E2C7FBC69639F63FA5D1CB8EC0AE221001FA7FB549BC673F3D"
+    },
+    {
+      "path": "assets/plants/comic/basil_mature_v1.png",
+      "sha256": "414B6D54877F4DC54976D8FE39F912BC3C22BFBB48CC4CA4C5123E0C998692E9"
+    },
+    {
+      "path": "assets/plants/comic/basil_seed_v1.png",
+      "sha256": "58CDE2D49D3C6A97C71C60CB6FFE074647802679D90233899A064E12C98D535F"
+    },
+    {
+      "path": "assets/plants/comic/basil_sick_v1.png",
+      "sha256": "FE097D8B90AE6D62C1D7B8E864DC31F209131FC8EE080044D5EAB28CAEA8C7CB"
+    },
+    {
+      "path": "assets/plants/comic/basil_sprout_v1.png",
+      "sha256": "9643DAC51DD991919C32F454BD518FFBF992EAF399FE4CDB74F3AB14B1032F01"
+    },
+    {
+      "path": "assets/plants/comic/basil_young_v1.png",
+      "sha256": "B8E51915F263153B8260C95ED4618D368F080BE56BE376992FBF34272190312B"
+    },
+    {
+      "path": "assets/plants/comic/empty_pot_v1.png",
+      "sha256": "150DD0B64B2B7F783AB3B1E85D285C4476CA18D0C7B95E405766C9AB5AA2C546"
+    },
+    {
+      "path": "assets/plants/comic/chives_harvest_ready_v1.png",
+      "sha256": "C5D4ACADFBA9C2179C0737D7EAB41F90AB13EE78DE56FD8CBC3938D2163D8B86"
+    },
+    {
+      "path": "assets/plants/comic/chives_mature_v1.png",
+      "sha256": "C3BC6216752D6131B1AD2C95CD00BB36C86181BC2401C844408DB5680B8EBC9C"
+    },
+    {
+      "path": "assets/plants/comic/chives_seed_v1.png",
+      "sha256": "11EEC0349106300BC1E5A7951E33EB7A0DC4EB73223EC4A1FDD49CCCA1990D98"
+    },
+    {
+      "path": "assets/plants/comic/chives_sick_v1.png",
+      "sha256": "E3C1DF06C355672153A682F29C90930884D98029BAD3C50B8E74FEB0B2B783C9"
+    },
+    {
+      "path": "assets/plants/comic/chives_sprout_v1.png",
+      "sha256": "1EDE26E9FC52E86F2090F5FEE853DBBFC86F899E91B5B978709421050E095ECF"
+    },
+    {
+      "path": "assets/plants/comic/chives_young_v1.png",
+      "sha256": "AB1BACA8FB74AC7FB9F1269B869899D5270E59DF1EA82ADFE54E70FB4248253B"
+    },
+    {
+      "path": "assets/plants/comic/lavender_harvest_ready_v1.png",
+      "sha256": "5A8056DFBDCF4B7E2B448881C753F9CAFCE245059232E05EB9601A91FFB754C0"
+    },
+    {
+      "path": "assets/plants/comic/lavender_mature_v1.png",
+      "sha256": "CC6FA850602BBCBF207BC3DCCA38616EF1831165225372F921BBBB15CFCD4031"
+    },
+    {
+      "path": "assets/plants/comic/lavender_seed_v1.png",
+      "sha256": "18567A3DFEA360FF94259954EEEAB199AEB6A2E14FF0103A28B2842A3D45BA11"
+    },
+    {
+      "path": "assets/plants/comic/lavender_sick_v1.png",
+      "sha256": "C4E7A0C2F2EAE19AB8BE55627E8A59C5212B8C676A038FD401561A5B527B4D64"
+    },
+    {
+      "path": "assets/plants/comic/lavender_sprout_v1.png",
+      "sha256": "DADC8AB5A3E1771B2DF69CDBEA2754D4EA9CED49B3DEC111350AFA0330B0F388"
+    },
+    {
+      "path": "assets/plants/comic/lavender_young_v1.png",
+      "sha256": "84E4F4EB61E477EC9A725AB91D4A845FCF677A454C90E97ED4CD389D960DA6FB"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_harvest_ready_v1.png",
+      "sha256": "DBE9E26C7CB582009F0F83FF8CD50D8E04FF1C4953067B54DC711C685206058B"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_mature_v1.png",
+      "sha256": "39014FD0762947F6074ACF37B3B6B1A3D367BA8A3BEF12C3AB9D24CC29A359A4"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_seed_v1.png",
+      "sha256": "FAC879B059950F0F28AF08BFE4F4BB757C83779F1C6B30DE732F5906F18AA1D3"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_sick_v1.png",
+      "sha256": "CBAEBFF77B05DFF68B7433D53354F6EE2E0E4816B8F122F0CE9D120A51C6FFAE"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_sprout_v1.png",
+      "sha256": "4637C20AA128F58F9AF6425808D14911DAAA3D60A3D9793966CD2CB1D933BDB9"
+    },
+    {
+      "path": "assets/plants/comic/lemon_balm_young_v1.png",
+      "sha256": "62608698E20B5D8FEA3120FF75FA05A7C0F2D580808A214828CD8565B096C0D0"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_harvest_ready_v1.png",
+      "sha256": "2AE89165661092380CE2950900F9FEAA025C12AE2293A78057E1AD828A77433C"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_mature_v1.png",
+      "sha256": "C06F8C87ABCBADC291134FD01CCA150FFB7880521799BB16D51280945CE86DB0"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_seed_v1.png",
+      "sha256": "5008E4DE0AD51AA3274D0B3F43598641BECAEE3598EEBA7A4E6AA5850887EB24"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_sick_v1.png",
+      "sha256": "89FD424FCE5795A1379F1CECCE6580C21D2DF8E0565E3E9226EEDFE9B9707601"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_sprout_v1.png",
+      "sha256": "67D2ED5AEEEB02D0BA33322F6D5C697AD2FB955F61F9ADECC29AF1E9E7B2449C"
+    },
+    {
+      "path": "assets/plants/comic/marjoram_young_v1.png",
+      "sha256": "61909CA61A2591D1DA1D06E3867D05BCC683F1D8291BA96D87CCF7DFF046EE0C"
+    },
+    {
+      "path": "assets/plants/comic/mint_harvest_ready_v1.png",
+      "sha256": "F7013C30887AACBE4BB88D0DE8048331AA120431D16167CF66A36C8822C8124C"
+    },
+    {
+      "path": "assets/plants/comic/mint_mature_v1.png",
+      "sha256": "5758AC8CF3F3D2B367C9D3FAFDE5F1607E4B40B6383B1713743F942D5D45650C"
+    },
+    {
+      "path": "assets/plants/comic/mint_seed_v1.png",
+      "sha256": "1D3AEE8C18F55E72C66E8265C7C663451B4508194BCB4DABD811F1F0A05CA3EB"
+    },
+    {
+      "path": "assets/plants/comic/mint_sick_v1.png",
+      "sha256": "913BC5B3D2AEBF9C56A3D1D91E7194548D324861A5586CA2BEEC11381A65EA9F"
+    },
+    {
+      "path": "assets/plants/comic/mint_sprout_v1.png",
+      "sha256": "0591DD345DCD09F41CE390D1BDBE13B874A1F26EFA27DA72834C7EC9E35BCC10"
+    },
+    {
+      "path": "assets/plants/comic/mint_young_v1.png",
+      "sha256": "E79F3711E042D995C3A69F8CE432597A20839291976D3402EC3B9E6CCE58CF4E"
+    },
+    {
+      "path": "assets/plants/comic/oregano_harvest_ready_v1.png",
+      "sha256": "B8888D2FE1EF5AD15BD3DCFB8A6A314DE59F8A73A7CD285999CFC3811E908E72"
+    },
+    {
+      "path": "assets/plants/comic/oregano_mature_v1.png",
+      "sha256": "364C86C19761AD46CDEE4A8770655C3F6487AFA313E767025E36CDC19643A71B"
+    },
+    {
+      "path": "assets/plants/comic/oregano_seed_v1.png",
+      "sha256": "1225CFD8164B568D2EEEC9CC3FFB4A3333A3711E40C7FB276A4F52DA92C17335"
+    },
+    {
+      "path": "assets/plants/comic/oregano_sick_v1.png",
+      "sha256": "1A583407DFC3D2D61AE12C0DFB591D4D67BAA6911247BB39E9A193620B1503F9"
+    },
+    {
+      "path": "assets/plants/comic/oregano_sprout_v1.png",
+      "sha256": "4BBE626EB05ACE0D54BEBE915397F3EDD7EB4761B6BFD9F8A5B1705CC6F76966"
+    },
+    {
+      "path": "assets/plants/comic/oregano_young_v1.png",
+      "sha256": "A250A14D5FDF9B7A8BE53E04BD473CE649DCB52B406539BCD545077A8465063C"
+    },
+    {
+      "path": "assets/plants/comic/parsley_harvest_ready_v1.png",
+      "sha256": "C9F734A60DB26D73A6EBFC658A3CE094FD43D68DA6505C375D3A06033D52E21A"
+    },
+    {
+      "path": "assets/plants/comic/parsley_mature_v1.png",
+      "sha256": "A3837F42A3BD53D13FE617CDEF0AE2ABA221992360002C19508DF0007597AF87"
+    },
+    {
+      "path": "assets/plants/comic/parsley_seed_v1.png",
+      "sha256": "79A899B57594B13DB80063E950548690CC6698B95BFE92B3D937948CFC7388B0"
+    },
+    {
+      "path": "assets/plants/comic/parsley_sick_v1.png",
+      "sha256": "C97FAF17B0FC02679A2AC7515CED22F99843845502FC0267BC757C18690E47C1"
+    },
+    {
+      "path": "assets/plants/comic/parsley_sprout_v1.png",
+      "sha256": "84CFDEF7C71F29DD493E0A44AB273DCE8069CF8C27DC135AFEFDEFE016735BCE"
+    },
+    {
+      "path": "assets/plants/comic/parsley_young_v1.png",
+      "sha256": "A0A29AC1D75B0457450526B923B5D056CC02D59EF04C08DD157E4205E81BB9CE"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_harvest_ready_v2.png",
+      "sha256": "4C8C900893D7FA2838A45639DBF624B39C223AE19604982DDB3448825329C58B"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_mature_v2.png",
+      "sha256": "9E75A5A605DDE4272ECF1221235800AA96DBC74B395F518BAE184AAEA773BDAF"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_seed_v2.png",
+      "sha256": "A79945B93082DFA1B330F1A221AF7FC1FB5F76B655B42E6DC28162A61B3A8F43"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_sick_v2.png",
+      "sha256": "14756F31D6ECEF3ABBA3A518FBAA2AF7D78FB40CE24AF5FDCB957A6369508247"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_sprout_v2.png",
+      "sha256": "43E4E006C9C9E288999C2321A95307FC0A4E7B31A5BA6FCF7223B9D2D2EDF528"
+    },
+    {
+      "path": "assets/plants/comic/rosemary_young_v2.png",
+      "sha256": "1C54501AF1DDDA21A45255C0E4BCE0C42911D1CE8B3174116948C2F67E45AB76"
+    },
+    {
+      "path": "assets/plants/comic/sage_harvest_ready_v1.png",
+      "sha256": "D10B6B69E10D2A248F24C38200C62C5EEF3277AF5662210E1B337CD4C810EDCE"
+    },
+    {
+      "path": "assets/plants/comic/sage_mature_v1.png",
+      "sha256": "B7A17A7A8EAEEFDE0922C10449A39E1C85D6B510AEDE0C7CC7ECA45767691375"
+    },
+    {
+      "path": "assets/plants/comic/sage_seed_v1.png",
+      "sha256": "8A4435A29D5ADF9B8598ED05EF18CC89818E847102AAF64B59E93FBC59B85737"
+    },
+    {
+      "path": "assets/plants/comic/sage_sick_v1.png",
+      "sha256": "C6B28A0D3A15A577989A132AED7BD76CED3F92765B674D51C7374BE8413E52A7"
+    },
+    {
+      "path": "assets/plants/comic/sage_sprout_v1.png",
+      "sha256": "538ED763D85954F4150D3D5CDD7A3E94F371639B3AE546B524B59931F8FAF255"
+    },
+    {
+      "path": "assets/plants/comic/sage_young_v1.png",
+      "sha256": "D126824DD392D37AC0CBD8817228C2D3EE443A4BCD91ADA4764C2F6E66CA6EEB"
+    },
+    {
+      "path": "assets/plants/comic/thyme_harvest_ready_v1.png",
+      "sha256": "29E799D1EC45E33D823DF81B53091FB531EC4ECBAD3CD1BAB7E67F18E6AAD08B"
+    },
+    {
+      "path": "assets/plants/comic/thyme_mature_v1.png",
+      "sha256": "25B8668C8BC523597118C64A2294E7118C4AF6519F9F6A9965B6737CA719570A"
+    },
+    {
+      "path": "assets/plants/comic/thyme_seed_v1.png",
+      "sha256": "A2CC7E7602EA2EB6CB586D5BEC2D080AA113EE9F1BB3947195076EF5E2241E20"
+    },
+    {
+      "path": "assets/plants/comic/thyme_sick_v1.png",
+      "sha256": "FEBA0A3714FC7E04903952BED7502877ED262A53E5A9E17B9186E46263B059FB"
+    },
+    {
+      "path": "assets/plants/comic/thyme_sprout_v1.png",
+      "sha256": "0E1255AD58C1C27B5A72E8C0AE99DB5812C10BC4AC39EA0EF1AB4E0FA54F3B02"
+    },
+    {
+      "path": "assets/plants/comic/thyme_young_v1.png",
+      "sha256": "0EF6DA1A03D958B86DBEF6FE78EF44F87F8BAA63981ED24E206DF59AB17F766C"
+    },
+    {
+      "path": "assets/ui/visual/phase163/rack/rack_grow_light_phase163_v1.png",
+      "sha256": "FDA5B231DE47AB419F67843DACC2B2A985A866456B4F2C90E50788D470810764"
+    },
+    {
+      "path": "assets/ui/visual/phase163/rack/rack_locked_planter_phase163_v1.png",
+      "sha256": "9C362AF2FDBF6C32D818CA174692DB60D2B806D579EC3ED80578B99ADDC43706"
+    },
+    {
+      "path": "builds/android/bazals-pocket-garden-0.68.0-rc58-arm64-debug.apk",
+      "sha256": "0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/phase169_plant_edges_manifest.json",
+      "sha256": "995E69C69B8E2BAF41B4CB5918DA707FE983CE987525F4FCAD0D2CE38E4E1364"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_coleus_phase169.png",
+      "sha256": "D6D44C774B7178A959F132F1057CDEA46E19D37B1D0C9693CDDE31B18CF3F6DB"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_coleus_phase169.png.import",
+      "sha256": "442A47DFE4943D9FB9C63602CB3FE0BE69041039BF830E9B91B7957BB45D15DB"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_compact_aglaonema_phase169.png",
+      "sha256": "09533A3431E5534AD0B91C596032881D050E875AACF1AAC648FCF1C5DC380AF7"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_compact_aglaonema_phase169.png.import",
+      "sha256": "E4C3F7108B82E071D270E001AB9DCD5D50669717A6C15318B2F865B83BCEE2C4"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_fern_phase169.png",
+      "sha256": "F59DD50CED1D65266EA3206B12FE268A3AB6FEFD83698C07DECEF2F52991B856"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_fern_phase169.png.import",
+      "sha256": "739F12E174BA0D9A388DFA62F5AFBEAB9562713989D3CD985F10564EC0B71179"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_fittonia_phase169.png",
+      "sha256": "AB6936220306647F90D7DF3EFB04EE037AC505C678D73341C98615BA80632D5E"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_fittonia_phase169.png.import",
+      "sha256": "632EA3607C8058C626B895C3E36AF704FA4C14BBC5479E807A8EF06446B7A7BE"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_flowering_begonia_phase169.png",
+      "sha256": "535F204D9FB055FCE84B1AA654C4990BE28CFBB7987B84A319C4E40EC5A279A5"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_flowering_begonia_phase169.png.import",
+      "sha256": "A742D61FF83D51B14F2E635C86B9F61D7180BB00A804B7F06A1AD9349BC8BCBF"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_glossy_broadleaf_phase169.png",
+      "sha256": "DF2CD264D051F84A290AF80AEBA2341A50A8F09238AA9C195125CAAF3893DF1C"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_glossy_broadleaf_phase169.png.import",
+      "sha256": "387B776CF965109584B8335DBF2EF13ED8A36C33F504091AE76224FE7DDA2A45"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_lemon_maranta_phase169.png",
+      "sha256": "68D34E257FD10A9CA1FDD286C9D8B1D6AD7AD9CCCCA04878A1455412DCACF87B"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_lemon_maranta_phase169.png.import",
+      "sha256": "0B17B33F8FABB205278E2A5083FFD5DEB77F1366203AE762F01E8BC6E8D93D9C"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_orchid_phase169.png",
+      "sha256": "EFD6711C14B6CC5B72F8F28FB116A2F4F1668B75D35F98FFB8A35B5F3F5B3775"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_orchid_phase169.png.import",
+      "sha256": "2090E62CB33832B2F860DF24986DD217770E124805BF31BEDB0091BA2E771677"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_pothos_phase169.png",
+      "sha256": "6A219548FD455DC37B69D2B6E6F1A3277223CD91C2AD17F3DD641F2292EE8613"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_pothos_phase169.png.import",
+      "sha256": "67F42019C35512A16521117AE725DEDBC8F411B114424ABE3CBC7344A7631F05"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_roundleaf_pilea_phase169.png",
+      "sha256": "01657F6B4B30C93E38684695FC06A0E251AB07E2742395345CB4E134E20E2C25"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_roundleaf_pilea_phase169.png.import",
+      "sha256": "C55F6363ED17431ADDE749EAA775CBCD9D89EACFE47311335E134498504A9619"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_snake_plant_phase169.png",
+      "sha256": "57579F2486811FA0D6D5BD353F9B2FB7972F5FF8FE021091C3A9AC936D74DC10"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_snake_plant_phase169.png.import",
+      "sha256": "0C5148EB833B50449F2B04F4E9FA9E2E98E769948CD6D986608FB7638AD13E61"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_striped_calathea_phase169.png",
+      "sha256": "063A3149F2CB0893AA64253525E363BDA91820259F5696ECBF6C58AE6258CDA0"
+    },
+    {
+      "path": "assets/ui/visual/phase169/player_room/plants/room_plant_striped_calathea_phase169.png.import",
+      "sha256": "C84CCB171DC30F511C9A16E3970CE38E319F6A1901C911CA10D37951768CB7BA"
+    },
+    {
+      "path": "export_presets.cfg",
+      "sha256": "36703B43CE3380AB05A3616817759E7362525D3B5D235679D340C7E63EA7AAD0"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "3ED9832500AD4E60FF21CA5D172A94A43A1EB059FCAAC16C60D7B935D98C1D09"
+    },
+    {
+      "path": "scripts/game_session.gd",
+      "sha256": "617A9DA2B1538B658132E9D874EE258F8DD7D35DB1167000F530078A6C111D52"
+    },
+    {
+      "path": "scripts/main.gd",
+      "sha256": "E7B5DDF855C6A837E7BF7DCC3038E64360B53EE696D1A92BD136B7D7CBAAB20C"
+    },
+    {
+      "path": "scripts/ui/player_room_collection_view.gd",
+      "sha256": "25315E1B78C46D4765F5274C64C1F12FA1750A682B53E5483683EC93CDD034C0"
+    },
+    {
+      "path": "scripts/ui/room_overview.gd",
+      "sha256": "6EAF82E33B86F2EE4DFE8B6538D11AEFDB7EC34B2EC81E7E92D3EEB864C5E580"
+    },
+    {
+      "path": "scripts/ui/rack_stand_layout.gd",
+      "sha256": "7D91F6BC50AB748B55BE633589F9C91D3080D92F602512D8537786C07216B503"
+    },
+    {
+      "path": "scripts/ui/rack_planter_grounding.gd",
+      "sha256": "5704B09AEB66AD373410171A34C67C3445CA65BAA05E8EA3EA34154756F1549E"
+    },
+    {
+      "path": "assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png",
+      "sha256": "CF9A59E9ECEB000CDE7BE7D452D7A790619766FF5CACDC80BEC8E55D4FC82B86"
+    },
+    {
+      "path": "assets/ui/visual/phase170/rack/phase170_saucer_manifest.json",
+      "sha256": "5F577F719A1634282777348F18DB41DCA1DBFC3CABE6BFF39FD25FBDA5B40481"
+    },
+    {
+      "path": "assets/ui/visual/phase171/rack/rack_stand_painted_phase171_v1.png",
+      "sha256": "00F8CF9A50E8EA23BAAC629A64F7B0AF79BA1EEAB3F5F46FCA7A9A99681B698C"
+    },
+    {
+      "path": "assets/backgrounds/comic_detail_window_v1.png",
+      "sha256": "4AF382E30F0337AB5EB80D00E62668ADA58C49A5D791DA423502F72375E2F492"
+    },
+    {
+      "path": ".agents/skills/how-to-grow-validation/scripts/capture_validation.gd",
+      "sha256": "1C913BACEDDEF06F01C593C4E7756167538CFF0FEC76C51FA913AC86D9A4953F"
+    }
+  ]
+}

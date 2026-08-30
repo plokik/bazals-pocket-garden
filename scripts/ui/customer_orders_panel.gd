@@ -5,6 +5,7 @@ signal order_pressed(index: int)
 signal order_decline_pressed(index: int)
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -141,7 +142,7 @@ func refresh(game_session: GameSession) -> void:
 			var decline := decline_buttons[index]
 			decline.disabled = game_session.order_refreshes_remaining <= 0
 			decline.text = "VYMĚNIT %d/%d" % [game_session.order_refreshes_remaining, GameSession.DAILY_ORDER_REFRESHES]
-			decline.tooltip_text = "Bezplatná denní výměna nabídky" if not decline.disabled else "Další výměny budou zítra"
+			TooltipPolicy.apply(decline, "Bezplatná denní výměna nabídky" if not decline.disabled else "Další výměny budou zítra")
 		card_panels[index].set_meta("order_kind", "blend" if is_blend else "single")
 		card_panels[index].add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.CREAM, accent, 3, 14, Color("#0c1720", 0.24), 3, 9.0))
 

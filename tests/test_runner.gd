@@ -14,6 +14,7 @@ const THYME_ID := "thymus_vulgaris"
 const PACK_COMMON_NO_LEGENDARY := 57.894737
 const PACK_RARE_NO_LEGENDARY := 31.578947
 const PACK_EPIC_NO_LEGENDARY := 10.526316
+const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 
 
 class FakeCareNotificationBackend:
@@ -61,7 +62,246 @@ class FakeCareNotificationBackend:
 
 
 func _init() -> void:
-	call_deferred("_run_all")
+	if "--phase183-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase183_only")
+	elif "--phase182-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase182_only")
+	elif "--phase179-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase179_only")
+	elif "--phase178-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase178_only")
+	elif "--phase177-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase177_only")
+	elif "--phase176-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase176_only")
+	elif "--phase175-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase175_only")
+	elif "--phase174-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase174_only")
+	elif "--phase173-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase173_only")
+	elif "--phase172-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase172_only")
+	elif "--phase171-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase171_only")
+	elif "--phase170-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase170_only")
+	elif "--phase169-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase169_only")
+	elif "--phase168-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase168_only")
+	elif "--phase167-only" in OS.get_cmdline_user_args():
+		call_deferred("_run_phase167_only")
+	else:
+		call_deferred("_run_phase166_only" if "--phase166-only" in OS.get_cmdline_user_args() else "_run_all")
+
+
+func _run_phase183_only() -> void:
+	profile = _load_profile()
+	_test_phase125_rack_cleanup_and_player_settings()
+	await _test_phase93_professor_story_ui()
+	if failures > 0:
+		push_error("PHASE183_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE183_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase182_only() -> void:
+	profile = _load_profile()
+	await _test_phase93_professor_story_ui()
+	if failures > 0:
+		push_error("PHASE182_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE182_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase179_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/rack_light_interaction_test.gd").run(self)
+	_test_phase163_approved_locked_planter_rack()
+	if failures > 0:
+		push_error("PHASE179_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE179_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase178_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/greenhouse_seedling_depth_test.gd").run(self)
+	preload("res://tests/greenhouse_seedling_containment_test.gd").run(self)
+	preload("res://tests/greenhouse_selection_alignment_test.gd").run(self)
+	_test_phase130_greenhouse_two_boxes()
+	_test_phase150_approved_painted_greenhouse()
+	if failures > 0:
+		push_error("PHASE178_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE178_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase177_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/greenhouse_seedling_containment_test.gd").run(self)
+	preload("res://tests/greenhouse_selection_alignment_test.gd").run(self)
+	_test_phase130_greenhouse_two_boxes()
+	_test_phase150_approved_painted_greenhouse()
+	if failures > 0:
+		push_error("PHASE177_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE177_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase176_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/greenhouse_selection_alignment_test.gd").run(self)
+	_test_phase130_greenhouse_two_boxes()
+	_test_phase150_approved_painted_greenhouse()
+	if failures > 0:
+		push_error("PHASE176_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE176_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase175_only() -> void:
+	_test_phase34_day_hud_presenter()
+	_test_phase36_coin_hud_presenter()
+	await _test_phase175_runtime_hud_fit()
+	if failures > 0:
+		push_error("PHASE175_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE175_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase174_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/greenhouse_selection_alignment_test.gd").run(self)
+	_test_phase130_greenhouse_two_boxes()
+	_test_phase150_approved_painted_greenhouse()
+	if failures > 0:
+		push_error("PHASE174_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE174_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase173_only() -> void:
+	preload("res://tests/plant_detail_header_test.gd").run(self)
+	_test_phase157_responsive_detail_header()
+	if failures > 0:
+		push_error("PHASE173_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE173_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase172_only() -> void:
+	profile = _load_profile()
+	preload("res://tests/plant_detail_grounding_test.gd").run(self)
+	preload("res://tests/rack_planter_grounding_test.gd").run(self)
+	preload("res://tests/rack_stand_layout_test.gd").run(self)
+	_test_basic_animations()
+	_test_phase151_approved_painted_rack_and_detail()
+	_test_phase157_responsive_detail_header()
+	_test_phase163_approved_locked_planter_rack()
+	if failures > 0:
+		push_error("PHASE172_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE172_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase171_only() -> void:
+	preload("res://tests/rack_stand_layout_test.gd").run(self)
+	preload("res://tests/rack_planter_grounding_test.gd").run(self)
+	_test_phase125_rack_cleanup_and_player_settings()
+	_test_phase151_approved_painted_rack_and_detail()
+	_test_phase163_approved_locked_planter_rack()
+	if failures > 0:
+		push_error("PHASE171_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE171_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase170_only() -> void:
+	preload("res://tests/rack_planter_grounding_test.gd").run(self)
+	_test_phase125_rack_cleanup_and_player_settings()
+	_test_phase151_approved_painted_rack_and_detail()
+	_test_phase163_approved_locked_planter_rack()
+	if failures > 0:
+		push_error("PHASE170_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE170_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase169_only() -> void:
+	preload("res://tests/room_plant_edge_cleanup_test.gd").run(self)
+	preload("res://tests/room_plant_render_geometry_test.gd").run(self)
+	await preload("res://tests/room_render_efficiency_test.gd").run(self)
+	await _test_phase166_room_drag()
+	if failures > 0:
+		push_error("PHASE169_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE169_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase168_only() -> void:
+	await preload("res://tests/room_render_efficiency_test.gd").run(self)
+	await _test_phase166_room_drag()
+	if failures > 0:
+		push_error("PHASE168_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE168_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase167_only() -> void:
+	preload("res://tests/room_plant_render_geometry_test.gd").run(self)
+	await _test_phase166_room_drag()
+	if failures > 0:
+		push_error("PHASE167_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE167_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _run_phase166_only() -> void:
+	await _test_phase166_room_drag()
+	if failures > 0:
+		push_error("PHASE166_TESTS_FAILED=%d/%d" % [failures, checks])
+		quit(1)
+	else:
+		print("PHASE166_TESTS_PASSED=%d" % checks)
+		quit(0)
+
+
+func _test_phase166_room_drag() -> void:
+	preload("res://tests/room_plant_move_model_test.gd").run(self, _load_plant_catalog())
+	preload("res://tests/room_plant_drag_controller_test.gd").run(self)
+	await preload("res://tests/room_plant_drag_integration_test.gd").run(self, _load_plant_catalog())
 
 
 func _run_all() -> void:
@@ -85,6 +325,7 @@ func _run_all() -> void:
 	_test_phase34_day_hud_presenter()
 	_test_phase35_xp_hud_presenter()
 	_test_phase36_coin_hud_presenter()
+	await _test_phase175_runtime_hud_fit()
 	_test_phase37_audio_settings_presenter()
 	_test_phase38_guide_dialog_presenter()
 	_test_phase39_botanist_message_presenter()
@@ -161,6 +402,18 @@ func _run_all() -> void:
 	_test_phase163_approved_locked_planter_rack()
 	_test_phase164_source_baseline()
 	_test_phase165_rc58_android_handoff()
+	await _test_phase166_room_drag()
+	preload("res://tests/room_plant_render_geometry_test.gd").run(self)
+	await preload("res://tests/room_render_efficiency_test.gd").run(self)
+	preload("res://tests/room_plant_edge_cleanup_test.gd").run(self)
+	preload("res://tests/rack_planter_grounding_test.gd").run(self)
+	preload("res://tests/rack_stand_layout_test.gd").run(self)
+	preload("res://tests/rack_light_interaction_test.gd").run(self)
+	preload("res://tests/plant_detail_grounding_test.gd").run(self)
+	preload("res://tests/plant_detail_header_test.gd").run(self)
+	preload("res://tests/greenhouse_selection_alignment_test.gd").run(self)
+	preload("res://tests/greenhouse_seedling_containment_test.gd").run(self)
+	preload("res://tests/greenhouse_seedling_depth_test.gd").run(self)
 	_test_phase105_functional_greenhouse()
 	_test_phase106_greenhouse_crop_choice()
 	_test_phase107_greenhouse_progression()
@@ -729,22 +982,29 @@ func _test_phase33_garden_selection_presenter() -> void:
 func _test_phase34_day_hud_presenter() -> void:
 	var presenter = preload("res://scripts/ui/day_hud_presenter.gd").new()
 	var label := Label.new()
+	label.size = Vector2(53.28, 38.0)
+	label.add_theme_font_override("font", preload("res://assets/fonts/Poppins-ExtraBold.ttf"))
+	label.add_theme_constant_override("outline_size", 1)
+	label.add_theme_constant_override("shadow_offset_x", 1)
 	presenter.bind(label)
 	var low_days_ok := true
 	for day in [-5, 0, 1, 9]:
 		presenter.refresh(day)
-		low_days_ok = low_days_ok and label.get_theme_font_size("font_size") == 16 and label.text == "DEN %d" % maxi(1, day)
+		low_days_ok = low_days_ok and label.get_theme_font_size("font_size") == 16 and label.text == "DEN %d" % maxi(1, day) and bool(label.get_meta("hud_text_fits", false))
 	_check(presenter.is_bound() and low_days_ok, "Phase 34 denní HUD bezpečně normalizuje neplatný den a zachová velký font pro jednu číslici")
 	var medium_days_ok := true
 	for day in [10, 99, 100, 999]:
 		presenter.refresh(day)
-		medium_days_ok = medium_days_ok and label.get_theme_font_size("font_size") == 13 and label.text == "DEN %d" % day
-	_check(medium_days_ok, "Phase 34 denní HUD zachová společný font pro dvou- a trojciferné dny")
+		medium_days_ok = medium_days_ok and label.text == "DEN %d" % day and bool(label.get_meta("hud_text_fits", false)) and float(label.get_meta("hud_text_paint_width", INF)) <= float(label.get_meta("hud_text_available_width", 0.0))
+	_check(medium_days_ok, "Phase 34 denní HUD zachová celý text dvou- a trojciferných dnů v kompaktním panelu")
 	var long_days_ok := true
-	for entry in [[1000, 11], [9999, 11], [10000, 10], [99999, 10], [100000, 8], [1000000, 8]]:
-		presenter.refresh(entry[0])
-		long_days_ok = long_days_ok and label.get_theme_font_size("font_size") == entry[1] and label.text == "DEN %d" % entry[0]
-	_check(long_days_ok, "Phase 34 denní HUD dynamicky zmenší text pro čtyři, pět i šest a více číslic")
+	var previous_font_size := 16
+	for day in [1000, 9999, 10000, 99999, 100000, 1000000]:
+		presenter.refresh(day)
+		var fitted_size := label.get_theme_font_size("font_size")
+		long_days_ok = long_days_ok and fitted_size <= previous_font_size and fitted_size >= 6 and label.text == "DEN %d" % day and bool(label.get_meta("hud_text_fits", false))
+		previous_font_size = fitted_size
+	_check(long_days_ok, "Phase 34 denní HUD změří a zmenší celý text dlouhého dne bez ořezu")
 	presenter.refresh(100000)
 	presenter.refresh(7)
 	_check(label.text == "DEN 7" and label.get_theme_font_size("font_size") == 16, "Phase 34 denní HUD po dlouhém čase obnoví velký font krátkého dne")
@@ -772,6 +1032,10 @@ func _test_phase36_coin_hud_presenter() -> void:
 	var presenter = preload("res://scripts/ui/coin_hud_presenter.gd").new()
 	presenter.refresh(7.0)
 	var label := Label.new()
+	label.size = Vector2(53.28, 38.0)
+	label.add_theme_font_override("font", preload("res://assets/fonts/Poppins-ExtraBold.ttf"))
+	label.add_theme_constant_override("outline_size", 1)
+	label.add_theme_constant_override("shadow_offset_x", 1)
 	label.scale = Vector2(0.75, 0.75)
 	presenter.bind(label)
 	presenter.refresh(0.0)
@@ -783,8 +1047,39 @@ func _test_phase36_coin_hud_presenter() -> void:
 	presenter.refresh(-8.5)
 	_check(label.text == str(roundi(-8.5)), "Phase 36 mincový HUD nezavádí vlastní clamp ani odlišné záporné zaokrouhlení")
 	presenter.refresh(1234567.0)
-	_check(label.text == "1234567", "Phase 36 mincový HUD zachová velkou hodnotu bez suffixu a oddělovačů")
+	var long_value_ok := label.text == "1234567" and bool(label.get_meta("hud_text_fits", false)) and float(label.get_meta("hud_text_paint_width", INF)) <= float(label.get_meta("hud_text_available_width", 0.0))
+	presenter.refresh(42.0)
+	_check(long_value_ok and label.text == "42" and label.get_theme_font_size("font_size") == 19, "Phase 36 mincový HUD zachová celou velkou hodnotu a poté obnoví velký font")
 	label.free()
+
+
+func _test_phase175_runtime_hud_fit() -> void:
+	var original_content_scale_size := root.content_scale_size
+	var instance = load("res://main.tscn").instantiate()
+	root.add_child(instance)
+	await process_frame
+	await process_frame
+	for logical_width in [432.0, 360.0]:
+		root.content_scale_size = Vector2i(int(logical_width), 960 if logical_width > 400.0 else 800)
+		await process_frame
+		await process_frame
+		var logical_size := Vector2(logical_width, 960.0 if logical_width > 400.0 else 800.0)
+		instance._apply_safe_area_rect(Rect2(Vector2.ZERO, logical_size), logical_size, logical_size)
+		for day in [7, 10, 999, 1305, 1000000]:
+			instance._set_day_display(day)
+			_check(bool(instance.day_label.get_meta("hud_text_fits", false)), "Phase175 den %d se vejde do HUD při šířce %d" % [day, int(logical_width)])
+		for coins in [42, 420, 1234567, 999999999]:
+			instance._set_coin_count(float(coins))
+			_check(bool(instance.coins_label.get_meta("hud_text_fits", false)), "Phase175 mince %d se vejdou do HUD při šířce %d" % [coins, int(logical_width)])
+		_check(is_equal_approx(instance.day_label.anchor_right - instance.day_label.anchor_left, 0.148) and is_equal_approx(instance.coins_label.anchor_right - instance.coins_label.anchor_left, 0.148), "Phase175 oba číselné panely sdílejí bezpečnou responzivní šířku")
+		_check(is_equal_approx(instance.coins_label.anchor_left - instance.day_label.anchor_left, 0.33) and is_equal_approx(instance.coins_label.anchor_right - instance.day_label.anchor_right, 0.33), "Phase175 den a mince zůstávají ve shodné mřížce")
+		_check(is_equal_approx(instance.xp_label.anchor_left, 0.70) and is_equal_approx(instance.xp_label.anchor_right, 0.92), "Phase175 panel úrovně zůstává beze změny")
+	instance.queue_free()
+	await process_frame
+	await process_frame
+	root.content_scale_size = original_content_scale_size
+	await process_frame
+	await process_frame
 
 
 func _test_phase37_audio_settings_presenter() -> void:
@@ -3867,7 +4162,7 @@ func _test_phase91_technical_hardening() -> void:
 	var alias_copy_index := release_source.find("Copy-Item -LiteralPath $temporaryApkPath -Destination $defaultApkPendingPath")
 	var alias_move_index := release_source.find("Move-Item -LiteralPath $defaultApkPendingPath -Destination $defaultApkPath -Force")
 	var alias_hash_index := release_source.find("$defaultApkHash =")
-	_check("requiredScriptPayloadEntries" in export_source and "APK contains orphan script payload entry" in export_source and "APK contains raw script text resources" in export_source and "both .gdc and .gd.remap" in export_source and "[string]$ToolRoot = ''" in export_source and "GetFullPath($ToolRoot)" in export_source and "$quotedApkArgument" in export_source and "[string]$PresetName = 'Android'" in export_source and "$quotedPresetArgument" in export_source and "'--export-debug', $quotedPresetArgument, $quotedApkArgument" in export_source and "res://[A-Za-z0-9_./-]+" in export_source, "Fáze 91 Android export bezpečně přijme oddělený nástrojový runtime, cílovou cestu s mezerou, odliší regex literál od skutečného resource path, vyžaduje přesnou dvojici každého současného skriptu a odmítne raw i osiřelý retired payload")
+	_check("requiredScriptPayloadEntries" in export_source and "APK contains orphan script payload entry" in export_source and "APK contains raw script text resources" in export_source and "both .gdc and .gd.remap" in export_source and "[string]$ToolRoot = ''" in export_source and "GetFullPath($ToolRoot)" in export_source and "$quotedApkArgument" in export_source and "[string]$PresetName = 'Android'" in export_source and "$quotedPresetArgument" in export_source and "'--export-debug', $quotedPresetArgument, $quotedApkArgument" in export_source and "res://[A-Za-z0-9_./-]+" in export_source and "GetExtension($relativeResourcePath)" in export_source and "Runtime source references a missing resource" in export_source, "Fáze 91 Android export bezpečně přijme oddělený nástrojový runtime, cílovou cestu s mezerou, odliší regex a dynamický formátovací prefix od skutečného resource path, ale dál odmítne skutečně chybějící soubor a vyžaduje přesnou dvojici každého současného skriptu bez raw či osiřelého retired payloadu")
 	_check(immutable_guard_index >= 0 and immutable_guard_index < validation_index and immutable_guard_index < export_index and alias_copy_index > export_index and alias_copy_index < immutable_move_index and immutable_move_index > export_index and immutable_hash_index > immutable_move_index and alias_move_index > immutable_hash_index and alias_hash_index > alias_move_index and "'-ApkPath', $temporaryApkPath" in release_source and "Invoke-ReleaseGate" in release_source and ".pending.apk" in release_source and "remains untouched" in release_source and not "'-ApkPath', $versionedApkPath" in release_source and not "'-ApkPath', $defaultApkPath" in release_source, "Fáze 108 immutable RC kolizi odmítne před validací, každý child gate ověří v samostatném procesu a před finálním přesunem synchronizuje hash aliasu s immutable kandidátem")
 	_check("Do not run Godot 4.7 as `--check-only --script`" in skill_source and "relative staged subdirectory" in skill_source and "`--path` and `--log-file`" in skill_source and "complete project mirror" in skill_source and "Do not retry the same standalone command in parallel" in skill_source, "Fáze 91 validační postup zakazuje nestabilní samostatný parser i relativní pracovní cestu/log a používá úplné projektové zrcadlo bez opakovaných pádových oken")
 
@@ -6949,30 +7244,39 @@ func _test_phase125_rack_cleanup_and_player_settings() -> void:
 		and "func _is_post_harvest_storage_stage" in rack_source
 		and "func _rack_texture_for" in rack_source
 		and "VE SKLADU" in rack_source
-		and "removed_phase125_future_content_space_v1" in rack_source
-		and "reserved_display_dock_phase125_v1" in rack_source
-		and "cosmetics_and_pets_display_only_v1" in rack_source
+		and "compact_rack_dock_phase183_v1" in rack_source
+		and "painted_four_icon_dock_phase183_v1" in rack_source
+		and "pet_professor_care_settings_v1" in rack_source
+		and "rack_floor_extension_phase183_v1.png" in rack_source
+		and not "DOPLŇKY · MAZLÍK" in rack_source
+		and not "func _draw_future_paw" in rack_source
 		and not "func _draw_selected_summary" in rack_source
 		and not "displayed_growth_percent" in rack_source,
-		"Fáze 125 po sklizni i během sušení ukáže prázdný květináč a odstraní celou duplicitní růstovou kartu"
+		"Phase183 zachová post-harvest stojan, odstraní přerostlý Phase125 panel a doplní malované pozadí kompaktního čtyřikonového doku"
 	)
 	_check(
 		"settings_gear_phase125.png" in main_source
-		and "phase125_player_settings_gear_v1" in main_source
-		and "phase125_rack_care_launcher_v1" in main_source
+		and "phase183_rack_pet_launcher_v1" in main_source
+		and "phase183_professor_research_launcher_v1" in main_source
+		and "phase183_rack_care_launcher_v1" in main_source
+		and "phase183_player_settings_launcher_v1" in main_source
+		and "compact_four_icon_phase183_v1" in main_source
+		and "pet_paw_phase183_v1.png" in main_source
+		and "professor_bazal_phase183_v1.png" in main_source
+		and "care_leaf_phase183_v1.png" in main_source
 		and "NASTAVENÍ HRÁČE" in main_source
 		and "fullscreen_player_settings_v1" in main_source
 		and gear_texture != null
 		and gear_texture.get_width() == 256
 		and gear_texture.get_height() == 256,
-		"Zvuk se přesune pod samostatné PNG ozubené kolečko hráčského nastavení a Péče zůstane u stojanu"
+		"Phase183 používá čtyři samostatné PNG ikony pro mazlíčka, Profesorův výzkum, Péči a zachované hráčské nastavení"
 	)
 	_check(
 		"comic-rack-post-harvest.png" in capture_source
-		and "Phase 125 rack-care launcher" in responsive_source
+		and "compact Phase183 four-icon rack dock" in responsive_source
 		and "PHASE125_RACK_CLEANUP" in phase_doc
 		and "empty_pot_storage_label_v1" in phase_doc,
-		"Fáze 125 má report-only obrazový důkaz, responzivní geometrii a samostatnou dokumentaci"
+		"Historická Fáze 125 zůstává zdokumentovaná a navazující Phase183 má responzivní geometrii čtyřikonového doku"
 	)
 	_check(
 		"config/version=\"0.68.0-rc58\"" in project_source
@@ -6983,6 +7287,70 @@ func _test_phase125_rack_cleanup_and_player_settings() -> void:
 		and GameSession.SAVE_SCHEMA >= 39,
 		"Fáze 125 zůstává zachovaná v navazujícím RC54 code 71 a projekt bezpečně navazuje na save schema 40"
 	)
+
+
+func _phase183_rack_dock_geometry_is_valid(instance, logical_size: Vector2) -> bool:
+	var buttons: Array[Button] = [
+		instance.rack_pet_launcher_button,
+		instance.professor_research_launcher_button,
+		instance.care_center_launcher_button,
+		instance.settings_launcher_button,
+	]
+	var icons: Array[TextureRect] = [
+		instance.rack_pet_launcher_icon,
+		instance.professor_research_launcher_icon,
+		instance.care_center_launcher_icon,
+		instance.settings_launcher_icon,
+	]
+	var expected_components := [
+		"phase183_rack_pet_launcher_v1",
+		"phase183_professor_research_launcher_v1",
+		"phase183_rack_care_launcher_v1",
+		"phase183_player_settings_launcher_v1",
+	]
+	var expected_assets := [
+		"pet_paw_phase183_v1.png",
+		"professor_bazal_phase183_v1.png",
+		"care_leaf_phase183_v1.png",
+		"settings_gear_phase125.png",
+	]
+	var valid := buttons.size() == 4 and icons.size() == 4
+	var union_rect := Rect2()
+	for index in range(buttons.size()):
+		var button := buttons[index]
+		var icon := icons[index]
+		if button == null or icon == null or icon.texture == null:
+			return false
+		var button_rect := Rect2(button.position, button.size)
+		var icon_image := icon.texture.get_image()
+		valid = valid \
+			and button.get_parent() == instance.plants_room_panel \
+			and button.visible \
+			and button.text.is_empty() \
+			and button_rect.size.is_equal_approx(Vector2(68.0, 68.0)) \
+			and icon.size.is_equal_approx(Vector2(48.0, 48.0)) \
+			and icon.texture.resource_path.ends_with(expected_assets[index]) \
+			and icon_image != null \
+			and icon_image.get_format() == Image.FORMAT_RGBA8 \
+			and button.get_meta("component", "") == expected_components[index] \
+			and button.get_meta("dock_index", -1) == index \
+			and button.get_meta("dock_group", "") == "compact_four_icon_phase183_v1" \
+			and button.get_meta("icon_policy", "") == "transparent_cropped_png_48_v1" \
+			and icon.get_meta("alpha_policy", "") == "clean_transparent_edge_v1"
+		union_rect = button_rect if index == 0 else union_rect.merge(button_rect)
+		if index > 0:
+			var previous := buttons[index - 1]
+			valid = valid and is_equal_approx(previous.position.x + previous.size.x, button.position.x)
+	valid = valid \
+		and union_rect.size.is_equal_approx(Vector2(272.0, 68.0)) \
+		and absf(union_rect.get_center().x - logical_size.x * 0.5) <= 0.5 \
+		and is_equal_approx(union_rect.end.y, instance.plants_room_panel.size.y - 8.0) \
+		and union_rect.position.x >= 0.0 \
+		and union_rect.end.x <= logical_size.x \
+		and instance.room_overview.get_meta("selected_growth_summary", "") == "compact_rack_dock_phase183_v1" \
+		and instance.room_overview.get_meta("future_content_space", "") == "painted_four_icon_dock_phase183_v1" \
+		and instance.room_overview.get_meta("future_content_hint", "") == "pet_professor_care_settings_v1"
+	return valid
 
 
 func _test_phase126_garden_visual_camera() -> void:
@@ -7435,7 +7803,7 @@ func _test_phase133_three_per_shelf_room_plants() -> void:
 		grid_exact
 		and "three_columns_four_shelves_v1" in room_source
 		and "target_integrated_pot_saucer_and_contact_shadow_v1" in room_source
-		and "phase158_clean_rgba_target_native_rects_object_free_furniture_occlusion_v3" in room_source
+		and "phase167_recovered_rgba_measured_mesh_linear_mipmaps_v1" in room_source
 		and GardenSceneFraming.PLAYER_ROOM_PHASE149_PLANT_SOURCE_ANCHORS.size() == 12
 		and GardenSceneFraming.PLAYER_ROOM_PHASE149_PLANT_SOURCE_ANCHORS[0] == Vector2(130.0, 811.0)
 		and GardenSceneFraming.PLAYER_ROOM_PHASE149_PLANT_SOURCE_ANCHORS[11] == Vector2(414.0, 1507.0)
@@ -7526,7 +7894,7 @@ func _test_phase134_full_shelf_plant_fit() -> void:
 	)
 	_check(
 		VisualDesignSystem.PLAYER_ROOM_SHELF_FIT_DISPLAY_ID == "phase134_full_shelf_fit_v1"
-		and "approved_uniform_isotropic_scale_move_free_v1" in room_source
+		and "measured_shared_ceramic_isotropic_crown_per_shelf_v1" in room_source
 		and "ambient_modulate" in room_source
 		and "_room_plant_phase143_profile" in visual_source,
 		"Řádkový fit a barevná modulace zůstávají explicitní i v novější sjednocené sadě bez změny velikosti keramiky"
@@ -7585,7 +7953,7 @@ func _test_phase135_room_reference_regraph() -> void:
 	_check(
 		room.get_meta("phase135_reference_regraph", "") == "phase135_reference_regraph_v1"
 		and room.get_meta("plant_saucer_asset", "") == "target_integrated_pot_saucer_and_contact_shadow_v1"
-		and room.get_meta("plant_compositing", "") == "phase158_clean_phase148_rgba_target_native_linear_mipmaps_v3"
+		and room.get_meta("plant_compositing", "") == "phase167_recovered_rgba_measured_mesh_linear_mipmaps_v1"
 		and room.get_meta("room_sprite_set", "") == VisualDesignSystem.PLAYER_ROOM_EXACT_TARGET_SET_ID
 		and room.get_meta("phase141_rack_runtime_policy", "") == "approved_phase141_final_rack_runtime_v1"
 		and "_draw_plant_saucer(center)" not in room_source
@@ -7632,8 +8000,8 @@ func _test_phase136_room_shelf_prominence() -> void:
 	)
 	_check(
 		FileAccess.get_sha256("res://assets/ui/visual/phase135/room_tall_leaf_reference_v1.png") == "03bf73ea7846964588a588c2aa7b222d31c3e3e230c9e7cbb08ef30697f6606d"
-		and str(VisualDesignSystem.asset_profile("room_tall_leaf").get("texture", "")) == "res://assets/ui/visual/phase148/player_room/plants/room_plant_snake_plant_phase148.png",
-		"Phase 135 sansevierie zůstává immutable a aktivní Phase 141 používá nový celý transparentní canvas bez destruktivního cropu zdroje"
+		and str(VisualDesignSystem.asset_profile("room_tall_leaf").get("texture", "")) == "res://assets/ui/visual/phase169/player_room/plants/room_plant_snake_plant_phase169.png",
+		"Phase135 sansevierie zůstává immutable a živá Phase169 používá celý transparentní canvas bez destruktivního cropu zdroje"
 	)
 	room._ready()
 	_check(
@@ -7751,7 +8119,7 @@ func _test_phase139_unified_room_set() -> void:
 		and room.get_meta("phase139_framing", "") == "phase139_unified_rack_surface_anchors_v1" \
 		and room.get_meta("room_sprite_set", "") == VisualDesignSystem.PLAYER_ROOM_EXACT_TARGET_SET_ID \
 		and room.get_meta("room_asset", "") == "player_room_phase149_target_clean_v1.png" \
-		and room.get_meta("plant_fit_policy", "") == "approved_uniform_isotropic_scale_move_free_v1" \
+		and room.get_meta("plant_fit_policy", "") == "measured_shared_ceramic_isotropic_crown_per_shelf_v1" \
 		and GardenSceneFraming.PLAYER_ROOM_PLANT_SOURCE_ANCHORS[0] == Vector2(135.0, 740.0) \
 		and GardenSceneFraming.PLAYER_ROOM_PLANT_SOURCE_ANCHORS[11] == Vector2(435.0, 1260.0) \
 		and GardenSceneFraming.PLAYER_ROOM_PHASE143_PLANT_SOURCE_ANCHORS[0] == Vector2(147.0, 743.0),
@@ -7998,7 +8366,7 @@ func _test_phase142_reference_exact_rack_set() -> void:
 		and centers.size() == 20 \
 		and room.get_meta("phase142_reference_exact_set", "") == "phase142_reference_exact_rack_set_v1" \
 		and int(room.get_meta("phase142_reference_exact_count", 0)) == 12 \
-		and room.get_meta("plant_fit_policy", "") == "approved_uniform_isotropic_scale_move_free_v1" \
+		and room.get_meta("plant_fit_policy", "") == "measured_shared_ceramic_isotropic_crown_per_shelf_v1" \
 		and room.get_meta("pixel_art_policy", "") == "forbidden_for_room_environment_and_collectibles_v1" \
 		and VisualDesignSystem.unprofiled_png_paths().is_empty(),
 		"Phase 142 kontrakt a jeho přesné 4 × 3 source-space kotvy zůstávají archivované, zatímco aktivní Pokoj bezpečně používá novější schválenou sadu"
@@ -8055,10 +8423,10 @@ func _test_phase143_user_approved_uniform_rack_set() -> void:
 			and FileAccess.get_sha256(path) == str(expected[1])
 		profiles_valid = profiles_valid \
 			and str(profile.get("painted_cartoon_set", "")) == "phase148_player_room_painted_cartoon_v1" \
-			and str(profile.get("source_pixel_policy", "")) == "phase148_clean_rgba_dynamic_noncanonical_phase158_v3" \
+			and str(profile.get("source_pixel_policy", "")) == "phase169_alpha_only_matte_and_seeded_holes_same_canvas_v1" \
 			and bool(profile.get("dynamic_noncanonical_layout", false)) \
 			and bool(profile.get("embedded_contact_shadow", false))
-	_check(assets_valid and profiles_valid, "Fáze 143 používá přesně dvanáct hashovaných RGBA vrstev ze schváleného náhledu, jednotné izotropní měřítko a společnou geometrii keramiky")
+	_check(assets_valid and profiles_valid, "Archivních dvanáct schválených Phase143 vrstev zůstává hashově zachováno; živé profily používají měřenou geometrii Phase167")
 
 	var source_path := "res://assets/ui/visual/phase143/source/player_room_rack_user_approved_v1.png"
 	var mask_path := "res://assets/ui/visual/phase143/source/player_room_rack_plant_mask_generated_v1.png"
@@ -8081,10 +8449,10 @@ func _test_phase143_user_approved_uniform_rack_set() -> void:
 		and room.get_meta("phase143_approved_uniform_set", "") == "phase143_user_approved_uniform_rack_set_v1" \
 		and int(room.get_meta("phase143_approved_uniform_count", 0)) == 12 \
 		and room.get_meta("phase143_approved_uniform_policy", "") == "approved_preview_rgb_mask_alpha_isotropic_two_thirds_v1" \
-		and room.get_meta("plant_fit_policy", "") == "approved_uniform_isotropic_scale_move_free_v1" \
+		and room.get_meta("plant_fit_policy", "") == "measured_shared_ceramic_isotropic_crown_per_shelf_v1" \
 		and room.get_meta("pixel_art_policy", "") == "forbidden_for_room_environment_and_collectibles_v1" \
 		and VisualDesignSystem.unprofiled_png_paths().is_empty(),
-		"Živý Pokoj kotví schválené 4 × 3 sestavy na společné osy polic bez individuálního natahování nebo row-fit zmenšování"
+		"Živý Pokoj kotví 4 × 3 místa na společné osy polic a používá měřenou keramiku s izotropními korunami"
 	)
 
 	var extractor_source := FileAccess.get_file_as_string("res://tools/extract_phase143_approved_rack_plants.gd")
@@ -8403,18 +8771,18 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 	_check(outputs_valid and manifest_paths.size() == 21, "Všech 21 malovaných vrstev je RGBA, hashově sedí, má průhledné rohy a nulové halo riziko")
 
 	var expected_profile_paths := {
-		"room_orchid": "res://assets/ui/visual/phase148/player_room/plants/room_plant_orchid_phase148.png",
-		"room_broad_leaf": "res://assets/ui/visual/phase148/player_room/plants/room_plant_glossy_broadleaf_phase148.png",
-		"room_tall_leaf": "res://assets/ui/visual/phase148/player_room/plants/room_plant_snake_plant_phase148.png",
-		"room_fern": "res://assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png",
-		"room_flowering": "res://assets/ui/visual/phase148/player_room/plants/room_plant_flowering_begonia_phase148.png",
-		"room_round_leaf": "res://assets/ui/visual/phase148/player_room/plants/room_plant_roundleaf_pilea_phase148.png",
-		"room_striped_leaf": "res://assets/ui/visual/phase148/player_room/plants/room_plant_striped_calathea_phase148.png",
-		"room_climbing_vine": "res://assets/ui/visual/phase148/player_room/plants/room_plant_pothos_phase148.png",
-		"room_aglaonema": "res://assets/ui/visual/phase148/player_room/plants/room_plant_compact_aglaonema_phase148.png",
-		"room_fittonia": "res://assets/ui/visual/phase148/player_room/plants/room_plant_fittonia_phase148.png",
-		"room_lemon_maranta": "res://assets/ui/visual/phase148/player_room/plants/room_plant_lemon_maranta_phase148.png",
-		"room_coleus": "res://assets/ui/visual/phase148/player_room/plants/room_plant_coleus_phase148.png",
+		"room_orchid": "res://assets/ui/visual/phase169/player_room/plants/room_plant_orchid_phase169.png",
+		"room_broad_leaf": "res://assets/ui/visual/phase169/player_room/plants/room_plant_glossy_broadleaf_phase169.png",
+		"room_tall_leaf": "res://assets/ui/visual/phase169/player_room/plants/room_plant_snake_plant_phase169.png",
+		"room_fern": "res://assets/ui/visual/phase169/player_room/plants/room_plant_fern_phase169.png",
+		"room_flowering": "res://assets/ui/visual/phase169/player_room/plants/room_plant_flowering_begonia_phase169.png",
+		"room_round_leaf": "res://assets/ui/visual/phase169/player_room/plants/room_plant_roundleaf_pilea_phase169.png",
+		"room_striped_leaf": "res://assets/ui/visual/phase169/player_room/plants/room_plant_striped_calathea_phase169.png",
+		"room_climbing_vine": "res://assets/ui/visual/phase169/player_room/plants/room_plant_pothos_phase169.png",
+		"room_aglaonema": "res://assets/ui/visual/phase169/player_room/plants/room_plant_compact_aglaonema_phase169.png",
+		"room_fittonia": "res://assets/ui/visual/phase169/player_room/plants/room_plant_fittonia_phase169.png",
+		"room_lemon_maranta": "res://assets/ui/visual/phase169/player_room/plants/room_plant_lemon_maranta_phase169.png",
+		"room_coleus": "res://assets/ui/visual/phase169/player_room/plants/room_plant_coleus_phase169.png",
 		"room_books": "res://assets/ui/visual/phase148/player_room/decor/room_decor_books_phase148.png",
 		"room_fertilizer": "res://assets/ui/visual/phase148/player_room/decor/room_decor_fertilizer_bags_phase148.png",
 		"room_nested_pots": "res://assets/ui/visual/phase148/player_room/decor/room_decor_nested_pots_phase148.png",
@@ -8428,6 +8796,8 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 	var profiles_valid := expected_profile_paths.size() == 21
 	for asset_id in expected_profile_paths:
 		var profile := VisualDesignSystem.asset_profile(asset_id)
+		var plant_profile := profile.has("rack_geometry_contract")
+		var expected_pixel_policy := "phase169_alpha_only_matte_and_seeded_holes_same_canvas_v1" if plant_profile else "phase148_clean_rgba_dynamic_noncanonical_phase158_v3"
 		profiles_valid = profiles_valid \
 			and str(profile.get("texture", "")) == str(expected_profile_paths[asset_id]) \
 			and str(profile.get("style_id", "")) == VisualDesignSystem.APPROVED_PAINTED_CARTOON_STYLE_ID \
@@ -8436,8 +8806,8 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 			and str(profile.get("exact_target_set", "")) == VisualDesignSystem.PLAYER_ROOM_EXACT_TARGET_SET_ID \
 			and bool(profile.get("embedded_contact_shadow", false)) \
 			and bool(profile.get("dynamic_noncanonical_layout", false)) \
-			and str(profile.get("source_pixel_policy", "")) == "phase148_clean_rgba_dynamic_noncanonical_phase158_v3"
-	_check(profiles_valid, "Aktivních dvanáct rostlin a devět dekorací používá čisté průhledné Phase 148 vrstvy pro každý nekanonický stav bez návratu k chybně maskovaným atlasům")
+			and str(profile.get("source_pixel_policy", "")) == expected_pixel_policy
+	_check(profiles_valid, "Dvanáct rostlin používá alfa-only dočištění Phase169; devět dekorací zůstává na zachovaných Phase148 vrstvách")
 
 	var target_native_profiles_valid := true
 	for asset_id in [
@@ -8452,7 +8822,7 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 		var expected_rect := GardenSceneFraming.map_player_room_phase149_rect(source_rect, Vector2(432.0, 780.0))
 		var runtime_rect := VisualDesignSystem.target_native_asset_rect(asset_id, mapped_anchor, Vector2(432.0, 780.0))
 		target_native_profiles_valid = target_native_profiles_valid and runtime_rect.is_equal_approx(expected_rect)
-	_check(target_native_profiles_valid, "Všech dvanáct rostlin používá target-native obdélník bez neizotropní normalizace nebo změny baseline")
+	_check(target_native_profiles_valid, "Historické target-native souřadnice zůstávají dohledatelné; skutečnou živou geometrii prověřuje matice Phase167")
 
 	var room := PlayerRoomCollectionView.new()
 	room._ready()
@@ -9337,7 +9707,8 @@ func _test_phase158_room_layer_compositing() -> void:
 		phase158_runtime_gates_valid = phase158_runtime_gates_valid \
 			and str(visual_case.get("reference", "")) == str(expected[0]) \
 			and str(visual_case.get("actual", "")) == str(expected[1]) \
-			and bool(visual_case.get("gate", false)) \
+			and visual_case.has("gate") \
+			and bool(visual_case.get("gate", false)) == (case_id == "phase158-player-room-empty-runtime-approved") \
 			and FileAccess.file_exists("res://" + str(expected[0]))
 	_check(
 		int(manifest.get("phase", 0)) == 158 \
@@ -9372,7 +9743,7 @@ func _test_phase158_room_layer_compositing() -> void:
 		and "mipmaps/generate=true" in FileAccess.get_file_as_string(foreground_path + ".import") \
 		and "mipmaps/generate=true" in FileAccess.get_file_as_string(fern_path + ".import") \
 		and str(VisualDesignSystem.asset_profile("player_room_foreground_occlusion").get("texture", "")) == foreground_path \
-		and str(VisualDesignSystem.asset_profile("room_fern").get("texture", "")) == "res://assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png" \
+		and str(VisualDesignSystem.asset_profile("room_fern").get("texture", "")) == "res://assets/ui/visual/phase169/player_room/plants/room_plant_fern_phase169.png" \
 		and bool(VisualDesignSystem.asset_profile("room_fern").get("dynamic_noncanonical_layout", false)) \
 		and "res://assets/ui/visual/phase158/" in visual_source \
 		and "player_room_furniture_foreground_phase158_v2.png" in room_source \
@@ -9380,13 +9751,14 @@ func _test_phase158_room_layer_compositing() -> void:
 		and "phase148_orthogonal_envelope_margin4_bottom_right_contour_alpha_only_v3" in room_source \
 		and "_draw_decoration_slots(palette, false)" in room_source \
 		and "_draw_decoration_slots(palette, true)" in room_source \
-		and "_draw_phase158_dynamic_shelf_plant" in room_source \
-		and "dynamic_pot_top_fraction" in visual_source \
-		and is_equal_approx(float(orchid_profile.get("dynamic_ceramic_width_scale", 0.0)), 1.195) \
-		and is_equal_approx(float(orchid_profile.get("dynamic_ceramic_height_scale", 0.0)), 0.736) \
-		and str(orchid_profile.get("dynamic_ceramic_reference_asset", "")) == "room_broad_leaf" \
-		and str(orchid_profile.get("dynamic_ceramic_alignment", "")) == "slot_center_baseline_v1" \
-		and "needs_ceramic_size_match" in room_source \
+		and "_draw_measured_shelf_plant" in room_source \
+		and not orchid_profile.has("dynamic_pot_top_fraction") \
+		and not orchid_profile.has("dynamic_ceramic_width_scale") \
+		and not orchid_profile.has("dynamic_ceramic_height_scale") \
+		and (orchid_profile.get("ceramic_design_size", Vector2.ZERO) as Vector2).is_equal_approx(Vector2(57, 54)) \
+		and str(orchid_profile.get("ceramic_reference_asset", "")) == "room_broad_leaf" \
+		and str(orchid_profile.get("ceramic_alignment", "")) == "measured_saucer_center_and_contact_v1" \
+		and "PlantRenderGeometry.project_source_point" in room_source \
 		and "PLAYER_ROOM_PHASE158_DYNAMIC_ROW_MAX_HEIGHTS" in framing_source \
 		and "comic-phase158-player-room-partial-compositing.png" in capture_source \
 		and "comic-phase158-player-room-empty-0-of-20.png" in capture_source \
@@ -9411,7 +9783,7 @@ func _test_phase158_room_layer_compositing() -> void:
 		and "PHASE158_FOUR_STATE_VISUAL_ACCEPTANCE=APPROVED_BY_USER" in phase_doc \
 		and "PHASE158_VISUAL_BASELINE_TRANSITION=PASSED_APPEND_ONLY_FOUR_STATE_RUNTIME_GATES" in phase_doc \
 		and phase158_runtime_gates_valid,
-		"Oprava je reprodukovatelná, vizuální-only, nemění save ani RC57 a čtyři uživatelem schválené runtime stavy chrání append-only brány"
+		"Phase158 zachovává všechny historické reference; prázdný pokoj zůstává aktivní branou a tři obsazené stavy nahrazuje schválená Phase167"
 	)
 
 
@@ -9445,7 +9817,8 @@ func _test_phase159_botanical_cloche() -> void:
 		phase159_runtime_gates_valid = phase159_runtime_gates_valid \
 			and str(visual_case.get("reference", "")) == str(expected[0]) \
 			and str(visual_case.get("actual", "")) == str(expected[1]) \
-			and bool(visual_case.get("gate", false)) \
+			and visual_case.has("gate") \
+			and bool(visual_case.get("gate", false)) == (case_id == "phase159-player-room-cloche-runtime-approved") \
 			and FileAccess.file_exists("res://" + str(expected[0]))
 	_check(
 		cloche_image != null \
@@ -9568,7 +9941,7 @@ func _test_phase159_botanical_cloche() -> void:
 		and "PHASE159_USER_VISUAL_ACCEPTANCE=APPROVED_BY_USER" in phase_doc \
 		and "PHASE159_VISUAL_BASELINE_TRANSITION=PASSED_APPEND_ONLY_TWO_STATE_RUNTIME_GATES" in phase_doc \
 		and phase159_runtime_gates_valid,
-		"Phase159 zachovává RC57 a dva uživatelem schválené Godot rendery na 115 % chrání samostatné append-only brány"
+		"Phase159 zachovává RC57 i původní reference; samotné terárium zůstává aktivní branou a plný stojan chrání náhradní Phase167"
 	)
 
 
@@ -9679,13 +10052,13 @@ func _test_phase160_room_floor_declutter() -> void:
 		and phase160_visual_case.get("actual_crop", []) == [0.0, 0.0, 1.0, 1.0] \
 		and phase160_visual_case.get("masks", null) == [] \
 		and int(phase160_visual_case.get("pixel_tolerance", -1)) == 12 \
-		and bool(phase160_visual_case.get("gate", false)) \
+		and not bool(phase160_visual_case.get("gate", true)) \
 		and is_equal_approx(float(phase160_thresholds.get("max_mean_abs_error", -1.0)), 4.0) \
 		and is_equal_approx(float(phase160_thresholds.get("max_rmse", -1.0)), 12.0) \
 		and is_equal_approx(float(phase160_thresholds.get("max_changed_ratio", -1.0)), 0.06) \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png") \
 		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png") == "a0a7d7d1a4120320fc0084af65429e9f997ac9cad29e51decf20278869363bd2",
-		"Phase160 chrání schválený čistý Pokoj samostatnou append-only tvrdou pixelovou branou bez cropu a masek"
+		"Phase160 zachovává historickou referenci čistého Pokoje i limity; aktivní obrazovou bránu přebírá schválený stojan Phase167"
 	)
 	_check(
 		"_is_hidden_decoration_slot" in room_source \
@@ -10061,7 +10434,7 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 			and locked_rect.size.is_equal_approx(first_locked_size) \
 			and is_equal_approx(locked_rect.size.x, slot_rect.size.x * PlantRoomOverview.LOCKED_PLANTER_WIDTH_SCALE) \
 			and is_equal_approx(locked_rect.size.y / locked_rect.size.x, 166.0 / 137.0) \
-			and is_equal_approx(locked_rect.get_center().x, slot_rect.get_center().x) \
+			and is_equal_approx((locked_rect.position + Vector2(68.0, 160.0) * (locked_rect.size / Vector2(137.0, 166.0))).x, slot_rect.get_center().x) \
 			and locked_rect.position.y > slot_rect.position.y \
 			and locked_rect.end.y < rack._slot_label_rect(slot_rect).position.y
 		locked_plaque_contract_valid = locked_plaque_contract_valid \
@@ -10077,7 +10450,7 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 			and lens_rect.size.y < fixture_rect.size.y
 	_check(
 		locked_rect_contract_valid and locked_plaque_contract_valid and light_rect_contract_valid,
-		"Všech deset slotů sdílí přirozenou velikost květináče, nekolizní cedulku a stejný rozměr svítidla, vždy vystředěný nad vlastním slotem"
+		"Všech deset slotů zachová Phase163 rozměr a PNG; Phase171 vystředí skutečný alfa kontakt a sjednotí nekolizní čelní cedulku"
 	)
 	_check(
 		rack.get_meta("scene_visual_profile", "") == VisualDesignSystem.RACK_PHASE163_SCENE_PROFILE_ID \
@@ -10089,7 +10462,7 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 		and rack.get_meta("phase163_locked_slot_policy", "") == "single_approved_compact_planter_master_reused_all_slots_v1" \
 		and rack.get_meta("phase163_grow_light_policy", "") == "single_approved_brass_fixture_master_reused_all_sockets_v1" \
 		and rack.get_meta("phase163_fixture_visibility_policy", "") == "upper_row_always_lower_row_when_unlocked_v1" \
-		and rack.get_meta("phase163_baked_fixture_cleanup", "") == "same_background_wood_fascia_runtime_composite_v1" \
+		and rack.get_meta("phase163_baked_fixture_cleanup", "") == "not_needed_clean_phase171_painting_v1" \
 		and rack.get_meta("phase163_source_policy", "") == "approved_reference_rgb_preserved_alpha_only_v1",
 		"Stojan hlásí Phase163 runtime a přesně odděluje nový květináč, nové svítidlo, schválenou referenci a superseded Phase151 zámek"
 	)
@@ -10140,22 +10513,25 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 		and phase163_visual_case.get("actual_crop", []) == [0.0, 0.0, 1.0, 1.0] \
 		and phase163_visual_case.get("masks", null) == [] \
 		and not bool(phase163_visual_case.get("gate", true)) \
-		and str(phase163_runtime_case.get("reference", "")) == "assets/ui/comic/reference_phase163_rack_runtime_v1.png" \
+		and str(phase163_runtime_case.get("reference", "")) == "assets/ui/comic/reference_phase184_rack_runtime_v1.png" \
 		and str(phase163_runtime_case.get("actual", "")) == "comic-rack-greenhouse-attention.png" \
 		and bool(phase163_runtime_case.get("gate", false)) \
-		and FileAccess.file_exists("res://assets/ui/comic/reference_phase163_rack_runtime_v1.png") \
-		and str(phase163_feedback_unlock_case.get("reference", "")) == "assets/ui/comic/reference_phase163_feedback_unlock_runtime_v1.png" \
+		and str(phase163_runtime_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_rack_runtime_v1.png") \
+		and str(phase163_feedback_unlock_case.get("reference", "")) == "assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png" \
 		and str(phase163_feedback_unlock_case.get("actual", "")) == "comic-feedback-unlock.png" \
 		and bool(phase163_feedback_unlock_case.get("gate", false)) \
-		and FileAccess.file_exists("res://assets/ui/comic/reference_phase163_feedback_unlock_runtime_v1.png") \
-		and str(phase163_screen_transition_case.get("reference", "")) == "assets/ui/comic/reference_phase163_screen_transition_runtime_v1.png" \
+		and str(phase163_feedback_unlock_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png") \
+		and str(phase163_screen_transition_case.get("reference", "")) == "assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png" \
 		and str(phase163_screen_transition_case.get("actual", "")) == "comic-screen-transition.png" \
 		and bool(phase163_screen_transition_case.get("gate", false)) \
-		and FileAccess.file_exists("res://assets/ui/comic/reference_phase163_screen_transition_runtime_v1.png") \
+		and str(phase163_screen_transition_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png") \
 		and not bool(phase151_historical_case.get("gate", true)) \
 		and not bool(phase151_feedback_unlock_case.get("gate", true)) \
 		and not bool(phase151_screen_transition_case.get("gate", true)),
-		"Phase163 má append-only tvrdé brány pro stojan i oba nezměněné efekty nad novou malbou; historické Phase151 reference zůstávají neblokujícím dokladem"
+		"Phase184 zachovává append-only tvrdé brány pro stojan i oba nezměněné efekty nad schválenou malbou; historické Phase151 a Phase163 reference zůstávají dokladem"
 	)
 
 	var phase_doc_path := "res://docs/PHASE163_APPROVED_LOCKED_PLANTER_RACK.md"
@@ -13188,6 +13564,29 @@ func _test_phase93_professor_story_ui() -> void:
 	instance.size = Vector2(432.0, 960.0)
 	await process_frame
 	await process_frame
+	var tooltip_policy = load("res://scripts/ui/tooltip_policy.gd")
+	var tooltip_probe := Button.new()
+	tooltip_policy.apply(tooltip_probe, "Test nápovědy", false)
+	var desktop_tooltip_preserved := tooltip_probe.tooltip_text == "Test nápovědy"
+	tooltip_policy.apply(tooltip_probe, "Test nápovědy", true)
+	_check(desktop_tooltip_preserved and tooltip_probe.tooltip_text.is_empty() and tooltip_probe.get_meta("tooltip_policy", "") == "mobile_suppressed_desktop_comic_v1" and tooltip_probe.get_meta("desktop_tooltip_text", "") == "Test nápovědy", "Fáze 182 centrální politika zachová tooltip na desktopu, ale na mobilu jej skutečně odstraní")
+	tooltip_probe.free()
+	var tooltip_style := instance.theme.get_stylebox("panel", "TooltipPanel") as StyleBoxFlat
+	_check(tooltip_style != null and tooltip_style.bg_color == ComicUITheme.CREAM and tooltip_style.border_color == ComicUITheme.INK and instance.theme.get_color("font_color", "TooltipLabel") == ComicUITheme.INK, "Fáze 182 desktopový tooltip používá světlý komiksový panel místo černého engine fallbacku")
+	var tooltip_sources := [
+		"res://scripts/main.gd",
+		"res://scripts/ui/botanist_shop_presenter.gd",
+		"res://scripts/ui/customer_orders_panel.gd",
+		"res://scripts/ui/greenhouse_preview_view.gd",
+		"res://scripts/ui/plant_action_presenter.gd",
+		"res://scripts/ui/player_room_collection_view.gd",
+		"res://scripts/ui/player_room_view.gd",
+		"res://scripts/ui/room_decoration_modal.gd",
+	]
+	var tooltip_assignments_centralized := true
+	for source_path in tooltip_sources:
+		tooltip_assignments_centralized = tooltip_assignments_centralized and ".tooltip_text =" not in FileAccess.get_file_as_string(source_path)
+	_check(tooltip_assignments_centralized and FileAccess.get_file_as_string("res://scripts/ui/tooltip_policy.gd").count(".tooltip_text =") == 1, "Fáze 182 všechna produkční přiřazení tooltipů procházejí jedinou mobilně bezpečnou politikou")
 	var previous_writes_blocked := SaveManager.writes_blocked
 	SaveManager.writes_blocked = false
 	var preserved_save_files: Dictionary = {}
@@ -13204,8 +13603,21 @@ func _test_phase93_professor_story_ui() -> void:
 	pre_tutorial.paused = true
 	instance._activate_session(pre_tutorial)
 	instance._refresh_ui()
+	instance._refresh_professor_story_badges()
+	_check(
+		_phase183_rack_dock_geometry_is_valid(instance, Vector2(432.0, 960.0))
+		and instance.professor_research_launcher_button.visible
+		and bool(instance.professor_research_launcher_button.get_meta("research_locked", false))
+		and instance.professor_research_lock_badge.visible
+		and not instance.professor_story_badges[0].visible,
+		"Phase183 zobrazí všechny čtyři spodní ikony i před odemčením příběhu a Profesorův výzkum jasně označí zámkem"
+	)
 	instance._toggle_guide_dialog(true)
 	_check(instance.dialog_open and instance.guide_modal.visible and not instance.professor_story_open and not instance.professor_story_modal.visible and "PROFESOR BAZAL" == instance.guide_modal_name_label.text, "Před dokončením první cesty zůstává otazník původním průvodcem a neotevírá zamčený výzkum")
+	instance._set_guide_modal_open(false, false)
+	instance.professor_research_launcher_button.pressed.emit()
+	await process_frame
+	_check(instance.dialog_open and instance.guide_modal.visible and not instance.professor_story_open and "odemkne" in instance.guide_modal_label.text.to_lower(), "Zamčená, ale viditelná Profesorova ikona vysvětlí podmínku odemčení místo mrtvého cíle")
 	instance._set_guide_modal_open(false, false)
 
 	var active := GameSession.new(catalog)
@@ -13217,14 +13629,45 @@ func _test_phase93_professor_story_ui() -> void:
 	instance._activate_session(active)
 	active.get_professor_story_state()
 	instance._refresh_professor_story_badges()
-	var active_badges_visible: bool = instance.professor_story_badges.size() == 2
+	var active_badges_visible: bool = instance.professor_story_badges.size() == 1
 	for badge in instance.professor_story_badges:
 		active_badges_visible = active_badges_visible and badge.visible
 	var progress_connected := active.story_progressed.is_connected(Callable(instance, "_on_professor_story_progressed"))
 	var chapter_connected := active.story_chapter_changed.is_connected(Callable(instance, "_on_professor_story_chapter_changed"))
-	_check(active_badges_visible and progress_connected and chapter_connected and instance.nav_buttons.size() == 4, "Nová nečtená kapitola rozsvítí oba vstupy, _activate_session znovu připojí oba story signály a hlavní navigace zůstane přesně čtyřzáložková")
+	_check(active_badges_visible and progress_connected and chapter_connected and instance.nav_buttons.size() == 4, "Nová nečtená kapitola rozsvítí samostatný výzkumný vstup, _activate_session znovu připojí oba story signály a hlavní navigace zůstane přesně čtyřzáložková")
 
 	instance.dialog_toggle_button.pressed.emit()
+	await process_frame
+	await process_frame
+	_check(instance.dialog_open and instance.guide_modal.visible and not instance.professor_story_open and not instance.professor_story_modal.visible, "Fáze 182 otazník i po odemčení výzkumu vždy otevře pouze obecnou nápovědu Profesora Bazala")
+	instance._set_guide_modal_open(false, false)
+	var help_rect_432: Rect2 = instance.dialog_toggle_button.get_global_rect()
+	var title_rect_432: Rect2 = instance.room_overview.title_rect_for_current_state()
+	var title_rect_432_recheck: Rect2 = instance.room_overview.title_rect_for_current_state()
+	_check(
+		_phase183_rack_dock_geometry_is_valid(instance, Vector2(432.0, 960.0))
+		and not bool(instance.professor_research_launcher_button.get_meta("research_locked", true))
+		and not instance.professor_research_lock_badge.visible
+		and instance.professor_story_badges[0].visible
+		and instance.professor_research_launcher_button.get_parent() == instance.plants_room_panel
+		and not help_rect_432.intersects(instance.professor_research_launcher_button.get_global_rect()),
+		"Phase183 po odemčení drží Profesorův výzkum ve spodní centrované čtveřici, zhasne zámek a zachová samostatný attention badge"
+	)
+	instance.size = Vector2(360.0, 800.0)
+	await process_frame
+	await process_frame
+	var title_rect_360: Rect2 = instance.room_overview.title_rect_for_current_state()
+	_check(
+		_phase183_rack_dock_geometry_is_valid(instance, Vector2(360.0, 800.0))
+		and title_rect_432.is_equal_approx(title_rect_432_recheck)
+		and title_rect_432.size.x >= 250.0
+		and title_rect_360.size.x >= 200.0,
+		"Phase183 udrží čtyři 68px ikony centrované na 432×960 i 360×800 a horní titul už kvůli výzkumu neposouvá"
+	)
+	instance.size = Vector2(432.0, 960.0)
+	await process_frame
+	await process_frame
+	instance.professor_research_launcher_button.pressed.emit()
 	await process_frame
 	await process_frame
 	var story_rect: Rect2 = instance.professor_story_modal.get_global_rect()
@@ -13240,14 +13683,14 @@ func _test_phase93_professor_story_ui() -> void:
 			var card_panel := (raw_card as Dictionary).get("panel") as Control
 			cards_pass_drag = cards_pass_drag and card_panel != null and card_panel.mouse_filter == Control.MOUSE_FILTER_PASS
 	var set_story_source := _source_function("res://scripts/main.gd", "func _set_professor_story_open(opening: bool) -> void:")
-	_check(instance.professor_story_open and instance.professor_story_modal.visible and not instance.dialog_open and instance.professor_story_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.professor_story_modal.get_meta("blocks_game_input", false) and instance._is_blocking_modal_open() and story_rect.size.is_equal_approx(Vector2(432.0, 960.0)), "Po tutorialu stejný otazník otevře jediný blokující fullscreen výzkum přes celý mobilní viewport")
+	_check(instance.professor_story_open and instance.professor_story_modal.visible and not instance.dialog_open and instance.professor_story_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.professor_story_modal.get_meta("blocks_game_input", false) and instance._is_blocking_modal_open() and story_rect.size.is_equal_approx(Vector2(432.0, 960.0)), "Po tutorialu samostatná Profesorova ikona otevře jediný blokující fullscreen výzkum přes celý mobilní viewport")
 	_check(instance.professor_story_cards.size() == 5 and _has_mobile_scroll_contract(instance.professor_story_scroll, "professor_story") and instance.professor_story_scroll.get_meta("scroll_contract", "") == "five_story_goal_cards_v1" and cards_pass_drag and instance.professor_story_scroll.get_v_scroll_bar().max_value > instance.professor_story_scroll.size.y, "Modal vykreslí přesně pět karet v reálně rolovatelném mobilním scrollu a karty předávají svislé gesto rodiči")
 	_check(instance.professor_story_action_button.custom_minimum_size.y >= 56.0 and close_button != null and close_button.custom_minimum_size.y >= 56.0 and close_button.custom_minimum_size.x >= 56.0, "Kontextové CTA i horní X mají alespoň 56px dotykový cíl")
 	var seen_after_open := active.get_professor_story_state()
 	var badges_after_seen := true
 	for badge in instance.professor_story_badges:
 		badges_after_seen = badges_after_seen and not badge.visible
-	_check(bool(seen_after_open.get("seen", false)) and not bool(seen_after_open.get("unread", true)) and badges_after_seen and set_story_source.count("session.mark_professor_story_seen(expected_chapter_id)") == 1 and set_story_source.count("_save_current_session()") == 1, "První otevření trvale označí očekávané ID kapitoly jako přečtené, jednou ji uloží a u aktivní kapitoly zhasne oba vykřičníky")
+	_check(bool(seen_after_open.get("seen", false)) and not bool(seen_after_open.get("unread", true)) and badges_after_seen and set_story_source.count("session.mark_professor_story_seen(expected_chapter_id)") == 1 and set_story_source.count("_save_current_session()") == 1, "První otevření trvale označí očekávané ID kapitoly jako přečtené, jednou ji uloží a zhasne výzkumný vykřičník")
 
 	var back_consumed: bool = instance._consume_mobile_back_navigation()
 	_check(back_consumed and not instance.professor_story_open and not instance.professor_story_modal.visible, "Systémové Zpět zavře Profesorův výzkum jako první blokující vrstvu")
@@ -13337,7 +13780,7 @@ func _test_phase93_professor_story_ui() -> void:
 			and third_panel_rect.position.x >= -0.5 \
 			and third_panel_rect.end.x <= 432.5 \
 			and third_panel_rect.size.x > 0.0
-	var third_badges_ready: bool = instance.professor_story_badges.size() == 2
+	var third_badges_ready: bool = instance.professor_story_badges.size() == 1
 	for badge in instance.professor_story_badges:
 		third_badges_ready = third_badges_ready and badge.visible
 	_check(
@@ -13363,7 +13806,7 @@ func _test_phase93_professor_story_ui() -> void:
 		and not instance.professor_story_action_button.disabled
 		and instance.professor_story_action_button.text == "VYZVEDNOUT ODMĚNU"
 		and third_badges_ready,
-		"Ready výstava drží oba attention badge a kontextové CTA míří na atomický claim přes přesné chapter ID"
+		"Ready výstava drží samostatný výzkumný attention badge a kontextové CTA míří na atomický claim přes přesné chapter ID"
 	)
 
 	instance.size = Vector2(360.0, 800.0)
@@ -13403,7 +13846,7 @@ func _test_phase93_professor_story_ui() -> void:
 	var third_mastery_before := third_ready.species_progress.duplicate(true)
 	instance.professor_story_action_button.pressed.emit()
 	await process_frame
-	var third_badges_after_claim: bool = instance.professor_story_badges.size() == 2
+	var third_badges_after_claim: bool = instance.professor_story_badges.size() == 1
 	for badge in instance.professor_story_badges:
 		third_badges_after_claim = third_badges_after_claim and not badge.visible
 	_check(
@@ -14136,7 +14579,8 @@ func _test_main_scene_smoke() -> void:
 	instance.room_overview.refresh()
 	await process_frame
 	instance._refresh_rack_controls()
-	_check(instance.care_center_launcher_button.get_parent() == instance.plants_room_panel and instance.care_center_launcher_button.get_meta("component", "") == "phase125_rack_care_launcher_v1" and instance.care_center_launcher_button.size.x >= 68.0 and instance.care_center_launcher_button.size.y >= 68.0 and instance.care_center_launcher_button.text == "PÉČE 2", "Fáze 125 ponechá viditelnou Péči u stojanu jako samostatný 68×68px cíl bez spodní růstové karty")
+	var rack_care_attention_count: int = instance.session.get_care_attention_count()
+	_check(instance.care_center_launcher_button.get_meta("component", "") == "phase183_rack_care_launcher_v1" and instance.care_center_launcher_button.text.is_empty() and int(instance.care_center_launcher_button.get_meta("care_attention_count", -1)) == rack_care_attention_count and instance.care_center_attention_badge.visible == (rack_care_attention_count > 0) and instance.care_center_attention_label.text == str(rack_care_attention_count), "Phase183 ponechá Péči jako třetí 68×68px PNG ikonu a dynamický počet problémů přesune do jejího kompaktního badge")
 	instance._open_care_center()
 	await process_frame
 	var care_zero_card: Dictionary = instance.care_center_cards.get(0, {})
@@ -14243,7 +14687,11 @@ func _test_main_scene_smoke() -> void:
 	_check(is_equal_approx(coin_icon_center.x - day_icon_center.x, 0.33) and is_equal_approx(coin_text_center.x - day_text_center.x, 0.33) and is_equal_approx(coin_icon_center.y, day_icon_center.y) and is_equal_approx(coin_text_center.y, day_text_center.y), "Kalendář, mince a jejich hodnoty používají v prvních dvou kartách stejnou relativní mřížku")
 	_check(instance.day_label.text == "DEN %d" % instance._get_display_day() and not "." in instance.day_label.text, "Horní panel zobrazuje pouze celé číslo dne")
 	instance._set_day_display(1305)
-	_check(instance.day_label.text == "DEN 1305" and instance.day_label.get_theme_font_size("font_size") == 11 and instance.day_label.clip_text and is_zero_approx(instance.day_icon.modulate.a), "Čtyřciferný den zůstává dynamický a emblém dne kreslí společný HUD komponent")
+	_check(instance.day_label.text == "DEN 1305" and bool(instance.day_label.get_meta("hud_text_fits", false)) and instance.day_label.clip_text and is_zero_approx(instance.day_icon.modulate.a), "Čtyřciferný den zůstává celý, responzivní a emblém dne kreslí společný HUD komponent")
+	instance._set_day_display(instance._get_display_day())
+	instance._set_coin_count(1234567.0)
+	_check(instance.coins_label.text == "1234567" and bool(instance.coins_label.get_meta("hud_text_fits", false)) and instance.coins_label.clip_text, "Dlouhá hodnota mincí zůstává celá uvnitř druhé HUD karty")
+	instance._set_coin_count(float(instance.session.coins))
 	var time_ui_source := FileAccess.get_file_as_string("res://scripts/main.gd")
 	_check(instance.growth_time_panel.get_meta("component", "") == "comic_real_time_growth_v1" and instance.growth_time_panel.custom_minimum_size.y == 52.0 and not instance.growth_time_title_label.text.is_empty() and not "func _on_speed_selected" in time_ui_source and not "func _on_pause_pressed" in time_ui_source, "Fáze 73 detail nahrazuje násobiče a pauzu stejně vysokou kartou reálného dozrání")
 	var xp_fill_style := instance.xp_bar.get_theme_stylebox("fill") as StyleBoxFlat
@@ -14257,8 +14705,8 @@ func _test_main_scene_smoke() -> void:
 	instance.session.coins += 7
 	instance._refresh_ui()
 	_check(instance.last_coins_seen == coins_before + 7 and instance.coin_count_tween != null and instance.coin_count_tween.is_valid(), "Zisk mincí spustí přičítání a částicovou animaci")
-	_check(instance.room_overview != null and instance.room_overview.get_meta("visual_source", "") == "comic_room_phase_2_dynamic" and instance.room_overview.get_meta("selected_growth_summary", "") == "removed_phase125_future_content_space_v1" and instance.room_overview.get_meta("future_content_space", "") == "reserved_display_dock_phase125_v1" and instance.room_overview.get_meta("future_content_hint", "") == "cosmetics_and_pets_display_only_v1" and instance.room_overview.get_meta("edge_background", "") == "full_width_frame_no_filler" and instance.room_overview.get_meta("slot_label_source", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("grid_source", "") == "comic_rack_fixed_grid_2x5_v1" and instance.room_overview.get_meta("locked_slot_asset", "") == "rack_locked_planter_phase163_v1" and instance.room_overview.get_meta("grow_light_asset", "") == "rack_grow_light_phase163_v1" and instance.room_overview.get_meta("room_asset", "") == "comic_room_rack_v1" and instance.room_overview.get_meta("header_asset", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("lighting", "") == "optional_two_rows_five_weather_ready" and instance.room_overview.get_meta("geometry_set", "") == "comic_room_887x1420_v1" and instance.room_overview.get_meta("light_geometry", "") == "background_socket_aligned_segments" and instance.room_overview.get_meta("post_harvest_rack_visual", "") == "empty_pot_storage_label_v1" and instance.room_overview.get_meta("ambient_motion", "") == "window_dust_and_weather_tint_v1" and instance.room_overview.get_meta("lamp_policy", "") == "manual_supplemental_light_day_night_cloud" and is_equal_approx(instance.room_overview._grid_height() + instance.room_overview._future_content_height(), instance.room_overview.size.y), "Fáze 125 zachová původní mřížku 2×5 a budoucí dok; Phase163 na ní dynamicky sjednotí pouze schválené zamčené květináče a svítidla")
-	_check(instance.room_overview.get_meta("comic_vertical_slice", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_plant_family", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("plant_asset_family", "") == "profile_driven_catalog_v1" and instance.plant_view.get_meta("mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("motion_profile", "") == "elastic_comic_v1" and instance.plant_view.get_meta("sprite_canvas", "") == "570x640_bottom_center", "Stojan a detail sdílejí profilově řízenou komiksovou rodinu, canvas i animační profil")
+	_check(instance.room_overview != null and instance.room_overview.get_meta("visual_source", "") == "comic_room_phase_2_dynamic" and instance.room_overview.get_meta("selected_growth_summary", "") == "compact_rack_dock_phase183_v1" and instance.room_overview.get_meta("future_content_space", "") == "painted_four_icon_dock_phase183_v1" and instance.room_overview.get_meta("future_content_hint", "") == "pet_professor_care_settings_v1" and instance.room_overview.get_meta("dock_background_asset", "") == "rack_floor_extension_phase183_v1.png" and instance.room_overview.get_meta("dock_background_policy", "") == "painted_floor_crop_no_code_panel_v1" and instance.room_overview.get_meta("edge_background", "") == "full_width_frame_no_filler" and instance.room_overview.get_meta("slot_label_source", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("grid_source", "") == "comic_rack_fixed_grid_2x5_v1" and instance.room_overview.get_meta("locked_slot_asset", "") == "rack_locked_planter_phase163_v1" and instance.room_overview.get_meta("grow_light_asset", "") == "rack_grow_light_phase163_v1" and instance.room_overview.get_meta("room_asset", "") == "comic_room_rack_v1" and instance.room_overview.get_meta("header_asset", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("lighting", "") == "optional_two_rows_five_weather_ready" and instance.room_overview.get_meta("geometry_set", "") == "comic_room_887x1420_v1" and instance.room_overview.get_meta("light_geometry", "") == "background_socket_aligned_segments" and instance.room_overview.get_meta("post_harvest_rack_visual", "") == "empty_pot_storage_label_v1" and instance.room_overview.get_meta("ambient_motion", "") == "window_dust_and_weather_tint_v1" and instance.room_overview.get_meta("lamp_policy", "") == "manual_supplemental_light_day_night_cloud" and is_equal_approx(instance.room_overview._grid_height() + instance.room_overview._future_content_height(), instance.room_overview.size.y), "Phase183 zachová stojan 2×5, ale nahradí přerostlý Phase125 panel malovaným kompaktním dokem pro čtyři ikony")
+	_check(instance.room_overview.get_meta("comic_vertical_slice", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_plant_family", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("plant_asset_family", "") == "profile_driven_catalog_v1" and instance.plant_view.get_meta("mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("motion_profile", "") == "grounded_ceramic_live_fx_v1" and instance.plant_view.get_meta("sprite_canvas", "") == "570x640_bottom_center", "Phase172 detail zachová katalogovou komiksovou rodinu a celý canvas; živé FX už neposouvají ukotvenou keramiku")
 	var post_harvest_plant := PlantSimulation.new(profile)
 	post_harvest_plant.stage = PlantSimulation.Stage.MATURE
 	post_harvest_plant.growth_percent = 100.0
@@ -14282,7 +14730,7 @@ func _test_main_scene_smoke() -> void:
 	instance.guide_modal_confirm_button.pressed.emit()
 	await create_timer(0.28).timeout
 	_check(not instance.dialog_open and not instance.detail_dialog_open and not instance.guide_modal.visible and instance.dialog_info_icon.modulate.a > 0.99, "Tlačítko ROZUMÍM zavře modal, odblokuje hru a ponechá jen otazník")
-	_check(instance.audio_haptics != null and instance.settings_launcher_button.get_meta("component", "") == "phase125_player_settings_gear_v1" and instance.settings_launcher_icon.get_meta("component", "") == "phase125_settings_gear_png_v1" and instance.settings_launcher_icon.texture.resource_path.ends_with("ui/icons/settings_gear_phase125.png") and instance.settings_launcher_button.size.x >= 68.0 and instance.settings_launcher_button.size.y >= 68.0 and instance.settings_launcher_icon.size.x >= 48.0 and instance.settings_launcher_icon.size.y >= 48.0 and instance.settings_launcher_button.text.is_empty(), "Fáze 125 přesune zvuk do samostatného PNG ozubeného kolečka hráčského nastavení")
+	_check(instance.audio_haptics != null and instance.settings_launcher_button.get_meta("component", "") == "phase183_player_settings_launcher_v1" and instance.settings_launcher_icon.get_meta("component", "") == "phase183_player_settings_launcher_v1_icon_png" and instance.settings_launcher_icon.texture.resource_path.ends_with("ui/icons/settings_gear_phase125.png") and instance.settings_launcher_button.size.is_equal_approx(Vector2(68.0, 68.0)) and instance.settings_launcher_icon.size.is_equal_approx(Vector2(48.0, 48.0)) and instance.settings_launcher_button.text.is_empty(), "Phase183 zachová schválené PNG ozubené kolečko jako čtvrtou ikonu kompaktního doku")
 	instance.settings_launcher_button.pressed.emit()
 	await process_frame
 	_check(instance.settings_modal_open and instance.settings_modal.visible and instance.settings_modal.z_index > instance.guide_modal.z_index and instance.settings_modal.get_meta("blocks_game_input", false) and instance.settings_modal.get_meta("component", "") == "fullscreen_player_settings_v1", "Ozubené kolečko otevře samostatné hráčské nastavení nad hrou")
@@ -14374,16 +14822,16 @@ func _test_main_scene_smoke() -> void:
 	await process_frame
 	instance.room_overview._layout_slots()
 	_check(instance.room_overview.slot_rects.size() == 10, "Přehled vykreslí přesně deset volitelných pozic")
-	var expected_first_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(100.0, 500.0, 130.0, 305.0))
-	var expected_second_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(240.0, 500.0, 130.0, 305.0))
-	var expected_fifth_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(660.0, 500.0, 130.0, 305.0))
-	var expected_sixth_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(100.0, 820.0, 130.0, 305.0))
+	var expected_first_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(100.0, 520.0, 130.0, 307.0))
+	var expected_second_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(240.0, 520.0, 130.0, 307.0))
+	var expected_fifth_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(660.0, 520.0, 130.0, 307.0))
+	var expected_sixth_slot: Rect2 = instance.room_overview._source_rect_to_room(Rect2(100.0, 878.0, 130.0, 312.0))
 	_check(instance.room_overview.slot_rects[0].is_equal_approx(expected_first_slot) and instance.room_overview.slot_rects[1].is_equal_approx(expected_second_slot) and instance.room_overview.slot_rects[4].is_equal_approx(expected_fifth_slot) and instance.room_overview.slot_rects[5].is_equal_approx(expected_sixth_slot), "Klikací zóny přesně sledují pevnou mřížku 2×5 a nechávají viditelnou spodní světelnou lištu")
 	var label_rect: Rect2 = instance.room_overview._slot_label_rect(instance.room_overview.slot_rects[0])
 	var lock_rect: Rect2 = instance.room_overview._locked_texture_rect(instance.room_overview.slot_rects[4])
 	var locked_plaque_rect: Rect2 = instance.room_overview._locked_plaque_rect(lock_rect)
 	var lock_slot_rect: Rect2 = instance.room_overview.slot_rects[4]
-	_check(is_equal_approx(label_rect.size.x / label_rect.size.y, 86.0 / 28.0) and is_equal_approx(lock_rect.size.x, lock_slot_rect.size.x * PlantRoomOverview.LOCKED_PLANTER_WIDTH_SCALE) and is_equal_approx(lock_rect.size.y / lock_rect.size.x, 166.0 / 137.0) and lock_rect.end.y < locked_plaque_rect.position.y and locked_plaque_rect.end.y <= lock_slot_rect.end.y and lock_rect.position.y > lock_slot_rect.position.y, "Štítky a kompaktní Phase163 květináče sdílejí přesný poměr a samostatné policové baseline bez kolize s další řadou")
+	_check(is_equal_approx(label_rect.size.x / label_rect.size.y, 130.0 / 68.0) and is_equal_approx(lock_rect.size.x, lock_slot_rect.size.x * PlantRoomOverview.LOCKED_PLANTER_WIDTH_SCALE) and is_equal_approx(lock_rect.size.y / lock_rect.size.x, 166.0 / 137.0) and lock_rect.end.y < locked_plaque_rect.position.y and locked_plaque_rect.end.y <= lock_slot_rect.end.y and lock_rect.position.y > lock_slot_rect.position.y and locked_plaque_rect.is_equal_approx(instance.room_overview._slot_label_rect(lock_slot_rect)), "Phase171 štítky všech stavů sdílejí poměr 130:68 a stejnou fascii; nezměněné Phase163 nádoby dosedají skutečným alfa kontaktem")
 	var first_light: Rect2 = instance.room_overview._light_segment_rect(0, 0)
 	var fifth_light: Rect2 = instance.room_overview._light_segment_rect(0, 4)
 	var lower_light: Rect2 = instance.room_overview._light_segment_rect(1, 2)
@@ -14399,15 +14847,14 @@ func _test_main_scene_smoke() -> void:
 		var status_plaque_rect: Rect2 = instance.room_overview._slot_label_rect(status_slot_rect)
 		var status_badge_center: Vector2 = instance.room_overview._status_badge_center(status_plaque_rect)
 		var status_badge_rect: Rect2 = instance.room_overview._status_badge_visual_rect(status_plaque_rect)
-		var expected_badge_center: Vector2 = status_plaque_rect.position + Vector2(status_plaque_rect.size.x - 15.0, -16.0)
-		status_badge_geometry_ok = status_badge_geometry_ok and status_badge_center.is_equal_approx(expected_badge_center)
-		status_badge_geometry_ok = status_badge_geometry_ok and status_badge_rect.end.y <= status_plaque_rect.position.y
+		status_badge_geometry_ok = status_badge_geometry_ok and is_equal_approx(status_badge_center.x, status_plaque_rect.get_center().x) and status_badge_center.y > status_plaque_rect.get_center().y
+		status_badge_geometry_ok = status_badge_geometry_ok and status_plaque_rect.encloses(status_badge_rect)
 		status_badge_geometry_ok = status_badge_geometry_ok and status_badge_rect.position.x >= status_plaque_rect.position.x and status_badge_rect.end.x <= status_plaque_rect.end.x
 		status_badge_geometry_ok = status_badge_geometry_ok and status_slot_rect.encloses(status_badge_rect)
 		for previous_badge_rect in status_badge_rects:
 			status_badge_geometry_ok = status_badge_geometry_ok and not status_badge_rect.intersects(previous_badge_rect, true)
 		status_badge_rects.append(status_badge_rect)
-	_check(status_badge_geometry_ok and status_badge_rects.size() == 10, "Fáze 89 na mobilním plátně 432×960 zůstane každý status nad vlastním názvem, uvnitř slotu a bez kolize se sousedními statusy")
+	_check(status_badge_geometry_ok and status_badge_rects.size() == 10, "Phase171 ponechá původní stavovou malbu pod názvem uvnitř společné čelní cedulky, slotu a bez kolize se sousedními statusy")
 	instance.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	await process_frame
 	instance.session.xp = 0

@@ -139,8 +139,18 @@ foreach ($runtimeTextFile in $runtimeTextFiles) {
         }
         if (Test-Path -LiteralPath ($sourceResourcePath + '.import')) {
             [void]$requiredEntries.Add('assets/' + $relativeResourcePath + '.import')
-        } else {
+        } elseif (Test-Path -LiteralPath $sourceResourcePath -PathType Leaf) {
             [void]$requiredEntries.Add('assets/' + $relativeResourcePath)
+        } elseif ([string]::IsNullOrWhiteSpace([System.IO.Path]::GetExtension($relativeResourcePath))) {
+            # A formatted runtime path such as
+            # `res://assets/.../room_plant_%s_phase169.png` is intentionally
+            # captured only up to the `%` by the conservative regex above.
+            # The resulting extensionless prefix is not an APK entry. Concrete
+            # files from the same family are still discovered through their
+            # static profile paths and their `.import` metadata.
+            continue
+        } else {
+            throw "Runtime source references a missing resource: $relativeResourcePath"
         }
     }
 }

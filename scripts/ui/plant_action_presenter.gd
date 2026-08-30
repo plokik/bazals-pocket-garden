@@ -1,6 +1,7 @@
 class_name PlantActionPresenter
 extends RefCounted
 
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const DISABLED_ALPHA := 0.44
 const INACTIVE_ICON_COLOR := Color("#657568")
 
@@ -40,7 +41,7 @@ func refresh(plant: PlantSimulation, fertilizer_doses: int, water_amount_ml := 1
 		_set_text(seed_button, "ZASADIT")
 	_set_visual(seed_button, prune_blocked)
 	if prune_blocked:
-		seed_button.tooltip_text = "Nejdřív oprav kritickou péči, potom odstraň poškozené listy"
+		TooltipPolicy.apply(seed_button, "Nejdřív oprav kritickou péči, potom odstraň poškozené listy")
 
 	water_button.visible = plant.stage != PlantSimulation.Stage.EMPTY and plant.stage != PlantSimulation.Stage.DEAD and (not is_wilted or "water" in fatal_actions)
 	_set_visual(water_button, not plant.is_growing())
@@ -72,7 +73,7 @@ func refresh(plant: PlantSimulation, fertilizer_doses: int, water_amount_ml := 1
 
 
 func _set_text(button: Button, text_value: String, tooltip := "") -> void:
-	button.tooltip_text = text_value if tooltip.is_empty() else tooltip
+	TooltipPolicy.apply(button, text_value if tooltip.is_empty() else tooltip)
 	var label := button.get_meta("action_label", null) as Label
 	if label != null:
 		label.text = text_value

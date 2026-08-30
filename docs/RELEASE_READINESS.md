@@ -2,6 +2,530 @@
 
 Tento checklist odděluje technicky ověřené části vertikálního řezu od kroků, které vyžadují člověka nebo fyzické zařízení. Stav se nesmí označit jako hotový pouze podle existence kódu.
 
+## Aktuální zdrojová změna a emulátorový preview — Phase183
+
+Přerostlý spodní panel stojanu byl odstraněn. Na malovaném pokračování
+dřevěné podlahy je jediná centrovaná řada čtyř stejných 68 × 68 cílů:
+mazlík/vzhled, Profesorův výzkum, Péče a Nastavení. Každý cíl obsahuje
+samostatné transparentní PNG 48 × 48 bez bílého obdélníku. Profesor je
+vždy viditelný; před odemčením vysvětluje podmínku a ukazuje `ZÁM`, po
+odemčení otevírá existující výzkum a zachovává dynamický vykřičník.
+Péče používá dynamický číselný badge. Horní otazník zůstává pouze
+obecnou nápovědou. [Rozsah a důkazy](PHASE183_COMPACT_RACK_DOCK.md).
+
+Cílená sada `PHASE183_TESTS_PASSED=41`, responzivní kontrola 15/15 a
+real-GPU capture `.godot/phase183-rack-dock/20260829-2315Z` jsou PASS.
+Úplná validace `.godot/validation/20260829-215900Z` prošla
+`MVP_TESTS_PASSED=6745` a `HOW_TO_GROW_CAPTURE=PASSED`. Tvrdá obrazová brána
+zůstává `FAILED` na deseti historických případech. Všech deset comparison
+obrazů bylo prohlédnuto: změny odpovídají dříve evidovanému novému stojanu,
+dosednutí detailu a nyní záměrně také kompaktnímu Phase183 doku. Reference,
+masky ani tolerance nebyly přepsány.
+
+Samostatný emulátorový APK
+`.godot/emulator-preview/20260829-221017Z/bazals-pocket-garden-phase183-emulator-x86_64-debug.apk`
+má 240 853 270 B a SHA-256
+`0A4CD44CEBDD85B82BE101420E9F327E625273CA03772D42FEFC98F25A112834`.
+Export, podpis, payload a instalace `adb install -r` do `emulator-5554`
+prošly; balíček `com.howtogrow.game` je v popředí jako
+`0.68.0-rc58-emulator` / code 75. Nová čtveřice se na skutečné Android
+obrazovce vykreslila. Starý poškozený save emulátoru vyvolává fail-closed
+ochranu při pokusu o uložení; nebyl smazán ani nahrazen. Proto je úplný
+nedestruktivní klikací audit emulátoru `BLOCKED_BY_PROTECTED_OLD_SAVE`, zatímco
+interakční kontrakty v Godotu jsou PASS.
+
+Závěrečný Quick po dokumentaci
+`.godot/automation/20260829-222857Z` prošel vizuálním kontraktem i celou
+regresí a skončil `AUTOMATION_TECHNICAL_GATE=PASSED` a
+`HOW_TO_GROW_AUTOMATION=PASSED`. Device krok nebyl součástí Quicku a lidské
+vizuální přijetí zůstává samostatné.
+
+`PHASE183_SOURCE_AND_INTERACTION_CONTRACT=PASSED`.
+`PHASE183_TARGETED_TESTS=PASSED_41`.
+`PHASE183_RESPONSIVE=PASSED_15_OF_15`.
+`PHASE183_GPU_CAPTURE=PASSED`.
+`PHASE183_FULL_REGRESSION=PASSED_6745`.
+`PHASE183_FULL_VISUAL_GATE=FAILED_10_HISTORICAL_REFERENCES`.
+`PHASE183_EMULATOR_PREVIEW_INSTALL=PASSED_PRESERVE_DATA`.
+`PHASE183_EMULATOR_FOREGROUND=PASSED`.
+`PHASE183_EMULATOR_CLICK_AUDIT=BLOCKED_BY_PROTECTED_OLD_SAVE`.
+`PHASE183_QUICK_AUTOMATION=PASSED`.
+`PHASE183_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE183_PHONE=NOT_TOUCHED`.
+`PHASE183_OFFICIAL_RC59=NOT_CREATED_VISUAL_BASELINES_PENDING`.
+
+Immutable RC58 i obecný alias zůstávají byte-exaktně na SHA-256
+`0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5`.
+
+## Aktuální zdrojová změna — Phase182
+
+Otazník ve stojanu `ROSTLINY` nyní vždy otevírá obecnou nápovědu. Odemčený
+Profesorův výzkum má vlastní malovanou ikonku, samostatný 64px dotykový cíl a
+jediný attention badge. Dynamická geometrie drží titul `MOJE ROSTLINY` mimo oba
+vstupy při 432 × 960 i 360 × 800. Mobilní tooltip texty jsou centrálně
+potlačené, takže Android při podržení nevytváří černé systémové obdélníky;
+desktopová nápověda je zachovaná v krémovém komiksovém stylu. Schválená PNG
+nebyla změněna. [Rozsah a důkazy](PHASE182_PROFESSOR_LAUNCHER_AND_TOOLTIP_POLICY.md).
+
+Cílených 35 kontrol PASS. GPU capture
+`.godot/phase182-visual-20260829-194057Z` PASS. Úplná validace
+`.godot/validation/20260829-194327Z` prošla 6 743 regresními kontrolami a
+capturem. Celková obrazová brána dál selhává na stejných deseti historických
+případech jako předchozí běh `20260829-175257Z`; jejich názvy, metriky i
+aktuální SHA-256 jsou shodné a všechny comparison obrazy byly prohlédnuty.
+Reference ani tolerance se neměnily.
+Závěrečný Quick po dokumentaci
+`.godot/automation/20260829-195508Z` skončil
+`AUTOMATION_TECHNICAL_GATE=PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`PHASE182_SOURCE_AND_INTERACTION_CONTRACT=PASSED`.
+`PHASE182_TARGETED_TESTS=PASSED_35`.
+`PHASE182_FULL_REGRESSION=PASSED_6743`.
+`PHASE182_GPU_CAPTURE=PASSED`.
+`PHASE182_FULL_VISUAL_GATE=FAILED_SAME_10_HISTORICAL_REFERENCES`.
+`PHASE182_QUICK_AUTOMATION=PASSED`.
+`PHASE182_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE182_ANDROID_PHYSICAL_TOOLTIP_AUDIT=NOT_RUN`.
+`PHASE182_APK=NOT_CREATED`.
+
+Immutable RC58, obecný APK alias i hráčský save zůstávají beze změny.
+
+## Aktuální oprava a Android preview — Phase181
+
+Zhasínací animace každého světla ve stojanu `ROSTLINY` je nyní ukotvená ke
+středu čočky konkrétního indexu. Kruh se při vypnutí zmenšuje dovnitř a paprsky
+se vracejí do právě stisknutého svítidla; žádná větev už nepoužívá společný
+střed stojanu. Schválené PNG nebylo změněno.
+[Úplná oprava a Android důkazy](PHASE181_RACK_LIGHT_OFF_ANCHOR.md).
+
+25 cílených kontrol PASS. Real-GPU capture
+`.godot/phase181-light-off-anchor/20260829-175117Z` ověřil vypnutí indexů
+`0, 2, 4, 5, 7, 9` a skončil
+`PHASE181_RACK_LIGHT_OFF_ANCHORS=PASSED`. Úplná validace
+`.godot/validation/20260829-175257Z` prošla 6 737 regresními kontrolami a
+capturem. Celková obrazová brána dál poctivě selhává na stejných deseti
+historických referencích; všech deset aktuálních comparison souborů je proti
+běhu `20260829-131635Z` SHA-256 shodných a bylo znovu prohlédnuto. Reference,
+masky ani tolerance se neměnily. Závěrečný Quick po dokumentaci
+`.godot/automation/20260829-182624Z`
+skončil technickým PASS.
+
+Preview
+`.godot/preview/20260829-180305Z/bazals-pocket-garden-phase181-preview.apk`
+má 231 970 265 B a SHA-256
+`362EC8562B16583BD5EB040CED770074C90999F2740CCCC84A56E32797A773EF`.
+Nedestruktivní instalace a audit
+`.godot/android-device-audit/20260829-180449Z` potvrdily shodný nainstalovaný
+hash, save `41_TO_41`, 21 platných vzorků, 100 % foreground a nula fatal/ANR
+nálezů. Cílené fyzické klepnutí na levé, prostřední a pravé svítidlo zachytilo
+vypínací efekt vždy přímo u správné čočky. Jde o technický PASS; subjektivní
+vzhled a pohodlí animace musí potvrdit uživatel.
+
+`PHASE181_RACK_LIGHT_OFF_ANCHOR=PASSED`.
+`PHASE181_ANDROID_PREVIEW_INSTALL=PASSED_PRESERVE_DATA`.
+`PHASE181_ANDROID_TARGETED_LIGHT_TEST=PASSED_LEFT_MIDDLE_RIGHT`.
+`PHASE181_FULL_VISUAL_GATE=FAILED_SAME_10_HISTORICAL_REFERENCES`.
+`PHASE181_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE181_OFFICIAL_RC59=NOT_CREATED_VISUAL_BASELINES_PENDING`.
+`PHASE181_PUBLISHING=OUT_OF_SCOPE_BY_USER`.
+
+Immutable RC58 i obecný alias zůstávají byte-exaktně na SHA-256
+`0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5`.
+
+## Předchozí Android preview — Phase180
+
+Současný pracovní strom fází 166–179 je nainstalovaný na Xiaomi jako
+samostatné preview APK. Není označen jako RC59, protože fail-closed release
+runner dál pravdivě eviduje deset čekajících vizuálních baseline. Preview
+zachovává balíčkovou identitu `0.68.0-rc58` / code 75 / schema 41, ale má
+explicitní evidence cestu a nesmí být zaměněno s immutable RC58.
+[Úplný Android preview handoff](PHASE180_ANDROID_PREVIEW_HANDOFF.md).
+
+Quick `.godot/automation/20260829-130151Z` skončil 6 733 regresními
+kontrolami a technickým PASS. APK
+`.godot/preview/20260829-130337Z/bazals-pocket-garden-phase179-preview.apk`
+má 231 969 753 B, SHA-256
+`6CAC8B67FC559F43C49876B03C8F7046AE0FE76F7F69D2A1C6B6828A0B402E75`
+a prošel exportem, podpisem, entry scanem, úplným runtime payloadem i
+notifikačním payloadem.
+
+Povinný následný full run `.godot/validation/20260829-131635Z` znovu prošel
+6 733 regresními kontrolami a capturem. Jeho celková obrazová brána zůstává
+`FAILED` na přesně stejných deseti historických referencích jako běh
+`20260829-101254Z`; všech deset comparison souborů je mezi běhy SHA-256
+shodných. Nejde tedy o novou regresi preview světel a žádná reference, maska
+ani tolerance nebyla automaticky přepsaná.
+
+Nedestruktivní instalace a audit
+`.godot/android-device-audit/20260829-130523Z` potvrdily přesnou shodu
+nainstalovaného hashe, save `41_TO_41`, zachované jádro postupu, 22/22
+platných vzorků, 100 % foreground a nula fatal/ANR nálezů. Skutečný snímek
+aplikace v popředí dokládá současný stojan pod legitimním návratovým
+souhrnem. Immutable RC58 a obecný alias mají dál původní SHA-256
+`0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5`.
+
+`PHASE180_ANDROID_PREVIEW_EXPORT=PASSED`.
+`PHASE180_ANDROID_PREVIEW_INSTALL=PASSED_PRESERVE_DATA`.
+`PHASE180_ANDROID_TECHNICAL_GATE=PASSED`.
+`PHASE180_REGRESSION_TESTS=PASSED_6733`.
+`PHASE180_FULL_VISUAL_GATE=FAILED_SAME_10_HISTORICAL_REFERENCES`.
+`PHASE180_ANDROID_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE180_OFFICIAL_RC59=NOT_CREATED_VISUAL_BASELINES_PENDING`.
+`PHASE180_PUBLISHING=OUT_OF_SCOPE_BY_USER`.
+
+## Předchozí zdrojová změna — Phase179
+
+Každé z deseti skutečných mosazných světel ve stojanu `ROSTLINY` lze nyní
+samostatně rozsvítit a zhasnout klepnutím. Akce mění skutečný `lamp_on`
+příslušné rostliny, zachovává výběr slotu a ukládá se ve stávajícím schema 41.
+Potvrzuje se až puštěním na stejném svítidle; pohyb nad 14 px nebo globální
+swipe gesto zruší. Zapnutí trvá 0,42 s, vypnutí 0,24 s a každý z deseti indexů
+má vlastní plynulý přechod, kužel, čočku i odezvu odmítnutí. Režim Méně
+pohybu odstraňuje pulz a přechod urychlí. Schválené Phase163 PNG svítidla je
+byte-exaktně zachované. [Funkce a skutečné GPU rendery](PHASE179_INDEPENDENT_RACK_LIGHTS.md).
+
+21 cílených kontrol PASS. Skutečný GPU capture
+`.godot/phase179-rack-lights/20260829-100948Z` skončil značkami
+`PHASE179_INDEPENDENT_LIGHT_STATES=PASSED`,
+`PHASE179_CONCURRENT_LIGHT_ANIMATION=PASSED`,
+`PHASE179_RACK_LIGHTS_CAPTURE=PASSED` a `HOW_TO_GROW_CAPTURE=PASSED`.
+Úplná validace `.godot/validation/20260829-101254Z` prošla 6 733 testy a
+capturem, ale celkově zůstala **FAILED**: **24/34 obrazových bran PASS**.
+Stejných deset starších porovnání jako v Phase178 bylo znovu prohlédnuto;
+žádné neukazuje novou lampovou regresi. Quick
+`.godot/automation/20260829-102406Z` skončil VisualContract + Regression
+PASS, technickou bránou `PASSED` a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`PHASE179_LOCAL_TECHNICAL_RACK_LIGHTS=PASSED`.
+`PHASE179_FULL_VALIDATION=FAILED_10_UNCHANGED_PREEXISTING_VISUAL_GATES`.
+`PHASE179_QUICK_AUTOMATION=PASSED`.
+`PHASE179_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE179_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, APK, hráčská data a předchozí pracovní změny jsou zachované.
+
+## Předchozí zdrojová změna — Phase178
+
+Malé sazenice ve všech čtyřech záhonech jsou nově usazené hlouběji v půdě,
+takže stonky vizuálně nevyrůstají z předního dřevěného lemu. Seedling-only
+baseline ve zdrojovém prostoru je `[802, 802, 1148, 1148]`: zadní dvojice se
+posunula dozadu o 11 zdrojových pixelů (přibližně 13 px ve skutečném 1080px
+výřezu), přední o 7 (přibližně 9 px). Vodorovné středy z Phase177, velikost,
+dospělé plodiny, selection polygony a původní PNG zůstávají beze změny.
+[Oprava a skutečné GPU rendery](PHASE178_GREENHOUSE_SEEDLING_DEPTH.md).
+
+35 cílených kontrol PASS. Skutečný GPU capture `.godot/phase178-final`
+skončil značkami `PHASE178_FOUR_SEEDLING_STATES=PASSED`,
+`PHASE178_GREENHOUSE_CAPTURE=PASSED` a `HOW_TO_GROW_CAPTURE=PASSED`.
+Úplná validace `.godot/validation/20260829-082238Z` prošla 6 720 testy a
+capturem, ale celkově zůstala **FAILED**, protože aktivní obrazové brány jsou
+**24/34 PASS / FAILED**. Deset
+neprošlých porovnání má přesně stejné názvy i metriky jako Phase177 a všechna
+comparison byla znovu prohlédnuta, takže dnešní změna nepřidala novou
+odchylku. Quick `.godot/automation/20260829-082945Z` skončil
+VisualContract + Regression PASS, technickou bránou `PASSED` a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`PHASE178_LOCAL_TECHNICAL_SEEDLING_DEPTH=PASSED`.
+`PHASE178_FULL_VALIDATION=FAILED_10_UNCHANGED_PREEXISTING_VISUAL_GATES`.
+`PHASE178_QUICK_AUTOMATION=PASSED`.
+`PHASE178_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE178_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, APK, hráčská data a předchozí pracovní změny jsou zachované.
+
+## Předchozí zdrojová změna — Phase177
+
+Malé sazenice ve dvou předních záhonech už nepřekračují šikmé dřevěné
+boky. Velikost a baseline se nemění; pouze jejich středy používají skutečnou
+perspektivu `260,5 / 626,5` místo vnějších středů obdélníkových crop bounds.
+Zadní záhony, dospělé plodiny, Phase176 obrysy, dotykové plochy a původní
+PNG zůstávají beze změny. [Oprava a skutečné GPU rendery](PHASE177_GREENHOUSE_SEEDLING_CONTAINMENT.md).
+
+26 cílených kontrol PASS. Úplný běh
+`.godot/validation/20260829-065003Z`: **6 711 testů PASS**, capture PASS,
+**24/34 obrazových bran PASS / FAILED**. Všech deset neprošlých porovnání
+má přesně stejné názvy a metriky jako Phase176; všechna comparison byla
+znovu prohlédnutá. Reference, masky ani tolerance se nemění.
+Quick `.godot/automation/20260829-065831Z` skončil VisualContract +
+Regression PASS a technickou bránou `PASSED`.
+
+`PHASE177_LOCAL_TECHNICAL_SEEDLING_CONTAINMENT=PASSED`.
+`PHASE177_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE177_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, APK, hráčská data a předchozí pracovní změny jsou zachované.
+
+## Předchozí zdrojová změna — Phase176
+
+Dva přední žluté obrysy Skleníku nyní sledují perspektivu malovaného
+dřevěného rámu stejně jako zadní dvojice opravená v Phase174. Záhony 3 a 4
+mají samostatné zrcadlové selection polygony; soil/crop geometrie, dotykové
+plochy a původní PNG zůstávají beze změny. [Souřadnice a skutečné GPU
+výřezy](PHASE176_GREENHOUSE_FRONT_SELECTION.md).
+
+17 cílených kontrol a všech osm kliknutí ve dvou rozloženích PASS. Zadní
+záhony jsou před/po pixelově totožné. Úplný běh
+`.godot/validation/20260829-014854Z`: **6 702 testů PASS**, capture PASS,
+**24/34 obrazových bran PASS / FAILED**. Přesně stejných deset starších
+bran i jejich metriky zůstává shodných s Phase175; žádná nová neprošla.
+Reference, masky ani tolerance se nemění. Quick
+`.godot/automation/20260829-015512Z` skončil technickým PASS a
+`HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`PHASE176_LOCAL_TECHNICAL_FRONT_SELECTION=PASSED`.
+`PHASE176_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE176_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, APK, hráčská data a předchozí pracovní změny jsou zachované.
+
+## Předchozí zdrojová změna — Phase175
+
+Horní HUD už neořezává konec dne ani dlouhý zůstatek mincí. Obě hodnoty
+mají širší shodnou bezpečnou oblast a společný měřicí helper volí největší
+font, který se celý vejde při 432 × 960 i 360 × 800. Karty, ikony a panel
+úrovně zůstávají beze změny. [Metriky a GPU důkazy](PHASE175_HUD_VALUE_FIT.md).
+
+32 cílených kontrol a šest GPU stavů PASS. Úplný běh
+`.godot/validation/20260829-005654Z`: **6 701 testů PASS**, capture PASS,
+HUD brána PASS s **0,000 % změněných nemaskovaných pixelů**. Celkově
+**24/34 obrazových bran PASS / FAILED** kvůli přesně stejné množině deseti
+dříve známých porovnání jako Phase174; žádná nová neprošlá brána.
+Reference, masky ani tolerance se nemění.
+Quick `.godot/automation/20260829-010437Z` skončil VisualContract +
+Regression PASS a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`PHASE175_LOCAL_TECHNICAL_HUD=PASSED`.
+`PHASE175_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE175_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, APK, hráčská data a předchozí pracovní změny jsou zachované.
+
+## Předchozí zdrojová změna — Phase174
+
+Pouze žluté zvýraznění zadních dvou polí Skleníku je zarovnané podle
+perspektivy původních dřevěných hran. Přední zvýraznění a jeho celé snímky
+jsou před/po pixelově totožné v obou rozloženích. Plodiny, dotykové cíle
+a ostatní obrazovky se nemění. [Výřezy a důkazy](PHASE174_GREENHOUSE_REAR_SELECTION.md).
+
+16 cílených kontrol a všechna čtyři kliknutí v každém ze dvou rozložení PASS.
+Úplný běh `.godot/validation/20260829-000147Z`: **6 676 testů PASS**,
+GPU capture PASS, **24/34 obrazových bran PASS**, celkově **FAILED**.
+Deset neprošlých porovnání včetně metrik je přesně stejných jako Phase173;
+žádná nová neprošlá brána. Reference, masky a tolerance se nemění.
+
+`PHASE174_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE174_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Immutable RC58, hráčská data a předchozí změny zůstávají zachované.
+
+## Předchozí zdrojová změna — Phase173
+
+Horní lišta detailu už nemá bílé/krémové mezery kolem zaoblených tlačítek.
+Lokální podklad je shodný s tmavým HUDem; velikost ovládání, PNG a dosednutí
+rostliny se nemění. [Skutečné snímky a výsledky](PHASE173_DETAIL_HEADER_EDGES.md).
+
+11 cílených kontrol, 202 GPU pixelových sond a automatické kliknutí přes
+Godot GUI na obě šipky, Herbář i stojan PASS. Běžné a úzké rozložení mimo
+horní lištu a její převzorkovaný okraj zůstává pixelově shodné s Phase172.
+
+Úplná validace `.godot/validation/20260828-232653Z`: **6 670 testů PASS**,
+capture PASS, **24/34 obrazových bran PASS**, tedy celkově **FAILED**.
+Jde o stejných deset neprošlých bran jako dříve; čtyři detaily navíc
+zachycují nynější záměrnou změnu podkladu. Všechny byly prohlédnuté.
+Reference, masky a tolerance zůstávají beze změny.
+Quick `.godot/automation/20260828-233052Z`: **PASSED**, exit 0.
+
+`PHASE173_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE173_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+RC58, předchozí pracovní změny, hráčská data a grafika rostlin jsou zachované.
+
+## Předchozí zdrojová změna — Phase172
+
+Detail rostliny po otevření ze stojanu používá stejnou malovanou terakotovou
+podmisku jako schválený stojan. Keramika je ukotvená podle změřené horní
+plochy parapetu a při animaci se nepohybuje; efekty péče zůstávají aktivní.
+Celý canvas i podmiska se vejdou také do skutečného detailu 360 × 300.
+[Oprava detailu, skutečné snímky a testy](PHASE172_PLANT_DETAIL_SILL_GROUNDING.md).
+
+Regrese **6 662 kontrol PASS**, cílená sada **84 PASS** včetně 3 752
+animačních kombinací, 12 GPU snímků a Quick PASS. Úplná validace
+`.godot/validation/20260828-220639Z` má **24/34 obrazových bran PASS**, tedy
+celkově **FAILED**, nikoli PASS: šest starších rozdílů stojanu a čtyři
+rozdíly nově opraveného detailu vůči původním referencím. Všech deset
+porovnání bylo prohlédnuto. Reference, masky a tolerance jsou nezměněné.
+
+`PHASE172_USER_VISUAL_ACCEPTANCE=PENDING_USER_REVIEW`.
+`PHASE172_ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+Schválení Phase171 stojanu je zaznamenané zvlášť; samostatné dialogové
+a efektové reference nebyly automaticky schváleny ani nahrazeny.
+110 chráněných souborů je hashově nezměněných včetně původních PNG,
+Phase170 podmisky, Phase171 stojanu, referencí, kanonického capture a RC58 APK.
+Žádná změna ekonomiky, save schématu, hráčských dat, verze nebo instalace.
+
+## Předchozí zdrojová změna — Phase171
+
+Pěstitelský stojan ROSTLINY má novou společnou malbu a změřené dosednutí
+otevřených i zamčených nádob na obou policích. Štítky patří na čela desek,
+stavové ikony nezasahují do podmisek a všechny názvy mají měřený font-fit.
+Uživatel při zadání Phase172 schválil také skutečný celý stojan Phase171.
+Původní rostliny, lampy, zamčené PNG, podmiska, Pokoj a detail jsou zachované.
+[Skutečný snímek, konstrukce a důkazy Phase171](PHASE171_PAINTED_RACK_GROUNDING.md).
+
+Regrese **6 652 kontrol PASS**, cílené testy **41 PASS**, 1 340 kombinací
+kontaktů/siluet, 280 případů textu a osm skutečných GPU snímků prošly.
+Hlavní agent prohlédl všechny snímky pro běžný i kratší displej.
+Quick `.godot/automation/20260828-205331Z`: native exit 0,
+VisualContract + Regression PASS, `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+**Úplná validace není PASS**: `.godot/validation/20260828-204526Z`
+má native exit 1 a `HOW_TO_GROW_VISUALS=FAILED`, **28/34 bran PASS**.
+Šest neprošlých bran je starý stojan, tři překryvy Profesora Bazala
+a efekty odemčení/přechodu nad stojanem. Prohlédnuté heatmapy ukazují
+změněné prostředí pod nezměněnými ovládacími prvky/efekty. Srovnání se
+skutečným Phase170 během má 135/191 původních snímků byte-exact.
+Žádné reference, masky ani tolerance se nepřepisují; Quick neznamená
+splnění těchto šesti obrazových bran.
+
+`USER_VISUAL_ACCEPTANCE=APPROVED_BY_USER` pro stojan Phase171.
+`REFERENCE_TRANSITION=NOT_APPLIED_SEPARATE_OVERLAY_APPROVAL_REQUIRED`.
+`ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`.
+103 předem chráněných souborů, schválená Phase170 podmiska a její
+manifest i kanonický capture jsou hashově nezměněné. RC58/code75/schema41
+a původní immutable APK zůstávají beze změny. Existující Phase166–170
+práce, hráčská data i starší důkazy jsou zachované, bez commitu nebo cleanupu.
+
+## Předchozí zdrojová změna — Phase170
+
+ROSTLINY používají novou mělkou malovanou terakotovou podmisku místo
+plochých tyrkysových kruhů. Všech 67 původních rostlinných PNG zůstává
+beze změny; měřená základna správně usazuje každý stav na podmisku
+a původní polici. Celý květináč už neplave nad statickou keramikou.
+Pokoj, detail, stojan, světla, zamčené nádoby a HUD se nemění.
+[Rozsah, skutečný GPU náhled a důkazy Phase170](PHASE170_RACK_CERAMIC_SAUCERS.md).
+
+Funkční regrese **6 640 kontrol PASS**, cílená sada 29 kontrol PASS,
+matice 1 340 geometrií a osm skutečných GPU snímků prošly. Závěrečný
+Quick `.godot/automation/20260828-193710Z` má native exit 0,
+VisualContract + Regression PASS a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+**Úplná validace ale zatím není PASS**:
+`.godot/validation/20260828-193100Z` má native exit 1,
+`HOW_TO_GROW_VISUALS=FAILED`, **30/34 aktivních obrazových bran PASS**.
+Neprošly `guide-explain`, `guide-warning` a dvě Phase163 brány efektu
+odemčení/přechodu. Porovnání s předchozím skutečným Phase169 během
+prokázalo změněné pixely pouze u čtyř aktivních květináčů a podmisek;
+dialogy, efekty ani okolí se nezměnily. Všechny reference, masky a prahy
+zůstávají zachované. Quick tento výsledek nepřebíjí.
+
+`USER_VISUAL_ACCEPTANCE=SAUCER_APPROVED_RACK_POSITION_REJECTED`: uživatel
+následně schválil podmisku, ale požádal o opravu jejího usazení vůči celému
+stojanu. Tuto výhradu řeší Phase171; historický výsledek testů se nemění.
+`ANDROID_ACCEPTANCE=NOT_RUN_APK_DEFERRED_BY_USER`: žádný nový build
+ani instalace. Původní immutable RC58, verze/code/schema i všech
+103 předem chráněných souborů jsou hashově nezměněné. Existující
+Phase166–169 práce, hráčská data i historické důkazy zůstávají zachované.
+
+## Předchozí zdrojová změna — Phase169
+
+Oprava odstranila šedé lemy podmisek a ověřené světlé zbytky pozadí
+u dvanácti pokojových rostlin. Nové verzované deriváty mění pouze alfa
+kanál, nikoli RGB malbu, plátno, měřicí body nebo geometrii. Původní PNG,
+schválené reference, ekonomika, save i přesouvání rostlin jsou zachované.
+[Rozsah a skutečné snímky Phase169](PHASE169_ROOM_PLANT_EDGE_CLEANUP.md).
+
+Úplná validace `.godot/validation/20260828-180417Z` prošla s native exit 0:
+`MVP_TESTS_PASSED=6626`, capture, visuals a validation PASS,
+**34/34 aktivních obrazových bran**. Ve srovnání s předchozím Phase168
+reportem se nezměnil žádný hash reference ani vykazované nastavení brány.
+Plně vybavený pokoj má MAE 0,144119 / RMSE 2,338530 / změněný podíl
+0,456 %; jde o očekávanou lokální opravu, nikoli nulový rozdíl renderů.
+
+Cílený GPU capture `.godot/phase169-rack-final` má explicitní PASS a prázdný
+stderr. Interně jsou prohlédnuté všechny čtyři cykly řad v běžné i kompaktní
+velikosti (osm nativních snímků) a plný runtime včetně náhledu a výsledku
+výměny. `USER_VISUAL_ACCEPTANCE=PENDING_REVIEW_OF_FIX` zůstává oddělené
+od technického výsledku. Závěrečný Quick
+`.godot/automation/20260828-182116Z` prošel VisualContractem i 6 626
+regresními kontrolami, s native exit 0 a `HOW_TO_GROW_AUTOMATION=PASSED`.
+
+`ANDROID_ACCEPTANCE=NOT_RUN_SOURCE_ONLY`: APK se podle zadání vynechává.
+Immutable RC58 `0.68.0-rc58` / code 75 / schema 41 ani jeho SHA256 se
+nemění. Existující rozpracované změny Phase166–168 zůstávají zachované;
+nový build, instalace, zásah do hráčského save, commit ani cleanup neproběhly.
+
+## Předchozí zdrojová změna — Phase168
+
+Pokoj nyní odpočívá bez vlastního frame ticku a překresluje se jen při
+skutečné změně. Podržení probudí indikátor; pohyb a puštění fungují dál
+přes hlavní vstup i po uspání view. Geometrie se počítá pouze při novém
+meshi nebo rozměru a nezměněný refresh znovu nekopíruje celý katalog.
+[Rozsah, měření a důkazy Phase168](PHASE168_ROOM_RENDER_EFFICIENCY.md).
+
+**Úplná source-only automatizace prošla všemi šesti kroky**:
+`.godot/automation/20260827-223753Z`, native exit 0. Finální validace
+`.godot/validation/20260827-223801Z` má `MVP_TESTS_PASSED=6454`,
+capture, visuals i validation PASS a 34/34 aktivních obrazových bran.
+Pět Phase167 referencí má MAE/RMSE/podíl změn 0; osm snímků přesunů,
+výměn a jednotlivých řad je i hashově shodných s předchozím Phase167 během.
+Manifest, tolerance ani jediný chráněný PNG se nepřepisovaly.
+
+Sedm výkonových scénářů nově zahrnuje plně vybavený Pokoj a skutečné
+tažení přes Viewport. Za 360 klidových snímků klesly CanvasItem redraw
+callbacky z 360 na 0, při tažení ze 720 na 360. Dvě měření po změně
+prošla se stejnými limity a bez růstu mesh cache. Obecná endurance prošla
+48/48 cyklů, progrese 132/132 a responzivní matice 15/15.
+Závěrečný Quick `.godot/automation/20260827-224616Z` znovu prošel
+VisualContractem i 6 454 regresními kontrolami, native exit 0.
+
+APK a telefon se podle posledního zadání vynechávají:
+`ANDROID_ACCEPTANCE=NOT_RUN_SOURCE_ONLY`. Technický desktopový PASS
+neprokazuje fyzickou odezvu dotyku, teplotu nebo baterii telefonu.
+Runtime zůstává `0.68.0-rc58` / code 75 / schema 41; hash immutable
+RC58 i všech 91 předem chráněných souborů zůstal zachovaný. Existující
+rozpracované Phase166/167 změny nebyly vráceny ani automaticky commitnuty.
+
+## Předchozí zdrojová změna — Phase167
+
+Oprava orchideje a všech dvanácti pokojových rostlin sjednocuje skutečně
+měřenou keramiku, dosednutí na police, souvislé stonky a nezkreslené květy.
+Nové odvozené PNG obnovují ztracené části květů z původního atlasu bez změny
+malby nebo archivních PNG. Geometrie a dotykové oblasti fungují i po výměně
+rostlin mezi policemi. Přesný rozsah, skutečný náhled a důkazy obsahuje
+[audit Phase167](PHASE167_ROOM_RACK_VISUAL_REPAIR.md).
+
+**Uživatel opravený render schválil. Funkční regrese: 6 414 kontrol PASS.
+Přísné obrazové porovnání: 34/34 aktivních bran PASS.** Úplná validace
+`.godot/validation/20260827-220126Z` má všechny povinné markery a native
+exit 0. Pět nových verzovaných Phase167 referencí chrání schválený stojan
+se stejnými tolerancemi, cropy a maskami; všech pět má MAE/RMSE/podíl změn 0.
+Původní PNG jsou zachované a stará porovnání zůstávají diagnostická.
+Předchozí FAILED běh `.godot/validation/20260827-213709Z` zůstává historickým
+důkazem před schválením, nikoli zpětně změněným výsledkem.
+
+Cílený GPU capture `.godot/phase167-rack-audit-final` prošel včetně nativních
+snímků pro běžný i kratší pokoj a zachování přetažení/výměn. Interní vizuální
+kontrola je oddělená od `USER_VISUAL_ACCEPTANCE=APPROVED_BY_USER` a
+`ANDROID_ACCEPTANCE=NOT_RUN_SOURCE_ONLY`. Immutable RC58, telefonní data,
+save schema 41 a rozpracovaná Phase166 zůstávají zachované; žádný nový APK
+ani fyzický audit touto opravou nevznikl.
+
+Quick `.godot/automation/20260827-220422Z` prošel (VisualContract + Regression,
+native exit 0). Předchozí responzivní matice `.godot/responsive/20260827-214227Z`
+prošla 15/15 scénářů; schvalovací krok runtime ani layout neměnil.
+Zdrojová vizuální oprava je uzavřená, fyzické přijetí nového APK tím nevzniká.
+
+## Předchozí zdrojová změna — Phase166 (historické výsledky)
+
+Pokoj má podržení a přetažení vlastněných rostlin ve stojanu 3 × 4:
+prázdný cíl znamená přesun, obsazený cíl atomickou výměnu obou květináčů.
+Zachovává zrušení přerušených gest a save schema 41. Původní přesouvání
+prošlo úplnou automatizací `.godot/automation/20260827-195909Z`.
+Dodatečně vyžádané výměny prošly 1 040 cílenými kontrolami a novou úplnou
+validací `.godot/validation/20260827-202200Z`: 2 598 regresních kontrol,
+34/34 obrazových bran, capture a interní kontrola skutečného GPU renderu
+mají `PASSED`. Zdrojové PNG i schválené reference zůstaly beze změny.
+[Samostatný audit fáze 166](PHASE166_ROOM_PLANT_DRAG.md) odděluje
+aktuální ověření, historické výsledky a dosud neprovedené fyzické přijetí.
+
+Tato změna je **source-only**. Immutable RC58 `0.68.0-rc58` / code 75
+z Phase165 se nepřebaluje a jeho dřívější Android PASS neprokazuje nové
+gesto. Nový APK ani nový telefonní audit v Phase166 dosud nevznikly.
+
 ## Ověřeno automaticky
 
 | Oblast | Stav | Důkaz |

@@ -6,6 +6,7 @@ signal theme_requested
 signal decoration_slot_requested(slot_index: int)
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -123,7 +124,7 @@ func _build_decoration_buttons() -> void:
 		button.focus_mode = Control.FOCUS_NONE
 		button.mouse_filter = Control.MOUSE_FILTER_STOP
 		button.z_index = 6
-		button.tooltip_text = "Dekorační místo %d" % (slot_index + 1)
+		TooltipPolicy.apply(button, "Dekorační místo %d" % (slot_index + 1))
 		button.set_meta("component", "phase104_room_decoration_slot_v1")
 		button.set_meta("slot_index", slot_index)
 		button.set_meta("touch_target_min", Vector2(56, 56))

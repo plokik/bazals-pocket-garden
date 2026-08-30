@@ -1,0 +1,52 @@
+{
+  "schema": "phase173_header_edges_evidence_v1",
+  "recorded_local_date": "2026-08-29",
+  "scope": "Local NAVY backing under existing rounded plant-detail header controls; no PNG editing",
+  "focused": {
+    "path": ".godot/phase173-focused",
+    "marker": "PHASE173_TESTS_PASSED=11",
+    "exit_code": 0
+  },
+  "gpu": {
+    "path": ".godot/phase173-header-final",
+    "marker": "PHASE173_HEADER_CAPTURE=PASSED",
+    "exit_code": 0,
+    "stderr_bytes": 0,
+    "images": 4,
+    "dark_gutter_pixel_probes": 202,
+    "gui_input_routes_passed": ["previous", "next", "herbarium", "rack"],
+    "layout_sizes": [[432, 960], [360, 800]],
+    "hero_rects_unchanged": [[0, 129, 432, 451], [0, 129, 360, 300]],
+    "delta_bbox_vs_phase172": [[0, 179, 1080, 327], [0, 216, 1080, 392]],
+    "outside_header_and_resampling_edge_pixel_identical": true
+  },
+  "full_validation": {
+    "path": ".godot/validation/20260828-232653Z",
+    "regression_marker": "MVP_TESTS_PASSED=6670",
+    "capture_marker": "HOW_TO_GROW_CAPTURE=PASSED",
+    "visual_gates_passed": 24,
+    "visual_gates_failed": 10,
+    "all_failed_comparisons_inspected": true,
+    "visual_status": "FAILED",
+    "exit_code": 1
+  },
+  "quick": {
+    "path": ".godot/automation/20260828-233052Z",
+    "marker": "HOW_TO_GROW_AUTOMATION=PASSED",
+    "exit_code": 0
+  },
+  "preservation": {
+    "prior_hash_manifest": "docs/visual-proposals/phase172/validation-evidence.json",
+    "prior_hash_manifest_sha256": "EB97A79B412EDDD0442E91B64631752A57AE4E2466C975CA098617DD16B035EC",
+    "excluded_intended_target": "scripts/main.gd",
+    "other_prior_protected_files_unchanged": 109,
+    "main_before_and_reversed_one_line_sha256": "E7B5DDF855C6A837E7BF7DCC3038E64360B53EE696D1A92BD136B7D7CBAAB20C",
+    "plant_view_unchanged_sha256": "95E5CFD8B83B58664A276EB5547AC4A297D03425C91CB0A0EDC290C99CC6351B",
+    "plant_detail_layout_unchanged_sha256": "3C108388DF76AAC02C1120B29CB0D5D06ADB84D997CB6D0C61F776AA2074F845",
+    "reference_cases_unchanged": 54,
+    "masks_thresholds_and_manifest_unchanged": true,
+    "immutable_rc58_sha256": "0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5"
+  },
+  "user_visual_acceptance": "PENDING_USER_REVIEW",
+  "android_acceptance": "NOT_RUN_APK_DEFERRED_BY_USER"
+}

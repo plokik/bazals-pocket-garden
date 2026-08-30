@@ -4,10 +4,15 @@ extends Control
 signal rack_requested
 signal theme_requested
 signal decoration_slot_requested(slot_index: int)
+signal plant_move_requested(source_slot: int, target_slot: int, decoration_id: String)
+signal plant_drag_started
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const GardenSceneFraming := preload("res://scripts/ui/garden_scene_framing.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
+const PlantDragController := preload("res://scripts/ui/room_plant_drag_controller.gd")
+const PlantRenderGeometry := preload("res://scripts/ui/room_plant_render_geometry.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const PlayerRoomInterior := preload("res://assets/ui/player_room/player_room_phase149_target_clean_v1.png")
@@ -86,6 +91,12 @@ var decoration_buttons: Array[Button] = []
 var animations_paused := false
 var reduced_motion_enabled := false
 var ambient_phase := 0.0
+var plant_drag := PlantDragController.new()
+var plant_drag_enabled := true
+var plant_drag_notice := ""
+var plant_drag_notice_seconds := 0.0
+var _plant_mesh_cache: Dictionary = {}
+var _plant_mesh_cache_size := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -94,6 +105,10 @@ func _ready() -> void:
 	set_meta("component", "phase124_player_room_living_collection_v1")
 	set_meta("location_id", "player_room")
 	set_meta("decoration_slots", DECORATION_SLOT_COUNT)
+	set_meta("phase166_room_plant_drag", "hold_450ms_owned_plant_move_or_swap_save_safe_v2")
+	set_meta("phase167_room_plant_geometry", PlantRenderGeometry.CONTRACT)
+	set_meta("phase167_room_plant_alpha", "restored_original_atlas_petals_same_canvas_v1")
+	set_meta("phase168_render_work", "static_until_changed_hold_and_notice_ticks_cached_mesh_v1")
 	set_meta("plant_display_slots", PLANT_SLOT_COUNT)
 	set_meta("fixed_display_slots", DECORATION_SLOT_COUNT - PLANT_SLOT_COUNT)
 	set_meta("achievement_display_slots", 6)
@@ -192,25 +207,26 @@ func _ready() -> void:
 	set_meta("plant_layout", "three_columns_four_shelves_v1")
 	set_meta("plant_saucer_asset", "target_integrated_pot_saucer_and_contact_shadow_v1")
 	set_meta("plant_grounding", "target_native_baseline_with_object_free_furniture_front_occlusion_v2")
-	set_meta("plant_compositing", "phase158_clean_phase148_rgba_target_native_linear_mipmaps_v3")
-	set_meta("plant_fit_policy", "approved_uniform_isotropic_scale_move_free_v1")
+	set_meta("plant_compositing", "phase167_recovered_rgba_measured_mesh_linear_mipmaps_v1")
+	set_meta("plant_fit_policy", "measured_shared_ceramic_isotropic_crown_per_shelf_v1")
 	set_meta("plant_prominence_policy", "approved_phase143_uniform_pots_saucers_baselines_v1")
-	set_meta("plant_integration_policy", "phase158_clean_rgba_target_native_rects_object_free_furniture_occlusion_v3")
+	set_meta("plant_integration_policy", "phase167_measured_contact_continuous_uv_object_free_foreground_v1")
 	set_meta("pixel_art_policy", "forbidden_for_room_environment_and_collectibles_v1")
 	set_meta("touch_anchor_policy", "source_anchor_clamped_to_surface_v1")
 	set_meta("responsive_test_viewports", [Vector2i(432, 960), Vector2i(360, 800)])
 	resized.connect(_on_resized)
+	visibility_changed.connect(_on_drag_visibility_changed)
 	_build_navigation()
 	_build_decoration_buttons()
 	_layout_decoration_buttons()
 	queue_redraw()
-	set_process(true)
+	_sync_plant_processing()
 
 
 func _build_navigation() -> void:
 	back_button = Button.new()
 	back_button.text = ""
-	back_button.tooltip_text = "Zpět na stojan"
+	TooltipPolicy.apply(back_button, "Zpět na stojan")
 	back_button.focus_mode = Control.FOCUS_NONE
 	back_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	back_button.position = PHASE149_BACK_RECT.position
@@ -226,7 +242,7 @@ func _build_navigation() -> void:
 
 	theme_button = Button.new()
 	theme_button.text = ""
-	theme_button.tooltip_text = "Vzhled pokoje"
+	TooltipPolicy.apply(theme_button, "Vzhled pokoje")
 	theme_button.focus_mode = Control.FOCUS_NONE
 	theme_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	theme_button.position = PHASE149_THEME_RECT.position
@@ -241,24 +257,39 @@ func _build_navigation() -> void:
 
 
 func set_cosmetic_theme(theme_id: String) -> void:
-	selected_theme_id = theme_id if theme_id in SUPPORTED_THEMES else "sunrise"
+	var normalized_theme := theme_id if theme_id in SUPPORTED_THEMES else "sunrise"
+	if selected_theme_id == normalized_theme and has_meta("selected_theme_id"):
+		return
+	selected_theme_id = normalized_theme
 	set_meta("selected_theme_id", selected_theme_id)
 	queue_redraw()
 
 
 func set_room_decorations(slot_ids: Array[String], catalog: Dictionary) -> void:
-	decoration_catalog = catalog.duplicate(true)
-	decoration_slots.assign(_empty_decoration_slots())
+	# The main UI refreshes live values regularly, but this collection changes
+	# only on purchase, placement or restore. Keep its own deep snapshot without
+	# repeatedly cloning the catalog or rebuilding an identical canvas.
+	var same_catalog := catalog == decoration_catalog
+	if same_catalog and slot_ids == decoration_slots and has_meta("stored_placed_decoration_count"):
+		return
+	var normalized_slots := _empty_decoration_slots()
 	var stored_placed_count := 0
 	var visible_placed_count := 0
 	for slot_index in range(mini(DECORATION_SLOT_COUNT, slot_ids.size())):
 		var decoration_id := str(slot_ids[slot_index])
-		if decoration_id.is_empty() or decoration_catalog.has(decoration_id):
-			decoration_slots[slot_index] = decoration_id
+		if decoration_id.is_empty() or catalog.has(decoration_id):
+			normalized_slots[slot_index] = decoration_id
 			if not decoration_id.is_empty():
 				stored_placed_count += 1
 				if not _is_hidden_decoration_slot(slot_index):
 					visible_placed_count += 1
+	if same_catalog and normalized_slots == decoration_slots and has_meta("stored_placed_decoration_count"):
+		return
+	if plant_drag.is_tracking():
+		cancel_plant_drag()
+	if not same_catalog:
+		decoration_catalog = catalog.duplicate(true)
+	decoration_slots.assign(normalized_slots)
 	set_meta("placed_decoration_count", visible_placed_count)
 	set_meta("stored_placed_decoration_count", stored_placed_count)
 	queue_redraw()
@@ -286,10 +317,30 @@ func set_reduced_motion(enabled: bool) -> void:
 
 
 func _process(delta: float) -> void:
-	if animations_paused or reduced_motion_enabled or not visible:
+	if not is_visible_in_tree():
+		_sync_plant_processing()
 		return
-	ambient_phase = fmod(ambient_phase + delta, TAU)
-	queue_redraw()
+	if _plant_hold_needs_ticks():
+		if plant_drag.advance_hold(delta):
+			plant_drag_started.emit()
+		queue_redraw()
+	if plant_drag_notice_seconds > 0.0:
+		plant_drag_notice_seconds = maxf(0.0, plant_drag_notice_seconds - maxf(0.0, delta))
+		if plant_drag_notice_seconds == 0.0:
+			queue_redraw()
+	_sync_plant_processing()
+
+
+func _plant_hold_needs_ticks() -> bool:
+	return plant_drag_enabled and plant_drag.is_tracking() and not plant_drag.cancelled and not plant_drag.dragging
+
+
+func _sync_plant_processing() -> void:
+	# The approved painted composition has no time-dependent ambient draw.
+	# Only the hold ring animates. Pointer events redraw a lifted plant; a static
+	# notice needs a timeout, but no redraw until it disappears. Input is routed
+	# by main._input independently of this view's process callback.
+	set_process(is_visible_in_tree() and (_plant_hold_needs_ticks() or plant_drag_notice_seconds > 0.0))
 
 
 func _on_back_pressed() -> void:
@@ -301,10 +352,108 @@ func _on_theme_pressed() -> void:
 
 
 func _on_decoration_slot_pressed(slot_index: int) -> void:
+	if plant_drag.is_tracking():
+		return
 	decoration_slot_requested.emit(slot_index)
 
 
+func set_plant_drag_enabled(enabled: bool) -> void:
+	plant_drag_enabled = enabled
+	if not enabled and plant_drag.is_tracking():
+		cancel_plant_drag()
+	_sync_plant_processing()
+
+
+func cancel_plant_drag(reset_contacts := false) -> void:
+	var had_visible_feedback := plant_drag.is_tracking() or plant_drag_notice_seconds > 0.0
+	plant_drag.cancel(reset_contacts)
+	plant_drag_notice_seconds = 0.0
+	_sync_plant_processing()
+	if had_visible_feedback:
+		queue_redraw()
+
+
+func _on_drag_visibility_changed() -> void:
+	if not is_visible_in_tree():
+		cancel_plant_drag()
+	_sync_plant_processing()
+
+
+func plant_slot_hit_rect(slot_index: int) -> Rect2:
+	if slot_index < 0 or slot_index >= PLANT_SLOT_COUNT:
+		return Rect2()
+	var opening := PlantRenderGeometry.shelf_opening(slot_index, size)
+	var center := PlantRenderGeometry.slot_center(slot_index, size)
+	var bottom := center.y + 16.0
+	if slot_index < PLANT_SLOT_COUNT - 3:
+		bottom = minf(bottom, PlantRenderGeometry.shelf_opening(slot_index + 3, size).position.y - 1.0)
+	return Rect2(opening.position, Vector2(opening.size.x, bottom - opening.position.y))
+
+
+func plant_render_geometry(asset_id: String, slot_index: int, offset := Vector2.ZERO) -> Dictionary:
+	return PlantRenderGeometry.placement(asset_id, slot_index, size, offset)
+
+
+func plant_slot_at_position(position_value: Vector2, occupied_only := false) -> int:
+	for slot_index in range(PLANT_SLOT_COUNT):
+		if occupied_only:
+			var id := decoration_slots[slot_index]
+			if id.is_empty() or str((decoration_catalog.get(id, {}) as Dictionary).get("slot_group", "")) != "plant":
+				continue
+		if plant_slot_hit_rect(slot_index).has_point(position_value):
+			return slot_index
+	return -1
+
+
+func handle_plant_drag_input(event: InputEvent) -> bool:
+	var can_start := plant_drag_enabled and is_visible_in_tree()
+	# _input supplies viewport coordinates; the room sits below HUD and safe area.
+	var local_event := event.xformed_by(get_global_transform_with_canvas().affine_inverse())
+	var source := -1
+	if can_start and (local_event is InputEventScreenTouch or local_event is InputEventMouseButton):
+		source = plant_slot_at_position(local_event.position, true)
+	var item_id := decoration_slots[source] if source >= 0 else ""
+	# Drain canceled contacts even while a modal or another screen is visible.
+	var was_tracking := plant_drag.is_tracking()
+	var result := plant_drag.handle_event(local_event, source, item_id, can_start)
+	if not was_tracking and plant_drag.is_tracking():
+		plant_drag_notice_seconds = 0.0
+	_sync_plant_processing()
+	if not bool(result.get("handled", false)):
+		return false
+	queue_redraw()
+	match str(result.get("kind", "")):
+		"tap":
+			decoration_slot_requested.emit(int(result.source_slot))
+		"drop":
+			var destination := plant_slot_at_position(result.position)
+			if destination == int(result.source_slot):
+				return true
+			if destination >= 0:
+				plant_move_requested.emit(int(result.source_slot), destination, str(result.decoration_id))
+			else:
+				show_plant_move_result(false)
+	return true
+
+
+func show_plant_move_result(moved: bool, swapped := false) -> void:
+	plant_drag_notice = ("ROSTLINY VYMĚNĚNY" if swapped else "ROSTLINA PŘESUNUTA") if moved else "PŘESUN ZRUŠEN · VYBER MÍSTO VE STOJANU"
+	plant_drag_notice_seconds = 1.6
+	_sync_plant_processing()
+	queue_redraw()
+
+
+func plant_drag_will_swap() -> bool:
+	if not plant_drag.dragging:
+		return false
+	var destination := plant_slot_at_position(plant_drag.pointer_position)
+	return destination >= 0 and destination != plant_drag.source_slot and not decoration_slots[destination].is_empty()
+
+
 func _on_resized() -> void:
+	_plant_mesh_cache.clear()
+	_plant_mesh_cache_size = size
+	cancel_plant_drag()
 	_layout_navigation()
 	_layout_decoration_buttons()
 	queue_redraw()
@@ -355,7 +504,9 @@ func _build_decoration_buttons() -> void:
 		button.focus_mode = Control.FOCUS_NONE
 		button.mouse_filter = Control.MOUSE_FILTER_STOP
 		button.z_index = 6
-		button.tooltip_text = "Pokojové místo %d" % (slot_index + 1)
+		TooltipPolicy.apply(button, "Pokojové místo %d" % (slot_index + 1))
+		if slot_index < PLANT_SLOT_COUNT:
+			TooltipPolicy.apply(button, "Klikni pro výběr dekorace. Podrž a přetáhni rostlinu; obsazené místo obě rostliny prohodí.")
 		button.set_meta("component", "phase123_room_decoration_slot_v1")
 		button.set_meta("slot_index", slot_index)
 		button.set_meta("slot_group", _slot_group(slot_index))
@@ -427,10 +578,52 @@ func _draw() -> void:
 		# above the furniture occlusion plate; otherwise shelves cut the circles in
 		# half and the room looks like it contains damaged textures.
 		_draw_decoration_slots(palette, true)
+		_draw_plant_drag_preview(palette)
 	# Optional owned room themes tint the complete composition as one surface.
 	# Sunrise stays byte-neutral for the approved Phase 149 target capture.
 	if palette.tint.a > 0.0:
 		draw_rect(Rect2(Vector2.ZERO, size), palette.tint)
+	_draw_plant_drag_hint()
+
+
+func _draw_plant_drag_preview(palette: Dictionary) -> void:
+	if not plant_drag.is_tracking() or plant_drag.cancelled:
+		return
+	var centers := _decoration_visual_centers(size)
+	if not plant_drag.dragging:
+		var hold_ratio := plant_drag.hold_elapsed / PlantDragController.HOLD_SECONDS
+		if hold_ratio > 0.12:
+			draw_arc(centers[plant_drag.source_slot] + Vector2(0.0, -22.0), 25.0, -PI * 0.5, -PI * 0.5 + TAU * hold_ratio, 32, ComicUITheme.CYAN, 3.0, true)
+		return
+	var hovered := plant_slot_at_position(plant_drag.pointer_position)
+	for slot_index in range(PLANT_SLOT_COUNT):
+		var free := decoration_slots[slot_index].is_empty() or slot_index == plant_drag.source_slot
+		if not free and slot_index != hovered:
+			continue
+		var color := Color("#67d453") if free else Color("#ffc34d")
+		var width := 3.0 if slot_index == hovered else 1.5
+		var outline := PackedVector2Array()
+		for segment in range(37):
+			var angle := TAU * float(segment) / 36.0
+			outline.append(centers[slot_index] + Vector2(cos(angle) * 28.0, sin(angle) * 9.0 - 3.0))
+		# Build the ellipse in local pixels: scaling the canvas would also squash
+		# the stroke and make the target ring look broken on a narrow phone.
+		draw_polyline(outline, color, width, true)
+	# Reuse the exact existing plant renderer. Its source is hidden while lifted;
+	# only after a valid drop does the target shelf apply its foliage-height fit.
+	var lifted_center := centers[plant_drag.source_slot] + plant_drag.pointer_position - plant_drag.start_position + Vector2(0.0, -10.0)
+	_draw_decoration_item(plant_drag.decoration_id, lifted_center, palette, plant_drag.source_slot)
+
+
+func _draw_plant_drag_hint() -> void:
+	var message := plant_drag_notice
+	if plant_drag.dragging:
+		message = "PUŠTĚNÍM SI ROSTLINY VYMĚNÍ MÍSTA" if plant_drag_will_swap() else "VOLNÉ MÍSTO: PŘESUN · OBSAZENÉ: VÝMĚNA"
+	if not plant_drag.dragging and plant_drag_notice_seconds <= 0.0:
+		return
+	var hint_rect := Rect2(8.0, size.y - 34.0, maxf(1.0, size.x - 16.0), 28.0)
+	draw_rect(hint_rect, Color(0.03, 0.14, 0.18, 0.92))
+	draw_string(FontSemiBold, hint_rect.position + Vector2(5.0, 18.0), message, HORIZONTAL_ALIGNMENT_CENTER, hint_rect.size.x - 10.0, 10, ComicUITheme.CREAM)
 
 
 func _is_phase149_canonical_target_state() -> bool:
@@ -563,6 +756,8 @@ func _draw_decoration_slots(palette: Dictionary, empty_pass := false) -> void:
 	for slot_index in range(DECORATION_SLOT_COUNT):
 		if _is_hidden_decoration_slot(slot_index):
 			continue
+		if plant_drag.dragging and slot_index == plant_drag.source_slot:
+			continue
 		# The Phase 139 report-only proof bakes the complete top shelf into one
 		# coherent painting. Live gameplay never enters this branch; the three
 		# dynamic slot sprites remain authoritative until the visual is approved.
@@ -691,60 +886,66 @@ func _plant_fit_multiplier(slot_index: int, visual_asset_id: String) -> float:
 	)
 
 
-func _draw_phase158_dynamic_shelf_plant(
+func _draw_measured_shelf_plant(
 	texture: Texture2D,
-	visual_rect: Rect2,
-	source_region: Rect2,
+	asset_id: String,
 	center: Vector2,
 	slot_index: int,
-	asset_profile: Dictionary,
 	modulate: Color
 ) -> bool:
-	var row_index := clampi(
-		slot_index / 3,
-		0,
-		GardenSceneFraming.PLAYER_ROOM_PHASE158_DYNAMIC_ROW_MAX_HEIGHTS.size() - 1
-	)
-	var max_height := float(GardenSceneFraming.PLAYER_ROOM_PHASE158_DYNAMIC_ROW_MAX_HEIGHTS[row_index]) * VisualDesignSystem.design_scale(size)
-	var fitted_top := center.y - max_height
-	var ceramic_width_scale := clampf(float(asset_profile.get("dynamic_ceramic_width_scale", 1.0)), 0.75, 1.35)
-	var ceramic_height_scale := clampf(float(asset_profile.get("dynamic_ceramic_height_scale", 1.0)), 0.65, 1.25)
-	var needs_foliage_fit := visual_rect.position.y < fitted_top - 0.1
-	var needs_ceramic_size_match := (
-		not is_equal_approx(ceramic_width_scale, 1.0)
-		or not is_equal_approx(ceramic_height_scale, 1.0)
-	)
-	if not needs_foliage_fit and not needs_ceramic_size_match:
+	var offset := center - PlantRenderGeometry.slot_center(slot_index, size)
+	var mesh := _plant_mesh_for(asset_id, slot_index)
+	if mesh == null:
 		return false
-	var pot_top_fraction := clampf(float(asset_profile.get("dynamic_pot_top_fraction", 0.55)), 0.35, 0.75)
-	var authored_destination_split_y := visual_rect.position.y + visual_rect.size.y * pot_top_fraction
-	var ceramic_height := (visual_rect.end.y - authored_destination_split_y) * ceramic_height_scale
-	var destination_split_y := visual_rect.end.y - ceramic_height
-	var foliage_top := fitted_top if needs_foliage_fit else visual_rect.position.y
-	if destination_split_y <= foliage_top + 1.0:
-		return false
-	var source_split_y := source_region.position.y + source_region.size.y * pot_top_fraction
-	var foliage_rect := Rect2(
-		Vector2(visual_rect.position.x, foliage_top),
-		Vector2(visual_rect.size.x, destination_split_y - foliage_top)
-	)
-	var foliage_region := Rect2(
-		source_region.position,
-		Vector2(source_region.size.x, source_split_y - source_region.position.y)
-	)
-	var ceramic_width := visual_rect.size.x * ceramic_width_scale
-	var ceramic_x := center.x - ceramic_width * 0.5 if needs_ceramic_size_match else visual_rect.position.x
-	var ceramic_rect := Rect2(
-		Vector2(ceramic_x, destination_split_y),
-		Vector2(ceramic_width, visual_rect.end.y - destination_split_y)
-	)
-	var ceramic_region := Rect2(
-		Vector2(source_region.position.x, source_split_y),
-		Vector2(source_region.size.x, source_region.end.y - source_split_y)
-	)
-	draw_texture_rect_region(texture, foliage_rect, foliage_region, modulate)
-	draw_texture_rect_region(texture, ceramic_rect, ceramic_region, modulate)
+	# The geometry and mesh are both reused. Dragging only translates the
+	# approved vertices and UVs; it does not allocate a new placement dictionary.
+	draw_mesh(mesh, texture, Transform2D(0.0, offset), modulate)
 	return true
+
+
+func _plant_mesh_for(asset_id: String, slot_index: int) -> ArrayMesh:
+	if _plant_mesh_cache_size != size:
+		_plant_mesh_cache.clear()
+		_plant_mesh_cache_size = size
+	var key := "%s:%d" % [asset_id, slot_index]
+	if not _plant_mesh_cache.has(key):
+		var geometry := plant_render_geometry(asset_id, slot_index)
+		if geometry.is_empty():
+			return null
+		_plant_mesh_cache[key] = _build_plant_mesh(geometry)
+	return _plant_mesh_cache[key]
+
+
+func _build_plant_mesh(geometry: Dictionary) -> ArrayMesh:
+	var canvas: Vector2 = geometry.canvas
+	var bands := PlantRenderGeometry.source_bands(geometry)
+	var columns := PlantRenderGeometry.source_columns(geometry)
+	var vertices := PackedVector3Array()
+	var uvs := PackedVector2Array()
+	var indices := PackedInt32Array()
+	# Adjacent bands share identical source/destination edges. The top is one
+	# isotropic quad; only the small low-foliage join changes width smoothly.
+	# This is the same path for a resting pot, a lifted pot and a swapped pot.
+	for index in range(bands.size() - 1):
+		for column in range(columns.size() - 1):
+			var source_points := PackedVector2Array([
+				Vector2(columns[column], bands[index]), Vector2(columns[column + 1], bands[index]),
+				Vector2(columns[column + 1], bands[index + 1]), Vector2(columns[column], bands[index + 1]),
+			])
+			var first := vertices.size()
+			for point in source_points:
+				var projected := PlantRenderGeometry.project_source_point(geometry, point)
+				vertices.append(Vector3(projected.x, projected.y, 0.0))
+				uvs.append(point / canvas)
+			indices.append_array(PackedInt32Array([first, first + 1, first + 2, first, first + 2, first + 3]))
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_INDEX] = indices
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	return mesh
 
 
 func _draw_decoration_item(decoration_id: String, center: Vector2, palette: Dictionary, slot_index := -1) -> void:
@@ -790,13 +991,11 @@ func _draw_decoration_item(decoration_id: String, center: Vector2, palette: Dict
 				source_region.size.y *= 1.0 - crop_fraction
 			_draw_phase139_shelf_shadow(center)
 		var ambient_modulate := Color.WHITE if phase149_asset or phase148_plant or phase139_plant or reference_exact_plant or approved_uniform_plant else (Color(1.0, 0.965, 0.90, 1.0) if is_shelf_plant else Color.WHITE)
-		var dynamic_plant_drawn := dynamic_clean_plant and _draw_phase158_dynamic_shelf_plant(
+		var dynamic_plant_drawn := dynamic_clean_plant and _draw_measured_shelf_plant(
 			visual_texture,
-			visual_rect,
-			source_region,
+			visual_asset_id,
 			center,
 			slot_index,
-			asset_profile,
 			ambient_modulate
 		)
 		if not dynamic_plant_drawn:

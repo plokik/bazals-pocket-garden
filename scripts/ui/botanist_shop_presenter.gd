@@ -2,6 +2,7 @@ class_name BotanistShopPresenter
 extends RefCounted
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FEEDBACK_SUCCESS_COLOR := Color("#2b8a32")
 const FEEDBACK_ERROR_COLOR := Color("#c34b35")
 const MERCHANT_SUCCESS_COLOR := Color("#d8ff9a")
@@ -146,7 +147,7 @@ func _refresh_species_buy_button(button: Button, game_session: GameSession, spec
 		var unlock_level := game_session.get_botanist_seed_unlock_level(species_id)
 		button.disabled = true
 		button.text = "ÚROVEŇ %d" % unlock_level
-		button.tooltip_text = "Odemkne se na úrovni %d." % unlock_level
+		TooltipPolicy.apply(button, "Odemkne se na úrovni %d." % unlock_level)
 		return
 	refresh_buy_button(button, game_session, item_id, price)
 
@@ -157,7 +158,7 @@ func refresh_buy_button(button: Button, game_session: GameSession, item_id: Stri
 	var sold_out := game_session.get_shop_stock(item_id) <= 0
 	button.disabled = sold_out or game_session.coins < price
 	button.text = "VYPRODÁNO" if sold_out else "%d  MINCÍ" % price
-	button.tooltip_text = "Nové zásoby budou zítra." if sold_out else "Koupit za %d mincí" % price
+	TooltipPolicy.apply(button, "Nové zásoby budou zítra." if sold_out else "Koupit za %d mincí" % price)
 
 
 func refresh_sell_view(game_session: GameSession, packaged_texture: Texture2D, empty_texture: Texture2D) -> void:

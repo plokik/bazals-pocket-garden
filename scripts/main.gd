@@ -7,6 +7,7 @@ const GreenhousePreviewViewScene := preload("res://scripts/ui/greenhouse_preview
 const RoomDecorationModalScene := preload("res://scripts/ui/room_decoration_modal.gd")
 const MetricGraphScene := preload("res://scripts/ui/metric_graph.gd")
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const ComicHudScene := preload("res://scripts/ui/comic_hud.gd")
 const GuideCharacterScene := preload("res://scripts/ui/guide_character.gd")
@@ -55,6 +56,9 @@ const MeasurementMetricIconScene := preload("res://scripts/ui/measurement_metric
 const NavTouchShineShader := preload("res://assets/shaders/nav_touch_shine.gdshader")
 const InfoQuestionTexture := preload("res://assets/ui/rack/rack_help_badge_v1.png")
 const SettingsGearTexture := preload("res://assets/ui/icons/settings_gear_phase125.png")
+const RackDockPetTexture := preload("res://assets/ui/visual/phase183/rack_dock/pet_paw_phase183_v1.png")
+const RackDockProfessorTexture := preload("res://assets/ui/visual/phase183/rack_dock/professor_bazal_phase183_v1.png")
+const RackDockCareTexture := preload("res://assets/ui/visual/phase183/rack_dock/care_leaf_phase183_v1.png")
 const Phase161DailyChallengeBackdrop := preload("res://assets/ui/visual/phase161/daily_challenge/daily_challenge_clean_backdrop_v3.png")
 const Phase162CosmeticShowroomBackdrop := preload("res://assets/ui/visual/phase162/cosmetic_showroom/cosmetic_showroom_clean_backdrop_v1.png")
 const GUIDE_MODAL_DURATION := 0.34
@@ -63,6 +67,10 @@ const GUIDE_INFO_ICON_SIZE := Vector2(44.0, 44.0)
 const GUIDE_INFO_ICON_POSITION := Vector2(18.0, 12.0)
 const GUIDE_INFO_HIT_SIZE := Vector2(64.0, 64.0)
 const GUIDE_INFO_HIT_POSITION := Vector2(8.0, 2.0)
+const RACK_DOCK_BUTTON_SIZE := 68.0
+const RACK_DOCK_ICON_SIZE := 48.0
+const RACK_DOCK_BUTTON_COUNT := 4
+const RACK_DOCK_BOTTOM_INSET := 8.0
 const GUIDE_MODAL_DIM := Color("#071823", 0.84)
 const GUIDE_MODAL_CHARACTER_OFFSET := Vector2(-54.0, 92.0)
 const GUIDE_MODAL_CARD_OFFSET := Vector2(72.0, 0.0)
@@ -81,9 +89,9 @@ const HUD_CARD_RECTS := [
 	Rect2(0.659, 0.02, 0.336, 0.96),
 ]
 const HUD_DAY_ICON_RECT := Rect2(0.068, 0.22, 0.110, 0.57)
-const HUD_DAY_TEXT_RECT := Rect2(0.176, 0.24, 0.112, 0.52)
+const HUD_DAY_TEXT_RECT := Rect2(0.165, 0.24, 0.148, 0.52)
 const HUD_COIN_ICON_RECT := Rect2(0.396, 0.165, 0.114, 0.68)
-const HUD_COIN_TEXT_RECT := Rect2(0.515, 0.24, 0.094, 0.52)
+const HUD_COIN_TEXT_RECT := Rect2(0.495, 0.24, 0.148, 0.52)
 const HUD_LEVEL_TEXT_RECT := Rect2(0.70, 0.20, 0.22, 0.28)
 const HUD_XP_GAIN_RECT := Rect2(0.79, 0.04, 0.17, 0.40)
 const HUD_XP_BAR_RECT := Rect2(0.695, 0.54, 0.267, 0.28)
@@ -324,6 +332,9 @@ var detail_dialog_toggle_button: Button
 var detail_dialog_info_icon: TextureRect
 var detail_dialog_open := false
 var detail_dialog_tween: Tween
+var professor_research_launcher_button: Button
+var professor_research_launcher_icon: TextureRect
+var professor_research_lock_badge: PanelContainer
 var guide_portrait: GuideCharacter
 var guide_modal: Control
 var guide_modal_dimmer: ColorRect
@@ -358,7 +369,12 @@ var feedback_layer: GameFeedbackLayer
 var audio_haptics: GameAudioHaptics
 var settings_launcher_button: Button
 var settings_launcher_icon: TextureRect
+var rack_pet_launcher_button: Button
+var rack_pet_launcher_icon: TextureRect
 var care_center_launcher_button: Button
+var care_center_launcher_icon: TextureRect
+var care_center_attention_badge: PanelContainer
+var care_center_attention_label: Label
 var settings_modal: Control
 var settings_modal_open := false
 var seed_selector_modal: Control
@@ -568,6 +584,9 @@ func _process(delta: float) -> void:
 
 
 func _notification(what: int) -> void:
+	if what in [NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_OUT]:
+		if player_room_view != null:
+			player_room_view.cancel_plant_drag(true)
 	if what == NOTIFICATION_WM_SIZE_CHANGED:
 		call_deferred("_apply_display_safe_area")
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
@@ -600,6 +619,9 @@ func _notification(what: int) -> void:
 
 func _consume_mobile_back_navigation() -> bool:
 	_reset_swipe_tracking()
+	if player_room_view != null and player_room_view.plant_drag.is_tracking():
+		player_room_view.cancel_plant_drag()
+		return true
 	if external_file_picker_open:
 		return true
 	if local_backup_open:
@@ -680,6 +702,17 @@ func _request_safe_exit() -> bool:
 
 
 func _input(event: InputEvent) -> void:
+	# Phase166 owns the full plant gesture before GUI buttons or tab navigation.
+	if player_room_view != null:
+		player_room_view.set_plant_drag_enabled(_room_plant_drag_available())
+		if event.is_action_pressed("ui_cancel") and player_room_view.plant_drag.is_tracking():
+			player_room_view.cancel_plant_drag()
+			get_viewport().set_input_as_handled()
+			return
+		if player_room_view.handle_plant_drag_input(event):
+			_reset_swipe_tracking()
+			get_viewport().set_input_as_handled()
+			return
 	if not _top_level_swipe_navigation_available():
 		_reset_swipe_tracking()
 		return
@@ -717,6 +750,8 @@ func _update_swipe_axis(position: Vector2) -> int:
 	touch_axis_lock = screen_navigation_controller.resolve_drag_axis(position - touch_start)
 	if touch_axis_lock != ScreenNavigationControllerScene.DRAG_AXIS_UNDECIDED:
 		swipe_action_suppressed = true
+		if room_overview != null:
+			room_overview.cancel_pointer_interactions()
 	return touch_axis_lock
 
 
@@ -777,6 +812,10 @@ func _top_level_swipe_navigation_available() -> bool:
 	return garden_location_id == GARDEN_LOCATION_RACK and plants_room_panel != null and plants_room_panel.visible and plant_detail_panel != null and not plant_detail_panel.visible
 
 
+func _room_plant_drag_available() -> bool:
+	return session != null and active_screen == 0 and garden_location_id == GARDEN_LOCATION_PLAYER_ROOM and player_room_view != null and player_room_view.is_visible_in_tree() and not _is_blocking_modal_open() and not is_garden_handover_active and not external_file_picker_open
+
+
 func _active_content_scroll() -> ScrollContainer:
 	match active_screen:
 		1:
@@ -816,6 +855,10 @@ func _build_theme() -> void:
 	app_theme.set_stylebox("disabled", "Button", ComicUITheme.style_box(Color("#c8c6aa"), Color("#59616a"), 3, 11, Color.TRANSPARENT, 0))
 	app_theme.set_stylebox("panel", "PanelContainer", ComicUITheme.style_box(ComicUITheme.PAPER, ComicUITheme.INK, 3, 14))
 	app_theme.set_stylebox("panel", "Panel", ComicUITheme.style_box(ComicUITheme.PAPER, ComicUITheme.INK, 3, 14))
+	app_theme.set_stylebox("panel", "TooltipPanel", ComicUITheme.style_box(ComicUITheme.CREAM, ComicUITheme.INK, 3, 9, ComicUITheme.SHADOW, 3, 7.0))
+	app_theme.set_font("font", "TooltipLabel", FontSemiBold)
+	app_theme.set_font_size("font_size", "TooltipLabel", 13)
+	app_theme.set_color("font_color", "TooltipLabel", ComicUITheme.INK)
 	app_theme.set_stylebox("background", "ProgressBar", ComicUITheme.style_box(Color("#174f56"), ComicUITheme.INK, 2, 8, Color.TRANSPARENT, 0, 0.0))
 	app_theme.set_stylebox("fill", "ProgressBar", ComicUITheme.style_box(ComicUITheme.GREEN, Color("#2d8f30"), 2, 8, Color.TRANSPARENT, 0, 0.0))
 	app_theme.set_color("font_color", "ProgressBar", Color.WHITE)
@@ -1105,7 +1148,7 @@ func _build_header() -> Control:
 	daily_challenge_launcher = Button.new()
 	daily_challenge_launcher.flat = true
 	daily_challenge_launcher.focus_mode = Control.FOCUS_NONE
-	daily_challenge_launcher.tooltip_text = "Otevřít dnešní výzvu a předpověď"
+	TooltipPolicy.apply(daily_challenge_launcher, "Otevřít dnešní výzvu a předpověď")
 	daily_challenge_launcher.set_anchor(SIDE_LEFT, HUD_CARD_RECTS[0].position.x)
 	daily_challenge_launcher.set_anchor(SIDE_TOP, HUD_CARD_RECTS[0].position.y)
 	daily_challenge_launcher.set_anchor(SIDE_RIGHT, HUD_CARD_RECTS[0].end.x)
@@ -1120,7 +1163,7 @@ func _build_header() -> Control:
 	level_progression_launcher = Button.new()
 	level_progression_launcher.flat = true
 	level_progression_launcher.focus_mode = Control.FOCUS_NONE
-	level_progression_launcher.tooltip_text = "Otevřít cestu pěstitele a odměny za úrovně"
+	TooltipPolicy.apply(level_progression_launcher, "Otevřít cestu pěstitele a odměny za úrovně")
 	level_progression_launcher.set_anchor(SIDE_LEFT, HUD_CARD_RECTS[2].position.x)
 	level_progression_launcher.set_anchor(SIDE_TOP, HUD_CARD_RECTS[2].position.y)
 	level_progression_launcher.set_anchor(SIDE_RIGHT, HUD_CARD_RECTS[2].end.x)
@@ -1153,6 +1196,7 @@ func _build_garden_screen() -> Control:
 	room_overview.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	room_overview.custom_minimum_size.y = 470
 	room_overview.slot_selected.connect(_open_plant_detail)
+	room_overview.light_toggle_requested.connect(_on_rack_light_toggle_requested)
 	plants_room_panel.add_child(room_overview)
 	var room_guide := _build_guide_panel(true)
 	room_guide.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
@@ -1180,57 +1224,78 @@ func _build_garden_screen() -> Control:
 	rack_player_room_button.set_meta("location_target", GARDEN_LOCATION_PLAYER_ROOM)
 	rack_player_room_button.pressed.connect(_open_player_room)
 	plants_room_panel.add_child(rack_player_room_button)
-	care_center_launcher_button = Button.new()
-	care_center_launcher_button.text = "PÉČE"
-	care_center_launcher_button.set_anchor(SIDE_LEFT, 1.0)
-	care_center_launcher_button.set_anchor(SIDE_TOP, 1.0)
-	care_center_launcher_button.set_anchor(SIDE_RIGHT, 1.0)
-	care_center_launcher_button.set_anchor(SIDE_BOTTOM, 1.0)
-	care_center_launcher_button.offset_left = -146.0
-	care_center_launcher_button.offset_top = -76.0
-	care_center_launcher_button.offset_right = -78.0
-	care_center_launcher_button.offset_bottom = -8.0
-	care_center_launcher_button.z_index = 10
-	care_center_launcher_button.focus_mode = Control.FOCUS_NONE
-	care_center_launcher_button.add_theme_font_override("font", FontExtraBold)
-	care_center_launcher_button.add_theme_font_size_override("font_size", 11)
-	care_center_launcher_button.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	ComicUITheme.apply_button(care_center_launcher_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 14)
-	care_center_launcher_button.set_meta("component", "phase125_rack_care_launcher_v1")
-	care_center_launcher_button.set_meta("touch_target_min", Vector2(68, 68))
-	care_center_launcher_button.tooltip_text = "Otevřít přehled péče o rostliny"
-	care_center_launcher_button.pressed.connect(_open_care_center)
-	plants_room_panel.add_child(care_center_launcher_button)
-	settings_launcher_button = Button.new()
-	settings_launcher_button.set_anchor(SIDE_LEFT, 1.0)
-	settings_launcher_button.set_anchor(SIDE_TOP, 1.0)
-	settings_launcher_button.set_anchor(SIDE_RIGHT, 1.0)
-	settings_launcher_button.set_anchor(SIDE_BOTTOM, 1.0)
-	settings_launcher_button.offset_left = -78.0
-	settings_launcher_button.offset_top = -76.0
-	settings_launcher_button.offset_right = -10.0
-	settings_launcher_button.offset_bottom = -8.0
-	settings_launcher_button.z_index = 10
-	settings_launcher_button.focus_mode = Control.FOCUS_NONE
-	ComicUITheme.apply_button(settings_launcher_button, ComicUITheme.PURPLE, ComicUITheme.CREAM, 18)
-	settings_launcher_button.tooltip_text = "Otevřít hráčské nastavení"
-	settings_launcher_button.set_meta("component", "phase125_player_settings_gear_v1")
-	settings_launcher_button.set_meta("asset", "settings_gear_phase125.png")
-	settings_launcher_button.set_meta("touch_target_min", Vector2(68, 68))
-	settings_launcher_button.pressed.connect(_open_settings_modal)
-	plants_room_panel.add_child(settings_launcher_button)
-	settings_launcher_icon = TextureRect.new()
-	settings_launcher_icon.texture = SettingsGearTexture
-	settings_launcher_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	settings_launcher_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	settings_launcher_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	settings_launcher_icon.set_anchors_preset(Control.PRESET_CENTER)
-	settings_launcher_icon.offset_left = -24.0
-	settings_launcher_icon.offset_top = -24.0
-	settings_launcher_icon.offset_right = 24.0
-	settings_launcher_icon.offset_bottom = 24.0
-	settings_launcher_icon.set_meta("component", "phase125_settings_gear_png_v1")
-	settings_launcher_button.add_child(settings_launcher_icon)
+	rack_pet_launcher_button = _build_rack_dock_launcher(
+		plants_room_panel,
+		0,
+		RackDockPetTexture,
+		ComicUITheme.CYAN,
+		"phase183_rack_pet_launcher_v1",
+		"pet_paw_phase183_v1.png",
+		"Doplňky, mazlíček a vzhled pokoje",
+		_open_cosmetic_modal
+	)
+	rack_pet_launcher_icon = rack_pet_launcher_button.get_node("Icon") as TextureRect
+	professor_research_launcher_button = _build_rack_dock_launcher(
+		plants_room_panel,
+		1,
+		RackDockProfessorTexture,
+		ComicUITheme.ORANGE,
+		"phase183_professor_research_launcher_v1",
+		"professor_bazal_phase183_v1.png",
+		"Otevřít Profesorův výzkum",
+		_on_professor_research_launcher_pressed
+	)
+	professor_research_launcher_icon = professor_research_launcher_button.get_node("Icon") as TextureRect
+	var story_badge := _build_rack_dock_badge(
+		professor_research_launcher_button,
+		"!",
+		ComicUITheme.ORANGE,
+		"professor_story_attention_badge_v2",
+		Vector2(26.0, 26.0),
+		15
+	)
+	story_badge.set_meta("state", "new_or_claimable")
+	story_badge.set_meta("launcher", "phase183_rack_dock_professor")
+	professor_story_badges.append(story_badge)
+	professor_research_lock_badge = _build_rack_dock_badge(
+		professor_research_launcher_button,
+		"ZÁM",
+		ComicUITheme.GOLD,
+		"phase183_professor_lock_badge_v1",
+		Vector2(32.0, 22.0),
+		7
+	)
+	care_center_launcher_button = _build_rack_dock_launcher(
+		plants_room_panel,
+		2,
+		RackDockCareTexture,
+		ComicUITheme.GREEN,
+		"phase183_rack_care_launcher_v1",
+		"care_leaf_phase183_v1.png",
+		"Otevřít přehled péče o rostliny",
+		_open_care_center
+	)
+	care_center_launcher_icon = care_center_launcher_button.get_node("Icon") as TextureRect
+	care_center_attention_badge = _build_rack_dock_badge(
+		care_center_launcher_button,
+		"0",
+		ComicUITheme.ORANGE,
+		"phase183_care_attention_badge_v1",
+		Vector2(26.0, 26.0),
+		12
+	)
+	care_center_attention_label = care_center_attention_badge.get_node("Label") as Label
+	settings_launcher_button = _build_rack_dock_launcher(
+		plants_room_panel,
+		3,
+		SettingsGearTexture,
+		ComicUITheme.PURPLE,
+		"phase183_player_settings_launcher_v1",
+		"settings_gear_phase125.png",
+		"Otevřít hráčské nastavení",
+		_open_settings_modal
+	)
+	settings_launcher_icon = settings_launcher_button.get_node("Icon") as TextureRect
 
 	player_room_panel = Control.new()
 	player_room_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1242,6 +1307,8 @@ func _build_garden_screen() -> Control:
 	player_room_view.rack_requested.connect(_open_rack_location)
 	player_room_view.theme_requested.connect(_open_cosmetic_modal)
 	player_room_view.decoration_slot_requested.connect(_open_room_decoration_modal)
+	player_room_view.plant_move_requested.connect(_on_room_plant_move_requested)
+	player_room_view.plant_drag_started.connect(_on_room_plant_drag_started)
 	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 	player_room_panel.add_child(player_room_view)
 
@@ -1267,7 +1334,7 @@ func _build_garden_screen() -> Control:
 	plant_detail_panel.visible = false
 	view_stack.add_child(plant_detail_panel)
 
-	plant_detail_selector = HBoxContainer.new()
+	plant_detail_selector = preload("res://scripts/ui/plant_detail_header.gd").new()
 	plant_detail_selector.name = "PlantDetailHeader"
 	plant_detail_selector.custom_minimum_size.y = 50
 	plant_detail_selector.add_theme_constant_override("separation", 5)
@@ -1410,7 +1477,7 @@ func _build_garden_screen() -> Control:
 	plant_diagnosis_launcher.flat = true
 	plant_diagnosis_launcher.focus_mode = Control.FOCUS_NONE
 	plant_diagnosis_launcher.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	plant_diagnosis_launcher.tooltip_text = "Otevřít diagnostiku rostliny"
+	TooltipPolicy.apply(plant_diagnosis_launcher, "Otevřít diagnostiku rostliny")
 	plant_diagnosis_launcher.set_meta("component", "plant_diagnosis_launcher_v1")
 	plant_diagnosis_launcher.set_meta("touch_target_min_height", 70)
 	plant_diagnosis_launcher.set_meta("transparent_overlay", true)
@@ -1482,32 +1549,11 @@ func _build_guide_panel(primary: bool) -> PanelContainer:
 	portrait_button.flat = true
 	portrait_button.focus_mode = Control.FOCUS_NONE
 	portrait_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	portrait_button.tooltip_text = "Zobrazit nápovědu"
+	TooltipPolicy.apply(portrait_button, "Zobrazit nápovědu")
 	for state in ["normal", "hover", "pressed", "focus", "disabled", "hover_pressed"]:
 		portrait_button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	portrait_button.pressed.connect(_toggle_guide_dialog.bind(primary))
 	canvas.add_child(portrait_button)
-	var story_badge := PanelContainer.new()
-	story_badge.position = Vector2(51.0, 3.0)
-	story_badge.size = Vector2(28.0, 28.0)
-	story_badge.custom_minimum_size = Vector2(28.0, 28.0)
-	story_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	story_badge.z_index = 3
-	story_badge.visible = false
-	story_badge.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.ORANGE, ComicUITheme.CREAM, 3, 14, Color("#07131c", 0.42), 3, 3.0))
-	story_badge.set_meta("component", "professor_story_attention_badge_v1")
-	story_badge.set_meta("state", "new_or_claimable")
-	var story_badge_label := Label.new()
-	story_badge_label.text = "!"
-	story_badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	story_badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	story_badge_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	story_badge_label.add_theme_font_override("font", FontExtraBold)
-	story_badge_label.add_theme_font_size_override("font_size", 16)
-	story_badge_label.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	story_badge.add_child(story_badge_label)
-	canvas.add_child(story_badge)
-	professor_story_badges.append(story_badge)
 	if primary:
 		dialog_panel = panel
 		dialog_toggle_button = portrait_button
@@ -1517,6 +1563,7 @@ func _build_guide_panel(primary: bool) -> PanelContainer:
 		detail_dialog_toggle_button = portrait_button
 		detail_dialog_info_icon = info_icon
 	panel.set_meta("interaction", "open_fullscreen_guide_modal")
+	panel.set_meta("professor_research_launcher", "moved_to_compact_rack_dock_phase183_v1" if primary else "not_present_in_detail")
 	panel.set_meta("background_mode", "launcher_only")
 	panel.set_meta("closed_visual", "question_only")
 	panel.set_meta("touch_target_min", 64)
@@ -1649,7 +1696,7 @@ func _build_guide_modal() -> Control:
 	guide_modal_close_button.add_theme_font_override("font", FontExtraBold)
 	guide_modal_close_button.add_theme_font_size_override("font_size", 28)
 	_apply_comic_button_style(guide_modal_close_button, ComicUITheme.ORANGE, Color.WHITE, 14)
-	guide_modal_close_button.tooltip_text = "Zavřít"
+	TooltipPolicy.apply(guide_modal_close_button, "Zavřít")
 	guide_modal_close_button.pressed.connect(_on_guide_modal_close_pressed)
 	overlay.add_child(guide_modal_close_button)
 	dialog_label = guide_modal_label
@@ -4092,6 +4139,26 @@ func _on_room_decoration_requested(decoration_id: String, slot_index: int) -> vo
 		audio_haptics.play_ui("confirm" if changed else "error")
 
 
+func _on_room_plant_drag_started() -> void:
+	if audio_haptics != null:
+		audio_haptics.play_ui("tap")
+
+
+func _on_room_plant_move_requested(source_slot: int, target_slot: int, decoration_id: String) -> void:
+	if not _room_plant_drag_available():
+		return
+	var swapped := target_slot >= 0 and target_slot < GameSession.ROOM_PLANT_SLOT_COUNT and not session.room_decoration_slots[target_slot].is_empty()
+	var moved := session.move_room_plant(source_slot, target_slot, decoration_id)
+	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+	if moved and not _save_current_session():
+		# The existing blocking save-failure dialog owns retry/recovery. Never
+		# claim persistence while the filesystem rejected the write.
+		return
+	player_room_view.show_plant_move_result(moved, swapped)
+	if audio_haptics != null:
+		audio_haptics.play_ui("confirm" if moved else "error")
+
+
 func _on_room_decoration_clear_requested(slot_index: int) -> void:
 	if session == null or room_decoration_modal == null or not room_decoration_open:
 		return
@@ -5289,18 +5356,31 @@ func _refresh_professor_story_badges() -> void:
 	# Keep the claimed finale visually complete for the remainder of the open
 	# story presentation. Closing the modal immediately falls back to hub
 	# attention and reveals the unread weekly offer on both Professor launchers.
-	var badge_visible := session.has_professor_hub_attention()
+	var story_unlocked := session.is_professor_story_unlocked()
+	var badge_visible := story_unlocked and session.has_professor_hub_attention()
 	if professor_story_open and professor_story_content_mode == "story_chapter":
 		badge_visible = session.has_professor_story_attention()
 	for badge in professor_story_badges:
 		if badge != null:
 			badge.visible = badge_visible
-	var story_unlocked := session.is_professor_story_unlocked()
-	var tooltip := "Otevřít Profesorův výzkum" if story_unlocked else "Zobrazit nápovědu"
 	if dialog_toggle_button != null:
-		dialog_toggle_button.tooltip_text = tooltip
+		TooltipPolicy.apply(dialog_toggle_button, "Zobrazit nápovědu")
 	if detail_dialog_toggle_button != null:
-		detail_dialog_toggle_button.tooltip_text = tooltip
+		TooltipPolicy.apply(detail_dialog_toggle_button, "Zobrazit nápovědu")
+	if professor_research_launcher_button != null:
+		professor_research_launcher_button.visible = true
+		professor_research_launcher_button.disabled = false
+		professor_research_launcher_button.modulate = Color.WHITE
+		professor_research_launcher_button.set_meta("research_locked", not story_unlocked)
+		TooltipPolicy.apply(
+			professor_research_launcher_button,
+			"Otevřít Profesorův výzkum" if story_unlocked else "Profesorův výzkum se odemkne po předání zahrady"
+		)
+	if professor_research_launcher_icon != null:
+		professor_research_launcher_icon.visible = true
+		professor_research_launcher_icon.modulate = Color.WHITE if story_unlocked else Color(0.80, 0.80, 0.80, 0.96)
+	if professor_research_lock_badge != null:
+		professor_research_lock_badge.visible = not story_unlocked
 
 
 func _on_professor_story_action_pressed() -> void:
@@ -5447,12 +5527,25 @@ func _on_professor_story_chapter_changed(_chapter_id: String, _state: Dictionary
 func _toggle_guide_dialog(primary: bool) -> void:
 	if is_garden_handover_active:
 		return
-	if session != null and session.is_professor_story_unlocked():
-		_set_professor_story_open(not professor_story_open)
-		return
 	if not dialog_open and session != null:
 		_show_dialog(session.get_journey_dialog_text())
 	_set_guide_modal_open(not dialog_open, not session.reduced_motion)
+
+
+func _toggle_professor_research() -> void:
+	if is_garden_handover_active or session == null or not session.is_professor_story_unlocked():
+		return
+	_set_professor_story_open(not professor_story_open)
+
+
+func _on_professor_research_launcher_pressed() -> void:
+	if session == null or is_garden_handover_active:
+		return
+	if not session.is_professor_story_unlocked():
+		_show_dialog("Profesorův výzkum se odemkne po dokončení předání zahrady.")
+		_set_guide_modal_open(true, not session.reduced_motion)
+		return
+	_toggle_professor_research()
 
 
 func _set_guide_modal_open(opening: bool, animate: bool) -> void:
@@ -5559,7 +5652,7 @@ func _on_guide_modal_dimmer_input(event: InputEvent) -> void:
 
 func _icon_action_button(text_value: String, callback: Callable, icon_texture: Texture2D, background_texture: Texture2D, text_color := Color("#fffdf4")) -> Button:
 	var button := _action_button("", callback)
-	button.tooltip_text = text_value
+	TooltipPolicy.apply(button, text_value)
 	button.custom_minimum_size.y = 68
 	var fill := DETAIL_BLUE
 	if background_texture == ButtonGreenTexture:
@@ -6468,7 +6561,7 @@ func _build_navigation() -> Control:
 		button.offset_right = -2.0
 		button.focus_mode = Control.FOCUS_NONE
 		button.clip_contents = true
-		button.tooltip_text = button.text
+		TooltipPolicy.apply(button, button.text)
 		ComicUITheme.apply_button(button, Color("#fff3c4"), ComicUITheme.INK, 12, ComicUITheme.INK, 3)
 		button.add_theme_color_override("font_color", Color.TRANSPARENT)
 		button.add_theme_color_override("font_hover_color", Color.TRANSPARENT)
@@ -7043,7 +7136,103 @@ func _build_rack_location_button(text_value: String, fill: Color) -> Button:
 	return button
 
 
+func _build_rack_dock_launcher(
+	parent: Control,
+	index: int,
+	icon_texture: Texture2D,
+	fill: Color,
+	component: String,
+	asset_name: String,
+	tooltip_text: String,
+	callback: Callable
+) -> Button:
+	var button := Button.new()
+	button.name = "RackDockLauncher%d" % index
+	button.text = ""
+	button.clip_contents = false
+	button.focus_mode = Control.FOCUS_NONE
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.set_anchor(SIDE_LEFT, 0.5)
+	button.set_anchor(SIDE_TOP, 1.0)
+	button.set_anchor(SIDE_RIGHT, 0.5)
+	button.set_anchor(SIDE_BOTTOM, 1.0)
+	var group_width := RACK_DOCK_BUTTON_SIZE * float(RACK_DOCK_BUTTON_COUNT)
+	var left := -group_width * 0.5 + float(index) * RACK_DOCK_BUTTON_SIZE
+	button.offset_left = left
+	button.offset_top = -RACK_DOCK_BOTTOM_INSET - RACK_DOCK_BUTTON_SIZE
+	button.offset_right = left + RACK_DOCK_BUTTON_SIZE
+	button.offset_bottom = -RACK_DOCK_BOTTOM_INSET
+	button.custom_minimum_size = Vector2(RACK_DOCK_BUTTON_SIZE, RACK_DOCK_BUTTON_SIZE)
+	button.z_index = 10
+	ComicUITheme.apply_button(button, fill, ComicUITheme.CREAM, 16)
+	TooltipPolicy.apply(button, tooltip_text)
+	button.set_meta("component", component)
+	button.set_meta("asset", asset_name)
+	button.set_meta("dock_index", index)
+	button.set_meta("dock_group", "compact_four_icon_phase183_v1")
+	button.set_meta("touch_target_min", Vector2(RACK_DOCK_BUTTON_SIZE, RACK_DOCK_BUTTON_SIZE))
+	button.set_meta("icon_policy", "transparent_cropped_png_48_v1")
+	if callback.is_valid():
+		button.pressed.connect(callback)
+	parent.add_child(button)
+
+	var icon := TextureRect.new()
+	icon.name = "Icon"
+	icon.texture = icon_texture
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.set_anchors_preset(Control.PRESET_CENTER)
+	icon.offset_left = -RACK_DOCK_ICON_SIZE * 0.5
+	icon.offset_top = -RACK_DOCK_ICON_SIZE * 0.5
+	icon.offset_right = RACK_DOCK_ICON_SIZE * 0.5
+	icon.offset_bottom = RACK_DOCK_ICON_SIZE * 0.5
+	icon.set_meta("component", "%s_icon_png" % component)
+	icon.set_meta("alpha_policy", "clean_transparent_edge_v1")
+	button.add_child(icon)
+	return button
+
+
+func _build_rack_dock_badge(
+	parent: Button,
+	text_value: String,
+	fill: Color,
+	component: String,
+	badge_size: Vector2,
+	font_size: int
+) -> PanelContainer:
+	var badge := PanelContainer.new()
+	badge.name = "Badge"
+	badge.set_anchor(SIDE_LEFT, 1.0)
+	badge.set_anchor(SIDE_RIGHT, 1.0)
+	badge.offset_left = -badge_size.x
+	badge.offset_top = 0.0
+	badge.offset_right = 0.0
+	badge.offset_bottom = badge_size.y
+	badge.custom_minimum_size = badge_size
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.z_index = 4
+	badge.visible = false
+	badge.add_theme_stylebox_override("panel", ComicUITheme.style_box(fill, ComicUITheme.CREAM, 2, 11, Color("#07131c", 0.42), 2, 2.0))
+	badge.set_meta("component", component)
+	var label := Label.new()
+	label.name = "Label"
+	label.text = text_value
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_override("font", FontExtraBold)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", ComicUITheme.INK if fill == ComicUITheme.GOLD else ComicUITheme.CREAM)
+	badge.add_child(label)
+	parent.add_child(badge)
+	return badge
+
+
 func _change_screen(index: int, refresh_active := true, transition_direction_override := 0) -> void:
+	if index != active_screen and player_room_view != null:
+		player_room_view.cancel_plant_drag()
 	var previous_screen := active_screen
 	active_screen = screen_navigation_controller.apply_screen(index, active_screen, screens, nav_buttons, session, feedback_layer, transition_direction_override)
 	if active_screen != 0 and plant_view != null:
@@ -7068,6 +7257,18 @@ func _open_plant_detail(index: int) -> void:
 	_refresh_ui()
 
 
+func _on_rack_light_toggle_requested(index: int) -> void:
+	if session == null or room_overview == null:
+		return
+	if swipe_action_suppressed:
+		room_overview.play_light_denied(index)
+		return
+	if session.toggle_lamp_for_slot(index):
+		_save_and_refresh()
+	else:
+		room_overview.play_light_denied(index)
+
+
 func _open_room() -> void:
 	_show_garden_location(GARDEN_LOCATION_RACK)
 	plant_view.clear_behavior_trigger()
@@ -7089,6 +7290,8 @@ func _open_greenhouse() -> void:
 
 
 func _show_garden_location(location_id: String) -> void:
+	if player_room_view != null:
+		player_room_view.cancel_plant_drag()
 	var normalized_id := location_id
 	if normalized_id not in [GARDEN_LOCATION_RACK, GARDEN_LOCATION_PLAYER_ROOM, GARDEN_LOCATION_GREENHOUSE]:
 		normalized_id = GARDEN_LOCATION_RACK
@@ -7136,8 +7339,12 @@ func _refresh_rack_controls() -> void:
 	if care_center_launcher_button == null or session == null:
 		return
 	var attention_count := maxi(0, session.get_care_attention_count())
-	care_center_launcher_button.text = "PÉČE" if attention_count <= 0 else "PÉČE %d" % attention_count
+	care_center_launcher_button.text = ""
 	care_center_launcher_button.set_meta("care_attention_count", attention_count)
+	if care_center_attention_badge != null:
+		care_center_attention_badge.visible = attention_count > 0
+	if care_center_attention_label != null:
+		care_center_attention_label.text = "99+" if attention_count > 99 else str(attention_count)
 
 
 func _select_adjacent_plant(offset: int) -> void:
@@ -7303,6 +7510,7 @@ func _sync_background_animation_state() -> void:
 	room_overview.set_paused(should_pause)
 	room_overview.set_fast_time_visuals(stabilize_fast_time_visuals)
 	player_room_view.set_paused(should_pause)
+	player_room_view.set_plant_drag_enabled(_room_plant_drag_available())
 	player_room_view.set_fast_time_visuals(stabilize_fast_time_visuals)
 	greenhouse_preview_view.set_paused(should_pause)
 	greenhouse_preview_view.set_fast_time_visuals(stabilize_fast_time_visuals)
@@ -7327,17 +7535,17 @@ func _refresh_equipment_shop() -> void:
 		if bool(state.get("is_max", false)):
 			effect_label.text = "%s\nMAXIMUM" % current_effect
 			button.text = "MAXIMUM"
-			button.tooltip_text = "Tato pomůcka je plně vylepšená."
+			TooltipPolicy.apply(button, "Tato pomůcka je plně vylepšená.")
 			button.disabled = true
 		elif not bool(state.get("unlocked", false)):
 			effect_label.text = "%s\n→ %s" % [current_effect, str(state.get("next_effect", ""))]
 			button.text = "OD ÚR. %d" % int(state.get("unlock_level", 1))
-			button.tooltip_text = "Odemkne se na úrovni hráče %d." % int(state.get("unlock_level", 1))
+			TooltipPolicy.apply(button, "Odemkne se na úrovni hráče %d." % int(state.get("unlock_level", 1)))
 			button.disabled = true
 		else:
 			effect_label.text = "%s\n→ %s" % [current_effect, str(state.get("next_effect", ""))]
 			button.text = "VYLEPŠIT · %d" % int(state.get("price", 0))
-			button.tooltip_text = "Vylepšit za %d mincí." % int(state.get("price", 0))
+			TooltipPolicy.apply(button, "Vylepšit za %d mincí." % int(state.get("price", 0)))
 			button.disabled = not bool(state.get("affordable", false))
 
 
@@ -7533,7 +7741,7 @@ func _apply_garden_handover_mode() -> void:
 		guide_modal_confirm_button.text = "DALŠÍ"
 	if guide_modal_close_button != null:
 		guide_modal_close_button.text = "×"
-		guide_modal_close_button.tooltip_text = "PŘESKOČIT PŘEDÁNÍ"
+		TooltipPolicy.apply(guide_modal_close_button, "PŘESKOČIT PŘEDÁNÍ")
 	if guide_modal_name_label != null:
 		guide_modal_name_label.text = "PROFESOR BAZAL"
 
@@ -7544,7 +7752,7 @@ func _apply_normal_guide_mode() -> void:
 	if guide_modal_confirm_button != null:
 		guide_modal_confirm_button.text = "ROZUMÍM"
 	if guide_modal_close_button != null:
-		guide_modal_close_button.tooltip_text = "Zavřít"
+		TooltipPolicy.apply(guide_modal_close_button, "Zavřít")
 	if guide_modal_name_label != null:
 		guide_modal_name_label.text = "PROFESOR BAZAL"
 
@@ -7669,6 +7877,8 @@ func _on_session_feedback(kind: String, slot_index: int, payload: Dictionary) ->
 		return
 	if kind == "plant_behavior" and (active_screen != 0 or plant_detail_panel == null or not plant_detail_panel.visible or _is_blocking_modal_open()):
 		return
+	if kind == "light" and room_overview != null:
+		room_overview.play_light_toggle(slot_index, bool(payload.get("enabled", false)))
 	if audio_haptics != null:
 		var audio_kind := kind
 		if kind in ["plant_wilted", "plant_dead"]:

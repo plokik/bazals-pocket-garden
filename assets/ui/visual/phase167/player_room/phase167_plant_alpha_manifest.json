@@ -1,0 +1,226 @@
+{
+  "schema": "phase167_room_plant_alpha_v1",
+  "status": "PASSED",
+  "method": "plant_only_chroma48_connected_background_inward_feather_rgb_unchanged",
+  "source_atlas": "docs/visual-proposals/phase147/player-room-painted-cartoon-plants-atlas-checker-source-v1.png",
+  "source_atlas_sha256": "0735BB39144E113228088973DE87B4A4C655D5557391477D54E0BE4513572D24",
+  "historical_png_policy": "unchanged_append_only_derivatives",
+  "assets": [
+    {
+      "id": "orchid",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_orchid_phase148.png",
+      "source_sha256": "C23F2E27C21AFA10F518F388E54C2486C75AD40111A68F4597D3205A7F8F77BC",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_orchid_phase167.png",
+      "size": [
+        249,
+        412
+      ],
+      "restored_pixels": 2370,
+      "restored_pink_pixels": 811,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "1BBDAA1747ABE1B48343727CBE454F62454D086BFEA006129731A18611B05C64"
+    },
+    {
+      "id": "glossy_broadleaf",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_glossy_broadleaf_phase148.png",
+      "source_sha256": "BFC4444D92F47AFB23F371C1CC4C843EEEF3DFCD301F17BBE719B95B34840CE7",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_glossy_broadleaf_phase167.png",
+      "size": [
+        234,
+        372
+      ],
+      "restored_pixels": 177,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "CE69E6A69F499A9E75488E069E2E8E64E00EBCA40FD9D123086CD1365547CD38"
+    },
+    {
+      "id": "snake_plant",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_snake_plant_phase148.png",
+      "source_sha256": "E47BF35E263B0F0D3EBFE4CA8E14FEFC71651B797F852E78ABC7BB232D521776",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_snake_plant_phase167.png",
+      "size": [
+        215,
+        421
+      ],
+      "restored_pixels": 190,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "486B84D419F5643B552214320663EB7D3395423AE7E047864D55BD2706797127"
+    },
+    {
+      "id": "fern",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png",
+      "source_sha256": "CF81428C349D63601CD7C670E46AAFB18A43A9100A49D6A701FA305388E8FBAA",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_fern_phase167.png",
+      "size": [
+        281,
+        376
+      ],
+      "restored_pixels": 310,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "90ED99E2F17D7BE87EA002E622D689C93C9BEC739E620D68692FF31AAB16200B"
+    },
+    {
+      "id": "flowering_begonia",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_flowering_begonia_phase148.png",
+      "source_sha256": "1F1F7DBCE5F7B6C1A7D985155B7C272D7D2851A2C0AAA12A9B96AFDF920E2F30",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_flowering_begonia_phase167.png",
+      "size": [
+        268,
+        360
+      ],
+      "restored_pixels": 713,
+      "restored_pink_pixels": 38,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "CE8F34EFE902ADD3C14E534E0E62DB51711A35C2CE643BFD43FA280F258CB5E5"
+    },
+    {
+      "id": "roundleaf_pilea",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_roundleaf_pilea_phase148.png",
+      "source_sha256": "91D22020331301496A19036F3B285CD0FBBE3B0B79149B022A060C783069EA80",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_roundleaf_pilea_phase167.png",
+      "size": [
+        266,
+        376
+      ],
+      "restored_pixels": 54,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "EA658CF515E9F5B9910D8E53BEE58DD10A901DB45DC7BADEF709C6E3E72A76DE"
+    },
+    {
+      "id": "striped_calathea",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_striped_calathea_phase148.png",
+      "source_sha256": "8E3FCCB86B16AD124280DD66DEE4DB86D2D2567FF04860212FA460AF7D22FF1B",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_striped_calathea_phase167.png",
+      "size": [
+        291,
+        346
+      ],
+      "restored_pixels": 125,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "503025BE2C9C08C26CC89B75A5D580D3596368E4318E1BABEB1C9A038028AC87"
+    },
+    {
+      "id": "lemon_maranta",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_lemon_maranta_phase148.png",
+      "source_sha256": "1E3F860079BF33852027BEF5DF04B9DF35D820B7E435017F4B7E7C68024B8718",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_lemon_maranta_phase167.png",
+      "size": [
+        276,
+        338
+      ],
+      "restored_pixels": 188,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "27DC25334B79F81C444A163305E42E6ECCC5D4E2A256979EB1CFAE7888FB21B7"
+    },
+    {
+      "id": "compact_aglaonema",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_compact_aglaonema_phase148.png",
+      "source_sha256": "218DD089ABCE270A21A23FE1A383EFFA23FD8231F1559C7C0443DB4F0B01AE2C",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_compact_aglaonema_phase167.png",
+      "size": [
+        282,
+        344
+      ],
+      "restored_pixels": 220,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "187E998439B2A0B9FFD6371398F2344E7677A00DCAD18213D94A22FA21FD97D4"
+    },
+    {
+      "id": "fittonia",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_fittonia_phase148.png",
+      "source_sha256": "59F8A92EDD1C7C7EC0349757F878FC85F35858BC30AAD279AF73A2B56ADABACE",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_fittonia_phase167.png",
+      "size": [
+        265,
+        344
+      ],
+      "restored_pixels": 248,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "F523DE58BE59782557AED0A7254E7F8DAECEC5BDA2C528CA32602C479316896E"
+    },
+    {
+      "id": "pothos",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_pothos_phase148.png",
+      "source_sha256": "B54D9609C8261AEA3804CD03A8E330A41BAC6D2C9479FB544F4F8EBBAAAC6371",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_pothos_phase167.png",
+      "size": [
+        296,
+        352
+      ],
+      "restored_pixels": 164,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "127E7118601248C55CFA5577E92CDAA2967D8F7891FF3486CD2A4503A6DE137F"
+    },
+    {
+      "id": "coleus",
+      "source": "assets/ui/visual/phase148/player_room/plants/room_plant_coleus_phase148.png",
+      "source_sha256": "90B1256B866613786DC333BAB4C8A98D657A9297332F20E71D48F83EEC460831",
+      "output": "assets/ui/visual/phase167/player_room/plants/room_plant_coleus_phase167.png",
+      "size": [
+        271,
+        357
+      ],
+      "restored_pixels": 127,
+      "restored_pink_pixels": 0,
+      "rgb_byte_exact_to_atlas": true,
+      "old_visible_rgb_preserved": true,
+      "old_alpha_not_removed": true,
+      "new_alpha_within_8px_of_original": true,
+      "transparent_canvas_border": true,
+      "output_sha256": "A2D9F31EFC807DC908486114400341210EDBB835F97809E8E82690D397475B93"
+    }
+  ]
+}

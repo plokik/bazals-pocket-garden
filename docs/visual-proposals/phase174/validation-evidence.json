@@ -1,0 +1,37 @@
+{
+  "schema": "phase174_rear_greenhouse_selection_v1",
+  "recorded_local_date": "2026-08-29",
+  "runtime_scope": "Selection fill and outline for rear bed indices 0 and 1 only",
+  "focused": {"path": ".godot/phase174-focused", "marker": "PHASE174_TESTS_PASSED=16", "exit_code": 0},
+  "gpu_before": {"path": ".godot/phase174-before", "images": 10, "exit_code": 0},
+  "gpu_after": {"path": ".godot/phase174-after", "images": 10, "exit_code": 0, "stderr_bytes": 0, "marker": "PHASE174_GREENHOUSE_CAPTURE=PASSED"},
+  "gui_input": {"layouts": [[432,960],[360,800]], "bed_clicks_passed": 8, "minimum_touch_size": [64,64]},
+  "pixel_comparison": {
+    "front_selection_full_frames_identical": ["phase174-normal-bed3.png", "phase174-normal-bed4.png", "phase174-compact-bed3.png", "phase174-compact-bed4.png"],
+    "rear_change_bboxes": {
+      "phase174-normal-bed1.png": [146,921,540,1080],
+      "phase174-normal-bed2.png": [539,921,932,1080],
+      "phase174-compact-bed1.png": [145,914,540,1072],
+      "phase174-compact-bed2.png": [536,914,934,1072]
+    }
+  },
+  "full_validation": {
+    "path": ".godot/validation/20260829-000147Z",
+    "regression_marker": "MVP_TESTS_PASSED=6676",
+    "capture_marker": "HOW_TO_GROW_CAPTURE=PASSED",
+    "visual_gates_passed": 24,
+    "visual_gates_failed": 10,
+    "exit_code": 1,
+    "all_failed_comparison_images_and_metrics_identical_to": ".godot/validation/20260828-232653Z"
+  },
+  "preservation": {
+    "prior_protected_files_unchanged": 109,
+    "reference_cases_unchanged": 54,
+    "greenhouse_source_png_sha256": "1CD27B4F32B1C7039FDD3CF2CC8903963F01D44A77DBD223BAC85EDE06DF9321",
+    "main_gd_sha256": "CC729B036709417DD0BF6218C28A8F9D995414BE378789CA6190DA080956828F",
+    "immutable_rc58_sha256": "0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5",
+    "source_pngs_layout_touch_bounds_and_crop_anchors_unchanged": true
+  },
+  "user_visual_acceptance": "PENDING_USER_REVIEW",
+  "android_acceptance": "NOT_RUN_APK_DEFERRED_BY_USER"
+}

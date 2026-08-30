@@ -2737,17 +2737,24 @@ func treat_disease() -> bool:
 
 
 func toggle_lamp() -> bool:
-	_apply_equipment_to_plant(plant)
-	var was_growing := plant.is_growing()
-	var was_lamp_off := not plant.lamp_on
+	return toggle_lamp_for_slot(selected_plant_index)
+
+
+func toggle_lamp_for_slot(index: int) -> bool:
+	if index < 0 or index >= plants.size() or not is_plant_slot_unlocked(index):
+		return false
+	var target := plants[index]
+	_apply_equipment_to_plant(target)
+	var was_growing := target.is_growing()
+	var was_lamp_off := not target.lamp_on
 	var valid_daily_context := was_growing and was_lamp_off
-	var succeeded := plant.toggle_lamp()
+	var succeeded := target.toggle_lamp()
 	if succeeded:
-		plant.sync_environment(world_elapsed_seconds)
-		feedback_requested.emit("light", selected_plant_index, {"enabled": plant.lamp_on})
-		if was_growing and was_lamp_off and plant.lamp_on:
+		target.sync_environment(world_elapsed_seconds)
+		feedback_requested.emit("light", index, {"enabled": target.lamp_on})
+		if was_growing and was_lamp_off and target.lamp_on:
 			_record_professor_research_event(professor_research.record_care("lamp_on"))
-		_try_complete_daily_challenge("lamp", valid_daily_context and plant.lamp_on)
+		_try_complete_daily_challenge("lamp", valid_daily_context and target.lamp_on)
 	return succeeded
 
 
@@ -4240,6 +4247,28 @@ func purchase_or_place_room_decoration(decoration_id: String, slot_index: int) -
 		if room_decoration_slots[existing_slot] == decoration_id:
 			room_decoration_slots[existing_slot] = ""
 	room_decoration_slots[slot_index] = decoration_id
+	return true
+
+
+func move_room_plant(source_slot: int, target_slot: int, expected_id: String) -> bool:
+	# Dragging is not a purchase or the modal's intentional replacement action.
+	# Validate both final placements before moving either end. An occupied
+	# target returns to the source slot; no owned plant is silently displaced.
+	if source_slot < 0 or source_slot >= ROOM_PLANT_SLOT_COUNT or target_slot < 0 or target_slot >= ROOM_PLANT_SLOT_COUNT:
+		return false
+	if source_slot == target_slot or expected_id.is_empty():
+		return false
+	if room_decoration_slots[source_slot] != expected_id:
+		return false
+	if not is_room_decoration_owned(expected_id) or not is_room_decoration_compatible(expected_id, target_slot):
+		return false
+	var displaced_id := room_decoration_slots[target_slot]
+	if displaced_id == expected_id:
+		return false
+	if not displaced_id.is_empty() and (not is_room_decoration_owned(displaced_id) or not is_room_decoration_compatible(displaced_id, source_slot)):
+		return false
+	room_decoration_slots[source_slot] = displaced_id
+	room_decoration_slots[target_slot] = expected_id
 	return true
 
 

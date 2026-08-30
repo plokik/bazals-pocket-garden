@@ -1,0 +1,91 @@
+{
+  "schema": "phase167_user_approved_room_reference_transition_v1",
+  "approval": {
+    "status": "APPROVED_BY_USER",
+    "date": "2026-08-27",
+    "user_message": "Souhlasím",
+    "scope": "Repaired room rack artwork shown in the linked actual Godot render; deterministic occupancy fixtures inherit this approved renderer. Not an Android acceptance.",
+    "review_path": "docs/visual-proposals/phase167/player-room-rack-native-review-v1.png",
+    "review_sha256": "7273D26C64A662B2479947D640C68C2C5478B93F3E623F546EF93A1B9C29EC8D"
+  },
+  "source_validation": ".godot/validation/20260827-213709Z",
+  "policy": "append_only_references_same_captures_crops_masks_tolerances_original_pngs_preserved",
+  "parameters": {
+    "size": [
+      432,
+      960
+    ],
+    "reference_crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "actual_crop": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "masks": [],
+    "pixel_tolerance": 12,
+    "thresholds": {
+      "max_mean_abs_error": 4,
+      "max_rmse": 12,
+      "max_changed_ratio": 0.06
+    }
+  },
+  "references": [
+    {
+      "case_id": "phase167-player-room-clean-floor-runtime-approved",
+      "supersedes": "phase160-player-room-clean-floor-runtime-approved",
+      "reference": "assets/ui/comic/reference_phase167_player_room_clean_floor_runtime_v1.png",
+      "reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "source_capture": ".godot/validation/20260827-213709Z/comic-phase160-player-room-clean-floor.png",
+      "historical_reference": "assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png",
+      "historical_sha256": "A0A7D7D1A4120320FC0084AF65429E9F997AC9CAD29E51DECF20278869363BD2",
+      "actual": "comic-phase160-player-room-clean-floor.png"
+    },
+    {
+      "case_id": "phase167-player-room-sparse-runtime-approved",
+      "supersedes": "phase158-player-room-sparse-runtime-approved",
+      "reference": "assets/ui/comic/reference_phase167_player_room_sparse_runtime_v1.png",
+      "reference_sha256": "4B3610539599F0233F4B2734417B683DD7D0D020ACC0BCC188FAC4F68ABA7AE0",
+      "source_capture": ".godot/validation/20260827-213709Z/comic-phase158-player-room-sparse-4-of-20.png",
+      "historical_reference": "assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png",
+      "historical_sha256": "D5AD610B315CC4BAA2F5ADF8539EACE3E3BD4B6553582768DBD362B89428DA27",
+      "actual": "comic-phase158-player-room-sparse-4-of-20.png"
+    },
+    {
+      "case_id": "phase167-player-room-phone-save-runtime-approved",
+      "supersedes": "phase158-player-room-phone-save-runtime-approved",
+      "reference": "assets/ui/comic/reference_phase167_player_room_phone_save_runtime_v1.png",
+      "reference_sha256": "E0DCC5EC170D0D59107CA8BE1A3AAF422A31532AC37D813A74E8E4353EB0F0CF",
+      "source_capture": ".godot/validation/20260827-213709Z/comic-phase158-player-room-phone-save-10-of-20.png",
+      "historical_reference": "assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png",
+      "historical_sha256": "CF100A3653DF0F30EE0F6728DB58001FFC91E797E321A6ABBC5FAC0112DBA93B",
+      "actual": "comic-phase158-player-room-phone-save-10-of-20.png"
+    },
+    {
+      "case_id": "phase167-player-room-full-runtime-approved",
+      "supersedes": "phase158-player-room-full-runtime-approved",
+      "reference": "assets/ui/comic/reference_phase167_player_room_full_runtime_v1.png",
+      "reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "source_capture": ".godot/validation/20260827-213709Z/comic-phase158-player-room-full-20-of-20.png",
+      "historical_reference": "assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png",
+      "historical_sha256": "42804F92F7DC9B278511364E091498F9585458ABB2DA367D1EB6BEC9FEAA1F87",
+      "actual": "comic-phase158-player-room-full-20-of-20.png"
+    },
+    {
+      "case_id": "phase167-player-room-full-cloche-runtime-approved",
+      "supersedes": "phase159-player-room-full-cloche-runtime-approved",
+      "reference": "assets/ui/comic/reference_phase167_player_room_full_cloche_runtime_v1.png",
+      "reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "source_capture": ".godot/validation/20260827-213709Z/comic-phase159-player-room-full-cloche.png",
+      "historical_reference": "assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png",
+      "historical_sha256": "42804F92F7DC9B278511364E091498F9585458ABB2DA367D1EB6BEC9FEAA1F87",
+      "actual": "comic-phase159-player-room-full-cloche.png"
+    }
+  ],
+  "android_acceptance": "NOT_RUN_SOURCE_ONLY"
+}

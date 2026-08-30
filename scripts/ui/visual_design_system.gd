@@ -7,6 +7,7 @@ extends RefCounted
 ## by the three main garden locations.
 
 const CONTRACT_ID := "phase127_final_visual_system_v1"
+const RoomPlantGeometry := preload("res://scripts/ui/room_plant_render_geometry.gd")
 const STYLE_ID := "bazal_sunny_botanical_comic_v1"
 const MASTER_ART_DIRECTION_ID := "phase131_living_botanical_master_v1"
 const MASTER_REFERENCE_ASSET := "res://assets/ui/visual/phase128/measurement_corner_backdrop_v1.png"
@@ -85,6 +86,7 @@ const COSMETIC_SHOWROOM_PHASE162_TARGET_SHA256 := "bc524f1d2c3111630385256481a4a
 const COSMETIC_SHOWROOM_PHASE162_BACKDROP_ASSET := "res://assets/ui/visual/phase162/cosmetic_showroom/cosmetic_showroom_clean_backdrop_v1.png"
 const COSMETIC_SHOWROOM_PHASE162_BACKDROP_SHA256 := "a696d1759ef1fe830984e0dc2c8c292fcedc3b9b4cfeb55dbcb7e2849542fcf6"
 const RACK_PHASE163_RUNTIME_SET_ID := "phase163_rack_approved_locked_planter_v1"
+const RACK_PHASE183_DOCK_RUNTIME_SET_ID := "phase183_rack_compact_four_icon_dock_v1"
 const RACK_PHASE163_SCENE_PROFILE_ID := "rack_phase163_approved_locked_planter_v1"
 const RACK_PHASE163_TARGET_ASSET := "res://docs/visual-proposals/phase163/user-approved-locked-planter-rack-screen-v1.png"
 const RACK_PHASE163_TARGET_SHA256 := "bd906524ed677fb996098578e3efbed3f19c797ac8078cbc8c7db86aeb1bc349"
@@ -282,6 +284,7 @@ const FAMILY_PROFILES := {
 }
 
 const PATH_FAMILY_RULES := [
+	{"prefix": "res://assets/ui/visual/phase167/", "family": "room_collectible"},
 	{"prefix": "res://assets/ui/visual/phase158/", "family": "room_collectible"},
 	{"prefix": "res://assets/ui/visual/phase151/", "family": "ui_chrome"},
 	{"prefix": "res://assets/ui/visual/phase150/", "family": "environment_plate"},
@@ -337,6 +340,11 @@ const SCENE_PROFILES := {
 		"painted_cartoon_master": APPROVED_PAINTED_CARTOON_MASTER_ID,
 		"migration_status": "dynamic_slots_states_and_approved_locked_planter_phase163_v1",
 		"plant_grounding": "shared_saucer_contact_shadow_shelf_baseline_v1",
+		"active_plant_grounding": "phase170_measured_ceramic_saucer_fixed_contact_v1",
+		"active_stand_layout": "phase171_painted_stand_front_contact_common_fascia_v1",
+		"active_environment": "res://assets/ui/visual/phase171/rack/rack_stand_painted_phase171_v1.png",
+		"active_dock": RACK_PHASE183_DOCK_RUNTIME_SET_ID,
+		"active_dock_background": "res://assets/ui/visual/phase183/rack_dock/rack_floor_extension_phase183_v1.png",
 		"locked_slot_policy": "single_approved_compact_planter_master_reused_all_slots_v1",
 		"grow_light_policy": "single_approved_brass_fixture_master_reused_all_sockets_v1",
 		"style_id": APPROVED_PAINTED_CARTOON_STYLE_ID,
@@ -356,6 +364,8 @@ const SCENE_PROFILES := {
 		"approved_target_asset": PLANT_DETAIL_PHASE151_TARGET_ASSET,
 		"approved_target_sha256": PLANT_DETAIL_PHASE151_TARGET_SHA256,
 		"plant_grounding": "painted_saucer_contact_shadow_window_ledge_v1",
+		"active_plant_grounding": "phase172_shared_ceramic_measured_window_sill_v1",
+		"active_saucer_asset": "res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png",
 		"painted_cartoon_style_id": APPROVED_PAINTED_CARTOON_STYLE_ID,
 		"painted_cartoon_master": APPROVED_PAINTED_CARTOON_MASTER_ID,
 		"style_id": APPROVED_PAINTED_CARTOON_STYLE_ID,
@@ -579,8 +589,15 @@ const GREENHOUSE_CROP_ASSET_IDS := {
 }
 
 static var ASSET_PROFILES := {
+	"rack_ceramic_saucer_phase170": _rack_phase170_saucer_profile(),
 	"rack_background": _profile("environment_plate", "res://assets/backgrounds/comic_room_rack_v1.png", Vector2(432.0, 780.0), Vector2(0.5, 0.5), 0),
 	"rack_phase151_locked_cylinder": _rack_phase151_asset_profile("res://assets/ui/visual/phase151/rack/rack_locked_cylinder_phase151_v1.png", Vector2(55.0, 95.0), Vector2(0.5, 1.0), "locked_cylinder"),
+	"rack_stand_phase171": _rack_phase171_stand_profile(),
+	"rack_phase183_dock_background": _rack_phase183_dock_profile("res://assets/ui/visual/phase183/rack_dock/rack_floor_extension_phase183_v1.png", "environment_plate", Vector2(432.0, 90.0), "painted_floor_extension", 0),
+	"rack_phase183_pet_icon": _rack_phase183_dock_profile("res://assets/ui/visual/phase183/rack_dock/pet_paw_phase183_v1.png", "ui_chrome", Vector2(48.0, 48.0), "pet_and_addons_launcher", 60),
+	"rack_phase183_professor_icon": _rack_phase183_dock_profile("res://assets/ui/visual/phase183/rack_dock/professor_bazal_phase183_v1.png", "ui_chrome", Vector2(48.0, 48.0), "professor_research_launcher", 60),
+	"rack_phase183_care_icon": _rack_phase183_dock_profile("res://assets/ui/visual/phase183/rack_dock/care_leaf_phase183_v1.png", "ui_chrome", Vector2(48.0, 48.0), "care_center_launcher", 60),
+	"rack_phase183_settings_icon": _rack_phase183_dock_profile("res://assets/ui/icons/settings_gear_phase125.png", "ui_chrome", Vector2(48.0, 48.0), "player_settings_launcher", 60),
 	"rack_phase163_locked_planter": _rack_phase163_asset_profile(RACK_PHASE163_LOCKED_PLANTER_ASSET, Vector2(63.0, 77.0), Vector2(0.5, 1.0), "locked_planter"),
 	"rack_phase163_grow_light": _rack_phase163_asset_profile(RACK_PHASE163_GROW_LIGHT_ASSET, Vector2(49.0, 22.0), Vector2(0.5, 0.5), "grow_light_fixture"),
 	"greenhouse_background": _profile("environment_plate", "res://assets/ui/greenhouse/greenhouse_interior_phase130_two_boxes_v1.png", Vector2(432.0, 780.0), Vector2(0.5, 0.5), 0),
@@ -596,21 +613,20 @@ static var ASSET_PROFILES := {
 	"herbarium_phase155_background": _herbarium_phase155_environment_profile(HERBARIUM_PHASE155_BACKDROP_ASSET),
 	"daily_challenge_phase161_background": _daily_challenge_phase161_environment_profile(DAILY_CHALLENGE_PHASE161_BACKDROP_ASSET),
 	"cosmetic_showroom_phase162_background": _cosmetic_showroom_phase162_environment_profile(COSMETIC_SHOWROOM_PHASE162_BACKDROP_ASSET),
-	# Every factor below normalizes the solid saucer span to the same 185 source
-	# pixels before design scaling.  The plant silhouette remains isotropic; only
-	# the authored size mismatch between atlas cells is corrected.
-	"room_orchid": _room_orchid_phase158_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_orchid_phase148.png", Rect2(80.0, 499.0, 127.0, 310.0), Vector2(130.0, 811.0), "rack_plant_clean_dynamic_v3"),
-	"room_fern": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_fern_phase148.png", Rect2(58.0, 826.0, 158.0, 208.0), Vector2(130.0, 1046.0), "rack_plant_clean_dynamic_v3"),
-	"room_broad_leaf": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_glossy_broadleaf_phase148.png", Rect2(197.0, 582.0, 145.0, 228.0), Vector2(274.0, 811.0), "rack_plant_clean_dynamic_v3"),
-	"room_striped_leaf": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_striped_calathea_phase148.png", Rect2(58.0, 1072.0, 156.0, 214.0), Vector2(130.0, 1286.0), "rack_plant_clean_dynamic_v3"),
-	"room_tall_leaf": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_snake_plant_phase148.png", Rect2(330.0, 542.0, 139.0, 267.0), Vector2(416.0, 811.0), "rack_plant_clean_dynamic_v3"),
-	"room_flowering": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_flowering_begonia_phase148.png", Rect2(199.0, 826.0, 158.0, 208.0), Vector2(274.0, 1046.0), "rack_plant_clean_dynamic_v3"),
-	"room_round_leaf": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_roundleaf_pilea_phase148.png", Rect2(339.0, 829.0, 136.0, 205.0), Vector2(416.0, 1046.0), "rack_plant_clean_dynamic_v3"),
-	"room_climbing_vine": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_pothos_phase148.png", Rect2(199.0, 1308.0, 157.0, 199.0), Vector2(274.0, 1507.0), "rack_plant_clean_dynamic_v3"),
-	"room_aglaonema": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_compact_aglaonema_phase148.png", Rect2(341.0, 1082.0, 134.0, 204.0), Vector2(414.0, 1286.0), "rack_plant_clean_dynamic_v3"),
-	"room_fittonia": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_fittonia_phase148.png", Rect2(63.0, 1315.0, 149.0, 193.0), Vector2(130.0, 1507.0), "rack_plant_clean_dynamic_v3"),
-	"room_lemon_maranta": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_lemon_maranta_phase148.png", Rect2(199.0, 1087.0, 155.0, 199.0), Vector2(274.0, 1286.0), "rack_plant_clean_dynamic_v3"),
-	"room_coleus": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/plants/room_plant_coleus_phase148.png", Rect2(339.0, 1308.0, 138.0, 199.0), Vector2(414.0, 1507.0), "rack_plant_clean_dynamic_v3"),
+	# Legacy target rectangles remain archival metadata. The live rack uses actual
+	# ceramic landmarks and continuous UV geometry, never these unrelated crops.
+	"room_orchid": _room_rack_phase167_profile("room_orchid", "orchid", Rect2(80.0, 499.0, 127.0, 310.0), Vector2(130.0, 811.0)),
+	"room_fern": _room_rack_phase167_profile("room_fern", "fern", Rect2(58.0, 826.0, 158.0, 208.0), Vector2(130.0, 1046.0)),
+	"room_broad_leaf": _room_rack_phase167_profile("room_broad_leaf", "glossy_broadleaf", Rect2(197.0, 582.0, 145.0, 228.0), Vector2(274.0, 811.0)),
+	"room_striped_leaf": _room_rack_phase167_profile("room_striped_leaf", "striped_calathea", Rect2(58.0, 1072.0, 156.0, 214.0), Vector2(130.0, 1286.0)),
+	"room_tall_leaf": _room_rack_phase167_profile("room_tall_leaf", "snake_plant", Rect2(330.0, 542.0, 139.0, 267.0), Vector2(416.0, 811.0)),
+	"room_flowering": _room_rack_phase167_profile("room_flowering", "flowering_begonia", Rect2(199.0, 826.0, 158.0, 208.0), Vector2(274.0, 1046.0)),
+	"room_round_leaf": _room_rack_phase167_profile("room_round_leaf", "roundleaf_pilea", Rect2(339.0, 829.0, 136.0, 205.0), Vector2(416.0, 1046.0)),
+	"room_climbing_vine": _room_rack_phase167_profile("room_climbing_vine", "pothos", Rect2(199.0, 1308.0, 157.0, 199.0), Vector2(274.0, 1507.0)),
+	"room_aglaonema": _room_rack_phase167_profile("room_aglaonema", "compact_aglaonema", Rect2(341.0, 1082.0, 134.0, 204.0), Vector2(414.0, 1286.0)),
+	"room_fittonia": _room_rack_phase167_profile("room_fittonia", "fittonia", Rect2(63.0, 1315.0, 149.0, 193.0), Vector2(130.0, 1507.0)),
+	"room_lemon_maranta": _room_rack_phase167_profile("room_lemon_maranta", "lemon_maranta", Rect2(199.0, 1087.0, 155.0, 199.0), Vector2(274.0, 1286.0)),
+	"room_coleus": _room_rack_phase167_profile("room_coleus", "coleus", Rect2(339.0, 1308.0, 138.0, 199.0), Vector2(414.0, 1507.0)),
 	"room_plant_saucer": _profile("room_collectible", "res://assets/ui/visual/phase133/room_plant_saucer_v1.png", Vector2(50.0, 18.0), Vector2(0.5, 0.58), 35),
 	"room_books": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/decor/room_decor_books_phase148.png", Rect2(512.0, 282.0, 145.0, 129.0), Vector2(584.0, 412.0), "wall_shelf_clean_dynamic_v3"),
 	"room_fertilizer": _room_target_phase149_profile("res://assets/ui/visual/phase148/player_room/decor/room_decor_fertilizer_bags_phase148.png", Rect2(512.0, 474.0, 172.0, 133.0), Vector2(598.0, 608.0), "wall_shelf_clean_dynamic_v3"),
@@ -693,6 +709,48 @@ static func _greenhouse_phase150_crop_profile(texture_path: String, design_size:
 		"garden_eggplant":
 			result["approved_reference_occupancy"] = Vector2(0.860, 0.724)
 	result["scale_range"] = Vector2(0.72, 1.28)
+	return result
+
+
+static func _rack_phase171_stand_profile() -> Dictionary:
+	var result := _profile("environment_plate", "res://assets/ui/visual/phase171/rack/rack_stand_painted_phase171_v1.png", Vector2(432.0, 691.6), Vector2.ZERO, 0)
+	result["style_id"] = APPROVED_PAINTED_CARTOON_STYLE_ID
+	result["master_art_direction"] = APPROVED_PAINTED_CARTOON_MASTER_ID
+	result["source_pixel_policy"] = "phase171_generated_painting_unchanged_contiguous_construction_bands_v1"
+	result["geometry_contract"] = "phase171_painted_stand_front_contact_common_fascia_v1"
+	result["texture_filter"] = "linear_with_mipmaps_v1"
+	result["mipmaps"] = true
+	result["lighting_id"] = "sunny_upper_left_warm_v1"
+	return result
+
+
+static func _rack_phase183_dock_profile(texture_path: String, family: String, design_size: Vector2, layer_role: String, z_layer: int) -> Dictionary:
+	var result := _profile(family, texture_path, design_size, Vector2(0.5, 0.5), z_layer)
+	result["style_id"] = APPROVED_PAINTED_CARTOON_STYLE_ID
+	result["master_art_direction"] = APPROVED_PAINTED_CARTOON_MASTER_ID
+	result["phase183_runtime_set"] = RACK_PHASE183_DOCK_RUNTIME_SET_ID
+	result["source_pixel_policy"] = "phase183_versioned_imagegen_source_unchanged_v1"
+	result["layer_role"] = layer_role
+	result["rendering"] = "vivid_hand_painted_linear_mipmaps_no_checkerboard_no_halo_v1"
+	result["texture_filter"] = "linear_with_mipmaps_v1"
+	result["mipmaps"] = true
+	result["lighting_id"] = "sunny_upper_left_warm_v1"
+	result["geometry_contract"] = "phase183_centered_four_by_68_icon_dock_v1"
+	return result
+
+
+static func _rack_phase170_saucer_profile() -> Dictionary:
+	var result := _profile("ui_chrome", "res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png", Vector2(48.0, 48.0 * 528.0 / 2062.0), Vector2(0.5, 1.0), 38)
+	result["style_id"] = APPROVED_PAINTED_CARTOON_STYLE_ID
+	result["master_art_direction"] = APPROVED_PAINTED_CARTOON_MASTER_ID
+	result["source_pixel_policy"] = "phase170_generated_rgba_source_unchanged_runtime_roi_v1"
+	result["layer_role"] = "rack_saucer"
+	result["source_rect"] = Rect2(56.0, 98.0, 2062.0, 528.0)
+	result["texture_filter"] = "linear_with_mipmaps_v1"
+	result["mipmaps"] = true
+	result["embedded_contact_shadow"] = false
+	result["lighting_id"] = "sunny_upper_left_warm_v1"
+	result["geometry_contract"] = "phase170_measured_ceramic_saucer_fixed_contact_v1"
 	return result
 
 
@@ -846,16 +904,24 @@ static func _room_target_phase149_profile(texture_path: String, target_source_re
 	return result
 
 
-static func _room_orchid_phase158_profile(texture_path: String, target_source_rect: Rect2, target_source_anchor: Vector2, layer_role: String) -> Dictionary:
-	var result := _room_target_phase149_profile(texture_path, target_source_rect, target_source_anchor, layer_role)
-	# The clean orchid atlas has a larger transparent canvas than the blue
-	# broad-leaf pot.  Matching only the lower ceramic section by the measured
-	# 56.8 / 47.5 visible-span ratio keeps the foliage's horizontal scale intact
-	# while both pots occupy the same shelf width.
-	result["dynamic_ceramic_width_scale"] = 1.195
-	result["dynamic_ceramic_height_scale"] = 0.736
-	result["dynamic_ceramic_reference_asset"] = "room_broad_leaf"
-	result["dynamic_ceramic_alignment"] = "slot_center_baseline_v1"
+static func _room_rack_phase167_profile(asset_id: String, source_id: String, target_source_rect: Rect2, target_source_anchor: Vector2) -> Dictionary:
+	# Phase169 only removes verified source-background alpha. The Phase167
+	# canvas, measured ceramic/crown geometry and all painted RGB stay intact.
+	var texture_path := "res://assets/ui/visual/phase169/player_room/plants/room_plant_%s_phase169.png" % source_id
+	var result := _room_target_phase149_profile(texture_path, target_source_rect, target_source_anchor, "rack_plant_measured_geometry_v1")
+	var measured: Array = RoomPlantGeometry.LANDMARKS[asset_id]
+	var canvas: Vector2 = measured[0]
+	var preview_scale := minf(RoomPlantGeometry.CERAMIC_DESIGN_SIZE.x / float(measured[2]), RoomPlantGeometry.CERAMIC_DESIGN_SIZE.y / (float(measured[3]) - float(measured[4])))
+	result["design_size"] = canvas * preview_scale
+	result["pivot"] = Vector2(float(measured[1]), float(measured[3])) / canvas
+	result.erase("dynamic_pot_top_fraction")
+	result["rack_geometry_contract"] = RoomPlantGeometry.CONTRACT
+	result["rack_geometry_asset_id"] = asset_id
+	result["source_pixel_policy"] = "phase169_alpha_only_matte_and_seeded_holes_same_canvas_v1"
+	result["alpha_provenance"] = "res://assets/ui/visual/phase169/player_room/phase169_plant_edges_manifest.json"
+	result["ceramic_design_size"] = RoomPlantGeometry.CERAMIC_DESIGN_SIZE
+	result["ceramic_reference_asset"] = "room_broad_leaf"
+	result["ceramic_alignment"] = "measured_saucer_center_and_contact_v1"
 	return result
 
 

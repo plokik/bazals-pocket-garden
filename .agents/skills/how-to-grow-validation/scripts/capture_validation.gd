@@ -100,7 +100,10 @@ func _init() -> void:
 		push_error("Could not create validation output directory: %s" % error_string(directory_error))
 		quit(2)
 		return
-	call_deferred("_capture_phase162_only" if _has_user_flag("--phase162-only") else "_capture")
+	if _has_user_flag("--phase167-only"):
+		call_deferred("_capture_phase167_only")
+	else:
+		call_deferred("_capture_phase162_only" if _has_user_flag("--phase162-only") else "_capture")
 
 
 func _capture() -> void:
@@ -252,6 +255,10 @@ func _capture() -> void:
 		quit(2)
 		return
 
+	if not await _capture_phase166_room_drag(instance):
+		quit(2)
+		return
+
 	_prepare_phase158_room_acceptance_state(instance, _phase158_phone_room_slots(), "phone_save_10_of_20_sanitized")
 	await _settle(instance)
 	if not _save_full_viewport("comic-phase158-player-room-phone-save-10-of-20.png"):
@@ -261,6 +268,9 @@ func _capture() -> void:
 	_prepare_phase158_room_acceptance_state(instance, _phase158_full_room_slots(), "full_20_of_20")
 	await _settle(instance)
 	if not _save_full_viewport("comic-phase158-player-room-full-20-of-20.png"):
+		quit(2)
+		return
+	if not await _capture_phase167_room_matrix(instance):
 		quit(2)
 		return
 
@@ -446,6 +456,13 @@ func _capture() -> void:
 		return
 	instance._set_shop_legacy_capture(false)
 	instance._set_shop_mode("buy")
+	# Capture a canonical first 60 Hz greeting pose before the legacy-to-modern
+	# layout settles. Wall-clock rendering otherwise samples a different zoom
+	# on every run. This fixture does not alter runtime animation or references.
+	var shop_reaction := instance.shop_merchant_scene.get_meta("reaction_tween") as Tween
+	if shop_reaction != null and shop_reaction.is_valid():
+		shop_reaction.pause()
+		shop_reaction.custom_step(1.0 / 60.0)
 	await _settle(instance)
 	if not _save_full_viewport("comic-botanist-shop-buy.png"):
 		quit(2)
@@ -456,6 +473,8 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-phase153-shop.png"):
 		quit(2)
 		return
+	if shop_reaction != null and shop_reaction.is_valid():
+		shop_reaction.play()
 	_prepare_phase40_equipment_shop_state(instance)
 	await _settle(instance)
 	if not _save_full_viewport("comic-equipment-shop.png"):
@@ -1630,6 +1649,87 @@ func _capture() -> void:
 	call_deferred("_finish_capture_success")
 
 
+func _capture_phase167_only() -> void:
+	var packed := load("res://main.tscn") as PackedScene
+	if packed == null:
+		quit(2)
+		return
+	var instance = packed.instantiate()
+	root.add_child(instance)
+	await process_frame
+	await process_frame
+	_prepare_common_state(instance)
+	_prepare_phase104_decorated_player_room_state(instance)
+	instance._open_player_room()
+	await _settle(instance)
+	if not await _capture_phase167_room_matrix(instance):
+		quit(2)
+		return
+	_prepare_phase158_room_acceptance_state(instance, _phase158_sparse_room_slots(), "sparse_4_of_20")
+	await _settle(instance)
+	if not await _capture_phase166_room_drag(instance):
+		quit(2)
+		return
+	if not await _capture_phase167_native_room():
+		quit(2)
+		return
+	call_deferred("_finish_capture_success")
+
+
+func _capture_phase167_room_matrix(instance) -> bool:
+	# Report-only captures from the LIVE renderer: every species on every row.
+	# No synthetic art overlay and no change to any approved visual gate/reference.
+	var canonical := _phase158_full_room_slots()
+	for cycle in range(4):
+		var slots: Array[String] = canonical.duplicate()
+		for slot_index in range(12):
+			slots[slot_index] = canonical[(slot_index + cycle * 3) % 12]
+		_prepare_phase158_room_acceptance_state(instance, slots, "phase167_row_cycle_%d" % cycle)
+		await _settle(instance)
+		if not _save_full_viewport("comic-phase167-player-room-row-cycle-%d.png" % cycle):
+			return false
+	_prepare_phase158_room_acceptance_state(instance, canonical, "full_20_of_20")
+	await _settle(instance)
+	return true
+
+
+func _capture_phase167_native_room() -> bool:
+	# Inspect real room sprites at phone pixel density without upscaling a small
+	# desktop screenshot. This is the production RoomView, not a mockup or atlas.
+	var viewport := SubViewport.new()
+	viewport.disable_3d = true
+	viewport.size = Vector2i(1080, 1950)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	viewport.canvas_transform = Transform2D(0.0, Vector2.ZERO).scaled(Vector2(2.5, 2.5))
+	var room := PlayerRoomCollectionView.new()
+	room.size = Vector2(432, 780)
+	room.set_paused(true)
+	viewport.add_child(room)
+	room.set_cosmetic_theme("sunrise")
+	var canonical := _phase158_full_room_slots()
+	var saved := true
+	for compact in [false, true]:
+		if compact:
+			room.size = Vector2(360, 620)
+			viewport.size = Vector2i(1080, 1860)
+			viewport.canvas_transform = Transform2D(0.0, Vector2.ZERO).scaled(Vector2(3.0, 3.0))
+		for cycle in range(4):
+			var slots: Array[String] = canonical.duplicate()
+			for slot_index in range(12):
+				slots[slot_index] = canonical[(slot_index + cycle * 3) % 12]
+			room.set_room_decorations(slots, GameSession.ROOM_DECORATIONS)
+			await process_frame
+			await RenderingServer.frame_post_draw
+			var image := viewport.get_texture().get_image()
+			var filename := "comic-phase167-player-room-native-%s-cycle-%d.png" % ["compact" if compact else "normal", cycle]
+			saved = image.get_size() == viewport.size and _save_image(image, filename) and saved
+			image = null
+	viewport.queue_free()
+	await process_frame
+	return saved
+
+
 func _capture_phase162_only() -> void:
 	# Focused iteration path for the approved painted showroom. The default
 	# capture remains byte-for-byte additive and still exercises every legacy
@@ -2189,6 +2289,87 @@ func _prepare_phase158_room_acceptance_state(instance, slot_ids: Array[String], 
 	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 	instance.player_room_view.set_meta("capture_state", "phase158_%s_report_only_v1" % state_id)
 	instance.player_room_view.set_meta("visual_profile_capture", "player_room_phase158_four_state_acceptance_v1")
+
+
+func _capture_phase166_room_drag(instance) -> bool:
+	# Real runtime layers and actual Main input/save path, never a painted mockup.
+	# Validation runs with isolated APPDATA; no player save is read or modified.
+	var view = instance.player_room_view
+	var previous_owned: Array[String] = instance.session.owned_room_decorations.duplicate()
+	if "room_orchid" not in instance.session.owned_room_decorations:
+		instance.session.owned_room_decorations.append("room_orchid")
+	if "room_fern" not in instance.session.owned_room_decorations:
+		instance.session.owned_room_decorations.append("room_fern")
+	var source: Vector2 = view.get_global_transform_with_canvas() * view.plant_slot_hit_rect(0).get_center()
+	var target: Vector2 = view.get_global_transform_with_canvas() * view.plant_slot_hit_rect(7).get_center()
+	var press := InputEventMouseButton.new()
+	press.position = source
+	press.global_position = source
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.button_mask = MOUSE_BUTTON_MASK_LEFT
+	press.pressed = true
+	instance._input(press)
+	view._process(0.45)
+	var motion := InputEventMouseMotion.new()
+	motion.position = target
+	motion.global_position = target
+	motion.button_mask = MOUSE_BUTTON_MASK_LEFT
+	instance._input(motion)
+	await _settle(instance)
+	view.set_meta("capture_state", "phase166_room_drag_preview_report_only_v1")
+	if not view.plant_drag.dragging or not _save_full_viewport("comic-phase166-player-room-drag-preview.png"):
+		push_error("Phase 166 capture did not reach a held plant drag.")
+		return false
+	var release := InputEventMouseButton.new()
+	release.position = target
+	release.global_position = target
+	release.button_index = MOUSE_BUTTON_LEFT
+	release.pressed = false
+	instance._input(release)
+	await _settle(instance)
+	view.plant_drag_notice_seconds = 0.0
+	view.queue_redraw()
+	await process_frame
+	view.set_meta("capture_state", "phase166_room_drag_placed_report_only_v1")
+	var moved: bool = instance.session.room_decoration_slots[0].is_empty() and instance.session.room_decoration_slots[7] == "room_orchid"
+	var saved := SaveManager._read_supported_data(SaveManager.SAVE_PATH)
+	var persisted: bool = saved.get("room_decoration_slots", [])[7] == "room_orchid"
+	if not moved or not persisted:
+		push_error("Phase 166 capture did not persist the requested empty-slot move.")
+		return false
+	if not _save_full_viewport("comic-phase166-player-room-drag-placed.png"):
+		return false
+	# The same gesture now swaps both plants when its destination is occupied.
+	source = target
+	target = view.get_global_transform_with_canvas() * view.plant_slot_hit_rect(4).get_center()
+	press.position = source
+	press.global_position = source
+	instance._input(press)
+	view._process(0.45)
+	motion.position = target
+	motion.global_position = target
+	instance._input(motion)
+	await _settle(instance)
+	view.set_meta("capture_state", "phase166_room_swap_preview_report_only_v1")
+	if not view.plant_drag_will_swap() or not _save_full_viewport("comic-phase166-player-room-swap-preview.png"):
+		push_error("Phase 166 capture did not indicate the occupied-slot swap.")
+		return false
+	release.position = target
+	release.global_position = target
+	instance._input(release)
+	await _settle(instance)
+	view.plant_drag_notice_seconds = 0.0
+	view.queue_redraw()
+	await process_frame
+	view.set_meta("capture_state", "phase166_room_swap_placed_report_only_v1")
+	var swapped: bool = instance.session.room_decoration_slots[4] == "room_orchid" and instance.session.room_decoration_slots[7] == "room_fern"
+	saved = SaveManager._read_supported_data(SaveManager.SAVE_PATH)
+	var swap_persisted: bool = saved.get("room_decoration_slots", []) == instance.session.get_room_decoration_slots()
+	instance.session.owned_room_decorations.assign(previous_owned)
+	if not swapped or not swap_persisted:
+		push_error("Phase 166 capture did not persist both swapped positions.")
+		return false
+	return _save_full_viewport("comic-phase166-player-room-swap-placed.png")
 
 
 func _phase158_empty_room_slots() -> Array[String]:

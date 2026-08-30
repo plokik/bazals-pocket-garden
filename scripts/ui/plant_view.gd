@@ -3,6 +3,9 @@ extends Control
 
 const DetailBackground := preload("res://assets/backgrounds/comic_detail_window_v1.png")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
+const DetailLayout := preload("res://scripts/ui/plant_detail_layout.gd")
+const PlanterGrounding := preload("res://scripts/ui/rack_planter_grounding.gd")
+const SaucerTexture := preload("res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png")
 const PlantPresentationCatalogScene := preload("res://scripts/plant_presentation_catalog.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 
@@ -53,7 +56,7 @@ func _ready() -> void:
 	set_meta("plant_asset_states", "seed,sprout,young,mature,sick,harvest_ready")
 	set_meta("empty_asset", "comic/empty_pot_v1.png")
 	set_meta("sprite_canvas", "570x640_bottom_center")
-	set_meta("motion_profile", "elastic_comic_v1")
+	set_meta("motion_profile", "grounded_ceramic_live_fx_v1")
 	set_meta("detail_background", "comic_detail_window_v1")
 	set_meta("detail_composition", "mobile_layered_window_plant_fx_v1")
 	set_meta("ambient_event", "deterministic_shake_and_ladybug_v1")
@@ -69,6 +72,8 @@ func _ready() -> void:
 	set_meta("phase151_dynamic_policy", "eleven_species_six_states_no_baked_game_state_v1")
 	set_meta("phase151_plant_grounding", "painted_saucer_contact_shadow_window_ledge_v1")
 	set_meta("phase151_source_png_policy", "rgb_assets_unchanged_import_mipmaps_only_v1")
+	set_meta("phase172_plant_grounding", DetailLayout.CONTRACT_ID)
+	set_meta("phase172_saucer_asset", SaucerTexture.resource_path)
 	visibility_changed.connect(_sync_process_state)
 	_sync_process_state()
 
@@ -238,31 +243,38 @@ func _draw() -> void:
 	_draw_room(size)
 	if simulation == null:
 		return
-	var pot_center := Vector2(size.x * 0.5, size.y - 3.0)
-	_draw_contact_shadow(pot_center)
+	var pot_center := Vector2(size.x * 0.5, DetailLayout.shelf_y(size))
 	if behavior_active or behavior_pulse > 0.0:
 		_draw_behavior_halo(pot_center)
-	if not _is_harvest_state(simulation.stage):
-		_draw_phase151_detail_saucer(pot_center)
-	if simulation.stage == PlantSimulation.Stage.EMPTY:
-		_draw_empty_pot(pot_center)
-	elif _is_harvest_state(simulation.stage):
+	if _is_harvest_state(simulation.stage):
+		if simulation.stage != PlantSimulation.Stage.DRYING:
+			_draw_contact_shadow(pot_center)
 		_draw_harvest_state(pot_center)
-	elif simulation.stage == PlantSimulation.Stage.DEAD:
-		_draw_plant(pot_center)
 	else:
-		_draw_plant(pot_center)
+		var geometry := _detail_planter_geometry()
+		if not geometry.is_empty():
+			_draw_detail_saucer(geometry.saucer_rect)
+			_draw_grounded_plant(geometry)
 	_draw_effects(pot_center)
+
+
+func _detail_planter_geometry() -> Dictionary:
+	if simulation == null or _is_harvest_state(simulation.stage):
+		return {}
+	var texture := EmptyPotTexture if simulation.stage == PlantSimulation.Stage.EMPTY else _texture_for_simulation()
+	return DetailLayout.layout(texture, size)
 
 
 func _draw_behavior_halo(center: Vector2) -> void:
 	# Comic plant sheets are bottom-aligned and include the pot, so the behavior
 	# halo must sit around the leaf canopy rather than behind the pot body.
-	var halo_center := center + Vector2(0.0, -196.0)
+	var geometry := _detail_planter_geometry()
+	var canopy_scale := 1.0 if geometry.is_empty() else minf(1.0, geometry.plant_rect.size.y / 310.0)
+	var halo_center := center + Vector2(0.0, -196.0 * canopy_scale)
 	var breathe := 1.0
 	if not reduced_motion and not animations_paused:
 		breathe += sin(animation_time * 2.4) * 0.035
-	var halo_radius := 76.0 * breathe
+	var halo_radius := 76.0 * breathe * canopy_scale
 	if behavior_active:
 		draw_circle(halo_center, halo_radius, Color(COMIC_BEHAVIOR, 0.075), true, -1.0, true)
 		draw_arc(halo_center, halo_radius, PI * 0.10, PI * 0.88, 28, Color(COMIC_BEHAVIOR_HIGHLIGHT, 0.48), 3.0, true)
@@ -282,23 +294,21 @@ func _draw_behavior_halo(center: Vector2) -> void:
 
 
 func _draw_contact_shadow(center: Vector2) -> void:
-	var shadow_width := minf(size.x * 0.31, 120.0)
-	draw_set_transform(center + Vector2(0.0, -5.0), 0.0, Vector2(1.0, 0.23))
+	var shadow_width := 45.0
+	draw_set_transform(center + Vector2(0.0, -2.0), 0.0, Vector2(1.0, 0.07))
 	draw_circle(Vector2.ZERO, shadow_width, Color(0.18, 0.09, 0.03, 0.30), true, -1.0, true)
 	draw_circle(Vector2(0.0, -4.0), shadow_width * 0.72, Color(1.0, 0.66, 0.12, 0.13), true, -1.0, true)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
-func _draw_phase151_detail_saucer(center: Vector2) -> void:
-	# Keep the saucer close to the ceramic footprint.  The earlier broad oval
-	# read as a separate UI badge instead of a grounded painted object.
-	var saucer_width := minf(size.x * 0.49, 206.0)
-	draw_set_transform(center + Vector2(0.0, -1.0), 0.0, Vector2(1.0, 0.16))
-	draw_circle(Vector2(0.0, 9.0), saucer_width * 0.52, Color("#25120a", 0.34), true, -1.0, true)
-	draw_circle(Vector2.ZERO, saucer_width * 0.50, COMIC_INK, true, -1.0, true)
-	draw_circle(Vector2(0.0, -3.0), saucer_width * 0.45, COMIC_TEAL_SHADOW, true, -1.0, true)
-	draw_circle(Vector2(0.0, -6.0), saucer_width * 0.37, COMIC_TEAL, true, -1.0, true)
+func _draw_detail_saucer(rect: Rect2) -> void:
+	# Same painted ceramic as the rack. Only the thin contact shadow is drawn;
+	# no cyan fallback ellipse and no full-pot transform can detach it again.
+	draw_set_transform(Vector2(rect.get_center().x, rect.end.y - rect.size.y * 0.10), 0.0, Vector2(1.0, 0.06))
+	for step in range(3):
+		draw_circle(Vector2.ZERO, rect.size.x * (0.52 - step * 0.045), Color("#32180b", 0.085), true, -1.0, true)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	draw_texture_rect_region(SaucerTexture, rect, PlanterGrounding.saucer_source_rect())
 
 
 func _draw_room(area: Vector2) -> void:
@@ -392,57 +402,17 @@ func _draw_cloud(position: Vector2, color: Color) -> void:
 	draw_rect(Rect2(position + Vector2(17.0, 10.0), Vector2(35.0, 14.0)), color, true)
 
 
-func _draw_empty_pot(center: Vector2) -> void:
-	var bounce := sin(animation_time * 9.0) * action_pulse * 3.0
-	var image_size := _sprite_image_size(EmptyPotTexture)
-	var idle_breathe := 1.0 + sin(animation_time * 1.8) * 0.004
-	draw_set_transform(center + Vector2(0.0, bounce), 0.0, Vector2.ONE * idle_breathe)
-	draw_texture_rect(EmptyPotTexture, Rect2(Vector2(-image_size.x * 0.5, -image_size.y), image_size), false)
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-
-
-func _draw_plant(center: Vector2) -> void:
-	var texture := _texture_for_simulation()
-	var growth := clampf(simulation.growth_percent / 100.0, 0.0, 1.0)
-	var sway := sin(animation_time * 1.65) * lerpf(0.008, 0.022, growth)
-	if _is_dead_plant():
-		sway = -0.035
-	elif _is_wilted_plant():
-		sway += 0.012
-	if shake_animation > 0.0:
-		var shake_progress := 1.0 - shake_animation
-		sway += sin(shake_progress * PI * 8.0) * 0.045 * shake_animation
-	if simulation.moisture < 22.0:
-		sway += 0.028
-	if _uses_sick_visual() and not _is_dead_plant():
-		sway += sin(animation_time * 0.72) * 0.012
-	var image_size := _sprite_image_size(texture)
-	var bounce := 0.0 if _is_dead_plant() else sin(animation_time * 9.0) * action_pulse * 3.0
-	var idle_breathe := 0.97 if _is_dead_plant() else 1.0 + sin(animation_time * 2.15) * 0.008
-	var burst := 0.0
-	if growth_burst_animation > 0.0:
-		burst = sin((1.0 - growth_burst_animation) * PI)
-	var comic_scale := Vector2(idle_breathe * (1.0 + burst * 0.10), idle_breathe * (1.0 - burst * 0.055))
+func _draw_grounded_plant(geometry: Dictionary) -> void:
+	var texture: Texture2D = geometry.texture
 	var stress_tint := maxf(0.0, 1.0 - simulation.health / 100.0) * 0.22
 	var health_tint := Color.WHITE if _uses_sick_visual() else Color.WHITE.lerp(Color("#d2b773"), stress_tint)
 	health_tint = health_tint.lerp(_state_tint(), 0.62)
 	var gold_strength := sin((1.0 - golden_shine_animation) * PI) if golden_shine_animation > 0.0 else 0.0
 	if gold_strength > 0.0:
 		health_tint = health_tint.lerp(Color("#ffe36a"), gold_strength * 0.46)
-	draw_set_transform(center + Vector2(0.0, bounce + burst * 3.0), sway, comic_scale)
-	draw_texture_rect(texture, Rect2(Vector2(-image_size.x * 0.5, -image_size.y), image_size), false, health_tint)
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-
-
-func _sprite_image_size(texture: Texture2D) -> Vector2:
-	var image_height := minf(310.0, size.y * 1.02)
-	var texture_size := texture.get_size()
-	var aspect := texture_size.x / maxf(1.0, texture_size.y)
-	var image_size := Vector2(image_height * aspect, image_height)
-	var max_width := size.x * 0.78
-	if image_size.x > max_width:
-		image_size *= max_width / image_size.x
-	return image_size
+	if simulation.stage == PlantSimulation.Stage.EMPTY:
+		health_tint = Color.WHITE
+	draw_texture_rect(texture, geometry.plant_rect, false, health_tint)
 
 
 func _uses_sick_visual() -> bool:
@@ -490,7 +460,9 @@ func _texture_for_simulation() -> Texture2D:
 
 
 func _draw_harvest_state(center: Vector2) -> void:
-	var p := center + Vector2(0, -80)
+	# Packages rest on the sill; cut herbs sit on it, drying herbs hang from
+	# their own bar. These storage states never fabricate a living pot/saucer.
+	var p := center + Vector2(0, -62)
 	if simulation.stage == PlantSimulation.Stage.DRYING:
 		draw_line(p + Vector2(-65, -38), p + Vector2(65, -38), Color("#70452e"), 4.0, true)
 		for index in range(5):
@@ -502,6 +474,7 @@ func _draw_harvest_state(center: Vector2) -> void:
 		draw_circle(p + Vector2(0, 22), 15.0, Color("#42b95c"), true, -1.0, true)
 		draw_line(p + Vector2(0, 34), p + Vector2(0, 11), Color("#237a45"), 3.0, true)
 	else:
+		p = center + Vector2(0, -47)
 		for index in range(9):
 			var angle := index * TAU / 9.0
 			draw_circle(p + Vector2.from_angle(angle) * 34.0, 13.0, Color("#42b95c"), true, -1.0, true)

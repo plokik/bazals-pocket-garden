@@ -8,6 +8,7 @@ signal crop_plant_requested(bed_index: int, crop_id: String)
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const GardenSceneFraming := preload("res://scripts/ui/garden_scene_framing.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const GreenhouseInterior := preload("res://assets/ui/greenhouse/greenhouse_interior_phase130_two_boxes_v1.png")
@@ -34,12 +35,30 @@ const BED_SOIL_SOURCE_POLYGONS := [
 	[Vector2(91.0, 950.0), Vector2(430.0, 950.0), Vector2(430.0, 1157.0), Vector2(25.0, 1157.0)],
 	[Vector2(457.0, 950.0), Vector2(796.0, 950.0), Vector2(862.0, 1157.0), Vector2(457.0, 1157.0)],
 ]
+# Selection follows the painted wooden rims, not the older soil polygons.
+# Keep soil/state/crop anchors and touch targets independent from this geometry.
+const REAR_BED_SELECTION_SOURCE_POLYGONS := [
+	[Vector2(210.0, 701.0), Vector2(435.0, 701.0), Vector2(435.0, 805.0), Vector2(143.0, 805.0)],
+	[Vector2(451.0, 701.0), Vector2(677.0, 701.0), Vector2(745.0, 805.0), Vector2(451.0, 805.0)],
+]
+const FRONT_BED_SELECTION_SOURCE_POLYGONS := [
+	[Vector2(120.0, 930.0), Vector2(430.0, 930.0), Vector2(430.0, 1157.0), Vector2(39.0, 1157.0)],
+	[Vector2(457.0, 930.0), Vector2(767.0, 930.0), Vector2(848.0, 1157.0), Vector2(457.0, 1157.0)],
+]
 const BED_CROP_SOURCE_RECTS := [
 	Rect2(145.0, 625.0, 290.0, 190.0),
 	Rect2(452.0, 625.0, 290.0, 190.0),
 	Rect2(36.0, 790.0, 390.0, 365.0),
 	Rect2(461.0, 790.0, 390.0, 365.0),
 ]
+# Seedlings are low enough to belong inside the painted bed rims.  The broad
+# mature-crop bounds intentionally keep their older overhang, while these
+# authored centers follow the true perspective centers of all four soil bays.
+const BED_SEEDLING_SOURCE_CENTER_X := [290.0, 597.0, 260.5, 626.5]
+# The first wooden pixels begin at 802 / 1148.  Seedling alpha ends a
+# little above these authored baselines, so its stems finish visibly in soil
+# instead of being painted across the front rims.
+const BED_SEEDLING_BASELINE_SOURCE_Y := [802.0, 802.0, 1148.0, 1148.0]
 const BED_SOIL_BASELINE_SOURCE_Y := [813.0, 813.0, 1157.0, 1157.0]
 const PHASE150_TARGET_CROP_OCCUPANCY := {
 	"seedlings": Vector2(0.730, 0.581),
@@ -102,6 +121,8 @@ func _ready() -> void:
 	set_meta("phase150_compact_crop_policy", "fit_and_clamp_inside_functional_bay_v1")
 	set_meta("phase150_target_occupancy_policy", "approved_reference_width_height_ratios_v1")
 	set_meta("phase150_seedling_composition", "three_columns_from_two_vertical_pairs_v1")
+	set_meta("phase177_seedling_containment", "authored_bed_centers_preserve_scale_v1")
+	set_meta("phase178_seedling_depth", "pair_specific_soil_baselines_preserve_scale_v1")
 	set_meta("phase150_canonical_switch", false)
 	set_meta("visual_camera_component", GardenSceneFraming.CONTRACT_ID)
 	set_meta("visual_camera_reference_size", GardenSceneFraming.REFERENCE_CONTENT_SIZE)
@@ -136,7 +157,7 @@ func set_greenhouse_state(states: Array[Dictionary], crops: Dictionary, coins: i
 	if wallet_label == null or action_button == null:
 		return
 	wallet_label.text = _greenhouse_reputation_sign_text()
-	wallet_label.tooltip_text = _greenhouse_reputation_tooltip()
+	TooltipPolicy.apply(wallet_label, _greenhouse_reputation_tooltip())
 	_refresh_controls()
 	queue_redraw()
 
@@ -336,15 +357,15 @@ func _refresh_controls() -> void:
 		crop_button.disabled = not choosing_crop or option.is_empty() or not unlocked or not affordable
 		if not unlocked:
 			crop_button.text = "%s\nOD ÚR. %d" % [str(option.get("short_name", crop_id)).to_upper(), unlock_level]
-			crop_button.tooltip_text = "%s se odemkne na úrovni %d." % [str(option.get("name", crop_id)), unlock_level]
+			TooltipPolicy.apply(crop_button, "%s se odemkne na úrovni %d." % [str(option.get("name", crop_id)), unlock_level])
 		else:
 			crop_button.text = "%s\n%d MINCÍ" % [str(option.get("short_name", crop_id)).to_upper(), price]
-			crop_button.tooltip_text = "%s · růst %s · sklizeň %d mincí + %d XP" % [str(option.get("name", crop_id)), _format_duration(float(option.get("growth_seconds", 0.0))), int(option.get("reward_coins", 0)), int(option.get("reward_xp", 0))]
+			TooltipPolicy.apply(crop_button, "%s · růst %s · sklizeň %d mincí + %d XP" % [str(option.get("name", crop_id)), _format_duration(float(option.get("growth_seconds", 0.0))), int(option.get("reward_coins", 0)), int(option.get("reward_xp", 0))])
 		var usable := unlocked and affordable
 		ComicUITheme.apply_button(crop_button, _crop_button_fill(crop_id) if usable else Color("#cbd3d7"), ComicUITheme.CREAM if usable else ComicUITheme.NAVY, 14)
 	for bed_index in range(bed_buttons.size()):
 		var bed_state := bed_states[bed_index]
-		bed_buttons[bed_index].tooltip_text = "Záhon %d · %s" % [bed_index + 1, str(bed_state.get("stage_name", "stav nedostupný"))]
+		TooltipPolicy.apply(bed_buttons[bed_index], "Záhon %d · %s" % [bed_index + 1, str(bed_state.get("stage_name", "stav nedostupný"))])
 
 
 func _greenhouse_order_line() -> String:
@@ -511,6 +532,16 @@ func _bed_soil_polygon(index: int) -> PackedVector2Array:
 	return mapped
 
 
+func _bed_selection_polygon(index: int) -> PackedVector2Array:
+	var mapped := PackedVector2Array()
+	if index < 0 or index >= BED_COUNT:
+		return mapped
+	var source_polygon: Array = REAR_BED_SELECTION_SOURCE_POLYGONS[index] if index < BAYS_PER_BOX else FRONT_BED_SELECTION_SOURCE_POLYGONS[index - BAYS_PER_BOX]
+	for source_point in source_polygon:
+		mapped.append(GardenSceneFraming.map_cover_point(source_point, GREENHOUSE_SOURCE_SIZE, size))
+	return mapped
+
+
 func _bed_crop_bounds(index: int) -> Rect2:
 	if index < 0 or index >= BED_CROP_SOURCE_RECTS.size():
 		return Rect2()
@@ -532,6 +563,26 @@ func _bed_crop_grounded_bounds(index: int) -> Rect2:
 	).y
 	var baseline_y := clampf(mapped_baseline, bounds.position.y + 1.0, bounds.end.y)
 	return Rect2(bounds.position, Vector2(bounds.size.x, baseline_y - bounds.position.y))
+
+
+func _bed_seedling_center_x(index: int) -> float:
+	if index < 0 or index >= BED_SEEDLING_SOURCE_CENTER_X.size():
+		return 0.0
+	return GardenSceneFraming.map_cover_point(
+		Vector2(BED_SEEDLING_SOURCE_CENTER_X[index], 0.0),
+		GREENHOUSE_SOURCE_SIZE,
+		size
+	).x
+
+
+func _bed_seedling_baseline_y(index: int) -> float:
+	if index < 0 or index >= BED_SEEDLING_BASELINE_SOURCE_Y.size():
+		return 0.0
+	return GardenSceneFraming.map_cover_point(
+		Vector2(0.0, BED_SEEDLING_BASELINE_SOURCE_Y[index]),
+		GREENHOUSE_SOURCE_SIZE,
+		size
+	).y
 
 
 func _map_source_rect(source_rect: Rect2) -> Rect2:
@@ -578,9 +629,10 @@ func _draw_bed(index: int, rect: Rect2, state: Dictionary) -> void:
 		elif stage in ["growing", "ready"]:
 			draw_colored_polygon(soil_polygon, Color("#3bc5b4", 0.08))
 		if selected:
-			draw_colored_polygon(soil_polygon, Color("#fff19a", 0.08 + pulse * 0.06))
-			var outline := PackedVector2Array(soil_polygon)
-			outline.append(soil_polygon[0])
+			var selection_polygon := _bed_selection_polygon(index)
+			draw_colored_polygon(selection_polygon, Color("#fff19a", 0.08 + pulse * 0.06))
+			var outline := PackedVector2Array(selection_polygon)
+			outline.append(selection_polygon[0])
 			draw_polyline(outline, ComicUITheme.GOLD.lerp(Color.WHITE, pulse * 0.22), 3.0, true)
 	if stage != "empty" and stage != "invalid":
 		var crop_asset_id := VisualDesignSystem.greenhouse_crop_asset_id(str(state.get("crop_id", "")))
@@ -596,10 +648,13 @@ func _draw_bed(index: int, rect: Rect2, state: Dictionary) -> void:
 				crop_fill = 0.82 + progress * 0.16
 			var crop_role := "seedlings" if crop_asset_id == VisualDesignSystem.GREENHOUSE_PHASE150_SEEDLINGS_ASSET_ID else str(state.get("crop_id", ""))
 			var crop_rect := _phase150_crop_rect(crop_asset_id, crop_role, stage, progress, rect, crop_bounds, crop_fill)
-			# Keep every source region rooted to the shared authored soil baseline.
-			# Both the generic fitter and the approved occupancy profile clamp compact
-			# layouts so the painted crop never escapes its functional bay.
-			crop_rect.position.y = crop_bounds.end.y - crop_rect.size.y
+			if crop_role == "seedlings":
+				crop_rect.position.x = _bed_seedling_center_x(index) - crop_rect.size.x * 0.5
+				crop_rect.position.y = _bed_seedling_baseline_y(index) - crop_rect.size.y
+			else:
+				# Mature crops keep the shared authored baseline and their approved
+				# perspective overhang. Only low seedlings move behind the front rim.
+				crop_rect.position.y = crop_bounds.end.y - crop_rect.size.y
 			var crop_region := VisualDesignSystem.source_region_for(crop_asset_id)
 			if crop_rect.size.x > 0.0 and crop_rect.size.y > 0.0 and crop_region.size.x > 0.0 and crop_region.size.y > 0.0:
 				_draw_phase150_crop_region(crop_texture, crop_region, crop_rect, crop_role)

@@ -2,11 +2,16 @@ class_name PlantRoomOverview
 extends Control
 
 signal slot_selected(index: int)
+signal light_toggle_requested(index: int)
 
-const RoomTexture := preload("res://assets/backgrounds/comic_room_rack_v1.png")
+const RoomTexture := preload("res://assets/ui/visual/phase171/rack/rack_stand_painted_phase171_v1.png")
+const RackDockBackgroundTexture := preload("res://assets/ui/visual/phase183/rack_dock/rack_floor_extension_phase183_v1.png")
+const RackStandLayout := preload("res://scripts/ui/rack_stand_layout.gd")
 const GardenSceneFraming := preload("res://scripts/ui/garden_scene_framing.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
+const RackPlanterGrounding := preload("res://scripts/ui/rack_planter_grounding.gd")
+const RackSaucerTexture := preload("res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png")
 const Phase163LockedPlanterTexture := preload("res://assets/ui/visual/phase163/rack/rack_locked_planter_phase163_v1.png")
 const Phase163GrowLightTexture := preload("res://assets/ui/visual/phase163/rack/rack_grow_light_phase163_v1.png")
 const PlantPresentationCatalogScene := preload("res://scripts/plant_presentation_catalog.gd")
@@ -53,14 +58,13 @@ const ROUNDED_STYLE_CACHE_LIMIT := 96
 const SLOT_SOURCE_X := 100.0
 const SLOT_SOURCE_STEP_X := 140.0
 const SLOT_SOURCE_WIDTH := 130.0
-const SLOT_SOURCE_FIRST_Y := 500.0
-const SLOT_SOURCE_SECOND_Y := 820.0
-const SLOT_SOURCE_FIRST_HEIGHT := 305.0
-const SLOT_SOURCE_SECOND_HEIGHT := 305.0
-const SLOT_SOURCE_FIRST_BASELINE_Y := 720.0
-const SLOT_SOURCE_SECOND_BASELINE_Y := 1018.0
-const SLOT_LABEL_ASPECT := 86.0 / 28.0
+const SLOT_SOURCE_FIRST_Y := 520.0
+const SLOT_SOURCE_SECOND_Y := 878.0
+const SLOT_SOURCE_FIRST_HEIGHT := 307.0
+const SLOT_SOURCE_SECOND_HEIGHT := 312.0
+const SLOT_LABEL_ASPECT := 130.0 / 68.0
 const STATUS_BADGE_RADIUS := 12.5
+const STATUS_BADGE_DISPLAY_SCALE := 0.48
 const STATUS_BADGE_SHADOW_OFFSET := Vector2(1.0, 2.0)
 const STATUS_BADGE_RIGHT_INSET := 15.0
 const STATUS_BADGE_TOP_LIFT := 16.0
@@ -70,11 +74,18 @@ const LIGHT_SOURCE_WIDTH := 84.0
 const LIGHT_SOURCE_X := 123.0
 const LIGHT_SOURCE_STEP_X := SLOT_SOURCE_STEP_X
 const LIGHT_SOURCE_HEIGHT := 20.0
-const LIGHT_SOURCE_FIRST_Y := 482.0
-const LIGHT_SOURCE_SECOND_Y := 840.0
+const LIGHT_SOURCE_FIRST_Y := 494.0
+const LIGHT_SOURCE_SECOND_Y := 831.0
+const LIGHT_TOGGLE_DURATION := 0.42
+const LIGHT_TOGGLE_OFF_DURATION := 0.24
+const LIGHT_DENIED_DURATION := 0.30
+const LIGHT_TOUCH_MIN_WIDTH := 48.0
+const LIGHT_TOUCH_PREFERRED_SIZE := 64.0
+const LIGHT_TOUCH_HEIGHT := 48.0
+const LIGHT_TAP_DRAG_LIMIT := 14.0
+const LIGHT_POINTER_NONE := -2
+const LIGHT_POINTER_MOUSE := -1
 const LOCKED_PLANTER_WIDTH_SCALE := 1.05
-const LOWER_FIXTURE_COVER_SOURCE_RECT := Rect2(69.0, 802.0, 749.0, 32.0)
-const LOWER_FIXTURE_COVER_DEST_RECT := Rect2(69.0, 832.0, 749.0, 42.0)
 
 var session: GameSession
 var slot_rects: Array[Rect2] = []
@@ -96,6 +107,13 @@ var unlock_elapsed := 0.0
 var previous_unlocked_count := -1
 var displayed_unlocked_count := 0
 var displayed_occupied_count := 0
+var light_transition_elapsed: Array[float] = []
+var light_transition_targets: Array[bool] = []
+var light_transition_from_strength: Array[float] = []
+var light_denied_elapsed: Array[float] = []
+var light_touch_tracking_index := -1
+var light_touch_start_position := Vector2.ZERO
+var light_touch_pointer_id := LIGHT_POINTER_NONE
 var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 
 
@@ -103,9 +121,12 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	set_meta("visual_source", "comic_room_phase_2_dynamic")
-	set_meta("selected_growth_summary", "removed_phase125_future_content_space_v1")
-	set_meta("future_content_space", "reserved_display_dock_phase125_v1")
-	set_meta("future_content_hint", "cosmetics_and_pets_display_only_v1")
+	set_meta("selected_growth_summary", "compact_rack_dock_phase183_v1")
+	set_meta("future_content_space", "painted_four_icon_dock_phase183_v1")
+	set_meta("future_content_hint", "pet_professor_care_settings_v1")
+	set_meta("dock_background_asset", "rack_floor_extension_phase183_v1.png")
+	set_meta("dock_background_policy", "painted_floor_crop_no_code_panel_v1")
+	set_meta("phase183_dock_visual_component", VisualDesignSystem.RACK_PHASE183_DOCK_RUNTIME_SET_ID)
 	set_meta("edge_background", "full_width_frame_no_filler")
 	set_meta("slot_label_source", "comic_code_drawn_v1")
 	set_meta("grid_source", "comic_rack_fixed_grid_2x5_v1")
@@ -139,6 +160,11 @@ func _ready() -> void:
 	set_meta("phase151_reference_asset", VisualDesignSystem.RACK_PHASE151_TARGET_ASSET)
 	set_meta("phase151_dynamic_policy", "ten_live_slots_no_baked_game_state_v1")
 	set_meta("phase151_plant_grounding", "painted_saucer_contact_shadow_shelf_baseline_v1")
+	set_meta("phase170_plant_grounding", RackPlanterGrounding.CONTRACT_ID)
+	set_meta("phase170_pot_motion", "fixed_ceramic_contact_ambient_and_feedback_unchanged_v1")
+	set_meta("phase171_stand_layout", RackStandLayout.CONTRACT_ID)
+	set_meta("phase171_background", RackStandLayout.TEXTURE_PATH)
+	set_meta("phase171_label_policy", "all_states_one_fascia_label_status_inside_v1")
 	set_meta("phase151_locked_slot_policy", "superseded_by_phase163_compact_planter_v1")
 	set_meta("phase151_source_png_policy", "rgb_assets_unchanged_import_mipmaps_only_v1")
 	set_meta("phase163_visual_component", VisualDesignSystem.RACK_PHASE163_RUNTIME_SET_ID)
@@ -146,8 +172,14 @@ func _ready() -> void:
 	set_meta("phase163_locked_slot_policy", "single_approved_compact_planter_master_reused_all_slots_v1")
 	set_meta("phase163_grow_light_policy", "single_approved_brass_fixture_master_reused_all_sockets_v1")
 	set_meta("phase163_fixture_visibility_policy", "upper_row_always_lower_row_when_unlocked_v1")
-	set_meta("phase163_baked_fixture_cleanup", "same_background_wood_fascia_runtime_composite_v1")
+	set_meta("phase163_baked_fixture_cleanup", "not_needed_clean_phase171_painting_v1")
 	set_meta("phase163_source_policy", "approved_reference_rgb_preserved_alpha_only_v1")
+	set_meta("phase179_independent_rack_lights", "direct_fixture_tap_real_per_slot_lamp_state_v1")
+	set_meta("phase179_light_animation", "concurrent_warm_beam_lens_bloom_reduced_motion_v1")
+	set_meta("phase179_light_input_priority", "fixture_before_plant_slot_v1")
+	set_meta("phase181_light_off_anchor", "indexed_fixture_lens_center_v1")
+	set_meta("phase182_professor_launcher_clearance", "dynamic_title_after_dedicated_64px_research_button_v1")
+	_ensure_light_animation_state()
 	set_process(true)
 
 
@@ -222,6 +254,18 @@ func _process(delta: float) -> void:
 			ambient_redraw_accumulator = fmod(ambient_redraw_accumulator, AMBIENT_REDRAW_INTERVAL)
 			redraw_needed = true
 	var ui_delta := delta * (3.0 if reduced_motion else 1.0)
+	_ensure_light_animation_state()
+	for index in range(GameSession.MAX_PLANT_SLOTS):
+		if light_transition_elapsed[index] >= 0.0:
+			light_transition_elapsed[index] += ui_delta
+			redraw_needed = true
+			if light_transition_elapsed[index] >= _light_transition_duration(index):
+				light_transition_elapsed[index] = -1.0
+		if light_denied_elapsed[index] >= 0.0:
+			light_denied_elapsed[index] += ui_delta
+			redraw_needed = true
+			if light_denied_elapsed[index] >= LIGHT_DENIED_DURATION:
+				light_denied_elapsed[index] = -1.0
 	if selection_pending:
 		selection_elapsed += ui_delta
 		redraw_needed = true
@@ -248,21 +292,163 @@ func _process(delta: float) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	var pressed := false
-	var position := Vector2.ZERO
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		pressed = true
-		position = event.position
-	elif event is InputEventScreenTouch and event.pressed:
-		pressed = true
-		position = event.position
-	if not pressed:
+	if event is InputEventScreenDrag:
+		if light_touch_pointer_id == event.index:
+			_cancel_light_touch_after_drag(event.position)
 		return
-	for index in range(slot_rects.size()):
-		if slot_rects[index].has_point(position):
-			start_slot_selection(index)
+	if event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		if light_touch_pointer_id == LIGHT_POINTER_MOUSE:
+			_cancel_light_touch_after_drag(event.position)
+		return
+	var is_pointer_event: bool = event is InputEventScreenTouch or (
+		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT
+	)
+	if not is_pointer_event:
+		return
+	var position: Vector2 = event.position
+	var pointer_id: int = event.index if event is InputEventScreenTouch else LIGHT_POINTER_MOUSE
+	if event.pressed:
+		if light_touch_tracking_index >= 0 and pointer_id != light_touch_pointer_id:
+			return
+		_layout_slots()
+		var light_index := _light_index_at_position(position)
+		if light_index >= 0:
+			light_touch_tracking_index = light_index
+			light_touch_start_position = position
+			light_touch_pointer_id = pointer_id
 			accept_event()
 			return
+		_cancel_light_touch_tracking()
+		for index in range(slot_rects.size()):
+			if slot_rects[index].has_point(position):
+				start_slot_selection(index)
+				accept_event()
+				return
+		return
+	if light_touch_tracking_index < 0:
+		return
+	if pointer_id != light_touch_pointer_id:
+		return
+	var completed_index := light_touch_tracking_index
+	var stayed_in_tap_range := position.distance_to(light_touch_start_position) <= LIGHT_TAP_DRAG_LIMIT
+	var released_on_same_fixture := _light_touch_rect(completed_index).has_point(position)
+	_cancel_light_touch_tracking()
+	if stayed_in_tap_range and released_on_same_fixture:
+		light_toggle_requested.emit(completed_index)
+		accept_event()
+
+
+func play_light_toggle(index: int, enabled: bool) -> void:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return
+	_ensure_light_animation_state()
+	var current_strength := _light_transition_strength(index, not enabled)
+	light_transition_from_strength[index] = current_strength
+	light_transition_targets[index] = enabled
+	light_transition_elapsed[index] = 0.0
+	light_denied_elapsed[index] = -1.0
+	queue_redraw()
+
+
+func play_light_denied(index: int) -> void:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return
+	_ensure_light_animation_state()
+	light_denied_elapsed[index] = 0.0
+	queue_redraw()
+
+
+func cancel_pointer_interactions() -> void:
+	_cancel_light_touch_tracking()
+	selection_pending = false
+	selection_slot_index = -1
+	selection_elapsed = 0.0
+
+
+func _ensure_light_animation_state() -> void:
+	while light_transition_elapsed.size() < GameSession.MAX_PLANT_SLOTS:
+		light_transition_elapsed.append(-1.0)
+		light_transition_targets.append(false)
+		light_transition_from_strength.append(0.0)
+		light_denied_elapsed.append(-1.0)
+
+
+func _light_touch_rect(index: int) -> Rect2:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return Rect2()
+	var row := int(index / 5)
+	var column := index % 5
+	var fixture := _light_fixture_rect(row, column)
+	var mapped_step := LIGHT_SOURCE_STEP_X * size.x / GRID_SOURCE_WIDTH
+	var touch_width := minf(LIGHT_TOUCH_PREFERRED_SIZE, maxf(LIGHT_TOUCH_MIN_WIDTH, mapped_step - 2.0))
+	var touch_size := Vector2(touch_width, LIGHT_TOUCH_HEIGHT)
+	# The painted fixture overlaps the slot by only a few pixels. Include that
+	# full artwork, but do not extend the target farther into the foliage.
+	var target_bottom := fixture.end.y + 1.0
+	return Rect2(Vector2(fixture.get_center().x - touch_size.x * 0.5, target_bottom - touch_size.y), touch_size)
+
+
+func _light_index_at_position(position: Vector2) -> int:
+	for index in range(GameSession.MAX_PLANT_SLOTS):
+		if _is_light_fixture_visible(index) and _light_touch_rect(index).has_point(position):
+			return index
+	return -1
+
+
+func _cancel_light_touch_after_drag(position: Vector2) -> void:
+	if light_touch_tracking_index < 0:
+		return
+	if position.distance_to(light_touch_start_position) > LIGHT_TAP_DRAG_LIMIT:
+		_cancel_light_touch_tracking()
+
+
+func _cancel_light_touch_tracking() -> void:
+	light_touch_tracking_index = -1
+	light_touch_start_position = Vector2.ZERO
+	light_touch_pointer_id = LIGHT_POINTER_NONE
+
+
+func _is_light_fixture_visible(index: int) -> bool:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return false
+	return index < 5 or index < displayed_unlocked_count
+
+
+func _light_transition_strength(index: int, active: bool) -> float:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return 1.0 if active else 0.0
+	_ensure_light_animation_state()
+	var elapsed := light_transition_elapsed[index]
+	if elapsed < 0.0:
+		return 1.0 if active else 0.0
+	var progress := clampf(elapsed / _light_transition_duration(index), 0.0, 1.0)
+	var eased := 1.0 - pow(1.0 - progress, 3.0)
+	var target_strength := 1.0 if light_transition_targets[index] else 0.0
+	return lerpf(light_transition_from_strength[index], target_strength, eased)
+
+
+func _light_transition_pulse(index: int) -> float:
+	if reduced_motion or index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return 0.0
+	_ensure_light_animation_state()
+	if light_transition_elapsed[index] < 0.0:
+		return 0.0
+	return sin(clampf(light_transition_elapsed[index] / _light_transition_duration(index), 0.0, 1.0) * PI)
+
+
+func _light_transition_duration(index: int) -> float:
+	if index >= 0 and index < light_transition_targets.size() and not light_transition_targets[index]:
+		return LIGHT_TOGGLE_OFF_DURATION
+	return LIGHT_TOGGLE_DURATION
+
+
+func _light_denied_progress(index: int) -> float:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return -1.0
+	_ensure_light_animation_state()
+	if light_denied_elapsed[index] < 0.0:
+		return -1.0
+	return clampf(light_denied_elapsed[index] / LIGHT_DENIED_DURATION, 0.0, 1.0)
 func start_slot_selection(index: int) -> void:
 	if index < 0 or index >= slot_rects.size():
 		return
@@ -282,8 +468,8 @@ func start_slot_selection(index: int) -> void:
 func _draw() -> void:
 	var future_content_height := _future_content_height()
 	var room_rect := Rect2(0.0, 0.0, size.x, maxf(1.0, size.y - future_content_height))
-	draw_texture_rect(RoomTexture, room_rect, false)
-	_draw_phase163_baked_fixture_cleanup()
+	for region: Dictionary in RackStandLayout.background_regions(room_rect):
+		draw_texture_rect_region(RoomTexture, region.target, region.source)
 	var future_content_rect := Rect2(0.0, room_rect.end.y, size.x, future_content_height)
 	_draw_future_content_space(future_content_rect)
 	_draw_room_atmosphere(room_rect)
@@ -353,37 +539,19 @@ func _future_content_height() -> float:
 
 
 func _draw_future_content_space(rect: Rect2) -> void:
-	draw_rect(rect, COMIC_INK)
-	var outer := rect.grow(-3.0)
-	_draw_rounded(outer, COMIC_BLUE, COMIC_INK, 3, 13, Color("#0b1520", 0.34), 3)
-	var inner := outer.grow(-5.0)
-	_draw_rounded(inner, COMIC_CREAM, Color("#ff9f1f"), 2, 9)
-	var icon_panel := Rect2(rect.position + Vector2(10.0, 10.0), Vector2(70.0, rect.size.y - 20.0))
-	_draw_rounded(icon_panel, COMIC_CYAN, COMIC_INK, 2, 10)
-	_draw_future_paw(icon_panel)
-	var dock_font_size := 10 if size.x < 400.0 else 12
-	draw_string(FontExtraBold, rect.position + Vector2(89.0, 34.0), "DOPLŇKY · MAZLÍK", HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 238.0, dock_font_size, COMIC_INK)
-	var display_rail := Rect2(rect.position + Vector2(89.0, 45.0), Vector2(178.0, maxf(24.0, rect.size.y - 57.0)))
-	_draw_rounded(display_rail, Color("#ffd77e"), COMIC_INK, 2, 7)
-	var rail_inner := display_rail.grow(-5.0)
-	_draw_rounded(rail_inner, Color("#174f56"), COMIC_INK, 1, 5)
-	var socket_colors := [COMIC_GREEN, LOCK_PURPLE, Color("#ffae24")]
-	for socket_index in range(3):
-		var socket_center := Vector2(
-			rail_inner.position.x + rail_inner.size.x * (0.25 + float(socket_index) * 0.25),
-			rail_inner.get_center().y
-		)
-		draw_circle(socket_center, 6.0, COMIC_INK, true, -1.0, true)
-		draw_circle(socket_center, 3.8, socket_colors[socket_index], true, -1.0, true)
-
-
-func _draw_future_paw(area: Rect2) -> void:
-	var center := area.get_center() + Vector2(0.0, 8.0)
-	draw_circle(center, 12.0, COMIC_INK, true, -1.0, true)
-	draw_circle(center, 8.5, COMIC_GREEN, true, -1.0, true)
-	for toe_offset in [Vector2(-15.0, -13.0), Vector2(-5.0, -18.0), Vector2(5.0, -18.0), Vector2(15.0, -13.0)]:
-		draw_circle(center + toe_offset, 6.0, COMIC_INK, true, -1.0, true)
-		draw_circle(center + toe_offset, 3.8, Color("#ffae24"), true, -1.0, true)
+	var texture_size := RackDockBackgroundTexture.get_size()
+	var source_height := minf(texture_size.y, texture_size.x * rect.size.y / maxf(1.0, rect.size.x))
+	var source_rect := Rect2(
+		0.0,
+		maxf(0.0, texture_size.y - source_height),
+		texture_size.x,
+		source_height
+	)
+	draw_texture_rect_region(RackDockBackgroundTexture, rect, source_rect)
+	# A narrow painted-scene separator keeps the dock readable without bringing
+	# back the oversized cream/cyan panel that previously covered this floor.
+	draw_rect(Rect2(rect.position, Vector2(rect.size.x, 3.0)), Color("#17212b", 0.90), true)
+	draw_rect(Rect2(rect.position + Vector2(0.0, 3.0), Vector2(rect.size.x, 2.0)), Color("#ffd51e", 0.82), true)
 
 
 func _grid_height() -> float:
@@ -503,23 +671,138 @@ func _low_ambient_factor() -> float:
 func _draw_light_segment_states() -> void:
 	if session == null:
 		return
+	_ensure_light_animation_state()
 	var low_ambient := _low_ambient_factor()
 	for row in range(2):
 		for column in range(5):
 			var index := row * 5 + column
 			var fixture_rect := _light_fixture_rect(row, column)
-			var active := index < displayed_unlocked_count and _is_visible_on_rack(session.plants[index]) and session.plants[index].lamp_on
-			var fixture_visible := row == 0 or index < displayed_unlocked_count
-			if fixture_visible:
-				draw_texture_rect(Phase163GrowLightTexture, fixture_rect, false, Color.WHITE)
-			if not active:
-				# The approved brass fixture remains readable while its inner glow is off.
+			if not _is_light_fixture_visible(index):
 				continue
-			var lens := _active_light_lens_rect(fixture_rect)
-			var glow_alpha := 0.22 + low_ambient * 0.20
-			draw_circle(lens.get_center() + Vector2(0.0, fixture_rect.size.y * 0.42), fixture_rect.size.x * 0.34, Color(1.0, 0.75, 0.18, glow_alpha * 0.25), true, -1.0, true)
-			_draw_rounded(lens.grow(0.6), Color("#ffe98b"), Color("#8f5516"), 1, maxi(2, roundi(lens.size.y * 0.5)), Color(1.0, 0.67, 0.08, glow_alpha), 3)
-			draw_line(lens.position + Vector2(lens.size.x * 0.15, lens.size.y * 0.38), Vector2(lens.end.x - lens.size.x * 0.15, lens.position.y + lens.size.y * 0.38), Color("#fffdf1"), 1.0, true)
+			var active := index < displayed_unlocked_count and _is_visible_on_rack(session.plants[index]) and session.plants[index].lamp_on
+			var strength := _light_transition_strength(index, active)
+			var denied_progress := _light_denied_progress(index)
+			var painted_fixture := fixture_rect
+			if denied_progress >= 0.0 and not reduced_motion:
+				painted_fixture.position.x += sin(denied_progress * PI * 6.0) * (1.0 - denied_progress) * 2.2
+			if strength > 0.001:
+				_draw_rack_light_beam(index, painted_fixture, strength, low_ambient)
+			# The approved Phase163 brass fixture remains byte-exact; only runtime
+			# light, bloom and touch feedback are drawn around it.
+			draw_texture_rect(Phase163GrowLightTexture, painted_fixture, false, Color.WHITE)
+			if strength > 0.001:
+				_draw_rack_light_lens(index, painted_fixture, strength, low_ambient)
+			_draw_rack_light_transition(index, painted_fixture)
+			if denied_progress >= 0.0:
+				_draw_rack_light_denied(painted_fixture, denied_progress)
+
+
+func _draw_rack_light_beam(index: int, fixture_rect: Rect2, strength: float, low_ambient: float) -> void:
+	if index < 0 or index >= slot_rects.size():
+		return
+	var lens := _active_light_lens_rect(fixture_rect)
+	var slot := slot_rects[index]
+	var beam_bottom_y := minf(_slot_label_rect(slot).position.y, slot.position.y + slot.size.y * 0.72)
+	if beam_bottom_y <= lens.end.y:
+		return
+	var live_pulse := 1.0
+	if not reduced_motion and not fast_time_visuals:
+		live_pulse = 0.965 + sin(animation_time * 2.2 + float(index) * 0.73) * 0.035
+	var beam_alpha := strength * live_pulse * (0.072 + low_ambient * 0.042)
+	var outer := PackedVector2Array([
+		lens.position + Vector2(lens.size.x * 0.04, lens.size.y * 0.58),
+		lens.position + Vector2(lens.size.x * 0.96, lens.size.y * 0.58),
+		Vector2(slot.get_center().x + slot.size.x * 0.43, beam_bottom_y),
+		Vector2(slot.get_center().x - slot.size.x * 0.43, beam_bottom_y),
+	])
+	draw_colored_polygon(outer, Color(1.0, 0.78, 0.23, beam_alpha))
+	var inner := PackedVector2Array([
+		lens.position + Vector2(lens.size.x * 0.20, lens.size.y * 0.68),
+		lens.position + Vector2(lens.size.x * 0.80, lens.size.y * 0.68),
+		Vector2(slot.get_center().x + slot.size.x * 0.27, beam_bottom_y),
+		Vector2(slot.get_center().x - slot.size.x * 0.27, beam_bottom_y),
+	])
+	draw_colored_polygon(inner, Color(1.0, 0.91, 0.50, beam_alpha * 1.25))
+
+
+func _draw_rack_light_lens(index: int, fixture_rect: Rect2, strength: float, low_ambient: float) -> void:
+	var lens := _active_light_lens_rect(fixture_rect)
+	var live_pulse := 1.0
+	if not reduced_motion and not fast_time_visuals:
+		live_pulse = 0.96 + sin(animation_time * 2.5 + float(index) * 0.67) * 0.04
+	var glow_alpha := strength * live_pulse * (0.24 + low_ambient * 0.20)
+	draw_circle(lens.get_center() + Vector2(0.0, fixture_rect.size.y * 0.42), fixture_rect.size.x * (0.29 + strength * 0.05), Color(1.0, 0.75, 0.18, glow_alpha * 0.27), true, -1.0, true)
+	var lens_alpha := clampf(strength * live_pulse, 0.0, 1.0)
+	var lens_fill := Color("#ffe98b").lerp(Color("#fffdf1"), 0.22 * strength)
+	lens_fill.a = lens_alpha
+	_draw_light_capsule(lens.grow(0.6), lens_fill, Color(0.56, 0.33, 0.09, lens_alpha), maxf(0.8, lens.size.y * 0.10))
+	draw_line(lens.position + Vector2(lens.size.x * 0.15, lens.size.y * 0.38), Vector2(lens.end.x - lens.size.x * 0.15, lens.position.y + lens.size.y * 0.38), Color(1.0, 1.0, 0.95, lens_alpha * (0.76 + strength * 0.24)), 1.0, true)
+
+
+func _light_effect_center(index: int) -> Vector2:
+	if index < 0 or index >= GameSession.MAX_PLANT_SLOTS:
+		return Vector2(-1.0, -1.0)
+	var row := int(index / 5)
+	var column := index % 5
+	return _active_light_lens_rect(_light_fixture_rect(row, column)).get_center()
+
+
+func _draw_rack_light_transition(index: int, fixture_rect: Rect2) -> void:
+	var transition_pulse := _light_transition_pulse(index)
+	if transition_pulse <= 0.0:
+		return
+	var effect_center := _light_effect_center(index)
+	if effect_center.x < 0.0 or effect_center.y < 0.0:
+		return
+	var duration := _light_transition_duration(index)
+	var progress := clampf(light_transition_elapsed[index] / duration, 0.0, 1.0)
+	var turning_off := not light_transition_targets[index]
+	# Zhasnutí se stahuje dovnitř přímo do čočky konkrétního indexu.
+	# Rozsvícení zachovává původní krátký výdech směrem ven.
+	var ring_ratio := lerpf(0.19, 0.08, progress) if turning_off else (0.11 + transition_pulse * 0.07)
+	var ring_radius := fixture_rect.size.x * ring_ratio
+	var arc_color := Color(1.0, 0.90, 0.36, transition_pulse * 0.68)
+	var arc_width := maxf(1.0, fixture_rect.size.x * 0.016)
+	draw_arc(effect_center, ring_radius, PI * 0.10, PI * 0.40, 9, arc_color, arc_width, true)
+	draw_arc(effect_center, ring_radius, PI * 0.60, PI * 0.90, 9, arc_color, arc_width, true)
+	for sparkle_index in range(3):
+		var angle := PI * (0.26 + float(sparkle_index) * 0.24)
+		var direction := Vector2(cos(angle), sin(angle))
+		var ray_length := fixture_rect.size.x * (0.035 + transition_pulse * 0.035)
+		var ray_start := effect_center + direction * (ring_radius + (ray_length if turning_off else 1.0))
+		var ray_end := ray_start + direction * (-ray_length if turning_off else ray_length)
+		draw_line(ray_start, ray_end, Color(1.0, 0.96, 0.60, transition_pulse * 0.86), maxf(1.0, fixture_rect.size.x * 0.014), true)
+		draw_circle(ray_end, maxf(0.8, fixture_rect.size.x * 0.012 * transition_pulse), Color(1.0, 0.96, 0.60, transition_pulse), true, -1.0, true)
+
+
+func _draw_light_capsule(rect: Rect2, fill: Color, border: Color, border_width: float) -> void:
+	_draw_light_capsule_fill(rect, border)
+	var inner := rect.grow(-border_width)
+	if inner.size.x > 0.0 and inner.size.y > 0.0:
+		_draw_light_capsule_fill(inner, fill)
+
+
+func _draw_light_capsule_fill(rect: Rect2, color: Color) -> void:
+	var radius := minf(rect.size.x, rect.size.y) * 0.5
+	if radius <= 0.0 or color.a <= 0.0:
+		return
+	var center_y := rect.position.y + rect.size.y * 0.5
+	var left_center := Vector2(rect.position.x + radius, center_y)
+	var right_center := Vector2(rect.end.x - radius, center_y)
+	if right_center.x > left_center.x:
+		draw_rect(Rect2(Vector2(left_center.x, rect.position.y), Vector2(right_center.x - left_center.x, rect.size.y)), color, true)
+	draw_circle(left_center, radius, color, true, -1.0, true)
+	if not right_center.is_equal_approx(left_center):
+		draw_circle(right_center, radius, color, true, -1.0, true)
+
+
+func _draw_rack_light_denied(fixture_rect: Rect2, progress: float) -> void:
+	var pulse := sin(progress * PI)
+	if pulse <= 0.0:
+		return
+	var lens := _active_light_lens_rect(fixture_rect)
+	draw_circle(lens.get_center(), lens.size.x * 0.46, Color(1.0, 0.45, 0.12, pulse * 0.22), true, -1.0, true)
+	draw_arc(lens.get_center(), lens.size.x * 0.50, 0.0, TAU, 22, Color(1.0, 0.64, 0.18, pulse * 0.82), maxf(1.0, lens.size.y * 0.18), true)
 
 
 func _light_segment_rect(row: int, column: int) -> Rect2:
@@ -549,20 +832,8 @@ func _active_light_lens_rect(fixture_rect: Rect2) -> Rect2:
 	)
 
 
-func _draw_phase163_baked_fixture_cleanup() -> void:
-	# Phase163 keeps the original painted rack immutable. Extending its own
-	# middle wooden fascia hides the historical lower-row fixtures until those
-	# slots actually unlock; this matches the approved composition without a
-	# foreign patch or a baked gameplay state.
-	draw_texture_rect_region(
-		RoomTexture,
-		_source_rect_to_room(LOWER_FIXTURE_COVER_DEST_RECT),
-		LOWER_FIXTURE_COVER_SOURCE_RECT
-	)
-
-
 func _draw_title() -> void:
-	var title_rect := _source_rect_to_room(TITLE_SOURCE_RECT)
+	var title_rect := title_rect_for_current_state()
 	var count_rect := _source_rect_to_room(COUNT_SOURCE_RECT)
 	var scale_factor := size.x / GRID_SOURCE_WIDTH
 	_draw_rounded(Rect2(title_rect.position + Vector2(0.0, 4.0 * scale_factor), title_rect.size), Color("#133449", 0.48), Color.TRANSPARENT, 0, maxi(8, roundi(14.0 * scale_factor)))
@@ -581,40 +852,24 @@ func _draw_title() -> void:
 	draw_string(FontExtraBold, count_rect.position + Vector2(0.0, count_rect.size.y * 0.68), "%d/10" % displayed_occupied_count, HORIZONTAL_ALIGNMENT_CENTER, count_rect.size.x, font_size, COMIC_INK)
 
 
+func title_rect_for_current_state() -> Rect2:
+	return _source_rect_to_room(TITLE_SOURCE_RECT)
+
+
 func _draw_slot(index: int, rect: Rect2, slot: PlantSimulation) -> void:
-	var selected := index == session.selected_plant_index
 	var plaque := _slot_label_rect(rect)
-	# Every generated sprite shares a bottom-center pivot. The explicit shelf
-	# baseline keeps all growth states planted instead of vertically centered.
-	var baseline_y := _slot_plant_baseline(index)
-	# The approved Phase151 rack treats each plant as a display piece rather
-	# than a small icon.  A controlled shelf overhang increases prominence
-	# while the shared baseline still prevents vertical drift.
-	var overhang := rect.size.x * 0.11
-	var plant_area := Rect2(rect.position + Vector2(-overhang, -8.0), Vector2(rect.size.x + overhang * 2.0, baseline_y - rect.position.y + 8.0))
-	var rack_empty_visual := not _is_visible_on_rack(slot)
-	var texture := _rack_texture_for(slot)
+	var geometry := _rack_slot_geometry(index, rect, slot)
+	var texture: Texture2D = geometry["texture"]
 	var texture_profile := VisualDesignSystem.profile_for_path(texture.resource_path if texture != null else "")
 	set_meta("last_plant_visual_family", str(texture_profile.get("family", "")))
-	var plant_rect := _fit_texture_bottom_rect(texture, plant_area)
-	_draw_phase151_rack_grounding(rect.get_center().x, baseline_y, plant_rect.size.x, rack_empty_visual)
-	var idle_strength := 0.0 if _is_dead(slot) else (0.38 if rack_empty_visual else (1.6 if selected else 0.65))
-	plant_rect.position.y += sin(animation_time * 2.0 + index * 0.7) * idle_strength
-	var idle_scale := 0.97 if _is_dead(slot) else 1.0 + sin(animation_time * 2.15 + index * 0.4) * (0.006 if selected else 0.003)
-	var idle_rotation := 0.0 if rack_empty_visual else sin(animation_time * 1.65 + index * 0.2) * (0.012 if selected else 0.005)
-	if _is_dead(slot):
-		idle_rotation = -0.035
-	elif _is_wilted(slot):
-		idle_rotation += sin(animation_time * 0.72 + index) * 0.008
-	elif _uses_sick_visual_extended(slot):
-		idle_rotation += sin(animation_time * 0.72 + index) * 0.008
+	var plant_rect: Rect2 = geometry["plant_rect"]
+	_draw_rack_saucer(geometry["saucer_rect"])
 	var stress_tint := maxf(0.0, 1.0 - slot.health / 100.0) * 0.20
 	var health_tint := Color.WHITE if _uses_sick_visual_extended(slot) else Color.WHITE.lerp(Color("#d6bd75"), stress_tint)
 	health_tint = health_tint.lerp(_slot_state_tint(slot), 0.58)
-	var center := plant_rect.get_center()
-	draw_set_transform(center, idle_rotation, Vector2.ONE * idle_scale)
-	draw_texture_rect(texture, Rect2(-plant_rect.size * 0.5, plant_rect.size), false, health_tint)
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	# Ceramic rests on the plate instead of bobbing or rotating around its
+	# sprite center. Ambient light, dust, selection and harvest effects stay live.
+	draw_texture_rect(texture, plant_rect, false, health_tint)
 	if slot.stage == PlantSimulation.Stage.MATURE and not _uses_sick_visual_extended(slot):
 		_draw_slot_harvest_ready(plant_rect, index)
 
@@ -632,8 +887,9 @@ func _draw_locked_slot(index: int, rect: Rect2) -> void:
 		var shake := sin(progress * PI * 6.0) * (2.2 * (1.0 - progress))
 		visual_rect.position.x += shake
 		var scale_up := 1.0 + pulse * 0.018
+		var contact := visual_rect.position + RackStandLayout.LOCKED_CONTACT * (visual_rect.size / RackStandLayout.LOCKED_CANVAS)
 		var scaled_size := visual_rect.size * scale_up
-		visual_rect = Rect2(visual_rect.get_center() - scaled_size * 0.5, scaled_size)
+		visual_rect = Rect2(contact - RackStandLayout.LOCKED_CONTACT * (scaled_size / RackStandLayout.LOCKED_CANVAS), scaled_size)
 	var required_level := session.get_slot_unlock_level(index)
 	_draw_comic_locked_slot(visual_rect, required_level, pulse)
 
@@ -649,34 +905,51 @@ func _draw_comic_locked_slot(visual_rect: Rect2, required_level: int, pulse: flo
 	var plaque := _locked_plaque_rect(visual_rect)
 	_draw_rounded(plaque, CREAM, COMIC_INK, maxi(2, roundi(unit * 2.4)), maxi(4, roundi(unit * 5.0)))
 	var text := "ÚROVEŇ %d" % required_level
-	var font_size := maxi(8, roundi(plaque.size.y * (0.46 if required_level >= 10 else 0.52)))
-	var baseline := plaque.position.y + plaque.size.y * 0.70
-	draw_string(FontExtraBold, Vector2(plaque.position.x, baseline), text, HORIZONTAL_ALIGNMENT_CENTER, plaque.size.x, font_size, COMIC_INK)
+	var typography := _label_text_geometry(plaque, text, false)
+	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, COMIC_INK)
 
 
 func _slot_label_rect(rect: Rect2) -> Rect2:
 	var plaque_height := rect.size.x / SLOT_LABEL_ASPECT
-	return Rect2(rect.position.x, rect.end.y - plaque_height, rect.size.x, plaque_height)
+	var center_y := _source_rect_to_room(Rect2(0.0, RackStandLayout.label_center_y(_shelf_row(rect)), 1.0, 1.0)).position.y
+	return Rect2(rect.position.x, center_y - plaque_height * 0.5, rect.size.x, plaque_height)
+
+
+func _shelf_row(rect: Rect2) -> int:
+	return 1 if rect.get_center().y >= _source_rect_to_room(Rect2(0.0, SLOT_SOURCE_SECOND_Y, 1.0, 1.0)).position.y else 0
 
 
 func _status_badge_center(plaque: Rect2) -> Vector2:
-	return plaque.position + Vector2(plaque.size.x - STATUS_BADGE_RIGHT_INSET, -STATUS_BADGE_TOP_LIFT)
+	return Vector2(plaque.get_center().x, plaque.end.y - 8.0)
 
 
 func _status_badge_visual_rect(plaque: Rect2) -> Rect2:
 	var center := _status_badge_center(plaque)
-	var body_rect := Rect2(center - Vector2.ONE * STATUS_BADGE_RADIUS, Vector2.ONE * STATUS_BADGE_RADIUS * 2.0)
-	var shadow_radius := STATUS_BADGE_RADIUS + 1.0
-	var shadow_center := center + STATUS_BADGE_SHADOW_OFFSET
+	var body_radius := STATUS_BADGE_RADIUS * STATUS_BADGE_DISPLAY_SCALE
+	var body_rect := Rect2(center - Vector2.ONE * body_radius, Vector2.ONE * body_radius * 2.0)
+	var shadow_radius := (STATUS_BADGE_RADIUS + 1.0) * STATUS_BADGE_DISPLAY_SCALE
+	var shadow_center := center + STATUS_BADGE_SHADOW_OFFSET * STATUS_BADGE_DISPLAY_SCALE
 	var shadow_rect := Rect2(shadow_center - Vector2.ONE * shadow_radius, Vector2.ONE * shadow_radius * 2.0)
-	var crisis_center := center + Vector2(0.0, 1.0)
+	var crisis_center := center + Vector2(0.0, STATUS_BADGE_DISPLAY_SCALE)
 	var crisis_rect := Rect2(crisis_center - Vector2.ONE * shadow_radius, Vector2.ONE * shadow_radius * 2.0)
 	return body_rect.merge(shadow_rect).merge(crisis_rect)
 
 
 func _slot_plant_baseline(index: int) -> float:
-	var source_y := SLOT_SOURCE_FIRST_BASELINE_Y if index < 5 else SLOT_SOURCE_SECOND_BASELINE_Y
+	var source_y := RackStandLayout.shelf_floor_y(0 if index < 5 else 1)
 	return _source_rect_to_room(Rect2(0.0, source_y, 1.0, 1.0)).position.y
+
+
+func _label_text_geometry(plaque: Rect2, text: String, with_status: bool = true) -> Dictionary:
+	var area := plaque.grow(-2.0)
+	if with_status:
+		area.size.y = maxf(1.0, _status_badge_visual_rect(plaque).position.y - 0.3 - area.position.y)
+	var font_size := maxi(7, roundi(plaque.size.y * 0.28))
+	while font_size > 1 and (FontExtraBold.get_height(font_size) > area.size.y or FontExtraBold.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > area.size.x):
+		font_size -= 1
+	var text_height := FontExtraBold.get_height(font_size)
+	var text_rect := Rect2(area.position + Vector2(0.0, (area.size.y - text_height) * 0.5), Vector2(area.size.x, text_height))
+	return {"rect": text_rect, "font_size": font_size, "baseline": text_rect.position + Vector2(0.0, FontExtraBold.get_ascent(font_size))}
 
 
 func _draw_comic_slot_label(rect: Rect2, slot: PlantSimulation) -> void:
@@ -686,40 +959,54 @@ func _draw_comic_slot_label(rect: Rect2, slot: PlantSimulation) -> void:
 	_draw_rounded(shadow, Color("#17212b", 0.48), Color.TRANSPARENT, 0, maxi(4, roundi(rect.size.y * 0.22)))
 	var fill := COMIC_CYAN if is_empty or is_in_storage else COMIC_BLUE
 	_draw_rounded(rect, fill, COMIC_INK, maxi(2, roundi(rect.size.y * 0.08)), maxi(4, roundi(rect.size.y * 0.22)))
-	var inner := rect.grow(-maxf(2.0, rect.size.y * 0.12))
+	var inner := rect.grow(-2.0)
 	_draw_rounded(inner, COMIC_CREAM, Color("#ffae24"), maxi(1, roundi(rect.size.y * 0.05)), maxi(3, roundi(rect.size.y * 0.16)))
-	var font_size := maxi(8, roundi(rect.size.y * 0.42))
 	var text := "PŘIDAT" if is_empty else ("VE SKLADU" if is_in_storage else slot.get_short_name().to_upper())
-	draw_string(FontExtraBold, rect.position + Vector2(0.0, rect.size.y * 0.68), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, COMIC_INK)
+	var typography := _label_text_geometry(rect, text, not is_in_storage)
+	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, COMIC_INK)
 
 
 func _locked_texture_rect(rect: Rect2) -> Rect2:
 	var locked_width := rect.size.x * LOCKED_PLANTER_WIDTH_SCALE
 	var texture_size := Phase163LockedPlanterTexture.get_size()
 	var locked_size := Vector2(locked_width, locked_width * texture_size.y / texture_size.x)
-	var baseline := rect.position.y + rect.size.y * (220.0 / 305.0)
-	return Rect2(Vector2(rect.get_center().x - locked_size.x * 0.5, baseline - locked_size.y), locked_size)
+	var baseline := _slot_plant_baseline(_shelf_row(rect) * 5)
+	var contact := Vector2(rect.get_center().x, baseline)
+	return Rect2(contact - RackStandLayout.LOCKED_CONTACT * (locked_size / RackStandLayout.LOCKED_CANVAS), locked_size)
 
 
 func _locked_plaque_rect(visual_rect: Rect2) -> Rect2:
-	var plaque_width := visual_rect.size.x / LOCKED_PLANTER_WIDTH_SCALE
-	var plaque_height := plaque_width / SLOT_LABEL_ASPECT
-	var gap := visual_rect.size.x / 100.0 * 3.0
-	return Rect2(
-		Vector2(visual_rect.get_center().x - plaque_width * 0.5, visual_rect.end.y + gap),
-		Vector2(plaque_width, plaque_height)
-	)
+	var row := _shelf_row(visual_rect)
+	var source_x := visual_rect.get_center().x * GRID_SOURCE_WIDTH / maxf(1.0, size.x)
+	var column := clampi(roundi((source_x - SLOT_SOURCE_X - SLOT_SOURCE_WIDTH * 0.5) / SLOT_SOURCE_STEP_X), 0, 4)
+	var source_y := SLOT_SOURCE_FIRST_Y if row == 0 else SLOT_SOURCE_SECOND_Y
+	var source_height := SLOT_SOURCE_FIRST_HEIGHT if row == 0 else SLOT_SOURCE_SECOND_HEIGHT
+	return _slot_label_rect(_source_rect_to_room(Rect2(SLOT_SOURCE_X + column * SLOT_SOURCE_STEP_X, source_y, SLOT_SOURCE_WIDTH, source_height)))
 
 
-func _draw_phase151_rack_grounding(center_x: float, baseline_y: float, plant_width: float, empty_visual: bool) -> void:
-	var saucer_width := clampf(plant_width * (0.76 if empty_visual else 0.82), 28.0, 64.0)
-	var shadow_alpha := 0.24 if empty_visual else 0.34
-	draw_set_transform(Vector2(center_x, baseline_y - 1.0), 0.0, Vector2(1.0, 0.24))
-	draw_circle(Vector2(0.0, 5.0), saucer_width * 0.53, Color("#32180b", shadow_alpha), true, -1.0, true)
-	draw_circle(Vector2.ZERO, saucer_width * 0.50, COMIC_INK, true, -1.0, true)
-	draw_circle(Vector2(0.0, -2.0), saucer_width * 0.44, Color("#11a9b9"), true, -1.0, true)
-	draw_circle(Vector2(0.0, -4.0), saucer_width * 0.36, Color("#70edf1"), true, -1.0, true)
+func _rack_slot_geometry(index: int, rect: Rect2, slot: PlantSimulation) -> Dictionary:
+	var baseline_y := _slot_plant_baseline(index)
+	var overhang := rect.size.x * 0.11
+	var plant_area := Rect2(rect.position + Vector2(-overhang, -8.0), Vector2(rect.size.x + overhang * 2.0, baseline_y - rect.position.y + 8.0))
+	var texture := _rack_texture_for(slot)
+	var fitted := _fit_texture_bottom_rect(texture, plant_area)
+	var geometry := RackPlanterGrounding.layout(texture.resource_path, fitted, baseline_y)
+	if geometry.is_empty():
+		# A future unmeasured sprite remains visible, without an invented plate.
+		geometry = {"plant_rect": fitted, "saucer_rect": Rect2(), "contact": Vector2(fitted.get_center().x, baseline_y), "shelf_y": baseline_y}
+	geometry["texture"] = texture
+	return geometry
+
+
+func _draw_rack_saucer(rect: Rect2) -> void:
+	if not rect.has_area():
+		return
+	# A soft, narrow shelf contact shadow; the plate itself is one painted asset.
+	draw_set_transform(Vector2(rect.get_center().x, rect.end.y - rect.size.y * 0.10), 0.0, Vector2(1.0, 0.12))
+	for step in range(3):
+		draw_circle(Vector2.ZERO, rect.size.x * (0.52 - step * 0.045), Color("#32180b", 0.085), true, -1.0, true)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	draw_texture_rect_region(RackSaucerTexture, rect, RackPlanterGrounding.saucer_source_rect())
 
 
 func _source_rect_to_room(source_rect: Rect2) -> Rect2:
@@ -729,6 +1016,12 @@ func _source_rect_to_room(source_rect: Rect2) -> Rect2:
 
 
 func _draw_status_badge(center: Vector2, slot: PlantSimulation) -> void:
+	draw_set_transform(center, 0.0, Vector2.ONE * STATUS_BADGE_DISPLAY_SCALE)
+	_draw_status_badge_art(Vector2.ZERO, slot)
+	draw_set_transform(Vector2.ZERO)
+
+
+func _draw_status_badge_art(center: Vector2, slot: PlantSimulation) -> void:
 	var radius := STATUS_BADGE_RADIUS
 	draw_circle(center + STATUS_BADGE_SHADOW_OFFSET, radius + 1.0, Color("#17212b", 0.34), true, -1.0, true)
 	draw_circle(center, radius, COMIC_CYAN, true, -1.0, true)

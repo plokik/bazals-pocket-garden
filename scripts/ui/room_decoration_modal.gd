@@ -6,6 +6,7 @@ signal decoration_requested(decoration_id: String, slot_index: int)
 signal clear_requested(slot_index: int)
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -290,22 +291,22 @@ func _refresh_cards() -> void:
 				"placed_here":
 					action_button.text = "NA TOMTO MÍSTĚ"
 					action_button.disabled = true
-					action_button.tooltip_text = "Tato dekorace je už vybraná."
+					TooltipPolicy.apply(action_button, "Tato dekorace je už vybraná.")
 				"move":
 					action_button.text = "PŘESUNOUT ZDE"
-					action_button.tooltip_text = "Přemístíš ji na tohle místo."
+					TooltipPolicy.apply(action_button, "Přemístíš ji na tohle místo.")
 				"place":
 					action_button.text = "POLOŽIT SEM"
-					action_button.tooltip_text = "Po koupi/přesunu ji položíš sem."
+					TooltipPolicy.apply(action_button, "Po koupi/přesunu ji položíš sem.")
 				"available":
 					action_button.text = "POLOŽIT A KUPIT (%d)" % price
-					action_button.tooltip_text = "Koupíš a umístíš do místa."
+					TooltipPolicy.apply(action_button, "Koupíš a umístíš do místa.")
 				"insufficient_coins":
 					action_button.text = "NEDOSTATEK MINCÍ"
-					action_button.tooltip_text = "Na tento nákup nestačí mince."
+					TooltipPolicy.apply(action_button, "Na tento nákup nestačí mince.")
 				_:
 					action_button.text = "NELZE UMÍSTIT"
-					action_button.tooltip_text = "Momentálně nelze aplikovat."
+					TooltipPolicy.apply(action_button, "Momentálně nelze aplikovat.")
 			var button_fill := accent if not action_button.disabled else Color("#d7dde1")
 			var button_ink := ComicUITheme.CREAM if not action_button.disabled else ComicUITheme.NAVY
 			ComicUITheme.apply_button(action_button, button_fill, button_ink, 11)

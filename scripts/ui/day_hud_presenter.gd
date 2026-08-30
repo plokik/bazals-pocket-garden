@@ -1,11 +1,16 @@
 class_name DayHudPresenter
 extends RefCounted
 
+const HudTextFitterScene := preload("res://scripts/ui/hud_text_fitter.gd")
+const COMPACT_LABEL_WIDTH := 53.28
+
 var day_label: Label
+var text_fitter := HudTextFitterScene.new()
 
 
 func bind(label: Label) -> void:
 	day_label = label
+	text_fitter.bind(day_label, 16, 6, COMPACT_LABEL_WIDTH)
 
 
 func is_bound() -> bool:
@@ -16,15 +21,4 @@ func refresh(display_day: int) -> void:
 	if not is_bound():
 		return
 	var safe_day := maxi(1, display_day)
-	day_label.text = "DEN %d" % safe_day
-	var digits := str(safe_day).length()
-	var font_size := 16
-	if digits >= 6:
-		font_size = 8
-	elif digits == 5:
-		font_size = 10
-	elif digits == 4:
-		font_size = 11
-	elif digits in [2, 3]:
-		font_size = 13
-	day_label.add_theme_font_size_override("font_size", font_size)
+	text_fitter.set_text("DEN %d" % safe_day)

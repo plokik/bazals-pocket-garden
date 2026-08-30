@@ -862,19 +862,61 @@ func _validate_phase103_home_locations(instance, test_case_id: String) -> String
 	var rack_rect: Rect2 = instance.plants_room_panel.get_global_rect()
 	var rack_greenhouse_rect: Rect2 = instance.rack_greenhouse_button.get_global_rect()
 	var rack_player_room_rect: Rect2 = instance.rack_player_room_button.get_global_rect()
-	var care_rect: Rect2 = instance.care_center_launcher_button.get_global_rect()
-	var settings_rect: Rect2 = instance.settings_launcher_button.get_global_rect()
-	if instance.care_center_launcher_button.get_meta("component", "") != "phase125_rack_care_launcher_v1" or care_rect.size.x < 68.0 or care_rect.size.y < 68.0:
-		return "%s found an incomplete Phase 125 rack-care launcher." % test_case_id
-	if care_rect.intersects(rack_greenhouse_rect) or care_rect.intersects(rack_player_room_rect):
-		return "%s overlapped the Phase 125 care launcher with a location arrow." % test_case_id
-	if instance.settings_launcher_button.get_meta("component", "") != "phase125_player_settings_gear_v1" or settings_rect.size.x < 68.0 or settings_rect.size.y < 68.0 or instance.settings_launcher_icon == null or instance.settings_launcher_icon.size.x < 48.0 or instance.settings_launcher_icon.size.y < 48.0:
-		return "%s found an incomplete Phase 125 player-settings gear." % test_case_id
-	if care_rect.intersects(settings_rect):
-		return "%s overlapped the Phase 125 care launcher with player settings." % test_case_id
-	for rack_control_rect in [care_rect, settings_rect]:
-		if rack_control_rect.position.x < rack_rect.position.x or rack_control_rect.end.x > rack_rect.end.x or rack_control_rect.position.y < rack_rect.position.y or rack_control_rect.end.y > rack_rect.end.y:
-			return "%s placed a Phase 125 rack control outside the rack surface." % test_case_id
+	var dock_buttons: Array[Button] = [
+		instance.rack_pet_launcher_button,
+		instance.professor_research_launcher_button,
+		instance.care_center_launcher_button,
+		instance.settings_launcher_button,
+	]
+	var dock_icons: Array[TextureRect] = [
+		instance.rack_pet_launcher_icon,
+		instance.professor_research_launcher_icon,
+		instance.care_center_launcher_icon,
+		instance.settings_launcher_icon,
+	]
+	var dock_components := [
+		"phase183_rack_pet_launcher_v1",
+		"phase183_professor_research_launcher_v1",
+		"phase183_rack_care_launcher_v1",
+		"phase183_player_settings_launcher_v1",
+	]
+	var dock_assets := [
+		"pet_paw_phase183_v1.png",
+		"professor_bazal_phase183_v1.png",
+		"care_leaf_phase183_v1.png",
+		"settings_gear_phase125.png",
+	]
+	var dock_rect := Rect2()
+	for index in range(dock_buttons.size()):
+		var button := dock_buttons[index]
+		var icon := dock_icons[index]
+		if button == null or icon == null or icon.texture == null:
+			return "%s is missing an icon from the compact Phase183 four-icon rack dock." % test_case_id
+		var button_rect := button.get_global_rect()
+		if not button.visible or not button.text.is_empty() or not button_rect.size.is_equal_approx(Vector2(68.0, 68.0)):
+			return "%s found a non-68px or text-bearing button in the compact Phase183 four-icon rack dock." % test_case_id
+		if not icon.size.is_equal_approx(Vector2(48.0, 48.0)) or not icon.texture.resource_path.ends_with(dock_assets[index]):
+			return "%s found an incorrect 48px transparent PNG in the compact Phase183 four-icon rack dock." % test_case_id
+		if button.get_meta("component", "") != dock_components[index] or button.get_meta("dock_index", -1) != index or button.get_meta("dock_group", "") != "compact_four_icon_phase183_v1" or button.get_meta("icon_policy", "") != "transparent_cropped_png_48_v1" or icon.get_meta("alpha_policy", "") != "clean_transparent_edge_v1":
+			return "%s found an incomplete Phase183 dock component or PNG-alpha contract." % test_case_id
+		if button_rect.position.x < rack_rect.position.x or button_rect.end.x > rack_rect.end.x or button_rect.position.y < rack_rect.position.y or button_rect.end.y > rack_rect.end.y:
+			return "%s placed a Phase183 rack-dock icon outside the rack surface." % test_case_id
+		if button_rect.intersects(rack_greenhouse_rect) or button_rect.intersects(rack_player_room_rect):
+			return "%s overlapped a Phase183 rack-dock icon with a location arrow." % test_case_id
+		if index > 0 and button_rect.position.x < dock_buttons[index - 1].get_global_rect().end.x - 0.1:
+			return "%s overlapped adjacent buttons in the compact Phase183 four-icon rack dock." % test_case_id
+		dock_rect = button_rect if index == 0 else dock_rect.merge(button_rect)
+	if not dock_rect.size.is_equal_approx(Vector2(272.0, 68.0)) or absf(dock_rect.get_center().x - rack_rect.get_center().x) > 0.5 or not is_equal_approx(dock_rect.end.y, rack_rect.end.y - 8.0):
+		return "%s did not center the compact Phase183 four-icon rack dock on its painted floor background." % test_case_id
+	var research_unlocked: bool = instance.session.is_professor_story_unlocked()
+	if bool(instance.professor_research_launcher_button.get_meta("research_locked", true)) == research_unlocked or instance.professor_research_lock_badge.visible == research_unlocked:
+		return "%s presented an incorrect Professor research lock state in the Phase183 dock." % test_case_id
+	if not research_unlocked and instance.professor_story_badges[0].visible:
+		return "%s showed Professor attention before research unlock in the Phase183 dock." % test_case_id
+	if instance.dialog_toggle_button.get_global_rect().intersects(dock_rect):
+		return "%s overlapped the top-only help launcher with the bottom Phase183 dock." % test_case_id
+	if instance.room_overview.get_meta("selected_growth_summary", "") != "compact_rack_dock_phase183_v1" or instance.room_overview.get_meta("future_content_space", "") != "painted_four_icon_dock_phase183_v1" or instance.room_overview.get_meta("future_content_hint", "") != "pet_professor_care_settings_v1":
+		return "%s is missing the painted compact Phase183 rack-dock metadata." % test_case_id
 	if instance.player_room_view.back_button == null or instance.player_room_view.theme_button == null or instance.player_room_view.back_button.size.y < 60.0 or instance.player_room_view.theme_button.size.y < 60.0:
 		return "%s found an undersized player-room navigation target." % test_case_id
 	if instance.player_room_view.decoration_buttons.size() != 20:
@@ -1116,10 +1158,10 @@ func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 			or room.get_meta("phase160_room_floor_declutter", "") != "dormant_watering_can_pet_corner_no_runtime_draw_v1" \
 			or room.get_meta("phase160_future_pet_contract", "") != "preserve_receipt_and_slot_until_integrated_pet_purchase_v1" \
 			or room.get_meta("phase160_source_asset_policy", "") != "historical_png_unchanged_runtime_suppression_v1" \
-			or room.get_meta("plant_compositing", "") != "phase158_clean_phase148_rgba_target_native_linear_mipmaps_v3" \
+			or room.get_meta("plant_compositing", "") != "phase167_recovered_rgba_measured_mesh_linear_mipmaps_v1" \
 			or room.get_meta("plant_prominence_policy", "") != "approved_phase143_uniform_pots_saucers_baselines_v1" \
-			or room.get_meta("plant_integration_policy", "") != "phase158_clean_rgba_target_native_rects_object_free_furniture_occlusion_v3" \
-			or room.get_meta("plant_fit_policy", "") != "approved_uniform_isotropic_scale_move_free_v1" \
+			or room.get_meta("plant_integration_policy", "") != "phase167_measured_contact_continuous_uv_object_free_foreground_v1" \
+			or room.get_meta("plant_fit_policy", "") != "measured_shared_ceramic_isotropic_crown_per_shelf_v1" \
 			or room.get_meta("touch_anchor_policy", "") != "source_anchor_clamped_to_surface_v1":
 		return "%s is missing the current close player-room framing and Phase 132 living-visual contract." % test_case_id
 	var centers: PackedVector2Array = room._decoration_slot_centers(room.size)

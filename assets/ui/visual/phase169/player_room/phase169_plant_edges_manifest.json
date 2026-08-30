@@ -1,0 +1,657 @@
+{
+  "schema": "phase169_room_plant_edges_v1",
+  "assets": [
+    {
+      "id": "orchid",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_orchid_phase167.png",
+      "source_sha256": "1BBDAA1747ABE1B48343727CBE454F62454D086BFEA006129731A18611B05C64",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_orchid_phase169.png",
+      "size": [
+        249,
+        412
+      ],
+      "matte_removed_pixels": 920,
+      "hole_removed_pixels": 88,
+      "hole_regions": [
+        [
+          119,
+          75,
+          137,
+          87,
+          129,
+          78
+        ]
+      ],
+      "alpha_changed_pixels": 1008,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "EFD6711C14B6CC5B72F8F28FB116A2F4F1668B75D35F98FFB8A35B5F3F5B3775"
+    },
+    {
+      "id": "glossy_broadleaf",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_glossy_broadleaf_phase167.png",
+      "source_sha256": "CE69E6A69F499A9E75488E069E2E8E64E00EBCA40FD9D123086CD1365547CD38",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_glossy_broadleaf_phase169.png",
+      "size": [
+        234,
+        372
+      ],
+      "matte_removed_pixels": 574,
+      "hole_removed_pixels": 279,
+      "hole_regions": [
+        [
+          100,
+          76,
+          115,
+          101,
+          110,
+          84
+        ],
+        [
+          49,
+          110,
+          68,
+          124,
+          63,
+          115
+        ],
+        [
+          123,
+          102,
+          137,
+          114,
+          131,
+          109
+        ],
+        [
+          143,
+          124,
+          156,
+          135,
+          149,
+          130
+        ],
+        [
+          83,
+          146,
+          93,
+          156,
+          86,
+          151
+        ],
+        [
+          54,
+          163,
+          67,
+          176,
+          59,
+          171
+        ],
+        [
+          78,
+          124,
+          84,
+          132,
+          81,
+          129
+        ],
+        [
+          129,
+          160,
+          137,
+          170,
+          133,
+          165
+        ]
+      ],
+      "alpha_changed_pixels": 853,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "DF2CD264D051F84A290AF80AEBA2341A50A8F09238AA9C195125CAAF3893DF1C"
+    },
+    {
+      "id": "snake_plant",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_snake_plant_phase167.png",
+      "source_sha256": "486B84D419F5643B552214320663EB7D3395423AE7E047864D55BD2706797127",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_snake_plant_phase169.png",
+      "size": [
+        215,
+        421
+      ],
+      "matte_removed_pixels": 654,
+      "hole_removed_pixels": 0,
+      "hole_regions": [],
+      "alpha_changed_pixels": 654,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "57579F2486811FA0D6D5BD353F9B2FB7972F5FF8FE021091C3A9AC936D74DC10"
+    },
+    {
+      "id": "fern",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_fern_phase167.png",
+      "source_sha256": "90ED99E2F17D7BE87EA002E622D689C93C9BEC739E620D68692FF31AAB16200B",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_fern_phase169.png",
+      "size": [
+        281,
+        376
+      ],
+      "matte_removed_pixels": 723,
+      "hole_removed_pixels": 114,
+      "hole_regions": [
+        [
+          133,
+          82,
+          143,
+          94,
+          137,
+          87
+        ],
+        [
+          139,
+          98,
+          148,
+          108,
+          143,
+          101
+        ],
+        [
+          185,
+          137,
+          197,
+          148,
+          189,
+          143
+        ],
+        [
+          177,
+          142,
+          188,
+          152,
+          181,
+          147
+        ],
+        [
+          188,
+          104,
+          198,
+          116,
+          191,
+          109
+        ],
+        [
+          73,
+          157,
+          85,
+          170,
+          77,
+          162
+        ],
+        [
+          86,
+          125,
+          95,
+          134,
+          89,
+          129
+        ],
+        [
+          159,
+          95,
+          169,
+          106,
+          163,
+          99
+        ]
+      ],
+      "alpha_changed_pixels": 837,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "F59DD50CED1D65266EA3206B12FE268A3AB6FEFD83698C07DECEF2F52991B856"
+    },
+    {
+      "id": "flowering_begonia",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_flowering_begonia_phase167.png",
+      "source_sha256": "CE8F34EFE902ADD3C14E534E0E62DB51711A35C2CE643BFD43FA280F258CB5E5",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_flowering_begonia_phase169.png",
+      "size": [
+        268,
+        360
+      ],
+      "matte_removed_pixels": 759,
+      "hole_removed_pixels": 229,
+      "hole_regions": [
+        [
+          92,
+          57,
+          106,
+          75,
+          102,
+          65
+        ],
+        [
+          130,
+          66,
+          141,
+          82,
+          136,
+          71
+        ],
+        [
+          164,
+          80,
+          177,
+          93,
+          173,
+          86
+        ],
+        [
+          44,
+          99,
+          65,
+          113,
+          55,
+          106
+        ],
+        [
+          209,
+          98,
+          219,
+          109,
+          214,
+          103
+        ],
+        [
+          157,
+          106,
+          168,
+          117,
+          162,
+          111
+        ],
+        [
+          71,
+          136,
+          81,
+          146,
+          75,
+          140
+        ],
+        [
+          67,
+          95,
+          78,
+          104,
+          71,
+          100
+        ]
+      ],
+      "alpha_changed_pixels": 988,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "535F204D9FB055FCE84B1AA654C4990BE28CFBB7987B84A319C4E40EC5A279A5"
+    },
+    {
+      "id": "roundleaf_pilea",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_roundleaf_pilea_phase167.png",
+      "source_sha256": "EA658CF515E9F5B9910D8E53BEE58DD10A901DB45DC7BADEF709C6E3E72A76DE",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_roundleaf_pilea_phase169.png",
+      "size": [
+        266,
+        376
+      ],
+      "matte_removed_pixels": 460,
+      "hole_removed_pixels": 96,
+      "hole_regions": [
+        [
+          116,
+          95,
+          126,
+          109,
+          121,
+          100
+        ],
+        [
+          137,
+          158,
+          147,
+          176,
+          142,
+          165
+        ],
+        [
+          147,
+          163,
+          158,
+          176,
+          154,
+          167
+        ],
+        [
+          68,
+          128,
+          76,
+          138,
+          71,
+          133
+        ]
+      ],
+      "alpha_changed_pixels": 556,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "01657F6B4B30C93E38684695FC06A0E251AB07E2742395345CB4E134E20E2C25"
+    },
+    {
+      "id": "striped_calathea",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_striped_calathea_phase167.png",
+      "source_sha256": "503025BE2C9C08C26CC89B75A5D580D3596368E4318E1BABEB1C9A038028AC87",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_striped_calathea_phase169.png",
+      "size": [
+        291,
+        346
+      ],
+      "matte_removed_pixels": 606,
+      "hole_removed_pixels": 95,
+      "hole_regions": [
+        [
+          124,
+          85,
+          135,
+          102,
+          130,
+          93
+        ],
+        [
+          110,
+          93,
+          126,
+          104,
+          119,
+          98
+        ],
+        [
+          159,
+          83,
+          169,
+          92,
+          164,
+          88
+        ],
+        [
+          146,
+          90,
+          157,
+          107,
+          151,
+          98
+        ]
+      ],
+      "alpha_changed_pixels": 701,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "063A3149F2CB0893AA64253525E363BDA91820259F5696ECBF6C58AE6258CDA0"
+    },
+    {
+      "id": "lemon_maranta",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_lemon_maranta_phase167.png",
+      "source_sha256": "27DC25334B79F81C444A163305E42E6ECCC5D4E2A256979EB1CFAE7888FB21B7",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_lemon_maranta_phase169.png",
+      "size": [
+        276,
+        338
+      ],
+      "matte_removed_pixels": 643,
+      "hole_removed_pixels": 146,
+      "hole_regions": [
+        [
+          137,
+          70,
+          150,
+          85,
+          144,
+          78
+        ],
+        [
+          117,
+          67,
+          126,
+          80,
+          122,
+          72
+        ],
+        [
+          90,
+          73,
+          102,
+          83,
+          95,
+          77
+        ],
+        [
+          148,
+          80,
+          161,
+          88,
+          154,
+          84
+        ],
+        [
+          77,
+          109,
+          92,
+          120,
+          84,
+          114
+        ],
+        [
+          91,
+          103,
+          107,
+          114,
+          99,
+          108
+        ],
+        [
+          116,
+          98,
+          125,
+          117,
+          120,
+          109
+        ],
+        [
+          129,
+          83,
+          138,
+          97,
+          133,
+          90
+        ]
+      ],
+      "alpha_changed_pixels": 789,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "68D34E257FD10A9CA1FDD286C9D8B1D6AD7AD9CCCCA04878A1455412DCACF87B"
+    },
+    {
+      "id": "compact_aglaonema",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_compact_aglaonema_phase167.png",
+      "source_sha256": "187E998439B2A0B9FFD6371398F2344E7677A00DCAD18213D94A22FA21FD97D4",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_compact_aglaonema_phase169.png",
+      "size": [
+        282,
+        344
+      ],
+      "matte_removed_pixels": 702,
+      "hole_removed_pixels": 98,
+      "hole_regions": [
+        [
+          119,
+          65,
+          135,
+          79,
+          128,
+          73
+        ],
+        [
+          146,
+          65,
+          162,
+          78,
+          154,
+          71
+        ],
+        [
+          164,
+          84,
+          174,
+          100,
+          168,
+          92
+        ],
+        [
+          100,
+          85,
+          111,
+          97,
+          105,
+          90
+        ]
+      ],
+      "alpha_changed_pixels": 800,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "09533A3431E5534AD0B91C596032881D050E875AACF1AAC648FCF1C5DC380AF7"
+    },
+    {
+      "id": "fittonia",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_fittonia_phase167.png",
+      "source_sha256": "F523DE58BE59782557AED0A7254E7F8DAECEC5BDA2C528CA32602C479316896E",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_fittonia_phase169.png",
+      "size": [
+        265,
+        344
+      ],
+      "matte_removed_pixels": 791,
+      "hole_removed_pixels": 171,
+      "hole_regions": [
+        [
+          95,
+          69,
+          114,
+          95,
+          103,
+          85
+        ],
+        [
+          129,
+          58,
+          137,
+          71,
+          132,
+          64
+        ],
+        [
+          157,
+          59,
+          175,
+          78,
+          166,
+          68
+        ],
+        [
+          146,
+          83,
+          157,
+          97,
+          152,
+          91
+        ],
+        [
+          133,
+          118,
+          143,
+          129,
+          138,
+          123
+        ]
+      ],
+      "alpha_changed_pixels": 962,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "AB6936220306647F90D7DF3EFB04EE037AC505C678D73341C98615BA80632D5E"
+    },
+    {
+      "id": "pothos",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_pothos_phase167.png",
+      "source_sha256": "127E7118601248C55CFA5577E92CDAA2967D8F7891FF3486CD2A4503A6DE137F",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_pothos_phase169.png",
+      "size": [
+        296,
+        352
+      ],
+      "matte_removed_pixels": 645,
+      "hole_removed_pixels": 105,
+      "hole_regions": [
+        [
+          83,
+          88,
+          99,
+          108,
+          89,
+          98
+        ],
+        [
+          140,
+          108,
+          150,
+          121,
+          144,
+          114
+        ],
+        [
+          152,
+          121,
+          161,
+          134,
+          156,
+          128
+        ],
+        [
+          216,
+          134,
+          227,
+          149,
+          221,
+          142
+        ]
+      ],
+      "alpha_changed_pixels": 750,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "6A219548FD455DC37B69D2B6E6F1A3277223CD91C2AD17F3DD641F2292EE8613"
+    },
+    {
+      "id": "coleus",
+      "source": "assets/ui/visual/phase167/player_room/plants/room_plant_coleus_phase167.png",
+      "source_sha256": "A2D9F31EFC807DC908486114400341210EDBB835F97809E8E82690D397475B93",
+      "output": "assets/ui/visual/phase169/player_room/plants/room_plant_coleus_phase169.png",
+      "size": [
+        271,
+        357
+      ],
+      "matte_removed_pixels": 619,
+      "hole_removed_pixels": 0,
+      "hole_regions": [],
+      "alpha_changed_pixels": 619,
+      "rgb_byte_exact_to_phase167": true,
+      "canvas_unchanged": true,
+      "output_sha256": "D6D44C774B7178A959F132F1057CDEA46E19D37B1D0C9693CDDE31B18CF3F6DB"
+    }
+  ],
+  "source_manifest": "assets/ui/visual/phase167/player_room/phase167_plant_alpha_manifest.json",
+  "source_manifest_sha256": "8DABD24E4493FA5BEF72F153E4FE74D4CBFFFBDA3E89B510AFEB24926C80D0FB",
+  "method": "alpha_only_connected_warm_matte_and_measured_neutral_holes_v1",
+  "historical_png_policy": "unchanged_append_only_derivatives",
+  "geometry_policy": "unchanged_phase167_canvas_and_landmarks",
+  "rgb_policy": "all_rgb_bytes_unchanged_including_invisible_pixels"
+}
