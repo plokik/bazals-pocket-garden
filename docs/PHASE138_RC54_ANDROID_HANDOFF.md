@@ -30,6 +30,6 @@ Immutable APK `builds/android/bazals-pocket-garden-0.65.0-rc54-arm64-debug.apk` 
 
 ## Telefon
 
-Audit `.godot/android-device-audit/20260823-115900Z` nainstaloval RC54 přes `adb install -r` do Xiaomi `2201116SG` / serial `12770b4f1a50` bez smazání dat. Nainstalovaná identita a hash přesně odpovídají immutable APK, save bezpečně migroval `39_TO_40`, stabilní herní hodnoty zůstaly zachované, 11/11 vzorků bylo odemčených a interaktivních, hra byla ve 100 % vzorků v popředí a nebyl nalezen žádný crash ani ANR.
+Audit `.godot/android-device-audit/20260823-115900Z` nainstaloval RC54 přes `adb install -r` do Xiaomi `2201116SG` / serial `REDACTED` bez smazání dat. Nainstalovaná identita a hash přesně odpovídají immutable APK, save bezpečně migroval `39_TO_40`, stabilní herní hodnoty zůstaly zachované, 11/11 vzorků bylo odemčených a interaktivních, hra byla ve 100 % vzorků v popředí a nebyl nalezen žádný crash ani ANR.
 
 Telefon se po auditu uzamkl fyzickým power tlačítkem. Hra zůstává nainstalovaná; systémovou zamykací obrazovku automatizace neobchází. Vizuální pocit z Pokoje, čitelnost a dotykové chování musí potvrdit hráč po běžném odemčení telefonu, proto lidská brána zůstává `PENDING_SINGLE_HUMAN_BATCH`.

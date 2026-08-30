@@ -2,7 +2,7 @@ param(
     [ValidateSet('Quick', 'Full', 'Release', 'ReleaseDevice')]
     [string]$Mode = 'Full',
     [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
-    [string]$PythonPath = 'C:\Users\drikv\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe',
+    [string]$PythonPath = '',
     [string]$AdbPath = '',
     [string]$Serial = '',
     [switch]$PublishingRequested,

@@ -1,6 +1,6 @@
 ﻿param(
     [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
-    [string]$PythonPath = 'C:\Users\drikv\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe',
+    [string]$PythonPath = '',
     [switch]$PublishingRequested
 )
 

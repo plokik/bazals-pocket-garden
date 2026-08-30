@@ -41,4 +41,11 @@ android/build/res/values/themes.xml
 *.jks
 *.keystore
 *.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+docs/RC59_ASSET_INVENTORY.csv.import
+docs/RC59_ASSET_INVENTORY.*.translation
 keystore.properties
