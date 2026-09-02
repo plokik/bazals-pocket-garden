@@ -7,6 +7,7 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 
 ## Co je hotové
 
+- RC59 byl po přesunu do `R:\_projekty\Bazal's Pocket Garden` znovu technicky ověřen. Pevné cesty na Godot byly nahrazeny společným relocatable resolverem a Android export dostal izolované editorové nastavení, aby nekolidovalo systémové SDK na C s přeneseným SDK na R. Quick, CI kontrakt, 6 747 regresí, 34/34 obrazových bran, výkon, endurance, progression, responzivita i skutečný jednorázový ARM64 APK export jsou PASS. Immutable RC58 i RC59 zůstaly byte-exaktně zachované. Telefon nebyl použit, podepsaný AAB nevznikl a publikování zůstává mimo rozsah. [Úplný validační a přesunový report](docs/RC59_VALIDATION_REPORT.md).
 - fáze 183 nahrazuje přerostlý panel `DOPLŇKY · MAZLÍK` kompaktní centrovanou řadou čtyř 68px ikon: mazlík/vzhled, Profesorův výzkum, Péče a Nastavení. Všechny používají samostatné čistě oříznuté PNG 48 × 48; uvolněnou plochu vyplňuje nové malované pokračování dřevěné podlahy. Profesor je viditelný i před odemčením se zámkem a po odemčení zachovává živý vykřičník; Péče má dynamický číselný badge. Cílená sada 41/41, responzivní matice 15/15, GPU capture, úplná funkční regrese 6 745 kontrol a závěrečný Quick jsou PASS. Deset historických obrazových bran zůstává pravdivě FAILED a jejich comparison obrazy byly prohlédnuty; nové reference se bez uživatelského schválení nepřepisují. Samostatný x86_64 preview `0A4CD44C…A112834` je nainstalovaný a spuštěný v emulátoru; starý poškozený emulátorový save omezuje nedestruktivní klikací audit, ale zůstal nedotčený. Telefon, immutable RC58 i obecný APK alias jsou beze změny. [Rozvržení, assety a důkazy](docs/PHASE183_COMPACT_RACK_DOCK.md).
 - fáze 182 odděluje obecnou nápovědu od Profesorova výzkumu: otazník vždy otevře guide a odemčený výzkum má vedle něj vlastní malovanou ikonku Profesora, 64px dotykový cíl a vlastní vykřičník. Titul `MOJE ROSTLINY` se bezpečně přizpůsobí i na 360 × 800. Černé Godot tooltip obdélníky jsou na mobilu centrálně potlačené; desktop zachovává čitelné krémové tooltipy. Cílených 35 kontrol, regrese 6 743, GPU capture a závěrečný Quick jsou PASS. Úplná obrazová sada dál poctivě selhává na stejných deseti byte-exaktně shodných historických případech; uživatelské posouzení a fyzický Android audit jsou PENDING, APK nevzniklo. [Rozdělení funkcí, tooltip politika a důkazy](docs/PHASE182_PROFESSOR_LAUNCHER_AND_TOOLTIP_POLICY.md).
 - fáze 181 opravuje zhasínací animaci světel ve stojanu ROSTLINY: kruh i paprsky se nyní vždy sbíhají přímo do čočky právě stisknuté lampy, nikoli doprostřed stojanu. Levý, prostřední a pravý index v obou řadách chrání testy při 432 × 960 i 360 × 800; cílených 25 kontrol, šest real-GPU vypínacích stavů, úplná regrese 6 737 kontrol a Quick jsou PASS. Deset starších obrazových bran zůstává beze změny a jejich comparison soubory jsou byte-exaktně shodné s předchozím během. Samostatné preview `362EC856…A773EF` je nainstalované na Xiaomi se zachovaným savem `41 → 41`; 120sekundový audit i cílené fyzické vypnutí levé, prostřední a pravé lampy prošly. Subjektivní uživatelské přijetí zůstává PENDING, immutable RC58 i alias jsou nedotčené. [Oprava, důkazy a Android handoff](docs/PHASE181_RACK_LIGHT_OFF_ANCHOR.md).
@@ -152,11 +153,14 @@ Navazující Android release evidence je v [handoffu fáze 165](docs/PHASE165_RC
 
 ## Spuštění
 
-Otevřete `project.godot` v Godotu 4.7 a spusťte hlavní scénu klávesou F6/F5. Na tomto počítači lze projekt spustit také:
+Otevřete `project.godot` v Godotu 4.7 a spusťte hlavní scénu klávesou F6/F5. Z kořene projektu jej lze spustit bez vazby na konkrétní disk také takto:
 
 ```powershell
-& 'C:\_projekty\Godot_v4.7-stable_win64.exe' --path .
+$godot = (Resolve-Path '..\Godot_v4.7-stable_win64.exe').Path
+& $godot --path .
 ```
+
+Projektové PowerShell runnery hledají Godot v pořadí: explicitní `-GodotPath`, proměnná `HOW_TO_GROW_GODOT`, soubor `Godot_v4.7-stable_win64.exe` vedle složky projektu a nakonec příkaz `godot4`/`godot` v `PATH`. Přesun projektu mezi disky proto nevyžaduje přepisování skriptů.
 
 Běžný cyklus běží podle skutečného času i při zavřené aplikaci: máta 5 hodin, bazalka 6 hodin, pažitka 8 hodin při aktivní `SÍLE TRSU`, meduňka 8 hodin, petržel 9 hodin, majoránka 10 hodin, tymián 11 hodin, oregano 12 hodin, rozmarýn 14 hodin, levandule 18 hodin a šalvěj 20 hodin při ideální péči. Špatná péče dozrávání zpomaluje. Pouze první vedená bazalka používá chráněný dvanáctiminutový rychlý začátek; hráč nemůže čas ručně zrychlit ani pozastavit.
 

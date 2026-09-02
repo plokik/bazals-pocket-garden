@@ -17,6 +17,7 @@ The Windows job:
 9. requires at least 6,747 regression checks, preventing an accidentally reduced suite from passing;
 10. pins the approved visual contract to 54 cases, 34 active gates and digest `77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170`;
 11. hashes the visual manifest and every referenced golden image before and after the run, failing if validation modified any of them.
+12. rejects a drive-bound Godot 4.7 executable path in any project PowerShell tool, preserving relocatability between disks and checkout names.
 
 The required export exclusions are `docs/**`, `tests/**`, `tools/**`, `builds/**`, `assets/ui/visual/**/source/**`, and `assets/ui/visual/phase167/**`. The CI runner never offers an update-baseline or golden-rewrite mode.
 
@@ -26,7 +27,6 @@ Run the same headless gates from the repository root:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_ci_validation.ps1 `
-  -GodotPath 'C:\_projekty\Godot_v4.7-stable_win64.exe' `
   -PythonPath '<python-with-Pillow>' `
   -ExpectedSaveSchema 41 `
   -ExpectedMinimumRegressionTests 6747 `
@@ -34,6 +34,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_ci_validation.
   -ExpectedActiveVisualGates 34 `
   -ExpectedGoldenDigest 77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170
 ```
+
+Bez parametru `-GodotPath` se použije `HOW_TO_GROW_GODOT`, Godot umístěný vedle složky projektu nebo `godot4`/`godot` z `PATH`. Cestu lze stále zadat explicitně, pokud editor leží jinde.
 
 On a real Windows desktop with a functioning renderer, append `-FullVisualValidation` to invoke the existing `how-to-grow-validation` skill runner as an additional gate. This intentionally is not enabled on the headless hosted runner: deterministic screenshot capture needs a real renderer, while the hosted gate remains responsible for import, GDScript, static asset/export, and visual-contract correctness.
 

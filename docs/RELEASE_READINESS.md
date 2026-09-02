@@ -2,6 +2,31 @@
 
 Tento checklist odděluje technicky ověřené části vertikálního řezu od kroků, které vyžadují člověka nebo fyzické zařízení. Stav se nesmí označit jako hotový pouze podle existence kódu.
 
+## RC59 po přesunu na disk R — 2026-09-02
+
+Autoritativní checkout je nyní `R:\_projekty\Bazal's Pocket Garden` a Godot
+4.7 leží vedle něj. Přesunový audit opravil pevné výchozí cesty deseti runnerů
+a konflikt globálního Android SDK na C s přeneseným SDK na R. Kompletní lokální
+validace z nového kořene prošla 6 747 regresními kontrolami, 34/34 aktivními
+obrazovými branami, výkonem, endurance, progresí a 15/15 responzivními případy.
+Skutečný jednorázový ARM64 debug export následně prošel podpisem v2, payloadem,
+manifestem, privacy allowlistem i 16KB alignmentem. [Přesné změny, cesty,
+hashes a důkazy](RC59_VALIDATION_REPORT.md).
+
+`RC59_RELOCATION_GATE=PASSED`.
+`RC59_LOCAL_TECHNICAL_GATE=PASSED`.
+`RC59_PHYSICAL_ANDROID_GATE=NOT_REQUESTED`.
+`RC59_SIGNED_AAB_GATE=PENDING_EXISTING_SIGNING_CONFIGURATION`.
+`RC59_MANUAL_VISUAL_GATE=PENDING_SINGLE_HUMAN_BATCH`.
+`RC59_PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER`.
+
+Immutable RC58 (224 368 317 B,
+`0A7F173D8C97B552168A407C31F1F8AE85109A34C2F6F4786029551064F0C6F5`) i
+RC59 (233 837 732 B,
+`206AC5349731D95570E0E59DD43229A5AB608AA139EA78979FCB3DE907021E7D`) po
+přesunu byte-exaktně souhlasí. Audit nevytvořil klíč, podepsaný AAB, instalaci
+do telefonu ani publikaci.
+
 ## Aktuální zdrojová změna a emulátorový preview — Phase183
 
 Přerostlý spodní panel stojanu byl odstraněn. Na malovaném pokračování
