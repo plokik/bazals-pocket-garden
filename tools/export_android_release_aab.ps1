@@ -1,5 +1,5 @@
 param(
-    [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
+    [string]$GodotPath = '',
     [string]$AabPath = '',
     [string]$ToolRoot = '',
     [string]$KeystorePath = $env:GODOT_ANDROID_KEYSTORE_RELEASE_PATH,
@@ -10,6 +10,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'resolve_godot_executable.ps1')
+$GodotPath = Resolve-HowToGrowGodotExecutable -ExplicitPath $GodotPath -ProjectRoot $projectRoot
 . (Join-Path $PSScriptRoot 'android_export_contract.ps1')
 $releasePreset = Assert-AndroidPresetSetContract -ProjectRoot $projectRoot -PresetName 'Android Release AAB'
 if ($releasePreset.ExportFormat -ne 1) {
@@ -85,6 +87,8 @@ $logPath = Join-Path $evidenceRoot 'godot-export.log'
 $jarsignerLogPath = Join-Path $evidenceRoot 'jarsigner.txt'
 $signerFingerprintPath = Join-Path $evidenceRoot 'signer-certificate-sha256.txt'
 $reportPath = Join-Path $evidenceRoot 'report.md'
+$isolatedAppData = Join-Path $evidenceRoot 'appdata'
+[System.IO.Directory]::CreateDirectory($isolatedAppData) | Out-Null
 
 $env:JAVA_HOME = $javaHome
 $env:ANDROID_HOME = $androidSdkRoot
@@ -104,15 +108,21 @@ $godotArguments = @(
 )
 
 Write-Output 'ANDROID_RELEASE_AAB_EXPORT=STARTED'
-$process = Start-Process `
-    -FilePath $GodotPath `
-    -WorkingDirectory $projectRoot `
-    -ArgumentList $godotArguments `
-    -PassThru `
-    -WindowStyle Hidden
-if (-not $process.WaitForExit(600000)) {
-    $process.Kill()
-    throw 'Android release AAB export exceeded the 10 minute safety timeout.'
+$previousAppData = $env:APPDATA
+try {
+    $env:APPDATA = $isolatedAppData
+    $process = Start-Process `
+        -FilePath $GodotPath `
+        -WorkingDirectory $projectRoot `
+        -ArgumentList $godotArguments `
+        -PassThru `
+        -WindowStyle Hidden
+    if (-not $process.WaitForExit(600000)) {
+        $process.Kill()
+        throw 'Android release AAB export exceeded the 10 minute safety timeout.'
+    }
+} finally {
+    $env:APPDATA = $previousAppData
 }
 $output = if (Test-Path -LiteralPath $logPath) { Get-Content -LiteralPath $logPath -Raw } else { '' }
 Write-Output $output

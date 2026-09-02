@@ -1,7 +1,7 @@
 param(
     [ValidateSet('Quick', 'Full', 'Release', 'ReleaseDevice')]
     [string]$Mode = 'Full',
-    [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
+    [string]$GodotPath = '',
     [string]$PythonPath = '',
     [string]$AdbPath = '',
     [string]$Serial = '',
@@ -12,6 +12,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'resolve_godot_executable.ps1')
+$GodotPath = Resolve-HowToGrowGodotExecutable -ExplicitPath $GodotPath -ProjectRoot $projectRoot
 $timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssZ')
 $artifactDirectory = Join-Path $projectRoot ".godot\automation\$timestamp"
 [System.IO.Directory]::CreateDirectory($artifactDirectory) | Out-Null

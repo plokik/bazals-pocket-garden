@@ -1,9 +1,11 @@
 param(
-    [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe'
+    [string]$GodotPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'resolve_godot_executable.ps1')
+$GodotPath = Resolve-HowToGrowGodotExecutable -ExplicitPath $GodotPath -ProjectRoot $projectRoot
 $logDirectory = Join-Path $projectRoot '.godot'
 if (-not (Test-Path -LiteralPath $logDirectory)) {
     New-Item -ItemType Directory -Path $logDirectory | Out-Null

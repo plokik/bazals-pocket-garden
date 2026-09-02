@@ -400,6 +400,17 @@ try {
         throw "Runtime assets are blocked by export exclusions:`n$($excludedReferences -join "`n")"
     }
 
+    $driveBoundGodotPaths = [System.Collections.Generic.List[string]]::new()
+    foreach ($toolScript in Get-ChildItem -LiteralPath (Join-Path $projectRoot 'tools') -Filter '*.ps1' -File -Recurse) {
+        $toolText = Read-TextUtf8 -Path $toolScript.FullName
+        if ($toolText -match '(?i)(?<![A-Za-z0-9_])[A-Z]:\\[^\r\n''"]*Godot_v4\.7-stable_win64\.exe') {
+            $driveBoundGodotPaths.Add($toolScript.FullName.Substring($projectRoot.Length + 1))
+        }
+    }
+    if ($driveBoundGodotPaths.Count -gt 0) {
+        throw "Drive-bound Godot paths make the tooling non-relocatable:`n$($driveBoundGodotPaths -join "`n")"
+    }
+
     $staticLines = @(
         "version=$projectVersion",
         "version_code=$versionCode",
@@ -418,6 +429,7 @@ try {
     Write-Output "CI_VERSION_CONTRACT=PASSED version=$projectVersion code=$versionCode schema=$saveSchema"
     Write-Output "CI_EXPORT_CONTRACT=PASSED presets=$($presets.Count)"
     Write-Output "CI_RUNTIME_ASSETS=PASSED references=$($runtimeReferences.Count)"
+    Write-Output 'CI_RELOCATABLE_TOOL_PATHS=PASSED'
     Write-Output 'CI_STATIC_CONTRACT=PASSED'
 
     Invoke-CheckedPowerShell `

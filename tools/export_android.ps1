@@ -1,5 +1,5 @@
 param(
-    [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
+    [string]$GodotPath = '',
     [string]$ApkPath = '',
     [string]$ToolRoot = '',
     [string]$PresetName = 'Android'
@@ -7,6 +7,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'resolve_godot_executable.ps1')
+$GodotPath = Resolve-HowToGrowGodotExecutable -ExplicitPath $GodotPath -ProjectRoot $projectRoot
 . (Join-Path $PSScriptRoot 'android_export_contract.ps1')
 $toolRoot = if ([string]::IsNullOrWhiteSpace($ToolRoot)) {
     Join-Path $projectRoot '.tooling'
@@ -42,11 +44,13 @@ $apkDirectory = Split-Path -Parent $apkPath
 if (-not (Test-Path -LiteralPath $apkDirectory)) {
     New-Item -ItemType Directory -Path $apkDirectory | Out-Null
 }
-$logDirectory = Join-Path $projectRoot '.godot'
-if (-not (Test-Path -LiteralPath $logDirectory)) {
-    New-Item -ItemType Directory -Path $logDirectory | Out-Null
-}
-$logPath = Join-Path $logDirectory 'android-export.log'
+$timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssZ')
+$evidenceRoot = Join-Path $projectRoot ".godot\android-export\$timestamp"
+[System.IO.Directory]::CreateDirectory($evidenceRoot) | Out-Null
+$logPath = Join-Path $evidenceRoot 'godot-export.log'
+$logRelative = ".godot/android-export/$timestamp/godot-export.log"
+$isolatedAppData = Join-Path $evidenceRoot 'appdata'
+[System.IO.Directory]::CreateDirectory($isolatedAppData) | Out-Null
 $quotedApkArgument = '"' + $apkPath.Replace('\','/') + '"'
 if ($PresetName -notmatch '^[A-Za-z0-9 _-]{1,64}$') {
     throw 'Android export preset name contains unsupported characters.'
@@ -62,18 +66,24 @@ $godotArguments = @(
     '--headless',
     '--path', '.',
     '--export-debug', $quotedPresetArgument, $quotedApkArgument,
-    '--log-file', '.godot/android-export.log'
+    '--log-file', $logRelative
 )
 Write-Output 'ANDROID_EXPORT=STARTED'
-$process = Start-Process `
-    -FilePath $GodotPath `
-    -WorkingDirectory $projectRoot `
-    -ArgumentList $godotArguments `
-    -PassThru `
-    -WindowStyle Hidden
-if (-not $process.WaitForExit(600000)) {
-    $process.Kill()
-    throw 'Android export exceeded the 10 minute safety timeout.'
+$previousAppData = $env:APPDATA
+try {
+    $env:APPDATA = $isolatedAppData
+    $process = Start-Process `
+        -FilePath $GodotPath `
+        -WorkingDirectory $projectRoot `
+        -ArgumentList $godotArguments `
+        -PassThru `
+        -WindowStyle Hidden
+    if (-not $process.WaitForExit(600000)) {
+        $process.Kill()
+        throw 'Android export exceeded the 10 minute safety timeout.'
+    }
+} finally {
+    $env:APPDATA = $previousAppData
 }
 
 $output = Get-Content -LiteralPath $logPath -Raw
@@ -82,6 +92,7 @@ if ($process.ExitCode -ne 0 -or $output -match 'Project export.*failed|Cannot ex
     throw "Android export failed with native exit code $($process.ExitCode)."
 }
 Write-Output 'GODOT_GRADLE_EXPORT=PASSED'
+Write-Output "ANDROID_EXPORT_EVIDENCE=$evidenceRoot"
 
 & (Join-Path $buildToolsDirectory.FullName 'apksigner.bat') verify --verbose $apkPath
 if ($LASTEXITCODE -ne 0) {

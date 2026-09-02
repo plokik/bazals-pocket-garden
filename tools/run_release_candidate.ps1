@@ -1,11 +1,13 @@
 ﻿param(
-    [string]$GodotPath = 'C:\_projekty\Godot_v4.7-stable_win64.exe',
+    [string]$GodotPath = '',
     [string]$PythonPath = '',
     [switch]$PublishingRequested
 )
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+. (Join-Path $PSScriptRoot 'resolve_godot_executable.ps1')
+$GodotPath = Resolve-HowToGrowGodotExecutable -ExplicitPath $GodotPath -ProjectRoot $projectRoot
 $projectConfig = Get-Content -LiteralPath (Join-Path $projectRoot 'project.godot') -Raw
 $presetConfig = Get-Content -LiteralPath (Join-Path $projectRoot 'export_presets.cfg') -Raw
 $sessionSource = Get-Content -LiteralPath (Join-Path $projectRoot 'scripts\game_session.gd') -Raw
