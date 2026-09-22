@@ -19,7 +19,9 @@ The Windows job:
 11. hashes the visual manifest and every referenced golden image before and after the run, failing if validation modified any of them.
 12. rejects a drive-bound Godot 4.7 executable path in any project PowerShell tool, preserving relocatability between disks and checkout names.
 
-The required export exclusions are `docs/**`, `tests/**`, `tools/**`, `builds/**`, `assets/ui/visual/**/source/**`, and `assets/ui/visual/phase167/**`. The CI runner never offers an update-baseline or golden-rewrite mode.
+The required export exclusions are `docs/**`, `tests/**`, `tools/**`, `builds/**`, `assets/ui/visual/**/source/**`, `assets/ui/visual/phase167/**`, `assets/ui/visual/phase149/player_room/qa/**`, `assets/ui/visual/phase150/greenhouse/qa/**`, and the exact unused `assets/ui/visual/phase150/greenhouse/greenhouse_phase150_registered_clean_donor_candidate_v1.png`. The CI runner never offers an update-baseline or golden-rewrite mode. APK/AAB exporters also reject the five audited QA/donor basenames in raw, import-sidecar and compiled-texture payload entries.
+
+Both import runners use Godot's `--import` mode to wait for resource imports before exiting. The 2026-09-09 clean-source rerun and the earlier native failure are recorded separately in the [post-audit report](audit/20260909_POST_AUDIT_PRUNING.md).
 
 ## Local Windows invocation
 

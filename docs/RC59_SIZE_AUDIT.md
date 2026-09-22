@@ -2,6 +2,10 @@
 
 Date: 2026-08-30
 
+This is the historical Phase167 measurement. The next five-image QA/donor
+batch and its measured 6.29 MiB reduction are recorded in the
+[2026-09-09 post-audit report](audit/20260909_POST_AUDIT_PRUNING.md).
+
 This audit measures one exact, low-risk export exclusion before RC59. It does not delete source assets, change the save schema, replace RC58, create a release signing key, publish to Google Play, or install anything on a phone.
 
 ## Immutable baseline

@@ -1,8 +1,10 @@
 # RC59 asset inventory
 
+> **HISTORICKÝ SNAPSHOT.** Tento inventář klasifikuje 260 tehdy nových souborů ke dni 2026-08-30. Po commitu už jeho hodnoty `git_state=untracked` nejsou aktuální a dokument nepokrývá celý dnešní projekt. Úplný audit z 2026-09-06 je v `docs/audit/20260906_ASSET_INVENTORY.csv` a `docs/audit/20260906_AUDIT_REPORT.md`.
+
 Snapshot date: 2026-08-30 (Europe/Prague)
 
-Machine-readable inventory: `docs/RC59_ASSET_INVENTORY.csv`
+Machine-readable inventory: [historical CSV](audit/history/RC59_ASSET_INVENTORY.csv). Its bytes are preserved; `docs/audit/.gdignore` keeps audit tables out of Godot's translation importer.
 
 ## Boundary and method
 
@@ -122,4 +124,3 @@ No untracked APK, AAB, ZIP, PSD, keystore, private key, or archive was found. No
 `RC59_ASSET_INVENTORY=PASSED_NO_UNCLEAR_FILES`
 
 Baseline inclusion is safe after the Phase167 export exclusion is implemented and validated. Visual golden references remain blocked on the separate user approval gate.
-

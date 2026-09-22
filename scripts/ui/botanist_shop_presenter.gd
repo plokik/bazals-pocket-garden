@@ -2,6 +2,7 @@ class_name BotanistShopPresenter
 extends RefCounted
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const FEEDBACK_SUCCESS_COLOR := Color("#2b8a32")
 const FEEDBACK_ERROR_COLOR := Color("#c34b35")
@@ -100,15 +101,25 @@ func apply_mode(mode: String, category: String) -> void:
 	if sell_panel != null:
 		sell_panel.visible = mode == "sell"
 	if buy_tab != null:
-		ComicUITheme.apply_button(buy_tab, ComicUITheme.ORANGE if mode == "buy" and category == "all" else Color("#fff3c4"), ComicUITheme.INK, 10, ComicUITheme.INK, 3)
+		_apply_painted_mode_button(buy_tab, mode == "buy" and category == "all", 10)
 	if sell_tab != null:
-		ComicUITheme.apply_button(sell_tab, ComicUITheme.GREEN if mode == "sell" else Color("#fff3c4"), ComicUITheme.INK, 13, ComicUITheme.INK, 3)
+		_apply_painted_mode_button(sell_tab, mode == "sell", 13)
 	for category_button in category_buttons.values():
 		var selected_category := mode == "buy" and str((category_button as Button).get_meta("shop_category", "")) == category
-		ComicUITheme.apply_button(category_button as Button, ComicUITheme.ORANGE if selected_category else Color("#fff3c4"), ComicUITheme.INK, 10, ComicUITheme.INK, 3)
+		_apply_painted_mode_button(category_button as Button, selected_category, 10)
 	if feedback_label != null:
 		feedback_label.text = "Pan Kořínek rád poradí. Nedostupná položka zešedne." if mode == "buy" else "Hotový balíček vyberu automaticky. Prémiové zakázky najdeš ve SKLADU."
 		feedback_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
+
+
+func _apply_painted_mode_button(button: Button, selected: bool, font_size: int) -> void:
+	ComicUITheme.apply_button(button, Color("#dce8bd") if selected else Color("#fff3c4"), ComicUITheme.INK, font_size, ComicUITheme.INK, 3)
+	var normal_kind := "sage" if selected else "cream"
+	button.add_theme_stylebox_override("normal", PaintedDetailArt.box(normal_kind, 6.0))
+	button.add_theme_stylebox_override("hover", PaintedDetailArt.box(normal_kind, 6.0, Color(1.04, 1.04, 1.0)))
+	button.add_theme_stylebox_override("pressed", PaintedDetailArt.box("sage", 6.0, Color(0.90, 0.94, 0.87)))
+	button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 6.0, Color(0.80, 0.80, 0.76)))
+	button.set_meta("painted_selected", selected)
 
 
 func refresh_buy_view(game_session: GameSession, plant_catalog: Dictionary) -> void:
@@ -171,7 +182,7 @@ func refresh_sell_view(game_session: GameSession, packaged_texture: Texture2D, e
 	if packaged:
 		var offer := game_session.get_botanist_sale_value()
 		sell_title_label.text = "%s  •  BALÍČEK %d/%d" % [plant.get_short_name().to_upper(), game_session.selected_plant_index + 1, GameSession.MAX_PLANT_SLOTS]
-		sell_details_label.text = "%.1f g sušené bylinky  •  kvalita %d %%" % [plant.dry_harvest_g, roundi(plant.harvest_quality * 100.0)]
+		sell_details_label.text = "%.1f g sušené bylinky  •  kvalita %d%%" % [plant.dry_harvest_g, roundi(plant.harvest_quality * 100.0)]
 		sell_offer_label.text = "NABÍDKA: %d MINCÍ" % offer
 		sell_action_button.text = "PRODAT HNED  •  %d" % offer
 		sell_action_button.disabled = false

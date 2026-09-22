@@ -389,7 +389,7 @@ func treat_disease(disease_relief: float = 52.0) -> bool:
 		disease_level = 0
 		event_created.emit("Postřik a proudění zastavily plíseň. Rostlina se teď může zotavit.")
 	else:
-		event_created.emit("Ošetřeno. Tlak plísně klesl o %d bodů. Drž vlhkost pod 76 %%." % roundi(before - disease_pressure))
+		event_created.emit("Ošetřeno. Tlak plísně klesl o %d bodů. Drž vlhkost pod 76%%." % roundi(before - disease_pressure))
 	_reset_recoverable_critical_timer()
 	changed.emit()
 	return true

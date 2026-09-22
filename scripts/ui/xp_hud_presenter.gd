@@ -18,4 +18,4 @@ func refresh(level: int, xp_in_level: int) -> void:
 	if not is_bound():
 		return
 	level_label.text = "ÚROVEŇ %d" % level
-	value_label.text = "%d /100 XP" % xp_in_level
+	value_label.text = "%d/100 XP" % xp_in_level

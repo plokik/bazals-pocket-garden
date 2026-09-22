@@ -2,6 +2,96 @@
 
 Tento checklist odděluje technicky ověřené části vertikálního řezu od kroků, které vyžadují člověka nebo fyzické zařízení. Stav se nesmí označit jako hotový pouze podle existence kódu.
 
+## Menší místní preview — 2026-09-09
+
+První dávka pěti QA/donor obrázků mimo APK a oprava rady pro přemokření
+v Centru péče jsou dokončené. Čistá zdrojová kopie s explicitním importem
+prošla 6 767 kontrolami a 34/34 obrazovými branami. Skutečný export ušetřil
+6,29 MiB a zachoval všech 297 zbývajících textur byte-exaktně.
+Finální APK `90A23B29…DEA6CA641` má 216,80 MiB, původní debug podpis
+a stále code 76 / schema 41. Telefon byl odpojený, preview není nainstalované.
+[Přesná identita, původní native import failure a úspěšné ověření](audit/20260909_POST_AUDIT_PRUNING.md).
+
+`POST_AUDIT_LOCAL_GATE=PASSED`.
+`POST_AUDIT_APK_PRUNING=PASSED_MEASURED`.
+`POST_AUDIT_ANDROID_GATE=PENDING_DISCONNECTED_DEVICE`.
+
+Následující přijetí z 8. 9. patří konkrétnímu dříve nainstalovanému APK.
+
+## Fyzický RC59 — 2026-09-08
+
+**Tři dohodnuté body přijetí aktuálního preview jsou splněné.** Vlastník
+potvrdil 30 minut hraní bez dalších potíží a otevření květináče 1 z běžné
+připomínky doručené po restartu telefonu. Skutečná obnova přes Android
+picker v samostatné aplikaci Pocket Garden TEST prošla včetně přesné
+before-import kopie a restartu; původní postup zůstal zachovaný.
+[Aktuální přijetí a důkazy](audit/20260908_ACCEPTANCE_FOLLOWUP.md).
+
+`CURRENT_PREVIEW_AGREED_ACCEPTANCE=PASSED`.
+`ANDROID_MANUAL_PLAY_30_MIN=PASSED_USER_CONFIRMED`.
+`ANDROID_NORMAL_REMINDER_AFTER_REBOOT=PASSED_DEVICE_OBSERVED`.
+`ANDROID_REBOOT_REMINDER_OPEN_TARGET=PASSED_USER_CONFIRMED`.
+`ANDROID_TEST_COPY_BACKUP_RESTORE=PASSED_DEVICE_UI_AND_RESTART`.
+
+Aktuálně je na telefonu samostatné preview opravy větrání a odstranění
+dekorativních bodů u záhlaví Rostlin se stejnou verzí/code 76, ale odlišným
+hashem. Prošlo 6 758 kontrolami, 34/34 obrazovými branami, zachováním postupu
+a prohlídkou telefonu. Výše uvedené přijetí platí pro tento přesný preview;
+neprovedené položky rozšířené šablony se tím neoznačují jako ověřené.
+[Aktuální oprava a přesná identita](audit/20260908_RACK_HEADER_CLEANUP.md),
+[předchozí ověření větrání](audit/20260908_VENTILATION_FEEDBACK.md).
+
+Před tím bylo přesné RC59 (code 76) nainstalováno na Xiaomi / Android 13. Aktualizace
+z Phase181 preview s identitou RC58 (code 75) zachovala kontrolované hodnoty
+postupu a schema 41. Dokončený 300sekundový audit má 53/53 platných vzorků,
+100 % v popředí, dostupnou crash evidenci a nulu fatal/ANR nálezů.
+Přesun a výměna rostlin v Pokoji přežily restart aplikace; původní rozmístění
+bylo následně obnoveno běžnými gesty a ověřeno hashem. Dialogy záloh se
+otevřely a bezpečně zrušily. Testovací upozornění se skutečně objevilo mimo hru;
+vlastník potvrdil otevření květináče 1 po klepnutí. Potvrdil také dokončený
+export zálohy, výběr stejného souboru a zrušení správného náhledu bez obnovy.
+
+Následující markery uchovávají stav původního auditu immutable RC59 před
+navazujícím přijetím preview:
+
+`RC59_ANDROID_TECHNICAL_GATE=PASSED`.
+`RC59_ANDROID_SAVE_GATE=PASSED`.
+`RC59_ANDROID_NOTIFICATION_TEST_DELIVERY=PASSED`.
+`RC59_ANDROID_NOTIFICATION_OPEN_TARGET=PASSED_USER_CONFIRMED`.
+`RC59_ANDROID_BACKUP_PICKER_GATE=PASSED_EXPORT_PREVIEW_CANCEL_USER_CONFIRMED`.
+`RC59_ANDROID_BACKUP_RESTORE_GATE=PENDING_TEST_COPY`.
+`RC59_PHYSICAL_ANDROID_GATE=PARTIAL_MANUAL_ACCEPTANCE_PENDING`.
+`RC59_MANUAL_VISUAL_GATE=PENDING_SINGLE_HUMAN_BATCH`.
+`RC59_SIGNED_AAB_GATE=PENDING_EXISTING_SIGNING_CONFIGURATION`.
+`RC59_PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER`.
+
+[Report původního auditu](audit/20260908_RC59_ANDROID_AUDIT.md) rozlišuje
+provedené interakce, přerušený první sběr ADB a otevřené lidské kontroly.
+Níže uvedené datované stavy bez připojeného telefonu jsou historické.
+
+## Uzavření čistého importu po auditu — 2026-09-06
+
+Historický CSV inventář je přesunutý beze změny bajtů pod `docs/audit/.gdignore`.
+CI nově odmítne dokumentační CSV i CSV import sidecar mimo takto chráněný
+adresář. Zcela čistá kopie současného pracovního stromu bez importní cache
+prošla prvním importem, 6 747 regresními kontrolami a 34/34 aktivními
+obrazovými branami. Dalších 20 porovnání je pouze diagnostických; tento běh
+neprokazuje úplnou shodu s každým konceptem ani lidské přijetí na telefonu.
+Původní PNG, golden reference, tolerance, save schema a immutable APK zůstávají
+beze změny. [Změny, archiv a reprodukovatelné důkazy](audit/20260906_CLEAN_IMPORT_CLOSURE.md).
+
+`RC59_CLEAN_IMPORT_GATE=PASSED`.
+`RC59_LOCAL_TECHNICAL_GATE=PASSED`.
+`RC59_PHYSICAL_ANDROID_GATE=PENDING_DEVICE_CONNECTION`.
+`RC59_MANUAL_VISUAL_GATE=PENDING_SINGLE_HUMAN_BATCH`.
+`RC59_SIGNED_AAB_GATE=PENDING_EXISTING_SIGNING_CONFIGURATION`.
+`RC59_PUBLISHING_GATE=OUT_OF_SCOPE_BY_USER`.
+
+Mobilní audit je nyní uživatelem schválený, ale `adb devices -l` neukázalo
+připojené zařízení. Níže uvedené starší `NOT_REQUESTED` popisuje tehdejší
+přesunový audit, nikoli současnou žádost. Nová APK, instalace ani publikace
+v rámci opravy importu neproběhly.
+
 ## RC59 po přesunu na disk R — 2026-09-02
 
 Autoritativní checkout je nyní `R:\_projekty\Bazal's Pocket Garden` a Godot
@@ -1831,9 +1921,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_endurance_smok
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_progression_smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_responsive_layout_smoke.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1 -ToolRoot 'C:\_projekty\How to grow_\.tooling' -ApkPath 'C:\temp\Bazal build\candidate.apk'
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android.ps1 -ToolRoot '.tooling' -ApkPath '.godot\export-audit\candidate.apk'
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\export_android_release_aab.ps1 -KeystorePath 'D:\private\bazal-upload.jks' -KeyAlias 'bazal-upload'
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'C:\_projekty\How to grow_\builds\android\bazals-pocket-garden-0.64.0-rc53-arm64-debug.apk' -SampleSeconds 300
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_android_device_audit.ps1 -Install -ApkPath 'builds\android\bazals-pocket-garden-0.69.0-rc59-arm64-debug.apk' -SampleSeconds 300
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_release_candidate.ps1
 ```
 

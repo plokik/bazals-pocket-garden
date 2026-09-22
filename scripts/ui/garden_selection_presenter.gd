@@ -19,6 +19,6 @@ func is_bound() -> bool:
 func refresh(occupied_count: int, max_slots: int, selected_index: int, slot_empty: bool, plant_name: String) -> void:
 	if not is_bound():
 		return
-	plant_count_label.text = "%d / %d OBSAZENO" % [occupied_count, max_slots]
+	plant_count_label.text = "%d/%d OBSAZENO" % [occupied_count, max_slots]
 	var display_name := EMPTY_SLOT_TEXT if slot_empty else plant_name.to_upper()
 	plant_position_label.text = "%s  ·  %d/%d" % [display_name, selected_index + 1, max_slots]

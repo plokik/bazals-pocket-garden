@@ -333,6 +333,7 @@ func _run_all() -> void:
 	_test_phase62_disease_treatment()
 	_test_phase63_plant_diagnosis()
 	_test_phase64_diagnosis_actions()
+	_test_overwatered_ventilation_feedback()
 	_test_phase73_real_time_growth_contract()
 	_test_phase75_post_mature_lifecycle()
 	_test_phase76_rarity_and_discovery()
@@ -708,7 +709,7 @@ func _test_phase25_herbarium_presenter() -> void:
 	var species_progress_before: Dictionary = session.species_progress.duplicate(true)
 	presenter.show_intro()
 	presenter.refresh(session)
-	_check(presenter.is_bound() and summary.text.begins_with("SBÍRKA  2/11 DRUHŮ   ·   18 %") and status.text == "Každá bylinka má vlastní postup. Odměny se vyzvedávají po jedné.", "Fáze 102 herbářový presenter promítne jedenáct druhů, pravdivých 18 procent objevené sbírky a úvodní instrukci")
+	_check(presenter.is_bound() and summary.text.begins_with("SBÍRKA  2/11 DRUHŮ   ·   18%") and status.text == "Každá bylinka má vlastní postup. Odměny se vyzvedávají po jedné.", "Fáze 102 herbářový presenter promítne jedenáct druhů, pravdivých 18 procent objevené sbírky a úvodní instrukci")
 	_check((cards.basil_genovese.overview as Label).text == str(session.get_plant_profile("basil_genovese").get("knowledge_intro", "")) and "SKLIZNĚ  0" in (cards.basil_genovese.stats as Label).text and (cards.basil_genovese.claim as Button).disabled and [session.coins, session.xp, session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds] == economy_before and session.species_progress == species_progress_before, "Phase 25 herbářový presenter naplní karty včetně oregana bez změny herní relace")
 	session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 1, "best_quality": 0.60, "orders_completed": 0, "total_dry_g": 4.8, "claimed_tier": 1}
 	presenter.refresh(session)
@@ -749,8 +750,8 @@ func _test_phase26_measurement_presenter() -> void:
 	var samples: Array[Dictionary] = [{"biomass": 8.0, "light": 9000.0, "co2": 470.0, "oxygen": -0.4}, {"biomass": 12.0, "light": 18000.0, "co2": 430.0, "oxygen": 1.7}]
 	var plant_state_before: Dictionary = plant.to_dict()
 	presenter.refresh(plant, samples)
-	_check(presenter.is_bound() and labels.temperature.text == "24.3 °C" and labels.humidity.text == "58 %" and labels.ph.text == "6.18" and labels.ec.text == "1.37 mS/cm", "Phase 26 měřicí presenter zachová přesné formátování teploty, vlhkosti, pH a vodivosti")
-	_check(labels.light.text == "18420 lux" and labels.co2.text == "439 ppm" and labels.oxygen.text == "20.947 %" and labels.oxygen_balance.text == "-0.35 mg/h" and labels.weather.text == "Polojasno", "Phase 26 měřicí presenter zachová jednotky, zaokrouhlení plynů, světla a počasí")
+	_check(presenter.is_bound() and labels.temperature.text == "24.3 °C" and labels.humidity.text == "58%" and labels.ph.text == "6.18" and labels.ec.text == "1.37 mS/cm", "Phase 26 měřicí presenter zachová přesné formátování teploty, vlhkosti, pH a vodivosti")
+	_check(labels.light.text == "18420 lux" and labels.co2.text == "439 ppm" and labels.oxygen.text == "20.947%" and labels.oxygen_balance.text == "-0.35 mg/h" and labels.weather.text == "Polojasno", "Phase 26 měřicí presenter zachová jednotky, zaokrouhlení plynů, světla a počasí")
 	_check(graph.samples == samples and plant.to_dict() == plant_state_before and "How to Grow Basil" in knowledge.text, "Phase 26 měřicí presenter předá grafu existující vzorky a druhovou nápovědu bez změny simulace")
 	var mint_plant := PlantSimulation.new(_load_plant_catalog().get("mint_peppermint", {}) as Dictionary)
 	presenter.refresh(mint_plant, samples)
@@ -806,12 +807,12 @@ func _test_phase28_plant_vitals_presenter() -> void:
 	plant.condition_score = 0.823
 	var state_before: Dictionary = plant.to_dict()
 	presenter.refresh(plant)
-	_check(presenter.is_bound() and stage.text == plant.get_stage_name() and growth.text == "48.2 %" and is_equal_approx(progress.value, 48.24), "Phase 28 vitální presenter zachová růstovou fázi, desetinný údaj i přesnou hodnotu ukazatele")
-	_check(moisture.text == "62 %" and health.text == "93 %" and condition.text == "82 %" and condition.get_theme_color("font_color") == Color("#42b95c"), "Phase 28 vitální presenter zachová zaokrouhlení tří stavových karet a zdravou zelenou hranici")
+	_check(presenter.is_bound() and stage.text == plant.get_stage_name() and growth.text == "48.2%" and is_equal_approx(progress.value, 48.24), "Phase 28 vitální presenter zachová růstovou fázi, desetinný údaj i přesnou hodnotu ukazatele")
+	_check(moisture.text == "62%" and health.text == "93%" and condition.text == "82%" and condition.get_theme_color("font_color") == Color("#42b95c"), "Phase 28 vitální presenter zachová zaokrouhlení tří stavových karet a zdravou zelenou hranici")
 	plant.condition_score = 0.719
 	state_before = plant.to_dict()
 	presenter.refresh(plant)
-	_check(condition.text == "72 %" and condition.get_theme_color("font_color") == Color("#e87838") and plant.to_dict() == state_before, "Phase 28 vitální presenter zvýrazní stres pod hranicí 72 procent a stav rostliny pouze čte")
+	_check(condition.text == "72%" and condition.get_theme_color("font_color") == Color("#e87838") and plant.to_dict() == state_before, "Phase 28 vitální presenter zvýrazní stres pod hranicí 72 procent a stav rostliny pouze čte")
 	plant.stage = PlantSimulation.Stage.MATURE
 	plant.growth_percent = 100.0
 	plant.critical_neglect_seconds = plant.get_critical_wilt_seconds()
@@ -820,7 +821,7 @@ func _test_phase28_plant_vitals_presenter() -> void:
 	plant.stage = PlantSimulation.Stage.DEAD
 	plant.health = 0.0
 	presenter.refresh(plant)
-	_check(stage.text == "UHYNULÁ · VYČISTIT KVĚTINÁČ" and stage.get_theme_color("font_color") == Color("#554d74") and growth.text == "0.0 %" and is_zero_approx(progress.value) and health.text == "0 %", "Fáze 75 vitální karta ukáže úhyn, nulový postup, nulové zdraví a jednoznačný další krok")
+	_check(stage.text == "UHYNULÁ · VYČISTIT KVĚTINÁČ" and stage.get_theme_color("font_color") == Color("#554d74") and growth.text == "0.0%" and is_zero_approx(progress.value) and health.text == "0%", "Fáze 75 vitální karta ukáže úhyn, nulový postup, nulové zdraví a jednoznačný další krok")
 	for control in [stage, growth, progress, moisture, health, condition]:
 		control.free()
 
@@ -899,7 +900,7 @@ func _test_phase31_plant_action_presenter() -> void:
 	_check(treatment_label.text == "LÉČBA PŮSOBÍ" and buttons[4].disabled and buttons[4].tooltip_text == "Ošetření působí · vyčkej na pokles proudění", "Fáze 62 probíhající léčba zůstane čitelná a nejde okamžitě spamovat")
 	plant.disease_level = 0
 	presenter.refresh(plant, 3)
-	_check(treatment_label.text == "Vyvětrat" and buttons[4].get_meta("action_mode", "") == "ventilation" and not buttons[4].disabled, "Fáze 62 zdravá rostlina vrátí původní větrání i beze změny běžného detailu")
+	_check(treatment_label.text == "Vyvětrat\nProudění\n100%" and buttons[4].get_meta("action_mode", "") == "ventilation" and not buttons[4].disabled, "Zdravá rostlina vrátí větrání s aktuálním prouděním místo léčebného popisku")
 	plant.stage = PlantSimulation.Stage.HARVESTED
 	presenter.refresh(plant, 3)
 	var water_content := buttons[1].get_meta("action_content") as Control
@@ -938,7 +939,7 @@ func _test_phase73_real_time_growth_presenter() -> void:
 	plant.ventilation = 80.0
 	plant.sync_environment(0.0)
 	presenter.refresh(plant)
-	_check(title.text == "DOZRÁNÍ · RYCHLÝ ZAČÁTEK" and value.text.contains("Přibližně za 12 min") and value.text.contains("tempo 100 %"), "Fáze 73 výuková bazalka ukáže pravdivý dvanáctiminutový odhad a aktuální tempo péče")
+	_check(title.text == "DOZRÁNÍ · RYCHLÝ ZAČÁTEK" and value.text.contains("Přibližně za 12 min") and value.text.contains("tempo 100%"), "Fáze 73 výuková bazalka ukáže pravdivý dvanáctiminutový odhad a aktuální tempo péče")
 	plant.stage = PlantSimulation.Stage.HARVESTED
 	presenter.refresh(plant)
 	_check(title.text == "ČERSTVÁ SKLIZEŇ ČEKÁ" and value.text == "Zahaj sušení ve Skladu", "Fáze 74 čerstvá sklizeň netvrdí, že sušení už běží")
@@ -953,7 +954,7 @@ func _test_phase73_real_time_growth_presenter() -> void:
 	_check(title.text == "PŘIPRAVENO KE SKLIZNI" and value.text == "Pokračuj ve Skladu", "Fáze 73 časová karta po dozrání vede do existujícího Skladu")
 	plant.mature_elapsed_seconds = plant.get_freshness_grace_seconds() + plant.get_freshness_decay_seconds() * 0.5
 	presenter.refresh(plant)
-	_check(title.text == "POZDNÍ SKLIZEŇ · ČERSTVOST 83 %" and "Odhad" in value.text and "kvalita" in value.text, "Fáze 75 časová karta ukáže pozdní čerstvost i společný odhad sklizně")
+	_check(title.text == "POZDNÍ SKLIZEŇ · ČERSTVOST 83%" and "Odhad" in value.text and "kvalita" in value.text, "Fáze 75 časová karta ukáže pozdní čerstvost i společný odhad sklizně")
 	plant.critical_neglect_seconds = plant.get_critical_wilt_seconds()
 	presenter.refresh(plant)
 	_check(title.text.begins_with("ZVADLÁ · ZÁCHRANA 1 H") and value.text == "Oprav péči a odstraň poškozené listy", "Fáze 75 zvadlá karta ukáže zbývající záchrannou hodinu a konkrétní krok")
@@ -970,11 +971,11 @@ func _test_phase33_garden_selection_presenter() -> void:
 	var position := Label.new()
 	presenter.bind(count, position)
 	presenter.refresh(0, GameSession.MAX_PLANT_SLOTS, 2, true, "Bazalka Genovese")
-	_check(presenter.is_bound() and count.text == "0 / 10 OBSAZENO" and position.text == "VOLNÝ KVĚTINÁČ  ·  3/10", "Phase 33 zahradní souhrn zachová prázdný třetí slot i celkovou kapacitu stojanu")
+	_check(presenter.is_bound() and count.text == "0/10 OBSAZENO" and position.text == "VOLNÝ KVĚTINÁČ  ·  3/10", "Phase 33 zahradní souhrn zachová prázdný třetí slot i celkovou kapacitu stojanu")
 	presenter.refresh(4, GameSession.MAX_PLANT_SLOTS, 8, false, "Rozmarýn lékařský")
-	_check(count.text == "4 / 10 OBSAZENO" and position.text == "ROZMARÝN LÉKAŘSKÝ  ·  9/10", "Phase 33 zahradní souhrn použije druhově přesný UI název a mobilní pořadí od jedničky")
+	_check(count.text == "4/10 OBSAZENO" and position.text == "ROZMARÝN LÉKAŘSKÝ  ·  9/10", "Phase 33 zahradní souhrn použije druhově přesný UI název a mobilní pořadí od jedničky")
 	presenter.refresh(10, GameSession.MAX_PLANT_SLOTS, 9, false, "Máta peprná")
-	_check(count.text == "10 / 10 OBSAZENO" and position.text == "MÁTA PEPRNÁ  ·  10/10", "Phase 33 zahradní souhrn pracuje pouze s primitivními hodnotami a zachová poslední mobilní pozici")
+	_check(count.text == "10/10 OBSAZENO" and position.text == "MÁTA PEPRNÁ  ·  10/10", "Phase 33 zahradní souhrn pracuje pouze s primitivními hodnotami a zachová poslední mobilní pozici")
 	count.free()
 	position.free()
 
@@ -1017,13 +1018,13 @@ func _test_phase35_xp_hud_presenter() -> void:
 	var value_label := Label.new()
 	presenter.bind(level_label, value_label)
 	presenter.refresh(1, 0)
-	_check(presenter.is_bound() and level_label.text == "ÚROVEŇ 1" and value_label.text == "0 /100 XP", "Phase 35 XP HUD zachová přesný výchozí text bez zásahu do postupu")
+	_check(presenter.is_bound() and level_label.text == "ÚROVEŇ 1" and value_label.text == "0/100 XP", "Phase 35 XP HUD zachová přesný výchozí text bez zásahu do postupu")
 	presenter.refresh(1, 99)
-	_check(level_label.text == "ÚROVEŇ 1" and value_label.text == "99 /100 XP", "Phase 35 XP HUD zachová poslední bod před další úrovní")
+	_check(level_label.text == "ÚROVEŇ 1" and value_label.text == "99/100 XP", "Phase 35 XP HUD zachová poslední bod před další úrovní")
 	presenter.refresh(2, 0)
-	_check(level_label.text == "ÚROVEŇ 2" and value_label.text == "0 /100 XP", "Phase 35 XP HUD správně promítne začátek nové úrovně")
+	_check(level_label.text == "ÚROVEŇ 2" and value_label.text == "0/100 XP", "Phase 35 XP HUD správně promítne začátek nové úrovně")
 	presenter.refresh(123, 57)
-	_check(level_label.text == "ÚROVEŇ 123" and value_label.text == "57 /100 XP", "Phase 35 XP HUD pracuje pouze s primitivními hodnotami a neomezuje dlouhý postup")
+	_check(level_label.text == "ÚROVEŇ 123" and value_label.text == "57/100 XP", "Phase 35 XP HUD pracuje pouze s primitivními hodnotami a neomezuje dlouhý postup")
 	level_label.free()
 	value_label.free()
 
@@ -1345,8 +1346,10 @@ func _test_phase64_diagnosis_actions() -> void:
 	var dry: Dictionary = service.build_snapshot(plant, 0.0)
 	_check(str(dry.next_action_id) == "water" and str(dry.next_action_label) == "K ZÁLIVCE", "Fáze 64 kritické sucho vede na existující zálivku, ale samo ji nespustí")
 	plant.moisture = 94.0
+	plant.ventilation = 39.0
 	var wet: Dictionary = service.build_snapshot(plant, 0.0)
-	_check(str(wet.next_action_id) == "ventilate" and str(wet.next_action_label) == "K VĚTRÁNÍ", "Fáze 64 přemokření nevede na další vodu a nasměruje hráče k proudění")
+	_check(str(wet.next_action_id) == "ventilate" and str(wet.next_action_label) == "K VĚTRÁNÍ", "Přemokření se stojatým vzduchem nevede na další vodu a nasměruje hráče k proudění")
+	plant.ventilation = 55.0
 	plant.moisture = 60.0
 	plant.nutrients = 12.0
 	var hungry: Dictionary = service.build_snapshot(plant, 0.0)
@@ -1387,6 +1390,50 @@ func _test_phase64_diagnosis_actions() -> void:
 	wilted.health = 0.0
 	var dead_diagnosis: Dictionary = service.build_snapshot(wilted, 0.0)
 	_check(str(dead_diagnosis.status) == "ROSTLINA UHYNULA" and str(dead_diagnosis.next_action_id) == "clear" and (dead_diagnosis.checks as Array).is_empty(), "Fáze 75 diagnostika mrtvé rostlině nenabídne zakázanou péči a vede pouze k vyčištění")
+
+
+func _test_overwatered_ventilation_feedback() -> void:
+	var service = preload("res://scripts/services/plant_diagnosis_service.gd").new()
+	var presenter = preload("res://scripts/ui/plant_action_presenter.gd").new()
+	var buttons: Array[Button] = []
+	for _index in range(5):
+		var button := Button.new()
+		var label := Label.new()
+		button.add_child(label)
+		button.set_meta("action_label", label)
+		buttons.append(button)
+	presenter.bind(buttons[0], buttons[1], buttons[2], buttons[3], buttons[4])
+	var airflow_label := buttons[4].get_meta("action_label") as Label
+	var catalog := _load_plant_catalog()
+	var plant := PlantSimulation.new(catalog[PARSLEY_ID])
+	plant.plant_seed()
+	plant.nutrients = 52.0
+	for wet_case in [{"moisture": 97.0, "condition_percent": 25}, {"moisture": 97.84, "condition_percent": 22}]:
+		plant.moisture = float(wet_case.moisture)
+		plant.ventilation = 39.0
+		plant.sync_environment(0.0)
+		var condition_before := plant.condition_score
+		var before: Dictionary = service.build_snapshot(plant, 0.0)
+		presenter.refresh(plant, 3)
+		_check(roundi(condition_before * 100.0) == int(wet_case.condition_percent) and str(before.next_action_id) == "ventilate" and airflow_label.text == "Vyvětrat\nProudění\n39%", "Přemokřená petržel rozliší nízké celkové podmínky od aktuálního proudění před větráním")
+		_check(plant.ventilate() and is_equal_approx(plant.ventilation, 100.0), "Větrání přemokřené rostliny skutečně zvýší proudění na 100%")
+		plant.sync_environment(0.0)
+		presenter.refresh(plant, 3)
+		var state_before_diagnosis := plant.to_dict()
+		var after: Dictionary = service.build_snapshot(plant, 0.0)
+		_check(is_equal_approx(plant.moisture, float(wet_case.moisture)) and is_equal_approx(plant.condition_score, condition_before), "Úspěšné větrání okamžitě nevysuší půdu ani falešně nezvýší podmínky omezené přemokřením")
+		_check(str(after.next_action_id) == "return" and str(after.next_action_label) == "ZPĚT K ROSTLINĚ" and "Nezalévej" in str(after.recommendation) and "přirozeně proschnout" in str(after.recommendation) and plant.to_dict() == state_before_diagnosis, "Diagnostika po vyvětrání přemokřené rostliny vysvětlí čekání na proschnutí bez dalšího CTA k větrání či mutace stavu")
+		_check(airflow_label.text == "Vyvětrat\nProudění\n100%" and buttons[4].tooltip_text == "Vyvětrat · proudění 100%" and buttons[4].get_meta("action_mode", "") == "ventilation" and not buttons[4].disabled, "Mobilní tlačítko po vyvětrání viditelně ukáže proudění 100% nezávisle na nízkých podmínkách")
+	plant.ventilation = 40.0
+	plant.sync_environment(0.0)
+	var adequate_air: Dictionary = service.build_snapshot(plant, 0.0)
+	var air_check: Dictionary = {}
+	for check in adequate_air.checks:
+		if str(check.id) == "air":
+			air_check = check
+	_check(str(adequate_air.next_action_id) == "return" and "přirozeně proschnout" in str(adequate_air.recommendation) and int(air_check.get("severity", -1)) == 0, "Hranice proudění 40% souhlasí v radě pro přemokření, CTA i diagnostice vzduchu")
+	for button in buttons:
+		button.free()
 
 
 func _test_phase73_real_time_growth_contract() -> void:
@@ -1502,7 +1549,7 @@ func _test_phase75_post_mature_lifecycle() -> void:
 	healthy.ventilation = 100.0
 	healthy.sync_environment(0.0)
 	healthy.advance(21601.0, 0.0)
-	_check(healthy.stage == PlantSimulation.Stage.MATURE and not healthy.is_wilted() and is_equal_approx(healthy.get_harvest_freshness_factor(), 0.65), "Fáze 75 zdravá zralá Common rostlina přežije přes tři hodiny a pozdní čerstvost se zastaví přesně na 65 %")
+	_check(healthy.stage == PlantSimulation.Stage.MATURE and not healthy.is_wilted() and is_equal_approx(healthy.get_harvest_freshness_factor(), 0.65), "Fáze 75 zdravá zralá Common rostlina přežije přes tři hodiny a pozdní čerstvost se zastaví přesně na 65%")
 
 	var rescue := PlantSimulation.new(basil_profile)
 	rescue.stage = PlantSimulation.Stage.MATURE
@@ -1530,7 +1577,7 @@ func _test_phase75_post_mature_lifecycle() -> void:
 	var timer_after_care := rescue.critical_neglect_seconds
 	rescue.advance(10.0, 7200.0)
 	_check(rescue.get_fatal_care_issue_count() == 0 and rescue.is_wilted() and rescue.critical_neglect_seconds > timer_after_care, "Fáze 75 po zavadnutí oprava příčiny zastaví škodu až po ručním odstranění listů")
-	_check(rescue.prune_damaged_leaves() and not rescue.is_wilted() and is_zero_approx(rescue.critical_neglect_seconds) and rescue.health >= 45.0 and rescue.get_harvest_freshness_factor() <= wilted_freshness and not rescue.prune_damaged_leaves(), "Fáze 75 ruční záchrana je jednorázová, obnoví nejméně 45 % zdraví a nevrátí ztracenou čerstvost")
+	_check(rescue.prune_damaged_leaves() and not rescue.is_wilted() and is_zero_approx(rescue.critical_neglect_seconds) and rescue.health >= 45.0 and rescue.get_harvest_freshness_factor() <= wilted_freshness and not rescue.prune_damaged_leaves(), "Fáze 75 ruční záchrana je jednorázová, obnoví nejméně 45% zdraví a nevrátí ztracenou čerstvost")
 
 	var doomed := PlantSimulation.new(basil_profile)
 	doomed.stage = PlantSimulation.Stage.MATURE
@@ -1903,7 +1950,7 @@ func _test_phase78_botanical_packs() -> void:
 		odds_total += float(raw_chance)
 	_check(GameSession.SAVE_SCHEMA >= 39 and GameSession.BOTANICAL_PACK_SCHEMA == 22 and GameSession.BOTANICAL_PACK_SEED_COUNT == 1 and GameSession.MAX_PENDING_BOTANICAL_PACKS == 32, "Aktuální schema 39 navazuje na botanické balíčky ze schema 22, jeden výsledek na balíček a pevně omezenou frontu")
 	_check(int(initial_state.get("count", -1)) == 0 and int(initial_state.get("capacity", -1)) == GameSession.MAX_PENDING_BOTANICAL_PACKS and (initial_state.get("pending", []) as Array).is_empty() and not bool(initial_state.get("queue_full", true)), "Nová hra začíná bez skrytě přidělených balíčků a veřejný stav pravdivě vrací prázdnou frontu")
-	_check(absf(float(initial_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(initial_odds.get("legendary", -1.0))) and is_zero_approx(float(initial_odds.get("special", -1.0))) and absf(odds_total - 100.0) < 0.001, "Bez Legendary profilu se aktivní váhy 55/30/10 normalizují na Common/Rare/Epic/Legendary/Special 57,894737/31,578947/10,526316/0/0 a dávají 100 %")
+	_check(absf(float(initial_odds.get("common", -1.0)) - PACK_COMMON_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("rare", -1.0)) - PACK_RARE_NO_LEGENDARY) < 0.001 and absf(float(initial_odds.get("epic", -1.0)) - PACK_EPIC_NO_LEGENDARY) < 0.001 and is_zero_approx(float(initial_odds.get("legendary", -1.0))) and is_zero_approx(float(initial_odds.get("special", -1.0))) and absf(odds_total - 100.0) < 0.001, "Bez Legendary profilu se aktivní váhy 55/30/10 normalizují na Common/Rare/Epic/Legendary/Special 57,894737/31,578947/10,526316/0/0 a dávají 100%")
 	_check(int(initial_state.get("pity", -1)) == 0 and int(initial_state.get("pity_threshold", -1)) == 4 and int(initial_state.get("duplicates_until_guaranteed_new", -1)) == 4 and not bool(initial_state.get("next_grant_guaranteed_new", true)) and int(initial_state.get("eligible_species_count", -1)) == 11 and int(initial_state.get("ungranted_new_species_count", -1)) == 9, "Veřejný stav ukazuje hranici čtyř duplicit i devět dosud neobjevených druhů bez odhalení zapečetěného výsledku")
 	var all_profiles_allow_pack := true
 	for raw_species_id in catalog:
@@ -2013,7 +2060,7 @@ func _test_phase78_botanical_packs() -> void:
 		four_duplicates = four_duplicates and not duplicate_pack.is_empty() and not bool(duplicate_pack.get("was_new_when_granted", true)) and pity_session.botanical_pack_pity == duplicate_index + 1
 	var pity_boundary_state := pity_session.get_botanical_pack_state()
 	var pity_boundary_odds: Dictionary = pity_boundary_state.get("odds", {})
-	_check(four_duplicates and bool(pity_boundary_state.get("next_grant_guaranteed_new", false)) and int(pity_boundary_state.get("duplicates_until_guaranteed_new", -1)) == 0 and absf(float(pity_boundary_odds.get("epic", 0.0)) - 100.0) < 0.001, "Čtyři skutečně přidělené duplicity naplní pity a veřejné šance před pátým balíčkem ukážou 100 % jediného nového Epic druhu")
+	_check(four_duplicates and bool(pity_boundary_state.get("next_grant_guaranteed_new", false)) and int(pity_boundary_state.get("duplicates_until_guaranteed_new", -1)) == 0 and absf(float(pity_boundary_odds.get("epic", 0.0)) - 100.0) < 0.001, "Čtyři skutečně přidělené duplicity naplní pity a veřejné šance před pátým balíčkem ukážou 100% jediného nového Epic druhu")
 	var guaranteed_pack := pity_session._grant_botanical_pack("pity_test", "guaranteed_fifth", false)
 	_check(str(guaranteed_pack.get("species_id", "")) == "lavandula_angustifolia" and str(guaranteed_pack.get("rolled_rarity", "")) == "epic" and bool(guaranteed_pack.get("was_new_when_granted", false)) and pity_session.botanical_pack_pity == 0, "Pátý balíček po čtyřech duplicitách je zapečetěný jako nová Epic levandule a pity se resetuje")
 
@@ -2137,13 +2184,13 @@ func _test_phase78_botanical_packs() -> void:
 	var presenter_reward_rarity := Label.new()
 	var presenter_open := Button.new()
 	pack_presenter.bind(presenter_count, presenter_odds, presenter_pity, presenter_status, presenter_reward_name, presenter_reward_rarity, presenter_open)
-	pack_presenter.refresh(0, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7 %", "NOVÝ DRUH ZA 4 BALÍČKY", false, "")
+	pack_presenter.refresh(0, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7%", "NOVÝ DRUH ZA 4 BALÍČKY", false, "")
 	_check(pack_presenter.is_bound() and presenter_count.text == "PŘIPRAVENÉ BALÍČKY · 0" and presenter_open.disabled and presenter_open.text == "ŽÁDNÝ BALÍČEK K OTEVŘENÍ" and presenter_reward_name.text == "ZAPEČETĚNÁ BOTANICKÁ ZÁSILKA", "Presenter prázdný stav jednoznačně zamkne a před otevřením neodhalí druh")
-	pack_presenter.refresh(2, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7 % · VZÁCNÁ 35.3 %", "NOVÝ DRUH ZA 3 BALÍČKY", true, "")
+	pack_presenter.refresh(2, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7% · VZÁCNÁ 35.3%", "NOVÝ DRUH ZA 3 BALÍČKY", true, "")
 	_check(not presenter_open.disabled and presenter_open.text == "OTEVŘÍT BALÍČEK" and "64.7" in presenter_odds.text and presenter_pity.text == "NOVÝ DRUH ZA 3 BALÍČKY", "Presenter zobrazuje skutečné šance, pity a velkou otevřenou akci bez změny modelu")
-	pack_presenter.refresh(1, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7 %", "VŠECHNY DRUHY OBJEVENÉ", false, "inventory_full")
+	pack_presenter.refresh(1, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7%", "VŠECHNY DRUHY OBJEVENÉ", false, "inventory_full")
 	_check(presenter_open.disabled and presenter_status.text == "ZÁSOBNÍK SEMEN JE PLNÝ · NEJDŘÍV JEDNO SEMÍNKO POUŽIJ", "Presenter při plném inventáři balíček neztratí a vysvětlí přesnou nápravu")
-	pack_presenter.refresh(1, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7 %", "NOVÝ DRUH ZA 2 BALÍČKY", true, "", {"display_name": "Oregano", "rarity_label": "VZÁCNÁ", "rarity_stars": 2, "new_discovery": true})
+	pack_presenter.refresh(1, "SKUTEČNÉ ŠANCE · BĚŽNÁ 64.7%", "NOVÝ DRUH ZA 2 BALÍČKY", true, "", {"display_name": "Oregano", "rarity_label": "VZÁCNÁ", "rarity_stars": 2, "new_discovery": true})
 	_check(presenter_reward_name.text == "OREGANO" and "★★" in presenter_reward_rarity.text and "VZÁCNÁ" in presenter_reward_rarity.text and presenter_status.text == "NOVÝ DRUH OBJEVEN! +1 SEMÍNKO" and presenter_open.text == "OTEVŘÍT DALŠÍ BALÍČEK", "Presenter po otevření jasně odliší nový druh, vzácnost, hvězdy i pokračování ve frontě")
 	for control in [presenter_count, presenter_odds, presenter_pity, presenter_status, presenter_reward_name, presenter_reward_rarity, presenter_open]:
 		control.free()
@@ -2192,7 +2239,7 @@ func _test_phase79_botanical_behaviors() -> void:
 		definitions_complete = definitions_complete and not str(definition.get("active_text", "")).is_empty() and not str(definition.get("inactive_text", "")).is_empty()
 		definitions_complete = definitions_complete and definition.get("activation", {}) is Dictionary and definition.get("effects", {}) is Dictionary
 	_check(behavior_order == ["resilient_leaves", "refreshing_water", "aromatic_defense", "water_saving_needles", "fragrant_bloom", "clumping_vigor", "aroma_preservation", "shade_tolerance", "self_seeding", "modest_feeding", "dry_soil_vigor"] and definitions_by_id.keys().size() == 11 and definitions_complete, "Fáze 102 katalog drží jedenáct kanonických botanických chování, stabilní pořadí a úplný čtecí kontrakt pro UI")
-	_check(is_equal_approx(float((definitions_by_id.resilient_leaves.effects as Dictionary).get("stress_damage_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.refreshing_water.effects as Dictionary).get("health_restore", 0.0)), 4.0) and bool((definitions_by_id.refreshing_water.effects as Dictionary).get("once_per_action", false)) and is_equal_approx(float((definitions_by_id.aromatic_defense.effects as Dictionary).get("disease_pressure_gain_multiplier", 0.0)), 0.70) and is_equal_approx(float((definitions_by_id.water_saving_needles.effects as Dictionary).get("water_loss_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.fragrant_bloom.activation as Dictionary).get("threshold", 0.0)), 0.85) and is_equal_approx(float((definitions_by_id.fragrant_bloom.effects as Dictionary).get("fresh_yield_multiplier", 0.0)), 1.12) and bool((definitions_by_id.fragrant_bloom.effects as Dictionary).get("once_per_harvest", false)) and str((definitions_by_id.clumping_vigor.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and is_equal_approx(float((definitions_by_id.clumping_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.10) and str((definitions_by_id.aroma_preservation.activation as Dictionary).get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float((definitions_by_id.aroma_preservation.effects as Dictionary).get("drying_time_multiplier", 0.0)), 0.80) and str((definitions_by_id.shade_tolerance.activation as Dictionary).get("type", "")) == "daylight_light_below" and is_equal_approx(float((definitions_by_id.shade_tolerance.effects as Dictionary).get("daylight_light_factor_floor", 0.0)), 0.60) and str((definitions_by_id.self_seeding.activation as Dictionary).get("type", "")) == "sale_seed_drop" and is_equal_approx(float((definitions_by_id.self_seeding.effects as Dictionary).get("seed_drop_chance_bonus", 0.0)), 0.17) and str((definitions_by_id.modest_feeding.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((definitions_by_id.modest_feeding.activation as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((definitions_by_id.modest_feeding.effects as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75) and str((definitions_by_id.dry_soil_vigor.activation as Dictionary).get("value", "")) == "moisture" and is_equal_approx(float((definitions_by_id.dry_soil_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.12), "Všech jedenáct efektů má přesné veřejné hodnoty včetně tymiánového růstu +12 % v sušším pásmu")
+	_check(is_equal_approx(float((definitions_by_id.resilient_leaves.effects as Dictionary).get("stress_damage_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.refreshing_water.effects as Dictionary).get("health_restore", 0.0)), 4.0) and bool((definitions_by_id.refreshing_water.effects as Dictionary).get("once_per_action", false)) and is_equal_approx(float((definitions_by_id.aromatic_defense.effects as Dictionary).get("disease_pressure_gain_multiplier", 0.0)), 0.70) and is_equal_approx(float((definitions_by_id.water_saving_needles.effects as Dictionary).get("water_loss_multiplier", 0.0)), 0.75) and is_equal_approx(float((definitions_by_id.fragrant_bloom.activation as Dictionary).get("threshold", 0.0)), 0.85) and is_equal_approx(float((definitions_by_id.fragrant_bloom.effects as Dictionary).get("fresh_yield_multiplier", 0.0)), 1.12) and bool((definitions_by_id.fragrant_bloom.effects as Dictionary).get("once_per_harvest", false)) and str((definitions_by_id.clumping_vigor.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and is_equal_approx(float((definitions_by_id.clumping_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.10) and str((definitions_by_id.aroma_preservation.activation as Dictionary).get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float((definitions_by_id.aroma_preservation.effects as Dictionary).get("drying_time_multiplier", 0.0)), 0.80) and str((definitions_by_id.shade_tolerance.activation as Dictionary).get("type", "")) == "daylight_light_below" and is_equal_approx(float((definitions_by_id.shade_tolerance.effects as Dictionary).get("daylight_light_factor_floor", 0.0)), 0.60) and str((definitions_by_id.self_seeding.activation as Dictionary).get("type", "")) == "sale_seed_drop" and is_equal_approx(float((definitions_by_id.self_seeding.effects as Dictionary).get("seed_drop_chance_bonus", 0.0)), 0.17) and str((definitions_by_id.modest_feeding.activation as Dictionary).get("type", "")) == "growth_value_in_profile_band" and str((definitions_by_id.modest_feeding.activation as Dictionary).get("value", "")) == "nutrients" and is_equal_approx(float((definitions_by_id.modest_feeding.effects as Dictionary).get("nutrient_loss_multiplier", 0.0)), 0.75) and str((definitions_by_id.dry_soil_vigor.activation as Dictionary).get("value", "")) == "moisture" and is_equal_approx(float((definitions_by_id.dry_soil_vigor.effects as Dictionary).get("growth_multiplier", 0.0)), 1.12), "Všech jedenáct efektů má přesné veřejné hodnoty včetně tymiánového růstu +12% v sušším pásmu")
 	_check(str(behavior_catalog.get_definition("resilient_leaves").get("id", "")) == "resilient_leaves" and behavior_catalog.get_definition("unknown_behavior").is_empty() and behavior_catalog.normalize_behavior_ids([" refreshing_water ", "refreshing_water", "unknown_behavior", 8]) == ["refreshing_water"], "Runtime normalizace zahodí duplicitu, neznámé ID i neřetězcový vstup a nikdy je nezmění na jiné chování")
 
 	var repository = preload("res://scripts/plant_catalog_repository.gd").new()
@@ -2243,7 +2290,7 @@ func _test_phase79_botanical_behaviors() -> void:
 		stress_plant.advance(3600.0, 0.0)
 	var resilient_damage := 80.0 - resilient_basil.health
 	var plain_damage := 80.0 - plain_basil.health
-	_check(resilient_basil.get_behavior_ids() == ["resilient_leaves"] and resilient_basil.get_behavior_definitions().size() == 1 and plain_damage > 0.0 and absf(resilient_damage - plain_damage * 0.75) < 0.001, "Bazalka při skutečném stresu utrpí přesně 75 % běžného poškození a bez behavior_id zůstane původní model")
+	_check(resilient_basil.get_behavior_ids() == ["resilient_leaves"] and resilient_basil.get_behavior_definitions().size() == 1 and plain_damage > 0.0 and absf(resilient_damage - plain_damage * 0.75) < 0.001, "Bazalka při skutečném stresu utrpí přesně 75% běžného poškození a bez behavior_id zůstane původní model")
 
 	var mint := PlantSimulation.new(catalog.mint_peppermint as Dictionary)
 	mint.plant_seed()
@@ -2282,7 +2329,7 @@ func _test_phase79_botanical_behaviors() -> void:
 		disease_plant.humidity_percent = 55.0
 		disease_plant.ventilation = 60.0
 		disease_plant._update_disease(1.0)
-	_check(oregano_positive_gain_ok and is_equal_approx(oregano_equipped_plain.disease_pressure, 7.5) and is_equal_approx(oregano_defended.disease_pressure, 7.5), "Aromatický štít násobí pouze kladný přírůstek tlaku plísně 70 % a s vybavením se skládá násobením; přirozený pokles nezpomaluje")
+	_check(oregano_positive_gain_ok and is_equal_approx(oregano_equipped_plain.disease_pressure, 7.5) and is_equal_approx(oregano_defended.disease_pressure, 7.5), "Aromatický štít násobí pouze kladný přírůstek tlaku plísně 70% a s vybavením se skládá násobením; přirozený pokles nezpomaluje")
 
 	var rosemary := PlantSimulation.new(catalog.rosemary_officinalis as Dictionary)
 	rosemary.stage = PlantSimulation.Stage.VEGETATIVE
@@ -2292,7 +2339,7 @@ func _test_phase79_botanical_behaviors() -> void:
 	var rosemary_ideal_max := float(rosemary.profile.get("ideal_moisture_max", 60.0))
 	var rosemary_base_rate := float(rosemary.profile.get("water_loss_per_hour", 1.8)) * 0.88
 	var expected_rosemary_eta := (70.0 - rosemary_ideal_max) / rosemary_base_rate * 3600.0 + (rosemary_ideal_max - 50.0) / (rosemary_base_rate * 0.75) * 3600.0
-	_check(is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max + 0.01), rosemary_base_rate) and is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max), rosemary_base_rate * 0.75) and is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max - 10.0), rosemary_base_rate * 0.75), "Rozmarýn šetří vodu přesně na 75 % až v ideálním nebo sušším pásmu; nad horní hranicí zůstává původní odpar")
+	_check(is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max + 0.01), rosemary_base_rate) and is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max), rosemary_base_rate * 0.75) and is_equal_approx(rosemary.get_effective_water_loss_per_hour(rosemary_ideal_max - 10.0), rosemary_base_rate * 0.75), "Rozmarýn šetří vodu přesně na 75% až v ideálním nebo sušším pásmu; nad horní hranicí zůstává původní odpar")
 	_check(absf(rosemary.get_estimated_seconds_until_moisture(50.0) - expected_rosemary_eta) < 0.01 and is_zero_approx(rosemary.get_estimated_seconds_until_moisture(70.0)) and PlantSimulation.new(catalog.rosemary_officinalis as Dictionary).get_estimated_seconds_until_moisture(50.0) < 0.0, "Odhad vláhy rozmarýnu počítá oba úseky, stejné vybavení i hraniční stavy 0 a nedostupné ETA")
 	var rosemary_above := PlantSimulation.new(catalog.rosemary_officinalis as Dictionary)
 	rosemary_above.stage = PlantSimulation.Stage.VEGETATIVE
@@ -2676,7 +2723,7 @@ func _test_phase81_epic_lavender() -> void:
 		pity_duplicates_exact = pity_duplicates_exact and not bool(duplicate_pack.get("was_new_when_granted", true)) and pity.botanical_pack_pity == duplicate_index + 1
 	var pity_odds: Dictionary = pity.get_botanical_pack_odds()
 	var pity_reward := pity._grant_botanical_pack("phase81_pity", "guaranteed_lavender", false)
-	_check(pity_duplicates_exact and absf(float(pity_odds.get("epic", 0.0)) - 100.0) < 0.001 and str(pity_reward.get("species_id", "")) == LAVENDER_ID and bool(pity_reward.get("was_new_when_granted", false)) and pity.botanical_pack_pity == 0, "Pity při jediné neobjevené levanduli po čtyřech duplicitách ukáže 100 % Epic a pátý zapečetěný balíček ji garantuje")
+	_check(pity_duplicates_exact and absf(float(pity_odds.get("epic", 0.0)) - 100.0) < 0.001 and str(pity_reward.get("species_id", "")) == LAVENDER_ID and bool(pity_reward.get("was_new_when_granted", false)) and pity.botanical_pack_pity == 0, "Pity při jediné neobjevené levanduli po čtyřech duplicitách ukáže 100% Epic a pátý zapečetěný balíček ji garantuje")
 
 	var plain_lavender_profile := lavender.duplicate(true)
 	plain_lavender_profile["behavior_ids"] = []
@@ -3064,7 +3111,7 @@ func _test_phase83_chives() -> void:
 	var inactive_above := is_equal_approx(boundary.get_growth_behavior_multiplier(), 1.0)
 	boundary.moisture = 60.0
 	boundary.stage = PlantSimulation.Stage.MATURE
-	_check(active_at_min and active_at_max and inactive_below and inactive_above and is_equal_approx(boundary.get_growth_behavior_multiplier(), 1.0), "SÍLA TRSU je aktivní včetně hranic 46–78 %, mimo ně i po dozrání zůstává přesně 1,00×")
+	_check(active_at_min and active_at_max and inactive_below and inactive_above and is_equal_approx(boundary.get_growth_behavior_multiplier(), 1.0), "SÍLA TRSU je aktivní včetně hranic 46–78%, mimo ně i po dozrání zůstává přesně 1,00×")
 
 	var controlled_profile := chives.duplicate(true)
 	controlled_profile["water_loss_per_hour"] = 0.0
@@ -3314,7 +3361,7 @@ func _test_phase84_marjoram() -> void:
 	var aroma: Dictionary = behavior_catalog.get_definition("aroma_preservation")
 	var activation: Dictionary = aroma.get("activation", {})
 	var effects: Dictionary = aroma.get("effects", {})
-	_check(str(aroma.get("label", "")) == "VŮNĚ PO USUŠENÍ" and str(aroma.get("name", "")) == "VŮNĚ PO USUŠENÍ" and str(activation.get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float(activation.get("threshold", 0.0)), 0.80) and is_equal_approx(float(effects.get("drying_time_multiplier", 0.0)), 0.80) and bool(effects.get("once_per_harvest", false)), "VŮNĚ PO USUŠENÍ je bezstavová vlastnost s přesnou hranicí kvality 80 % a násobkem času sušení 0,80×")
+	_check(str(aroma.get("label", "")) == "VŮNĚ PO USUŠENÍ" and str(aroma.get("name", "")) == "VŮNĚ PO USUŠENÍ" and str(activation.get("type", "")) == "harvest_quality_at_least" and is_equal_approx(float(activation.get("threshold", 0.0)), 0.80) and is_equal_approx(float(effects.get("drying_time_multiplier", 0.0)), 0.80) and bool(effects.get("once_per_harvest", false)), "VŮNĚ PO USUŠENÍ je bezstavová vlastnost s přesnou hranicí kvality 80% a násobkem času sušení 0,80×")
 	var at_threshold := PlantSimulation.new(marjoram)
 	at_threshold.stage = PlantSimulation.Stage.HARVESTED
 	at_threshold.harvest_quality = 0.80
@@ -3323,7 +3370,7 @@ func _test_phase84_marjoram() -> void:
 	below_threshold.harvest_quality = 0.7999
 	var threshold_status: Array[Dictionary] = at_threshold.get_behavior_status_entries()
 	var below_status: Array[Dictionary] = below_threshold.get_behavior_status_entries()
-	_check(is_equal_approx(at_threshold.get_drying_behavior_time_multiplier(), 0.80) and is_equal_approx(at_threshold.get_drying_target_seconds(), 8640.0) and threshold_status.size() == 1 and bool(threshold_status[0].get("active", false)) and is_equal_approx(below_threshold.get_drying_behavior_time_multiplier(), 1.0) and is_equal_approx(below_threshold.get_drying_target_seconds(), 10800.0) and below_status.size() == 1 and not bool(below_status[0].get("active", true)), "Vlastnost se aktivuje přesně na 80 %, zkrátí 3 h na 2 h 24 min a pod hranicí zachová původní čas")
+	_check(is_equal_approx(at_threshold.get_drying_behavior_time_multiplier(), 0.80) and is_equal_approx(at_threshold.get_drying_target_seconds(), 8640.0) and threshold_status.size() == 1 and bool(threshold_status[0].get("active", false)) and is_equal_approx(below_threshold.get_drying_behavior_time_multiplier(), 1.0) and is_equal_approx(below_threshold.get_drying_target_seconds(), 10800.0) and below_status.size() == 1 and not bool(below_status[0].get("active", true)), "Vlastnost se aktivuje přesně na 80%, zkrátí 3 h na 2 h 24 min a pod hranicí zachová původní čas")
 	var active_drying := PlantSimulation.new(marjoram)
 	active_drying.stage = PlantSimulation.Stage.DRYING
 	active_drying.harvest_quality = 0.80
@@ -3567,7 +3614,7 @@ func _test_phase85_parsley() -> void:
 	plain_low_light.ventilation = 72.0
 	plain_low_light.light_lux = 4000.0
 	plain_low_light._update_condition_score(0.0)
-	_check(is_equal_approx(low_light.condition_score, 0.60) and absf(plain_low_light.condition_score - (4000.0 / 9000.0)) < 0.0001 and low_light.condition_score > plain_low_light.condition_score, "Denní condition_score použije podlahu 60 %, zatímco stejný profil bez vlastnosti zachová skutečný světelný faktor")
+	_check(is_equal_approx(low_light.condition_score, 0.60) and absf(plain_low_light.condition_score - (4000.0 / 9000.0)) < 0.0001 and low_light.condition_score > plain_low_light.condition_score, "Denní condition_score použije podlahu 60%, zatímco stejný profil bez vlastnosti zachová skutečný světelný faktor")
 	var trait_runtime := PlantSimulation.new(parsley)
 	var plain_runtime := PlantSimulation.new(plain_profile)
 	for probe in [trait_runtime, plain_runtime]:
@@ -3797,14 +3844,14 @@ func _test_phase86_lemon_balm() -> void:
 	_check(is_equal_approx(self_seeded.get_seed_drop_chance(), 0.58) and not bool(self_seeded.get_behavior_status_entries()[0].get("active", true)), "Prázdný květináč nikdy nezíská bonus samovýsevu")
 	self_seeded.stage = PlantSimulation.Stage.GERMINATING
 	var active_status: Array[Dictionary] = self_seeded.get_behavior_status_entries()
-	_check(is_equal_approx(self_seeded.get_seed_drop_chance(), 0.75) and is_equal_approx(self_seeded.get_seed_drop_chance(0.95), 1.0) and is_zero_approx(self_seeded.get_seed_drop_chance(-1.0)) and active_status.size() == 1 and str(active_status[0].get("id", "")) == "self_seeding" and bool(active_status[0].get("active", false)), "Zasazená meduňka navýší 58 % přesně na 75 %, clamp drží 0–100 % a UI stav je aktivní")
+	_check(is_equal_approx(self_seeded.get_seed_drop_chance(), 0.75) and is_equal_approx(self_seeded.get_seed_drop_chance(0.95), 1.0) and is_zero_approx(self_seeded.get_seed_drop_chance(-1.0)) and active_status.size() == 1 and str(active_status[0].get("id", "")) == "self_seeding" and bool(active_status[0].get("active", false)), "Zasazená meduňka navýší 58% přesně na 75%, clamp drží 0–100% a UI stav je aktivní")
 	self_seeded.stage = PlantSimulation.Stage.DEAD
 	_check(is_equal_approx(self_seeded.get_seed_drop_chance(), 0.58) and not bool(self_seeded.get_behavior_status_entries()[0].get("active", true)), "Mrtvá meduňka nepoužije prodejní bonus")
 	var plain_profile := lemon_balm.duplicate(true)
 	plain_profile["behavior_ids"] = []
 	var plain := PlantSimulation.new(plain_profile)
 	plain.stage = PlantSimulation.Stage.PACKAGED
-	_check(is_equal_approx(plain.get_seed_drop_chance(), 0.58) and plain.get_behavior_status_entries().is_empty(), "Stejný profil bez behavior_id zachová veřejnou základní šanci 58 %")
+	_check(is_equal_approx(plain.get_seed_drop_chance(), 0.58) and plain.get_behavior_status_entries().is_empty(), "Stejný profil bez behavior_id zachová veřejnou základní šanci 58%")
 
 	var bonus_probe := GameSession.new(catalog)
 	bonus_probe.plant.configure_profile(lemon_balm)
@@ -3821,7 +3868,7 @@ func _test_phase86_lemon_balm() -> void:
 		if bonus_probe._roll_seed_drop() and not plain_probe._roll_seed_drop():
 			bonus_only_harvest_count = candidate
 			break
-	_check(bonus_only_harvest_count >= 0, "Deterministický RNG obsahuje auditovatelný výsledek mezi základními 58 % a meduňkovými 75 %")
+	_check(bonus_only_harvest_count >= 0, "Deterministický RNG obsahuje auditovatelný výsledek mezi základními 58% a meduňkovými 75%")
 	var sale_routes_exact := bonus_only_harvest_count >= 0
 	for route_id in ["storage", "botanist", "order"]:
 		var route_session := GameSession.new(catalog)
@@ -4548,7 +4595,7 @@ func _test_phase93_professor_story_presenter() -> void:
 
 	var ready_state := _phase93_ready_session(catalog).get_professor_story_state()
 	var ready_view: Dictionary = presenter.refresh(ready_state)
-	_check(str(ready_view.get("status", "")) == "ready" and str((ready_view.get("action", {}) as Dictionary).get("target_action", "")) == "claim_reward" and action.text == "VYZVEDNOUT ODMĚNU" and not action.disabled and bool(ready_view.get("badge_visible", false)) and summary.text.contains("5 / 5"), "Presenter ready kapitoly zachová badge, 5/5 a jediné aktivní CTA pro atomický claim")
+	_check(str(ready_view.get("status", "")) == "ready" and str((ready_view.get("action", {}) as Dictionary).get("target_action", "")) == "claim_reward" and action.text == "VYZVEDNOUT ODMĚNU" and not action.disabled and bool(ready_view.get("badge_visible", false)) and summary.text.contains("5/5"), "Presenter ready kapitoly zachová badge, 5/5 a jediné aktivní CTA pro atomický claim")
 
 	var queue_state := ready_state.duplicate(true)
 	queue_state["can_claim"] = false
@@ -4586,7 +4633,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 	var expected_catalog_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
 	var session := GameSession.new(catalog)
 	var sage_rarity: Dictionary = session.get_species_rarity_definition(SAGE_ID)
-	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidává tymián jako jedenáctý viditelný druh a nová hra zůstává na pravdivých 2/11 · 18 %")
+	_check(catalog.size() == 11 and session.get_available_species() == expected_catalog_order and session.get_collection_species_ids() == expected_catalog_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidává tymián jako jedenáctý viditelný druh a nová hra zůstává na pravdivých 2/11 · 18%")
 	_check(str(sage.get("id", "")) == SAGE_ID and str(sage.get("display_name", "")) == "Šalvěj lékařská" and str(sage.get("short_name", "")) == "Šalvěj" and str(sage.get("ui_name", "")) == "Šalvěj lékařská" and str(sage.get("variety", "")) == "Officinalis" and str(sage.get("category", "")) == "Bylinky" and str(sage.get("rarity", "")) == "rare" and int(sage_rarity.get("stars", 0)) == 2 and str(sage_rarity.get("label", "")) == "VZÁCNÁ" and int(sage.get("catalog_order", 0)) == 100 and bool(sage.get("collection_visible", false)), "Šalvěj má stabilní kanonické ID, české názvy, Rare vzácnost se dvěma hvězdami a poslední katalogové pořadí 100")
 	_check(int(sage.get("starter_seed_count", -1)) == 0 and sage.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack", "professor_story"] and sage.get("behavior_ids", []) == ["modest_feeding"] and str(sage.get("accent_hex", "")).to_upper() == "#B8C99A", "Rare profil nezačíná zdarma, deklaruje všech pět zdrojů získání a jedinou vlastnost modest_feeding")
 	_check(str(sage.get("seed_care_description", "")).contains("20 hodin") and str(sage.get("shop_description", "")).contains("sušší") and str(sage.get("shop_badge", "")) == "VZÁCNÝ DRUH" and int(sage.get("shop_unlock_level", 0)) == 7 and int(sage.get("botanist_shop_order", 0)) == 100 and int(sage.get("seed_price", 0)) == 42 and int(sage.get("shop_stock_base", -1)) == 0 and sage.get("shop_stock_cycle", []) == [1, 0, 0, 0, 0, 0, 0], "Kořínkův profil šalvěje ukazuje 20 hodin, kanonický Rare badge VZÁCNÝ DRUH, cenu 42, odemčení na úrovni 7 a jediný kus týdně")
@@ -4611,12 +4658,12 @@ func _test_phase95_rare_sage_and_story() -> void:
 	var plain_sage := PlantSimulation.new(plain_sage_profile)
 	modest_sage.stage = PlantSimulation.Stage.VEGETATIVE
 	plain_sage.stage = PlantSimulation.Stage.VEGETATIVE
-	_check(is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(44.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(24.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(60.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(23.999), 0.9) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(60.001), 0.9) and is_equal_approx(plain_sage.get_effective_nutrient_loss_per_hour(44.0), 0.9), "Střídmá výživa je aktivní včetně hranic 24–60 %, mimo pásmo se vypne a profil bez traitu zůstává na 0,9/h")
+	_check(is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(44.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(24.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(60.0), 0.675) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(23.999), 0.9) and is_equal_approx(modest_sage.get_effective_nutrient_loss_per_hour(60.001), 0.9) and is_equal_approx(plain_sage.get_effective_nutrient_loss_per_hour(44.0), 0.9), "Střídmá výživa je aktivní včetně hranic 24–60%, mimo pásmo se vypne a profil bez traitu zůstává na 0,9/h")
 	modest_sage.nutrients = 61.0
 	plain_sage.nutrients = 61.0
 	var modest_piecewise_eta := modest_sage.get_estimated_seconds_until_nutrients(23.0)
 	var plain_piecewise_eta := plain_sage.get_estimated_seconds_until_nutrients(23.0)
-	_check(absf(modest_piecewise_eta - 200000.0) < 0.01 and absf(plain_piecewise_eta - 152000.0) < 0.01, "Odhad živin správně rozdělí úsek nad pásmem, uvnitř 24–60 % a pod pásmem; šalvěj potřebuje 200 000 s místo 152 000 s")
+	_check(absf(modest_piecewise_eta - 200000.0) < 0.01 and absf(plain_piecewise_eta - 152000.0) < 0.01, "Odhad živin správně rozdělí úsek nad pásmem, uvnitř 24–60% a pod pásmem; šalvěj potřebuje 200 000 s místo 152 000 s")
 	for care_plant in [modest_sage, plain_sage]:
 		care_plant.stage = PlantSimulation.Stage.VEGETATIVE
 		care_plant.growth_percent = 0.0
@@ -4641,7 +4688,7 @@ func _test_phase95_rare_sage_and_story() -> void:
 	offline.from_dict(online.to_dict())
 	online.advance(7200.0)
 	offline.advance_offline(7200.0)
-	_check(planted_sage and online.plant.get_species_id() == SAGE_ID and offline.plant.get_species_id() == SAGE_ID and absf(online.plant.nutrients - 42.65) < 0.02 and absf(online.plant.nutrients - offline.plant.nutrients) < 0.01, "Dvouhodinový online i offline růst uplatní střídmou výživu právě jednou a shodně skončí na 42,65 % živin")
+	_check(planted_sage and online.plant.get_species_id() == SAGE_ID and offline.plant.get_species_id() == SAGE_ID and absf(online.plant.nutrients - 42.65) < 0.02 and absf(online.plant.nutrients - offline.plant.nutrients) < 0.01, "Dvouhodinový online i offline růst uplatní střídmou výživu právě jednou a shodně skončí na 42,65% živin")
 
 	var pack_state := session.get_botanical_pack_state()
 	var pack_odds: Dictionary = pack_state.get("odds", {})
@@ -4866,7 +4913,7 @@ func _test_phase96_blended_orders() -> void:
 			"flat_bonus": 5,
 			"bonus_xp": 18,
 			"minimum_reward": 70,
-			"requirement_text": "SMĚS · 2 BYLINY\nMÁTA · 4,0 g · kvalita 74 %\nMEDUŇKA · 4,5 g · kvalita 74 %",
+			"requirement_text": "SMĚS · 2 BYLINY\nMÁTA · 4,0 g · kvalita 74%\nMEDUŇKA · 4,5 g · kvalita 74%",
 		},
 		"soup_pair": {
 			"customer": "Městská polévková kuchyně",
@@ -4880,7 +4927,7 @@ func _test_phase96_blended_orders() -> void:
 			"flat_bonus": 7,
 			"bonus_xp": 22,
 			"minimum_reward": 85,
-			"requirement_text": "SMĚS · 2 BYLINY\nPETRŽEL · 4,2 g · kvalita 76 %\nMAJORÁNKA · 4,8 g · kvalita 78 %",
+			"requirement_text": "SMĚS · 2 BYLINY\nPETRŽEL · 4,2 g · kvalita 76%\nMAJORÁNKA · 4,8 g · kvalita 78%",
 		},
 		"aromatic_sachet": {
 			"customer": "Ateliér Voňavý herbář",
@@ -4894,7 +4941,7 @@ func _test_phase96_blended_orders() -> void:
 			"flat_bonus": 8,
 			"bonus_xp": 28,
 			"minimum_reward": 121,
-			"requirement_text": "SMĚS · 2 BYLINY\nLEVANDULE · 5,5 g · kvalita 82 %\nROZMARÝN · 4,8 g · kvalita 78 %",
+			"requirement_text": "SMĚS · 2 BYLINY\nLEVANDULE · 5,5 g · kvalita 82%\nROZMARÝN · 4,8 g · kvalita 78%",
 		},
 		"provence_pair": {
 			"customer": "Bistro Levandulový dvůr",
@@ -4908,7 +4955,7 @@ func _test_phase96_blended_orders() -> void:
 			"flat_bonus": 8,
 			"bonus_xp": 24,
 			"minimum_reward": 101,
-			"requirement_text": "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78 %\nROZMARÝN · 4,6 g · kvalita 78 %",
+			"requirement_text": "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78%\nROZMARÝN · 4,6 g · kvalita 78%",
 		},
 	}
 
@@ -5051,7 +5098,7 @@ func _test_phase96_blended_orders() -> void:
 		if not mint_roll and melissa_roll:
 			seed_roll_harvest_count = candidate
 			break
-	_check(seed_roll_harvest_count >= 0 and is_equal_approx(success.plants[4].get_seed_drop_chance(0.58), 0.58) and is_equal_approx(success.plants[2].get_seed_drop_chance(0.58), 0.75), "Oddělené solené RNG větve obsahují auditovatelný hod: máta na 58 % nevrátí semínko, zatímco meduňka s vlastností na 75 % ano")
+	_check(seed_roll_harvest_count >= 0 and is_equal_approx(success.plants[4].get_seed_drop_chance(0.58), 0.58) and is_equal_approx(success.plants[2].get_seed_drop_chance(0.58), 0.75), "Oddělené solené RNG větve obsahují auditovatelný hod: máta na 58% nevrátí semínko, zatímco meduňka s vlastností na 75% ano")
 	success.harvest_count = seed_roll_harvest_count
 	var mint_progress_before := success.get_species_progress("mint_peppermint")
 	var melissa_progress_before := success.get_species_progress(LEMON_BALM_ID)
@@ -5109,7 +5156,7 @@ func _test_phase96_blended_orders() -> void:
 	_phase96_prepare_packaged_slot(blend_cap, 0, LAVENDER_ID, 100.0, 1.0)
 	_phase96_prepare_packaged_slot(blend_cap, 1, "rosemary_officinalis", 100.0, 1.0)
 	blend_cap.select_plant(0)
-	_check(single_requirement_copy.size() == 1 and single_cap.get_order_requirement_text(0) == "BYLINA: BAZALKA · min. 3.0 g · kvalita 55 %" and single_reward_cap == 100 and blend_cap.get_order_reward(0) == 180, "Jednoduchá zakázka zachová přesné legacy copy a strop 100 mincí, zatímco součet dvou skutečných balíčků směsi má samostatný strop 180")
+	_check(single_requirement_copy.size() == 1 and single_cap.get_order_requirement_text(0) == "BYLINA: BAZALKA · min. 3.0 g · kvalita 55%" and single_reward_cap == 100 and blend_cap.get_order_reward(0) == 180, "Jednoduchá zakázka zachová přesné legacy copy a strop 100 mincí, zatímco součet dvou skutečných balíčků směsi má samostatný strop 180")
 
 	var legacy_source := GameSession.new(catalog)
 	var legacy_data := legacy_source.to_dict()
@@ -6855,7 +6902,7 @@ func _test_phase102_common_thyme() -> void:
 	var thyme: Dictionary = (catalog.get(THYME_ID, {}) as Dictionary).duplicate(true)
 	var session := GameSession.new(catalog)
 	var expected_order := ["basil_genovese", "mint_peppermint", "oregano_vulgare", "rosemary_officinalis", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID, THYME_ID]
-	_check(catalog.size() == 11 and session.get_available_species() == expected_order and session.get_collection_species_ids() == expected_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidá tymián jako jedenáctý katalogový druh a nová hra zůstává na pravdivých 2/11 · 18 %")
+	_check(catalog.size() == 11 and session.get_available_species() == expected_order and session.get_collection_species_ids() == expected_order and session.get_discovered_species_count() == 2 and session.get_collection_completion_percent() == 18, "Fáze 102 přidá tymián jako jedenáctý katalogový druh a nová hra zůstává na pravdivých 2/11 · 18%")
 	_check(str(thyme.get("id", "")) == THYME_ID and str(thyme.get("display_name", "")) == "Tymián obecný" and str(thyme.get("short_name", "")) == "Tymián" and str(thyme.get("ui_name", "")) == "Tymián obecný" and str(thyme.get("variety", "")) == "Vulgaris" and str(thyme.get("rarity", "")) == "common" and int(thyme.get("catalog_order", 0)) == 110 and bool(thyme.get("collection_visible", false)), "Tymián má stabilní kanonické ID, české názvy, Common vzácnost a poslední katalogové pořadí 110")
 	_check(int(thyme.get("starter_seed_count", -1)) == 0 and thyme.get("acquisition_sources", []) == ["botanist", "mastery", "harvest_drop", "botanical_pack"] and thyme.get("behavior_ids", []) == ["dry_soil_vigor"] and str(thyme.get("accent_hex", "")).to_upper() == "#6F9E5A", "Tymián nezačíná zdarma, používá čtyři škálovatelné zdroje získání a jedinou vlastnost dry_soil_vigor")
 	_check(str(thyme.get("seed_care_description", "")).contains("11 hodin") and str(thyme.get("shop_badge", "")) == "SUCHOMILNÝ RYTMUS" and int(thyme.get("shop_unlock_level", 0)) == 4 and int(thyme.get("botanist_shop_order", 0)) == 110 and int(thyme.get("seed_price", 0)) == 24 and int(thyme.get("shop_stock_base", -1)) == 1 and thyme.get("shop_stock_cycle", []) == [1, 0, 0, 0], "Kořínkův obchod ukáže jedenáctihodinový tymián, cenu 24, odemčení na úrovni 4 a deterministický čtyřdenní sklad")
@@ -6863,7 +6910,7 @@ func _test_phase102_common_thyme() -> void:
 	care_exact = care_exact and is_equal_approx(float(thyme.get("initial_moisture", 0.0)), 36.0) and is_equal_approx(float(thyme.get("initial_nutrients", 0.0)), 40.0) and is_equal_approx(float(thyme.get("water_loss_per_hour", 0.0)), 2.1) and is_equal_approx(float(thyme.get("nutrient_loss_per_hour", 0.0)), 0.7)
 	care_exact = care_exact and is_equal_approx(float(thyme.get("ideal_moisture_min", 0.0)), 28.0) and is_equal_approx(float(thyme.get("ideal_moisture_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("dry_growth_moisture_min", 0.0)), 28.0) and is_equal_approx(float(thyme.get("dry_growth_moisture_max", 0.0)), 43.0)
 	care_exact = care_exact and is_equal_approx(float(thyme.get("ideal_nutrients_min", 0.0)), 22.0) and is_equal_approx(float(thyme.get("ideal_nutrients_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("ideal_humidity_min", 0.0)), 30.0) and is_equal_approx(float(thyme.get("ideal_humidity_max", 0.0)), 58.0) and is_equal_approx(float(thyme.get("ideal_ph_min", 0.0)), 6.0) and is_equal_approx(float(thyme.get("ideal_ph_max", 0.0)), 8.0)
-	_check(care_exact, "Tymián drží přesný jedenáctihodinový růst, tříhodinové sušení a vlastní úzké suché růstové pásmo 28–43 % uvnitř bezpečné vláhy 28–58 %")
+	_check(care_exact, "Tymián drží přesný jedenáctihodinový růst, tříhodinové sušení a vlastní úzké suché růstové pásmo 28–43% uvnitř bezpečné vláhy 28–58%")
 	_check(is_equal_approx(float(thyme.get("base_fresh_yield_g", 0.0)), 30.0) and is_equal_approx(float(thyme.get("dry_matter_ratio", 0.0)), 0.27) and is_equal_approx(float(thyme.get("dried_price_per_g", 0.0)), 7.6) and int(thyme.get("xp_harvest", 0)) == 30 and int(thyme.get("xp_sale", 0)) == 40, "Tymián dává 30 g čerstvé a 8,1 g suché bylinky za 7,6 mince/g a 30/40 XP")
 	var sources: Array = thyme.get("sources", [])
 	_check(sources.size() == 3 and str((sources[0] as Dictionary).get("url", "")) == "https://plants.ces.ncsu.edu/plants/thymus-vulgaris/common-name/common-thyme/" and str((sources[1] as Dictionary).get("url", "")) == "https://extension.umn.edu/gardening-minnesota/growing-herbs" and str((sources[2] as Dictionary).get("url", "")) == "https://extension.umn.edu/planting-and-growing-guides/lighting-indoor-plants" and "nikoli léčebné doporučení" in str(thyme.get("knowledge_intro", "")), "Botanické pozadí tymiánu zůstává dohledatelné ve třech přesných univerzitních zdrojích a odděluje herní model od léčebných tvrzení")
@@ -6872,7 +6919,7 @@ func _test_phase102_common_thyme() -> void:
 	var definition: Dictionary = behavior_catalog.get_definition("dry_soil_vigor")
 	var activation: Dictionary = definition.get("activation", {})
 	var effects: Dictionary = definition.get("effects", {})
-	_check(behavior_catalog.get_order().back() == "dry_soil_vigor" and str(definition.get("label", "")) == "SUCHOMILNÝ RYTMUS" and str(activation.get("type", "")) == "growth_value_in_profile_band" and str(activation.get("value", "")) == "moisture" and str(activation.get("minimum_field", "")) == "dry_growth_moisture_min" and str(activation.get("maximum_field", "")) == "dry_growth_moisture_max" and is_equal_approx(float(effects.get("growth_multiplier", 0.0)), 1.12), "SUCHOMILNÝ RYTMUS čte vlastní profilové meze vláhy a zrychluje růst přesně o 12 %")
+	_check(behavior_catalog.get_order().back() == "dry_soil_vigor" and str(definition.get("label", "")) == "SUCHOMILNÝ RYTMUS" and str(activation.get("type", "")) == "growth_value_in_profile_band" and str(activation.get("value", "")) == "moisture" and str(activation.get("minimum_field", "")) == "dry_growth_moisture_min" and str(activation.get("maximum_field", "")) == "dry_growth_moisture_max" and is_equal_approx(float(effects.get("growth_multiplier", 0.0)), 1.12), "SUCHOMILNÝ RYTMUS čte vlastní profilové meze vláhy a zrychluje růst přesně o 12%")
 	var thyme_plant := PlantSimulation.new(thyme)
 	thyme_plant.stage = PlantSimulation.Stage.VEGETATIVE
 	thyme_plant.moisture = 28.0
@@ -6885,7 +6932,7 @@ func _test_phase102_common_thyme() -> void:
 	var above_inactive := thyme_plant.get_growth_behavior_multiplier()
 	thyme_plant.moisture = 30.0
 	thyme_plant.water(120.0)
-	_check(is_equal_approx(lower_active, 1.12) and is_equal_approx(upper_active, 1.12) and is_equal_approx(below_inactive, 1.0) and is_equal_approx(above_inactive, 1.0) and thyme_plant.moisture > 43.0 and is_equal_approx(thyme_plant.get_growth_behavior_multiplier(), 1.0), "Trait je aktivní včetně hranic 28–43 %, mimo ně se vypne a běžná zálivka jej dočasně ukončí, dokud půda znovu neproschne")
+	_check(is_equal_approx(lower_active, 1.12) and is_equal_approx(upper_active, 1.12) and is_equal_approx(below_inactive, 1.0) and is_equal_approx(above_inactive, 1.0) and thyme_plant.moisture > 43.0 and is_equal_approx(thyme_plant.get_growth_behavior_multiplier(), 1.0), "Trait je aktivní včetně hranic 28–43%, mimo ně se vypne a běžná zálivka jej dočasně ukončí, dokud půda znovu neproschne")
 	var missing_band := thyme.duplicate(true)
 	missing_band.erase("dry_growth_moisture_min")
 	var inverted_band := thyme.duplicate(true)
@@ -6926,7 +6973,7 @@ func _test_phase102_common_thyme() -> void:
 	order_session.orders.append(thyme_order)
 	_phase96_prepare_packaged_slot(order_session, 0, THYME_ID, 4.8, 0.76)
 	order_session.select_plant(0)
-	_check(str(thyme_order_template.get("title", "")) == "Tymián na pečenou zeleninu" and is_equal_approx(float(thyme_order_template.get("min_dry_g", 0.0)), 4.8) and is_equal_approx(float(thyme_order_template.get("min_quality", 0.0)), 0.76) and int(thyme_order_template.get("bonus_xp", 0)) == 18 and order_session.can_fulfill_order(0) and order_session.get_order_reward(0) == 61, "Samostatná tymiánová zakázka vyžaduje 4,8 g při kvalitě 76 %, je splnitelná a na minimu odmění 61 mincemi a 18 XP")
+	_check(str(thyme_order_template.get("title", "")) == "Tymián na pečenou zeleninu" and is_equal_approx(float(thyme_order_template.get("min_dry_g", 0.0)), 4.8) and is_equal_approx(float(thyme_order_template.get("min_quality", 0.0)), 0.76) and int(thyme_order_template.get("bonus_xp", 0)) == 18 and order_session.can_fulfill_order(0) and order_session.get_order_reward(0) == 61, "Samostatná tymiánová zakázka vyžaduje 4,8 g při kvalitě 76%, je splnitelná a na minimu odmění 61 mincemi a 18 XP")
 	var blend_session := GameSession.new(catalog)
 	blend_session.xp = 100000
 	blend_session._discover_species(THYME_ID)
@@ -6936,7 +6983,7 @@ func _test_phase102_common_thyme() -> void:
 	blend_session.orders.append(provence_order)
 	_phase96_prepare_packaged_slot(blend_session, 0, THYME_ID, 4.8, 0.78)
 	_phase96_prepare_packaged_slot(blend_session, 1, "rosemary_officinalis", 4.6, 0.78)
-	_check(str(provence_template.get("title", "")) == "Provensálská dvojice" and bool(provence_template.get("requires_discovery", false)) and blend_session.can_fulfill_order(0) and blend_session.get_order_reward(0) == 101 and blend_session.get_order_requirement_text(0) == "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78 %\nROZMARÝN · 4,6 g · kvalita 78 %", "Provensálská dvojice bezpečně spotřebuje dva odlišné balíčky a na minimu odmění 101 mincemi")
+	_check(str(provence_template.get("title", "")) == "Provensálská dvojice" and bool(provence_template.get("requires_discovery", false)) and blend_session.can_fulfill_order(0) and blend_session.get_order_reward(0) == 101 and blend_session.get_order_requirement_text(0) == "SMĚS · 2 BYLINY\nTYMIÁN · 4,8 g · kvalita 78%\nROZMARÝN · 4,6 g · kvalita 78%", "Provensálská dvojice bezpečně spotřebuje dva odlišné balíčky a na minimu odmění 101 mincemi")
 
 	var presentation = preload("res://scripts/plant_presentation_catalog.gd").new()
 	var expected_paths := {
@@ -6996,7 +7043,7 @@ func _test_phase123_player_room_collection() -> void:
 		and session.get_room_decoration_slots() == empty_slots
 		and session.get_room_decoration_ids_for_slot(0).size() == 12
 		and session.get_room_decoration_ids_for_slot(12) == ["botanical_books"]
-		and session.get_room_decoration_slot_label(11) == "ROSTLINA 12 / 12"
+		and session.get_room_decoration_slot_label(11) == "ROSTLINA 12/12"
 		and session.get_room_decoration_slot_label(17) == "KONVIČKA"
 		and not session.purchase_or_place_room_decoration("future_decoration", 0)
 		and not session.purchase_or_place_room_decoration("botanical_books", -1)
@@ -7282,13 +7329,13 @@ func _test_phase125_rack_cleanup_and_player_settings() -> void:
 		"Historická Fáze 125 zůstává zdokumentovaná a navazující Phase183 má responzivní geometrii čtyřikonového doku"
 	)
 	_check(
-		"config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "version/name=\"0.69.0-rc59-emulator\"" in preset_source
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source
+		"config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 125 zůstává zachovaná v navazujícím RC59 code 76 a projekt bezpečně používá save schema 41"
+		"Fáze 125 zůstává zachovaná v navazujícím RC60 code 77 a projekt bezpečně používá save schema 41"
 	)
 
 
@@ -7410,13 +7457,13 @@ func _test_phase126_garden_visual_camera() -> void:
 		"Stojan, pokoj a skleník sdílejí kamerový kontrakt; pokoj má report-only důkaz i samostatnou 360×800 responzivní bránu"
 	)
 	_check(
-		"config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "version/name=\"0.69.0-rc59-emulator\"" in preset_source
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source
+		"config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 126 zůstává zachovaná v navazujícím RC59 code 76 se současným save schema 41"
+		"Fáze 126 zůstává zachovaná v navazujícím RC60 code 77 se současným save schema 41"
 	)
 
 
@@ -7495,10 +7542,10 @@ func _test_phase127_final_visual_system() -> void:
 		and FileAccess.get_sha256("res://assets/ui/greenhouse/greenhouse_interior_phase120.png") == "83c8a58cb3b775ddcb67f3b9a62f6abd2fcf2ee128db656d8431404dab03372b"
 		and FileAccess.get_sha256("res://assets/ui/visual/phase127/room_decor_atlas_v2.png") == "27eae4a9087b1a9c03ee2116d126408f7f434297fd273caee250ba3b4c71e991"
 		and FileAccess.get_sha256("res://assets/ui/visual/phase127/greenhouse_atlas_v1.png") == "f4f80d5a121978f6ff71b6ba94f6bdd098051c601d096335df2c483a8994da6a"
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 127 zachová původní pozadí a její kontrakt pokračuje v aktuální identitě RC59 code 76"
+		"Fáze 127 zachová původní pozadí a její kontrakt pokračuje v aktuální identitě RC60 code 77"
 	)
 
 
@@ -7553,14 +7600,14 @@ func _test_phase128_plants_style_parity() -> void:
 		"Runtime používá společný ilustrovaný shell a capture odděluje tři nové report-only důkazy od historických schválených gate"
 	)
 	_check(
-		"reference_phase5_storage_v1.png" in visual_cases_source
-		and "reference_phase5_shop_v1.png" in visual_cases_source
-		and "reference_phase5_measurement_v1.png" in visual_cases_source
+		"rc60_runtime_baseline/reference_storage_v1.png" in visual_cases_source
+		and "rc60_runtime_baseline/reference_shop_v1.png" in visual_cases_source
+		and "rc60_runtime_baseline/reference_measurement_v1.png" in visual_cases_source
 		and "PHASE128_PLANTS_STYLE_PARITY=PREVIEW_AWAITING_ACCEPTANCE" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 128 zůstává zachovaná v navazujícím RC59 se současným save schema 41"
+		"Fáze 128 zůstává zachovaná v navazujícím RC60 se současným save schema 41"
 	)
 
 
@@ -9015,6 +9062,9 @@ func _test_phase149_exact_player_room_target() -> void:
 		and "_draw_window_life(palette)" not in draw_body \
 		and "_draw_sun_motes(palette)" not in draw_body \
 		and "_draw_title(palette)" not in draw_body \
+		and "_draw_painted_title_overlay()" in draw_body \
+		and "PaintedDetailArt.centered_text_baseline" in room_source \
+		and room.get_meta("painted_title_overlay", "") == "compact_wood_replaces_white_plate_font_safe_v3" \
 		and "_draw_phase149_foreground_occlusion()" in draw_body,
 		"Runtime používá přesný crop, target-native obdélníky, průhledné funkční hitboxy a jedinou nábytkovou occlusion bez dvojího kreslení chrome"
 	)
@@ -9221,6 +9271,19 @@ func _test_phase150_approved_painted_greenhouse() -> void:
 		and not bool(phase150_visual_case.get("gate", true)),
 		"Fáze 150 má deterministický oddělený level-4 capture s 420 mincemi a přesný target zůstává pravdivě REPORT-ONLY kvůli zapečenému konkrétnímu stavu reference"
 	)
+	var painted_greenhouse_controls_valid: bool = (
+		view.get_meta("painted_bar_system", "") == "greenhouse_painted_wood_cream_sage_v1"
+		and view.get_meta("painted_bar_scope", "") == "title_return_reputation_status_actions_v1"
+		and view.get_meta("painted_progress_style", "") == "cream_track_green_fill_v1"
+		and view.get_meta("painted_title_text_layout", "") == "font_metric_title_safe_area_v3"
+		and view.get_meta("painted_reputation_card", "") == "single_wood_cream_leaf_v4"
+		and view.back_button.get_meta("painted_style", "") == "cream_wood_return_v1"
+		and view.wallet_label.get_meta("painted_style", "") == "single_wood_cream_leaf_reputation_card_v4"
+		and view.crop_buttons.size() == 5
+	)
+	for crop_button in view.crop_buttons:
+		painted_greenhouse_controls_valid = painted_greenhouse_controls_valid and (crop_button as Button).get_meta("painted_style", "") == "shared_sage_crop_choice_v1"
+	_check(painted_greenhouse_controls_valid, "Skleník sjednocuje titul, návrat, pověst, stavovou lištu a volby plodin do společného malovaného dřevo-krémovo-šalvějového systému")
 	_check(
 		"PHASE150_SOURCE_ACCEPTANCE=APPROVED_BY_USER" in phase_doc \
 		and "PHASE150_TECHNICAL_VALIDATION=PASSED" in phase_doc \
@@ -9354,6 +9417,15 @@ func _test_phase152_approved_painted_storage() -> void:
 		and FileAccess.get_sha256("res://assets/ui/visual/phase128/storage_workshop_backdrop_v2.png") == "6b015948c57b3ecaaa0f2c59b9682f683eac9bd844cd1dea896a1bbf1f5061d3",
 		"Malovaný workshop má skutečnou plnou vrstvu, cílený horní výřez a mipmap rendering bez změny zdrojového PNG nebo dynamické pipeline"
 	)
+	_check(
+		"storage_painted_gap_fill_v2" in main_source \
+		and "painted_storage_content_ground_v2" in main_source \
+		and "storage_painted_wood_hero_frame_v2" in main_source \
+		and "storage_painted_cream_title_v2" in main_source \
+		and main_source.count("storage_painted_cream_card_v2") >= 2 \
+		and "painted_storage_scrollbar_v2" in main_source,
+		"Sklad používá souvislé malované dřevo pod mezerami a sjednocené krémové rámy bez zásahu do původního workshop PNG"
+	)
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var storage_visual_case := {}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
@@ -9379,6 +9451,7 @@ func _test_phase153_approved_painted_shop() -> void:
 	var profile := VisualDesignSystem.scene_profile("shop")
 	var asset_profile := VisualDesignSystem.asset_profile("shop_merchant_background")
 	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var presenter_source := FileAccess.get_file_as_string("res://scripts/ui/botanist_shop_presenter.gd")
 	var merchant_import := FileAccess.get_file_as_string("res://assets/ui/merchant/botanist_shop_counter_v2.png.import")
 	_check(
 		VisualDesignSystem.SHOP_PHASE153_RUNTIME_SET_ID == "phase153_shop_painted_botanical_runtime_v1" \
@@ -9412,6 +9485,32 @@ func _test_phase153_approved_painted_shop() -> void:
 		and "_build_shop_category_button(\"VÝKUP\", \"sell\")" in main_source,
 		"Phase153 mění pouze kompozici a materiály; peněženka, katalog, zásoby, čtyři režimy, nákup, výkup, vybavení a scroll zůstávají dynamické"
 	)
+	_check(
+		"shop_painted_gap_fill_v2" in main_source \
+		and "painted_shop_content_ground_v2" in main_source \
+		and "shop_painted_wood_hero_frame_v2" in main_source \
+		and "shop_painted_cream_wallet_v2" in main_source \
+		and "shop_painted_cream_catalog_card_v2" in main_source \
+		and "shop_painted_cream_equipment_card_v2" in main_source \
+		and "shop_painted_cream_sell_card_v2" in main_source \
+		and "shop_painted_cream_feedback_ribbon_v2" in main_source \
+		and "painted_shop_scrollbar_v2" in main_source \
+		and "botanist_catalog_grid_2x_ordered_v2" in main_source \
+		and "ordered_equal_height_catalog_card_v2" in main_source \
+		and "shared_rarity_slot_catalog_card_v5" in main_source \
+		and "empty_rarity_alignment_slot_v5" in main_source \
+		and "unified_shop_purchase_action_v2" in main_source \
+		and "inset_shop_purchase_action_v3" in main_source \
+		and "unified_green_shop_item_action_v4" in main_source \
+		and "_style_shop_item_action" in main_source \
+		and "_shop_normalized_icon_texture" in main_source \
+		and "_build_uniform_shop_product_icon" in main_source \
+		and "uniform_shop_product_icon_slot_v6" in main_source \
+		and "alpha_trimmed_centered_safe_inset_v6" in main_source \
+		and "_apply_painted_mode_button" in presenter_source \
+		and "PaintedDetailArt.box(normal_kind, 6.0)" in presenter_source,
+		"Obchod používá jeden souvislý malovaný dřevěný podklad, krémové karty, sjednocené záložky a vlastní malovaný posuvník ve všech režimech"
+	)
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var shop_visual_case := {}
 	var shop_runtime_visual_case := {}
@@ -9427,7 +9526,7 @@ func _test_phase153_approved_painted_shop() -> void:
 		str(shop_visual_case.get("reference", "")) == VisualDesignSystem.SHOP_PHASE153_TARGET_ASSET.trim_prefix("res://") \
 		and str(shop_visual_case.get("actual", "")) == "comic-phase153-shop.png" \
 		and not bool(shop_visual_case.get("gate", true)) \
-		and str(shop_runtime_visual_case.get("reference", "")) == "assets/ui/comic/reference_phase153_shop_runtime_v1.png" \
+		and str(shop_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase153-shop-runtime-approved_v1.png" \
 		and str(shop_runtime_visual_case.get("actual", "")) == "comic-phase153-shop.png" \
 		and bool(shop_runtime_visual_case.get("gate", false)) \
 		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase153_shop_runtime_v1.png") == "3dd2eefc3ecb1b50d6394e1368b67b62fd64d4c0cd65ce48c5784c6602754c12" \
@@ -9490,7 +9589,7 @@ func _test_phase154_approved_painted_measurement() -> void:
 		str(measurement_visual_case.get("reference", "")) == VisualDesignSystem.MEASUREMENT_PHASE154_TARGET_ASSET.trim_prefix("res://") \
 		and str(measurement_visual_case.get("actual", "")) == "comic-phase154-measurement.png" \
 		and not bool(measurement_visual_case.get("gate", true)) \
-		and str(measurement_runtime_visual_case.get("reference", "")) == "assets/ui/comic/reference_phase154_measurement_runtime_v1.png" \
+		and str(measurement_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase154-measurement-runtime-approved_v1.png" \
 		and str(measurement_runtime_visual_case.get("actual", "")) == "comic-phase154-measurement.png" \
 		and bool(measurement_runtime_visual_case.get("gate", false)) \
 		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase154_measurement_runtime_v1.png") == "dcfbd62c674451a53cb286dc98292e91ea03ba2d17e79ed4e8927ea3a0e68ca5" \
@@ -9630,13 +9729,13 @@ func _test_phase157_responsive_detail_header() -> void:
 	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
 	var phase_doc := FileAccess.get_file_as_string("res://docs/PHASE157_ANDROID_DETAIL_HEADER_FIX.md")
 	_check(
-		"config/version=\"0.69.0-rc59\"" in project_source \
-		and preset_source.count("version/code=76") == 3 \
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2 \
-		and "version/name=\"0.69.0-rc59-emulator\"" in preset_source \
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source \
+		"config/version=\"0.70.0-rc60\"" in project_source \
+		and preset_source.count("version/code=77") == 3 \
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2 \
+		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source \
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source \
 		and GameSession.SAVE_SCHEMA == 41,
-		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC59 bez migrace uložené hry"
+		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC60 bez migrace uložené hry"
 	)
 	_check(
 		"phase157_responsive_detail_header_v1" in main_source \
@@ -9692,7 +9791,7 @@ func _test_phase158_room_layer_compositing() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase158_runtime_cases := {}
 	var expected_phase158_cases := {
-		"phase158-player-room-empty-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_empty_runtime_v1.png", "comic-phase158-player-room-empty-0-of-20.png"],
+		"phase158-player-room-empty-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase158-player-room-empty-runtime-approved_v1.png", "comic-phase158-player-room-empty-0-of-20.png"],
 		"phase158-player-room-sparse-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png", "comic-phase158-player-room-sparse-4-of-20.png"],
 		"phase158-player-room-phone-save-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png", "comic-phase158-player-room-phone-save-10-of-20.png"],
 		"phase158-player-room-full-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png", "comic-phase158-player-room-full-20-of-20.png"],
@@ -9804,7 +9903,7 @@ func _test_phase159_botanical_cloche() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase159_runtime_cases := {}
 	var expected_phase159_cases := {
-		"phase159-player-room-cloche-runtime-approved": ["assets/ui/comic/reference_phase159_player_room_cloche_runtime_v1.png", "comic-phase159-player-room-botanical-cloche.png"],
+		"phase159-player-room-cloche-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase159-player-room-cloche-runtime-approved_v1.png", "comic-phase159-player-room-botanical-cloche.png"],
 		"phase159-player-room-full-cloche-runtime-approved": ["assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png", "comic-phase159-player-room-full-cloche.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
@@ -9852,7 +9951,7 @@ func _test_phase159_botanical_cloche() -> void:
 		and not bool(cloche_profile.get("embedded_contact_shadow", true)) \
 		and bool(cloche_profile.get("mipmaps", false)) \
 		and "mipmaps/generate=true" in FileAccess.get_file_as_string(asset_path + ".import"),
-		"Terárium je zvětšené přesně na 115 %, zůstává vystředěné na stejné baseline společné police a používá lineární mipmapovaný runtime asset"
+		"Terárium je zvětšené přesně na 115%, zůstává vystředěné na stejné baseline společné police a používá lineární mipmapovaný runtime asset"
 	)
 
 	var session := GameSession.new(catalog)
@@ -10146,11 +10245,11 @@ func _test_phase161_approved_painted_daily_challenge() -> void:
 	var concept_case := {}
 	var phase161_runtime_cases := {}
 	var expected_phase161_cases := {
-		"phase161-daily-challenge-active-runtime-approved": ["assets/ui/comic/reference_phase161_daily_challenge_active_runtime_v1.png", "comic-phase161-daily-challenge-active.png"],
-		"phase161-daily-challenge-completed-runtime-approved": ["assets/ui/comic/reference_phase161_daily_challenge_completed_runtime_v1.png", "comic-phase161-daily-challenge-completed.png"],
-		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["assets/ui/comic/reference_phase161_daily_challenge_ready_queue_full_runtime_v1.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
-		"phase161-daily-challenge-claimed-runtime-approved": ["assets/ui/comic/reference_phase161_daily_challenge_claimed_runtime_v1.png", "comic-phase161-daily-challenge-claimed.png"],
-		"phase161-daily-challenge-unavailable-runtime-approved": ["assets/ui/comic/reference_phase161_daily_challenge_unavailable_runtime_v1.png", "comic-phase161-daily-challenge-unavailable.png"],
+		"phase161-daily-challenge-active-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png", "comic-phase161-daily-challenge-active.png"],
+		"phase161-daily-challenge-completed-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png", "comic-phase161-daily-challenge-completed.png"],
+		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
+		"phase161-daily-challenge-claimed-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png", "comic-phase161-daily-challenge-claimed.png"],
+		"phase161-daily-challenge-unavailable-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png", "comic-phase161-daily-challenge-unavailable.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
 		var visual_case := case_variant as Dictionary
@@ -10516,20 +10615,20 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 		and phase163_visual_case.get("actual_crop", []) == [0.0, 0.0, 1.0, 1.0] \
 		and phase163_visual_case.get("masks", null) == [] \
 		and not bool(phase163_visual_case.get("gate", true)) \
-		and str(phase163_runtime_case.get("reference", "")) == "assets/ui/comic/reference_phase184_rack_runtime_v1.png" \
+		and str(phase163_runtime_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-rack-runtime-approved_v1.png" \
 		and str(phase163_runtime_case.get("actual", "")) == "comic-rack-greenhouse-attention.png" \
 		and bool(phase163_runtime_case.get("gate", false)) \
-		and str(phase163_runtime_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and str(phase163_runtime_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_rack_runtime_v1.png") \
-		and str(phase163_feedback_unlock_case.get("reference", "")) == "assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png" \
+		and str(phase163_feedback_unlock_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-feedback-unlock-runtime-approved_v1.png" \
 		and str(phase163_feedback_unlock_case.get("actual", "")) == "comic-feedback-unlock.png" \
 		and bool(phase163_feedback_unlock_case.get("gate", false)) \
-		and str(phase163_feedback_unlock_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and str(phase163_feedback_unlock_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png") \
-		and str(phase163_screen_transition_case.get("reference", "")) == "assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png" \
+		and str(phase163_screen_transition_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-screen-transition-runtime-approved_v1.png" \
 		and str(phase163_screen_transition_case.get("actual", "")) == "comic-screen-transition.png" \
 		and bool(phase163_screen_transition_case.get("gate", false)) \
-		and str(phase163_screen_transition_case.get("approval_record", "")) == "docs/visual-proposals/phase184/runtime-reference-approval-v1.json" \
+		and str(phase163_screen_transition_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png") \
 		and not bool(phase151_historical_case.get("gate", true)) \
 		and not bool(phase151_feedback_unlock_case.get("gate", true)) \
@@ -10607,11 +10706,11 @@ func _test_phase165_rc58_android_handoff() -> void:
 		)
 	_check(
 		phase_doc_valid
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "version/name=\"0.69.0-rc59-emulator\"" in preset_source
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA == 41,
 		"Fáze 165 zavádí samostatnou RC58 identitu bez migrace save a odděluje technický Android PASS od lidské fyzické brány"
 	)
@@ -10964,13 +11063,13 @@ func _test_phase108_rc35_stabilization() -> void:
 	_check(
 		preset_source.count("gradle_build/min_sdk=\"24\"") == 3
 		and preset_source.count("gradle_build/target_sdk=\"36\"") == 3
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "version/name=\"0.69.0-rc59-emulator\"" in preset_source
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source
-		and "config/version=\"0.69.0-rc59\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
+		and "config/version=\"0.70.0-rc60\"" in project_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Aktuální RC59 code 76 zachovává minSdk 24, targetSdk 36 a save schema 41"
+		"Aktuální RC60 code 77 zachovává minSdk 24, targetSdk 36 a save schema 41"
 	)
 
 
@@ -11135,7 +11234,7 @@ func _test_phase109_greenhouse_lifecycle_feedback() -> void:
 		and "ZKONTROLOVAT ZAHRADU" in main_source
 		and "phase109_return_summary_garden_cta_v1" in main_source
 		and "phase109_greenhouse_compact_layout_v1" in greenhouse_source
-		and "Vector2i(360, 620)" in greenhouse_source
+		and "Vector2i(360, 625)" in greenhouse_source
 		and "phase109_greenhouse_360x800" in responsive_source
 		and "comic-greenhouse-level2-compact.png" in capture_source
 		and "comic-return-summary-greenhouse-ready.png" in capture_source
@@ -11506,10 +11605,10 @@ func _test_phase115_greenhouse_eggplant() -> void:
 		and "comic-greenhouse-eggplant-growing.png" in capture_source
 		and "comic-greenhouse-level4-compact.png" in capture_source
 		and "GREENHOUSE_EGGPLANT_SCHEMA" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2,
-		"Úroveň 5 odemkne lilek, UI má vlastní kresbu, capture oba report-only důkazy a aktuální RC59 metadata používají code 76"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2,
+		"Úroveň 5 odemkne lilek, UI má vlastní kresbu, capture oba report-only důkazy a aktuální RC60 metadata používají code 77"
 	)
 	view.queue_free()
 
@@ -11712,11 +11811,11 @@ func _test_phase116_greenhouse_orders() -> void:
 		and 'str(payload.get("order_kind", "single")) == "greenhouse"' in main_source
 		and "comic-greenhouse-order-ready.png" in capture_source
 		and "GREENHOUSE_ORDER_SCHEMA = 35" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Runtime fáze 116 zůstává propojený a aktuální Android metadata bezpečně navazují RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Runtime fáze 116 zůstává propojený a aktuální Android metadata bezpečně navazují RC60"
 	)
 
 
@@ -11871,11 +11970,11 @@ func _test_phase117_greenhouse_quality_orders() -> void:
 	_check(
 		"comic-greenhouse-quality-order-ready.png" in capture_source
 		and "GREENHOUSE_QUALITY_ORDER_SCHEMA = 36" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Capture, dokumentace a všechny Android presety nesou jednotný kontrakt fáze 117 v aktuálním RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Capture, dokumentace a všechny Android presety nesou jednotný kontrakt fáze 117 v aktuálním RC60"
 	)
 
 
@@ -12058,7 +12157,7 @@ func _test_phase118_greenhouse_reputation() -> void:
 		and "DODAVATEL TRHU" in progress_tooltip
 		and view.wallet_label.text == "MISTR\nSKLENÍKU"
 		and "kosmetická mistrovská cedule" in view.wallet_label.tooltip_text
-		and view.wallet_label.size == Vector2(112.0, 48.0)
+		and view.wallet_label.size == Vector2(79.0, 46.0)
 		and view.action_button.size.y == 64.0
 		and view.crop_buttons.size() == 5,
 		"Stávající pravá cedule bez nového modalu nebo tlačítka čitelně ukáže postup 7/8 i finální kosmetický titul a zachová dotykovou geometrii"
@@ -12073,11 +12172,11 @@ func _test_phase118_greenhouse_reputation() -> void:
 		"comic-greenhouse-reputation-progress.png" in capture_source
 		and "comic-greenhouse-reputation-master.png" in capture_source
 		and "GREENHOUSE_REPUTATION_SCHEMA = 37" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Capture a dokumentace zachovají fázi 118, zatímco aktuální projekt a Android presety bezpečně navazují RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Capture a dokumentace zachovají fázi 118, zatímco aktuální projekt a Android presety bezpečně navazují RC60"
 	)
 
 
@@ -12136,11 +12235,11 @@ func _test_phase119_global_swipe_navigation() -> void:
 		and "comic-swipe-transition-left.png" in capture_source
 		and "comic-swipe-transition-right.png" in capture_source
 		and "PHASE119_GLOBAL_SWIPE_NAVIGATION=" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Zdroj, report-only capture, dokumentace a Android presety zachovají kontrakt fáze 119 v navazujícím RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Zdroj, report-only capture, dokumentace a Android presety zachovají kontrakt fáze 119 v navazujícím RC60"
 	)
 
 
@@ -12175,11 +12274,11 @@ func _test_phase120_raised_greenhouse_visuals() -> void:
 		and "_draw_background_cover" in greenhouse_source
 		and "_draw_water_drop" in greenhouse_source
 		and "PHASE120_RAISED_GREENHOUSE_VISUALS=" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Originální pozadí, perspektivní kresba záhonů, dokumentace a Android presety tvoří jednotný kontrakt fáze 120 uchovaný v navazujícím RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Originální pozadí, perspektivní kresba záhonů, dokumentace a Android presety tvoří jednotný kontrakt fáze 120 uchovaný v navazujícím RC60"
 	)
 
 
@@ -12209,12 +12308,52 @@ func _test_phase41_level_progression() -> void:
 	var presenter = preload("res://scripts/ui/level_progression_presenter.gd").new()
 	var summary := Label.new()
 	var status := Label.new()
+	var xp_progress := ProgressBar.new()
 	var cards := {}
 	for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
-		cards[reward_level] = {"panel": PanelContainer.new(), "title": Label.new(), "reward": Label.new(), "unlock": Label.new(), "claim": Button.new(), "accent": Color.GREEN}
-	presenter.bind(summary, status, cards)
+		cards[reward_level] = {"panel": PanelContainer.new(), "badge": PanelContainer.new(), "title": Label.new(), "state": Label.new(), "reward": Label.new(), "unlock": Label.new(), "claim": Button.new(), "accent": Color.GREEN}
+	presenter.bind(summary, status, cards, xp_progress)
 	presenter.refresh(legacy)
-	_check(presenter.is_bound() and summary.text.begins_with("ÚROVEŇ 4 · 0 / 100 XP") and (cards[3].reward as Label).text == "15 MINCÍ · 1× BAZALKA" and not (cards[4].claim as Button).disabled and (cards[5].claim as Button).disabled and (cards[5].claim as Button).text == "OD ÚROVNĚ 5", "Phase 41 presenter rozliší aktuální, čekající a zamčené úrovně a obecnou semennou odměnu bez změny textu")
+	_check(presenter.is_bound() and summary.text.begins_with("ÚROVEŇ 4 · 0/100 XP") and is_zero_approx(xp_progress.value) and (cards[3].reward as Label).text == "ODMĚNA · 15 MINCÍ · 1× BAZALKA" and (cards[4].state as Label).text == "ODMĚNA ČEKÁ" and not (cards[4].claim as Button).disabled and (cards[5].state as Label).text == "UZAMČENO" and (cards[5].claim as Button).disabled and (cards[5].claim as Button).text == "OD ÚROVNĚ 5", "Phase 41 presenter uspořádá XP, odměnu, stav a odemčení a rozliší čekající i zamčené úrovně")
+	var tree := preload("res://scripts/ui/grower_progress_tree_view.gd").new()
+	tree.size = Vector2(340.0, 320.0)
+	root.add_child(tree)
+	tree.set_state(4, 50.0, [1, 2], [3, 4], 2)
+	_check(tree.get_meta("component", "") == "grower_progress_tree_v1" and tree.get_meta("visual_subject", "") == "tiered_legendary_progress_flower_v2" and tree.get_meta("growth_model", "") == "seed_to_eight_branch_tiers_sparse_nine_legendary_ten_v3" and tree.get_meta("special_animation", "") == "stem_reveal_bud_crossfade_crown_bloom_v2" and tree.get_meta("seed_scale_policy", "") == "reduced_level_one_footprint_v4" and tree.get_meta("stage_identity_policy", "") == "painted_branch_layer_plus_colored_bloom_v2" and tree.get_meta("final_crown_policy", "") == "level_nine_closed_bud_crossfades_to_level_ten_open_crown_v3" and tree.get_meta("level_ten_bud_transition", "") == "crossfade_closed_bud_to_open_crown_v1" and tree.get_meta("soil_root_policy", "") == "shared_seed_and_bloom_centered_in_planter_soil_v1" and tree.get_meta("soil_root_anchor_ratio", Vector2.ZERO).is_equal_approx(Vector2(0.5, 0.80)) and int(tree.get_meta("distinct_growth_tiers", 0)) == 10 and int(tree.get_meta("visible_tiers", 0)) == 4 and int(tree.get_meta("next_tier_hint", 0)) == 5 and is_equal_approx(float(tree.get_meta("xp_progress", 0.0)), 50.0), "Kouzelný květ promítne deset odlišných pater, zmenší první sazenici, sdílí kořen uprostřed hlíny a finální korunu otevře až na desáté úrovni")
+	_check(tree.get_meta("growth_caption_policy", "") == "removed_redundant_floating_test_label_v1", "Obraz květu nepřekrývá nadbytečná plovoucí testovací cedulka; úroveň zůstává čitelná v XP panelu a uzlech liány")
+	_check(tree.level_buttons.size() == 10 and int(tree.get_meta("claimed_ornaments", 0)) == 2 and int(tree.get_meta("claimable_fruits", 0)) == 2 and int(tree.get_meta("achievement_ornaments", 0)) == 2 and tree.get_meta("level_path_layout", "") == "serpentine_vine_1_to_10_v1" and int(tree.get_meta("level_path_reached", 0)) == 4 and tree.get_level_button(4).get_meta("flower_state", "") == "claimable" and tree.get_level_button(5).get_meta("flower_state", "") == "next_hint", "Deset dotykových fází propojí jedna liána, rozliší semenné odměny, květy úspěchů a následující úroveň")
+	tree.select_level(7)
+	_check(int(tree.get_meta("selected_level", 0)) == 7 and tree.get_level_button(7).get_meta("tree_state", "") == "selected", "Hráč může na stromě vybrat libovolné patro a zobrazit jeho zachovanou odměnu")
+	tree.set_debug_level_preview_enabled(true)
+	tree.select_level(9, true)
+	_check(int(tree.get_meta("current_level", 0)) == 4 and int(tree.get_meta("visible_tiers", 0)) == 9 and int(tree.get_meta("debug_preview_level", 0)) == 9 and bool(tree.get_meta("debug_preview_animating", false)) and not bool(tree.get_meta("debug_preview_persists", true)), "Ladicí sestava dovolí dotykem plynule rozvinout libovolnou fázi květu bez změny skutečné úrovně nebo save")
+	tree.set_debug_level_preview_enabled(false)
+	_check(int(tree.get_meta("visible_tiers", 0)) == 4 and not bool(tree.get_meta("debug_level_preview_enabled", true)), "Vypnutí testovacího náhledu okamžitě vrátí květ ke skutečné úrovni hráče")
+	var level_four_fraction := float(tree.get_meta("actual_growth_visual_fraction", -1.0))
+	tree.visible = false
+	tree.set_state(5, 0.0, [1, 2], [3, 4, 5], 2)
+	tree._process(1.0)
+	_check(bool(tree.get_meta("actual_growth_animating", false)) and is_equal_approx(float(tree.get_meta("actual_growth_visual_fraction", -1.0)), level_four_fraction) and tree.get_meta("growth_animation_visibility_policy", "") == "hold_until_progress_screen_visible_v1", "Skutečný level-up připraví rozkvět, ale skrytá Cesta pěstitele ho nepřehraje bez hráče")
+	tree.visible = true
+	tree._process(2.0)
+	var stage_fractions: Array = tree.get_meta("stage_height_fractions", [])
+	_check(not bool(tree.get_meta("actual_growth_animating", true)) and is_equal_approx(float(tree.get_meta("actual_growth_visual_fraction", -1.0)), 0.54) and stage_fractions.size() == 10 and is_equal_approx(float(stage_fractions[0]), 0.0) and is_equal_approx(float(stage_fractions[1]), 0.30) and is_equal_approx(float(tree.get_meta("seed_target_width_ratio", -1.0)), 0.60) and is_equal_approx(float(tree.get_meta("seed_min_width", -1.0)), 72.0) and is_equal_approx(float(stage_fractions[8]), 0.79) and is_equal_approx(float(stage_fractions[9]), 1.0), "Po otevření Cesty pěstitele květ plynule doroste do pátého patra, zmenšený semenáček zůstane v hlíně, deváté patro pod korunou a desáté otevře celý květ")
+	tree.set_state(9, 0.0, [1, 2], [3, 4, 5], 2)
+	tree._process(2.0)
+	var level_nine_bud_fade := float(tree.get_meta("level_ten_bud_fade_progress", -1.0))
+	tree.set_state(10, 0.0, [1, 2], [3, 4, 5], 2)
+	tree._process(0.25)
+	var level_ten_mid_fade := float(tree.get_meta("level_ten_bud_fade_progress", -1.0))
+	tree._process(1.0)
+	_check(is_zero_approx(level_nine_bud_fade) and level_ten_mid_fade > 0.0 and level_ten_mid_fade < 1.0 and is_equal_approx(float(tree.get_meta("level_ten_bud_fade_progress", -1.0)), 1.0) and not bool(tree.get_meta("actual_growth_animating", true)), "Při přechodu z deváté na desátou úroveň se zavřené poupě plynule vytratí a po animaci zůstane jen otevřená koruna")
+	tree.visible = false
+	tree.set_state(5, 0.0, [1, 2], [3, 4, 5], 3)
+	tree._process(1.0)
+	_check(bool(tree.get_meta("achievement_bloom_animating", false)) and is_zero_approx(float(tree.get_meta("achievement_bloom_progress", -1.0))) and int(tree.get_meta("achievement_bloom_index", -1)) == 2 and tree.get_meta("achievement_bloom_visual", "") == "painted_petal_unfurl_pollen_glow_v1", "Nový achievement připraví třetí malovaný květ, ale jeho rozvinutí počká na otevřenou obrazovku")
+	tree.visible = true
+	tree._process(2.0)
+	_check(not bool(tree.get_meta("achievement_bloom_animating", true)) and is_equal_approx(float(tree.get_meta("achievement_bloom_progress", -1.0)), 1.0), "Po otevření Cesty pěstitele nový achievement dokončí rozvinutí okvětních lístků a pylovou oslavu")
+	tree.queue_free()
 
 
 func _test_phase42_care_center() -> void:
@@ -12258,6 +12397,27 @@ func _test_phase42_care_center() -> void:
 	var locked_card: Dictionary = cards[4]
 	_check(presenter.is_bound() and summary.text == "POZORNOST 3 · AKTIVNÍ 3/10" and list.get_child(0) == disease_card.panel and str((disease_card.action as Button).get_meta("care_target", "")) == "detail", "Phase 42 presenter promítne společný stav všech deseti pozic a fyzicky přesune nejdůležitější kartu nahoru")
 	_check((disease_card.state as Label).text == "Plíseň listů" and not (disease_card.action as Button).disabled and (locked_card.action as Button).disabled and (locked_card.action as Button).text == "OD ÚROVNĚ 5", "Phase 42 presenter zachová dostupný cíl péče a jednoznačně zamkne budoucí květináč")
+	var wet: PlantSimulation = session.plants[3]
+	wet.stage = PlantSimulation.Stage.VEGETATIVE
+	wet.moisture = 97.84
+	var wet_card: Dictionary = cards[3]
+	for wet_case in [{"airflow": 39.0, "wait_for_soil": false}, {"airflow": 40.0, "wait_for_soil": true}, {"airflow": 100.0, "wait_for_soil": true}]:
+		wet.ventilation = float(wet_case.airflow)
+		var plant_before := wet.to_dict()
+		var economy_before := [session.coins, session.xp, session.fertilizer_doses]
+		var selected_before := session.selected_plant_index
+		var wet_entry: Dictionary = {}
+		for entry in session.get_care_center_entries():
+			if int(entry.slot_index) == 3:
+				wet_entry = entry
+		var detail := str(wet_entry.get("detail", ""))
+		var advice_matches := "zlepši proudění" in detail and not "přirozeně proschnout" in detail
+		if bool(wet_case.wait_for_soil):
+			advice_matches = "proudění je dostatečné" in detail and "Nezalévej" in detail and "přirozeně proschnout" in detail and not "zlepši proudění" in detail
+		_check(advice_matches and str(wet_entry.get("status", "")) == "Přemokřená půda" and int(wet_entry.get("priority", -1)) == 92 and str(wet_entry.get("state", "")) == "critical" and bool(wet_entry.get("attention", false)) and is_zero_approx(float(wet_entry.get("check_in_seconds", -1.0))), "Centrum péče při proudění %d%% rozliší potřebné větrání od čekání na proschnutí a zachová naléhavost přemokření" % roundi(wet.ventilation))
+		presenter.refresh(session)
+		_check((wet_card.detail as Label).text == detail and (wet_card.action as Button).text == "OTEVŘÍT DETAIL" and not (wet_card.action as Button).disabled and str((wet_card.action as Button).get_meta("care_target", "")) == "detail", "Karta Centra péče při proudění %d%% ukáže správnou radu a zachová pouze navigační tlačítko" % roundi(wet.ventilation))
+		_check(wet.to_dict() == plant_before and [session.coins, session.xp, session.fertilizer_doses] == economy_before and session.selected_plant_index == selected_before, "Čtení a zobrazení rady pro přemokření při proudění %d%% nezmění rostlinu, ekonomiku ani výběr" % roundi(wet.ventilation))
 
 
 func _test_phase43_care_plan() -> void:
@@ -12459,6 +12619,9 @@ func _test_android_export_profile() -> void:
 		"assets/ui/target_b/**",
 		"assets/ui/garden_workshop/**",
 		"assets/ui/slots/**",
+		"assets/ui/visual/phase149/player_room/qa/**",
+		"assets/ui/visual/phase150/greenhouse/qa/**",
+		"assets/ui/visual/phase150/greenhouse/greenhouse_phase150_registered_clean_donor_candidate_v1.png",
 	]
 	var excludes_non_runtime_artifacts := true
 	for pattern in required_exclusions:
@@ -12669,8 +12832,8 @@ func _test_phase49_grower_journal() -> void:
 		cards[str(badge.id)] = {"panel": PanelContainer.new(), "title": Label.new(), "description": Label.new(), "value": Label.new(), "progress": ProgressBar.new()}
 	presenter.bind(summary, next_goal, badge_count, cards)
 	presenter.refresh(snapshot)
-	_check(presenter.is_bound() and summary.text.begins_with("ÚROVEŇ 6  ·  40 / 100 XP") and badge_count.text == "ODZNAKY  6 / 10" and "SPOLEHLIVÝ DODAVATEL" in next_goal.text, "Fáze 98 presenter zobrazí čitelný mobilní souhrn, deset odznaků a další prioritu")
-	_check((cards.first_cycle.value as Label).text == "SPLNĚNO" and (cards.trusted_supplier.value as Label).text == "7 / 10" and is_equal_approx((cards.trusted_supplier.progress as ProgressBar).value, 70.0), "Fáze 49 karty přesně rozliší splněný odznak a číselný průběh nedokončeného cíle")
+	_check(presenter.is_bound() and summary.text.begins_with("ÚROVEŇ 6  ·  40/100 XP") and badge_count.text == "DOVEDNOSTI  6/10" and "SPOLEHLIVÝ DODAVATEL" in next_goal.text, "Fáze 98 presenter zobrazí čitelný mobilní souhrn, deset dovedností a další prioritu")
+	_check((cards.first_cycle.value as Label).text == "SPLNĚNO" and (cards.trusted_supplier.value as Label).text == "7/10" and is_equal_approx((cards.trusted_supplier.progress as ProgressBar).value, 70.0), "Fáze 49 karty přesně rozliší splněný odznak a číselný průběh nedokončeného cíle")
 	session.harvest_count = 25
 	session.orders_completed = 10
 	var complete := session.get_grower_journal_snapshot()
@@ -12728,7 +12891,7 @@ func _test_phase50_android_audit_tooling() -> void:
 		and "AAB_PRIVACY_SDK_ALLOWLIST=PASSED" in aab_export_source
 		and "GODOT_ANDROID_EXPECTED_SIGNER_SHA256" in aab_export_source
 		and "AAB_SIGNER_IDENTITY_CHECK=PASSED" in aab_export_source,
-		"RC59 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně dvě oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
+		"RC60 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně dvě oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
 	)
 
 
@@ -12793,7 +12956,7 @@ func _test_phase69_responsive_layout_tooling() -> void:
 	var responsive_source := FileAccess.get_file_as_string("res://tools/responsive_layout_smoke.gd")
 	var responsive_runner := FileAccess.get_file_as_string("res://tools/run_responsive_layout_smoke.ps1")
 	var release_runner := FileAccess.get_file_as_string("res://tools/run_release_candidate.ps1")
-	_check("bounded_safe_rect := safe_rect.intersection" in main_source and "func _apply_safe_area_rect(" in main_source and "covers_full_viewport" in main_source, "Fáze 69 omezí hlášenou safe area na skutečné okno a zachová samostatný edge-to-edge podklad")
+	_check("bounded_safe_rect := safe_rect.intersection" in main_source and "func _apply_safe_area_rect(" in main_source and "covers_full_viewport" in main_source and "full_bleed_painted_hud_underlay_v1" in main_source and "top_and_side_insets_filled_with_painted_wood_v1" in main_source, "Fáze 69 omezí hlášenou safe area na skutečné okno a horní lištu dokončí malovaným edge-to-edge podkladem")
 	_check("RESPONSIVE_MATRIX_CASES=%d" in responsive_source and "CASES.size()" in responsive_source and responsive_source.count("\"id\":") >= 7 and "_blocking_modals" in responsive_source, "Fáze 69 prochází nejméně sedm poměrů a výřezů, čtyři obrazovky a nejvyšší blokující modaly")
 	_check("save_png" in responsive_source and "_validate_exposed_edges" in responsive_source and "MIN_SAFE_CONTENT_SIZE" in responsive_source and "RESPONSIVE_LAYOUT_SMOKE=" in responsive_source, "Fáze 69 ukládá auditovatelné screenshoty a odmítne odkrytý okraj nebo příliš malou bezpečnou plochu")
 	_check("$env:APPDATA = $isolatedAppData" in responsive_runner and "--rendering-method" in responsive_runner and not "--headless" in responsive_runner and "RESPONSIVE_LAYOUT_SMOKE=PASSED" in responsive_runner and "run_responsive_layout_smoke.ps1" in release_runner, "Fáze 69 používá izolovaná data, skutečný skrytý renderer a je povinnou součástí lokálního RC auditu")
@@ -13349,11 +13512,11 @@ func _test_phase121_swipe_transaction_guard() -> void:
 		and "phase121_deferred_release_v1" in main_source
 		and "button.pressed.connect(_on_guarded_action_pressed.bind(callback))" in main_source
 		and "PHASE121_SWIPE_TRANSACTION_GUARD=" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Fáze 121 váže akční tlačítka přes odloženou ochranu stejného release gesta a zůstává zachovaná v navazujícím RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Fáze 121 váže akční tlačítka přes odloženou ochranu stejného release gesta a zůstává zachovaná v navazujícím RC60"
 	)
 
 
@@ -13368,11 +13531,11 @@ func _test_phase122_vertical_scroll_transaction_guard() -> void:
 		and "touch_axis_lock != ScreenNavigationControllerScene.DRAG_AXIS_UNDECIDED" in main_source
 		and "var drag_action_suppressed := touch_axis_lock in [" in main_source
 		and "PHASE122_VERTICAL_SCROLL_TRANSACTION_GUARD=" in phase_doc
-		and "config/version=\"0.69.0-rc59\"" in project_source
-		and preset_source.count("version/code=76") == 3
-		and preset_source.count("version/name=\"0.69.0-rc59\"") == 2
-		and "bazals-pocket-garden-rc59-emulator-x86_64-debug.apk" in preset_source,
-		"Fáze 122 rozšíří ochranu akčních tlačítek na svislý drag a zachová ScrollContainer i samostatný následující tap v RC59"
+		and "config/version=\"0.70.0-rc60\"" in project_source
+		and preset_source.count("version/code=77") == 3
+		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
+		"Fáze 122 rozšíří ochranu akčních tlačítek na svislý drag a zachová ScrollContainer i samostatný následující tap v RC60"
 	)
 
 
@@ -13540,7 +13703,7 @@ func _test_phase92_garden_handover_ui() -> void:
 	instance._open_herbarium()
 	await process_frame
 	var replay_button := instance.herbarium_replay_from_garden_handover_button as Button
-	_check(instance.herbarium_open and replay_button.visible and replay_button.get_meta("component", "") == "herbarium_handover_replay_v1" and int(replay_button.get_meta("touch_target_min_height", 0)) >= 56 and replay_button.custom_minimum_size.y >= 56.0 and replay_button.size.y >= 56.0 and "SBÍRKA  2/11 DRUHŮ   ·   18 %" in instance.herbarium_summary_label.text, "Fáze 102 herbář na 432×960 nabízí viditelné 56px přehrání a pravdivý stav 2/11 · 18 %")
+	_check(instance.herbarium_open and replay_button.visible and replay_button.get_meta("component", "") == "herbarium_handover_replay_v1" and int(replay_button.get_meta("touch_target_min_height", 0)) >= 56 and replay_button.custom_minimum_size.y >= 56.0 and replay_button.size.y >= 56.0 and "SBÍRKA  2/11 DRUHŮ   ·   18%" in instance.herbarium_summary_label.text, "Fáze 102 herbář na 432×960 nabízí viditelné 56px přehrání a pravdivý stav 2/11 · 18%")
 	_check(instance.herbarium_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.herbarium_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.herbarium_scroll.get_v_scroll_bar().max_value > instance.herbarium_scroll.size.y, "Fáze 92 nové tlačítko neodebere herbáři plynulý dotykový scroll dlouhé sbírky")
 	replay_session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 1, "best_quality": 0.60, "orders_completed": 0, "total_dry_g": 4.8, "claimed_tier": 1}
 	instance._refresh_herbarium()
@@ -13901,12 +14064,14 @@ func _test_phase93_professor_story_ui() -> void:
 		instance.grower_journal_open
 		and instance.grower_journal_cards.size() == 10
 		and instance.grower_journal_modal.get_meta("responsive_test_viewports", []) == [Vector2i(432, 960), Vector2i(360, 800)]
+		and instance.grower_journal_modal.get_meta("layout", "") == "illustrated_botanical_skill_tree_v2"
+		and instance.grower_journal_skill_tree.get_meta("layout", "") == "organic_two_branch_botanical_tree_v2"
 		and journal_rect.size.is_equal_approx(Vector2(360.0, 800.0))
 		and instance.grower_journal_scroll.horizontal_scroll_mode == ScrollContainer.SCROLL_MODE_DISABLED
 		and final_journal_panel != null
 		and final_journal_rect.position.x >= -0.5
 		and final_journal_rect.end.x <= 360.5,
-		"Pěstitelský deník na 360×800 vykreslí přesně devět karet a finální badge bez vodorovného přetečení"
+		"Pěstitelský deník na 360×800 vykreslí deset uzlů obrázkového skill tree a finální badge bez vodorovného přetečení"
 	)
 	_check(
 		bool(final_journal_panel.get_meta("achieved", false))
@@ -13940,9 +14105,9 @@ func _test_phase93_professor_story_ui() -> void:
 		and instance.professor_story_chapter_title_label.text == "PROFESORŮV TÝDENNÍ PROTOKOL"
 		and "Kontrola kvality" in instance.professor_story_body_label.text
 		and "KONTROLA KVALITY" in instance.professor_story_summary_label.text
-		and quality_card_body != null and "90 %" in quality_card_body.text
-		and quality_card_value != null and quality_card_value.text == "0 / 3",
-		"Skutečný Main modal vykreslí variantu Kontrola kvality, hranici 90 % i cíl tří vzorků přes obecný state/presenter kontrakt"
+		and quality_card_body != null and "90%" in quality_card_body.text
+		and quality_card_value != null and quality_card_value.text == "0/3",
+		"Skutečný Main modal vykreslí variantu Kontrola kvality, hranici 90% i cíl tří vzorků přes obecný state/presenter kontrakt"
 	)
 	instance._set_professor_story_open(false)
 
@@ -13968,8 +14133,8 @@ func _test_phase93_professor_story_ui() -> void:
 		and instance.professor_story_chapter_title_label.text == "PROFESORŮV TÝDENNÍ PROTOKOL"
 		and "Zpracování a odbyt" in instance.professor_story_body_label.text
 		and "ZPRACOVÁNÍ A ODBYT" in instance.professor_story_summary_label.text
-		and processing_package_value != null and processing_package_value.text == "0 / 3"
-		and processing_delivery_value != null and processing_delivery_value.text == "0 / 3",
+		and processing_package_value != null and processing_package_value.text == "0/3"
+		and processing_delivery_value != null and processing_delivery_value.text == "0/3",
 		"Skutečný Main modal vykreslí Zpracování a odbyt se třemi baleními a třemi doručeními bez nové šesté karty"
 	)
 	instance._set_professor_story_open(false)
@@ -14220,6 +14385,7 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.rack_greenhouse_button.get_parent() == instance.plants_room_panel and instance.rack_player_room_button.get_parent() == instance.plants_room_panel and instance.rack_greenhouse_button.size == Vector2(124.0, 64.0) and instance.rack_greenhouse_button.get_meta("touch_target_min", Vector2.ZERO) == Vector2(124.0, 64.0) and instance.rack_greenhouse_button.get_meta("attention_component", "") == "phase109_greenhouse_attention_v1" and instance.rack_greenhouse_button.text == "←  SKLENÍK" and instance.rack_player_room_button.size.y >= 64.0 and instance.rack_greenhouse_button.get_meta("location_target", "") == "greenhouse" and instance.rack_player_room_button.get_meta("location_target", "") == "player_room", "Fáze 109 stojan zachová přesnou 124×64 skleníkovou šipku s odvozeným badge kontraktem a 64px vstup do hráčského pokoje")
 	instance._open_player_room()
 	await process_frame
+	_check(bool(instance.hud_background.get_meta("corner_ornaments_visible", false)) and bool(instance.hud_background.get_meta("rack_gap_fill_active", false)) and bool(instance.hud_background.get_meta("player_room_gap_fill_active", false)), "Pokoj zachová horní květiny, ale světlé kapsy kolem HUDu uzavře souvislým malovaným dřevem")
 	_check(instance.garden_location_id == "player_room" and instance.player_room_panel.visible and not instance.plants_room_panel.visible and not instance.greenhouse_panel.visible and not instance.plant_detail_panel.visible and instance.player_room_view.get_meta("component", "") == "phase124_player_room_living_collection_v1" and instance.player_room_view.get_meta("decoration_slots", 0) == 20 and instance.player_room_view.get_meta("plant_display_slots", 0) == 12 and instance.player_room_view.get_meta("fixed_display_slots", 0) == 8 and instance.player_room_view.get_meta("achievement_display_slots", 0) == 6 and instance.player_room_view.get_meta("achievement_display_ready", false) and instance.player_room_view.get_meta("pet_display_slots", 0) == 1 and instance.player_room_view.get_meta("future_pet_purchase_ready", false) and not instance.player_room_view.get_meta("pet_care_active", true) and not instance.player_room_view.get_meta("gameplay_bonuses", true), "Fáze 133 pravá šipka otevře pokoj s dvanácti rostlinnými a osmi pevnými místy, vitrínou úspěchů a budoucím pet spotem bez herních bonusů")
 	_check(instance.player_room_view.back_button.size.y >= 60.0 and instance.player_room_view.theme_button.size.y >= 60.0 and instance.player_room_view.selected_theme_id == instance.session.selected_room_theme, "Hráčský pokoj má velký návrat, přímý vstup do existujícího showroomu a ihned zobrazuje zvolený vzhled")
 	var room_slot_targets_valid: bool = instance.player_room_view.decoration_buttons.size() == 20
@@ -14267,6 +14433,12 @@ func _test_main_scene_smoke() -> void:
 	_check(back_closed_player_room and instance.garden_location_id == "rack" and instance.plants_room_panel.visible and not instance.player_room_panel.visible, "Systémové Zpět vrátí hráčský pokoj na stojan před pokusem ukončit hru")
 	instance._open_greenhouse()
 	await process_frame
+	_check(
+		bool(instance.hud_background.get_meta("corner_ornaments_visible", false))
+		and bool(instance.hud_background.get_meta("rack_gap_fill_active", false))
+		and bool(instance.hud_background.get_meta("greenhouse_gap_fill_active", false)),
+		"Skleník zachová horní květinovou výzdobu a oba odkryté rohy pod HUDem uzavře souvislou dřevěnou výplní"
+	)
 	var greenhouse_targets_valid: bool = instance.greenhouse_preview_view.bed_buttons.size() == 4
 	for greenhouse_bed_button in instance.greenhouse_preview_view.bed_buttons:
 		greenhouse_targets_valid = greenhouse_targets_valid and greenhouse_bed_button.size.x >= 64.0 and greenhouse_bed_button.size.y >= 64.0
@@ -14472,7 +14644,13 @@ func _test_main_scene_smoke() -> void:
 	treatment_plant.reset()
 	instance._open_room()
 	var synthetic_safe: Vector4 = instance._logical_safe_margins(Rect2(0.0, 80.0, 1080.0, 2240.0), Vector2(1080.0, 2400.0), Vector2(432.0, 960.0))
-	_check(instance.safe_area_surface != null and instance.safe_area_surface.get_meta("component", "") == "safe_area_paper_surface_v1", "Android cutout chrome and safe content use separate surfaces")
+	instance._apply_safe_area_rect(Rect2(40.0, 80.0, 1000.0, 2240.0), Vector2(1080.0, 2400.0), Vector2(432.0, 960.0))
+	await process_frame
+	var expected_hud_underlay_height := 74.0 + 8.0 + synthetic_safe.y
+	var hud_underlay_style := instance.hud_edge_underlay.get_theme_stylebox("panel") as StyleBoxFlat
+	_check(instance.safe_area_surface != null and instance.safe_area_surface.get_meta("component", "") == "safe_area_paper_surface_v1" and instance.edge_background.color == Color("#4b2109") and instance.edge_background.get_meta("color_family", "") == "painted_wood_game_frame_v2" and instance.hud_edge_underlay != null and instance.hud_edge_underlay.get_meta("component", "") == "full_bleed_painted_hud_underlay_v1" and instance.hud_edge_underlay.get_meta("safe_area_policy", "") == "top_and_side_insets_filled_with_painted_wood_v1" and instance.hud_edge_underlay.get_meta("painted_fill", "") == "opaque_warm_wood_without_empty_cream_center_v2" and hud_underlay_style != null and hud_underlay_style.bg_color == Color("#93420f") and is_equal_approx(instance.hud_edge_underlay.offset_bottom, expected_hud_underlay_height), "Android výřez, horní i boční bezpečné okraje vyplňuje dokončený malovaný dřevěný rám bez prázdného krémového pásu")
+	instance._apply_safe_area_rect(Rect2(Vector2.ZERO, Vector2(1080.0, 2400.0)), Vector2(1080.0, 2400.0), Vector2(432.0, 960.0))
+	await process_frame
 	_check(instance.storage_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.measurement_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.shop_catalog_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.storage_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.measurement_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.shop_catalog_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.storage_scroll.scroll_deadzone == 6 and instance.measurement_scroll.scroll_deadzone == 6 and instance.shop_catalog_scroll.scroll_deadzone == 6, "Storage shop and measurement share explicit mobile vertical scrolling")
 	_check(instance.storage_action_button.mouse_filter == Control.MOUSE_FILTER_PASS and instance.buy_seed_button.mouse_filter == Control.MOUSE_FILTER_PASS and instance.source_label.mouse_filter == Control.MOUSE_FILTER_PASS, "Interactive scroll descendants pass vertical dragging to the parent and remain clickable")
 	instance._change_screen(1)
@@ -14559,12 +14737,14 @@ func _test_main_scene_smoke() -> void:
 	instance.session.claimed_level_rewards.assign([1, 2])
 	instance._open_level_progression()
 	await process_frame
-	_check(instance.level_progression_open and instance.level_progression_modal.visible and instance.level_progression_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.level_progression_modal.z_index > instance.daily_challenge_modal.z_index and instance.level_progression_cards.size() == 10, "Phase 41 fullscreen cesta blokuje hru a ukáže všech deset úrovní v mobilním seznamu")
+	_check(instance.level_progression_open and instance.level_progression_modal.visible and instance.level_progression_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.level_progression_modal.z_index > instance.daily_challenge_modal.z_index and instance.level_progression_cards.size() == 10 and instance.level_progression_modal.get_meta("painted_layout", "") == "living_grower_bloom_v4" and instance.level_progression_modal.get_meta("progress_metaphor", "") == "seed_to_legendary_bloom_v1" and instance.level_progression_xp_progress.get_meta("component", "") == "grower_path_xp_progress_v3" and instance.level_progression_xp_progress.get_meta("visual_style", "") == "deep_sage_track_bright_growth_fill_v1" and instance.level_progression_xp_progress.get_parent().get_parent().get_meta("layout_policy", "") == "centered_two_line_text_full_width_xp_track_v4" and instance.level_progression_xp_progress.get_parent().get_parent().get_meta("icon_scale_policy", "") == "no_secondary_icon_v1" and instance.level_progression_xp_progress.get_parent().get_parent().find_child("ProgressSproutBadge", true, false) == null and is_zero_approx(instance.level_progression_xp_progress.value), "Cesta pěstitele blokuje hru a spojuje úrovně, odměny a XP do jednoho živého kouzelného květu")
 	var level_one_card: Dictionary = instance.level_progression_cards.get(1, {})
-	_check(instance.level_progression_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.level_progression_scroll.scroll_deadzone == 6 and not instance.level_progression_scroll.follow_focus and instance.level_progression_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.level_progression_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.level_progression_scroll.get_meta("scroll_id", "") == "level_progression" and not level_one_card.is_empty() and (level_one_card.panel as Control).mouse_filter == Control.MOUSE_FILTER_PASS and (level_one_card.claim as Control).mouse_filter == Control.MOUSE_FILTER_PASS, "Cesta pěstitele používá hladký mobilní scroll a její karty předávají svislé tažení rodiči")
+	_check(instance.level_progression_tree_view.get_meta("component", "") == "grower_progress_tree_v1" and instance.level_progression_tree_view.level_buttons.size() == 10 and int(instance.level_progression_tree_view.get_meta("current_level", 0)) == 4 and int(instance.level_progression_tree_view.get_meta("next_tier_hint", 0)) == 5 and instance.level_progression_selected_level == 4 and int(instance.level_progression_detail_stack.get_meta("selected_level", 0)) == 4 and not level_one_card.is_empty(), "Cesta pěstitele ukazuje aktuální čtvrté patro, naznačí páté a zachová deset dostupných detailů")
+	var level_four_button: Button = instance.level_progression_tree_view.get_level_button(4)
+	_check(level_four_button != null and int(level_four_button.get_meta("touch_target_min_height", 0)) >= 42 and level_four_button.get_meta("flower_state", "") == "selected" and not (level_one_card.panel as Control).visible and (instance.level_progression_cards[4].panel as Control).visible, "Květ má samostatné dotykové fáze a pod nimi zobrazuje pouze detail vybrané úrovně")
 	var level_three_card: Dictionary = instance.level_progression_cards.get(3, {})
 	var level_five_card: Dictionary = instance.level_progression_cards.get(5, {})
-	_check(not level_three_card.is_empty() and not (level_three_card.claim as Button).disabled and (level_three_card.claim as Button).custom_minimum_size.y >= 54.0 and (level_five_card.claim as Button).disabled, "Phase 41 odemčená karta má velký dotykový cíl a budoucí úroveň zůstane zamčená")
+	_check(not level_three_card.is_empty() and (level_three_card.panel as Control).get_meta("component", "") == "painted_level_progression_reward_card_v4" and (level_three_card.panel as Control).get_meta("layout", "") == "illustrated_reward_strip_row_v4" and (level_three_card.badge as Control).get_meta("component", "") == "compact_level_reward_badge_v3" and (level_three_card.badge as Control).get_meta("layout_policy", "") == "centered_50x62_v1" and (level_three_card.badge as Control).custom_minimum_size == Vector2(50, 62) and (level_three_card.badge as Control).size_flags_vertical == Control.SIZE_SHRINK_CENTER and (level_three_card.reward_art as Control).get_meta("component", "") == "painted_level_reward_art_v1" and (level_three_card.reward_art as Control).get_child_count() == 2 and (level_three_card.panel as Control).get_meta("painted_state", "") == "claimable" and not (level_three_card.claim as Button).disabled and (level_three_card.claim as Button).custom_minimum_size.y >= 54.0 and (level_five_card.panel as Control).get_meta("painted_state", "") == "locked" and (level_five_card.claim as Button).disabled, "Odemčená malovaná karta má kompaktní odznak, dva obrázky odměn, velký dotykový cíl a budoucí úroveň zůstane zamčená")
 	var level_reward_coins_before: int = instance.session.coins
 	(level_three_card.claim as Button).pressed.emit()
 	_check(instance.session.coins == level_reward_coins_before + 15 and instance.session.is_level_reward_claimed(3) and (level_three_card.claim as Button).disabled and (level_three_card.claim as Button).text == "VYZVEDNUTO", "Phase 41 skutečné tlačítko připíše odměnu jednou, uloží ji a ihned obnoví kartu")
@@ -14572,8 +14752,43 @@ func _test_main_scene_smoke() -> void:
 	instance._open_grower_journal()
 	await process_frame
 	_check(instance.grower_journal_open and instance.grower_journal_modal.visible and not instance.level_progression_open and instance.grower_journal_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.grower_journal_modal.z_index > instance.level_progression_modal.z_index and instance.grower_journal_cards.size() == 10, "Fáze 98 fullscreen deník blokuje hru a vykreslí deset rolovatelných cílů včetně MISTRA HERBÁŘE a VÝZKUMNÉHO PARTNERA")
-	_check(instance.grower_journal_summary_label.text.begins_with("ÚROVEŇ 4") and "DALŠÍ CÍL" in instance.grower_journal_next_goal_label.text and instance.grower_journal_scroll.get_meta("mobile_scroll", false), "Fáze 49 skutečný modal ukazuje aktuální souhrn, nejbližší cíl a používá mobilní rolování")
+	_check(instance.grower_journal_summary_label.text.begins_with("ÚROVEŇ 4") and "DALŠÍ DOVEDNOST" in instance.grower_journal_next_goal_label.text and instance.grower_journal_scroll.get_meta("mobile_scroll", false), "Fáze 49 skutečný modal ukazuje aktuální souhrn, nejbližší dovednost a používá mobilní rolování")
 	var journal_first_card: Dictionary = instance.grower_journal_cards.get("first_cycle", {})
+	var illustrated_journal_nodes := 0
+	var integrated_journal_assets := 0
+	for journal_card_variant in instance.grower_journal_cards.values():
+		var journal_card := journal_card_variant as Dictionary
+		var journal_icon := journal_card.get("icon") as TextureRect
+		if journal_icon != null and journal_icon.texture != null and bool((journal_card.get("panel") as Control).get_meta("illustrated", false)):
+			illustrated_journal_nodes += 1
+			var journal_panel := journal_card.get("panel") as Control
+			if journal_icon.texture.get_size().is_equal_approx(Vector2(80.0, 80.0)) and journal_panel.get_meta("visual_form", "") == "painted_botanical_medallion_v2" and journal_panel.get_meta("runtime_asset_normalization", "") == "alpha_trim_uniform_80px_v1" and bool(journal_panel.get_meta("source_png_untouched", false)):
+				integrated_journal_assets += 1
+	_check(instance.grower_journal_modal.get_meta("component", "") == "fullscreen_grower_journal_skill_tree_v3" and instance.grower_journal_skill_tree.get_meta("component", "") == "grower_journal_skill_tree_v2" and instance.grower_journal_skill_tree.get_meta("layout", "") == "organic_two_branch_botanical_tree_v2" and int(instance.grower_journal_skill_tree.get_meta("illustrated_nodes", 0)) == 10 and illustrated_journal_nodes == 10 and integrated_journal_assets == 10, "Pěstitelský deník používá organický dvouvětvový skill tree s deseti za běhu sjednocenými obrázkovými medailony bez změny zdrojových PNG")
+	_check(
+		instance.grower_journal_dashboard != null
+		and instance.grower_journal_dashboard.get_meta("component", "") == "grower_journal_dashboard_v1"
+		and instance.grower_journal_dashboard.get_meta("layout", "") == "level_emblem_stats_and_selected_skill_v1"
+		and instance.grower_journal_dashboard.stat_labels.size() == 4
+		and instance.grower_journal_dashboard.summary_label.get_parent().get_meta("component", "") == "aligned_level_summary_header_v1"
+		and (instance.grower_journal_dashboard.stat_labels.get("harvests") as Label).text.begins_with("SKLIZNĚ")
+		and instance.grower_journal_dashboard.level_number_label.text == "4"
+		and instance.grower_journal_dashboard.goal_icon.texture != null
+		and instance.grower_journal_dashboard.goal_progress_label.get_parent().get_global_rect().end.x <= instance.grower_journal_dashboard.get_global_rect().end.x - 4.0
+		and is_equal_approx(instance.grower_journal_dashboard.goal_progress_bar.value, 0.0),
+		"Horní část deníku skládá úroveň, XP, čtyři statistiky a vybranou obrázkovou dovednost do kompaktního herního přehledu"
+	)
+	_check(
+		instance.grower_journal_badge_count_badge.get_meta("component", "") == "illustrated_skill_count_badge_v1"
+		and instance.grower_journal_badge_count_badge.get_meta("visual_role", "") == "skill_tree_heading_icon"
+		and instance.grower_journal_badge_count_icon != null
+		and instance.grower_journal_badge_count_icon.texture != null
+		and instance.grower_journal_badge_count_label.text == "DOVEDNOSTI  %d/%d" % [int(instance.session.get_grower_journal_snapshot().get("completed_badges", 0)), int(instance.session.get_grower_journal_snapshot().get("badge_total", 0))],
+		"Počet dovedností má vlastní malovaný knižní odznak a zůstává svázaný s aktuálním postupem stromu"
+	)
+	var selected_journal_id: String = instance.grower_journal_presenter.selected_badge_id
+	var selected_journal_card: Dictionary = instance.grower_journal_cards.get(selected_journal_id, {})
+	_check(not selected_journal_id.is_empty() and selected_journal_id == instance.grower_journal_presenter.latest_next_goal_id and not selected_journal_card.is_empty() and bool((selected_journal_card.panel as Control).get_meta("selected", false)), "Nejbližší nesplněná dovednost je po otevření vybraná a její detail navazuje na zvýrazněný uzel stromu")
 	_check(instance.grower_journal_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.grower_journal_scroll.scroll_deadzone == 6 and instance.grower_journal_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.grower_journal_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.grower_journal_scroll.get_meta("scroll_id", "") == "grower_journal", "Pěstitelský deník používá stejný ověřený dotykový scroll kontrakt jako Sklad, Obchod a Měření")
 	_check(not journal_first_card.is_empty() and (journal_first_card.panel as Control).mouse_filter == Control.MOUSE_FILTER_PASS and (journal_first_card.progress as Control).mouse_filter == Control.MOUSE_FILTER_PASS, "Potomci karet deníku předávají vertikální tažení rodičovskému ScrollContaineru")
 	instance._close_grower_journal()
@@ -14645,7 +14860,7 @@ func _test_main_scene_smoke() -> void:
 	instance._on_room_theme_pressed("amethyst")
 	_check(switched_to_owned_theme and instance.session.selected_room_theme == "amethyst" and instance.session.coins == coins_after_amethyst, "Showroom přepíná oba již vlastněné vzhledy zdarma i když doménový stav unlocked není nová koupě")
 	instance._close_cosmetic_modal()
-	_check(instance.herbarium_launcher_button.get_meta("component", "") == "herbarium_detail_launcher_v1" and instance.herbarium_launcher_button.custom_minimum_size.x >= 64.0 and instance.herbarium_modal.get_meta("component", "") == "fullscreen_herbarium_modal_v1" and instance.herbarium_modal.z_index > instance.seed_selector_modal.z_index and instance.herbarium_modal.mouse_filter == Control.MOUSE_FILTER_STOP, "Herbář zachová čtyři hlavní záložky a otevírá se z detailu jako samostatný blokující mobilní modal")
+	_check(instance.herbarium_launcher_button.get_meta("component", "") == "herbarium_detail_launcher_v1" and instance.herbarium_launcher_button.custom_minimum_size.x >= 44.0 and instance.herbarium_launcher_button.custom_minimum_size.y >= 44.0 and instance.herbarium_launcher_button.icon != null and instance.herbarium_launcher_button.tooltip_text == "Herbář" and instance.herbarium_modal.get_meta("component", "") == "fullscreen_herbarium_modal_v1" and instance.herbarium_modal.z_index > instance.seed_selector_modal.z_index and instance.herbarium_modal.mouse_filter == Control.MOUSE_FILTER_STOP, "Herbář zachová čtyři hlavní záložky, popsanou malovanou ikonu s cílem alespoň 44 px a samostatný blokující mobilní modal")
 	instance._open_herbarium()
 	await process_frame
 	_check(instance.herbarium_open and instance.herbarium_modal.visible and instance.herbarium_cards.size() == 11 and instance.herbarium_cards.has("oregano_vulgare") and instance.herbarium_cards.has("lavandula_angustifolia") and instance.herbarium_cards.has(CHIVES_ID) and instance.herbarium_cards.has(MARJORAM_ID) and instance.herbarium_cards.has(PARSLEY_ID) and instance.herbarium_cards.has(LEMON_BALM_ID) and instance.herbarium_cards.has(SAGE_ID) and instance.herbarium_cards.has(THYME_ID) and instance.herbarium_summary_label.text.begins_with("SBÍRKA  2/11 DRUHŮ"), "Fullscreen herbář vykreslí všech jedenáct druhů včetně tymiánu a pravdivě oddělí dvě objevené rostliny od celého katalogu")
@@ -14666,13 +14881,31 @@ func _test_main_scene_smoke() -> void:
 	var navigation_panel: Control = instance.nav_buttons[0].get_parent()
 	var navigation_safe_area: Control = navigation_panel.get_parent()
 	var navigation_dock: Control = navigation_safe_area.get_parent()
-	_check(instance.nav_buttons[0].text == "ROSTLINY" and instance.nav_buttons[1].text == "SKLAD" and instance.nav_buttons[2].text == "OBCHOD" and instance.nav_buttons[3].text == "MĚŘENÍ" and navigation_panel.get_meta("visual_source", "") == "comic_ui_code_native" and navigation_panel.get_meta("navigation_asset", "") == "comic_mobile_tabs_v1" and navigation_panel.get_meta("visual_integration", "") == "comic_full_width_four_tab_bar" and navigation_panel.get_meta("ui_kit", "") == "comic_ui_v1" and is_equal_approx(navigation_panel.custom_minimum_size.y, 97.0), "Navigace používá společný kódový komiksový kit v plné mobilní šířce")
-	_check(navigation_safe_area.get_meta("safe_bottom_inset", -1) == 0 and navigation_safe_area.get_meta("safe_area_fill", "") == "inside_navigation_frame" and navigation_dock.get_meta("edge_presentation", "") == "integrated_full_bleed" and navigation_dock.get_meta("color_family", "") == "comic_navy_cyan_gold" and navigation_dock.get_meta("ui_kit", "") == "comic_ui_v1" and is_equal_approx(navigation_dock.custom_minimum_size.y, 97.0), "Hotbar vyplňuje spodní safe area jednotným komiksovým rámem")
-	_check(instance.navigation_separator != null and is_equal_approx(instance.navigation_separator.custom_minimum_size.y, 9.0) and instance.navigation_separator.get_meta("presentation", "") == "comic_gold_transition" and instance.navigation_separator.get_meta("ui_kit", "") == "comic_ui_v1", "Obsah a hotbar odděluje kódový zlatý komiksový přechod")
+	_check(instance.nav_buttons[0].text == "ROSTLINY" and instance.nav_buttons[1].text == "SKLAD" and instance.nav_buttons[2].text == "OBCHOD" and instance.nav_buttons[3].text == "MĚŘENÍ" and navigation_panel.get_meta("visual_source", "") == "painted_detail_atlas" and navigation_panel.get_meta("navigation_asset", "") == "painted_garden_tabs_v1" and navigation_panel.get_meta("visual_integration", "") == "painted_full_width_four_tab_bar" and navigation_panel.get_meta("ui_kit", "") == "painted_detail_ui_v2" and instance.navigation_background != null and instance.navigation_background.get_meta("component", "") == "painted_navigation_background_v2" and bool(instance.navigation_background.get_meta("rack_gap_fill_active", false)) and instance.navigation_background.get_meta("rack_gap_fill", "") == "opaque_painted_wood_seams_v1" and is_equal_approx(navigation_panel.custom_minimum_size.y, 97.0), "Navigace na Stojanu vyplní světlé mezery mezi kartami souvislým malovaným dřevem v plné mobilní šířce")
+	_check(navigation_safe_area.get_meta("safe_bottom_inset", -1) == 0 and navigation_safe_area.get_meta("safe_area_fill", "") == "inside_navigation_frame" and navigation_dock.get_meta("edge_presentation", "") == "painted_full_bleed_wood" and navigation_dock.get_meta("color_family", "") == "painted_wood_cream_garden" and navigation_dock.get_meta("ui_kit", "") == "painted_detail_ui_v2" and is_equal_approx(navigation_dock.custom_minimum_size.y, 97.0), "Hotbar vyplňuje spodní safe area jednotným malovaným rámem")
+	var navigation_painted_frame := navigation_dock.get_node_or_null("PaintedNavigationFrame") as PanelContainer
+	_check(navigation_dock.get_meta("bottom_corner_fill", "") == "opaque_painted_wood_underlay_v1" and int(navigation_dock.get_meta("bottom_corner_gap_count", -1)) == 0 and navigation_painted_frame != null and navigation_painted_frame.get_meta("component", "") == "painted_navigation_frame_over_opaque_corner_fill_v1" and navigation_painted_frame.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Spodní levý i pravý roh navigace mají neprůsvitnou dřevěnou výplň pod společným malovaným rámem")
+	_check(instance.navigation_separator != null and not instance.navigation_separator.visible and is_zero_approx(instance.navigation_separator.custom_minimum_size.y) and instance.navigation_separator.get_meta("presentation", "") == "painted_direct_join_no_intermediate_layer_v2" and instance.navigation_separator.get_meta("ui_kit", "") == "painted_detail_ui_v2", "Obsah a hotbar se spojují přímo bez překrývající mezivrstvy")
+	var nav_corner_leaves_ok: bool = instance.nav_corner_leaves.size() == 2
+	for corner_leaf in instance.nav_corner_leaves:
+		var painted_seat := corner_leaf.get_node_or_null("PaintedCornerSeat") as PanelContainer
+		var painted_flower := corner_leaf.get_node_or_null("PaintedCornerFlower") as Control
+		var painted_petals := 0
+		for corner_child in corner_leaf.get_children():
+			if bool(corner_child.get_meta("clover_petal", false)):
+				painted_petals += 1
+		nav_corner_leaves_ok = nav_corner_leaves_ok and corner_leaf.get_meta("component", "") == "painted_nav_corner_clover_v3" and int(corner_leaf.get_meta("leaf_count", 0)) == 4 and int(corner_leaf.get_meta("flower_count", 0)) == 1 and corner_leaf.get_meta("coverage", "") == "white_corner_gap_without_nav_content_overlap" and corner_leaf.get_meta("seating", "") == "painted_wood_corner_inlay_v1" and corner_leaf.get_meta("idle_motion", "") == "subtle_sway_1deg_reduced_motion_v1" and not bool(corner_leaf.get_meta("botanical_visible", true)) and not bool(corner_leaf.get_meta("gap_seat_visible", true)) and corner_leaf.mouse_filter == Control.MOUSE_FILTER_IGNORE and corner_leaf.has_method("set_reduced_motion") and corner_leaf.has_method("set_botanical_visible") and painted_seat != null and not painted_seat.visible and painted_seat.get_meta("component", "") == "painted_corner_gap_seat_v1" and painted_flower != null and not painted_flower.visible and painted_flower.get_meta("component", "") == "painted_corner_flower_v1" and painted_petals == 4
+	_check(nav_corner_leaves_ok and bool(instance.get_meta("rack_corner_botanicals_hidden", false)), "Stojan skryje oba čtyřlístky, květy i vystouplé rohové krytky a ponechá spoj na souvislém malovaném rámu navigace; ostatní obrazovky zachovají původní dekoraci")
+	instance._change_screen(1)
+	var storage_clovers_hidden := not bool(instance.hud_background.get_meta("corner_ornaments_visible", true)) and bool(instance.hud_background.get_meta("rack_gap_fill_active", false)) and bool(instance.hud_background.get_meta("storage_gap_fill_active", false))
+	for corner_leaf in instance.nav_corner_leaves:
+		var storage_seat := corner_leaf.get_node_or_null("PaintedCornerSeat") as PanelContainer
+		storage_clovers_hidden = storage_clovers_hidden and not bool(corner_leaf.get_meta("botanical_visible", true)) and not bool(corner_leaf.get_meta("gap_seat_visible", true)) and storage_seat != null and not storage_seat.visible
+	_check(storage_clovers_hidden and bool(instance.get_meta("storage_corner_botanicals_hidden", false)) and not bool(instance.get_meta("rack_corner_botanicals_hidden", true)) and not bool(instance.navigation_background.get_meta("rack_gap_fill_active", true)), "Pouze Sklad skryje čtyři čtyřlístky i vystouplé rohové krytky a horní světlé klínky vyplní souvislým dřevem bez změny navigačního pozadí")
 	var all_navigation_buttons_enabled := true
 	var navigation_art_visible := true
 	for nav_button in instance.nav_buttons:
-		all_navigation_buttons_enabled = all_navigation_buttons_enabled and not nav_button.disabled and nav_button.get_meta("component", "") == "comic_nav_tab_v1" and int(nav_button.get_meta("touch_target_min_height", 0)) >= 80
+		all_navigation_buttons_enabled = all_navigation_buttons_enabled and not nav_button.disabled and nav_button.get_meta("component", "") == "painted_nav_tab_v1" and int(nav_button.get_meta("touch_target_min_height", 0)) >= 80
 	for nav_icon in instance.nav_icon_nodes:
 		navigation_art_visible = navigation_art_visible and nav_icon.visible
 	_check(all_navigation_buttons_enabled and navigation_art_visible and navigation_panel.get_meta("selection_feedback", "") == "shine_only" and instance.nav_shine_overlays.size() == 4 and instance.nav_icon_nodes.size() == 4 and is_equal_approx(instance.nav_buttons[0].anchor_left, 0.009) and is_equal_approx(instance.nav_buttons[3].anchor_right, 0.991), "Čtyři velké dotykové zóny mají viditelné ikony, popisky a pouze krátký lesk po klepnutí")
@@ -14683,6 +14916,10 @@ func _test_main_scene_smoke() -> void:
 		shop_shine_tween = instance.nav_shine_overlays[2].get_meta("shine_tween") as Tween
 	var shop_press_tween := instance.nav_buttons[2].get_meta("press_tween", null) as Tween
 	_check(instance.active_screen == 2 and instance.nav_shine_overlays[2].visible and shop_shine_tween != null and shop_shine_tween.is_valid() and shop_press_tween != null and shop_press_tween.is_valid(), "Klepnutí spustí krátký pohyblivý lesk a dotykové stlačení bez trvalého zvýraznění")
+	var shop_corner_botanicals_visible := bool(instance.hud_background.get_meta("corner_ornaments_visible", false))
+	for corner_leaf in instance.nav_corner_leaves:
+		shop_corner_botanicals_visible = shop_corner_botanicals_visible and bool(corner_leaf.get_meta("botanical_visible", false))
+	_check(shop_corner_botanicals_visible and not bool(instance.hud_background.get_meta("rack_gap_fill_active", true)) and not bool(instance.hud_background.get_meta("storage_gap_fill_active", true)) and not bool(instance.get_meta("rack_corner_botanicals_hidden", true)) and not bool(instance.get_meta("storage_corner_botanicals_hidden", true)) and not bool(instance.navigation_background.get_meta("rack_gap_fill_active", true)), "Obchod a obrazovky mimo Stojan a Sklad zachovají původní čtyřlístky i malované pozadí bez dřevěné výplně HUD")
 	await create_timer(0.30).timeout
 	_check(not instance.nav_shine_overlays[2].visible, "Po dokončení lesk zmizí bez zeleného rámečku nebo trvalého aktivního stavu")
 	instance._change_screen(0)
@@ -14699,7 +14936,9 @@ func _test_main_scene_smoke() -> void:
 		mobile_actions_ok = mobile_actions_ok and action_button.get_meta("component", "") == "comic_mobile_action_v1" and int(action_button.get_meta("touch_target_min_height", 0)) >= 64 and action_button.custom_minimum_size.y >= 64.0
 	_check(mobile_actions_ok, "Všechny primární akce mají shodný komiksový rám a minimální mobilní dotykovou výšku")
 	var animated_coin_icon := instance.coin_icon as TextureRect
-	_check(instance.hud_background != null and instance.hud_background.get_meta("component", "") == "comic_hud_surface_v1" and instance.hud_background.get_meta("ui_kit", "") == "comic_ui_v1" and instance.hud_background.get_parent().get_meta("color_family", "") == "comic_cyan_blue_purple_gold" and instance.hud_background.get_parent().get_meta("asset_set", "") == "code_native_comic_ui_v1" and instance.hud_background.get_parent().get_meta("visual_integration", "") == "comic_full_width_three_card_bar" and instance.hud_background.get_parent().get_meta("layout_set", "") == "comic_hud_grid_v1" and animated_coin_icon != null and animated_coin_icon.texture.resource_path.ends_with("hud_coin_clean_v2.png") and instance.coins_label.text == str(instance.session.coins), "Horní HUD používá responzivní kódový komiksový povrch a pevnou mobilní mřížku")
+	_check(instance.hud_background != null and instance.hud_background.get_meta("component", "") == "painted_garden_hud_surface_v1" and instance.hud_background.get_meta("ui_kit", "") == "painted_detail_ui_v2" and instance.hud_background.get_meta("painted_detail_integration", "") == "painted_hud_and_detail_header_v1" and instance.hud_background.get_parent().get_meta("layout_set", "") == "comic_hud_grid_v1" and animated_coin_icon != null and animated_coin_icon.texture.resource_path.ends_with("hud_coin_clean_v2.png") and instance.coins_label.text == str(instance.session.coins), "Horní HUD používá společný malovaný povrch s detailem a zachovává pevnou mobilní mřížku")
+	_check(int(instance.hud_background.get_meta("top_corner_clover_count", 0)) == 2 and int(instance.hud_background.get_meta("top_corner_leaf_count", 0)) == 8 and int(instance.hud_background.get_meta("top_corner_flower_count", 0)) == 2 and not bool(instance.hud_background.get_meta("corner_ornaments_visible", true)) and bool(instance.hud_background.get_meta("rack_gap_fill_active", false)) and instance.hud_background.get_meta("rack_gap_fill", "") == "opaque_painted_wood_seams_v1" and instance.hud_background.get_meta("top_corner_seating", "") == "painted_outer_hud_corners_v1" and instance.hud_background.get_meta("top_corner_protection", "") == "day_coin_level_content_drawn_above_ornaments" and instance.hud_background.get_meta("top_corner_motion", "") == "subtle_sway_1deg_reduced_motion_v1" and instance.hud_background.has_method("set_reduced_motion") and instance.hud_background.has_method("set_corner_ornaments_visible"), "Horní HUD na Stojanu skryje oba čtyřlístky a vyplní světlé klínky i mezery souvislým malovaným dřevem; původní kontrakt zůstává pro ostatní obrazovky")
+	_check(instance.plant_detail_selector.get_meta("outer_seam_ornament_count", 0) == 2 and instance.plant_detail_selector.get_meta("outer_seam_coverage", "") == "opaque_botanical_caps_over_white_hud_selector_wedges_v1" and instance.plant_detail_selector.get_meta("outer_seam_content_protection", "") == "drawn_behind_selector_controls_v1" and instance.plant_detail_selector.get_meta("outer_seam_motion", "") == "subtle_sway_1deg_reduced_motion_v1" and not instance.plant_detail_selector.clip_contents and instance.plant_detail_selector.has_method("set_reduced_motion"), "Dvě malované botanické spojky zakrývají bílé klínky mezi HUD a výběrem rostliny, zůstávají za ovládacími prvky a respektují omezený pohyb")
 	var day_icon_center := Vector2((instance.day_icon.anchor_left + instance.day_icon.anchor_right) * 0.5, (instance.day_icon.anchor_top + instance.day_icon.anchor_bottom) * 0.5)
 	var coin_icon_center := Vector2((animated_coin_icon.anchor_left + animated_coin_icon.anchor_right) * 0.5, (animated_coin_icon.anchor_top + animated_coin_icon.anchor_bottom) * 0.5)
 	var day_text_center := Vector2((instance.day_label.anchor_left + instance.day_label.anchor_right) * 0.5, (instance.day_label.anchor_top + instance.day_label.anchor_bottom) * 0.5)
@@ -14714,9 +14953,11 @@ func _test_main_scene_smoke() -> void:
 	instance._set_coin_count(float(instance.session.coins))
 	var time_ui_source := FileAccess.get_file_as_string("res://scripts/main.gd")
 	_check(instance.growth_time_panel.get_meta("component", "") == "comic_real_time_growth_v1" and instance.growth_time_panel.custom_minimum_size.y == 52.0 and not instance.growth_time_title_label.text.is_empty() and not "func _on_speed_selected" in time_ui_source and not "func _on_pause_pressed" in time_ui_source, "Fáze 73 detail nahrazuje násobiče a pauzu stejně vysokou kartou reálného dozrání")
+	var growth_corner_flowers := instance.growth_time_panel.get_node_or_null("GrowthTimeCornerFlowers") as Control
+	_check(growth_corner_flowers != null and growth_corner_flowers.get_meta("component", "") == "growth_time_floral_corner_caps_v1" and int(growth_corner_flowers.get_meta("flower_count", 0)) == 4 and growth_corner_flowers.get_meta("coverage", "") == "full_left_and_right_cream_corner_pockets" and int(instance.growth_time_panel.get_meta("corner_flower_count", 0)) == 4 and instance.growth_time_panel.get_meta("white_corner_coverage", "") == "opaque_floral_side_vines_v2" and growth_corner_flowers.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Dvě neprůsvitné květinové větvičky se čtyřmi květy zakryjí celé krémové kapsy kolem lišty dozrání")
 	var xp_fill_style := instance.xp_bar.get_theme_stylebox("fill") as StyleBoxFlat
-	_check(instance.xp_bar != null and instance.xp_bar.max_value == 100.0 and is_equal_approx(instance.xp_bar.value, instance.session.get_level_progress()) and xp_fill_style != null and is_zero_approx(xp_fill_style.content_margin_left), "Žlutý XP bar zobrazuje přesnou část postupu bez falešné minimální výplně")
-	_check(instance.xp_label.text == "ÚROVEŇ %d" % instance.session.get_level() and is_equal_approx(instance.xp_label.anchor_left, 0.70) and is_equal_approx(instance.xp_label.anchor_top, 0.20) and is_equal_approx(instance.xp_bar.anchor_left, 0.695) and is_equal_approx(instance.xp_bar.anchor_right, 0.962) and is_equal_approx(instance.xp_bar.anchor_bottom, 0.82) and is_equal_approx(instance.xp_value_label.anchor_left, 0.82) and is_equal_approx(instance.xp_value_label.anchor_right, 0.955) and instance.xp_value_label.text == "%d /100 XP" % (instance.session.xp % 100), "Text ÚROVEŇ i XP bar mají uvnitř třetí karty samostatné bezpečné okraje")
+	_check(instance.xp_bar != null and instance.xp_bar.max_value == 100.0 and is_equal_approx(instance.xp_bar.value, instance.session.get_level_progress()) and xp_fill_style != null and is_zero_approx(xp_fill_style.content_margin_left), "Malovaný zelený XP bar zobrazuje přesnou část postupu bez falešné minimální výplně")
+	_check(instance.xp_label.text == "ÚROVEŇ %d" % instance.session.get_level() and is_equal_approx(instance.xp_label.anchor_left, 0.70) and is_equal_approx(instance.xp_label.anchor_top, 0.20) and is_equal_approx(instance.xp_bar.anchor_left, 0.695) and is_equal_approx(instance.xp_bar.anchor_right, 0.962) and is_equal_approx(instance.xp_bar.anchor_bottom, 0.82) and is_equal_approx(instance.xp_value_label.anchor_left, 0.82) and is_equal_approx(instance.xp_value_label.anchor_right, 0.955) and instance.xp_value_label.text == "%d/100 XP" % (instance.session.xp % 100), "Text ÚROVEŇ i XP bar mají uvnitř třetí karty samostatné bezpečné okraje")
 	var xp_before: int = instance.session.xp
 	instance.session.xp += 5
 	instance._refresh_ui()
@@ -14726,6 +14967,14 @@ func _test_main_scene_smoke() -> void:
 	instance._refresh_ui()
 	_check(instance.last_coins_seen == coins_before + 7 and instance.coin_count_tween != null and instance.coin_count_tween.is_valid(), "Zisk mincí spustí přičítání a částicovou animaci")
 	_check(instance.room_overview != null and instance.room_overview.get_meta("visual_source", "") == "comic_room_phase_2_dynamic" and instance.room_overview.get_meta("selected_growth_summary", "") == "compact_rack_dock_phase183_v1" and instance.room_overview.get_meta("future_content_space", "") == "painted_four_icon_dock_phase183_v1" and instance.room_overview.get_meta("future_content_hint", "") == "pet_professor_care_settings_v1" and instance.room_overview.get_meta("dock_background_asset", "") == "rack_floor_extension_phase183_v1.png" and instance.room_overview.get_meta("dock_background_policy", "") == "painted_floor_crop_no_code_panel_v1" and instance.room_overview.get_meta("edge_background", "") == "full_width_frame_no_filler" and instance.room_overview.get_meta("slot_label_source", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("grid_source", "") == "comic_rack_fixed_grid_2x5_v1" and instance.room_overview.get_meta("locked_slot_asset", "") == "rack_locked_planter_phase163_v1" and instance.room_overview.get_meta("grow_light_asset", "") == "rack_grow_light_phase163_v1" and instance.room_overview.get_meta("room_asset", "") == "comic_room_rack_v1" and instance.room_overview.get_meta("header_asset", "") == "comic_code_drawn_v1" and instance.room_overview.get_meta("lighting", "") == "optional_two_rows_five_weather_ready" and instance.room_overview.get_meta("geometry_set", "") == "comic_room_887x1420_v1" and instance.room_overview.get_meta("light_geometry", "") == "background_socket_aligned_segments" and instance.room_overview.get_meta("post_harvest_rack_visual", "") == "empty_pot_storage_label_v1" and instance.room_overview.get_meta("ambient_motion", "") == "window_dust_and_weather_tint_v1" and instance.room_overview.get_meta("lamp_policy", "") == "manual_supplemental_light_day_night_cloud" and is_equal_approx(instance.room_overview._grid_height() + instance.room_overview._future_content_height(), instance.room_overview.size.y), "Phase183 zachová stojan 2×5, ale nahradí přerostlý Phase125 panel malovaným kompaktním dokem pro čtyři ikony")
+	var painted_rack_buttons: Array[Button] = [instance.rack_pet_launcher_button, instance.professor_research_launcher_button, instance.care_center_launcher_button, instance.settings_launcher_button]
+	var expected_rack_labels := ["POKOJ", "VÝZKUM", "PÉČE", "NASTAVENÍ"]
+	var painted_rack_controls_ok := true
+	for rack_button_index in range(painted_rack_buttons.size()):
+		var rack_button := painted_rack_buttons[rack_button_index]
+		var rack_label := rack_button.get_node_or_null("PaintedLabel") as Label
+		painted_rack_controls_ok = painted_rack_controls_ok and rack_button.get_meta("painted_style", "") == "shared_cream_icon_label_card_v1" and rack_button.get_meta("painted_label", "") == expected_rack_labels[rack_button_index] and rack_label != null and rack_label.text == expected_rack_labels[rack_button_index] and rack_label.get_meta("component", "") == "painted_rack_dock_label_v1" and rack_label.mouse_filter == Control.MOUSE_FILTER_IGNORE
+	_check(painted_rack_controls_ok and instance.plants_room_panel.get_meta("approved_painted_screen", "") == "rack_matches_plant_detail_v1" and instance.plants_room_panel.get_meta("visual_system", "") == "painted_wood_cream_sage_teal_v1" and instance.rack_greenhouse_button.get_meta("painted_style", "") == "shared_cream_location_card_v1" and instance.rack_player_room_button.get_meta("painted_style", "") == "shared_cream_location_card_v1" and instance.dialog_panel.get_meta("launcher_art", "") == "painted_help_icon_v1" and instance.room_overview.get_meta("approved_painted_screen", "") == "rack_screen_matches_plant_detail_v1" and instance.room_overview.get_meta("painted_header", "") == "cream_title_sage_count_leaf_emblem_v1" and instance.room_overview.get_meta("painted_slot_labels", "") == "shared_cream_and_sage_compact_cards_v2", "Stojan používá schválené krémové, šalvějové a dřevěné karty, jednotné popisky ikon a malovaný symbol nápovědy")
 	_check(instance.room_overview.get_meta("comic_vertical_slice", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_plant_family", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("plant_asset_family", "") == "profile_driven_catalog_v1" and instance.plant_view.get_meta("mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("motion_profile", "") == "grounded_ceramic_live_fx_v1" and instance.plant_view.get_meta("sprite_canvas", "") == "570x640_bottom_center", "Phase172 detail zachová katalogovou komiksovou rodinu a celý canvas; živé FX už neposouvají ukotvenou keramiku")
 	var post_harvest_plant := PlantSimulation.new(profile)
 	post_harvest_plant.stage = PlantSimulation.Stage.MATURE
@@ -14739,7 +14988,7 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.guide_portrait == guide_character and guide_character.get_meta("identity", "") == "professor_bazal_v1" and guide_character.get_meta("moods", "") == "explain_celebrate_warning" and guide_character.get_meta("presentation", "") == "full_body_uncropped" and guide_character.get_meta("fit_policy", "") == "per_mood_alpha_bounds_inside_viewport" and guide_character.get_mood_texture_path(0).ends_with("professor_bazal_explain_v1.png") and guide_character.get_mood_texture_path(1).ends_with("professor_bazal_celebrate_v1.png") and guide_character.get_mood_texture_path(2).ends_with("professor_bazal_warning_v1.png"), "Profesor Bazal používá jednu identitu, tři nálady a celý viditelný obrys každé pózy uvnitř viewportu")
 	_check(instance.guide_modal.get_meta("component", "") == "fullscreen_guide_modal_v1" and instance.guide_modal.get_meta("covers_full_viewport", false) and instance.guide_modal.get_meta("blocks_game_input", false) and instance.guide_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.guide_modal.z_index >= 150 and instance.guide_modal_dimmer.color.a >= 0.80 and instance.guide_modal_card.get_meta("component", "") == "separate_guide_dialog_card_v1" and guide_name_badge.get_meta("component", "") == "guide_name_badge_v1", "Průvodce má samostatný fullscreen modal, tmavou blokující vrstvu a oddělenou dialogovou kartu")
 	_check(instance.dialog_panel.get_meta("interaction", "") == "open_fullscreen_guide_modal" and instance.dialog_panel.get_meta("background_mode", "") == "launcher_only" and not instance.dialog_open and not instance.guide_modal.visible, "V běžné hře zůstává jen malý spouštěcí otazník a modal je úplně skrytý")
-	_check(instance.dialog_info_icon != null and instance.dialog_info_icon.texture.resource_path.ends_with("rack/rack_help_badge_v1.png") and instance.dialog_info_icon.size.is_equal_approx(Vector2(44.0, 44.0)) and instance.dialog_toggle_button.size.x >= 64.0 and instance.dialog_toggle_button.size.y >= 64.0 and instance.dialog_info_icon.modulate.a > 0.99, "Spouštěcí otazník má nedeformovanou ikonu a mobilní dotykovou zónu nejméně 64 px")
+	_check(instance.dialog_info_icon != null and instance.dialog_info_icon.texture != null and instance.dialog_panel.get_meta("launcher_art", "") == "painted_help_icon_v1" and instance.dialog_info_icon.size.is_equal_approx(Vector2(44.0, 44.0)) and instance.dialog_toggle_button.size.x >= 64.0 and instance.dialog_toggle_button.size.y >= 64.0 and instance.dialog_info_icon.modulate.a > 0.99, "Spouštěcí otazník používá schválenou malovanou ikonu a mobilní dotykovou zónu nejméně 64 px")
 	instance.dialog_toggle_button.pressed.emit()
 	await create_timer(0.45).timeout
 	_check(instance.dialog_open and instance.detail_dialog_open and instance.guide_modal.visible and instance.guide_modal.modulate.a > 0.99 and instance.guide_modal_dimmer.modulate.a > 0.99 and guide_character.scale.is_equal_approx(Vector2.ONE) and guide_character.modulate.a > 0.99 and guide_character.offset_left == 0.0 and guide_character.offset_top == 0.0 and guide_character.offset_right == 0.0 and guide_character.offset_bottom == 0.0 and instance.guide_modal_card.offset_left == 0.0 and instance.guide_modal_card.offset_top == 0.0 and instance.guide_modal_card.offset_right == 0.0 and instance.guide_modal_card.offset_bottom == 0.0 and instance.guide_modal_card.modulate.a > 0.99 and guide_name_badge.modulate.a > 0.99, "Klepnutí ztmaví celý viewport a nechá vyjet celou postavu se samostatným dialogem v kanonickém mobilním layoutu")
@@ -14759,7 +15008,7 @@ func _test_main_scene_smoke() -> void:
 		and instance.return_summary_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1"
 		and instance.save_recovery_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1"
 		and instance.save_failure_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1",
-		"RC59 sjednocuje starší blokující dialogy jednou malovanou modalovou kostrou bez změny jejich obsahu a ovládání"
+		"RC60 sjednocuje starší blokující dialogy jednou malovanou modalovou kostrou bez změny jejich obsahu a ovládání"
 	)
 	instance.settings_launcher_button.pressed.emit()
 	await process_frame
@@ -14985,13 +15234,32 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.session.plant.stage == PlantSimulation.Stage.EMPTY and instance.session.coins == order_coins_before + order_reward and str(instance.session.orders[0].get("id", "")) != order_id_before, "Odevzdání přes skutečné tlačítko spotřebuje balíček, připíše odměnu a obnoví nabídku")
 	_check(instance.guide_modal.visible and instance.guide_modal_character.get_mood_name() == "celebrate" and instance.audio_haptics.last_cue == "fanfare", "Profesor, vizuální reward efekt a zvukový fanfárový motiv společně oslaví splněnou zakázku")
 	instance._set_guide_modal_open(false, false)
+	instance._set_shop_category("all")
 	var runtime_shop_maps_ok: bool = instance.shop_owned_labels.size() == 12 and instance.shop_seed_buttons.size() == 11
 	for runtime_species_id in ["basil_genovese", LAVENDER_ID, CHIVES_ID, MARJORAM_ID, PARSLEY_ID, LEMON_BALM_ID, SAGE_ID]:
 		runtime_shop_maps_ok = runtime_shop_maps_ok and instance.shop_owned_labels.has(runtime_species_id) and instance.shop_seed_buttons.has(runtime_species_id)
 		if runtime_shop_maps_ok:
 			runtime_shop_maps_ok = int((instance.shop_seed_buttons[runtime_species_id] as Button).get_meta("touch_target_min_height", 0)) >= 48 and "SKLAD" in (instance.shop_owned_labels[runtime_species_id] as Label).text
 	_check(instance.buy_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_fertilizer_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_mint_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_rosemary_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and instance.buy_oregano_seed_button.get_meta("component", "") == "comic_shop_buy_button_v1" and int(instance.buy_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_fertilizer_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_mint_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_rosemary_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and int(instance.buy_oregano_seed_button.get_meta("touch_target_min_height", 0)) >= 48 and runtime_shop_maps_ok, "Obchod používá dvanáct kompaktních položek včetně hnojiva a jedenácti katalogových semen bez nového alias pole")
-	_check(shop_screen.get_meta("component", "") == "botanist_shop_mobile_v1" and instance.shop_runtime_layout.get_meta("component", "") == "botanist_shop_counter_catalog_phase153_v1" and instance.shop_hero_panel.get_meta("component", "") == "botanist_shopkeeper_counter_phase153_v1" and instance.shop_catalog_grid.get_meta("component", "") == "botanist_catalog_grid_3x_phase153_v1" and instance.shop_catalog_grid.columns == 3 and instance.shop_mode_tabs.get_meta("component", "") == "botanist_shop_category_tabs_phase153_v1" and int(instance.shop_buy_tab_button.get_meta("touch_target_min_height", 0)) >= 54 and int(instance.shop_sell_tab_button.get_meta("touch_target_min_height", 0)) >= 54, "Mobilní obchod má pana Kořínka pevně za pultem, třísloupcovou mřížku nabídek a spodní kategorie")
+	var basil_catalog_card := instance.buy_seed_button.get_parent().get_parent().get_parent() as PanelContainer
+	var fertilizer_catalog_card := instance.buy_fertilizer_button.get_parent().get_parent().get_parent() as PanelContainer
+	_check(basil_catalog_card != null and fertilizer_catalog_card != null and basil_catalog_card.custom_minimum_size.y == 220.0 and fertilizer_catalog_card.custom_minimum_size.y == 220.0 and basil_catalog_card.get_meta("vertical_slot_policy", "") == "shared_rarity_slot_catalog_card_v5" and fertilizer_catalog_card.get_meta("vertical_slot_policy", "") == "shared_rarity_slot_catalog_card_v5", "Hnojivo v záložce Nabídka drží stejnou výšku a stejné svislé sloty jako sousední karta semínka")
+	var uniform_shop_icons: Array[TextureRect] = []
+	for candidate in instance.find_children("*", "TextureRect", true, false):
+		var product_icon := candidate as TextureRect
+		if product_icon != null and product_icon.get_meta("shop_product_icon_family", "") == "uniform_shop_product_icon_v6":
+			uniform_shop_icons.append(product_icon)
+	var uniform_shop_icon_policy_ok := uniform_shop_icons.size() == 18
+	var sun_ray_safe_icons := 0
+	for product_icon in uniform_shop_icons:
+		uniform_shop_icon_policy_ok = uniform_shop_icon_policy_ok \
+			and product_icon.get_meta("placement_policy", "") == "alpha_trimmed_centered_safe_inset_v6" \
+			and product_icon.get_parent().get_meta("icon_slot_policy", "") == "uniform_shop_product_icon_slot_v6"
+		if product_icon.get_meta("edge_padding_policy", "") == "sun_ray_safe_padding_8_v7":
+			sun_ray_safe_icons += 1
+			uniform_shop_icon_policy_ok = uniform_shop_icon_policy_ok and int(product_icon.get_meta("source_safe_padding", 0)) == 8
+	_check(uniform_shop_icon_policy_ok and sun_ray_safe_icons == 1, "Nabídka, Pomůcky, Vybavení i Výkup používají jeden alfa-oříznutý obrazový slot a slunce zachová bezpečný lem všech paprsků")
+	_check(shop_screen.get_meta("component", "") == "botanist_shop_mobile_v1" and instance.shop_runtime_layout.get_meta("component", "") == "botanist_shop_counter_catalog_phase153_v1" and instance.shop_hero_panel.get_meta("component", "") == "botanist_shopkeeper_counter_phase153_v1" and instance.shop_catalog_grid.get_meta("component", "") == "botanist_catalog_grid_2x_ordered_v2" and instance.shop_catalog_grid.columns == 2 and instance.shop_mode_tabs.get_meta("component", "") == "botanist_shop_category_tabs_phase153_v1" and int(instance.shop_buy_tab_button.get_meta("touch_target_min_height", 0)) >= 54 and int(instance.shop_sell_tab_button.get_meta("touch_target_min_height", 0)) >= 54, "Mobilní obchod má pana Kořínka pevně za pultem, klidnou dvousloupcovou mřížku stejně vysokých nabídek a spodní kategorie")
 	instance.session.xp = 100
 	instance.session.coins = 100
 	instance._set_shop_category("equipment")
@@ -15002,13 +15270,14 @@ func _test_main_scene_smoke() -> void:
 		if child.get_meta("component", "") == "botanist_equipment_upgrade_tile_phase153_v1":
 			equipment_cards += 1
 	for equipment_button in instance.shop_equipment_buttons.values():
-		equipment_targets_ok = equipment_targets_ok and int((equipment_button as Button).get_meta("touch_target_min_height", 0)) >= 58
-	_check(instance.shop_catalog_grid.columns == 2 and equipment_cards == 5 and equipment_targets_ok and instance.shop_equipment_buttons.watering_can.text == "VYLEPŠIT · 28" and instance.shop_equipment_buttons.ventilation_fan.text == "OD ÚR. 3", "Phase 40 mobilní záložka vybavení ukáže pět dvousloupcových karet, cenu, level lock a velké dotykové cíle")
+		equipment_targets_ok = equipment_targets_ok and int((equipment_button as Button).get_meta("touch_target_min_height", 0)) >= 48 and (equipment_button as Button).get_meta("shop_action_style", "") == "unified_green_shop_item_action_v4" and (equipment_button as Button).get_parent().get_meta("layout_policy", "") == "inset_shop_purchase_action_v3"
+	var first_equipment_card := instance.shop_equipment_buttons.watering_can.get_parent().get_parent().get_parent() as PanelContainer
+	_check(instance.shop_catalog_grid.columns == 2 and equipment_cards == 5 and equipment_targets_ok and first_equipment_card != null and first_equipment_card.custom_minimum_size.y == 224.0 and first_equipment_card.get_meta("layout_policy", "") == "uniform_shop_product_card_v6" and instance.shop_equipment_buttons.watering_can.text == "VYLEPŠIT · 28" and instance.shop_equipment_buttons.ventilation_fan.text == "OD ÚR. 3", "Phase 40 mobilní záložka vybavení ukáže pět dvousloupcových karet se stejně velkým obrazovým slotem, cenou, level lockem a velkými dotykovými cíli")
 	instance.shop_equipment_buttons.watering_can.pressed.emit()
 	var water_action_label := instance.water_button.get_meta("action_label", null) as Label
-	_check(instance.session.get_equipment_level("watering_can") == 2 and instance.session.coins == 72 and instance.shop_feedback_label.text.begins_with("✓") and water_action_label != null and water_action_label.text == "Zalít 135 ml", "Phase 40 skutečné tlačítko vybavení uloží nákup a ihned promítne nový účinek do péče")
+	_check(instance.session.get_equipment_level("watering_can") == 2 and instance.session.coins == 72 and instance.shop_feedback_label.text.begins_with("✓") and water_action_label != null and water_action_label.text == "Zalít\n135 ml" and instance.water_button.tooltip_text == "Zalít 135 ml", "Phase 40 skutečné tlačítko vybavení uloží nákup a ihned promítne nový účinek do péče")
 	instance._set_shop_category("all")
-	_check(instance.shop_catalog_grid.columns == 3, "Phase 40 návrat do nabídky obnoví kompaktní třísloupcovou mobilní mřížku")
+	_check(instance.shop_catalog_grid.columns == 2, "Phase 40 návrat do nabídky obnoví uspořádanou dvousloupcovou mobilní mřížku")
 	var botanist_plant: PlantSimulation = instance.session.plant
 	botanist_plant.stage = PlantSimulation.Stage.PACKAGED
 	botanist_plant.dry_harvest_g = 5.4
@@ -15017,7 +15286,7 @@ func _test_main_scene_smoke() -> void:
 	instance._refresh_ui()
 	var botanist_ui_offer: int = instance.session.get_botanist_sale_value()
 	var botanist_ui_coins: int = instance.session.coins
-	_check(instance.shop_sell_panel.visible and not instance.shop_sell_button.disabled and str(botanist_ui_offer) in instance.shop_sell_button.text and instance.shop_sell_button.get_meta("component", "") == "botanist_instant_sell_button_v1", "Režim PRODAT ukáže skutečný vybraný balíček, jeho nabídku a dostupné mobilní tlačítko")
+	_check(instance.shop_sell_panel.visible and not instance.shop_sell_button.disabled and str(botanist_ui_offer) in instance.shop_sell_button.text and instance.shop_sell_button.get_meta("component", "") == "botanist_instant_sell_button_v1" and instance.shop_sell_icon.texture is AtlasTexture and instance.shop_sell_icon.get_meta("placement_policy", "") == "alpha_trimmed_centered_safe_inset_v6", "Režim PRODAT ukáže skutečný alfa-oříznutý balíček ve sjednoceném obrazovém slotu, jeho nabídku a dostupné mobilní tlačítko")
 	instance.shop_sell_button.pressed.emit()
 	_check(instance.session.coins == botanist_ui_coins + botanist_ui_offer and instance.session.plant.stage == PlantSimulation.Stage.EMPTY and instance.shop_merchant_dialog_label.text.begins_with("Poctivá práce"), "Prodej přes skutečné tlačítko připíše nabídku, spotřebuje balíček a vyvolá reakci obchodníka")
 	instance._set_shop_mode("buy")

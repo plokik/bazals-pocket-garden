@@ -68,7 +68,8 @@ func refresh(plant: PlantSimulation, fertilizer_doses: int, water_amount_ml := 1
 		)
 		_set_visual(vent_button, not treatment_ready)
 	else:
-		_set_text(vent_button, "Vyvětrat")
+		var airflow_percent := roundi(plant.ventilation)
+		_set_text(vent_button, "Vyvětrat\nProudění\n%d%%" % airflow_percent, "Vyvětrat · proudění %d%%" % airflow_percent)
 		_set_visual(vent_button, not plant.is_growing())
 
 

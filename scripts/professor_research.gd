@@ -364,7 +364,7 @@ func _compose_state(protocol_id: String, cycle_id: int, status: String, unlocked
 		"progress_completed": completed,
 		"progress_total": GOAL_COUNT,
 		"progress_ratio": float(completed) / float(GOAL_COUNT),
-		"summary_text": "%s · %d / %d CÍLŮ · CELKEM %d" % [protocol_name.to_upper(), completed, GOAL_COUNT, _completed_count],
+		"summary_text": "%s · %d/%d CÍLŮ · CELKEM %d" % [protocol_name.to_upper(), completed, GOAL_COUNT, _completed_count],
 		"goals": goals.duplicate(true),
 		"can_claim": can_claim_reward,
 		"claim_blocked_reason": "" if can_claim_reward else status,
@@ -413,7 +413,7 @@ func _build_goals(protocol_id: String, care_current: int, quality_current: int, 
 	var observation_target := int(protocol.get("observation_target", OBSERVATION_DAY_TARGET))
 	return [
 		_goal(GOAL_CARE_VARIETY, "Péče pod lupou", "Proveď %d různé smysluplné zásahy: zálivku, větrání, zapnutí světla, hnojení nebo léčbu." % care_target, care_current, care_target, 0, "room"),
-		_goal(GOAL_QUALITY_SAMPLES, "Čisté vzorky", "Po přijetí protokolu skliď %d nevýukové bylinky v kvalitě alespoň %d %%." % [quality_target, quality_percent], quality_current, quality_target, 1, "storage"),
+		_goal(GOAL_QUALITY_SAMPLES, "Čisté vzorky", "Po přijetí protokolu skliď %d nevýukové bylinky v kvalitě alespoň %d%%." % [quality_target, quality_percent], quality_current, quality_target, 1, "storage"),
 		_goal(GOAL_PACKAGED_SAMPLES, "Záznam ze sušárny", "Úspěšně usuš a zabal %d sklizně." % packaged_target, packaged_current, packaged_target, 1, "storage"),
 		_goal(GOAL_DELIVERED_PACKAGES, "Ověření v praxi", "Odevzdej %d skutečné balíčky prodejem, výkupem nebo zákaznickou zakázkou." % delivered_target, delivered_current, delivered_target, 1, "storage"),
 		_goal(GOAL_OBSERVATION_DAYS, "Dny pozorování", "Po přijetí protokolu vyzvedni denní odměnu v %d přísně rostoucích UTC dnech." % observation_target, observation_current, observation_target, -1, "daily"),

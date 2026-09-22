@@ -49,6 +49,7 @@ function Get-AndroidExportPresetContracts {
             Index = $index
             Name = ConvertFrom-GodotConfigValue $header['name']
             Platform = ConvertFrom-GodotConfigValue $header['platform']
+            ExportFilter = ConvertFrom-GodotConfigValue $header['export_filter']
             ExcludeFilter = ConvertFrom-GodotConfigValue $header['exclude_filter']
             ExportPath = ConvertFrom-GodotConfigValue $header['export_path']
             ExportFormat = [int]$options['gradle_build/export_format']
@@ -71,8 +72,8 @@ function Assert-AndroidPresetSetContract {
     param(
         [Parameter(Mandatory = $true)][string]$ProjectRoot,
         [Parameter(Mandatory = $true)][string]$PresetName,
-        [string]$ExpectedVersionName = '0.69.0-rc59',
-        [int]$ExpectedVersionCode = 76,
+        [string]$ExpectedVersionName = '0.70.0-rc60',
+        [int]$ExpectedVersionCode = 77,
         [int]$ExpectedSaveSchema = 41
     )
 
@@ -116,6 +117,19 @@ function Assert-AndroidPresetSetContract {
     }
 
     foreach ($preset in $requiredPresets) {
+        if ($preset.ExportFilter -cne 'all_resources') {
+            throw "Android preset must retain export_filter=all_resources: $($preset.Name)"
+        }
+        $excludePatterns = @($preset.ExcludeFilter.Split(',') | ForEach-Object { $_.Trim() })
+        foreach ($requiredExclusion in @(
+            'assets/ui/visual/phase149/player_room/qa/**',
+            'assets/ui/visual/phase150/greenhouse/qa/**',
+            'assets/ui/visual/phase150/greenhouse/greenhouse_phase150_registered_clean_donor_candidate_v1.png'
+        )) {
+            if ($requiredExclusion -cnotin $excludePatterns) {
+                throw "Android preset is missing the audited QA/donor exclusion: $($preset.Name) -> $requiredExclusion"
+            }
+        }
         if ($preset.Platform -cne 'Android' -or
             $preset.PackageName -cne 'com.howtogrow.game' -or
             $preset.MinSdk -ne 24 -or
@@ -142,6 +156,31 @@ function Assert-AndroidPresetSetContract {
     }
 
     return $selected[0]
+}
+
+function Assert-AndroidQaDonorPayloadContract {
+    param(
+        [Parameter(Mandatory = $true)][string[]]$Entries,
+        [Parameter(Mandatory = $true)][ValidateSet('APK', 'AAB')][string]$Format
+    )
+
+    $excludedPngNames = @(
+        'phase149_canonical_reconstruction_qa.png',
+        'phase149_layer_coverage_heatmap.png',
+        'phase150_geometry_overlay.png',
+        'phase150_registered_donor_difference_heatmap.png',
+        'greenhouse_phase150_registered_clean_donor_candidate_v1.png'
+    )
+    # Godot puts the texture payload outside its source directory. Check each
+    # audited basename in raw PNG, import-sidecar and hashed .ctex entry paths.
+    $namesPattern = ($excludedPngNames | ForEach-Object { [regex]::Escape($_) }) -join '|'
+    $entryPattern = '(?:^|/)(?:' + $namesPattern + ')(?:\.import|-[^/]+\.ctex)?$'
+    foreach ($entry in $Entries) {
+        if ($entry -match $entryPattern) {
+            throw "$Format contains an audited QA/donor image payload: $entry"
+        }
+    }
+    Write-Output "${Format}_QA_DONOR_PAYLOAD_CHECK=PASSED"
 }
 
 function Assert-AndroidMergedManifestContract {

@@ -409,7 +409,7 @@ func _build_first_state(discovered_count: int, collection_count: int, pack_queue
 	var daily_days := _sanitize_daily_days(chapter.get("daily_claim_days", []), DAILY_DAY_TARGET)
 	var goals: Array[Dictionary] = [
 		_goal(GOAL_RETURN, "Trpělivý návrat", "Vrať se nejdříve za 30 minut, když mezitím rostlina dozraje nebo skončí sušení.", 1 if bool(chapter.get("patient_return_completed", false)) else 0, 1, 0, "room"),
-		_goal(GOAL_HARVESTS, "Dva kvalitní druhy", "Skliď dva různé druhy mimo výukový cyklus v kvalitě alespoň 75 %.", mini(quality_species.size(), QUALITY_SPECIES_TARGET), QUALITY_SPECIES_TARGET, 1, "storage"),
+		_goal(GOAL_HARVESTS, "Dva kvalitní druhy", "Skliď dva různé druhy mimo výukový cyklus v kvalitě alespoň 75%.", mini(quality_species.size(), QUALITY_SPECIES_TARGET), QUALITY_SPECIES_TARGET, 1, "storage"),
 		_goal(GOAL_ORDER, "Přesná zakázka", "Splň jednu zakázku, která vyžaduje konkrétní druh bylinky.", 1 if bool(chapter.get("specific_order_completed", false)) else 0, 1, 1, "orders"),
 		_goal(GOAL_DISCOVERY, "Pět zápisů v herbáři", "Objev pět druhů z aktuální sbírky.", clampi(discovered_count, 0, discovery_target) if discovery_target > 0 else 0, discovery_target, -1, "herbarium"),
 		_goal(GOAL_DAILY, "Rytmus dvou dní", "Vyzvedni odměnu denní výzvy ve dvou různých UTC dnech.", mini(daily_days.size(), DAILY_DAY_TARGET), DAILY_DAY_TARGET, -1, "daily"),
@@ -427,7 +427,7 @@ func _build_second_state(discovered_count: int, collection_count: int, mastery_s
 	var goals: Array[Dictionary] = [
 		_goal(GOAL_COLLECTION_DEPTH, "Sedm stop v herbáři", "Objev sedm druhů z aktuální sbírky.", clampi(discovered_count, 0, discovery_target) if discovery_target > 0 else 0, discovery_target, -1, "herbarium"),
 		_goal(GOAL_MASTERY_NOTE, "Poznámka znalce", "Doveď alespoň jeden druh na mistrovskou hodnost Znalec.", clampi(mastery_species_count, 0, mastery_target) if mastery_target > 0 else 0, mastery_target, -1, "herbarium"),
-		_goal(GOAL_QUALITY_SAMPLES, "Tři výzkumné vzorky", "Po odemčení kapitoly skliď tři různé druhy mimo výuku v kvalitě alespoň 80 %.", mini(quality_species.size(), SECOND_QUALITY_SPECIES_TARGET), SECOND_QUALITY_SPECIES_TARGET, 0, "room"),
+		_goal(GOAL_QUALITY_SAMPLES, "Tři výzkumné vzorky", "Po odemčení kapitoly skliď tři různé druhy mimo výuku v kvalitě alespoň 80%.", mini(quality_species.size(), SECOND_QUALITY_SPECIES_TARGET), SECOND_QUALITY_SPECIES_TARGET, 0, "room"),
 		_goal(GOAL_SPECIFIC_ORDERS, "Dvě druhové zakázky", "Po odemčení kapitoly splň zakázky pro dva různé konkrétní druhy.", mini(order_species.size(), SECOND_ORDER_SPECIES_TARGET), SECOND_ORDER_SPECIES_TARGET, 1, "orders"),
 		_goal(GOAL_OPENED_PACK, "Otevřený botanický balíček", "Po odemčení kapitoly úspěšně otevři jeden botanický balíček.", 1 if bool(chapter.get("pack_opened", false)) else 0, SECOND_PACK_TARGET, -1, "botanical_packs"),
 	]
@@ -454,7 +454,7 @@ func _build_third_state(discovered_count: int, mastery_species_count: int) -> Di
 		_goal(GOAL_EXPERT_CIRCLE, "Kruh znalců", "Doveď tři různé druhy alespoň na mistrovskou hodnost Znalec.", clampi(mastery_species_count, 0, THIRD_MASTERY_TARGET), THIRD_MASTERY_TARGET, -1, "herbarium"),
 		_goal(GOAL_PREPARATION_DAYS, "Tři dny příprav", "Po odemčení kapitoly vyzvedni denní odměnu ve třech přísně rostoucích UTC dnech.", daily_days.size(), THIRD_DAILY_DAY_TARGET, -1, "daily"),
 		_goal(GOAL_EXHIBITION_ORDERS, "Tři výstavní zakázky", "Po odemčení kapitoly splň druhové zakázky pro tři různé konkrétní druhy.", order_species.size(), THIRD_ORDER_SPECIES_TARGET, 1, "orders"),
-		_goal(GOAL_SHOWCASE_SAMPLES, "Výstavní vitrína", "Po odemčení kapitoly skliď stříbrnou šalvěj a tři jiné druhy mimo výuku v kvalitě alespoň 85 %.", showcase_current, THIRD_QUALITY_SPECIES_TARGET, 0, "room"),
+		_goal(GOAL_SHOWCASE_SAMPLES, "Výstavní vitrína", "Po odemčení kapitoly skliď stříbrnou šalvěj a tři jiné druhy mimo výuku v kvalitě alespoň 85%.", showcase_current, THIRD_QUALITY_SPECIES_TARGET, 0, "room"),
 	]
 	return _compose_state(THIRD_CHAPTER_ID, THIRD_CHAPTER_TITLE, THIRD_CHAPTER_BODY, unlocked, chapter, goals, false, true, "title")
 

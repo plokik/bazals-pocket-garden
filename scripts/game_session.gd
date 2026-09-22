@@ -409,8 +409,8 @@ const EQUIPMENT_CATALOG := {
 		"name": "KONEV",
 		"levels": [
 			{"level": 1, "effect": "120 ml na zálivku", "water_ml": 120.0, "safe_moisture_cap": 100.0},
-			{"level": 2, "effect": "135 ml · pojistka 88 %", "water_ml": 135.0, "safe_moisture_cap": 88.0, "price": 28, "unlock_level": 2},
-			{"level": 3, "effect": "150 ml · pojistka 82 %", "water_ml": 150.0, "safe_moisture_cap": 82.0, "price": 76, "unlock_level": 5},
+			{"level": 2, "effect": "135 ml · pojistka 88%", "water_ml": 135.0, "safe_moisture_cap": 88.0, "price": 28, "unlock_level": 2},
+			{"level": 3, "effect": "150 ml · pojistka 82%", "water_ml": 150.0, "safe_moisture_cap": 82.0, "price": 76, "unlock_level": 5},
 		],
 	},
 	"grow_lamp": {
@@ -433,16 +433,16 @@ const EQUIPMENT_CATALOG := {
 		"name": "POSTŘIK",
 		"levels": [
 			{"level": 1, "effect": "Prevence · léčba −52", "disease_gain_multiplier": 1.0, "disease_treatment_relief": 52.0},
-			{"level": 2, "effect": "Riziko −28 % · léčba −72", "disease_gain_multiplier": 0.72, "disease_treatment_relief": 72.0, "price": 26, "unlock_level": 2},
-			{"level": 3, "effect": "Riziko −52 % · léčba −100", "disease_gain_multiplier": 0.48, "disease_treatment_relief": 100.0, "price": 70, "unlock_level": 5},
+			{"level": 2, "effect": "Riziko −28% · léčba −72", "disease_gain_multiplier": 0.72, "disease_treatment_relief": 72.0, "price": 26, "unlock_level": 2},
+			{"level": 3, "effect": "Riziko −52% · léčba −100", "disease_gain_multiplier": 0.48, "disease_treatment_relief": 100.0, "price": 70, "unlock_level": 5},
 		],
 	},
 	"self_watering_pot": {
 		"name": "SADA KVĚTINÁČŮ",
 		"levels": [
 			{"level": 1, "effect": "Běžná nádoba", "water_loss_multiplier": 1.0, "harvest_yield_multiplier": 1.0},
-			{"level": 2, "effect": "−12 % žízně · +8 % sklizně", "water_loss_multiplier": 0.88, "harvest_yield_multiplier": 1.08, "price": 36, "unlock_level": 4},
-			{"level": 3, "effect": "−24 % žízně · +16 % sklizně", "water_loss_multiplier": 0.76, "harvest_yield_multiplier": 1.16, "price": 110, "unlock_level": 7},
+			{"level": 2, "effect": "−12% žízně · +8% sklizně", "water_loss_multiplier": 0.88, "harvest_yield_multiplier": 1.08, "price": 36, "unlock_level": 4},
+			{"level": 3, "effect": "−24% žízně · +16% sklizně", "water_loss_multiplier": 0.76, "harvest_yield_multiplier": 1.16, "price": 110, "unlock_level": 7},
 		],
 	},
 }
@@ -1532,7 +1532,7 @@ func get_mastery_goal_text(species_id: String) -> String:
 		return "Všechny cíle splněny — tahle bylinka je mistrovsky zvládnutá."
 	var progress := get_species_progress(species_id)
 	var next_requirement: Dictionary = MASTERY_TIERS[achieved]
-	return "Další hodnost: %s · sklizně %d/%d · kvalita %d/%d %% · zakázky %d/%d" % [
+	return "Další hodnost: %s · sklizně %d/%d · kvalita %d/%d%% · zakázky %d/%d" % [
 		str(next_requirement.get("title", "")),
 		int(progress.get("harvests", 0)), int(next_requirement.get("harvests", 0)),
 		roundi(float(progress.get("best_quality", 0.0)) * 100.0), roundi(float(next_requirement.get("quality", 0.0)) * 100.0),
@@ -2418,11 +2418,11 @@ func get_daily_challenge_body() -> String:
 		"sell": return "Prodej jeden zabalený balíček ve Skladu nebo panu Kořínkovi."
 		"prepare_rain": return "Před zítřejším deštěm vyvětrej rostoucí bylinku a omez riziko vlhkého vzduchu."
 		"prepare_cloud": return "Před zítřejším zataženým dnem zapni rostoucí bylince doplňkové světlo."
-		"prepare_dry": return "Před zítřejším jasným nebo větrným dnem zalij bylinku, která má nejvýše 55 % vláhy."
+		"prepare_dry": return "Před zítřejším jasným nebo větrným dnem zalij bylinku, která má nejvýše 55% vláhy."
 		"ventilate": return "Za deště vyvětrej rostoucí bylinku dřív, než vlhký vzduch pozve plíseň."
 		"lamp": return "Při zatažené obloze zapni rostoucí bylince doplňkové světlo."
-		"fertilize": return "Při větru přihnoj rostoucí bylinku, která má nejvýše 60 % živin."
-		_: return "Zalij rostoucí bylinku pouze tehdy, když má nejvýše 55 % vláhy."
+		"fertilize": return "Při větru přihnoj rostoucí bylinku, která má nejvýše 60% živin."
+		_: return "Zalij rostoucí bylinku pouze tehdy, když má nejvýše 55% vláhy."
 
 
 func get_daily_challenge_status() -> String:
@@ -2882,7 +2882,7 @@ func get_order_requirement_text(index: int) -> String:
 		return ""
 	if not is_blend_order(index):
 		var requirement: Dictionary = requirements[0]
-		return "BYLINA: %s · min. %.1f g · kvalita %d %%" % [
+		return "BYLINA: %s · min. %.1f g · kvalita %d%%" % [
 			get_order_species_name(index).to_upper(),
 			float(requirement.get("min_dry_g", 0.0)),
 			roundi(float(requirement.get("min_quality", 0.0)) * 100.0),
@@ -2892,7 +2892,7 @@ func get_order_requirement_text(index: int) -> String:
 		var species_id := str(requirement.get("species_id", "any"))
 		var species_name := str(get_plant_profile(species_id).get("short_name", "Bylina")).to_upper()
 		var grams := ("%.1f" % float(requirement.get("min_dry_g", 0.0))).replace(".", ",")
-		lines.append("%s · %s g · kvalita %d %%" % [species_name, grams, roundi(float(requirement.get("min_quality", 0.0)) * 100.0)])
+		lines.append("%s · %s g · kvalita %d%%" % [species_name, grams, roundi(float(requirement.get("min_quality", 0.0)) * 100.0)])
 	return "\n".join(lines)
 
 
@@ -3307,7 +3307,7 @@ func get_grower_journal_snapshot() -> Dictionary:
 		_grower_badge("busy_rack", "ŽIVÝ STOJAN", "Měj současně osazených pět odemčených květináčů.", active_pots, 5),
 		_grower_badge("trusted_supplier", "SPOLEHLIVÝ DODAVATEL", "Dokonči deset zákaznických zakázek.", orders_completed, 10),
 		_grower_badge("seasoned_grower", "ZKUŠENÝ PĚSTITEL", "Nasbírej celkem dvacet pět sklizní.", harvest_count, 25),
-		_grower_badge("quality_trio", "MISTR KVALITY", "Dosáhni alespoň 90 % kvality u každého druhu.", quality_species, species_ids.size()),
+		_grower_badge("quality_trio", "MISTR KVALITY", "Dosáhni alespoň 90% kvality u každého druhu.", quality_species, species_ids.size()),
 		_grower_badge("workshop_master", "MISTR DÍLNY", "Vylepši všech pět pomůcek na nejvyšší úroveň.", equipment_maxed, EQUIPMENT_ORDER.size()),
 		_grower_badge("room_collector", "SBĚRATEL VZHLEDŮ", "Odemkni tři základní vzhledy pěstitelského pokoje.", unlocked_core_themes, CORE_ROOM_THEME_IDS.size()),
 		_grower_badge("herbarium_master", "MISTR HERBÁŘE", "Dokonči Velkou herbářovou výstavu a převezmi Profesorovu závěrečnou pečeť.", 1 if not get_professor_title_id().is_empty() else 0, 1),
@@ -3509,7 +3509,7 @@ func _build_care_entry(slot_index: int, slot: PlantSimulation) -> Dictionary:
 		"species_name": slot.get_short_name(),
 		"stage_name": slot.get_stage_name(),
 		"status": "V pořádku",
-		"detail": "Růst %d %% · zdraví %d %%" % [roundi(slot.growth_percent), roundi(slot.health)],
+		"detail": "Růst %d%% · zdraví %d%%" % [roundi(slot.growth_percent), roundi(slot.health)],
 		"priority": 10,
 		"attention": false,
 		"target": "detail",
@@ -3555,7 +3555,7 @@ func _build_care_entry(slot_index: int, slot: PlantSimulation) -> Dictionary:
 			else:
 				var freshness := slot.get_harvest_freshness_factor()
 				entry.status = "Připraveno ke sklizni" if freshness >= 0.999 else "Pozdní sklizeň"
-				entry.detail = "Růst 100 %% · zdraví %d %% · čerstvost %d %% · sklizeň čeká ve skladu." % [roundi(slot.health), roundi(freshness * 100.0)]
+				entry.detail = "Růst 100%% · zdraví %d%% · čerstvost %d%% · sklizeň čeká ve skladu." % [roundi(slot.health), roundi(freshness * 100.0)]
 				entry.priority = 88 if freshness >= 0.999 else 94
 				entry.attention = true
 				entry.target = "storage"
@@ -3572,7 +3572,7 @@ func _build_care_entry(slot_index: int, slot: PlantSimulation) -> Dictionary:
 			entry.state = "processing"
 			_set_care_check(entry, 0.0)
 		PlantSimulation.Stage.DRYING:
-			entry.status = "Sušení %d %%" % roundi(slot.drying_progress)
+			entry.status = "Sušení %d%%" % roundi(slot.drying_progress)
 			entry.detail = "Proces běží. Ve skladu uvidíš přesný postup."
 			entry.priority = 34
 			entry.target = "storage"
@@ -3615,42 +3615,44 @@ func _build_care_entry(slot_index: int, slot: PlantSimulation) -> Dictionary:
 func _apply_growing_care_state(entry: Dictionary, slot: PlantSimulation) -> void:
 	if slot.disease_level > 0:
 		entry.status = "Plíseň listů"
-		entry.detail = "Vyvětrej, drž vláhu pod 76 %% a sleduj zdraví %d %%" % roundi(slot.health)
+		entry.detail = "Vyvětrej, drž vláhu pod 76%% a sleduj zdraví %d%%" % roundi(slot.health)
 		entry.priority = 100
 		entry.state = "critical"
 	elif slot.moisture < 24.0:
 		entry.status = "Potřebuje zalít"
-		entry.detail = "Vláha pouze %d %% · ideál začíná kolem %d %%" % [roundi(slot.moisture), roundi(float(slot.profile.get("ideal_moisture_min", 42.0)))]
+		entry.detail = "Vláha pouze %d%% · ideál začíná kolem %d%%" % [roundi(slot.moisture), roundi(float(slot.profile.get("ideal_moisture_min", 42.0)))]
 		entry.priority = 96
 		entry.state = "critical"
 	elif slot.moisture > 88.0:
 		entry.status = "Přemokřená půda"
-		entry.detail = "Vláha %d %% · nezalévej a zlepši proudění vzduchu." % roundi(slot.moisture)
+		entry.detail = "Vláha %d%% · nezalévej a zlepši proudění vzduchu." % roundi(slot.moisture)
+		if slot.ventilation >= PlantDiagnosisService.MIN_ADEQUATE_VENTILATION:
+			entry.detail = "Vláha %d%% · proudění je dostatečné. Nezalévej a nech půdu přirozeně proschnout." % roundi(slot.moisture)
 		entry.priority = 92
 		entry.state = "critical"
 	elif slot.moisture <= CARE_CHECK_MOISTURE:
 		entry.status = "Brzy zalít"
-		entry.detail = "Vláha klesla na %d %% · zkontroluj půdu před zálivkou." % roundi(slot.moisture)
+		entry.detail = "Vláha klesla na %d%% · zkontroluj půdu před zálivkou." % roundi(slot.moisture)
 		entry.priority = 72
 		entry.state = "warning"
 	elif slot.health < 55.0:
 		entry.status = "Oslabená rostlina"
-		entry.detail = "Zdraví %d %% · zkontroluj všechny podmínky." % roundi(slot.health)
+		entry.detail = "Zdraví %d%% · zkontroluj všechny podmínky." % roundi(slot.health)
 		entry.priority = 89
 		entry.state = "critical"
 	elif slot.nutrients < 23.0:
 		entry.status = "Potřebuje přihnojit"
-		entry.detail = "Živiny pouze %d %% · v zásobě %d dávek." % [roundi(slot.nutrients), fertilizer_doses]
+		entry.detail = "Živiny pouze %d%% · v zásobě %d dávek." % [roundi(slot.nutrients), fertilizer_doses]
 		entry.priority = 86
 		entry.state = "warning"
 	elif slot.nutrients <= CARE_CHECK_NUTRIENTS:
 		entry.status = "Brzy zkontrolovat živiny"
-		entry.detail = "Živiny klesly na %d %% · hnoj až po kontrole hodnot." % roundi(slot.nutrients)
+		entry.detail = "Živiny klesly na %d%% · hnoj až po kontrole hodnot." % roundi(slot.nutrients)
 		entry.priority = 70
 		entry.state = "warning"
 	elif slot.humidity_percent > 76.0 and slot.ventilation < 40.0:
 		entry.status = "Potřebuje vyvětrat"
-		entry.detail = "Vlhkost vzduchu %d %% · proudění %d %%" % [roundi(slot.humidity_percent), roundi(slot.ventilation)]
+		entry.detail = "Vlhkost vzduchu %d%% · proudění %d%%" % [roundi(slot.humidity_percent), roundi(slot.ventilation)]
 		entry.priority = 83
 		entry.state = "warning"
 	elif slot.current_issue == "Málo světla" and not slot.lamp_on:
@@ -3660,12 +3662,12 @@ func _apply_growing_care_state(entry: Dictionary, slot: PlantSimulation) -> void
 		entry.state = "warning"
 	elif slot.ventilation <= CARE_CHECK_VENTILATION:
 		entry.status = "Brzy vyvětrat"
-		entry.detail = "Proudění kleslo na %d %%" % roundi(slot.ventilation)
+		entry.detail = "Proudění kleslo na %d%%" % roundi(slot.ventilation)
 		entry.priority = 68
 		entry.state = "warning"
 	else:
 		entry.status = "V pořádku"
-		entry.detail = "Růst %d %% · zdraví %d %% · vláha %d %%" % [roundi(slot.growth_percent), roundi(slot.health), roundi(slot.moisture)]
+		entry.detail = "Růst %d%% · zdraví %d%% · vláha %d%%" % [roundi(slot.growth_percent), roundi(slot.health), roundi(slot.moisture)]
 		entry.priority = 10
 		entry.state = "healthy"
 	entry.attention = int(entry.priority) >= 68
@@ -3928,7 +3930,7 @@ func get_journey_body() -> String:
 		JourneyStep.GROW_TO_MATURE: return "Sleduj vlhkost, světlo a vzduch. Rostlina pokračuje v růstu i po zavření hry."
 		JourneyStep.HARVEST: return "Bazalka je připravená. Ve SKLADU spusť sklizeň, dokud jsou listy v nejlepší kondici."
 		JourneyStep.START_DRYING: return "Ve SKLADU zahaj sušení. Teď pracuje čas a proudění vzduchu."
-		JourneyStep.WAIT_FOR_DRYING: return "Počkej na 100 % sušení. Proces pokračuje i po zavření hry; mokré listy do sáčku nepatří."
+		JourneyStep.WAIT_FOR_DRYING: return "Počkej na 100% sušení. Proces pokračuje i po zavření hry; mokré listy do sáčku nepatří."
 		JourneyStep.PACKAGE: return "Usušenou bazalku zabal ve SKLADU. Teprve balíček může na trh."
 		JourneyStep.SELL: return "Prodej hotový balíček. Mince a XP rozjedou další květináče."
 		JourneyStep.COMPLETE: return "Umíš celý cyklus: péče, sklizeň, zpracování i prodej. Teď buduj vlastní bylinkovou dílnu."
@@ -4115,7 +4117,7 @@ func get_room_decoration_slot_label(slot_index: int) -> String:
 	var group := get_room_decoration_slot_group(slot_index)
 	match group:
 		"plant":
-			return "ROSTLINA %d / %d" % [slot_index + 1, ROOM_PLANT_SLOT_COUNT]
+			return "ROSTLINA %d/%d" % [slot_index + 1, ROOM_PLANT_SLOT_COUNT]
 		"books":
 			return "KNIHY"
 		"fertilizer":

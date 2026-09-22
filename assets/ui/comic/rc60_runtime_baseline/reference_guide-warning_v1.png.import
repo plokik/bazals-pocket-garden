@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yw7kbqwxlybq"
-path="res://.godot/imported/guide_without_backdrop.png-6e7d49787ea60768e95a70d6e9b6a446.ctex"
+uid="uid://di8rrhbxcq8gw"
+path="res://.godot/imported/reference_guide-warning_v1.png-dd7c616a30ceb81937bd5f3c49fc48e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/guide_without_backdrop.png"
-dest_files=["res://.godot/imported/guide_without_backdrop.png-6e7d49787ea60768e95a70d6e9b6a446.ctex"]
+source_file="res://assets/ui/comic/rc60_runtime_baseline/reference_guide-warning_v1.png"
+dest_files=["res://.godot/imported/reference_guide-warning_v1.png-dd7c616a30ceb81937bd5f3c49fc48e7.ctex"]
 
 [params]
 

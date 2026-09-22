@@ -76,7 +76,7 @@ func refresh(game_session: GameSession) -> void:
 		if behavior_label_node != null:
 			behavior_label_node.visible = not behavior_lines.is_empty()
 			behavior_label_node.text = "VLASTNOST\n%s" % "\n".join(behavior_lines) if not behavior_lines.is_empty() else ""
-		(card.stats as Label).text = "SKLIZNĚ  %d   ·   NEJLEPŠÍ KVALITA  %d %%   ·   ZAKÁZKY  %d   ·   CELKEM  %.1f g" % [
+		(card.stats as Label).text = "SKLIZNĚ  %d   ·   NEJLEPŠÍ KVALITA  %d%%   ·   ZAKÁZKY  %d   ·   CELKEM  %.1f g" % [
 			int(progress.get("harvests", 0)), roundi(float(progress.get("best_quality", 0.0)) * 100.0), int(progress.get("orders_completed", 0)), float(progress.get("total_dry_g", 0.0))]
 		(card.goal as Label).text = game_session.get_mastery_goal_text(species_id)
 		if can_claim:
@@ -90,9 +90,9 @@ func refresh(game_session: GameSession) -> void:
 	var discovered_count := game_session.get_discovered_species_count()
 	var completion_percent := game_session.get_collection_completion_percent()
 	var waiting_text := "   ·   %d ODMĚNA ČEKÁ" % claimable if claimable == 1 else ("   ·   %d ODMĚNY ČEKAJÍ" % claimable if claimable > 1 else "")
-	summary_label.text = "SBÍRKA  %d/%d DRUHŮ   ·   %d %%   ·   MISTROVSTVÍ  %d/%d%s" % [discovered_count, species_count, completion_percent, total_tiers, species_count * GameSession.MASTERY_TIERS.size(), waiting_text]
+	summary_label.text = "SBÍRKA  %d/%d DRUHŮ   ·   %d%%   ·   MISTROVSTVÍ  %d/%d%s" % [discovered_count, species_count, completion_percent, total_tiers, species_count * GameSession.MASTERY_TIERS.size(), waiting_text]
 	if collection_summary_label != null:
-		collection_summary_label.text = "SBÍRKA\n%d/%d DRUHŮ · %d %%" % [discovered_count, species_count, completion_percent]
+		collection_summary_label.text = "SBÍRKA\n%d/%d DRUHŮ · %d%%" % [discovered_count, species_count, completion_percent]
 	if mastery_summary_label != null:
 		var short_waiting := " · %d ČEKÁ" % claimable if claimable > 0 else ""
 		mastery_summary_label.text = "MISTROVSTVÍ\n%d/%d%s" % [total_tiers, species_count * GameSession.MASTERY_TIERS.size(), short_waiting]

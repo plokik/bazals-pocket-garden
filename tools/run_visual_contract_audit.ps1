@@ -20,9 +20,8 @@ try {
     $env:APPDATA = $isolatedAppData
     $importArguments = @(
         '--headless',
-        '--editor',
+        '--import',
         '--path', '.',
-        '--quit',
         '--log-file', $importLogRelative
     )
     $importProcess = Start-Process `

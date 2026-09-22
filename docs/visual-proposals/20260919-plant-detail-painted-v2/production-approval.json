@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-19",
+  "user_message": "Souhlasím",
+  "context": "Approval of the native playable painted detail shown in the preceding response, following approval of the painted direction.",
+  "approved_reference": "docs/visual-proposals/20260919-plant-detail-painted-v2/preview-godot.png",
+  "approved_reference_sha256": "1C276D25FA023D506B6C053C08F55B72174F665BDBA7DB3619A488504907DA97",
+  "scope": "Make the approved plant detail the normal game presentation; preserve other screens, game rules, source art and player data.",
+  "implementation_adjustment": "Header icon touch targets increased from 42 to 44 logical pixels. Other presentation and behavior are unchanged.",
+  "historical_references": "Preserved unchanged. The separate current-detail gate uses the exact previously approved screenshot."
+}

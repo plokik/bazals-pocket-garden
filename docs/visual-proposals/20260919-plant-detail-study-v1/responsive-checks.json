@@ -1,0 +1,23 @@
+[
+  {
+    "clippedLabels": [],
+    "horizontalOverflow": false,
+    "minActionWidth": 62,
+    "plantFits": true,
+    "width": 320
+  },
+  {
+    "clippedLabels": [],
+    "horizontalOverflow": false,
+    "minActionWidth": 72,
+    "plantFits": true,
+    "width": 360
+  },
+  {
+    "clippedLabels": [],
+    "horizontalOverflow": false,
+    "minActionWidth": 87.5,
+    "plantFits": true,
+    "width": 432
+  }
+]

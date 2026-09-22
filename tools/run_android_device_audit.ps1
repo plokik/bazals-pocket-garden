@@ -62,6 +62,11 @@ if (-not $Serial) {
 $timestamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmssZ')
 $outputRoot = Join-Path $projectRoot ".godot\android-device-audit\$timestamp"
 [System.IO.Directory]::CreateDirectory($outputRoot) | Out-Null
+$installedVersionName = 'NOT_EVALUATED'
+$installedVersionCode = 'NOT_EVALUATED'
+$installedApkSha256 = 'NOT_EVALUATED'
+$apkIdentityStatus = 'NOT_EVALUATED'
+$logcatStartEpoch = 'NOT_CAPTURED'
 
 function Invoke-Adb {
     param([string[]]$Arguments, [string]$OutputFile = '')
@@ -259,6 +264,20 @@ function Get-SemanticSaveSnapshot {
     return [pscustomobject]$snapshot
 }
 
+function Get-InstallSaveFailureReason {
+    param([pscustomobject]$Snapshot, [bool]$WasCleared)
+    if ($WasCleared -or $Snapshot.Status -eq 'NOT_INSTALLED') {
+        return ''
+    }
+    if ($Snapshot.Status -ne 'CAPTURED') {
+        return 'PREINSTALL_EXISTING_SAVE_COULD_NOT_BE_VERIFIED'
+    }
+    if ([int64]$Snapshot.Schema -gt $expectedSaveSchema) {
+        return 'PREINSTALL_SAVE_SCHEMA_IS_NEWER_THAN_TARGET'
+    }
+    return ''
+}
+
 function Format-SnapshotValue {
     param([object]$Value)
     if ($null -eq $Value -or [string]::IsNullOrWhiteSpace([string]$Value)) {
@@ -411,6 +430,28 @@ function Write-SanitizedState {
     )
 }
 
+function Assert-AndroidUnlockedPreflight {
+    param([string]$FileName)
+    $state = Get-AndroidRuntimeState
+    Write-SanitizedState -State $state -FileName $FileName
+    if (-not $state.Awake -or -not $state.Interactive -or -not $state.KeyguardKnown -or $state.KeyguardShowing) {
+        Stop-InvalidAudit -Reason 'PRECHECK_REQUIRES_AWAKE_INTERACTIVE_UNLOCKED_DEVICE'
+    }
+    return $state
+}
+
+function Get-LogcatStartEpoch {
+    # Numeric epoch has no whitespace or shell metacharacters. Device time avoids
+    # host/phone clock skew, and nanoseconds exclude earlier entries this second.
+    $probe = Invoke-AdbPrivate -Arguments @('shell', 'date', '+%s.%N')
+    $value = $probe.Output.Trim()
+    $probe.Output = ''
+    if (-not $probe.Success -or $value -notmatch '^\d{10,11}\.\d{9}$') {
+        Stop-InvalidAudit -Reason 'LOGCAT_DEVICE_TIME_BOUNDARY_UNAVAILABLE'
+    }
+    return $value
+}
+
 function ConvertTo-SafeEvidenceLine {
     param([string]$Line, [int]$MaximumLength = 500)
     $safe = ($Line -replace '[\x00-\x1F\x7F]', ' ').Trim()
@@ -553,6 +594,8 @@ function Write-AuditReport {
         "- Audit state: $AuditState",
         "- Automated crash/ANR gate: $TechnicalStatus",
         "- Package crash evidence: $CrashEvidenceStatus",
+        '- Existing device logcat buffers: preserved',
+        "- Logcat capture start (device epoch seconds): $logcatStartEpoch",
         "- Matching fatal findings: $FatalCount",
         "- Valid runtime samples: $SampleCount",
         "- Foreground sample ratio: $([Math]::Round($ForegroundPercent, 1))%",
@@ -636,6 +679,11 @@ Write-SemanticSaveSnapshot -Snapshot $preInstallSnapshot -FileName 'save-semanti
 Write-Output "ANDROID_SAVE_PRE_INSTALL_SNAPSHOT=$($preInstallSnapshot.Status)"
 
 if ($Install) {
+    $installSaveFailure = Get-InstallSaveFailureReason -Snapshot $preInstallSnapshot -WasCleared ([bool]$ClearAppData)
+    if ($installSaveFailure) {
+        Stop-InvalidAudit -Reason $installSaveFailure
+    }
+    Assert-AndroidUnlockedPreflight -FileName 'pre-install-state.txt' | Out-Null
     $installOutput = Invoke-Adb -Arguments @('install', '-r', $ApkPath) -OutputFile 'install.txt'
     if ($installOutput -notmatch 'Success') {
         throw "APK installation failed.`n$installOutput"
@@ -728,13 +776,11 @@ Write-Output "ANDROID_INSTALLED_APK_SHA256=$installedApkSha256"
 Write-Output "ANDROID_APK_IDENTITY_GATE=$apkIdentityStatus"
 Write-Output "ANDROID_APK_SHA256=$expectedApkSha256"
 
-$preflightState = Get-AndroidRuntimeState
-Write-SanitizedState -State $preflightState -FileName 'preflight-state.txt'
-if (-not $preflightState.Awake -or -not $preflightState.Interactive -or -not $preflightState.KeyguardKnown -or $preflightState.KeyguardShowing) {
-    Stop-InvalidAudit -Reason 'PRECHECK_REQUIRES_AWAKE_INTERACTIVE_UNLOCKED_DEVICE'
-}
+$preflightState = Assert-AndroidUnlockedPreflight -FileName 'preflight-state.txt'
 
-Invoke-Adb -Arguments @('logcat', '-c') | Out-Null
+$logcatStartEpoch = Get-LogcatStartEpoch
+Write-Output 'ANDROID_LOGCAT_BUFFERS_PRESERVED=true'
+Write-Output "ANDROID_LOGCAT_START_DEVICE_EPOCH=$logcatStartEpoch"
 Invoke-Adb -Arguments @('shell', 'dumpsys', 'gfxinfo', $packageName, 'reset') | Out-Null
 if (-not $SkipLaunch) {
     try {
@@ -861,7 +907,7 @@ foreach ($runtimeState in $runtimeStates) {
     }
 }
 foreach ($auditPid in $auditedPids) {
-    $pidLogProbe = Invoke-AdbPrivate -Arguments @('logcat', '-d', '-v', 'threadtime', "--pid=$auditPid")
+    $pidLogProbe = Invoke-AdbPrivate -Arguments @('logcat', '-d', '-v', 'threadtime', '-T', $logcatStartEpoch, "--pid=$auditPid")
     if ($pidLogProbe.Success) {
         $successfulPidLogQueries += 1
         foreach ($match in [regex]::Matches($pidLogProbe.Output, $fatalPattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)) {
@@ -872,7 +918,7 @@ foreach ($auditPid in $auditedPids) {
     }
     $pidLogProbe.Output = ''
 }
-$activityLogProbe = Invoke-AdbPrivate -Arguments @('logcat', '-d', '-v', 'threadtime', 'ActivityManager:I', '*:S')
+$activityLogProbe = Invoke-AdbPrivate -Arguments @('logcat', '-d', '-v', 'threadtime', '-T', $logcatStartEpoch, 'ActivityManager:I', '*:S')
 if ($activityLogProbe.Success) {
     $systemPackagePattern = 'ANR in com\.howtogrow\.game|Process com\.howtogrow\.game .* has died'
     foreach ($match in [regex]::Matches($activityLogProbe.Output, $systemPackagePattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)) {
@@ -885,6 +931,8 @@ $crashEvidenceStatus = if ($successfulPidLogQueries -gt 0 -and $activityLogProbe
 $activityLogProbe.Output = ''
 $logcatEvidence = [System.Collections.Generic.List[string]]::new()
 $logcatEvidence.Add("PACKAGE=$packageName")
+$logcatEvidence.Add('EXISTING_DEVICE_LOGCAT_BUFFERS_PRESERVED=true')
+$logcatEvidence.Add("CAPTURE_START_DEVICE_EPOCH_SECONDS=$logcatStartEpoch")
 $logcatEvidence.Add("AUDITED_PID_COUNT=$($auditedPids.Count)")
 $logcatEvidence.Add("SUCCESSFUL_PID_QUERY_COUNT=$successfulPidLogQueries")
 $logcatEvidence.Add("CRASH_EVIDENCE_STATUS=$crashEvidenceStatus")

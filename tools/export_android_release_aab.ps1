@@ -185,6 +185,7 @@ if ($aabEntries -match '^base/lib/armeabi-v7a/' -or
 if (-not ($aabEntries | Where-Object { $_ -match '^(?:base|assetPackInstallTime)/assets/\.godot/exported/.+-main\.scn$' })) {
     throw 'AAB is missing the compiled main scene.'
 }
+Assert-AndroidQaDonorPayloadContract -Entries $aabEntries -Format AAB
 Write-Output 'AAB_PAYLOAD_CHECK=PASSED'
 
 $apkAnalyzerRoot = Join-Path $androidSdkRoot 'cmdline-tools\latest'
@@ -243,6 +244,7 @@ $report = @(
     '- AAB_SIGNATURE_CHECK=PASSED',
     '- AAB_SIGNER_IDENTITY_CHECK=PASSED',
     "- Signer certificate SHA-256: $actualSignerSha256",
+    '- AAB_QA_DONOR_PAYLOAD_CHECK=PASSED',
     '- AAB_PAYLOAD_CHECK=PASSED',
     '- AAB_ABI_CHECK=PASSED',
     '- AAB_MANIFEST_CONTRACT=PASSED',

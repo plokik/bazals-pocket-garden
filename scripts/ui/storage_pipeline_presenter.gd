@@ -44,9 +44,9 @@ func refresh(game_session: GameSession) -> void:
 			active_step = 0
 			progress = 8.0
 			if is_wilted and seconds_until_death > 0.0:
-				harvest_label.text = "Odhad pozdní sklizně: %.1f g\nKvalita %d %% · čerstvost %d %%\nDo úhynu %s" % [estimated_g, roundi(estimated_quality * 100.0), roundi(freshness_factor * 100.0), GameSession.format_duration(maxf(0.0, seconds_until_death))]
+				harvest_label.text = "Odhad pozdní sklizně: %.1f g\nKvalita %d%% · čerstvost %d%%\nDo úhynu %s" % [estimated_g, roundi(estimated_quality * 100.0), roundi(freshness_factor * 100.0), GameSession.format_duration(maxf(0.0, seconds_until_death))]
 			elif freshness_factor < 0.999:
-				harvest_label.text = "Odhad pozdní sklizně: %.1f g\nKvalita %d %% · čerstvost %d %%" % [estimated_g, roundi(estimated_quality * 100.0), roundi(freshness_factor * 100.0)]
+				harvest_label.text = "Odhad pozdní sklizně: %.1f g\nKvalita %d%% · čerstvost %d%%" % [estimated_g, roundi(estimated_quality * 100.0), roundi(freshness_factor * 100.0)]
 			else:
 				# Preserve the approved healthy-storage card; lifecycle detail appears only
 				# after freshness loss or when the plant needs rescue.
@@ -69,7 +69,7 @@ func refresh(game_session: GameSession) -> void:
 			active_step = 1
 			progress = 31.0 + clampf(plant.drying_progress, 0.0, 100.0) * 0.34
 			var drying_remaining := plant.get_drying_target_seconds() * clampf(1.0 - plant.drying_progress / 100.0, 0.0, 1.0)
-			harvest_label.text = "Sušení: %.1f %% · zbývá asi %s\nProudění vzduchu odvádí vlhkost z listů." % [plant.drying_progress, GameSession.format_duration(maxf(60.0, drying_remaining))]
+			harvest_label.text = "Sušení: %.1f%% · zbývá asi %s\nProudění vzduchu odvádí vlhkost z listů." % [plant.drying_progress, GameSession.format_duration(maxf(60.0, drying_remaining))]
 			action_button.text = "Sušení probíhá"
 			action_button.disabled = true
 		PlantSimulation.Stage.DRY:

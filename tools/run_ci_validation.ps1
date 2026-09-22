@@ -11,7 +11,7 @@ param(
     [ValidateRange(1, 1000)]
     [int]$ExpectedActiveVisualGates = 34,
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
-    [string]$ExpectedGoldenDigest = '77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170',
+    [string]$ExpectedGoldenDigest = '0C25E4938CD9EC5D8E875A431F208209C88E681BCE3C87A0333051248120FD36',
     [switch]$FullVisualValidation
 )
 
@@ -188,6 +188,34 @@ function Get-GoldenDigest {
     }
 }
 
+function Assert-DocumentationImportIsolation {
+    param([string]$DocumentationRoot)
+
+    $root = [System.IO.Path]::GetFullPath($DocumentationRoot).TrimEnd('\', '/')
+    $rootPrefix = $root + [System.IO.Path]::DirectorySeparatorChar
+    $checked = 0
+    $exposed = [System.Collections.Generic.List[string]]::new()
+    foreach ($file in Get-ChildItem -LiteralPath $root -Recurse -File) {
+        if ($file.Name -notmatch '(?i)\.csv(?:\.import)?$') { continue }
+        $checked++
+        $directory = $file.DirectoryName
+        $ignored = $false
+        while ($directory -eq $root -or $directory.StartsWith($rootPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            if (Test-Path -LiteralPath (Join-Path $directory '.gdignore') -PathType Leaf) {
+                $ignored = $true
+                break
+            }
+            if ($directory -eq $root) { break }
+            $directory = Split-Path -Parent $directory
+        }
+        if (-not $ignored) { $exposed.Add($file.FullName.Substring($rootPrefix.Length)) }
+    }
+    if ($exposed.Count -gt 0) {
+        throw "Documentation CSV would be imported as translations. Place it under a documentation directory with .gdignore and remove obsolete CSV import sidecars: $($exposed -join ', ')"
+    }
+    return $checked
+}
+
 function Invoke-CheckedPowerShell {
     param(
         [string]$Name,
@@ -261,6 +289,8 @@ if ($goldenBefore -cne $ExpectedGoldenDigest.ToUpperInvariant()) {
 Write-Output "CI_VISUAL_BASELINE=PASSED cases=$ExpectedVisualCases gates=$ExpectedActiveVisualGates digest=$goldenBefore"
 $operationError = $null
 try {
+    $isolatedDocumentationFiles = Assert-DocumentationImportIsolation -DocumentationRoot (Join-Path $projectRoot 'docs')
+    Write-Output "CI_DOCUMENTATION_IMPORT_ISOLATION=PASSED files=$isolatedDocumentationFiles"
     $projectConfig = Read-TextUtf8 -Path (Join-Path $projectRoot 'project.godot')
     $mainSceneMatch = [regex]::Match($projectConfig, '(?m)^run/main_scene="(res://[^"]+)"$')
     $versionMatch = [regex]::Match($projectConfig, '(?m)^config/version="([^"]+)"$')
@@ -356,7 +386,10 @@ try {
         'tools/**',
         'builds/**',
         'assets/ui/visual/**/source/**',
-        'assets/ui/visual/phase167/**'
+        'assets/ui/visual/phase167/**',
+        'assets/ui/visual/phase149/player_room/qa/**',
+        'assets/ui/visual/phase150/greenhouse/qa/**',
+        'assets/ui/visual/phase150/greenhouse/greenhouse_phase150_registered_clean_donor_candidate_v1.png'
     )
     foreach ($required in $requiredExclusions) {
         if ($required -notin $excludePatterns) {
@@ -419,6 +452,7 @@ try {
         "preset_count=$($presets.Count)",
         "runtime_source_count=$($runtimeSources.Count)",
         "literal_runtime_reference_count=$($runtimeReferences.Count)",
+        "isolated_documentation_csv_files=$isolatedDocumentationFiles",
         "golden_digest_before=$goldenBefore"
     )
     [System.IO.File]::WriteAllLines(

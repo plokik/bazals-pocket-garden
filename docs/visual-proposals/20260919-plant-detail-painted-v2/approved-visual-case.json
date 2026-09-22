@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "defaults": {"pixel_tolerance": 12, "heatmap_gain": 4.0},
+  "cases": [{
+    "id": "painted-detail-approved-default",
+    "description": "Normal Main scene without a proposal flag, compared with the exact native screenshot approved by the user on 2026-09-19. No baseline is derived from the new capture.",
+    "reference": "docs/visual-proposals/20260919-plant-detail-painted-v2/preview-godot.png",
+    "actual": "detail-study-godot.png",
+    "size": [432, 960],
+    "reference_crop": [0, 0, 1, 1],
+    "actual_crop": [0, 0, 1, 1],
+    "masks": [],
+    "gate": true,
+    "approval_record": "docs/visual-proposals/20260919-plant-detail-painted-v2/production-approval.json",
+    "thresholds": {"max_mean_abs_error": 4.0, "max_rmse": 12.0, "max_changed_ratio": 0.06}
+  }]
+}

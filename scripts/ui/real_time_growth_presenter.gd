@@ -44,8 +44,8 @@ func refresh(plant: PlantSimulation) -> void:
 				title_label.text = "ZVADLÁ · ZÁCHRANA %s" % GameSession.format_duration(maxf(0.0, seconds_until_death)).to_upper()
 				value_label.text = "Oprav péči a odstraň poškozené listy"
 			elif freshness_factor < 1.0 - 0.0001:
-				title_label.text = "POZDNÍ SKLIZEŇ · ČERSTVOST %d %%" % roundi(freshness_factor * 100.0)
-				value_label.text = "Odhad %.1f g · kvalita %d %%" % [estimated_g, roundi(estimated_quality * 100.0)]
+				title_label.text = "POZDNÍ SKLIZEŇ · ČERSTVOST %d%%" % roundi(freshness_factor * 100.0)
+				value_label.text = "Odhad %.1f g · kvalita %d%%" % [estimated_g, roundi(estimated_quality * 100.0)]
 			else:
 				title_label.text = "PŘIPRAVENO KE SKLIZNI"
 				value_label.text = "Pokračuj ve Skladu"
@@ -63,4 +63,4 @@ func refresh(plant: PlantSimulation) -> void:
 			var remaining := maxf(0.0, plant.get_estimated_seconds_to_mature())
 			var efficiency_percent := roundi(plant.get_growth_efficiency() * 100.0)
 			title_label.text = "DOZRÁNÍ · %s" % ("RYCHLÝ ZAČÁTEK" if plant.tutorial_cycle else "REÁLNÝ ČAS")
-			value_label.text = "Přibližně za %s · tempo %d %%" % [GameSession.format_duration(maxf(60.0, remaining)), efficiency_percent]
+			value_label.text = "Přibližně za %s · tempo %d%%" % [GameSession.format_duration(maxf(60.0, remaining)), efficiency_percent]

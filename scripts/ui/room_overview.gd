@@ -15,6 +15,7 @@ const RackSaucerTexture := preload("res://assets/ui/visual/phase170/rack/rack_ce
 const Phase163LockedPlanterTexture := preload("res://assets/ui/visual/phase163/rack/rack_locked_planter_phase163_v1.png")
 const Phase163GrowLightTexture := preload("res://assets/ui/visual/phase163/rack/rack_grow_light_phase163_v1.png")
 const PlantPresentationCatalogScene := preload("res://scripts/plant_presentation_catalog.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -179,6 +180,10 @@ func _ready() -> void:
 	set_meta("phase179_light_input_priority", "fixture_before_plant_slot_v1")
 	set_meta("phase181_light_off_anchor", "indexed_fixture_lens_center_v1")
 	set_meta("phase182_professor_launcher_clearance", "dynamic_title_after_dedicated_64px_research_button_v1")
+	set_meta("approved_painted_screen", "rack_screen_matches_plant_detail_v1")
+	set_meta("painted_header", "cream_title_sage_count_leaf_emblem_v1")
+	set_meta("painted_slot_labels", "shared_cream_and_sage_compact_cards_v2")
+	set_meta("motion_profile", "ambient_dust_independent_lights_selection_shine_reduced_motion_v1")
 	_ensure_light_animation_state()
 	set_process(true)
 
@@ -495,13 +500,6 @@ func _draw_cosmetic_atmosphere(room_rect: Rect2) -> void:
 		return
 	var accent := Color("#19cbd1") if cosmetic_theme == "lagoon" else Color("#a85bea")
 	draw_rect(room_rect, Color(accent, 0.075), true)
-	var top_y := room_rect.position.y + room_rect.size.y * 0.055
-	for index in range(9):
-		var ratio := float(index) / 8.0
-		var center := Vector2(lerpf(room_rect.position.x + room_rect.size.x * 0.08, room_rect.end.x - room_rect.size.x * 0.08, ratio), top_y + sin(ratio * PI) * room_rect.size.y * 0.035)
-		draw_line(center - Vector2(room_rect.size.x * 0.055, 9.0), center, Color("#352345", 0.62), 2.0, true)
-		draw_circle(center, 5.6, Color("#173144", 0.72), true, -1.0, true)
-		draw_circle(center - Vector2(0.0, 1.0), 3.7, accent.lightened(0.28), true, -1.0, true)
 	for index in range(6):
 		var sparkle := room_rect.position + Vector2(room_rect.size.x * (0.12 + float(index) * 0.145), room_rect.size.y * (0.18 + float(index % 3) * 0.12))
 		draw_circle(sparkle, 2.2 + float(index % 2), Color(accent.lightened(0.35), 0.62), true, -1.0, true)
@@ -835,21 +833,32 @@ func _active_light_lens_rect(fixture_rect: Rect2) -> Rect2:
 func _draw_title() -> void:
 	var title_rect := title_rect_for_current_state()
 	var count_rect := _source_rect_to_room(COUNT_SOURCE_RECT)
-	var scale_factor := size.x / GRID_SOURCE_WIDTH
-	_draw_rounded(Rect2(title_rect.position + Vector2(0.0, 4.0 * scale_factor), title_rect.size), Color("#133449", 0.48), Color.TRANSPARENT, 0, maxi(8, roundi(14.0 * scale_factor)))
-	_draw_rounded(title_rect, COMIC_BLUE, COMIC_INK, maxi(2, roundi(4.0 * scale_factor)), maxi(8, roundi(14.0 * scale_factor)))
-	var title_inner := title_rect.grow(-maxf(4.0, 8.0 * scale_factor))
-	_draw_rounded(title_inner, COMIC_CREAM, Color("#f29c1f"), maxi(1, roundi(3.0 * scale_factor)), maxi(6, roundi(10.0 * scale_factor)))
-	draw_line(title_inner.position + Vector2(title_inner.size.x * 0.08, title_inner.size.y * 0.22), title_inner.position + Vector2(title_inner.size.x * 0.92, title_inner.size.y * 0.22), Color(1.0, 1.0, 1.0, 0.65), maxf(1.0, 2.0 * scale_factor), true)
-	_draw_rounded(Rect2(count_rect.position + Vector2(0.0, 4.0 * scale_factor), count_rect.size), Color("#133449", 0.48), Color.TRANSPARENT, 0, maxi(8, roundi(15.0 * scale_factor)))
-	_draw_rounded(count_rect, COMIC_CYAN, COMIC_INK, maxi(2, roundi(4.0 * scale_factor)), maxi(8, roundi(15.0 * scale_factor)))
-	_draw_rounded(count_rect.grow(-maxf(3.0, 7.0 * scale_factor)), COMIC_CREAM, COMIC_ORANGE, maxi(1, roundi(3.0 * scale_factor)), maxi(6, roundi(10.0 * scale_factor)))
+	_draw_painted_card(title_rect, Color("#fff4cf"))
+	_draw_painted_card(count_rect, Color("#e7efc7"))
+	var leaf_texture := PaintedDetailArt.texture("leaf")
+	var leaf_size := title_rect.size.y * 0.58
+	var leaf_rect := Rect2(title_rect.position + Vector2(title_rect.size.y * 0.25, (title_rect.size.y - leaf_size) * 0.5), Vector2.ONE * leaf_size)
+	draw_texture_rect(leaf_texture, leaf_rect, false)
 	var title_font_size := maxi(14, roundi(title_rect.size.y * 0.39))
-	draw_string(FontExtraBold, title_rect.position + Vector2(0.0, title_rect.size.y * 0.68), "MOJE ROSTLINY", HORIZONTAL_ALIGNMENT_CENTER, title_rect.size.x, title_font_size, COMIC_INK)
+	var title_text_x := leaf_rect.end.x + title_rect.size.y * 0.10
+	var title_text_width := maxf(1.0, title_rect.end.x - title_text_x - title_rect.size.y * 0.18)
+	draw_string(FontExtraBold, Vector2(title_text_x, title_rect.position.y + title_rect.size.y * 0.68), "MOJE ROSTLINY", HORIZONTAL_ALIGNMENT_CENTER, title_text_width, title_font_size, INK)
 	if session == null:
 		return
 	var font_size := maxi(12, roundi(count_rect.size.y * 0.36))
-	draw_string(FontExtraBold, count_rect.position + Vector2(0.0, count_rect.size.y * 0.68), "%d/10" % displayed_occupied_count, HORIZONTAL_ALIGNMENT_CENTER, count_rect.size.x, font_size, COMIC_INK)
+	draw_string(FontExtraBold, count_rect.position + Vector2(0.0, count_rect.size.y * 0.68), "%d/10" % displayed_occupied_count, HORIZONTAL_ALIGNMENT_CENTER, count_rect.size.x, font_size, INK)
+
+
+func _draw_painted_card(rect: Rect2, fill: Color) -> void:
+	var radius := maxi(5, roundi(rect.size.y * 0.22))
+	var border_width := maxi(2, roundi(rect.size.y * 0.055))
+	var inset := maxf(2.0, rect.size.y * 0.075)
+	var shadow := Rect2(rect.position + Vector2(0.0, maxf(1.0, rect.size.y * 0.07)), rect.size)
+	_draw_rounded(shadow, Color("#2f1708", 0.38), Color.TRANSPARENT, 0, radius)
+	_draw_rounded(rect, Color("#a95012"), Color("#3f1c08"), border_width, radius)
+	var inner := rect.grow(-inset)
+	_draw_rounded(inner, fill, Color("#e2b452"), maxi(1, roundi(float(border_width) * 0.5)), maxi(3, radius - roundi(inset)))
+	draw_line(inner.position + Vector2(inner.size.x * 0.08, inner.size.y * 0.19), inner.position + Vector2(inner.size.x * 0.92, inner.size.y * 0.19), Color(1.0, 1.0, 0.92, 0.74), maxf(1.0, rect.size.y * 0.022), true)
 
 
 func title_rect_for_current_state() -> Rect2:
@@ -903,10 +912,10 @@ func _draw_comic_locked_slot(visual_rect: Rect2, required_level: int, pulse: flo
 	draw_texture_rect(Phase163LockedPlanterTexture, visual_rect, false, glow_tint)
 
 	var plaque := _locked_plaque_rect(visual_rect)
-	_draw_rounded(plaque, CREAM, COMIC_INK, maxi(2, roundi(unit * 2.4)), maxi(4, roundi(unit * 5.0)))
+	_draw_painted_card(plaque, Color("#fff4cf"))
 	var text := "ÚROVEŇ %d" % required_level
 	var typography := _label_text_geometry(plaque, text, false)
-	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, COMIC_INK)
+	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, INK)
 
 
 func _slot_label_rect(rect: Rect2) -> Rect2:
@@ -955,15 +964,10 @@ func _label_text_geometry(plaque: Rect2, text: String, with_status: bool = true)
 func _draw_comic_slot_label(rect: Rect2, slot: PlantSimulation) -> void:
 	var is_empty := slot.stage == PlantSimulation.Stage.EMPTY
 	var is_in_storage := _is_post_harvest_storage_stage(slot)
-	var shadow := Rect2(rect.position + Vector2(0.0, maxf(1.0, rect.size.y * 0.09)), rect.size)
-	_draw_rounded(shadow, Color("#17212b", 0.48), Color.TRANSPARENT, 0, maxi(4, roundi(rect.size.y * 0.22)))
-	var fill := COMIC_CYAN if is_empty or is_in_storage else COMIC_BLUE
-	_draw_rounded(rect, fill, COMIC_INK, maxi(2, roundi(rect.size.y * 0.08)), maxi(4, roundi(rect.size.y * 0.22)))
-	var inner := rect.grow(-2.0)
-	_draw_rounded(inner, COMIC_CREAM, Color("#ffae24"), maxi(1, roundi(rect.size.y * 0.05)), maxi(3, roundi(rect.size.y * 0.16)))
+	_draw_painted_card(rect, Color("#e7efc7") if is_empty or is_in_storage else Color("#fff4cf"))
 	var text := "PŘIDAT" if is_empty else ("VE SKLADU" if is_in_storage else slot.get_short_name().to_upper())
 	var typography := _label_text_geometry(rect, text, not is_in_storage)
-	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, COMIC_INK)
+	draw_string(FontExtraBold, typography.baseline, text, HORIZONTAL_ALIGNMENT_CENTER, typography.rect.size.x, typography.font_size, INK)
 
 
 func _locked_texture_rect(rect: Rect2) -> Rect2:

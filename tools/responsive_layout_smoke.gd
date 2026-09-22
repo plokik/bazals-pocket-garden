@@ -522,8 +522,8 @@ func _validate_phase157_detail_header(instance, case_id: String) -> String:
 	var header := instance.plant_detail_selector as HBoxContainer
 	if header == null or not header.visible or not instance.plant_detail_panel.visible:
 		return "%s did not open the Phase 157 plant detail header." % case_id
-	if header.get_meta("component", "") != "phase157_responsive_detail_header_v1":
-		return "%s lost the Phase 157 responsive header contract." % case_id
+	if header.get_meta("component", "") != "painted_detail_header_bridge_v1":
+		return "%s lost the painted detail header bridge contract: %s." % [case_id, str(header.get_meta("component", ""))]
 	var parent_rect: Rect2 = instance.plant_detail_panel.get_global_rect()
 	var header_rect: Rect2 = header.get_global_rect()
 	if header_rect.position.x < parent_rect.position.x - 0.5 \
@@ -540,10 +540,12 @@ func _validate_phase157_detail_header(instance, case_id: String) -> String:
 				or child_rect.end.x > header_rect.end.x + 0.5:
 			return "%s placed a plant detail action outside the header." % case_id
 	if instance.herbarium_launcher_button == null \
-			or instance.herbarium_launcher_button.text != "HERBÁŘ" \
-			or instance.herbarium_launcher_button.size.x < 64.0 \
-			or instance.herbarium_launcher_button.size.y < 50.0:
-		return "%s compressed or lost the Herbarium touch target." % case_id
+			or not instance.herbarium_launcher_button.text.is_empty() \
+			or instance.herbarium_launcher_button.icon == null \
+			or instance.herbarium_launcher_button.size.x < 44.0 \
+			or instance.herbarium_launcher_button.size.y < 50.0 \
+			or instance.herbarium_launcher_button.get_meta("touch_target", Vector2.ZERO) != Vector2(44, 50):
+		return "%s lost the compact painted Herbarium icon target: text=%s size=%s minimum=%s." % [case_id, instance.herbarium_launcher_button.text, instance.herbarium_launcher_button.size, instance.herbarium_launcher_button.custom_minimum_size]
 	if not instance.plant_position_label.clip_text \
 			or instance.plant_position_label.text_overrun_behavior != TextServer.OVERRUN_TRIM_ELLIPSIS:
 		return "%s lost the bounded plant-name label behavior." % case_id
@@ -567,9 +569,9 @@ func _validate_phase153_shop(instance, case_id: String) -> String:
 	if instance.shop_catalog_scroll == null \
 			or not instance.shop_catalog_scroll.visible \
 			or instance.shop_catalog_grid == null \
-			or instance.shop_catalog_grid.columns != 3 \
+			or instance.shop_catalog_grid.columns != 2 \
 			or instance.shop_catalog_grid.get_child_count() < 12:
-		return "%s lost the scrollable three-column dynamic catalog." % case_id
+		return "%s lost the scrollable two-column dynamic catalog." % case_id
 	if instance.shop_mode_tabs == null or instance.shop_mode_tabs.get_child_count() != 4:
 		return "%s did not preserve all four shop categories." % case_id
 	for tab_variant in instance.shop_mode_tabs.get_children():
@@ -806,7 +808,7 @@ func _required_blocking_modal_components() -> PackedStringArray:
 		"fullscreen_daily_challenge_modal_v1",
 		"fullscreen_botanical_pack_modal_v1",
 		"fullscreen_level_progression_modal_v1",
-		"fullscreen_grower_journal_modal_v1",
+		"fullscreen_grower_journal_skill_tree_v3",
 		"fullscreen_care_center_modal_v1",
 		"fullscreen_plant_diagnosis_modal_v1",
 		"fullscreen_professor_story_modal_v1",
@@ -1034,11 +1036,11 @@ func _validate_phase150_greenhouse_layers(greenhouse, test_case_id: String) -> S
 
 func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> String:
 	var greenhouse = instance.greenhouse_preview_view
-	var expected_content_size := Vector2(360.0, 620.0)
+	var expected_content_size := Vector2(360.0, 625.0)
 	if greenhouse.size != expected_content_size:
-		return "%s produced greenhouse content %s instead of exact 360x620 after the 74px HUD and 106px dock." % [test_case_id, greenhouse.size]
+		return "%s produced greenhouse content %s instead of exact 360x625 after the 78px rendered HUD and 97px dock." % [test_case_id, greenhouse.size]
 	if greenhouse.get_meta("responsive_layout_component", "") != "phase109_greenhouse_compact_layout_v1" \
-			or greenhouse.get_meta("compact_content_size", Vector2i.ZERO) != Vector2i(360, 620) \
+			or greenhouse.get_meta("compact_content_size", Vector2i.ZERO) != Vector2i(360, 625) \
 			or greenhouse.get_meta("phase129_location_focus", "") != "phase129_greenhouse_room_focus_v1" \
 			or greenhouse.get_meta("phase130_two_box_component", "") != "phase130_greenhouse_two_boxes_v1" \
 			or greenhouse.get_meta("visual_growing_boxes", 0) != 2 \
@@ -1047,7 +1049,7 @@ func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> St
 		return "%s is missing the Phase 109/130 compact two-box layout contract." % test_case_id
 
 	var expected_house := Rect2(10.0, 136.0, 340.0, 282.0)
-	var expected_status := Rect2(16.0, 430.0, 328.0, 96.0)
+	var expected_status := Rect2(16.0, 435.0, 328.0, 96.0)
 	if greenhouse._house_rect() != expected_house:
 		return "%s produced greenhouse house rect %s instead of %s." % [test_case_id, greenhouse._house_rect(), expected_house]
 	if greenhouse._status_rect() != expected_status:
@@ -1074,15 +1076,15 @@ func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> St
 	if not is_equal_approx(greenhouse._bed_rect(0).position.y, greenhouse._bed_rect(1).position.y) or not is_equal_approx(greenhouse._bed_rect(2).position.y, greenhouse._bed_rect(3).position.y):
 		return "%s failed to keep each pair of functional bays inside one shared box row." % test_case_id
 
-	var expected_action := Rect2(16.0, 542.0, 328.0, 64.0)
+	var expected_action := Rect2(16.0, 547.0, 328.0, 64.0)
 	if greenhouse.action_button.get_rect() != expected_action:
 		return "%s produced compact primary action %s instead of %s." % [test_case_id, greenhouse.action_button.get_rect(), expected_action]
 	var expected_crops: Array[Rect2] = [
-		Rect2(16.0, 542.0, 64.0, 64.0),
-		Rect2(82.0, 542.0, 64.0, 64.0),
-		Rect2(148.0, 542.0, 64.0, 64.0),
-		Rect2(214.0, 542.0, 64.0, 64.0),
-		Rect2(280.0, 542.0, 64.0, 64.0),
+		Rect2(16.0, 547.0, 64.0, 64.0),
+		Rect2(82.0, 547.0, 64.0, 64.0),
+		Rect2(148.0, 547.0, 64.0, 64.0),
+		Rect2(214.0, 547.0, 64.0, 64.0),
+		Rect2(280.0, 547.0, 64.0, 64.0),
 	]
 	for crop_index in range(expected_crops.size()):
 		var crop_rect: Rect2 = greenhouse.crop_buttons[crop_index].get_rect()
@@ -1100,8 +1102,8 @@ func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> St
 
 func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 	var room = instance.player_room_view
-	if room.size != Vector2(360.0, 620.0):
-		return "%s produced player-room content %s instead of exact 360x620 after the 74px HUD and 106px dock." % [test_case_id, room.size]
+	if room.size != Vector2(360.0, 625.0):
+		return "%s produced player-room content %s instead of exact 360x625 after the 78px rendered HUD and 97px dock." % [test_case_id, room.size]
 	if room.get_meta("visual_camera_component", "") != "phase126_garden_visual_camera_v1" \
 			or room.get_meta("room_asset", "") != "player_room_phase149_target_clean_v1.png" \
 			or room.get_meta("room_foreground_asset", "") != "player_room_furniture_foreground_phase158_v2.png" \

@@ -43,9 +43,9 @@ func refresh(plant: PlantSimulation) -> void:
 	else:
 		stage_label.text = plant.get_stage_name()
 		stage_label.add_theme_color_override("font_color", NORMAL_STAGE_COLOR)
-	growth_label.text = "%.1f %%" % growth_value
+	growth_label.text = "%.1f%%" % growth_value
 	growth_bar.value = growth_value
-	moisture_label.text = "%d %%" % roundi(plant.moisture)
-	health_label.text = "%d %%" % roundi(plant.health)
-	condition_label.text = "%d %%" % roundi(plant.condition_score * 100.0)
+	moisture_label.text = "%d%%" % roundi(plant.moisture)
+	health_label.text = "%d%%" % roundi(plant.health)
+	condition_label.text = "%d%%" % roundi(plant.condition_score * 100.0)
 	condition_label.add_theme_color_override("font_color", HEALTHY_COLOR if plant.condition_score >= HEALTHY_CONDITION_THRESHOLD else STRESSED_COLOR)

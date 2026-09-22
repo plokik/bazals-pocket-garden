@@ -55,7 +55,7 @@ func refresh(state: Dictionary) -> Dictionary:
 	var progress_total := maxi(0, int(state.get("progress_total", 0)))
 	_chapter_title_label.text = str(state.get("title", "ZTRACENÉ STRÁNKY HERBÁŘE")).to_upper()
 	_body_label.text = str(state.get("body", "Pomoz Profesoru Bazalovi znovu sestavit ztracené stránky jeho herbáře."))
-	var default_summary := "VÝZKUM · %d / %d CÍLŮ · %d %%" % [progress_completed, progress_total, _progress_percent(state, progress_completed, progress_total)]
+	var default_summary := "VÝZKUM · %d/%d CÍLŮ · %d%%" % [progress_completed, progress_total, _progress_percent(state, progress_completed, progress_total)]
 	_summary_label.text = str(state.get("summary_text", state.get("summary", default_summary)))
 	_status_label.text = _resolve_status_text(state, status)
 	if _reward_heading_label != null:
@@ -195,7 +195,7 @@ func _render_goal(card: Dictionary, goal: Dictionary, card_index: int) -> void:
 	if body != null:
 		body.text = str(goal.get("body", "Pokračuj v péči o zahradu."))
 	if value != null:
-		value.text = "SPLNĚNO ✓" if completed else "%d / %d" % [mini(current, target), target]
+		value.text = "SPLNĚNO ✓" if completed else "%d/%d" % [mini(current, target), target]
 		value.add_theme_color_override("font_color", ComicUITheme.GREEN.darkened(0.20) if completed else ComicUITheme.PURPLE)
 	if progress != null:
 		progress.value = 100.0 if completed else clampf(float(current) / float(target) * 100.0, 0.0, 100.0)
@@ -217,7 +217,7 @@ func _render_missing_goal(card: Dictionary, card_index: int) -> void:
 	if body != null:
 		body.text = "Tato stopa zatím zůstává ukrytá."
 	if value != null:
-		value.text = "0 / 1"
+		value.text = "0/1"
 	if progress != null:
 		progress.value = 0.0
 

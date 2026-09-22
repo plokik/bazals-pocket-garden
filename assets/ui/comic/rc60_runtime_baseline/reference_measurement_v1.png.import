@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d17om6yljlnw2"
-path="res://.godot/imported/guide_without_button.png-748b804d6af312f18ced9746f919c7a0.ctex"
+uid="uid://blga5obehoikp"
+path="res://.godot/imported/reference_measurement_v1.png-b956abd9578933fb79a18c63b1dafd31.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/guide_without_button.png"
-dest_files=["res://.godot/imported/guide_without_button.png-748b804d6af312f18ced9746f919c7a0.ctex"]
+source_file="res://assets/ui/comic/rc60_runtime_baseline/reference_measurement_v1.png"
+dest_files=["res://.godot/imported/reference_measurement_v1.png-b956abd9578933fb79a18c63b1dafd31.ctex"]
 
 [params]
 

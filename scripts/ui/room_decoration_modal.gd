@@ -211,7 +211,7 @@ func _refresh_slot_context() -> void:
 	if not _is_slot_valid():
 		slot_title_label.text = "Místo pokoje: neplatné"
 	else:
-		slot_title_label.text = "%s · MÍSTO %d / %d" % [
+		slot_title_label.text = "%s · MÍSTO %d/%d" % [
 			session.get_room_decoration_slot_label(target_slot_index),
 			target_slot_index + 1,
 			GameSession.ROOM_DECORATION_SLOT_COUNT,

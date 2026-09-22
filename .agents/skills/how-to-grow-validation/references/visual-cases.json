@@ -10,11 +10,29 @@
       "description": "Full deterministic plant rack compared with the approved rack target.",
       "reference": "docs/rack_room_source_of_truth_v1.png",
       "actual": "room.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.17, 0.015, 0.16, 0.045]
+        [
+          0.17,
+          0.015,
+          0.16,
+          0.045
+        ]
       ],
       "gate": false
     },
@@ -23,24 +41,65 @@
       "description": "Level-one locked-slot layout compared with the approved mockup.",
       "reference": "docs/approved_locked_slots_mockup.png",
       "actual": "locked-slots.png",
-      "size": [432, 316],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.22, 1.0, 0.44],
+      "size": [
+        432,
+        316
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.22,
+        1.0,
+        0.44
+      ],
       "masks": [],
       "gate": false
     },
     {
       "id": "hud",
       "description": "Approved Phase 4 code-native comic HUD with dynamic values masked.",
-      "reference": "assets/ui/comic/reference_phase4_hud_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_hud_v1.png",
       "actual": "hud.png",
-      "size": [432, 74],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        74
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.145, 0.20, 0.145, 0.62],
-        [0.495, 0.20, 0.105, 0.62],
-        [0.655, 0.10, 0.325, 0.80]
+        [
+          0.145,
+          0.2,
+          0.145,
+          0.62
+        ],
+        [
+          0.495,
+          0.2,
+          0.105,
+          0.62
+        ],
+        [
+          0.655,
+          0.1,
+          0.325,
+          0.8
+        ]
       ],
       "pixel_tolerance": 12,
       "gate": true,
@@ -48,16 +107,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "navigation",
       "description": "Approved Phase 4 four-card comic mobile navigation.",
-      "reference": "assets/ui/comic/reference_phase4_navigation_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_navigation_v1.png",
       "actual": "navigation.png",
-      "size": [432, 97],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        97
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -65,16 +138,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "storage",
       "description": "Approved Phase 5 storage cards and four-step processing flow.",
-      "reference": "assets/ui/comic/reference_phase5_storage_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_storage_v1.png",
       "actual": "comic-storage.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -82,16 +169,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "shop",
       "description": "Approved Phase 5 mobile shop item cards and purchase controls.",
-      "reference": "assets/ui/comic/reference_phase5_shop_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_shop_v1.png",
       "actual": "comic-shop.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -99,16 +200,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "measurement",
       "description": "Approved Phase 5 live metrics, comic graph, and knowledge panel.",
-      "reference": "assets/ui/comic/reference_phase5_measurement_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_measurement_v1.png",
       "actual": "comic-measurement.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -116,20 +231,34 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "detail-realtime",
       "description": "User-approved Phase 184 RC59 plant detail with the Phase 172 scale, saucer and sill grounding; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_detail_realtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_detail-realtime_v1.png",
       "actual": "comic-detail-idle.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -139,15 +268,28 @@
     {
       "id": "guide-explain",
       "description": "User-approved Phase 184 RC59 Professor Bazal explain state over the approved current rack and compact dock; the modal behavior is unchanged.",
-      "reference": "assets/ui/comic/reference_phase184_guide_explain_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-explain_v1.png",
       "actual": "comic-guide-explain.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -157,15 +299,28 @@
     {
       "id": "guide-celebrate",
       "description": "User-approved Phase 184 RC59 Professor Bazal celebration state over the approved current rack and compact dock; the modal behavior is unchanged.",
-      "reference": "assets/ui/comic/reference_phase184_guide_celebrate_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-celebrate_v1.png",
       "actual": "comic-guide-celebrate.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -175,15 +330,28 @@
     {
       "id": "guide-warning",
       "description": "User-approved Phase 184 RC59 Professor Bazal warning state over the approved current rack and compact dock; the modal behavior is unchanged.",
-      "reference": "assets/ui/comic/reference_phase184_guide_warning_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-warning_v1.png",
       "actual": "comic-guide-warning.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -193,15 +361,28 @@
     {
       "id": "feedback-water",
       "description": "User-approved Phase 184 RC59 watering feedback over the approved current plant detail; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_feedback_water_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-water_v1.png",
       "actual": "comic-feedback-water.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -211,15 +392,28 @@
     {
       "id": "feedback-growth",
       "description": "User-approved Phase 184 RC59 growth feedback over the approved current plant detail; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_feedback_growth_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-growth_v1.png",
       "actual": "comic-feedback-growth.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -229,11 +423,24 @@
     {
       "id": "feedback-coins",
       "description": "Approved Phase 7 shared coin reward feedback effect.",
-      "reference": "assets/ui/comic/reference_phase7_feedback_coins_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-coins_v1.png",
       "actual": "comic-feedback-coins.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -241,20 +448,49 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "feedback-unlock",
       "description": "Historical approved rack-slot unlock feedback over the Phase 151 painted rack. Preserved append-only and superseded by the Phase 163 runtime gate.",
       "reference": "assets/ui/comic/reference_phase151_feedback_unlock_v3.png",
       "actual": "comic-feedback-unlock.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.0, 0.80, 1.0, 0.10],
-        [0.0185, 0.1740, 0.2986, 0.0729],
-        [0.7106, 0.1740, 0.2708, 0.0729]
+        [
+          0.0,
+          0.8,
+          1.0,
+          0.1
+        ],
+        [
+          0.0185,
+          0.174,
+          0.2986,
+          0.0729
+        ],
+        [
+          0.7106,
+          0.174,
+          0.2708,
+          0.0729
+        ]
       ],
       "pixel_tolerance": 12,
       "gate": false,
@@ -269,13 +505,41 @@
       "description": "Historical approved directional cyan-gold mobile transition over the Phase 151 painted rack. Preserved append-only and superseded by the Phase 163 runtime gate.",
       "reference": "assets/ui/comic/reference_phase151_screen_transition_v3.png",
       "actual": "comic-screen-transition.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.0, 0.80, 1.0, 0.10],
-        [0.0185, 0.1740, 0.2986, 0.0729],
-        [0.7106, 0.1740, 0.2708, 0.0729]
+        [
+          0.0,
+          0.8,
+          1.0,
+          0.1
+        ],
+        [
+          0.0185,
+          0.174,
+          0.2986,
+          0.0729
+        ],
+        [
+          0.7106,
+          0.174,
+          0.2708,
+          0.0729
+        ]
       ],
       "pixel_tolerance": 12,
       "gate": false,
@@ -288,19 +552,47 @@
     {
       "id": "phase163-feedback-unlock-runtime-approved",
       "description": "User-approved Phase 184 RC59 rack-slot unlock feedback over the current rack and compact dock. The effect is unchanged; the historical Phase 163 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-feedback-unlock-runtime-approved_v1.png",
       "actual": "comic-feedback-unlock.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.0, 0.80, 1.0, 0.10],
-        [0.0185, 0.1740, 0.2986, 0.0729],
-        [0.7106, 0.1740, 0.2708, 0.0729]
+        [
+          0.0,
+          0.8,
+          1.0,
+          0.1
+        ],
+        [
+          0.0185,
+          0.174,
+          0.2986,
+          0.0729
+        ],
+        [
+          0.7106,
+          0.174,
+          0.2708,
+          0.0729
+        ]
       ],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -310,19 +602,47 @@
     {
       "id": "phase163-screen-transition-runtime-approved",
       "description": "User-approved Phase 184 RC59 cyan-gold screen transition over the current rack and compact dock. The effect is unchanged; the historical Phase 163 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-screen-transition-runtime-approved_v1.png",
       "actual": "comic-screen-transition.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [
-        [0.0, 0.80, 1.0, 0.10],
-        [0.0185, 0.1740, 0.2986, 0.0729],
-        [0.7106, 0.1740, 0.2708, 0.0729]
+        [
+          0.0,
+          0.8,
+          1.0,
+          0.1
+        ],
+        [
+          0.0185,
+          0.174,
+          0.2986,
+          0.0729
+        ],
+        [
+          0.7106,
+          0.174,
+          0.2708,
+          0.0729
+        ]
       ],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -332,11 +652,24 @@
     {
       "id": "phase149-player-room-exact-target",
       "description": "User-designated exact Phase 149 room composition, normalized to the content area between the global HUD and navigation.",
-      "reference": "docs/visual-proposals/phase147/player-room-painted-cartoon-production-target-v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase149-player-room-exact-target_v1.png",
       "actual": "comic-phase149-player-room-exact-target.png",
-      "size": [432, 780],
-      "reference_crop": [0.0, 0.0742950108, 1.0, 0.8394793926],
-      "actual_crop": [0.0, 0.0770833333, 1.0, 0.8125],
+      "size": [
+        432,
+        780
+      ],
+      "reference_crop": [
+        0.0,
+        0.0770833333,
+        1.0,
+        0.8125
+      ],
+      "actual_crop": [
+        0.0,
+        0.0770833333,
+        1.0,
+        0.8125
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": true,
@@ -344,16 +677,30 @@
         "max_mean_abs_error": 10.0,
         "max_rmse": 28.0,
         "max_changed_ratio": 0.35
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase150-greenhouse-approved-target",
       "description": "User-approved Phase 150 painted greenhouse composition, normalized from its 864x1544 content reference to the live content area. This intentionally remains report-only because the reference bakes one concrete crop state while the live view stays dynamic.",
       "reference": "docs/visual-proposals/phase150/greenhouse-exact-content-target-v1.png",
       "actual": "comic-phase150-greenhouse-approved-target.png",
-      "size": [432, 780],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0770833333, 1.0, 0.8125],
+      "size": [
+        432,
+        780
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0770833333,
+        1.0,
+        0.8125
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -363,9 +710,22 @@
       "description": "User-approved Phase 151 painted rack concept. It remains report-only because the concept bakes one level and plant state; the separately approved real runtime render is gated below.",
       "reference": "docs/visual-proposals/phase151/user-approved-painted-rack-screen-v1.png",
       "actual": "comic-rack-greenhouse-attention.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -375,9 +735,22 @@
       "description": "User-approved Phase 151 painted detail concept. It remains report-only while the separately approved real runtime render is gated below.",
       "reference": "docs/visual-proposals/phase151/user-approved-painted-detail-screen-v1.png",
       "actual": "comic-detail-idle.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -387,9 +760,22 @@
       "description": "User-approved Phase 152 painted storage concept. It remains report-only because its inventory values are baked; the separately approved real runtime render is gated below.",
       "reference": "docs/visual-proposals/phase152/user-approved-painted-storage-screen-v1.png",
       "actual": "comic-phase128-storage.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -399,9 +785,22 @@
       "description": "User-approved Phase 153 painted botanical shop composition. Report-only until the user reviews the real dynamic Godot render; prices, stock and category state remain dynamic.",
       "reference": "docs/visual-proposals/phase153/user-approved-painted-shop-screen-v1.png",
       "actual": "comic-phase153-shop.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -411,9 +810,22 @@
       "description": "User-approved Phase 154 painted botanical measurement composition. It remains report-only because the separately approved real runtime render is gated below; all ten sensor values, the 72-hour graph, guidance and scrolling remain dynamic.",
       "reference": "docs/visual-proposals/phase154/user-approved-painted-measurement-screen-v1.png",
       "actual": "comic-phase154-measurement.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -423,9 +835,22 @@
       "description": "User-approved Phase 155 painted herbarium composition. Report-only until the user reviews the actual dynamic Godot render; all eleven species, mastery progress, descriptions, rewards, handover replay and vertical scrolling remain live.",
       "reference": "docs/visual-proposals/phase155/user-approved-painted-herbarium-screen-v1.png",
       "actual": "comic-phase155-herbarium.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -435,9 +860,22 @@
       "description": "User-approved Phase 161 painted Daily Challenge composition. Report-only until the user reviews the actual layered Godot render; all fourteen challenge types, weather, target availability, status, rewards and pack count remain dynamic.",
       "reference": "docs/visual-proposals/phase161/user-approved-painted-daily-challenge-screen-v1.png",
       "actual": "comic-phase161-daily-challenge-active.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -447,9 +885,22 @@
       "description": "User-approved Phase 162 painted Cosmetic Showroom composition. Report-only until the user reviews the actual layered Godot render; all four themes, wallet values, purchase and selection states, research lock and scrolling remain live.",
       "reference": "docs/visual-proposals/phase162/user-approved-painted-cosmetic-showroom-v1.png",
       "actual": "comic-phase162-cosmetic-showroom-selected.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -459,9 +910,22 @@
       "description": "User-approved Phase 163 painted rack composition with one shared compact locked-planter master and one shared grow-light master. Report-only until the user reviews the actual dynamic Godot render; all ten slots, levels, plant states, care, lights and interactions remain live.",
       "reference": "docs/visual-proposals/phase163/user-approved-locked-planter-rack-screen-v1.png",
       "actual": "comic-rack-greenhouse-attention.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 18,
       "gate": false
@@ -471,9 +935,22 @@
       "description": "Historical exact dynamic Godot rack render approved after Phase 151. Preserved report-only after the user explicitly approved the superseding Phase 163 locked-planter and grow-light runtime.",
       "reference": "assets/ui/comic/reference_phase151_rack_runtime_v1.png",
       "actual": "comic-rack-greenhouse-attention.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -486,15 +963,28 @@
     {
       "id": "phase151-detail-runtime-approved",
       "description": "Exact Phase 184 RC59 dynamic Godot plant detail explicitly approved by the user with the current scale, saucer and sill grounding; the Phase 151 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_detail_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase151-detail-runtime-approved_v1.png",
       "actual": "comic-detail-idle.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -504,11 +994,24 @@
     {
       "id": "phase152-storage-runtime-approved",
       "description": "Exact dynamic Godot painted storage render explicitly approved by the user after Phase 152 implementation.",
-      "reference": "assets/ui/comic/reference_phase152_storage_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase152-storage-runtime-approved_v1.png",
       "actual": "comic-phase128-storage.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -516,16 +1019,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase153-shop-runtime-approved",
       "description": "Exact dynamic Godot painted shop render explicitly approved by the user after Phase 153 implementation.",
-      "reference": "assets/ui/comic/reference_phase153_shop_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase153-shop-runtime-approved_v1.png",
       "actual": "comic-phase153-shop.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -533,16 +1050,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase154-measurement-runtime-approved",
       "description": "Exact dynamic Godot painted Measurement render explicitly approved by the user after Phase 154 implementation.",
-      "reference": "assets/ui/comic/reference_phase154_measurement_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase154-measurement-runtime-approved_v1.png",
       "actual": "comic-phase154-measurement.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -550,16 +1081,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase155-herbarium-runtime-approved",
       "description": "Exact dynamic Godot painted Herbarium render explicitly approved by the user after Phase 155 implementation.",
       "reference": "assets/ui/comic/reference_phase155_herbarium_runtime_v1.png",
       "actual": "comic-phase155-herbarium.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -574,9 +1119,22 @@
       "description": "Historical Exact dynamic Godot painted Player Room clean-floor render explicitly approved by the user after Phase 160 implementation. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-clean-floor-runtime-approved.",
       "reference": "assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png",
       "actual": "comic-phase160-player-room-clean-floor.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -592,9 +1150,22 @@
       "description": "Exact dynamic Godot painted Cosmetic Showroom selected-state render explicitly approved by the user after Phase 162 implementation.",
       "reference": "assets/ui/comic/reference_phase162_cosmetic_showroom_runtime_v1.png",
       "actual": "comic-phase162-cosmetic-showroom-selected.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -607,11 +1178,24 @@
     {
       "id": "phase158-player-room-empty-runtime-approved",
       "description": "Exact empty 0/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair.",
-      "reference": "assets/ui/comic/reference_phase158_player_room_empty_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase158-player-room-empty-runtime-approved_v1.png",
       "actual": "comic-phase158-player-room-empty-0-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -619,16 +1203,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase158-player-room-sparse-runtime-approved",
       "description": "Historical Exact sparse 4/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-sparse-runtime-approved.",
       "reference": "assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png",
       "actual": "comic-phase158-player-room-sparse-4-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -644,9 +1242,22 @@
       "description": "Historical Exact sanitized phone-save 10/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-phone-save-runtime-approved.",
       "reference": "assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png",
       "actual": "comic-phase158-player-room-phone-save-10-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -662,9 +1273,22 @@
       "description": "Historical Exact full 20/20 Player Room Godot render with the enlarged Phase 159 cloche explicitly approved by the user. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-full-runtime-approved.",
       "reference": "assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png",
       "actual": "comic-phase158-player-room-full-20-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -678,11 +1302,24 @@
     {
       "id": "phase159-player-room-cloche-runtime-approved",
       "description": "Exact Player Room Godot render containing only the Phase 159 botanical cloche at the user-approved 115 percent scale.",
-      "reference": "assets/ui/comic/reference_phase159_player_room_cloche_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase159-player-room-cloche-runtime-approved_v1.png",
       "actual": "comic-phase159-player-room-botanical-cloche.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -690,16 +1327,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase159-player-room-full-cloche-runtime-approved",
       "description": "Historical Exact full Player Room Godot render with the Phase 159 botanical cloche at the user-approved 115 percent scale. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-full-cloche-runtime-approved.",
       "reference": "assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png",
       "actual": "comic-phase159-player-room-full-cloche.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": false,
@@ -713,11 +1364,24 @@
     {
       "id": "phase161-daily-challenge-active-runtime-approved",
       "description": "Exact active Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/reference_phase161_daily_challenge_active_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-active.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -725,16 +1389,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase161-daily-challenge-completed-runtime-approved",
       "description": "Exact completed Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/reference_phase161_daily_challenge_completed_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-completed.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -742,16 +1420,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase161-daily-challenge-ready-queue-full-runtime-approved",
       "description": "Exact ready Daily Challenge with a full botanical-pack queue explicitly approved by the user.",
-      "reference": "assets/ui/comic/reference_phase161_daily_challenge_ready_queue_full_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-ready-queue-full.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -759,16 +1451,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase161-daily-challenge-claimed-runtime-approved",
       "description": "Exact claimed Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/reference_phase161_daily_challenge_claimed_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-claimed.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -776,16 +1482,30 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase161-daily-challenge-unavailable-runtime-approved",
       "description": "Exact unavailable-target Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/reference_phase161_daily_challenge_unavailable_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-unavailable.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
@@ -793,20 +1513,34 @@
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
         "max_changed_ratio": 0.06
-      }
+      },
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json"
     },
     {
       "id": "phase163-rack-runtime-approved",
       "description": "Exact Phase 184 RC59 dynamic Godot rack explicitly approved by the user with the later Phase 171 grounding and Phase 183 compact dock; the Phase 163 reference remains preserved.",
-      "reference": "assets/ui/comic/reference_phase184_rack_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-rack-runtime-approved_v1.png",
       "actual": "comic-rack-greenhouse-attention.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase184/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -816,15 +1550,28 @@
     {
       "id": "phase167-player-room-clean-floor-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited clean-floor fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "assets/ui/comic/reference_phase167_player_room_clean_floor_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-clean-floor-runtime-approved_v1.png",
       "actual": "comic-phase160-player-room-clean-floor.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase167/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -834,15 +1581,28 @@
     {
       "id": "phase167-player-room-sparse-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited sparse fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "assets/ui/comic/reference_phase167_player_room_sparse_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-sparse-runtime-approved_v1.png",
       "actual": "comic-phase158-player-room-sparse-4-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase167/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -852,15 +1612,28 @@
     {
       "id": "phase167-player-room-phone-save-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited phone-save fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "assets/ui/comic/reference_phase167_player_room_phone_save_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-phone-save-runtime-approved_v1.png",
       "actual": "comic-phase158-player-room-phone-save-10-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase167/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -870,15 +1643,28 @@
     {
       "id": "phase167-player-room-full-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited full fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "assets/ui/comic/reference_phase167_player_room_full_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-full-runtime-approved_v1.png",
       "actual": "comic-phase158-player-room-full-20-of-20.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase167/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -888,15 +1674,28 @@
     {
       "id": "phase167-player-room-full-cloche-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited full-cloche fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "assets/ui/comic/reference_phase167_player_room_full_cloche_runtime_v1.png",
+      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-full-cloche-runtime-approved_v1.png",
       "actual": "comic-phase159-player-room-full-cloche.png",
-      "size": [432, 960],
-      "reference_crop": [0.0, 0.0, 1.0, 1.0],
-      "actual_crop": [0.0, 0.0, 1.0, 1.0],
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/phase167/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,

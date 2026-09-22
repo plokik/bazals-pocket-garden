@@ -168,7 +168,7 @@ static func _test_asset(suite: SceneTree, asset: Array, record: Dictionary, sour
 		and manifest_size.size() == 2 and Vector2(float(manifest_size[0]), float(manifest_size[1])) == expected_size
 		and record.has("hole_regions") and _regions_equal(record.get("hole_regions", []), EXPECTED_HOLES.get(source_id, []))
 		and bool(record.get("rgb_byte_exact_to_phase167", false)) and bool(record.get("canvas_unchanged", false)),
-		"Fáze 169 %s má ověřený původ, výstupní SHA a přesnou velikost bez přepsání Phase167" % asset_id
+		"Fáze 169%s má ověřený původ, výstupní SHA a přesnou velikost bez přepsání Phase167" % asset_id
 	)
 	_test_profile_and_import(suite, asset, output_path)
 	if not source_exists or not output_exists:
@@ -181,16 +181,16 @@ static func _test_asset(suite: SceneTree, asset: Array, record: Dictionary, sour
 	var canvases_exact := Vector2(source.get_size()) == expected_size and source.get_size() == output.get_size()
 	suite._check(
 		canvases_exact and source.get_format() == Image.FORMAT_RGBA8 and output.get_format() == Image.FORMAT_RGBA8,
-		"Fáze 169 %s zachová celý původní RGBA8 canvas, padding a souřadnice" % asset_id
+		"Fáze 169%s zachová celý původní RGBA8 canvas, padding a souřadnice" % asset_id
 	)
 	if not canvases_exact:
 		return
 	var audit := _audit_pixels(source, output, asset)
-	suite._check(bool(audit.get("rgb_exact", false)), "Fáze 169 %s má bajtově stejné RGB všech pixelů včetně zcela průhledných" % asset_id)
+	suite._check(bool(audit.get("rgb_exact", false)), "Fáze 169%s má bajtově stejné RGB všech pixelů včetně zcela průhledných" % asset_id)
 	suite._check(
 		bool(audit.get("alpha_only_decreases", false)) and int(audit.get("new_opaque_pixels", -1)) == 0
 		and bool(audit.get("removed_to_zero", false)) and bool(audit.get("clear_border", false)),
-		"Fáze 169 %s pouze odstraňuje alfa do nuly, nevytváří nové krycí pixely ani hranu plátna" % asset_id
+		"Fáze 169%s pouze odstraňuje alfa do nuly, nevytváří nové krycí pixely ani hranu plátna" % asset_id
 	)
 	suite._check(
 		int(audit.get("changed_pixels", -1)) > 0
@@ -200,16 +200,16 @@ static func _test_asset(suite: SceneTree, asset: Array, record: Dictionary, sour
 		and int(audit.get("matte_removed_pixels", -1)) == int(reviewed[1])
 		and int(audit.get("hole_removed_pixels", -1)) == int(reviewed[2])
 		and int(record.get("matte_removed_pixels", -1)) + int(record.get("hole_removed_pixels", -1)) == int(audit.get("changed_pixels", -2)),
-		"Fáze 169 %s měří skutečné změněné pixely a úplný součet disjunktního matte a hole odstranění" % asset_id
+		"Fáze 169%s měří skutečné změněné pixely a úplný součet disjunktního matte a hole odstranění" % asset_id
 	)
 	suite._check(
 		bool(audit.get("only_allowed_changes", false)) and bool(audit.get("pot_interior_preserved", false))
 		and int(audit.get("protected_pot_pixels", 0)) > 1000,
-		"Fáze 169 %s mění pouze vnější souvislé matte a drobné neutrální otvory; ostatní malbu i vnitřek keramiky zachová" % asset_id
+		"Fáze 169%s mění pouze vnější souvislé matte a drobné neutrální otvory; ostatní malbu i vnitřek keramiky zachová" % asset_id
 	)
 	suite._check(
 		bool(audit.get("pink_preserved", false)),
-		"Fáze 169 %s zachová původní alfa každého horního růžového okvětního pixelu" % asset_id
+		"Fáze 169%s zachová původní alfa každého horního růžového okvětního pixelu" % asset_id
 	)
 	if source_id == "orchid":
 		suite._check(int(audit.get("pink_pixels", 0)) >= 811, "Fáze 169 ochrana orchideje skutečně pokrývá růžové pixely, včetně obnovených Phase167")
@@ -259,7 +259,7 @@ static func _test_profile_and_import(suite: SceneTree, asset: Array, output_path
 		and int(config.get_value("params", "process/size_limit", -1)) == 0
 		and texture != null and texture.resource_path == output_path and texture.get_size() == canvas
 		and imported != null and imported.has_mipmaps() and Vector2(imported.get_size()) == canvas,
-		"Fáze 169 %s používá skutečnou lossless texturu s mipmapami, alpha-border fixem a straight alpha bez zmenšení" % asset_id
+		"Fáze 169%s používá skutečnou lossless texturu s mipmapami, alpha-border fixem a straight alpha bez zmenšení" % asset_id
 	)
 
 

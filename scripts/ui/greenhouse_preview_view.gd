@@ -9,6 +9,7 @@ const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const GardenSceneFraming := preload("res://scripts/ui/garden_scene_framing.gd")
 const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const GreenhouseInterior := preload("res://assets/ui/greenhouse/greenhouse_interior_phase130_two_boxes_v1.png")
@@ -18,6 +19,14 @@ const VISUAL_BOX_COUNT := 2
 const BAYS_PER_BOX := 2
 const CROP_IDS: Array[String] = ["cherry_tomato", "sweet_pepper", "garden_radish", "salad_cucumber", "garden_eggplant"]
 const TOUCH_TARGET_MIN := 64.0
+const TITLE_TEXT_HORIZONTAL_INSET := 16.0
+const TITLE_TEXT_LINE_TOP := 15.0
+const TITLE_TEXT_LINE_HEIGHT := 20.0
+const TITLE_TEXT_FONT_SIZE := 17
+const TITLE_SUBTITLE_LINE_TOP := 33.0
+const TITLE_SUBTITLE_LINE_HEIGHT := 10.0
+const TITLE_SUBTITLE_FONT_SIZE := 8
+const REPUTATION_CARD_SIZE := Vector2(124.0, 56.0)
 const GREENHOUSE_SOURCE_SIZE := Vector2(887.0, 1774.0)
 const GROWING_BOX_SOURCE_RECTS := [
 	Rect2(126.0, 698.0, 635.0, 190.0),
@@ -132,7 +141,12 @@ func _ready() -> void:
 	set_meta("primary_height_occupancy_target", GardenSceneFraming.PRIMARY_HEIGHT_OCCUPANCY_TARGET)
 	set_meta("attention_component", "phase109_greenhouse_attention_v1")
 	set_meta("responsive_layout_component", "phase109_greenhouse_compact_layout_v1")
-	set_meta("compact_content_size", Vector2i(360, 620))
+	set_meta("painted_bar_system", "greenhouse_painted_wood_cream_sage_v1")
+	set_meta("painted_bar_scope", "title_return_reputation_status_actions_v1")
+	set_meta("painted_progress_style", "cream_track_green_fill_v1")
+	set_meta("painted_title_text_layout", "font_metric_title_safe_area_v3")
+	set_meta("painted_reputation_card", "single_wood_cream_leaf_v4")
+	set_meta("compact_content_size", Vector2i(360, 625))
 	set_meta("responsive_test_viewports", [Vector2i(432, 960), Vector2i(360, 800)])
 	resized.connect(_layout_controls)
 	_build_controls()
@@ -200,8 +214,9 @@ func _build_controls() -> void:
 	back_button.custom_minimum_size = Vector2(124.0, TOUCH_TARGET_MIN)
 	back_button.add_theme_font_override("font", FontExtraBold)
 	back_button.add_theme_font_size_override("font_size", 13)
-	ComicUITheme.apply_button(back_button, ComicUITheme.BLUE, Color.WHITE, 16)
+	_apply_painted_button_style(back_button, "cream")
 	back_button.set_meta("component", "phase105_greenhouse_rack_return_v1")
+	back_button.set_meta("painted_style", "cream_wood_return_v1")
 	back_button.set_meta("touch_target_min", Vector2(124, TOUCH_TARGET_MIN))
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
@@ -210,10 +225,11 @@ func _build_controls() -> void:
 	wallet_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	wallet_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	wallet_label.add_theme_font_override("font", FontExtraBold)
-	wallet_label.add_theme_font_size_override("font_size", 11)
-	wallet_label.add_theme_color_override("font_color", ComicUITheme.CREAM)
+	wallet_label.add_theme_font_size_override("font_size", 10)
+	wallet_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	wallet_label.text = "%d MINCÍ\nÚR. %d" % [wallet_coins, player_level]
 	wallet_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	wallet_label.set_meta("painted_style", "single_wood_cream_leaf_reputation_card_v4")
 	add_child(wallet_label)
 
 	for bed_index in range(BED_COUNT):
@@ -265,6 +281,7 @@ func _build_controls() -> void:
 		crop_button.add_theme_font_override("font", FontExtraBold)
 		crop_button.add_theme_font_size_override("font_size", 10)
 		crop_button.set_meta("component", "phase107_greenhouse_crop_choice_v1")
+		crop_button.set_meta("painted_style", "shared_sage_crop_choice_v1")
 		crop_button.set_meta("crop_id", crop_id)
 		crop_button.set_meta("touch_target_min", Vector2(64, TOUCH_TARGET_MIN))
 		crop_button.pressed.connect(_on_crop_pressed.bind(crop_id))
@@ -273,23 +290,42 @@ func _build_controls() -> void:
 		crop_buttons.append(crop_button)
 
 
+func _apply_painted_button_style(button: Button, kind: String) -> void:
+	var hover_tint := Color(1.04, 1.04, 1.0)
+	button.add_theme_stylebox_override("normal", PaintedDetailArt.box(kind, 6.0))
+	button.add_theme_stylebox_override("hover", PaintedDetailArt.box(kind, 6.0, hover_tint))
+	button.add_theme_stylebox_override("pressed", PaintedDetailArt.box("sage", 6.0, Color(0.92, 0.97, 0.88)))
+	button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 6.0, Color(0.78, 0.78, 0.73)))
+	for state in ["font_color", "font_hover_color", "font_pressed_color"]:
+		button.add_theme_color_override(state, ComicUITheme.INK)
+	button.add_theme_color_override("font_disabled_color", Color(ComicUITheme.INK, 0.55))
+
+
+func _painted_compact_box(kind: String, padding: float, edge: float) -> StyleBoxTexture:
+	var style := PaintedDetailArt.box(kind, padding)
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		style.set_texture_margin(side, edge)
+	return style
+
+
 func _layout_controls() -> void:
 	if size.x <= 0.0 or size.y <= 0.0:
 		return
 	var action_row_y := GardenSceneFraming.location_action_row_y()
 	back_button.position = Vector2(10.0, action_row_y)
 	back_button.size = Vector2(124.0, TOUCH_TARGET_MIN)
-	wallet_label.position = Vector2(size.x - 122.0, action_row_y + 4.0)
-	wallet_label.size = Vector2(112.0, 48.0)
+	var reputation_rect := _reputation_panel_rect()
+	wallet_label.position = reputation_rect.position + Vector2(39.0, 5.0)
+	wallet_label.size = reputation_rect.size - Vector2(45.0, 10.0)
 	for bed_index in range(bed_buttons.size()):
 		var bed_rect := _bed_rect(bed_index)
 		bed_buttons[bed_index].position = bed_rect.position
 		bed_buttons[bed_index].size = bed_rect.size
 	var status_rect := _status_rect()
-	selected_title_label.position = status_rect.position + Vector2(10.0, 6.0)
-	selected_title_label.size = Vector2(status_rect.size.x - 20.0, 28.0)
-	selected_detail_label.position = status_rect.position + Vector2(14.0, 34.0)
-	selected_detail_label.size = Vector2(status_rect.size.x - 28.0, 36.0)
+	selected_title_label.position = status_rect.position + Vector2(10.0, 11.0)
+	selected_title_label.size = Vector2(status_rect.size.x - 20.0, 24.0)
+	selected_detail_label.position = status_rect.position + Vector2(14.0, 36.0)
+	selected_detail_label.size = Vector2(status_rect.size.x - 28.0, 34.0)
 	action_button.position = Vector2(16.0, size.y - 78.0)
 	action_button.size = Vector2(size.x - 32.0, TOUCH_TARGET_MIN)
 	var crop_gap := 8.0
@@ -320,7 +356,7 @@ func _refresh_controls() -> void:
 		"needs_water":
 			state_line = "Zalij záhon · růst potom potrvá %s." % _format_duration(float(crop.get("growth_seconds", 0.0)))
 		"growing":
-			state_line = "Roste · %d %% · zbývá %s" % [roundi(float(state.get("progress", 0.0)) * 100.0), _format_duration(float(state.get("remaining_seconds", 0.0)))]
+			state_line = "Roste · %d%% · zbývá %s" % [roundi(float(state.get("progress", 0.0)) * 100.0), _format_duration(float(state.get("remaining_seconds", 0.0)))]
 		"ready":
 			state_line = "Sklizeň: %d mincí + %d XP." % [int(crop.get("reward_coins", 0)), int(crop.get("reward_xp", 0))]
 	selected_detail_label.text = "%s\n%s" % [state_line, _greenhouse_order_line()]
@@ -338,13 +374,9 @@ func _refresh_controls() -> void:
 				mini(int(greenhouse_order_state.get("target_harvests", 1)), int(greenhouse_order_state.get("progress", 0)) + 1),
 				int(greenhouse_order_state.get("target_harvests", 1)),
 			]
-	var fill := Color("#cbd3d7")
-	if not action_button.disabled:
-		match action:
-			"plant": fill = ComicUITheme.GREEN
-			"water": fill = ComicUITheme.BLUE
-			"harvest": fill = ComicUITheme.ORANGE
-	ComicUITheme.apply_button(action_button, fill, ComicUITheme.CREAM if not action_button.disabled else ComicUITheme.NAVY, 14)
+	var action_style := "cream" if action_button.disabled else ("teal" if action == "water" else "sage")
+	_apply_painted_button_style(action_button, action_style)
+	action_button.set_meta("painted_style", "%s_primary_action_v1" % action_style)
 	for crop_index in range(crop_buttons.size()):
 		var crop_id := CROP_IDS[crop_index]
 		var option := crop_catalog.get(crop_id, {}) as Dictionary
@@ -362,7 +394,7 @@ func _refresh_controls() -> void:
 			crop_button.text = "%s\n%d MINCÍ" % [str(option.get("short_name", crop_id)).to_upper(), price]
 			TooltipPolicy.apply(crop_button, "%s · růst %s · sklizeň %d mincí + %d XP" % [str(option.get("name", crop_id)), _format_duration(float(option.get("growth_seconds", 0.0))), int(option.get("reward_coins", 0)), int(option.get("reward_xp", 0))])
 		var usable := unlocked and affordable
-		ComicUITheme.apply_button(crop_button, _crop_button_fill(crop_id) if usable else Color("#cbd3d7"), ComicUITheme.CREAM if usable else ComicUITheme.NAVY, 14)
+		_apply_painted_button_style(crop_button, "sage" if usable else "cream")
 	for bed_index in range(bed_buttons.size()):
 		var bed_state := bed_states[bed_index]
 		TooltipPolicy.apply(bed_buttons[bed_index], "Záhon %d · %s" % [bed_index + 1, str(bed_state.get("stage_name", "stav nedostupný"))])
@@ -411,16 +443,6 @@ func _greenhouse_reputation_tooltip() -> String:
 		str(state.get("next_title", "")),
 		int(state.get("next_target", 3)),
 	]
-
-
-func _crop_button_fill(crop_id: String) -> Color:
-	match crop_id:
-		"cherry_tomato": return ComicUITheme.GREEN
-		"sweet_pepper": return ComicUITheme.ORANGE
-		"garden_radish": return Color("#e74962")
-		"salad_cucumber": return Color("#35b874")
-		"garden_eggplant": return Color("#7b4ab2")
-		_: return ComicUITheme.BLUE
 
 
 func _ensure_placeholder_states() -> void:
@@ -481,17 +503,25 @@ func _draw_ambient_light() -> void:
 
 func _draw_title() -> void:
 	var panel_rect := GardenSceneFraming.location_title_panel(size)
-	draw_style_box(
-		ComicUITheme.style_box(Color("#fff7da", 0.97), ComicUITheme.CYAN, 3, 14, Color("#07131c", 0.36), 4, 5.0),
-		panel_rect
-	)
-	draw_line(panel_rect.position + Vector2(16.0, 7.0), Vector2(panel_rect.end.x - 16.0, panel_rect.position.y + 7.0), Color.WHITE, 2.0, true)
-	draw_string(FontExtraBold, panel_rect.position + Vector2(10.0, 27.0), "SKLENÍK", HORIZONTAL_ALIGNMENT_CENTER, panel_rect.size.x - 20.0, 19, ComicUITheme.INK)
-	draw_string(FontSemiBold, panel_rect.position + Vector2(10.0, 46.0), "4 ZÁHONY · 5 PLODIN", HORIZONTAL_ALIGNMENT_CENTER, panel_rect.size.x - 20.0, 8, ComicUITheme.NAVY)
+	draw_style_box(_painted_compact_box("wood", 0.0, 12.0), panel_rect)
+	var text_width := panel_rect.size.x - TITLE_TEXT_HORIZONTAL_INSET * 2.0
+	var title_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, TITLE_TEXT_LINE_TOP), Vector2(text_width, TITLE_TEXT_LINE_HEIGHT))
+	var subtitle_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, TITLE_SUBTITLE_LINE_TOP), Vector2(text_width, TITLE_SUBTITLE_LINE_HEIGHT))
+	draw_string(FontExtraBold, PaintedDetailArt.centered_text_baseline(FontExtraBold, TITLE_TEXT_FONT_SIZE, title_line), "SKLENÍK", HORIZONTAL_ALIGNMENT_CENTER, text_width, TITLE_TEXT_FONT_SIZE, ComicUITheme.INK)
+	draw_string(FontSemiBold, PaintedDetailArt.centered_text_baseline(FontSemiBold, TITLE_SUBTITLE_FONT_SIZE, subtitle_line), "4 ZÁHONY · 5 PLODIN", HORIZONTAL_ALIGNMENT_CENTER, text_width, TITLE_SUBTITLE_FONT_SIZE, ComicUITheme.NAVY)
 
 
 func _draw_wallet_panel() -> void:
-	_draw_panel(Rect2(size.x - 122.0, GardenSceneFraming.location_action_row_y() + 4.0, 112.0, 48.0), ComicUITheme.PURPLE, ComicUITheme.GOLD, 13)
+	var rect := _reputation_panel_rect()
+	draw_style_box(_painted_compact_box("wood", 0.0, 9.0), rect)
+	var leaf_texture := PaintedDetailArt.texture("leaf")
+	if leaf_texture != null:
+		var leaf_center := rect.position + Vector2(24.0, rect.size.y * 0.5)
+		draw_texture_rect(leaf_texture, Rect2(leaf_center - Vector2(11.0, 11.0), Vector2(22.0, 22.0)), false)
+
+
+func _reputation_panel_rect() -> Rect2:
+	return Rect2(Vector2(size.x - REPUTATION_CARD_SIZE.x - 10.0, GardenSceneFraming.location_action_row_y() + 4.0), REPUTATION_CARD_SIZE)
 
 
 func _house_rect() -> Rect2:
@@ -669,9 +699,7 @@ func _draw_bed(index: int, rect: Rect2, state: Dictionary) -> void:
 			draw_texture_rect(water_texture, VisualDesignSystem.asset_rect(water_id, state_marker_anchor, size, 0.82), false)
 	elif stage == "growing":
 		var bed_progress_rect := Rect2(rect.position.x + 16.0, minf(rect.end.y - 15.0, _status_rect().position.y - 25.0), rect.size.x - 32.0, 7.0)
-		draw_style_box(ComicUITheme.style_box(Color("#172126"), Color("#0c1316"), 1, 3), bed_progress_rect)
-		if progress > 0.0:
-			draw_rect(Rect2(bed_progress_rect.position + Vector2.ONE, Vector2((bed_progress_rect.size.x - 2.0) * progress, bed_progress_rect.size.y - 2.0)), ComicUITheme.GREEN)
+		_draw_painted_progress_bar(bed_progress_rect, progress)
 	elif stage == "ready":
 		var ready_id := "greenhouse_status_ready"
 		var ready_texture := VisualDesignSystem.texture_for(ready_id)
@@ -858,19 +886,30 @@ func _draw_eggplant_crop(soil_rect: Rect2, stage: String, progress: float) -> vo
 
 func _draw_status_panel() -> void:
 	var rect := _status_rect()
-	_draw_panel(rect, Color("#fff6d7"), ComicUITheme.PURPLE, 16)
+	draw_style_box(_painted_compact_box("wood", 0.0, 14.0), rect)
 	var state := bed_states[selected_bed_index]
 	var progress := clampf(float(state.get("progress", 0.0)), 0.0, 1.0)
 	var progress_rect := Rect2(rect.position + Vector2(18.0, 76.0), Vector2(rect.size.x - 36.0, 10.0))
-	draw_style_box(ComicUITheme.style_box(Color("#d9e3e6"), ComicUITheme.INK, 2, 5), progress_rect)
-	if progress > 0.0:
-		var fill_rect := Rect2(progress_rect.position + Vector2(2.0, 2.0), Vector2((progress_rect.size.x - 4.0) * progress, progress_rect.size.y - 4.0))
-		draw_rect(fill_rect, ComicUITheme.GREEN)
+	_draw_painted_progress_bar(progress_rect, progress)
 
 
-func _draw_panel(rect: Rect2, fill: Color, border: Color, radius: int) -> void:
-	draw_style_box(ComicUITheme.style_box(fill, border, 3, radius, Color("#0c1720", 0.24), 3, 0.0), rect)
-
+func _draw_painted_progress_bar(rect: Rect2, progress: float) -> void:
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color("#e6edc9")
+	track.border_color = Color("#263d1b")
+	track.set_border_width_all(1)
+	track.set_corner_radius_all(roundi(rect.size.y * 0.5))
+	draw_style_box(track, rect)
+	var safe_progress := clampf(progress, 0.0, 1.0)
+	if safe_progress <= 0.0:
+		return
+	var fill_rect := Rect2(rect.position + Vector2(1.5, 1.5), Vector2((rect.size.x - 3.0) * safe_progress, maxf(1.0, rect.size.y - 3.0)))
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color("#67d91b")
+	fill.border_color = Color("#2d8f30")
+	fill.set_border_width_all(1)
+	fill.set_corner_radius_all(roundi(fill_rect.size.y * 0.5))
+	draw_style_box(fill, fill_rect)
 
 func _format_duration(seconds: float) -> String:
 	var minutes := maxi(1, ceili(maxf(0.0, seconds) / 60.0))

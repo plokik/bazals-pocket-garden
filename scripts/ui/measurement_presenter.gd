@@ -22,12 +22,12 @@ func refresh(plant: PlantSimulation, chart_samples: Array[Dictionary]) -> void:
 	if not is_bound() or plant == null:
 		return
 	(metric_labels.temperature as Label).text = "%.1f °C" % plant.temperature_c
-	(metric_labels.humidity as Label).text = "%.0f %%" % plant.humidity_percent
+	(metric_labels.humidity as Label).text = "%.0f%%" % plant.humidity_percent
 	(metric_labels.ph as Label).text = "%.2f" % plant.ph
 	(metric_labels.ec as Label).text = "%.2f mS/cm" % plant.ec_ms_cm
 	(metric_labels.light as Label).text = "%d lux" % roundi(plant.light_lux)
 	(metric_labels.co2 as Label).text = "%d ppm" % roundi(plant.co2_ppm)
-	(metric_labels.oxygen as Label).text = "%.3f %%" % plant.oxygen_percent
+	(metric_labels.oxygen as Label).text = "%.3f%%" % plant.oxygen_percent
 	(metric_labels.oxygen_balance as Label).text = "%+.2f mg/h" % plant.oxygen_balance_mg_h
 	(metric_labels.biomass as Label).text = "%.1f g" % plant.get_biomass_g()
 	(metric_labels.weather as Label).text = plant.weather_name

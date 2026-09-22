@@ -43,8 +43,14 @@ const GardenHandoverPresenterScene := preload("res://scripts/ui/garden_handover_
 const ProfessorStoryPresenterScene := preload("res://scripts/ui/professor_story_presenter.gd")
 const GuideDialogPresenterScene := preload("res://scripts/ui/guide_dialog_presenter.gd")
 const LevelProgressionPresenterScene := preload("res://scripts/ui/level_progression_presenter.gd")
+const GrowerProgressTreeScene := preload("res://scripts/ui/grower_progress_tree_view.gd")
 const GrowerJournalPresenterScene := preload("res://scripts/ui/grower_journal_presenter.gd")
+const GrowerJournalDashboardScene := preload("res://scripts/ui/grower_journal_dashboard.gd")
+const GrowerJournalSkillTreeScene := preload("res://scripts/ui/grower_journal_skill_tree_view.gd")
+const GrowerJournalSkillNodeScene := preload("res://scripts/ui/grower_journal_skill_node.gd")
 const CareCenterPresenterScene := preload("res://scripts/ui/care_center_presenter.gd")
+const CareCenterPaintedArt := preload("res://scripts/ui/care_center_painted_assets.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const CareNotificationServiceScene := preload("res://scripts/services/care_notification_service.gd")
 const PlantDiagnosisServiceScene := preload("res://scripts/services/plant_diagnosis_service.gd")
 const PlantDiagnosisPresenterScene := preload("res://scripts/ui/plant_diagnosis_presenter.gd")
@@ -55,11 +61,17 @@ const Phase128StorageBackdrop := preload("res://assets/ui/visual/phase128/storag
 const Phase128MeasurementBackdrop := preload("res://assets/ui/visual/phase128/measurement_corner_backdrop_v1.png")
 const MeasurementMetricIconScene := preload("res://scripts/ui/measurement_metric_icon.gd")
 const NavTouchShineShader := preload("res://assets/shaders/nav_touch_shine.gdshader")
+const NavCornerLeafScene := preload("res://scripts/ui/nav_corner_leaf.gd")
 const InfoQuestionTexture := preload("res://assets/ui/rack/rack_help_badge_v1.png")
 const SettingsGearTexture := preload("res://assets/ui/icons/settings_gear_phase125.png")
+const LevelRewardPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
 const RackDockPetTexture := preload("res://assets/ui/visual/phase183/rack_dock/pet_paw_phase183_v1.png")
 const RackDockProfessorTexture := preload("res://assets/ui/visual/phase183/rack_dock/professor_bazal_phase183_v1.png")
 const RackDockCareTexture := preload("res://assets/ui/visual/phase183/rack_dock/care_leaf_phase183_v1.png")
+const GrowerJournalSeedTexture := preload("res://assets/ui/grower_progress_tree_v1/sprouting_seed_v1.png")
+const GrowerJournalHarvestTexture := preload("res://assets/plants/comic/basil_harvest_ready_v1.png")
+const GrowerJournalRoomTexture := preload("res://assets/ui/visual/phase149/player_room/plants/room_plant_orchid_phase149.png")
+const GrowerJournalHerbariumTexture := preload("res://assets/ui/visual/phase149/player_room/decor/room_decor_botanical_print_phase149.png")
 const Phase161DailyChallengeBackdrop := preload("res://assets/ui/visual/phase161/daily_challenge/daily_challenge_clean_backdrop_v3.png")
 const Phase162CosmeticShowroomBackdrop := preload("res://assets/ui/visual/phase162/cosmetic_showroom/cosmetic_showroom_clean_backdrop_v1.png")
 const GUIDE_MODAL_DURATION := 0.34
@@ -81,6 +93,7 @@ const GUIDE_APPROVAL_CAPTURE_CHARACTER_OFFSET := Vector2(-7.2, 12.0)
 const GUIDE_APPROVAL_CAPTURE_CARD_OFFSET := Vector2(36.0, 0.0)
 const SIMULATION_TICK_SECONDS := 0.1
 const HUD_HEIGHT := 74.0
+const HUD_EDGE_JOIN_DEPTH := 8.0
 const GARDEN_LOCATION_RACK := "rack"
 const GARDEN_LOCATION_PLAYER_ROOM := "player_room"
 const GARDEN_LOCATION_GREENHOUSE := "greenhouse"
@@ -169,8 +182,13 @@ var screens: Array[Control] = []
 var nav_buttons: Array[Button] = []
 var nav_shine_overlays: Array[ColorRect] = []
 var nav_icon_nodes: Array[TextureRect] = []
+var nav_corner_leaves: Array = []
+var navigation_background: PanelContainer
+var navigation_decorated_background_style: StyleBoxTexture
+var navigation_rack_background_style: StyleBoxFlat
 var navigation_separator: Control
 var edge_background: ColorRect
+var hud_edge_underlay: PanelContainer
 var safe_area_container: MarginContainer
 var safe_area_surface: ColorRect
 var safe_area_insets := Vector4.ZERO
@@ -243,9 +261,12 @@ var level_progression_launcher: Button
 var level_progression_modal: Control
 var level_progression_open := false
 var level_progression_summary_label: Label
+var level_progression_xp_progress: ProgressBar
 var level_progression_status_label: Label
 var level_progression_cards: Dictionary = {}
-var level_progression_scroll: ScrollContainer
+var level_progression_tree_view: GrowerProgressTreeView
+var level_progression_detail_stack: Control
+var level_progression_selected_level := 1
 var herbarium_scroll: ScrollContainer
 var herbarium_backdrop: TextureRect
 var herbarium_collection_summary_label: Label
@@ -256,8 +277,12 @@ var grower_journal_open := false
 var grower_journal_summary_label: Label
 var grower_journal_next_goal_label: Label
 var grower_journal_badge_count_label: Label
+var grower_journal_badge_count_badge: Control
+var grower_journal_badge_count_icon: TextureRect
 var grower_journal_cards: Dictionary = {}
 var grower_journal_scroll: ScrollContainer
+var grower_journal_dashboard: Control
+var grower_journal_skill_tree: GrowerJournalSkillTreeView
 var care_center_modal: Control
 var care_center_open := false
 var care_center_summary_label: Label
@@ -490,6 +515,7 @@ var shop_mode_tabs: Control
 var shop_buy_tab_button: Button
 var shop_sell_tab_button: Button
 var shop_category_buttons: Dictionary = {}
+var shop_normalized_icon_textures: Dictionary = {}
 var shop_buy_cards: Array[Control] = []
 var shop_sell_panel: PanelContainer
 var shop_sell_icon: TextureRect
@@ -877,12 +903,30 @@ func _apply_comic_button_style(button: Button, fill: Color, font_color := Color.
 
 func _build_ui() -> void:
 	edge_background = ColorRect.new()
-	edge_background.color = ComicUITheme.NAVY
+	edge_background.color = Color("#4b2109")
 	edge_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	edge_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	edge_background.set_meta("component", "mobile_edge_to_edge_chrome_v1")
 	edge_background.set_meta("covers_full_viewport", true)
+	edge_background.set_meta("color_family", "painted_wood_game_frame_v2")
 	add_child(edge_background)
+	hud_edge_underlay = PanelContainer.new()
+	hud_edge_underlay.set_anchor(SIDE_LEFT, 0.0)
+	hud_edge_underlay.set_anchor(SIDE_TOP, 0.0)
+	hud_edge_underlay.set_anchor(SIDE_RIGHT, 1.0)
+	hud_edge_underlay.set_anchor(SIDE_BOTTOM, 0.0)
+	hud_edge_underlay.offset_bottom = HUD_HEIGHT + HUD_EDGE_JOIN_DEPTH
+	hud_edge_underlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var hud_underlay_style := StyleBoxFlat.new()
+	hud_underlay_style.bg_color = Color("#93420f")
+	hud_underlay_style.border_color = Color("#4b2109")
+	hud_underlay_style.set_border_width_all(2)
+	hud_edge_underlay.add_theme_stylebox_override("panel", hud_underlay_style)
+	hud_edge_underlay.set_meta("component", "full_bleed_painted_hud_underlay_v1")
+	hud_edge_underlay.set_meta("safe_area_policy", "top_and_side_insets_filled_with_painted_wood_v1")
+	hud_edge_underlay.set_meta("content_layer", "behind_safe_hud_cards_v1")
+	hud_edge_underlay.set_meta("painted_fill", "opaque_warm_wood_without_empty_cream_center_v2")
+	add_child(hud_edge_underlay)
 
 	safe_area_container = MarginContainer.new()
 	safe_area_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -917,21 +961,34 @@ func _build_ui() -> void:
 		screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	navigation_separator = PanelContainer.new()
-	navigation_separator.custom_minimum_size.y = 9
+	navigation_separator.custom_minimum_size.y = 0
 	navigation_separator.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	navigation_separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	navigation_separator.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.GOLD, ComicUITheme.INK, 2, 0, Color("#0c1720", 0.26), 2, 0.0))
-	navigation_separator.set_meta("presentation", "comic_gold_transition")
-	navigation_separator.set_meta("ui_kit", "comic_ui_v1")
+	navigation_separator.visible = false
+	navigation_separator.set_meta("presentation", "painted_direct_join_no_intermediate_layer_v2")
+	navigation_separator.set_meta("ui_kit", "painted_detail_ui_v2")
 	root_layout.add_child(navigation_separator)
 
 	var navigation_dock := PanelContainer.new()
 	navigation_dock.custom_minimum_size.y = 97
 	navigation_dock.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	navigation_dock.set_meta("edge_presentation", "integrated_full_bleed")
-	navigation_dock.set_meta("color_family", "comic_navy_cyan_gold")
-	navigation_dock.set_meta("ui_kit", "comic_ui_v1")
-	navigation_dock.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.NAVY, ComicUITheme.INK, 0, 0, Color.TRANSPARENT, 0, 0.0))
+	navigation_dock.set_meta("edge_presentation", "painted_full_bleed_wood")
+	navigation_dock.set_meta("color_family", "painted_wood_cream_garden")
+	navigation_dock.set_meta("ui_kit", "painted_detail_ui_v2")
+	navigation_dock.set_meta("bottom_corner_fill", "opaque_painted_wood_underlay_v1")
+	navigation_dock.set_meta("bottom_corner_gap_count", 0)
+	var dock_corner_underlay := StyleBoxFlat.new()
+	dock_corner_underlay.bg_color = Color("#93420f")
+	dock_corner_underlay.border_color = Color("#4b2109")
+	dock_corner_underlay.set_border_width_all(2)
+	navigation_dock.add_theme_stylebox_override("panel", dock_corner_underlay)
+	var navigation_painted_frame := PanelContainer.new()
+	navigation_painted_frame.name = "PaintedNavigationFrame"
+	navigation_painted_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	navigation_painted_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 0))
+	navigation_painted_frame.set_meta("component", "painted_navigation_frame_over_opaque_corner_fill_v1")
+	navigation_painted_frame.set_meta("blocks_input", false)
+	navigation_dock.add_child(navigation_painted_frame)
 	var navigation_safe_area := MarginContainer.new()
 	navigation_safe_area.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	navigation_safe_area.add_theme_constant_override("margin_left", 0)
@@ -1022,6 +1079,9 @@ func _apply_safe_area_rect(safe_rect: Rect2, window_size: Vector2, logical_size:
 	safe_area_container.add_theme_constant_override("margin_right", roundi(safe_area_insets.z))
 	safe_area_container.add_theme_constant_override("margin_bottom", roundi(safe_area_insets.w))
 	safe_area_container.set_meta("insets", safe_area_insets)
+	if hud_edge_underlay != null:
+		hud_edge_underlay.offset_bottom = HUD_HEIGHT + HUD_EDGE_JOIN_DEPTH + safe_area_insets.y
+		hud_edge_underlay.set_meta("safe_top_inset", safe_area_insets.y)
 
 
 func _apply_hud_rect(control: Control, rect: Rect2) -> void:
@@ -1297,6 +1357,7 @@ func _build_garden_screen() -> Control:
 		_open_settings_modal
 	)
 	settings_launcher_icon = settings_launcher_button.get_node("Icon") as TextureRect
+	preload("res://scripts/ui/rack_screen_painted_skin.gd").apply(self, room_guide)
 
 	player_room_panel = Control.new()
 	player_room_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1326,7 +1387,8 @@ func _build_garden_screen() -> Control:
 	greenhouse_panel.add_child(greenhouse_preview_view)
 	greenhouse_preview_view.set_greenhouse_state(session.get_greenhouse_bed_states(), session.get_greenhouse_crop_catalog(), session.coins, session.xp, session.get_greenhouse_order_state())
 
-	plant_detail_panel = VBoxContainer.new()
+	# Painted detail approved in-game; use the same presentation on every start.
+	plant_detail_panel = preload("res://scripts/ui/plant_detail_study_surface.gd").new()
 	plant_detail_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	plant_detail_panel.add_theme_constant_override("separation", 5)
 	plant_detail_panel.set_meta("phase3_visual_system", "mobile_comic_detail_v1")
@@ -1335,7 +1397,7 @@ func _build_garden_screen() -> Control:
 	plant_detail_panel.visible = false
 	view_stack.add_child(plant_detail_panel)
 
-	plant_detail_selector = preload("res://scripts/ui/plant_detail_header.gd").new()
+	plant_detail_selector = preload("res://scripts/ui/plant_detail_study_header.gd").new()
 	plant_detail_selector.name = "PlantDetailHeader"
 	plant_detail_selector.custom_minimum_size.y = 50
 	plant_detail_selector.add_theme_constant_override("separation", 5)
@@ -1387,7 +1449,7 @@ func _build_garden_screen() -> Control:
 	detail_view_stack.custom_minimum_size = Vector2(0, 300)
 	detail_view_stack.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	plant_detail_panel.add_child(detail_view_stack)
-	plant_view = PlantViewScene.new()
+	plant_view = preload("res://scripts/ui/plant_view_study.gd").new()
 	plant_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	detail_view_stack.add_child(plant_view)
 	plant_behavior_badge = PanelContainer.new()
@@ -1525,6 +1587,7 @@ func _build_garden_screen() -> Control:
 	growth_time_column.add_child(growth_time_value_label)
 	real_time_growth_presenter.bind(growth_time_title_label, growth_time_value_label)
 	plant_detail_panel.add_child(growth_time_panel)
+	preload("res://scripts/ui/plant_detail_study_skin.gd").apply(self)
 	return margin
 
 
@@ -1753,6 +1816,7 @@ func _build_professor_story_modal() -> Control:
 	banner_row.add_theme_constant_override("separation", 7)
 	banner.add_child(banner_row)
 	var heading := VBoxContainer.new()
+	heading.custom_minimum_size.x = 0
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.alignment = BoxContainer.ALIGNMENT_CENTER
 	heading.add_theme_constant_override("separation", -2)
@@ -2661,89 +2725,176 @@ func _build_level_progression_modal() -> Control:
 	overlay.set_meta("component", "fullscreen_level_progression_modal_v1")
 	overlay.set_meta("blocks_game_input", true)
 	overlay.set_meta("covers_full_viewport", true)
+	overlay.set_meta("painted_layout", "living_grower_bloom_v4")
+	overlay.set_meta("progress_metaphor", "seed_to_legendary_bloom_v1")
 	var scrim := ColorRect.new()
 	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#071423", 0.95)
+	scrim.color = Color("#1d1008", 0.91)
 	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(scrim)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 13)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_right", 13)
-	margin.add_theme_constant_override("margin_bottom", 16)
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
 	overlay.add_child(margin)
 	var shell := PanelContainer.new()
-	shell.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff8dc"), ComicUITheme.GOLD, 5, 22, Color("#000713", 0.66), 10, 12.0))
-	shell.set_meta("component", "comic_level_progression_shell_v1")
+	shell.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 8.0))
+	shell.set_meta("component", "painted_level_progression_shell_v3")
+	shell.set_meta("visual_system", "painted_wood_cream_sage_teal_v2")
 	margin.add_child(shell)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
+	column.add_theme_constant_override("separation", 6)
 	shell.add_child(column)
+
 	var banner := PanelContainer.new()
-	banner.custom_minimum_size.y = 70
-	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.PURPLE, ComicUITheme.GOLD, 4, 17, Color("#07131c", 0.36), 4, 8.0))
+	banner.custom_minimum_size.y = 78
+	banner.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 7.0))
+	banner.set_meta("component", "painted_level_progression_header_v3")
+	banner.set_meta("icon_scale_policy", "compact_inset_leaf_v1")
 	column.add_child(banner)
 	var banner_row := HBoxContainer.new()
 	banner_row.add_theme_constant_override("separation", 7)
 	banner.add_child(banner_row)
+	var emblem_frame := PanelContainer.new()
+	emblem_frame.custom_minimum_size = Vector2(46, 46)
+	emblem_frame.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	emblem_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	emblem_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 7.0))
+	emblem_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	banner_row.add_child(emblem_frame)
+	var emblem := TextureRect.new()
+	emblem.texture = PaintedDetailArt.texture("leaf")
+	emblem.custom_minimum_size = Vector2(32, 32)
+	emblem.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	emblem.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	emblem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	emblem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	emblem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	emblem_frame.add_child(emblem)
 	var heading := VBoxContainer.new()
+	heading.custom_minimum_size.x = 0
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	heading.add_theme_constant_override("separation", -2)
+	heading.alignment = BoxContainer.ALIGNMENT_CENTER
+	heading.add_theme_constant_override("separation", -1)
 	banner_row.add_child(heading)
 	var title := Label.new()
 	title.text = "CESTA PĚSTITELE"
+	title.custom_minimum_size.x = 0
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.clip_text = true
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 21)
-	title.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	title.add_theme_constant_override("outline_size", 3)
+	title.add_theme_font_size_override("font_size", 19)
+	title.add_theme_color_override("font_color", ComicUITheme.INK)
 	heading.add_child(title)
 	var subtitle := Label.new()
-	subtitle.text = "Úrovně propojují stojan, vybavení a zásoby."
+	subtitle.text = "Tvůj kouzelný květ zkušeností"
+	subtitle.custom_minimum_size.x = 0
+	subtitle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	subtitle.clip_text = true
+	subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	subtitle.add_theme_font_override("font", FontSemiBold)
-	subtitle.add_theme_font_size_override("font_size", 10)
-	subtitle.add_theme_color_override("font_color", Color("#fff2b5"))
+	subtitle.add_theme_font_size_override("font_size", 9)
+	subtitle.add_theme_color_override("font_color", Color("#327c55"))
 	heading.add_child(subtitle)
 	var top_close := _action_button("×", _close_level_progression)
-	top_close.custom_minimum_size = Vector2(56, 52)
+	top_close.custom_minimum_size = Vector2(52, 52)
 	top_close.size_flags_horizontal = Control.SIZE_SHRINK_END
 	top_close.set_meta("touch_target_min_height", 52)
 	top_close.add_theme_font_override("font", FontExtraBold)
-	top_close.add_theme_font_size_override("font_size", 25)
-	ComicUITheme.apply_button(top_close, ComicUITheme.ORANGE, ComicUITheme.CREAM, 13)
+	top_close.add_theme_font_size_override("font_size", 24)
+	_apply_painted_progression_button_style(top_close, "teal", ComicUITheme.INK)
 	banner_row.add_child(top_close)
+
+	var summary_panel := PanelContainer.new()
+	summary_panel.name = "GrowerProgressSummary"
+	summary_panel.custom_minimum_size.y = 82
+	summary_panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 6.0))
+	summary_panel.set_meta("component", "painted_level_progression_summary_v4")
+	summary_panel.set_meta("layout_policy", "centered_two_line_text_full_width_xp_track_v4")
+	summary_panel.set_meta("text_layout", "level_xp_then_waiting_reward_two_lines_v1")
+	summary_panel.set_meta("icon_scale_policy", "no_secondary_icon_v1")
+	column.add_child(summary_panel)
+	var summary_column := VBoxContainer.new()
+	summary_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	summary_column.alignment = BoxContainer.ALIGNMENT_CENTER
+	summary_column.add_theme_constant_override("separation", 3)
+	summary_panel.add_child(summary_column)
 	level_progression_summary_label = Label.new()
-	level_progression_summary_label.custom_minimum_size.y = 30
+	level_progression_summary_label.custom_minimum_size.y = 32
+	level_progression_summary_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	level_progression_summary_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_progression_summary_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	level_progression_summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	level_progression_summary_label.max_lines_visible = 2
+	level_progression_summary_label.clip_text = false
+	level_progression_summary_label.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	level_progression_summary_label.add_theme_font_override("font", FontExtraBold)
-	level_progression_summary_label.add_theme_font_size_override("font_size", 12)
-	level_progression_summary_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(level_progression_summary_label)
-	level_progression_scroll = ScrollContainer.new()
-	level_progression_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	level_progression_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	level_progression_scroll.set_meta("mobile_scroll", true)
-	column.add_child(level_progression_scroll)
-	var list := VBoxContainer.new()
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation", 9)
-	level_progression_scroll.add_child(list)
+	level_progression_summary_label.add_theme_font_size_override("font_size", 10)
+	level_progression_summary_label.add_theme_color_override("font_color", ComicUITheme.INK)
+	summary_column.add_child(level_progression_summary_label)
+	level_progression_xp_progress = ProgressBar.new()
+	level_progression_xp_progress.custom_minimum_size.y = 25
+	level_progression_xp_progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	level_progression_xp_progress.min_value = 0
+	level_progression_xp_progress.max_value = 100
+	level_progression_xp_progress.show_percentage = true
+	level_progression_xp_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	level_progression_xp_progress.add_theme_font_override("font", FontExtraBold)
+	level_progression_xp_progress.add_theme_font_size_override("font_size", 10)
+	level_progression_xp_progress.add_theme_color_override("font_color", ComicUITheme.INK)
+	level_progression_xp_progress.add_theme_color_override("font_outline_color", Color("#fff7cf"))
+	level_progression_xp_progress.add_theme_constant_override("outline_size", 1)
+	level_progression_xp_progress.add_theme_stylebox_override("background", ComicUITheme.style_box(Color("#dce6b8"), Color("#345d31"), 3, 9, Color("#35200e", 0.28), 2, 3.0))
+	level_progression_xp_progress.add_theme_stylebox_override("fill", ComicUITheme.style_box(Color("#72df16"), Color("#2f7a1d"), 3, 9, Color("#edbd35", 0.18), 1, 3.0))
+	level_progression_xp_progress.set_meta("component", "grower_path_xp_progress_v3")
+	level_progression_xp_progress.set_meta("visual_style", "deep_sage_track_bright_growth_fill_v1")
+	summary_column.add_child(level_progression_xp_progress)
+	var tree_frame := PanelContainer.new()
+	tree_frame.custom_minimum_size.y = 292
+	tree_frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tree_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 4.0))
+	tree_frame.set_meta("component", "painted_grower_bloom_frame_v1")
+	column.add_child(tree_frame)
+	level_progression_tree_view = GrowerProgressTreeScene.new()
+	level_progression_tree_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	level_progression_tree_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	level_progression_tree_view.set_debug_level_preview_enabled(OS.is_debug_build())
+	level_progression_tree_view.level_selected.connect(_select_level_progression_level)
+	tree_frame.add_child(level_progression_tree_view)
+
+	var detail_frame := PanelContainer.new()
+	detail_frame.custom_minimum_size.y = 112
+	detail_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 3.0))
+	detail_frame.set_meta("component", "painted_bloom_level_detail_frame_v1")
+	column.add_child(detail_frame)
+	level_progression_detail_stack = MarginContainer.new()
+	level_progression_detail_stack.set_meta("component", "bloom_selected_level_detail_stack_v1")
+	detail_frame.add_child(level_progression_detail_stack)
 	for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
-		list.add_child(_build_level_progression_card(reward_level))
-	_configure_mobile_scroll(level_progression_scroll, list, "level_progression")
+		var card := _build_level_progression_card(reward_level)
+		card.visible = reward_level == 1
+		level_progression_detail_stack.add_child(card)
+
+	var status_panel := PanelContainer.new()
+	status_panel.custom_minimum_size.y = 42
+	status_panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	status_panel.set_meta("component", "painted_level_progression_hint_v2")
+	column.add_child(status_panel)
 	level_progression_status_label = Label.new()
-	level_progression_status_label.custom_minimum_size.y = 38
+	level_progression_status_label.custom_minimum_size.y = 34
 	level_progression_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_progression_status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	level_progression_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	level_progression_status_label.add_theme_font_override("font", FontSemiBold)
-	level_progression_status_label.add_theme_font_size_override("font_size", 10)
+	level_progression_status_label.add_theme_font_size_override("font_size", 9)
 	level_progression_status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(level_progression_status_label)
+	status_panel.add_child(level_progression_status_label)
+
 	var bottom_actions := HBoxContainer.new()
-	bottom_actions.add_theme_constant_override("separation", 8)
+	bottom_actions.add_theme_constant_override("separation", 6)
 	column.add_child(bottom_actions)
 	grower_journal_launcher = _action_button("PĚSTITELSKÝ\nDENÍK", _open_grower_journal)
 	grower_journal_launcher.custom_minimum_size.y = 64
@@ -2751,63 +2902,147 @@ func _build_level_progression_modal() -> Control:
 	grower_journal_launcher.set_meta("touch_target_min_height", 64)
 	grower_journal_launcher.set_meta("component", "phase49_grower_journal_launcher_v1")
 	grower_journal_launcher.add_theme_font_override("font", FontExtraBold)
-	grower_journal_launcher.add_theme_font_size_override("font_size", 12)
-	ComicUITheme.apply_button(grower_journal_launcher, ComicUITheme.PURPLE, ComicUITheme.CREAM, 13)
+	grower_journal_launcher.add_theme_font_size_override("font_size", 11)
+	_apply_painted_progression_button_style(grower_journal_launcher, "sage", ComicUITheme.INK)
 	bottom_actions.add_child(grower_journal_launcher)
 	var close_button := _action_button("ZPĚT DO\nZAHRADY", _close_level_progression)
 	close_button.custom_minimum_size.y = 64
 	close_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_button.set_meta("touch_target_min_height", 64)
 	close_button.add_theme_font_override("font", FontExtraBold)
-	close_button.add_theme_font_size_override("font_size", 12)
-	ComicUITheme.apply_button(close_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 13)
+	close_button.add_theme_font_size_override("font_size", 11)
+	_apply_painted_progression_button_style(close_button, "teal", ComicUITheme.INK)
 	bottom_actions.add_child(close_button)
-	level_progression_presenter.bind(level_progression_summary_label, level_progression_status_label, level_progression_cards)
+	level_progression_presenter.bind(level_progression_summary_label, level_progression_status_label, level_progression_cards, level_progression_xp_progress)
 	return overlay
 
 
 func _build_level_progression_card(reward_level: int) -> Control:
-	var accents := [ComicUITheme.GREEN, ComicUITheme.CYAN, ComicUITheme.ORANGE, ComicUITheme.PURPLE, ComicUITheme.GOLD]
-	var accent: Color = accents[(reward_level - 1) % accents.size()]
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size.y = 146
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff2bd"), accent, 4, 15, Color("#07131c", 0.30), 5, 9.0))
-	panel.set_meta("component", "level_progression_reward_card_v1")
+	panel.custom_minimum_size.y = 112
+	panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 5.0))
+	panel.set_meta("component", "painted_level_progression_reward_card_v4")
 	panel.set_meta("reward_level", reward_level)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 4)
-	panel.add_child(column)
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 8)
-	column.add_child(top)
+	panel.set_meta("layout", "illustrated_reward_strip_row_v4")
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	panel.add_child(row)
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(50, 62)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	badge.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 3.0))
+	badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	badge.set_meta("component", "compact_level_reward_badge_v3")
+	badge.set_meta("layout_policy", "centered_50x62_v1")
+	row.add_child(badge)
 	var title := Label.new()
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 17)
-	title.add_theme_color_override("font_color", accent.darkened(0.30))
-	top.add_child(title)
+	title.add_theme_font_size_override("font_size", 9)
+	title.add_theme_constant_override("line_spacing", -1)
+	title.add_theme_color_override("font_color", ComicUITheme.INK)
+	badge.add_child(title)
+	var details := VBoxContainer.new()
+	details.custom_minimum_size.x = 0
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.alignment = BoxContainer.ALIGNMENT_CENTER
+	details.add_theme_constant_override("separation", 1)
+	row.add_child(details)
+	var state_label := Label.new()
+	state_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	state_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	state_label.add_theme_font_override("font", FontExtraBold)
+	state_label.add_theme_font_size_override("font_size", 9)
+	state_label.add_theme_color_override("font_color", Color("#327c55"))
+	var state_row := HBoxContainer.new()
+	state_row.add_theme_constant_override("separation", 3)
+	state_row.set_meta("component", "level_reward_state_and_art_row_v1")
+	details.add_child(state_row)
+	state_row.add_child(state_label)
+	var reward_art := _build_level_progression_reward_art(reward_level)
+	state_row.add_child(reward_art)
 	var reward_label := Label.new()
-	reward_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	reward_label.custom_minimum_size.x = 0
+	reward_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	reward_label.max_lines_visible = 2
+	reward_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	reward_label.add_theme_font_override("font", FontExtraBold)
-	reward_label.add_theme_font_size_override("font_size", 11)
-	reward_label.add_theme_color_override("font_color", ComicUITheme.PURPLE)
-	top.add_child(reward_label)
+	reward_label.add_theme_font_size_override("font_size", 9)
+	reward_label.add_theme_color_override("font_color", ComicUITheme.INK)
+	details.add_child(reward_label)
 	var unlock_label := Label.new()
-	unlock_label.custom_minimum_size.y = 30
+	unlock_label.custom_minimum_size.x = 0
 	unlock_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	unlock_label.max_lines_visible = 2
+	unlock_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	unlock_label.add_theme_font_override("font", FontSemiBold)
-	unlock_label.add_theme_font_size_override("font_size", 10)
+	unlock_label.add_theme_font_size_override("font_size", 8)
 	unlock_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(unlock_label)
+	details.add_child(unlock_label)
 	var claim := _action_button("VYZVEDNOUT", _on_level_reward_claimed.bind(reward_level))
-	claim.custom_minimum_size.y = 54
-	claim.set_meta("touch_target_min_height", 54)
+	claim.custom_minimum_size = Vector2(92, 76)
+	claim.set_meta("touch_target_min_height", 76)
 	claim.add_theme_font_override("font", FontExtraBold)
-	claim.add_theme_font_size_override("font_size", 13)
-	ComicUITheme.apply_button(claim, ComicUITheme.GREEN, ComicUITheme.INK, 11)
-	column.add_child(claim)
-	level_progression_cards[reward_level] = {"panel": panel, "title": title, "reward": reward_label, "unlock": unlock_label, "claim": claim, "accent": accent}
+	claim.add_theme_font_size_override("font_size", 10)
+	claim.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_apply_painted_progression_button_style(claim, "teal", ComicUITheme.INK)
+	row.add_child(claim)
+	level_progression_cards[reward_level] = {"panel": panel, "badge": badge, "title": title, "state": state_label, "reward_art": reward_art, "reward": reward_label, "unlock": unlock_label, "claim": claim, "accent": ComicUITheme.GREEN}
 	return panel
+
+
+func _build_level_progression_reward_art(reward_level: int) -> HBoxContainer:
+	var art := HBoxContainer.new()
+	art.size_flags_horizontal = Control.SIZE_SHRINK_END
+	art.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	art.add_theme_constant_override("separation", 2)
+	art.set_meta("component", "painted_level_reward_art_v1")
+	art.set_meta("icon_policy", "two_reward_images_28px_v2")
+	var reward: Dictionary = GameSession.LEVEL_REWARDS[reward_level - 1] if reward_level >= 1 and reward_level <= GameSession.LEVEL_REWARDS.size() else {}
+	var textures: Array[Texture2D] = [CoinTexture]
+	var semantics: Array[String] = ["coins"]
+	if int(reward.get("fertilizer", 0)) > 0:
+		textures.append(FertilizerIcon)
+		semantics.append("fertilizer")
+	else:
+		var seed_rewards: Dictionary = reward.get("seed_rewards", {})
+		if not seed_rewards.is_empty():
+			var species_ids := seed_rewards.keys()
+			species_ids.sort()
+			var species_id := str(species_ids[0])
+			var plant_texture := _species_preview_texture(species_id)
+			if plant_texture != null:
+				textures.append(plant_texture)
+				semantics.append("seed_%s" % species_id)
+	if textures.size() == 1 and reward_level <= GameSession.MAX_PLANT_SLOTS:
+		textures.append(LevelRewardPotTexture)
+		semantics.append("unlocked_pot")
+	for index in range(mini(2, textures.size())):
+		var icon := TextureRect.new()
+		icon.texture = textures[index]
+		icon.custom_minimum_size = Vector2(28, 28)
+		icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon.set_meta("reward_semantic", semantics[index])
+		art.add_child(icon)
+	return art
+
+
+func _apply_painted_progression_button_style(button: Button, kind: String, font_color: Color) -> void:
+	button.add_theme_stylebox_override("normal", PaintedDetailArt.box(kind, 5.0))
+	button.add_theme_stylebox_override("hover", PaintedDetailArt.box(kind, 5.0, Color(1.05, 1.05, 1.02)))
+	button.add_theme_stylebox_override("pressed", PaintedDetailArt.box("sage", 5.0, Color(0.92, 0.97, 0.88)))
+	button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 5.0, Color(0.72, 0.72, 0.68)))
+	button.add_theme_color_override("font_color", font_color)
+	button.add_theme_color_override("font_hover_color", font_color)
+	button.add_theme_color_override("font_pressed_color", ComicUITheme.INK)
+	button.add_theme_color_override("font_disabled_color", Color("#4f5b52"))
+	button.set_meta("painted_style", "progression_%s_v2" % kind)
 
 
 func _build_grower_journal_modal() -> Control:
@@ -2817,36 +3052,46 @@ func _build_grower_journal_modal() -> Control:
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.z_index = 227
 	overlay.visible = false
-	overlay.set_meta("component", "fullscreen_grower_journal_modal_v1")
+	overlay.set_meta("component", "fullscreen_grower_journal_skill_tree_v3")
 	overlay.set_meta("blocks_game_input", true)
 	overlay.set_meta("covers_full_viewport", true)
 	overlay.set_meta("responsive_test_viewports", [Vector2i(432, 960), Vector2i(360, 800)])
+	overlay.set_meta("layout", "illustrated_botanical_skill_tree_v2")
 	var scrim := ColorRect.new()
 	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#061826", 0.96)
+	scrim.color = Color("#061826", 1.0)
 	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(scrim)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 13)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_right", 13)
-	margin.add_theme_constant_override("margin_bottom", 16)
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
 	overlay.add_child(margin)
 	var shell := PanelContainer.new()
-	shell.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff8dc"), ComicUITheme.GREEN, 5, 22, Color("#000713", 0.66), 10, 12.0))
-	shell.set_meta("component", "comic_grower_journal_shell_v1")
+	shell.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 8.0))
+	shell.set_meta("component", "painted_grower_journal_skill_tree_shell_v2")
 	margin.add_child(shell)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 8)
+	column.add_theme_constant_override("separation", 6)
 	shell.add_child(column)
 	var banner := PanelContainer.new()
-	banner.custom_minimum_size.y = 70
-	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.GREEN.darkened(0.18), ComicUITheme.GOLD, 4, 17, Color("#07131c", 0.36), 4, 8.0))
+	banner.custom_minimum_size.y = 68
+	banner.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 5.0))
 	column.add_child(banner)
 	var banner_row := HBoxContainer.new()
-	banner_row.add_theme_constant_override("separation", 7)
+	banner_row.add_theme_constant_override("separation", 6)
 	banner.add_child(banner_row)
+	var emblem_frame := PanelContainer.new()
+	emblem_frame.custom_minimum_size = Vector2(58.0, 54.0)
+	emblem_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 3.0))
+	banner_row.add_child(emblem_frame)
+	var emblem := TextureRect.new()
+	emblem.texture = PaintedDetailArt.texture("book")
+	emblem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	emblem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	emblem_frame.add_child(emblem)
 	var heading := VBoxContainer.new()
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_theme_constant_override("separation", -2)
@@ -2854,121 +3099,128 @@ func _build_grower_journal_modal() -> Control:
 	var title := Label.new()
 	title.text = "PĚSTITELSKÝ DENÍK"
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 20)
-	title.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	title.add_theme_constant_override("outline_size", 3)
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	heading.add_child(title)
 	var subtitle := Label.new()
-	subtitle.text = "Skutečný postup napříč celou zahradou."
+	subtitle.text = "Obrazový strom tvých pěstitelských dovedností"
 	subtitle.add_theme_font_override("font", FontSemiBold)
-	subtitle.add_theme_font_size_override("font_size", 9)
-	subtitle.add_theme_color_override("font_color", Color("#fff2b5"))
+	subtitle.add_theme_font_size_override("font_size", 8)
+	subtitle.add_theme_color_override("font_color", Color("#3b7650"))
 	heading.add_child(subtitle)
 	var top_close := _action_button("×", _close_grower_journal)
-	top_close.custom_minimum_size = Vector2(56, 52)
+	top_close.custom_minimum_size = Vector2(52, 50)
 	top_close.size_flags_horizontal = Control.SIZE_SHRINK_END
-	top_close.set_meta("touch_target_min_height", 52)
+	top_close.set_meta("touch_target_min_height", 50)
 	top_close.add_theme_font_override("font", FontExtraBold)
-	top_close.add_theme_font_size_override("font_size", 25)
-	ComicUITheme.apply_button(top_close, ComicUITheme.ORANGE, ComicUITheme.CREAM, 13)
+	top_close.add_theme_font_size_override("font_size", 23)
+	_apply_painted_progression_button_style(top_close, "teal", ComicUITheme.NAVY)
 	banner_row.add_child(top_close)
-	var summary_panel := PanelContainer.new()
-	summary_panel.custom_minimum_size.y = 82
-	summary_panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff1b8"), ComicUITheme.GOLD, 3, 14, Color("#07131c", 0.20), 3, 7.0))
-	column.add_child(summary_panel)
-	grower_journal_summary_label = Label.new()
-	grower_journal_summary_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	grower_journal_summary_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	grower_journal_summary_label.add_theme_font_override("font", FontExtraBold)
-	grower_journal_summary_label.add_theme_font_size_override("font_size", 11)
-	grower_journal_summary_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	summary_panel.add_child(grower_journal_summary_label)
-	var goal_panel := PanelContainer.new()
-	goal_panel.custom_minimum_size.y = 88
-	goal_panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#dff8d1"), ComicUITheme.CYAN, 3, 14, Color("#07131c", 0.18), 3, 7.0))
-	column.add_child(goal_panel)
-	grower_journal_next_goal_label = Label.new()
-	grower_journal_next_goal_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	grower_journal_next_goal_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	grower_journal_next_goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	grower_journal_next_goal_label.add_theme_font_override("font", FontSemiBold)
-	grower_journal_next_goal_label.add_theme_font_size_override("font_size", 10)
-	grower_journal_next_goal_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	goal_panel.add_child(grower_journal_next_goal_label)
-	grower_journal_badge_count_label = Label.new()
-	grower_journal_badge_count_label.custom_minimum_size.y = 24
-	grower_journal_badge_count_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	grower_journal_badge_count_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	grower_journal_badge_count_label.add_theme_font_override("font", FontExtraBold)
-	grower_journal_badge_count_label.add_theme_font_size_override("font_size", 12)
-	grower_journal_badge_count_label.add_theme_color_override("font_color", ComicUITheme.PURPLE)
-	column.add_child(grower_journal_badge_count_label)
+	grower_journal_dashboard = GrowerJournalDashboardScene.new()
+	column.add_child(grower_journal_dashboard)
+	grower_journal_summary_label = grower_journal_dashboard.summary_label
+	grower_journal_next_goal_label = grower_journal_dashboard.next_goal_label
+	grower_journal_badge_count_badge = _build_grower_journal_skill_count_badge()
+	column.add_child(grower_journal_badge_count_badge)
 	grower_journal_scroll = ScrollContainer.new()
 	grower_journal_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	grower_journal_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	grower_journal_scroll.set_meta("mobile_scroll", true)
 	column.add_child(grower_journal_scroll)
-	var list := VBoxContainer.new()
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation", 8)
-	grower_journal_scroll.add_child(list)
+	grower_journal_skill_tree = GrowerJournalSkillTreeScene.new()
+	grower_journal_scroll.add_child(grower_journal_skill_tree)
 	for badge_index in range(GROWER_JOURNAL_BADGE_IDS.size()):
-		list.add_child(_build_grower_journal_card(str(GROWER_JOURNAL_BADGE_IDS[badge_index]), badge_index))
-	_configure_mobile_scroll(grower_journal_scroll, list, "grower_journal")
+		var node := _build_grower_journal_card(str(GROWER_JOURNAL_BADGE_IDS[badge_index]), badge_index) as GrowerJournalSkillNode
+		grower_journal_skill_tree.register_node(node)
+	_configure_mobile_scroll(grower_journal_scroll, grower_journal_skill_tree, "grower_journal")
 	var close_button := _action_button("ZPĚT NA CESTU PĚSTITELE", _close_grower_journal)
-	close_button.custom_minimum_size.y = 64
-	close_button.set_meta("touch_target_min_height", 64)
+	close_button.custom_minimum_size.y = 58
+	close_button.set_meta("touch_target_min_height", 58)
 	close_button.add_theme_font_override("font", FontExtraBold)
-	close_button.add_theme_font_size_override("font_size", 14)
-	ComicUITheme.apply_button(close_button, ComicUITheme.PURPLE, ComicUITheme.CREAM, 14)
+	close_button.add_theme_font_size_override("font_size", 12)
+	_apply_painted_progression_button_style(close_button, "teal", ComicUITheme.NAVY)
 	column.add_child(close_button)
-	grower_journal_presenter.bind(grower_journal_summary_label, grower_journal_next_goal_label, grower_journal_badge_count_label, grower_journal_cards)
+	grower_journal_presenter.bind(grower_journal_summary_label, grower_journal_next_goal_label, grower_journal_badge_count_label, grower_journal_cards, grower_journal_skill_tree, grower_journal_dashboard)
 	return overlay
+
+
+func _build_grower_journal_skill_count_badge() -> Control:
+	var center := CenterContainer.new()
+	center.custom_minimum_size.y = 46.0
+	center.set_meta("component", "illustrated_skill_count_badge_v1")
+	center.set_meta("visual_role", "skill_tree_heading_icon")
+	var badge := PanelContainer.new()
+	badge.custom_minimum_size = Vector2(172.0, 42.0)
+	badge.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff2cf"), ComicUITheme.PURPLE, 2, 19, Color("#54236d", 0.22), 2, 4.0))
+	center.add_child(badge)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 5)
+	badge.add_child(row)
+	var icon_frame := PanelContainer.new()
+	icon_frame.custom_minimum_size = Vector2(34.0, 34.0)
+	icon_frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#ead7fa"), Color("#6d2e9c"), 2, 17, Color.TRANSPARENT, 0, 1.0))
+	row.add_child(icon_frame)
+	grower_journal_badge_count_icon = TextureRect.new()
+	grower_journal_badge_count_icon.texture = PaintedDetailArt.texture("book")
+	grower_journal_badge_count_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	grower_journal_badge_count_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	grower_journal_badge_count_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon_frame.add_child(grower_journal_badge_count_icon)
+	grower_journal_badge_count_label = Label.new()
+	grower_journal_badge_count_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	grower_journal_badge_count_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	grower_journal_badge_count_label.add_theme_font_override("font", FontExtraBold)
+	grower_journal_badge_count_label.add_theme_font_size_override("font_size", 10)
+	grower_journal_badge_count_label.add_theme_color_override("font_color", Color("#68278f"))
+	row.add_child(grower_journal_badge_count_label)
+	return center
 
 
 func _build_grower_journal_card(badge_id: String, badge_index: int) -> Control:
 	var accents := [ComicUITheme.GREEN, ComicUITheme.CYAN, ComicUITheme.ORANGE, ComicUITheme.PURPLE]
 	var accent: Color = accents[badge_index % accents.size()]
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size.y = 112
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff2bd"), accent, 3, 14, Color("#07131c", 0.24), 4, 7.0))
-	panel.set_meta("component", "grower_journal_badge_card_v1")
-	panel.set_meta("badge_id", badge_id)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 3)
-	panel.add_child(column)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	column.add_child(row)
-	var title := Label.new()
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 13)
-	title.add_theme_color_override("font_color", accent.darkened(0.34))
-	row.add_child(title)
-	var value := Label.new()
-	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	value.add_theme_font_override("font", FontExtraBold)
-	value.add_theme_font_size_override("font_size", 10)
-	row.add_child(value)
-	var description := Label.new()
-	description.custom_minimum_size.y = 32
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.add_theme_font_override("font", FontSemiBold)
-	description.add_theme_font_size_override("font_size", 9)
-	description.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(description)
-	var progress := ProgressBar.new()
-	progress.custom_minimum_size.y = 16
-	progress.min_value = 0.0
-	progress.max_value = 100.0
-	progress.show_percentage = false
-	progress.add_theme_stylebox_override("background", ComicUITheme.style_box(Color("#d5c897"), Color("#8b784c"), 1, 6, Color.TRANSPARENT, 0, 0.0))
-	progress.add_theme_stylebox_override("fill", ComicUITheme.style_box(accent, accent.lightened(0.25), 1, 6, Color.TRANSPARENT, 0, 0.0))
-	column.add_child(progress)
-	grower_journal_cards[badge_id] = {"panel": panel, "title": title, "description": description, "value": value, "progress": progress, "accent": accent}
-	return panel
+	var node := GrowerJournalSkillNodeScene.new() as GrowerJournalSkillNode
+	node.configure(badge_id, badge_index, _grower_journal_badge_texture(badge_id), accent)
+	node.pressed.connect(_select_grower_journal_badge.bind(badge_id))
+	grower_journal_cards[badge_id] = {
+		"panel": node,
+		"title": node.title_label,
+		"value": node.value_label,
+		"progress": node.progress_bar,
+		"icon": node.icon_rect,
+		"accent": accent,
+	}
+	return node
+
+
+func _select_grower_journal_badge(badge_id: String) -> void:
+	grower_journal_presenter.select_badge(badge_id)
+
+
+func _grower_journal_badge_texture(badge_id: String) -> Texture2D:
+	match badge_id:
+		"first_cycle":
+			return GrowerJournalSeedTexture
+		"species_collection":
+			return PaintedDetailArt.texture("book")
+		"busy_rack":
+			return NavPlantIcon
+		"trusted_supplier":
+			return NavShopIcon
+		"seasoned_grower":
+			return GrowerJournalHarvestTexture
+		"quality_trio":
+			return PaintedDetailArt.texture("sun")
+		"workshop_master":
+			return SettingsGearTexture
+		"room_collector":
+			return GrowerJournalRoomTexture
+		"herbarium_master":
+			return GrowerJournalHerbariumTexture
+		"research_partner":
+			return RackDockProfessorTexture
+	return PaintedDetailArt.texture("leaf")
 
 
 func _build_care_center_modal() -> Control:
@@ -2982,14 +3234,14 @@ func _build_care_center_modal() -> Control:
 	var overlay: Control = modal.overlay
 	var shell := PaintedModalShell.create_margin_shell(
 		overlay,
-		Vector4(13, 16, 13, 16),
-		ComicUITheme.style_box(Color("#fff8dc"), ComicUITheme.CYAN, 5, 22, Color("#000713", 0.66), 10, 12.0),
-		"comic_care_center_shell_v1"
+		Vector4(8, 8, 8, 8),
+		PaintedDetailArt.box("wood", 11.0),
+		"painted_care_center_shell_v1"
 	)
-	var column := PaintedModalShell.create_column(shell, 8)
+	var column := PaintedModalShell.create_column(shell, 7)
 	var banner := PanelContainer.new()
-	banner.custom_minimum_size.y = 70
-	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.TEAL, ComicUITheme.GOLD, 4, 17, Color("#07131c", 0.36), 4, 8.0))
+	banner.custom_minimum_size.y = 78
+	banner.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 9.0))
 	column.add_child(banner)
 	var banner_row := HBoxContainer.new()
 	banner_row.add_theme_constant_override("separation", 7)
@@ -3000,17 +3252,23 @@ func _build_care_center_modal() -> Control:
 	banner_row.add_child(heading)
 	var title := Label.new()
 	title.text = "CENTRUM PÉČE"
+	title.custom_minimum_size.x = 0
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.clip_text = true
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.add_theme_font_override("font", FontExtraBold)
 	title.add_theme_font_size_override("font_size", 21)
-	title.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	title.add_theme_constant_override("outline_size", 3)
+	title.add_theme_color_override("font_color", ComicUITheme.INK)
 	heading.add_child(title)
 	var subtitle := Label.new()
-	subtitle.text = "Všech 10 květináčů v pořadí naléhavosti."
+	subtitle.text = "Květináče podle naléhavosti"
+	subtitle.custom_minimum_size.x = 0
+	subtitle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	subtitle.clip_text = true
+	subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	subtitle.add_theme_font_override("font", FontSemiBold)
 	subtitle.add_theme_font_size_override("font_size", 10)
-	subtitle.add_theme_color_override("font_color", Color("#ddfff3"))
+	subtitle.add_theme_color_override("font_color", Color("#327c55"))
 	heading.add_child(subtitle)
 	var top_close := _action_button("×", _close_care_center)
 	top_close.custom_minimum_size = Vector2(56, 52)
@@ -3018,16 +3276,20 @@ func _build_care_center_modal() -> Control:
 	top_close.set_meta("touch_target_min_height", 52)
 	top_close.add_theme_font_override("font", FontExtraBold)
 	top_close.add_theme_font_size_override("font_size", 25)
-	ComicUITheme.apply_button(top_close, ComicUITheme.ORANGE, ComicUITheme.CREAM, 13)
+	ComicUITheme.apply_button(top_close, ComicUITheme.TEAL, ComicUITheme.CREAM, 13)
 	banner_row.add_child(top_close)
+	var summary_panel := PanelContainer.new()
+	summary_panel.custom_minimum_size.y = 34
+	summary_panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 3.0))
+	column.add_child(summary_panel)
 	care_center_summary_label = Label.new()
-	care_center_summary_label.custom_minimum_size.y = 30
+	care_center_summary_label.custom_minimum_size.y = 28
 	care_center_summary_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	care_center_summary_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	care_center_summary_label.add_theme_font_override("font", FontExtraBold)
 	care_center_summary_label.add_theme_font_size_override("font_size", 12)
 	care_center_summary_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(care_center_summary_label)
+	summary_panel.add_child(care_center_summary_label)
 	care_center_scroll = ScrollContainer.new()
 	care_center_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	care_center_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -3040,6 +3302,10 @@ func _build_care_center_modal() -> Control:
 	for slot_index in range(GameSession.MAX_PLANT_SLOTS):
 		list.add_child(_build_care_center_card(slot_index))
 	_configure_mobile_scroll(care_center_scroll, list, "care_center")
+	var status_panel := PanelContainer.new()
+	status_panel.custom_minimum_size.y = 46
+	status_panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 4.0))
+	column.add_child(status_panel)
 	care_center_status_label = Label.new()
 	care_center_status_label.custom_minimum_size.y = 42
 	care_center_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -3048,7 +3314,7 @@ func _build_care_center_modal() -> Control:
 	care_center_status_label.add_theme_font_override("font", FontSemiBold)
 	care_center_status_label.add_theme_font_size_override("font_size", 10)
 	care_center_status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(care_center_status_label)
+	status_panel.add_child(care_center_status_label)
 	care_center_reminder_button = _action_button("PŘIPOMÍNKY V APLIKACI · ZAPNUTÉ", _on_care_reminders_toggled)
 	care_center_reminder_button.custom_minimum_size.y = 56
 	care_center_reminder_button.toggle_mode = true
@@ -3056,6 +3322,9 @@ func _build_care_center_modal() -> Control:
 	care_center_reminder_button.set_meta("reminder_scope", "in_app_only_v1")
 	care_center_reminder_button.add_theme_font_override("font", FontExtraBold)
 	care_center_reminder_button.add_theme_font_size_override("font_size", 11)
+	care_center_reminder_button.icon = CareCenterPaintedArt.texture("reminder")
+	care_center_reminder_button.expand_icon = true
+	care_center_reminder_button.add_theme_constant_override("icon_max_width", 36)
 	column.add_child(care_center_reminder_button)
 	care_center_notification_test_button = _action_button("OVĚŘIT UPOZORNĚNÍ ZA 20 S", _on_care_notification_test_pressed)
 	care_center_notification_test_button.custom_minimum_size.y = 56
@@ -3064,6 +3333,9 @@ func _build_care_center_modal() -> Control:
 	care_center_notification_test_button.set_meta("touch_target_min_height", 56)
 	care_center_notification_test_button.add_theme_font_override("font", FontExtraBold)
 	care_center_notification_test_button.add_theme_font_size_override("font_size", 11)
+	care_center_notification_test_button.icon = CareCenterPaintedArt.texture("reminder")
+	care_center_notification_test_button.expand_icon = true
+	care_center_notification_test_button.add_theme_constant_override("icon_max_width", 36)
 	ComicUITheme.apply_button(care_center_notification_test_button, ComicUITheme.ORANGE, ComicUITheme.CREAM, 11)
 	column.add_child(care_center_notification_test_button)
 	var close_button := _action_button("ZPĚT DO ZAHRADY", _close_care_center)
@@ -3071,6 +3343,9 @@ func _build_care_center_modal() -> Control:
 	close_button.set_meta("touch_target_min_height", 64)
 	close_button.add_theme_font_override("font", FontExtraBold)
 	close_button.add_theme_font_size_override("font_size", 15)
+	close_button.icon = CareCenterPaintedArt.texture("return_pot")
+	close_button.expand_icon = true
+	close_button.add_theme_constant_override("icon_max_width", 40)
 	ComicUITheme.apply_button(close_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 15)
 	column.add_child(close_button)
 	care_center_presenter.bind(care_center_summary_label, care_center_status_label, care_center_reminder_button, care_center_cards)
@@ -3079,52 +3354,87 @@ func _build_care_center_modal() -> Control:
 
 func _build_care_center_card(slot_index: int) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size.y = 148
-	panel.set_meta("component", "care_center_slot_card_v1")
+	panel.custom_minimum_size.y = 174
+	panel.set_meta("component", "painted_care_center_slot_card_v1")
 	panel.set_meta("slot_index", slot_index)
+	var card_row := HBoxContainer.new()
+	card_row.add_theme_constant_override("separation", 9)
+	panel.add_child(card_row)
+	var status_icon := TextureRect.new()
+	status_icon.custom_minimum_size = Vector2(68, 68)
+	status_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	status_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	status_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	status_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	status_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card_row.add_child(status_icon)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 4)
-	panel.add_child(column)
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", 3)
+	card_row.add_child(column)
 	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 8)
+	top.add_theme_constant_override("separation", 7)
 	column.add_child(top)
 	var slot_label := Label.new()
-	slot_label.custom_minimum_size.x = 88
+	slot_label.custom_minimum_size.x = 82
 	slot_label.add_theme_font_override("font", FontExtraBold)
-	slot_label.add_theme_font_size_override("font_size", 10)
-	slot_label.add_theme_color_override("font_color", ComicUITheme.PURPLE)
+	slot_label.add_theme_font_size_override("font_size", 9)
+	slot_label.add_theme_color_override("font_color", Color("#4f7d3f"))
 	top.add_child(slot_label)
 	var title := Label.new()
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 15)
+	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", ComicUITheme.INK)
 	top.add_child(title)
 	var state := Label.new()
+	state.custom_minimum_size.y = 26
 	state.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	state.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	state.add_theme_font_override("font", FontExtraBold)
-	state.add_theme_font_size_override("font_size", 10)
-	top.add_child(state)
+	state.add_theme_font_size_override("font_size", 9)
+	column.add_child(state)
 	var detail := Label.new()
-	detail.custom_minimum_size.y = 30
+	detail.custom_minimum_size.y = 36
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.add_theme_font_override("font", FontSemiBold)
-	detail.add_theme_font_size_override("font_size", 10)
+	detail.add_theme_font_size_override("font_size", 9)
 	detail.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	column.add_child(detail)
+	var check_row := HBoxContainer.new()
+	check_row.alignment = BoxContainer.ALIGNMENT_END
+	check_row.add_theme_constant_override("separation", 4)
+	column.add_child(check_row)
+	var check_icon := TextureRect.new()
+	check_icon.custom_minimum_size = Vector2(24, 24)
+	check_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	check_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	check_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	check_row.add_child(check_icon)
 	var check := Label.new()
-	check.custom_minimum_size.y = 18
+	check.custom_minimum_size.y = 24
 	check.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	check.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	check.add_theme_font_override("font", FontExtraBold)
 	check.add_theme_font_size_override("font_size", 9)
-	column.add_child(check)
+	check_row.add_child(check)
 	var action := _action_button("OTEVŘÍT DETAIL", _on_care_destination_pressed.bind(slot_index))
 	action.custom_minimum_size.y = 56
 	action.set_meta("touch_target_min_height", 56)
 	action.add_theme_font_override("font", FontExtraBold)
 	action.add_theme_font_size_override("font_size", 11)
 	column.add_child(action)
-	care_center_cards[slot_index] = {"panel": panel, "slot": slot_label, "title": title, "state": state, "detail": detail, "check": check, "action": action}
+	care_center_cards[slot_index] = {
+		"panel": panel,
+		"slot": slot_label,
+		"title": title,
+		"state": state,
+		"detail": detail,
+		"check": check,
+		"action": action,
+		"status_icon": status_icon,
+		"check_icon": check_icon,
+	}
 	return panel
 
 
@@ -4589,7 +4899,7 @@ func _get_botanical_pack_odds_text() -> String:
 		var chance := float(odds.get(rarity_id, 0.0))
 		if chance <= 0.0:
 			continue
-		parts.append("%s %.1f %%" % [session.plant_rarity_catalog.get_label(rarity_id), chance])
+		parts.append("%s %.1f%%" % [session.plant_rarity_catalog.get_label(rarity_id), chance])
 	if parts.is_empty():
 		return "ŽÁDNÝ DRUH NENÍ V BALÍČKU DOSTUPNÝ"
 	return "SKUTEČNÉ ŠANCE · %s\nSPECIÁLNÍ · POUZE PŘÍBĚH A UDÁLOSTI" % " · ".join(parts)
@@ -4728,6 +5038,9 @@ func _set_level_progression_open(opening: bool) -> void:
 	level_progression_open = opening
 	level_progression_modal.visible = opening
 	if opening:
+		level_progression_selected_level = clampi(session.get_level(), 1, GameSession.LEVEL_REWARDS.size())
+		if level_progression_tree_view != null:
+			level_progression_tree_view.reset_debug_level_preview(level_progression_selected_level)
 		level_progression_modal.move_to_front()
 		_refresh_level_progression()
 	if audio_haptics != null:
@@ -4738,6 +5051,33 @@ func _refresh_level_progression() -> void:
 	if session == null or level_progression_summary_label == null:
 		return
 	level_progression_presenter.refresh(session)
+	if level_progression_tree_view != null:
+		var claimable: Array[int] = []
+		for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
+			if session.can_claim_level_reward(reward_level):
+				claimable.append(reward_level)
+		var journal := session.get_grower_journal_snapshot()
+		level_progression_tree_view.set_state(
+			session.get_level(),
+			session.get_level_progress(),
+			session.claimed_level_rewards,
+			claimable,
+			int(journal.get("completed_badges", 0))
+		)
+	_select_level_progression_level(level_progression_selected_level)
+
+
+func _select_level_progression_level(reward_level: int) -> void:
+	level_progression_selected_level = clampi(reward_level, 1, GameSession.LEVEL_REWARDS.size())
+	for card_level in level_progression_cards:
+		var card: Dictionary = level_progression_cards.get(card_level, {})
+		var panel := card.get("panel") as Control
+		if panel != null:
+			panel.visible = int(card_level) == level_progression_selected_level
+	if level_progression_tree_view != null:
+		level_progression_tree_view.select_level(level_progression_selected_level)
+	if level_progression_detail_stack != null:
+		level_progression_detail_stack.set_meta("selected_level", level_progression_selected_level)
 
 
 func _on_level_reward_claimed(reward_level: int) -> void:
@@ -4746,6 +5086,7 @@ func _on_level_reward_claimed(reward_level: int) -> void:
 		return
 	_save_current_session()
 	_refresh_ui()
+	_refresh_level_progression()
 	level_progression_presenter.show_claimed(reward_level)
 
 
@@ -4781,6 +5122,12 @@ func _set_grower_journal_open(opening: bool) -> void:
 		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
+	# The journal is a fully opaque fullscreen scene. Hiding the normal game tree avoids
+	# drawing the room behind it and keeps the illustrated skill tree within the release budget.
+	if safe_area_container != null:
+		safe_area_container.visible = not opening
+	if feedback_layer != null:
+		feedback_layer.visible = not opening
 	grower_journal_open = opening
 	grower_journal_modal.visible = opening
 	if opening:
@@ -5140,14 +5487,14 @@ func _on_music_volume_changed(value: float) -> void:
 	if session == null:
 		return
 	session.music_volume = value / 100.0
-	_commit_audio_settings("Hlasitost hudby: %d %%" % roundi(value), false)
+	_commit_audio_settings("Hlasitost hudby: %d%%" % roundi(value), false)
 
 
 func _on_sfx_volume_changed(value: float) -> void:
 	if session == null:
 		return
 	session.sfx_volume = value / 100.0
-	_commit_audio_settings("Hlasitost efektů: %d %%" % roundi(value), false)
+	_commit_audio_settings("Hlasitost efektů: %d%%" % roundi(value), false)
 
 
 func _commit_audio_settings(message: String, play_confirmation := true) -> void:
@@ -5715,16 +6062,36 @@ func _build_measurement_screen() -> Control:
 
 
 func _build_storage_screen() -> Control:
-	var margin := _screen_margin()
-	margin.set_meta("phase5_screen", "storage_v1")
-	margin.set_meta("ui_kit", "comic_ui_v1")
-	margin.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
-	margin.set_meta("phase128_style_reference", VisualDesignSystem.PLANTS_STYLE_REFERENCE_ID)
-	margin.set_meta("phase128_style_refinement", VisualDesignSystem.PLANTS_STYLE_REFINEMENT_ID)
-	margin.set_meta("phase152_runtime_set", VisualDesignSystem.STORAGE_PHASE152_RUNTIME_SET_ID)
-	margin.set_meta("phase152_scene_profile", VisualDesignSystem.STORAGE_PHASE152_SCENE_PROFILE_ID)
-	margin.set_meta("phase152_reference_asset", VisualDesignSystem.STORAGE_PHASE152_TARGET_ASSET)
-	_add_phase128_screen_backdrop(margin, Phase128StorageBackdrop, "storage")
+	var screen := Control.new()
+	screen.set_meta("phase5_screen", "storage_v1")
+	screen.set_meta("ui_kit", "comic_ui_v1")
+	screen.set_meta("painted_ui_kit", "painted_detail_ui_v2")
+	screen.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
+	screen.set_meta("phase128_style_reference", VisualDesignSystem.PLANTS_STYLE_REFERENCE_ID)
+	screen.set_meta("phase128_style_refinement", VisualDesignSystem.PLANTS_STYLE_REFINEMENT_ID)
+	screen.set_meta("phase152_runtime_set", VisualDesignSystem.STORAGE_PHASE152_RUNTIME_SET_ID)
+	screen.set_meta("phase152_scene_profile", VisualDesignSystem.STORAGE_PHASE152_SCENE_PROFILE_ID)
+	screen.set_meta("phase152_reference_asset", VisualDesignSystem.STORAGE_PHASE152_TARGET_ASSET)
+	screen.set_meta("storage_painted_gap_fill", "storage_painted_gap_fill_v2")
+	_add_phase128_screen_backdrop(screen, Phase128StorageBackdrop, "storage")
+	var painted_ground := PanelContainer.new()
+	painted_ground.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	painted_ground.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var painted_ground_style := StyleBoxFlat.new()
+	painted_ground_style.bg_color = Color("#93420f")
+	painted_ground_style.border_color = Color("#4b2109")
+	painted_ground_style.set_border_width_all(2)
+	painted_ground.add_theme_stylebox_override("panel", painted_ground_style)
+	painted_ground.set_meta("component", "painted_storage_content_ground_v2")
+	painted_ground.set_meta("gap_fill", "opaque_painted_wood_seams_v1")
+	screen.add_child(painted_ground)
+	var margin := MarginContainer.new()
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 7)
+	margin.add_theme_constant_override("margin_right", 7)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	screen.add_child(margin)
 	storage_scroll = ScrollContainer.new()
 	storage_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	storage_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -5749,7 +6116,8 @@ func _build_storage_screen() -> Control:
 	inventory_label.add_theme_font_size_override("font_size", 13)
 	inventory_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	inventory_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_register_phase128_label_surface(inventory_label, "status_ribbon", ComicUITheme.ORANGE)
+	_register_phase128_label_surface(inventory_label, "status_ribbon", ComicUITheme.ORANGE, PaintedDetailArt.box("cream", 7.0))
+	inventory_label.set_meta("component", "painted_storage_inventory_ribbon_v2")
 	column.add_child(inventory_label)
 	var inventory_grid := GridContainer.new()
 	inventory_grid.columns = 3
@@ -5763,7 +6131,8 @@ func _build_storage_screen() -> Control:
 	var harvest_panel := PanelContainer.new()
 	harvest_panel.custom_minimum_size.y = 330
 	var harvest_legacy_style := ComicUITheme.style_box(Color("#fff5ce"), ComicUITheme.ORANGE, 3, 15, ComicUITheme.SHADOW, 4, 10.0)
-	_register_phase128_surface(harvest_panel, harvest_legacy_style, "primary_work_surface", ComicUITheme.ORANGE)
+	_register_phase128_surface(harvest_panel, harvest_legacy_style, "primary_work_surface", ComicUITheme.ORANGE, PaintedDetailArt.box("cream", 11.0))
+	harvest_panel.set_meta("painted_surface", "storage_painted_cream_card_v2")
 	harvest_panel.set_meta("component", "comic_harvest_pipeline_v1")
 	var harvest_column := VBoxContainer.new()
 	harvest_column.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -5821,7 +6190,8 @@ func _build_storage_screen() -> Control:
 	customer_orders_panel = _build_customer_orders_panel()
 	column.add_child(customer_orders_panel)
 	_configure_mobile_scroll(storage_scroll, column, "storage")
-	return margin
+	_apply_storage_scrollbar_skin(storage_scroll)
+	return screen
 
 
 func _build_customer_orders_panel() -> CustomerOrdersPanel:
@@ -5838,11 +6208,31 @@ func _build_customer_orders_panel() -> CustomerOrdersPanel:
 
 
 func _build_shop_screen() -> Control:
-	var margin := _screen_margin()
-	margin.set_meta("phase5_screen", "shop_v1")
-	margin.set_meta("ui_kit", "comic_ui_v1")
-	margin.set_meta("component", "botanist_shop_mobile_v1")
-	margin.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
+	var screen := Control.new()
+	screen.set_meta("phase5_screen", "shop_v1")
+	screen.set_meta("ui_kit", "comic_ui_v1")
+	screen.set_meta("painted_ui_kit", "painted_detail_ui_v2")
+	screen.set_meta("component", "botanist_shop_mobile_v1")
+	screen.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
+	screen.set_meta("shop_painted_gap_fill", "shop_painted_gap_fill_v2")
+	var painted_ground := PanelContainer.new()
+	painted_ground.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	painted_ground.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var painted_ground_style := StyleBoxFlat.new()
+	painted_ground_style.bg_color = Color("#93420f")
+	painted_ground_style.border_color = Color("#4b2109")
+	painted_ground_style.set_border_width_all(2)
+	painted_ground.add_theme_stylebox_override("panel", painted_ground_style)
+	painted_ground.set_meta("component", "painted_shop_content_ground_v2")
+	painted_ground.set_meta("gap_fill", "opaque_painted_wood_seams_v1")
+	screen.add_child(painted_ground)
+	var margin := MarginContainer.new()
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 7)
+	margin.add_theme_constant_override("margin_right", 7)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	screen.add_child(margin)
 	shop_scroll = ScrollContainer.new()
 	shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	shop_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -5896,8 +6286,9 @@ func _build_shop_screen() -> Control:
 	_build_botanist_runtime_shop(margin)
 	_configure_mobile_scroll(shop_scroll, shop_column, "shop_legacy")
 	_configure_mobile_scroll(shop_catalog_scroll, shop_catalog_grid, "shop_catalog")
+	_apply_shop_scrollbar_skin(shop_catalog_scroll)
 	_set_shop_mode("buy")
-	return margin
+	return screen
 
 
 func _configure_mobile_scroll(scroll: ScrollContainer, content_root: Control, scroll_id: String) -> void:
@@ -5914,6 +6305,46 @@ func _configure_mobile_scroll(scroll: ScrollContainer, content_root: Control, sc
 	scroll.set_meta("scroll_id", scroll_id)
 	scroll.set_meta("touch_drag_enabled", true)
 	_set_scroll_descendant_passthrough(content_root)
+
+
+func _apply_storage_scrollbar_skin(scroll: ScrollContainer) -> void:
+	var bar := scroll.get_v_scroll_bar()
+	if bar == null:
+		return
+	bar.custom_minimum_size.x = 7.0
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color("#4b2109", 0.86)
+	track.set_corner_radius_all(4)
+	var grabber := StyleBoxFlat.new()
+	grabber.bg_color = Color("#d68426")
+	grabber.border_color = Color("#4b2109")
+	grabber.set_border_width_all(1)
+	grabber.set_corner_radius_all(4)
+	bar.add_theme_stylebox_override("scroll", track)
+	bar.add_theme_stylebox_override("grabber", grabber)
+	bar.add_theme_stylebox_override("grabber_highlight", grabber)
+	bar.add_theme_stylebox_override("grabber_pressed", grabber)
+	bar.set_meta("component", "painted_storage_scrollbar_v2")
+
+
+func _apply_shop_scrollbar_skin(scroll: ScrollContainer) -> void:
+	var bar := scroll.get_v_scroll_bar()
+	if bar == null:
+		return
+	bar.custom_minimum_size.x = 8.0
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color("#4b2109", 0.88)
+	track.set_corner_radius_all(4)
+	var grabber := StyleBoxFlat.new()
+	grabber.bg_color = Color("#d99a32")
+	grabber.border_color = Color("#4b2109")
+	grabber.set_border_width_all(1)
+	grabber.set_corner_radius_all(4)
+	bar.add_theme_stylebox_override("scroll", track)
+	bar.add_theme_stylebox_override("grabber", grabber)
+	bar.add_theme_stylebox_override("grabber_highlight", grabber)
+	bar.add_theme_stylebox_override("grabber_pressed", grabber)
+	bar.set_meta("component", "painted_shop_scrollbar_v2")
 
 
 func _set_scroll_descendant_passthrough(node: Node) -> void:
@@ -5933,14 +6364,15 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	shop_runtime_layout.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
 	shop_runtime_layout.set_meta("phase153_runtime_set", VisualDesignSystem.SHOP_PHASE153_RUNTIME_SET_ID)
 	shop_runtime_layout.set_meta("phase153_scene_profile", VisualDesignSystem.SHOP_PHASE153_SCENE_PROFILE_ID)
-	shop_runtime_layout.set_meta("phase153_dynamic_policy", "wallet_stock_catalog_categories_buy_sell_equipment_scroll_v1")
+	shop_runtime_layout.set_meta("phase153_dynamic_policy", "wallet_stock_ordered_catalog_categories_buy_sell_equipment_scroll_v2")
 	parent.add_child(shop_runtime_layout)
 	shop_hero_panel = _build_botanist_shop_hero()
 	shop_runtime_layout.add_child(shop_hero_panel)
 	var wallet := PanelContainer.new()
 	wallet.custom_minimum_size.y = 46
-	wallet.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff1bd"), Color("#c77922"), 3, 10, ComicUITheme.SHADOW, 3, 4.0))
+	wallet.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 7.0))
 	wallet.set_meta("phase153_component", "painted_wallet_ribbon_v1")
+	wallet.set_meta("painted_surface", "shop_painted_cream_wallet_v2")
 	var wallet_row := HBoxContainer.new()
 	wallet_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	wallet_row.add_theme_constant_override("separation", 7)
@@ -5960,16 +6392,18 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	shop_catalog_scroll = ScrollContainer.new()
 	shop_catalog_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	shop_catalog_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	shop_catalog_scroll.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#713b1d"), Color("#3b2415"), 2, 8, Color("#1b0d06", 0.48), 2, 3.0))
+	shop_catalog_scroll.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 5.0))
 	shop_catalog_scroll.set_meta("component", "botanist_catalog_scroll_phase153_v1")
 	shop_catalog_scroll.set_meta("phase153_background", "warm_wood_catalog_ground_v1")
+	shop_catalog_scroll.set_meta("painted_surface", "shop_painted_wood_catalog_v2")
 	shop_runtime_layout.add_child(shop_catalog_scroll)
 	shop_catalog_grid = GridContainer.new()
-	shop_catalog_grid.columns = 3
+	shop_catalog_grid.columns = 2
 	shop_catalog_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	shop_catalog_grid.add_theme_constant_override("h_separation", 6)
-	shop_catalog_grid.add_theme_constant_override("v_separation", 6)
-	shop_catalog_grid.set_meta("component", "botanist_catalog_grid_3x_phase153_v1")
+	shop_catalog_grid.add_theme_constant_override("h_separation", 8)
+	shop_catalog_grid.add_theme_constant_override("v_separation", 8)
+	shop_catalog_grid.set_meta("component", "botanist_catalog_grid_2x_ordered_v2")
+	shop_catalog_grid.set_meta("layout_policy", "two_equal_columns_single_supplies_column_v2")
 	shop_catalog_scroll.add_child(shop_catalog_grid)
 	shop_seed_buttons.clear()
 	shop_owned_labels.clear()
@@ -6015,13 +6449,19 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	shop_sell_panel = _build_botanist_sell_panel()
 	shop_sell_panel.visible = false
 	shop_runtime_layout.add_child(shop_sell_panel)
+	var feedback_ribbon := PanelContainer.new()
+	feedback_ribbon.custom_minimum_size.y = 30
+	feedback_ribbon.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	feedback_ribbon.set_meta("painted_surface", "shop_painted_cream_feedback_ribbon_v2")
 	shop_feedback_label = Label.new()
 	shop_feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	shop_feedback_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	shop_feedback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	shop_feedback_label.custom_minimum_size.y = 24
 	shop_feedback_label.add_theme_font_size_override("font_size", 9)
 	shop_feedback_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	shop_runtime_layout.add_child(shop_feedback_label)
+	feedback_ribbon.add_child(shop_feedback_label)
+	shop_runtime_layout.add_child(feedback_ribbon)
 	var categories := HBoxContainer.new()
 	shop_mode_tabs = categories
 	categories.custom_minimum_size.y = 58
@@ -6072,18 +6512,23 @@ func _build_shop_category_button(label_text: String, mode: String) -> Button:
 	button.set_meta("touch_target_min_height", 58)
 	button.set_meta("shop_mode", "sell" if mode == "sell" else "buy")
 	button.set_meta("shop_category", mode)
+	button.set_meta("painted_surface", "shop_painted_category_tab_v2")
 	if mode == "sell":
 		button.pressed.connect(_set_shop_mode.bind("sell"))
 	else:
 		button.pressed.connect(_set_shop_category.bind(mode))
 	ComicUITheme.apply_button(button, Color("#fff3c4"), ComicUITheme.INK, 10, ComicUITheme.INK, 3)
+	button.add_theme_stylebox_override("normal", PaintedDetailArt.box("cream", 6.0))
+	button.add_theme_stylebox_override("hover", PaintedDetailArt.box("cream", 6.0, Color(1.04, 1.04, 1.0)))
+	button.add_theme_stylebox_override("pressed", PaintedDetailArt.box("sage", 6.0, Color(0.94, 0.98, 0.90)))
+	button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 6.0, Color(0.80, 0.80, 0.76)))
 	return button
 
 
 func _set_shop_category(category: String) -> void:
 	shop_category = category if category in ["all", "supplies", "equipment"] else "all"
 	if shop_catalog_grid != null:
-		shop_catalog_grid.columns = 2 if shop_category == "equipment" else 3
+		shop_catalog_grid.columns = 1 if shop_category == "supplies" else 2
 	_set_shop_mode("buy")
 
 
@@ -6097,7 +6542,8 @@ func _build_botanist_shop_hero() -> Control:
 	hero.set_meta("phase153_composition", "integrated_sign_merchant_counter_and_dialog_v1")
 	var frame := PanelContainer.new()
 	frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#74401f"), Color("#302016"), 4, 14, ComicUITheme.SHADOW, 4, 8.0))
+	frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 5.0))
+	frame.set_meta("painted_surface", "shop_painted_wood_hero_frame_v2")
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hero.add_child(frame)
 	shop_merchant_scene = TextureRect.new()
@@ -6154,14 +6600,83 @@ func _build_botanist_shop_hero() -> Control:
 	return hero
 
 
+func _shop_normalized_icon_texture(source: Texture2D, safe_padding: int = 4) -> Texture2D:
+	if source == null:
+		return null
+	var bounded_padding := maxi(0, safe_padding)
+	var source_key := source.resource_path if not source.resource_path.is_empty() else str(source.get_instance_id())
+	var cache_key := "%s::padding=%d" % [source_key, bounded_padding]
+	if shop_normalized_icon_textures.has(cache_key):
+		return shop_normalized_icon_textures[cache_key] as Texture2D
+	var image := source.get_image()
+	if image == null or image.is_empty():
+		shop_normalized_icon_textures[cache_key] = source
+		return source
+	var used_rect := image.get_used_rect()
+	if not used_rect.has_area():
+		shop_normalized_icon_textures[cache_key] = source
+		return source
+	var image_size := image.get_size()
+	var left := maxi(0, used_rect.position.x - bounded_padding)
+	var top := maxi(0, used_rect.position.y - bounded_padding)
+	var right := mini(image_size.x, used_rect.position.x + used_rect.size.x + bounded_padding)
+	var bottom := mini(image_size.y, used_rect.position.y + used_rect.size.y + bounded_padding)
+	var normalized := AtlasTexture.new()
+	normalized.atlas = source
+	normalized.region = Rect2(left, top, right - left, bottom - top)
+	normalized.filter_clip = true
+	shop_normalized_icon_textures[cache_key] = normalized
+	return normalized
+
+
+func _build_uniform_shop_product_icon(source: Texture2D, safe_padding: int = 4) -> Dictionary:
+	var inset := MarginContainer.new()
+	inset.add_theme_constant_override("margin_left", 12)
+	inset.add_theme_constant_override("margin_top", 9)
+	inset.add_theme_constant_override("margin_right", 12)
+	inset.add_theme_constant_override("margin_bottom", 9)
+	inset.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inset.set_meta("icon_slot_policy", "uniform_shop_product_icon_slot_v6")
+	var icon := TextureRect.new()
+	icon.texture = _shop_normalized_icon_texture(source, safe_padding)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.set_meta("placement_policy", "alpha_trimmed_centered_safe_inset_v6")
+	icon.set_meta("shop_product_icon_family", "uniform_shop_product_icon_v6")
+	icon.set_meta("source_safe_padding", safe_padding)
+	inset.add_child(icon)
+	return {"root": inset, "icon": icon}
+
+
+func _style_shop_item_action(button: Button, font_size: int = 10) -> MarginContainer:
+	button.custom_minimum_size.y = 48
+	button.focus_mode = Control.FOCUS_NONE
+	button.set_meta("touch_target_min_height", 48)
+	button.set_meta("shop_action_style", "unified_green_shop_item_action_v4")
+	ComicUITheme.apply_button(button, ComicUITheme.GREEN, ComicUITheme.INK, font_size, ComicUITheme.INK, 2)
+	var inset := MarginContainer.new()
+	inset.add_theme_constant_override("margin_left", 7)
+	inset.add_theme_constant_override("margin_right", 7)
+	inset.add_theme_constant_override("margin_bottom", 4)
+	inset.set_meta("layout_policy", "inset_shop_purchase_action_v3")
+	inset.add_child(button)
+	return inset
+
+
 func _build_shop_catalog_tile(title_text: String, price: int, icon_texture: Texture2D, accent: Color, callback: Callable, rarity: Dictionary = {}) -> Dictionary:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 180 if not rarity.is_empty() else 166)
+	panel.custom_minimum_size = Vector2(0, 220)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff0c1", 0.98), accent.darkened(0.08), 3, 12, Color("#1a0c06", 0.48), 4, 5.0))
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 5.0))
 	panel.set_meta("component", "botanist_catalog_tile_phase153_v1")
 	panel.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
 	panel.set_meta("phase153_grounding", "painted_display_plaque_contact_shadow_v1")
+	panel.set_meta("painted_surface", "shop_painted_cream_catalog_card_v2")
+	panel.set_meta("layout_policy", "ordered_equal_height_catalog_card_v2")
+	panel.set_meta("vertical_slot_policy", "shared_rarity_slot_catalog_card_v5")
 	if not rarity.is_empty():
 		panel.set_meta("rarity", str(rarity.get("id", "common")))
 	var column := VBoxContainer.new()
@@ -6169,47 +6684,50 @@ func _build_shop_catalog_tile(title_text: String, price: int, icon_texture: Text
 	column.add_theme_constant_override("separation", 2)
 	panel.add_child(column)
 	var owned := Label.new()
+	owned.custom_minimum_size.y = 20
 	owned.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	owned.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	owned.add_theme_font_override("font", FontExtraBold)
 	owned.add_theme_font_size_override("font_size", 9)
-	owned.add_theme_color_override("font_color", accent.darkened(0.35))
+	owned.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	column.add_child(owned)
 	var icon_frame := PanelContainer.new()
-	icon_frame.custom_minimum_size = Vector2(0, 82)
-	icon_frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff7db", 0.72), accent.darkened(0.22), 1, 8, Color.TRANSPARENT, 0, 0.0))
-	var icon := TextureRect.new()
-	icon.texture = icon_texture
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_frame.add_child(icon)
+	icon_frame.custom_minimum_size = Vector2(0, 92)
+	icon_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 3.0, Color("#f4f6df")))
+	icon_frame.set_meta("painted_surface", "shop_painted_sage_icon_frame_v2")
+	icon_frame.set_meta("icon_slot_policy", "uniform_shop_product_icon_slot_v6")
+	var icon_view := _build_uniform_shop_product_icon(icon_texture)
+	icon_frame.add_child(icon_view.root)
 	column.add_child(icon_frame)
+	var rarity_label := Label.new()
+	rarity_label.custom_minimum_size.y = 18
+	rarity_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rarity_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	rarity_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	rarity_label.add_theme_font_override("font", FontExtraBold)
+	rarity_label.add_theme_font_size_override("font_size", 8)
 	if not rarity.is_empty():
-		var rarity_label := Label.new()
 		rarity_label.text = "%s  %s" % ["★".repeat(maxi(1, int(rarity.get("stars", 1)))), str(rarity.get("label", "BĚŽNÁ"))]
-		rarity_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		rarity_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		rarity_label.add_theme_font_override("font", FontExtraBold)
-		rarity_label.add_theme_font_size_override("font_size", 8)
 		rarity_label.add_theme_color_override("font_color", Color(str(rarity.get("color_hex", "#76D91D"))).darkened(0.32))
-		column.add_child(rarity_label)
+	else:
+		rarity_label.text = ""
+		rarity_label.set_meta("slot_role", "empty_rarity_alignment_slot_v5")
+	column.add_child(rarity_label)
 	var title := Label.new()
+	title.custom_minimum_size.y = 24
 	title.text = title_text
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	title.add_theme_font_override("font", FontExtraBold)
 	title.add_theme_font_size_override("font_size", 10)
 	title.add_theme_color_override("font_color", ComicUITheme.INK)
 	column.add_child(title)
 	var button := _action_button("%d  MINCÍ" % price, callback)
-	button.custom_minimum_size.y = 48
-	button.focus_mode = Control.FOCUS_NONE
 	button.set_meta("component", "comic_shop_buy_button_v1")
-	button.set_meta("touch_target_min_height", 48)
 	button.set_meta("price", price)
-	ComicUITheme.apply_button(button, accent, ComicUITheme.INK if accent != ComicUITheme.PURPLE else Color.WHITE, 9, ComicUITheme.INK, 2)
-	column.add_child(button)
+	button.set_meta("visual_policy", "unified_shop_purchase_action_v2")
+	column.add_child(_style_shop_item_action(button))
 	return {"root": panel, "button": button, "owned": owned}
 
 
@@ -6227,13 +6745,16 @@ func _add_equipment_shop_tile(equipment_id: String, icon_texture: Texture2D, acc
 
 func _build_equipment_upgrade_tile(equipment_id: String, title_text: String, icon_texture: Texture2D, accent: Color) -> Dictionary:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(0, 190)
+	panel.custom_minimum_size = Vector2(0, 224)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff0c1", 0.98), accent.darkened(0.08), 3, 12, Color("#1a0c06", 0.48), 4, 5.0))
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 5.0))
 	panel.set_meta("component", "botanist_equipment_upgrade_tile_phase153_v1")
 	panel.set_meta("phase128_style_parity", VisualDesignSystem.PLANTS_STYLE_PARITY_ID)
 	panel.set_meta("phase153_grounding", "painted_display_plaque_contact_shadow_v1")
+	panel.set_meta("painted_surface", "shop_painted_cream_equipment_card_v2")
 	panel.set_meta("equipment_id", equipment_id)
+	panel.set_meta("layout_policy", "uniform_shop_product_card_v6")
 	var column := VBoxContainer.new()
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_theme_constant_override("separation", 2)
@@ -6245,15 +6766,15 @@ func _build_equipment_upgrade_tile(equipment_id: String, title_text: String, ico
 	level_label.add_theme_color_override("font_color", accent.darkened(0.35))
 	column.add_child(level_label)
 	var icon_frame := PanelContainer.new()
-	icon_frame.custom_minimum_size = Vector2(0, 58)
-	icon_frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff7db", 0.72), accent.darkened(0.22), 1, 8, Color.TRANSPARENT, 0, 0.0))
-	var icon := TextureRect.new()
-	icon.texture = icon_texture
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_frame.add_child(icon)
+	icon_frame.custom_minimum_size = Vector2(0, 92)
+	icon_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 3.0, Color("#f4f6df")))
+	icon_frame.set_meta("painted_surface", "shop_painted_sage_icon_frame_v2")
+	icon_frame.set_meta("icon_slot_policy", "uniform_shop_product_icon_slot_v6")
+	var icon_safe_padding := 8 if equipment_id == "grow_lamp" else 4
+	var icon_view := _build_uniform_shop_product_icon(icon_texture, icon_safe_padding)
+	if equipment_id == "grow_lamp":
+		(icon_view.icon as TextureRect).set_meta("edge_padding_policy", "sun_ray_safe_padding_8_v7")
+	icon_frame.add_child(icon_view.root)
 	column.add_child(icon_frame)
 	var title := Label.new()
 	title.text = title_text
@@ -6273,13 +6794,9 @@ func _build_equipment_upgrade_tile(equipment_id: String, title_text: String, ico
 	effect_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	column.add_child(effect_label)
 	var button := _action_button("VYLEPŠIT", _on_buy_equipment_upgrade.bind(equipment_id))
-	button.custom_minimum_size.y = 58
-	button.focus_mode = Control.FOCUS_NONE
 	button.set_meta("component", "comic_equipment_upgrade_button_v1")
-	button.set_meta("touch_target_min_height", 58)
 	button.set_meta("equipment_id", equipment_id)
-	ComicUITheme.apply_button(button, accent, ComicUITheme.INK if accent != ComicUITheme.PURPLE else Color.WHITE, 9, ComicUITheme.INK, 2)
-	column.add_child(button)
+	column.add_child(_style_shop_item_action(button, 9))
 	return {"root": panel, "button": button, "level": level_label, "effect": effect_label}
 
 
@@ -6287,8 +6804,9 @@ func _build_botanist_sell_panel() -> PanelContainer:
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size.y = 258
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#e9fff2"), ComicUITheme.GREEN, 4, 16, ComicUITheme.SHADOW, 4, 9.0))
+	panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 12.0))
 	panel.set_meta("component", "botanist_instant_sell_card_v1")
+	panel.set_meta("painted_surface", "shop_painted_cream_sell_card_v2")
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
 	panel.add_child(column)
@@ -6303,13 +6821,13 @@ func _build_botanist_sell_panel() -> PanelContainer:
 	row.add_theme_constant_override("separation", 12)
 	column.add_child(row)
 	var icon_frame := PanelContainer.new()
-	icon_frame.custom_minimum_size = Vector2(92, 100)
-	icon_frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff2a8"), ComicUITheme.GOLD, 3, 12, Color.TRANSPARENT, 0, 0.0))
-	shop_sell_icon = TextureRect.new()
-	shop_sell_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	shop_sell_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	shop_sell_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_frame.add_child(shop_sell_icon)
+	icon_frame.custom_minimum_size = Vector2(100, 100)
+	icon_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 6.0, Color("#f4f6df")))
+	icon_frame.set_meta("painted_surface", "shop_painted_sage_icon_frame_v2")
+	icon_frame.set_meta("icon_slot_policy", "uniform_shop_product_icon_slot_v6")
+	var icon_view := _build_uniform_shop_product_icon(null)
+	shop_sell_icon = icon_view.icon as TextureRect
+	icon_frame.add_child(icon_view.root)
 	row.add_child(icon_frame)
 	var details := VBoxContainer.new()
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -6401,8 +6919,8 @@ func _refresh_botanist_sell_panel() -> void:
 		return
 	botanist_shop_presenter.refresh_sell_view(
 		session,
-		_species_herbarium_texture(session.plant.get_species_id()),
-		NavStorageIcon
+		_shop_normalized_icon_texture(_species_herbarium_texture(session.plant.get_species_id())),
+		_shop_normalized_icon_texture(NavStorageIcon)
 	)
 
 
@@ -6444,25 +6962,38 @@ func _on_botanist_sell() -> void:
 func _build_navigation() -> Control:
 	var panel := Control.new()
 	panel.custom_minimum_size.y = 97
-	panel.set_meta("visual_source", "comic_ui_code_native")
-	panel.set_meta("navigation_asset", "comic_mobile_tabs_v1")
-	panel.set_meta("visual_integration", "comic_full_width_four_tab_bar")
+	panel.set_meta("visual_source", "painted_detail_atlas")
+	panel.set_meta("navigation_asset", "painted_garden_tabs_v1")
+	panel.set_meta("visual_integration", "painted_full_width_four_tab_bar")
 	panel.set_meta("selection_feedback", "shine_only")
-	panel.set_meta("ui_kit", "comic_ui_v1")
-	var background := PanelContainer.new()
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.NAVY, ComicUITheme.INK, 3, 0, Color("#07131c", 0.44), 3, 0.0))
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(background)
-	var top_glow := ColorRect.new()
-	top_glow.color = ComicUITheme.CYAN
-	top_glow.set_anchor(SIDE_LEFT, 0.015)
-	top_glow.set_anchor(SIDE_TOP, 0.035)
-	top_glow.set_anchor(SIDE_RIGHT, 0.985)
-	top_glow.set_anchor(SIDE_BOTTOM, 0.065)
-	top_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(top_glow)
-	var tab_accents := [ComicUITheme.GREEN, ComicUITheme.BLUE, ComicUITheme.ORANGE, ComicUITheme.PURPLE]
+	panel.set_meta("ui_kit", "painted_detail_ui_v2")
+	navigation_background = PanelContainer.new()
+	navigation_background.name = "PaintedNavigationBackground"
+	navigation_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	navigation_decorated_background_style = PaintedDetailArt.box("wood", 0)
+	navigation_rack_background_style = StyleBoxFlat.new()
+	navigation_rack_background_style.bg_color = Color("#93420f")
+	navigation_rack_background_style.border_color = Color("#4b2109")
+	navigation_rack_background_style.set_border_width_all(2)
+	navigation_background.add_theme_stylebox_override("panel", navigation_decorated_background_style)
+	navigation_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	navigation_background.set_meta("component", "painted_navigation_background_v2")
+	navigation_background.set_meta("rack_gap_fill_active", false)
+	navigation_background.set_meta("rack_gap_fill", "opaque_painted_wood_seams_v1")
+	panel.add_child(navigation_background)
+	for right_side in [false, true]:
+		var corner_leaf := NavCornerLeafScene.new()
+		corner_leaf.configure(right_side)
+		corner_leaf.set_anchor(SIDE_LEFT, 1.0 if right_side else 0.0)
+		corner_leaf.set_anchor(SIDE_TOP, 0.0)
+		corner_leaf.set_anchor(SIDE_RIGHT, 1.0 if right_side else 0.0)
+		corner_leaf.set_anchor(SIDE_BOTTOM, 0.0)
+		corner_leaf.offset_left = -36.0 if right_side else -4.0
+		corner_leaf.offset_right = 4.0 if right_side else 36.0
+		corner_leaf.offset_top = -12.0
+		corner_leaf.offset_bottom = 28.0
+		panel.add_child(corner_leaf)
+		nav_corner_leaves.append(corner_leaf)
 	for index in range(4):
 		var button := Button.new()
 		button.text = ["ROSTLINY", "SKLAD", "OBCHOD", "MĚŘENÍ"][index]
@@ -6475,21 +7006,18 @@ func _build_navigation() -> Control:
 		button.focus_mode = Control.FOCUS_NONE
 		button.clip_contents = true
 		TooltipPolicy.apply(button, button.text)
-		ComicUITheme.apply_button(button, Color("#fff3c4"), ComicUITheme.INK, 12, ComicUITheme.INK, 3)
+		button.add_theme_stylebox_override("normal", PaintedDetailArt.box("cream", 4))
+		button.add_theme_stylebox_override("hover", PaintedDetailArt.box("cream", 4, Color(1.04, 1.04, 1.0)))
+		button.add_theme_stylebox_override("pressed", PaintedDetailArt.box("sage", 4, Color(0.90, 0.94, 0.87)))
+		button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 4, Color(0.80, 0.80, 0.76)))
+		var nav_focus := StyleBoxEmpty.new()
+		button.add_theme_stylebox_override("focus", nav_focus)
 		button.add_theme_color_override("font_color", Color.TRANSPARENT)
 		button.add_theme_color_override("font_hover_color", Color.TRANSPARENT)
 		button.add_theme_color_override("font_pressed_color", Color.TRANSPARENT)
 		button.add_theme_color_override("font_disabled_color", Color.TRANSPARENT)
-		button.set_meta("component", "comic_nav_tab_v1")
+		button.set_meta("component", "painted_nav_tab_v1")
 		button.set_meta("touch_target_min_height", 80)
-		var accent := ColorRect.new()
-		accent.color = tab_accents[index]
-		accent.set_anchor(SIDE_LEFT, 0.10)
-		accent.set_anchor(SIDE_TOP, 0.04)
-		accent.set_anchor(SIDE_RIGHT, 0.90)
-		accent.set_anchor(SIDE_BOTTOM, 0.095)
-		accent.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		button.add_child(accent)
 		var icon := TextureRect.new()
 		icon.texture = NAV_ICONS[index]
 		icon.set_anchor(SIDE_LEFT, 0.20)
@@ -6622,7 +7150,10 @@ func _build_phase128_screen_hero(texture: Texture2D, title_text: String, subtitl
 
 	var frame := PanelContainer.new()
 	frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff0bd"), accent, 4, 17, Color("#07131c", 0.48), 6, 5.0))
+	var frame_style: StyleBox = PaintedDetailArt.box("wood", 5.0) if screen_id == "storage" else ComicUITheme.style_box(Color("#fff0bd"), accent, 4, 17, Color("#07131c", 0.48), 6, 5.0)
+	frame.add_theme_stylebox_override("panel", frame_style)
+	if screen_id == "storage":
+		frame.set_meta("painted_surface", "storage_painted_wood_hero_frame_v2")
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hero.add_child(frame)
 
@@ -6661,7 +7192,10 @@ func _build_phase128_screen_hero(texture: Texture2D, title_text: String, subtitl
 	if screen_id == "measurement":
 		title_bottom = 0.34
 	title_panel.set_anchor(SIDE_BOTTOM, title_bottom)
-	title_panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff5d8", 0.96), accent, 3, 14, Color("#07131c", 0.42), 4, 7.0))
+	var title_style: StyleBox = PaintedDetailArt.box("cream", 8.0) if screen_id == "storage" else ComicUITheme.style_box(Color("#fff5d8", 0.96), accent, 3, 14, Color("#07131c", 0.42), 4, 7.0)
+	title_panel.add_theme_stylebox_override("panel", title_style)
+	if screen_id == "storage":
+		title_panel.set_meta("painted_surface", "storage_painted_cream_title_v2")
 	title_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hero.add_child(title_panel)
 
@@ -6697,8 +7231,8 @@ func _phase128_surface_style(token_id: String, accent: Color) -> StyleBoxFlat:
 	return ComicUITheme.style_box(fill, accent, border_width, radius, Color("#07131c", 0.40), shadow_size, content_margin)
 
 
-func _register_phase128_surface(panel: PanelContainer, legacy_style: StyleBox, token_id: String, accent: Color) -> void:
-	var modern_style := _phase128_surface_style(token_id, accent)
+func _register_phase128_surface(panel: PanelContainer, legacy_style: StyleBox, token_id: String, accent: Color, modern_override: StyleBox = null) -> void:
+	var modern_style: StyleBox = modern_override if modern_override != null else _phase128_surface_style(token_id, accent)
 	phase128_surface_styles.append({
 		"panel": panel,
 		"legacy_style": legacy_style,
@@ -6709,8 +7243,8 @@ func _register_phase128_surface(panel: PanelContainer, legacy_style: StyleBox, t
 	panel.add_theme_stylebox_override("panel", modern_style if phase128_plants_style_enabled else legacy_style)
 
 
-func _register_phase128_label_surface(label: Label, token_id: String, accent: Color) -> void:
-	var modern_style := _phase128_surface_style(token_id, accent)
+func _register_phase128_label_surface(label: Label, token_id: String, accent: Color, modern_override: StyleBox = null) -> void:
+	var modern_style: StyleBox = modern_override if modern_override != null else _phase128_surface_style(token_id, accent)
 	phase128_label_styles.append({
 		"label": label,
 		"modern_style": modern_style,
@@ -6816,8 +7350,9 @@ func _build_inventory_card(parent: Container, title_text: String, icon_texture: 
 	panel.custom_minimum_size = Vector2(0, 110)
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var legacy_style := ComicUITheme.style_box(Color("#fff4c8"), accent, 3, 12, ComicUITheme.SHADOW, 3, 5.0)
-	_register_phase128_surface(panel, legacy_style, "information_card", accent)
+	_register_phase128_surface(panel, legacy_style, "information_card", accent, PaintedDetailArt.box("cream", 6.0))
 	panel.set_meta("component", "comic_inventory_card_v1")
+	panel.set_meta("painted_surface", "storage_painted_cream_card_v2")
 	var column := VBoxContainer.new()
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_theme_constant_override("separation", 0)
@@ -7148,6 +7683,7 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 		player_room_view.cancel_plant_drag()
 	var previous_screen := active_screen
 	active_screen = screen_navigation_controller.apply_screen(index, active_screen, screens, nav_buttons, session, feedback_layer, transition_direction_override)
+	_refresh_corner_ornament_visibility()
 	if active_screen != 0 and plant_view != null:
 		plant_view.clear_behavior_trigger()
 	if refresh_active and active_screen != previous_screen:
@@ -7214,6 +7750,7 @@ func _show_garden_location(location_id: String) -> void:
 	plants_room_panel.visible = normalized_id == GARDEN_LOCATION_RACK
 	player_room_panel.visible = normalized_id == GARDEN_LOCATION_PLAYER_ROOM
 	greenhouse_panel.visible = normalized_id == GARDEN_LOCATION_GREENHOUSE
+	_refresh_corner_ornament_visibility()
 	if plant_view != null:
 		plant_view.clear_behavior_trigger()
 	if normalized_id == GARDEN_LOCATION_RACK and room_overview != null:
@@ -7249,6 +7786,7 @@ func _refresh_rack_greenhouse_attention() -> void:
 
 
 func _refresh_rack_controls() -> void:
+	_refresh_corner_ornament_visibility()
 	if care_center_launcher_button == null or session == null:
 		return
 	var attention_count := maxi(0, session.get_care_attention_count())
@@ -7258,6 +7796,35 @@ func _refresh_rack_controls() -> void:
 		care_center_attention_badge.visible = attention_count > 0
 	if care_center_attention_label != null:
 		care_center_attention_label.text = "99+" if attention_count > 99 else str(attention_count)
+
+
+func _refresh_corner_ornament_visibility() -> void:
+	var rack_overview_visible := active_screen == 0 \
+		and garden_location_id == GARDEN_LOCATION_RACK \
+		and plants_room_panel != null and plants_room_panel.visible \
+		and plant_detail_panel != null and not plant_detail_panel.visible
+	var storage_screen_visible := active_screen == 1
+	var greenhouse_screen_visible := active_screen == 0 \
+		and garden_location_id == GARDEN_LOCATION_GREENHOUSE \
+		and greenhouse_panel != null and greenhouse_panel.visible
+	var player_room_screen_visible := active_screen == 0 \
+		and garden_location_id == GARDEN_LOCATION_PLAYER_ROOM \
+		and player_room_panel != null and player_room_panel.visible
+	var show_botanicals := not rack_overview_visible and not storage_screen_visible
+	var fill_painted_hud_gaps := rack_overview_visible or storage_screen_visible or greenhouse_screen_visible or player_room_screen_visible
+	if hud_background != null and hud_background.has_method("set_corner_ornaments_visible"):
+		hud_background.set_corner_ornaments_visible(show_botanicals, fill_painted_hud_gaps)
+		hud_background.set_meta("storage_gap_fill_active", storage_screen_visible)
+		hud_background.set_meta("greenhouse_gap_fill_active", greenhouse_screen_visible)
+		hud_background.set_meta("player_room_gap_fill_active", player_room_screen_visible)
+	if navigation_background != null:
+		navigation_background.add_theme_stylebox_override("panel", navigation_rack_background_style if rack_overview_visible else navigation_decorated_background_style)
+		navigation_background.set_meta("rack_gap_fill_active", rack_overview_visible)
+	for corner_leaf in nav_corner_leaves:
+		if is_instance_valid(corner_leaf) and corner_leaf.has_method("set_botanical_visible"):
+			corner_leaf.set_botanical_visible(show_botanicals, show_botanicals)
+	set_meta("rack_corner_botanicals_hidden", rack_overview_visible)
+	set_meta("storage_corner_botanicals_hidden", storage_screen_visible)
 
 
 func _select_adjacent_plant(offset: int) -> void:
@@ -7443,7 +8010,7 @@ func _refresh_equipment_shop() -> void:
 		var button := shop_equipment_buttons.get(equipment_id) as Button
 		if level_label == null or effect_label == null or button == null or state.is_empty():
 			continue
-		level_label.text = "ÚROVEŇ %d / %d" % [int(state.get("level", 1)), int(state.get("max_level", GameSession.EQUIPMENT_MAX_LEVEL))]
+		level_label.text = "ÚROVEŇ %d/%d" % [int(state.get("level", 1)), int(state.get("max_level", GameSession.EQUIPMENT_MAX_LEVEL))]
 		var current_effect := str(state.get("current_effect", ""))
 		if bool(state.get("is_max", false)):
 			effect_label.text = "%s\nMAXIMUM" % current_effect
@@ -7849,7 +8416,7 @@ func _on_session_feedback(kind: String, slot_index: int, payload: Dictionary) ->
 		elif str(payload.get("order_kind", "single")) == "blend":
 			_show_dialog("Zakázka pro %s je splněná! Směs ze dvou balíčků vynesla %d mincí a %d XP." % [str(payload.get("customer", "odběratele")), int(payload.get("coins", 0)), int(payload.get("xp", 0))])
 		else:
-			_show_dialog("Zakázka pro %s je splněná! Kvalita %d %% vynesla %d mincí a %d XP." % [str(payload.get("customer", "odběratele")), roundi(float(payload.get("quality", 0.0)) * 100.0), int(payload.get("coins", 0)), int(payload.get("xp", 0))])
+			_show_dialog("Zakázka pro %s je splněná! Kvalita %d%% vynesla %d mincí a %d XP." % [str(payload.get("customer", "odběratele")), roundi(float(payload.get("quality", 0.0)) * 100.0), int(payload.get("coins", 0)), int(payload.get("xp", 0))])
 		if not is_garden_handover_active and not professor_story_open:
 			_set_guide_modal_open(true, not session.reduced_motion)
 
@@ -7875,8 +8442,15 @@ func _apply_motion_preference() -> void:
 		player_room_view.set_reduced_motion(session.reduced_motion)
 	if greenhouse_preview_view != null:
 		greenhouse_preview_view.set_reduced_motion(session.reduced_motion)
+	if hud_background != null and hud_background.has_method("set_reduced_motion"):
+		hud_background.set_reduced_motion(session.reduced_motion)
+	if plant_detail_selector != null and plant_detail_selector.has_method("set_reduced_motion"):
+		plant_detail_selector.set_reduced_motion(session.reduced_motion)
 	if guide_modal_character != null:
 		guide_modal_character.set_reduced_motion(session.reduced_motion)
+	for corner_leaf in nav_corner_leaves:
+		if is_instance_valid(corner_leaf):
+			corner_leaf.set_reduced_motion(session.reduced_motion)
 	if reduce_motion_button != null:
 		reduce_motion_button.set_pressed_no_signal(session.reduced_motion)
 	if settings_motion_button != null:
@@ -7915,7 +8489,7 @@ func _prepare_audio_settings_capture() -> void:
 	_set_settings_modal_open(true)
 	if audio_haptics != null:
 		audio_haptics.set_capture_mode(true)
-	audio_settings_presenter.show_status("Hudba 55 % · efekty 80 % · mobilní odezva zapnutá")
+	audio_settings_presenter.show_status("Hudba 55% · efekty 80% · mobilní odezva zapnutá")
 	settings_modal.set_meta("capture_state", "phase9_audio_settings_candidate_v1")
 
 
@@ -8374,4 +8948,3 @@ func _mint_knowledge_text() -> String:
 
 func _rosemary_knowledge_text() -> String:
 	return plant_presentation_catalog.rosemary_knowledge_text()
-

@@ -18,9 +18,8 @@ try {
     $env:APPDATA = $isolatedAppData
     $importArguments = @(
         '--headless',
-        '--editor',
+        '--import',
         '--path', '.',
-        '--quit',
         '--log-file', '.godot/asset-import.log'
     )
     $importProcess = Start-Process `

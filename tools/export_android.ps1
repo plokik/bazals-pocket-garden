@@ -294,6 +294,7 @@ foreach ($forbiddenEntry in $forbiddenEntries) {
         throw "APK contains a forbidden production artifact: $forbiddenEntry"
     }
 }
+Assert-AndroidQaDonorPayloadContract -Entries $apkEntries -Format APK
 Write-Output 'APK_PAYLOAD_CHECK=PASSED'
 
 $apkAnalyzerRoot = Join-Path $androidSdkRoot 'cmdline-tools\latest'

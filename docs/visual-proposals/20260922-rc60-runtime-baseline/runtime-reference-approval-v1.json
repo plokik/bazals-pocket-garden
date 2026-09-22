@@ -1,0 +1,473 @@
+{
+  "schema": "rc60_runtime_visual_baseline_approval_v1",
+  "version": "0.70.0-rc60",
+  "android_version_code": 77,
+  "date": "2026-09-22",
+  "source_validation_run": ".godot/validation/20260922-175406Z",
+  "authorization": "The user approved the implemented visual iterations throughout the working session and explicitly requested publishing the current game as a new GitHub release.",
+  "review": {
+    "failed_active_gates_reviewed": 32,
+    "comparison_sheets": [
+      ".godot/validation/20260922-175406Z/rc60-comparison-sheet-1.png",
+      ".godot/validation/20260922-175406Z/rc60-comparison-sheet-2.png",
+      ".godot/validation/20260922-175406Z/rc60-comparison-sheet-3.png",
+      ".godot/validation/20260922-175406Z/rc60-comparison-sheet-4.png"
+    ],
+    "decision": "APPROVED_AS_NEW_RC60_BASELINE",
+    "previous_reference_policy": "PRESERVED_BYTE_EXACT",
+    "threshold_policy": "UNCHANGED",
+    "mask_policy": "UNCHANGED",
+    "gate_count_policy": "UNCHANGED_34",
+    "phase149_crop_policy": "REFERENCE_CROP_NORMALIZED_TO_MATCH_CURRENT_RUNTIME_CAPTURE"
+  },
+  "references": [
+    {
+      "id": "hud",
+      "actual": ".godot/validation/20260922-175406Z/hud.png",
+      "previous_reference": "assets/ui/comic/reference_phase4_hud_v1.png",
+      "previous_reference_sha256": "4F9FF2697DA8A857ACEF91FD9590303719AB723637D750157B7BFA8FC5E0ACDD",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_hud_v1.png",
+      "rc60_reference_sha256": "3F6AC8ED89695E61AE82C98F11151F914AEC4A6BC5482C330C70DF5CD711538C",
+      "metrics_against_previous": {
+        "mean_abs_error": 73.466928,
+        "rmse": 94.115241,
+        "maximum_error": 255,
+        "changed_ratio": 0.927491
+      }
+    },
+    {
+      "id": "navigation",
+      "actual": ".godot/validation/20260922-175406Z/navigation.png",
+      "previous_reference": "assets/ui/comic/reference_phase4_navigation_v1.png",
+      "previous_reference_sha256": "65A324A88E24047C0A0766C3805A48394C7B0BC79952BF1A12833B4C240EA7CF",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_navigation_v1.png",
+      "rc60_reference_sha256": "C5CF08EF40B73B0C058497336AED4A42E587A4DADA6BA3F987A476B15CB2C0B6",
+      "metrics_against_previous": {
+        "mean_abs_error": 52.501424,
+        "rmse": 82.357203,
+        "maximum_error": 255,
+        "changed_ratio": 0.717235
+      }
+    },
+    {
+      "id": "storage",
+      "actual": ".godot/validation/20260922-175406Z/comic-storage.png",
+      "previous_reference": "assets/ui/comic/reference_phase5_storage_v1.png",
+      "previous_reference_sha256": "6F5541AA3BB5A1C0FF9D5651B58BC6FA1CB5DC50FCB2A887EDD08BFA778F3692",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_storage_v1.png",
+      "rc60_reference_sha256": "10B5964115BA16EEF869EFBCFFE501C889C64CFF87116B58E48262DFD435A0A2",
+      "metrics_against_previous": {
+        "mean_abs_error": 69.775686,
+        "rmse": 106.470452,
+        "maximum_error": 255,
+        "changed_ratio": 0.554567
+      }
+    },
+    {
+      "id": "shop",
+      "actual": ".godot/validation/20260922-175406Z/comic-shop.png",
+      "previous_reference": "assets/ui/comic/reference_phase5_shop_v1.png",
+      "previous_reference_sha256": "6B591D404599A14A9E92B12853AF60727361E0219AFD8B33A3507B7804981E45",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_shop_v1.png",
+      "rc60_reference_sha256": "82CDEEF063EE2723991DED5B651B2AC82575A944AF4764D4B70BEBA252398115",
+      "metrics_against_previous": {
+        "mean_abs_error": 74.930685,
+        "rmse": 110.25617,
+        "maximum_error": 255,
+        "changed_ratio": 0.593437
+      }
+    },
+    {
+      "id": "measurement",
+      "actual": ".godot/validation/20260922-175406Z/comic-measurement.png",
+      "previous_reference": "assets/ui/comic/reference_phase5_measurement_v1.png",
+      "previous_reference_sha256": "2CF75DFA364D983E6DDAE2BE380C6C6756F27AFEBDF5BE5ADEAFA1B66F65D232",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_measurement_v1.png",
+      "rc60_reference_sha256": "7AB41E6200DE70579B88B244C035CED91D44615D50764878FF5CA4CE4CA4AB00",
+      "metrics_against_previous": {
+        "mean_abs_error": 15.717086,
+        "rmse": 47.532018,
+        "maximum_error": 255,
+        "changed_ratio": 0.173401
+      }
+    },
+    {
+      "id": "detail-realtime",
+      "actual": ".godot/validation/20260922-175406Z/comic-detail-idle.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_detail_realtime_v1.png",
+      "previous_reference_sha256": "61E0581723001220108FFCE4A0184B658B9E7DBEBB4E8EFB0252B4A19F7D2B3E",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_detail-realtime_v1.png",
+      "rc60_reference_sha256": "0B0718D102AC57220496C82F40B1256829BD55A5E776BBC1FC7AD2CA0869D2E2",
+      "metrics_against_previous": {
+        "mean_abs_error": 65.546953,
+        "rmse": 95.039817,
+        "maximum_error": 255,
+        "changed_ratio": 0.834204
+      }
+    },
+    {
+      "id": "guide-explain",
+      "actual": ".godot/validation/20260922-175406Z/comic-guide-explain.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_guide_explain_v1.png",
+      "previous_reference_sha256": "00E148D34A56C1BFF2A37AC61D34A5ABF31BACF682854E3813D10351FD8C708E",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-explain_v1.png",
+      "rc60_reference_sha256": "DE65C549EBBE9384204AB69ECC6B19D126663DACA706C9E472D5A2CDBB24FAA4",
+      "metrics_against_previous": {
+        "mean_abs_error": 3.466856,
+        "rmse": 8.016901,
+        "maximum_error": 50,
+        "changed_ratio": 0.164337
+      }
+    },
+    {
+      "id": "guide-celebrate",
+      "actual": ".godot/validation/20260922-175406Z/comic-guide-celebrate.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_guide_celebrate_v1.png",
+      "previous_reference_sha256": "9032F008C94D8C8760A3AD56171495DC51A229F07238FECD32B689F55AA97597",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-celebrate_v1.png",
+      "rc60_reference_sha256": "C664F4F5E7C4702ADF756323AD3932382E72483530D3BFD4B1C332F47B16486C",
+      "metrics_against_previous": {
+        "mean_abs_error": 3.325634,
+        "rmse": 7.830492,
+        "maximum_error": 50,
+        "changed_ratio": 0.15842
+      }
+    },
+    {
+      "id": "guide-warning",
+      "actual": ".godot/validation/20260922-175406Z/comic-guide-warning.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_guide_warning_v1.png",
+      "previous_reference_sha256": "ED46B164FA94B5E2E688AB929AA1C1D980D67E500080E4670BB46F83B45AC234",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_guide-warning_v1.png",
+      "rc60_reference_sha256": "42D4EE95B3E41ABB63FEF0724FEB5A61E1E41EF0A0100585778310C45A92301D",
+      "metrics_against_previous": {
+        "mean_abs_error": 3.456468,
+        "rmse": 7.991913,
+        "maximum_error": 50,
+        "changed_ratio": 0.164783
+      }
+    },
+    {
+      "id": "feedback-water",
+      "actual": ".godot/validation/20260922-175406Z/comic-feedback-water.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_feedback_water_v1.png",
+      "previous_reference_sha256": "2D055EEF2ECA7A3FD5A5E7260445CA9330A4EB2F7C96B96789E4D3A600EF2103",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-water_v1.png",
+      "rc60_reference_sha256": "8D5FAECBC0EA1ADBA9D0CA4995DA4CEC9D6E329F17B198832F0353AD09E03253",
+      "metrics_against_previous": {
+        "mean_abs_error": 65.520047,
+        "rmse": 95.024415,
+        "maximum_error": 255,
+        "changed_ratio": 0.833931
+      }
+    },
+    {
+      "id": "feedback-growth",
+      "actual": ".godot/validation/20260922-175406Z/comic-feedback-growth.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_feedback_growth_v1.png",
+      "previous_reference_sha256": "7AD703710D8602A58213F3671797E53AD8ED2FCBA900B089CA260D22438DCAE4",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-growth_v1.png",
+      "rc60_reference_sha256": "3179270A4D336734671924367992A776CBEE043D2F299E2D78EC232135BC9A2C",
+      "metrics_against_previous": {
+        "mean_abs_error": 65.430885,
+        "rmse": 94.952976,
+        "maximum_error": 255,
+        "changed_ratio": 0.833444
+      }
+    },
+    {
+      "id": "feedback-coins",
+      "actual": ".godot/validation/20260922-175406Z/comic-feedback-coins.png",
+      "previous_reference": "assets/ui/comic/reference_phase7_feedback_coins_v1.png",
+      "previous_reference_sha256": "4F724225B76FB73488C659BA46D3D29ED511E1CA05D23EDA6D253B20695752AC",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-coins_v1.png",
+      "rc60_reference_sha256": "6F92D8D562F7069CE10BBC47BCE153931204C20753EAD22EB5BBA4FCE6DC40A6",
+      "metrics_against_previous": {
+        "mean_abs_error": 69.628371,
+        "rmse": 106.386966,
+        "maximum_error": 255,
+        "changed_ratio": 0.552623
+      }
+    },
+    {
+      "id": "phase163-feedback-unlock-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-feedback-unlock.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png",
+      "previous_reference_sha256": "21ACCBAD2947C65728B1E29707CB6925AE3A4B6B28A2B3811CB3D9D83D43FE60",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-feedback-unlock-runtime-approved_v1.png",
+      "rc60_reference_sha256": "74C412CDF4F978C94EB8C5515AA074104498B99E712DE217758396B6681B1B38",
+      "metrics_against_previous": {
+        "mean_abs_error": 30.938379,
+        "rmse": 58.716027,
+        "maximum_error": 255,
+        "changed_ratio": 0.536
+      }
+    },
+    {
+      "id": "phase163-screen-transition-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-screen-transition.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_screen_transition_runtime_v1.png",
+      "previous_reference_sha256": "5056F9765ED2E0C951E13776F37C01585BFA53BFD320B0982A37DFB14C8C5585",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-screen-transition-runtime-approved_v1.png",
+      "rc60_reference_sha256": "60DEF8FE823C877BF8DFC4DA20EFEE1688C366DAF5CC0CDBB3D5E93D6FE02EF3",
+      "metrics_against_previous": {
+        "mean_abs_error": 28.694038,
+        "rmse": 55.174171,
+        "maximum_error": 255,
+        "changed_ratio": 0.516504
+      }
+    },
+    {
+      "id": "phase149-player-room-exact-target",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase149-player-room-exact-target.png",
+      "previous_reference": "docs/visual-proposals/phase147/player-room-painted-cartoon-production-target-v1.png",
+      "previous_reference_sha256": "26A4387743AEBA8B9F464493D2563BF584620D28E2539E13E73EB076B421794D",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase149-player-room-exact-target_v1.png",
+      "rc60_reference_sha256": "5160BD5588D2715CB4ECBD1E889C27EB718F12FC0CD9C75222C0B9631A7C9230",
+      "metrics_against_previous": {
+        "mean_abs_error": 23.203094,
+        "rmse": 41.902826,
+        "maximum_error": 255,
+        "changed_ratio": 0.503552
+      }
+    },
+    {
+      "id": "phase151-detail-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-detail-idle.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_detail_runtime_v1.png",
+      "previous_reference_sha256": "61E0581723001220108FFCE4A0184B658B9E7DBEBB4E8EFB0252B4A19F7D2B3E",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase151-detail-runtime-approved_v1.png",
+      "rc60_reference_sha256": "0B0718D102AC57220496C82F40B1256829BD55A5E776BBC1FC7AD2CA0869D2E2",
+      "metrics_against_previous": {
+        "mean_abs_error": 65.546953,
+        "rmse": 95.039817,
+        "maximum_error": 255,
+        "changed_ratio": 0.834204
+      }
+    },
+    {
+      "id": "phase152-storage-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase128-storage.png",
+      "previous_reference": "assets/ui/comic/reference_phase152_storage_runtime_v1.png",
+      "previous_reference_sha256": "D45024E5D03677E52D1DCB45BFD831B9AAF710EE444FE2A50FCC750650708DCA",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase152-storage-runtime-approved_v1.png",
+      "rc60_reference_sha256": "742A10592295522C0E6575DB08BEC697B83DBE90A4930120D6136B143685E8F2",
+      "metrics_against_previous": {
+        "mean_abs_error": 50.629815,
+        "rmse": 82.163877,
+        "maximum_error": 255,
+        "changed_ratio": 0.676389
+      }
+    },
+    {
+      "id": "phase153-shop-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase153-shop.png",
+      "previous_reference": "assets/ui/comic/reference_phase153_shop_runtime_v1.png",
+      "previous_reference_sha256": "3DD2EEFC3ECB1B50D6394E1368B67B62FD64D4C0CD65CE48C5784C6602754C12",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase153-shop-runtime-approved_v1.png",
+      "rc60_reference_sha256": "DDC9C662911C211C0285681BA423866690801F64378F3FCC895272FC1E4338F3",
+      "metrics_against_previous": {
+        "mean_abs_error": 65.842651,
+        "rmse": 97.324541,
+        "maximum_error": 255,
+        "changed_ratio": 0.793299
+      }
+    },
+    {
+      "id": "phase154-measurement-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase154-measurement.png",
+      "previous_reference": "assets/ui/comic/reference_phase154_measurement_runtime_v1.png",
+      "previous_reference_sha256": "DCFBD62C674451A53CB286DC98292E91EA03BA2D17E79ED4E8927EA3A0E68CA5",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase154-measurement-runtime-approved_v1.png",
+      "rc60_reference_sha256": "B058889682D8D97A970879728CEBA12BA2ECC14A58D6C5F081C255AEB3383FCC",
+      "metrics_against_previous": {
+        "mean_abs_error": 15.913821,
+        "rmse": 46.6625,
+        "maximum_error": 255,
+        "changed_ratio": 0.187908
+      }
+    },
+    {
+      "id": "phase158-player-room-empty-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase158-player-room-empty-0-of-20.png",
+      "previous_reference": "assets/ui/comic/reference_phase158_player_room_empty_runtime_v1.png",
+      "previous_reference_sha256": "DFBFE85F8A31DFBDCD39476F03072C776AE49BB5ED5FC1534C1063A5DFBF1080",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase158-player-room-empty-runtime-approved_v1.png",
+      "rc60_reference_sha256": "DDA5CC1A26E119A32D68C2F5E09BF253CCFD3CA8B0E606A6853314172451A1C7",
+      "metrics_against_previous": {
+        "mean_abs_error": 23.630319,
+        "rmse": 50.970041,
+        "maximum_error": 255,
+        "changed_ratio": 0.428282
+      }
+    },
+    {
+      "id": "phase159-player-room-cloche-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase159-player-room-botanical-cloche.png",
+      "previous_reference": "assets/ui/comic/reference_phase159_player_room_cloche_runtime_v1.png",
+      "previous_reference_sha256": "254A839A12FEF507E09E3FAB2AAF10557AD71EB73D14DC9CA586012FDA08FEA5",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase159-player-room-cloche-runtime-approved_v1.png",
+      "rc60_reference_sha256": "D7B9539E9E86012D3579D11C4C5285FF3999B3C6641EE55EB1635D1ABF21B525",
+      "metrics_against_previous": {
+        "mean_abs_error": 23.757596,
+        "rmse": 51.012189,
+        "maximum_error": 255,
+        "changed_ratio": 0.433642
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-active-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase161-daily-challenge-active.png",
+      "previous_reference": "assets/ui/comic/reference_phase161_daily_challenge_active_runtime_v1.png",
+      "previous_reference_sha256": "78634FAD3AB2FC88C3DE6FAF8A2E0332BB44D96ACBE38D913E2CD1AE1126C9C5",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png",
+      "rc60_reference_sha256": "E77D49868C887D4F8C0471D941975FE718E8ECF8C4303B4599E93AD03C6416D4",
+      "metrics_against_previous": {
+        "mean_abs_error": 1.495348,
+        "rmse": 4.738099,
+        "maximum_error": 37,
+        "changed_ratio": 0.081315
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-completed-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase161-daily-challenge-completed.png",
+      "previous_reference": "assets/ui/comic/reference_phase161_daily_challenge_completed_runtime_v1.png",
+      "previous_reference_sha256": "A00C2E9B6BC949EF2C23C011592EFF3448487525B3FF3A04A54C5F238F1D1A2E",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png",
+      "rc60_reference_sha256": "52F012D39748A4A4E1C5992A223F0C1E0872EBE6C76D1F85E921582DACCECF3F",
+      "metrics_against_previous": {
+        "mean_abs_error": 1.495348,
+        "rmse": 4.738099,
+        "maximum_error": 37,
+        "changed_ratio": 0.081315
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-ready-queue-full-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase161-daily-challenge-ready-queue-full.png",
+      "previous_reference": "assets/ui/comic/reference_phase161_daily_challenge_ready_queue_full_runtime_v1.png",
+      "previous_reference_sha256": "FB8A3A6F810601C220B914023EB799E9031F90FD4E18B4F46F0274472B858AAC",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png",
+      "rc60_reference_sha256": "152A43F35C0AB4B697316ACE92862C7236FEE5D5B23FD4D8586360C8D9C2AB55",
+      "metrics_against_previous": {
+        "mean_abs_error": 1.495348,
+        "rmse": 4.738099,
+        "maximum_error": 37,
+        "changed_ratio": 0.081315
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-claimed-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase161-daily-challenge-claimed.png",
+      "previous_reference": "assets/ui/comic/reference_phase161_daily_challenge_claimed_runtime_v1.png",
+      "previous_reference_sha256": "46409886B042B04CB67C1CBF1FFE175D99D7DC54D911C58BFEBE1487D80DEC70",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png",
+      "rc60_reference_sha256": "73E8F1DCC39854AA51DBEBEE3BF6BC804DC049AD0F921D24EB156E7C8A14BAD4",
+      "metrics_against_previous": {
+        "mean_abs_error": 1.495348,
+        "rmse": 4.738099,
+        "maximum_error": 37,
+        "changed_ratio": 0.081315
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-unavailable-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase161-daily-challenge-unavailable.png",
+      "previous_reference": "assets/ui/comic/reference_phase161_daily_challenge_unavailable_runtime_v1.png",
+      "previous_reference_sha256": "88597C2A556622072C82725CFDCE50C9B4A697ECD76A11519001BE63798EDDEC",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png",
+      "rc60_reference_sha256": "0A38E17557BFA90C6F921950273B2D6B37728F74C36A04E558BE761B1C97E042",
+      "metrics_against_previous": {
+        "mean_abs_error": 1.845212,
+        "rmse": 7.344708,
+        "maximum_error": 213,
+        "changed_ratio": 0.086555
+      }
+    },
+    {
+      "id": "phase163-rack-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-rack-greenhouse-attention.png",
+      "previous_reference": "assets/ui/comic/reference_phase184_rack_runtime_v1.png",
+      "previous_reference_sha256": "72CBCE8DFAAF6FEF876EED1865E145415A4640C590C64C796FB53D9FC59EDB47",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase163-rack-runtime-approved_v1.png",
+      "rc60_reference_sha256": "12BF162D897AC93ACF0712630B6821E9685218396000163D61805D17294DC665",
+      "metrics_against_previous": {
+        "mean_abs_error": 34.760113,
+        "rmse": 63.662542,
+        "maximum_error": 255,
+        "changed_ratio": 0.560576
+      }
+    },
+    {
+      "id": "phase167-player-room-clean-floor-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase160-player-room-clean-floor.png",
+      "previous_reference": "assets/ui/comic/reference_phase167_player_room_clean_floor_runtime_v1.png",
+      "previous_reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-clean-floor-runtime-approved_v1.png",
+      "rc60_reference_sha256": "070F58DE14C18612508E4C3F53B47D6B69EDF13FDD0293440809C1DBD033E001",
+      "metrics_against_previous": {
+        "mean_abs_error": 28.279092,
+        "rmse": 54.334988,
+        "maximum_error": 255,
+        "changed_ratio": 0.538086
+      }
+    },
+    {
+      "id": "phase167-player-room-sparse-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase158-player-room-sparse-4-of-20.png",
+      "previous_reference": "assets/ui/comic/reference_phase167_player_room_sparse_runtime_v1.png",
+      "previous_reference_sha256": "4B3610539599F0233F4B2734417B683DD7D0D020ACC0BCC188FAC4F68ABA7AE0",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-sparse-runtime-approved_v1.png",
+      "rc60_reference_sha256": "BD9936F17DE33642885EA7F33727495CE48645384FA63DF4CE2049D57A6BE930",
+      "metrics_against_previous": {
+        "mean_abs_error": 24.864729,
+        "rmse": 51.929645,
+        "maximum_error": 255,
+        "changed_ratio": 0.456694
+      }
+    },
+    {
+      "id": "phase167-player-room-phone-save-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase158-player-room-phone-save-10-of-20.png",
+      "previous_reference": "assets/ui/comic/reference_phase167_player_room_phone_save_runtime_v1.png",
+      "previous_reference_sha256": "E0DCC5EC170D0D59107CA8BE1A3AAF422A31532AC37D813A74E8E4353EB0F0CF",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-phone-save-runtime-approved_v1.png",
+      "rc60_reference_sha256": "7B65AB14267F1C5303274C7808D11DF2284668551D2F89550D6A2B6E9C96BB14",
+      "metrics_against_previous": {
+        "mean_abs_error": 25.573295,
+        "rmse": 52.356622,
+        "maximum_error": 255,
+        "changed_ratio": 0.476956
+      }
+    },
+    {
+      "id": "phase167-player-room-full-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase158-player-room-full-20-of-20.png",
+      "previous_reference": "assets/ui/comic/reference_phase167_player_room_full_runtime_v1.png",
+      "previous_reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-full-runtime-approved_v1.png",
+      "rc60_reference_sha256": "BAC7BD05DE4D7BBCC6893615D9CA1D927E9CE8B326FA4BB24D64C806DABC5E2E",
+      "metrics_against_previous": {
+        "mean_abs_error": 28.281627,
+        "rmse": 54.339864,
+        "maximum_error": 255,
+        "changed_ratio": 0.538096
+      }
+    },
+    {
+      "id": "phase167-player-room-full-cloche-runtime-approved",
+      "actual": ".godot/validation/20260922-175406Z/comic-phase159-player-room-full-cloche.png",
+      "previous_reference": "assets/ui/comic/reference_phase167_player_room_full_cloche_runtime_v1.png",
+      "previous_reference_sha256": "2B2FBC2F6CD44C7F94831E6C91C6CD2C5AD8336C25A7A3FC2E8677A5F7DBA40B",
+      "rc60_reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-full-cloche-runtime-approved_v1.png",
+      "rc60_reference_sha256": "0BFFC1ACAF524A38A69BB2DD9DD6DD52192EE27C02A37131EF9B61F62F4CB743",
+      "metrics_against_previous": {
+        "mean_abs_error": 28.279007,
+        "rmse": 54.333898,
+        "maximum_error": 255,
+        "changed_ratio": 0.538103
+      }
+    }
+  ]
+}

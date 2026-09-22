@@ -2,11 +2,26 @@
 
 Datum šablony: **2026-08-30**
 
-Aktuální stav: `RC59_PHYSICAL_ANDROID_AUDIT=PENDING`
+Aktuální stav (2026-09-08): `CURRENT_PREVIEW_AGREED_ACCEPTANCE=PASSED`.
+Rozšířená šablona níže zůstává částečně neprovedená.
 
-RC58 má historický technický audit na Xiaomi, ale tento důkaz nepokrývá aktuální
-zdroje fází 166–184 ani sestavený RC59. Tento dokument nic nepředstírá jako
-provedené. Instalace RC59 smí začít až po výslovném souhlasu vlastníka telefonu.
+Vlastník potvrdil 30 minut hraní bez dalších potíží. Běžná připomínka
+dorazila po restartu telefonu a vlastník potvrdil otevření květináče 1.
+Skutečná obnova přes Android picker v oddělené aplikaci prošla včetně
+before-import zálohy a nového spuštění.
+[Dokončené dohodnuté přijetí](audit/20260908_ACCEPTANCE_FOLLOWUP.md).
+
+Přesné RC59 bylo po souhlasu vlastníka nainstalováno na Xiaomi / Android 13.
+Technické měření a vybrané interakce jsou doložené v
+[auditu 2026-09-08](audit/20260908_RC59_ANDROID_AUDIT.md).
+Předchozí instalací byl Phase181 preview s identitou RC58, nikoli immutable
+RC58 APK. Níže uvedený ruční checklist zůstává oddělený od automatických
+výsledků. Výše uvedené přijetí je omezeno na dohodnuté body aktuálního preview.
+
+Po hlášení nejasné odezvy větrání jej na telefonu nahradilo samostatné
+[preview oprav větrání a záhlaví](audit/20260908_RACK_HEADER_CLEANUP.md) se zachovaným
+postupem. Verze/code zůstává stejná, přesná identita je určena novým hashem.
+Původní immutable RC59 APK se nezměnilo.
 
 ## Bezpečnostní podmínky
 
@@ -31,14 +46,14 @@ Před a po instalaci zaznamenat pouze sanitizované hodnoty:
 
 | Kontrola | Před | Po | Výsledek |
 | --- | --- | --- | --- |
-| package / versionName / versionCode | `PENDING` | `PENDING` | `PENDING` |
-| hash instalovaného APK | `PENDING` | `PENDING` | `PENDING` |
-| save schema | `PENDING` | `PENDING` | musí být `41_TO_41` |
-| mince / XP | `PENDING` | `PENDING` | musí se zachovat |
-| počet slotů / obsazených slotů | `PENDING` | `PENDING` | musí se zachovat |
-| foreground vzorky | n/a | `PENDING` | bez neočekávaného pádu |
-| fatal / ANR | n/a | `PENDING` | 0 v auditním okně |
-| notifikační a alarmová evidence | `PENDING` | `PENDING` | package-scoped pouze |
+| package / versionName / versionCode | `com.howtogrow.game / 0.68.0-rc58 / 75` (Phase181) | `com.howtogrow.game / 0.69.0-rc59 / 76` | `PASSED` |
+| hash instalovaného APK | `362EC856…A773EF` | `206AC534…021E7D` | `PASSED`; úplné hashe v reportu |
+| save schema | `41` | `41` | `PASSED / 41_TO_41` |
+| mince / XP | `10 / 341` | `10 / 341` | `PASSED` |
+| počet slotů / obsazených slotů | `10 / 4` | `10 / 4` | `PASSED` |
+| foreground vzorky | n/a | `53/53; 100 %` | `PASSED`, 300 s |
+| fatal / ANR | n/a | `0` | `PASSED` v auditním okně |
+| notifikační a alarmová evidence | oprávnění udělené | testovací oznámení doručeno; následně běžná připomínka po rebootu aktuálního preview a potvrzený květináč 1 | `PASSED` pro tyto scénáře; první permission flow zůstává oddělený |
 
 Automatický PASS neznamená lidské schválení obrazu, dotyku, teploty nebo
 baterie.
@@ -77,21 +92,22 @@ jediné reálné kopie hráče.
 - [ ] Na čistém permission stavu odmítnout `POST_NOTIFICATIONS`; hra zůstane
   funkční.
 - [ ] Následně povolit oznámení přes normální Android UI.
-- [ ] Naplánovat testovací připomínku a zachytit skutečné oznámení mimo hru.
-- [ ] Ověřit běžnou připomínku na reálném care boundary.
-- [ ] Restartovat pouze se souhlasem vlastníka; připomínka se obnoví a nepoužije
-  exact alarm.
-- [ ] Klepnutí otevře správný květináč/centrum péče.
+- [x] Naplánovat testovací připomínku a zachytit skutečné oznámení mimo hru. Doloženo 2026-09-08.
+- [x] Ověřit běžnou připomínku na reálném care boundary. Přemokřená půda v květináči 1, 2026-09-08.
+- [x] Restartovat pouze se souhlasem vlastníka; připomínka se obnoví a nepoužije
+  exact alarm. Doručení po restartu a správný cíl potvrzeny 2026-09-08.
+- [x] Klepnutí otevře správný květináč/centrum péče. Potvrzeno vlastníkem 2026-09-08 pro testovací květináč 1.
 
 ### `.htgbackup`
 
 - [ ] Otevřít systémový picker a zrušit jej bez změny hry.
-- [ ] Exportovat `.htgbackup` do uživatelem zvoleného místa.
+- [x] Exportovat `.htgbackup` do uživatelem zvoleného místa. Potvrzeno vlastníkem 2026-09-08.
 - [ ] Ověřit, že soubor neobsahuje tvrzení o šifrování; checksum je pouze
   integrita.
-- [ ] Importovat stejný soubor, zobrazit náhled a zrušit bez změny.
-- [ ] Potvrdit obnovu až na testovací kopii a ověřit automatickou before-import
-  zálohu.
+- [x] Importovat stejný soubor, zobrazit náhled a zrušit bez změny. Vlastník 2026-09-08 potvrdil úroveň 4, 10 mincí a 4 obsazené květináče.
+- [x] Potvrdit obnovu až na testovací kopii a ověřit automatickou before-import
+  zálohu. Agent přes skutečné Android UI v samostatném package, přesný hash
+  předchozího save a readback po restartu, 2026-09-08.
 
 ### Offline, systém a výkon
 
@@ -100,8 +116,9 @@ jediné reálné kopie hráče.
 - [ ] Pozastavit/obnovit aplikaci a přerušit ji systémovým dialogem.
 - [ ] Ověřit ztrátu a návrat audio focusu.
 - [ ] Projít dostupné 60/90/120Hz režimy bez změny herního času.
-- [ ] Nejméně 30 minut aktivního průchodu: subjektivní plynulost, teplota,
-  baterie a stabilní paměť.
+- [x] Nejméně 30 minut aktivního průchodu: vlastník 2026-09-08 potvrdil
+  hraní bez dalších chyb, výrazného zahřívání nebo zpomalování.
+- [ ] Instrumentované měření baterie a stabilní paměti během průchodu.
 - [ ] 72hodinový offline limit, posun času dozadu a změnu časového pásma ověřit
   deterministickým testem nebo vyhrazeným zařízením; nevydávat simulaci za
   fyzické čekání.
@@ -121,14 +138,15 @@ e-mail testerů ani data jiných aplikací.
 ## Závěrečný protokol
 
 ```text
-RC59_ANDROID_TECHNICAL_GATE=PENDING
-RC59_ANDROID_SAVE_GATE=PENDING
-RC59_ANDROID_NOTIFICATION_GATE=PENDING
-RC59_ANDROID_BACKUP_PICKER_GATE=PENDING
+RC59_ANDROID_TECHNICAL_GATE=PASSED
+RC59_ANDROID_SAVE_GATE=PASSED
+RC59_ANDROID_NOTIFICATION_GATE=PARTIAL
+RC59_ANDROID_BACKUP_PICKER_GATE=PASSED_EXPORT_PREVIEW_CANCEL_USER_CONFIRMED
+RC59_ANDROID_BACKUP_RESTORE_GATE=PENDING_TEST_COPY
 RC59_ANDROID_HUMAN_VISUAL_GATE=PENDING
 RC59_ANDROID_HUMAN_TOUCH_GATE=PENDING
 RC59_ANDROID_THERMAL_BATTERY_GATE=PENDING
-RC59_PHYSICAL_ANDROID_AUDIT=PENDING
+RC59_PHYSICAL_ANDROID_AUDIT=PARTIAL
 ```
 
 Celkový stav se smí změnit na `PASSED` jen tehdy, když byl přesný RC59 skutečně

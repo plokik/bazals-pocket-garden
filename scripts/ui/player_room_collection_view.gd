@@ -13,6 +13,7 @@ const VisualDesignSystem := preload("res://scripts/ui/visual_design_system.gd")
 const TooltipPolicy := preload("res://scripts/ui/tooltip_policy.gd")
 const PlantDragController := preload("res://scripts/ui/room_plant_drag_controller.gd")
 const PlantRenderGeometry := preload("res://scripts/ui/room_plant_render_geometry.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const PlayerRoomInterior := preload("res://assets/ui/player_room/player_room_phase149_target_clean_v1.png")
@@ -120,6 +121,7 @@ func _ready() -> void:
 	set_meta("window_life_pauses", true)
 	set_meta("window_life_reduced_motion_static", true)
 	set_meta("gameplay_bonuses", false)
+	set_meta("painted_title_overlay", "compact_wood_replaces_white_plate_font_safe_v3")
 	set_meta("phase104_room_decorations", "purchase_once_move_free_v1")
 	set_meta("phase123_room_visual", "painted_interior_dynamic_collection_v1")
 	set_meta("phase124_room_living_details", "pet_corner_herb_jars_window_life_v1")
@@ -579,6 +581,7 @@ func _draw() -> void:
 		# half and the room looks like it contains damaged textures.
 		_draw_decoration_slots(palette, true)
 		_draw_plant_drag_preview(palette)
+	_draw_painted_title_overlay()
 	# Optional owned room themes tint the complete composition as one surface.
 	# Sunrise stays byte-neutral for the approved Phase 149 target capture.
 	if palette.tint.a > 0.0:
@@ -712,18 +715,22 @@ func _draw_window_life(palette: Dictionary) -> void:
 	draw_line(butterfly_center + Vector2(0.0, -3.0), butterfly_center + Vector2(0.0, 4.0), bird_ink, 1.4, true)
 
 
-func _draw_title(palette: Dictionary) -> void:
-	# Phase 146 keeps all chrome on the window side. The approved books and herb
-	# jars occupy the upper-right shelves and must never be hidden by navigation.
+func _draw_painted_title_overlay() -> void:
 	var shared_panel := GardenSceneFraming.location_title_panel(size)
-	var panel_rect := Rect2(PHASE146_TITLE_RECT.position, Vector2(minf(PHASE146_TITLE_RECT.size.x, shared_panel.size.x), PHASE146_TITLE_RECT.size.y))
-	draw_style_box(
-		ComicUITheme.style_box(Color("#fff7da", 0.97), ComicUITheme.CYAN, 3, 14, Color("#07131c", 0.36), 4, 5.0),
-		panel_rect
-	)
-	draw_line(panel_rect.position + Vector2(16.0, 7.0), Vector2(panel_rect.end.x - 16.0, panel_rect.position.y + 7.0), Color.WHITE, 2.0, true)
-	draw_string(FontExtraBold, panel_rect.position + Vector2(10.0, 27.0), "MŮJ POKOJ", HORIZONTAL_ALIGNMENT_CENTER, panel_rect.size.x - 20.0, 19, palette.ink)
-	draw_string(FontSemiBold, panel_rect.position + Vector2(10.0, 46.0), "DEKORACE · ÚSPĚCHY · MAZLÍČEK", HORIZONTAL_ALIGNMENT_CENTER, panel_rect.size.x - 20.0, 8, ComicUITheme.NAVY)
+	var panel_rect := Rect2(PHASE146_TITLE_RECT.position - Vector2(4.0, 4.0), Vector2(minf(PHASE146_TITLE_RECT.size.x, shared_panel.size.x) + 8.0, PHASE146_TITLE_RECT.size.y + 8.0))
+	var title_style := PaintedDetailArt.box("wood", 0.0)
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		title_style.set_texture_margin(side, 12.0)
+	draw_style_box(title_style, panel_rect)
+	var text_width := panel_rect.size.x - 32.0
+	var title_line := Rect2(panel_rect.position + Vector2(16.0, 15.0), Vector2(text_width, 20.0))
+	var subtitle_line := Rect2(panel_rect.position + Vector2(16.0, 38.0), Vector2(text_width, 10.0))
+	draw_string(FontExtraBold, PaintedDetailArt.centered_text_baseline(FontExtraBold, 17, title_line), "MŮJ POKOJ", HORIZONTAL_ALIGNMENT_CENTER, text_width, 17, ComicUITheme.INK)
+	draw_string(FontSemiBold, PaintedDetailArt.centered_text_baseline(FontSemiBold, 8, subtitle_line), "DEKORACE · ÚSPĚCHY · MAZLÍČEK", HORIZONTAL_ALIGNMENT_CENTER, text_width, 8, ComicUITheme.NAVY)
+
+
+func _draw_title(_palette: Dictionary) -> void:
+	_draw_painted_title_overlay()
 
 
 func _draw_phase140_secondary_wall_shelf() -> void:

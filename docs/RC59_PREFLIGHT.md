@@ -1,5 +1,7 @@
 # RC59 preflight
 
+> **HISTORICKÝ SNAPSHOT — NAHRAZENO.** Tento dokument zachycuje stav předflightu z 30. 8. 2026 před přesunem projektu, dokončením RC59 a připojením soukromého GitHub repozitáře. Není aktuálním zdrojem pravdy. Současný stav je v `RC59_VALIDATION_REPORT.md`; autoritativní checkout je `R:\_projekty\Bazal's Pocket Garden`.
+
 Audit date: 2026-08-30 (Europe/Prague)
 
 ## Verdict
@@ -41,7 +43,7 @@ The source still identifies itself as `0.68.0-rc58`, Android version code 75, an
 
 All 82 untracked PNG files have their Godot `.import` sidecars and all 34 untracked GDScript files have `.uid` sidecars. These sidecars follow the established repository convention and are not disposable cache.
 
-The full file-level classification is recorded in `docs/RC59_ASSET_INVENTORY.csv` and explained in `docs/RC59_ASSET_INVENTORY.md`.
+The full file-level classification is recorded in [the preserved historical CSV](audit/history/RC59_ASSET_INVENTORY.csv) and explained in `docs/RC59_ASSET_INVENTORY.md`. The CSV was relocated on 2026-09-06 to keep it outside Godot's translation importer.
 
 ## Sensitive and local data audit
 
@@ -113,4 +115,3 @@ The ten failures exactly reproduce the known pre-existing visual-approval bounda
 3. RC59 version bump only after the baseline content is committed coherently.
 4. Existing external upload key or explicit user decision about key creation.
 5. Full automated release run and one separate physical Android human batch.
-

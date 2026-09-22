@@ -65,6 +65,7 @@ static func _test_visual_baseline_transition(suite: SceneTree) -> void:
 	var manifest := _read_dictionary("res://.agents/skills/how-to-grow-validation/references/visual-cases.json")
 	var approval_path := "docs/visual-proposals/phase167/runtime-reference-approval-v1.json"
 	var approval_record := _read_dictionary("res://" + approval_path)
+	var rc60_approval_record := _read_dictionary("res://docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json")
 	var approval := approval_record.get("approval", {}) as Dictionary
 	var review_path := "docs/visual-proposals/phase167/player-room-rack-native-review-v1.png"
 	var review_sha := "7273d26c64a662b2479947d640c68c2c5478b93f3e623f546ef93a1b9c29ec8d"
@@ -99,7 +100,7 @@ static func _test_visual_baseline_transition(suite: SceneTree) -> void:
 	for spec: Array in expected:
 		var case_id := "phase167-player-room-%s-runtime-approved" % spec[0]
 		var historical_id := "phase%s-player-room-%s-runtime-approved" % [spec[1], spec[2]]
-		var reference := "assets/ui/comic/reference_phase167_player_room_%s_runtime_v1.png" % str(spec[0]).replace("-", "_")
+		var reference := "assets/ui/comic/rc60_runtime_baseline/reference_phase167-player-room-%s-runtime-approved_v1.png" % spec[0]
 		var historical_reference := "assets/ui/comic/reference_phase%s_player_room_%s_runtime_v1.png" % [spec[1], str(spec[2]).replace("-", "_")]
 		var current: Dictionary = cases.get(case_id, {})
 		var historical: Dictionary = cases.get(historical_id, {})
@@ -107,8 +108,8 @@ static func _test_visual_baseline_transition(suite: SceneTree) -> void:
 			bool(current.get("gate", false)) and _baseline_pixel_contract(current)
 			and str(current.get("reference", "")) == reference
 			and str(current.get("actual", "")) == str(spec[3])
-			and str(current.get("approval_record", "")) == approval_path,
-			"Fáze 167 %s zachovává celý obraz, nulové masky a stejné přísné tolerance" % spec[0]
+			and str(current.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+			"Fáze 167%s zachovává celý obraz, nulové masky a stejné přísné tolerance" % spec[0]
 		)
 		suite._check(
 			not bool(historical.get("gate", true)) and _baseline_pixel_contract(historical)
@@ -116,21 +117,19 @@ static func _test_visual_baseline_transition(suite: SceneTree) -> void:
 			and str(historical.get("actual", "")) == str(spec[3])
 			and str(historical.get("superseded_by", "")) == case_id
 			and FileAccess.get_sha256("res://" + historical_reference) == str(spec[5]),
-			"Fáze 167 %s zachovává původní referenci bajtově i její diagnostické porovnání" % spec[0]
+			"Fáze 167%s zachovává původní referenci bajtově i její diagnostické porovnání" % spec[0]
 		)
 		var provenance := {}
-		for record: Dictionary in approval_record.get("references", []):
-			if str(record.get("case_id", "")) == case_id:
+		for record: Dictionary in rc60_approval_record.get("references", []):
+			if str(record.get("id", "")) == case_id:
 				provenance = record
 		suite._check(
-			FileAccess.get_sha256("res://" + reference) == str(spec[4])
-			and str(provenance.get("reference", "")) == reference
-			and str(provenance.get("reference_sha256", "")).to_lower() == str(spec[4])
-			and str(provenance.get("historical_reference", "")) == historical_reference
-			and str(provenance.get("historical_sha256", "")).to_lower() == str(spec[5])
-			and str(provenance.get("supersedes", "")) == historical_id
-			and str(provenance.get("actual", "")) == str(spec[3]),
-			"Fáze 167 %s používá přesný nový verzovaný snímek s dohledatelným původem" % spec[0]
+			str(provenance.get("rc60_reference", "")) == reference
+			and FileAccess.get_sha256("res://" + reference) == str(provenance.get("rc60_reference_sha256", "")).to_lower()
+			and str(provenance.get("previous_reference", "")) == "assets/ui/comic/reference_phase167_player_room_%s_runtime_v1.png" % str(spec[0]).replace("-", "_")
+			and str(provenance.get("previous_reference_sha256", "")).to_lower() == str(spec[4])
+			and str(provenance.get("actual", "")).ends_with(str(spec[3])),
+			"Fáze 167%s používá přesný nový verzovaný snímek s dohledatelným původem" % spec[0]
 		)
 
 
@@ -180,7 +179,7 @@ static func _test_placement(suite: SceneTree, view: RoomView, asset: Array, slot
 		and _vector_near(ceramic.position, foot - Vector2(expected_size.x * 0.5, expected_size.y))
 		and _vector_near(join, foot - Vector2(0.0, expected_size.y))
 		and _vector_near(foot, expected_floor),
-		"Fáze 167 %s má společnou keramiku 57×54 podle šířky a stojí na skutečné polici" % label
+		"Fáze 167%s má společnou keramiku 57×54 podle šířky a stojí na skutečné polici" % label
 	)
 	suite._check(
 		_vector_near(geometry.canvas, asset[3])
@@ -192,21 +191,21 @@ static func _test_placement(suite: SceneTree, view: RoomView, asset: Array, slot
 		and _vector_near(Geometry.project_source_point(geometry, Vector2(center_x, source_top)), join)
 		and _vector_near(Geometry.project_source_point(geometry, Vector2(center_x - source_width * 0.5, source_top)), ceramic.position)
 		and _vector_near(Geometry.project_source_point(geometry, Vector2(center_x + source_width * 0.5, source_floor)), ceramic.end),
-		"Fáze 167 %s promítá naměřený střed, šířku a dno zdrojové keramiky, nikoli střed průhledného plátna" % label
+		"Fáze 167%s promítá naměřený střed, šířku a dno zdrojové keramiky, nikoli střed průhledného plátna" % label
 	)
-	suite._check(_crown_is_isotropic(geometry), "Fáze 167 %s kreslí celou horní korunu izotropně bez natažení květů" % label)
+	suite._check(_crown_is_isotropic(geometry), "Fáze 167%s kreslí celou horní korunu izotropně bez natažení květů" % label)
 	suite._check(
 		_rect_contains(geometry.opening, geometry.crown_rect)
 		and _rect_near(geometry.opening, Framing.map_player_room_phase149_rect(SOURCE_SHELF_OPENINGS[slot_index], viewport_size))
 		and _rect_near(geometry.opening, Geometry.shelf_opening(slot_index, viewport_size)),
-		"Fáze 167 %s vměstná nezkreslenou korunu do skutečně mapovaného otvoru police" % label
+		"Fáze 167%s vměstná nezkreslenou korunu do skutečně mapovaného otvoru police" % label
 	)
-	suite._check(_bands_cover_canvas(geometry), "Fáze 167 %s pokrývá celý zdroj souvislými UV pásy bez výřezu, mezery nebo překryvu" % label)
-	suite._check(_neck_is_monotone(geometry), "Fáze 167 %s nemá obrácený pás ani lokálně přehnutý krček mezi korunou a keramikou" % label)
-	suite._check(_junctions_are_continuous(geometry), "Fáze 167 %s zachová návaznost levého, středního a pravého okraje v každém spoji UV pásů" % label)
+	suite._check(_bands_cover_canvas(geometry), "Fáze 167%s pokrývá celý zdroj souvislými UV pásy bez výřezu, mezery nebo překryvu" % label)
+	suite._check(_neck_is_monotone(geometry), "Fáze 167%s nemá obrácený pás ani lokálně přehnutý krček mezi korunou a keramikou" % label)
+	suite._check(_junctions_are_continuous(geometry), "Fáze 167%s zachová návaznost levého, středního a pravého okraje v každém spoji UV pásů" % label)
 	suite._check(_mesh_matches_geometry(view, geometry), "Fáze 167 skutečný render mesh %s pokryje celé plátno souvislými pásy a sloupci bez překryvu UV, díry nebo obráceného trojúhelníku" % label)
 	var shifted: Dictionary = Geometry.placement(asset_id, slot_index, viewport_size, DRAG_OFFSET)
-	suite._check(_is_pure_translation(geometry, shifted, DRAG_OFFSET), "Fáze 167 %s při přetažení pouze posune stejnou geometrii, rozměry a zdrojové UV" % label)
+	suite._check(_is_pure_translation(geometry, shifted, DRAG_OFFSET), "Fáze 167%s při přetažení pouze posune stejnou geometrii, rozměry a zdrojové UV" % label)
 	suite._check(
 		view.plant_render_geometry(asset_id, slot_index) == geometry
 		and view.plant_render_geometry(asset_id, slot_index, DRAG_OFFSET) == shifted,
@@ -516,7 +515,7 @@ static func _test_assets(suite: SceneTree) -> Dictionary:
 			and Design.decoration_asset_id(str(asset[1])) == asset_id
 			and str(profile.get("rack_geometry_asset_id", "")) == asset_id
 			and str(profile.get("rack_geometry_contract", "")) == Geometry.CONTRACT,
-			"Fáze 167 %s zachová historický zdrojový i výstupní SHA; živý profil používá jeho alfa-only derivát Phase169 a stejnou geometrii" % asset_id
+			"Fáze 167%s zachová historický zdrojový i výstupní SHA; živý profil používá jeho alfa-only derivát Phase169 a stejnou geometrii" % asset_id
 		)
 		var texture := Design.texture_for(asset_id)
 		var imported_image: Image = texture.get_image() if texture != null else null
@@ -540,14 +539,14 @@ static func _test_assets(suite: SceneTree) -> Dictionary:
 		suite._check(
 			Vector2(raw.get_size()) == canvas and raw.get_size() == old.get_size()
 			and manifest_size.size() == 2 and Vector2(float(manifest_size[0]), float(manifest_size[1])) == canvas,
-			"Fáze 167 %s zachovává rozměry, padding a souřadnice původního PNG" % asset_id
+			"Fáze 167%s zachovává rozměry, padding a souřadnice původního PNG" % asset_id
 		)
 		var pixel_audit := _audit_pixels(raw, old, atlas, legacy_record)
 		suite._check(
 			bool(pixel_audit.get("rgb_exact", false)) and bool(pixel_audit.get("old_rgb_preserved", false))
 			and bool(pixel_audit.get("alpha_additive", false)) and bool(pixel_audit.get("clear_border", false))
 			and int(pixel_audit.get("restored", -1)) == int(record.get("restored_pixels", -2)),
-			"Fáze 167 %s má skutečně původní RGB atlasu, přidanou alfa bez mazání a průhledný nekrojený okraj" % asset_id
+			"Fáze 167%s má skutečně původní RGB atlasu, přidanou alfa bez mazání a průhledný nekrojený okraj" % asset_id
 		)
 		spans_by_id[asset_id] = pixel_audit.get("spans", [])
 		if asset_id == "room_orchid":

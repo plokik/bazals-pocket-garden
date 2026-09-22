@@ -5,6 +5,8 @@ const SEVERITY_OK := 0
 const SEVERITY_WATCH := 1
 const SEVERITY_BAD := 2
 const SEVERITY_CRITICAL := 3
+# Diagnostic threshold for stagnant air; this does not change growth scoring.
+const MIN_ADEQUATE_VENTILATION := 40.0
 
 const CHECK_ORDER := {
 	"disease": 0,
@@ -35,7 +37,7 @@ func build_snapshot(plant: PlantSimulation, environment_time_seconds := -1.0) ->
 		return {
 			"plant_name": str(plant.profile.get("ui_name", plant.get_display_name())).to_upper(),
 			"status": "ROSTLINA UHYNULA",
-			"summary": "ZDRAVÍ 0 %  ·  SKLIZEŇ NENÍ MOŽNÁ",
+			"summary": "ZDRAVÍ 0%  ·  SKLIZEŇ NENÍ MOŽNÁ",
 			"recommendation": "Vrať se k rostlině a ručně vyčisti květináč.",
 			"next_action_id": "clear",
 			"next_action_label": "VYČISTIT KVĚTINÁČ",
@@ -108,7 +110,7 @@ func build_snapshot(plant: PlantSimulation, environment_time_seconds := -1.0) ->
 	return {
 		"plant_name": str(plant.profile.get("ui_name", plant.get_display_name())).to_upper(),
 		"status": status,
-		"summary": "PODMÍNKY %d %%  ·  ZDRAVÍ %d %%  ·  %d PROBLÉMŮ" % [roundi(plant.condition_score * 100.0), roundi(plant.health), problem_count],
+		"summary": "PODMÍNKY %d%%  ·  ZDRAVÍ %d%%  ·  %d PROBLÉMŮ" % [roundi(plant.condition_score * 100.0), roundi(plant.health), problem_count],
 		"recommendation": recommendation,
 		"next_action_id": str(primary_action.get("id", "return")),
 		"next_action_label": str(primary_action.get("label", "ZPĚT K ROSTLINĚ")),
@@ -131,13 +133,13 @@ func _primary_action(plant: PlantSimulation, checks: Array[Dictionary], daylight
 		"moisture":
 			if plant.moisture < 24.0:
 				return _action("water", "K ZÁLIVCE")
-			if plant.moisture > 88.0:
+			if plant.moisture > 88.0 and plant.ventilation < MIN_ADEQUATE_VENTILATION:
 				return _action("ventilate", "K VĚTRÁNÍ")
 		"nutrients":
 			if plant.nutrients < 23.0:
 				return _action("fertilize", "K HNOJENÍ")
 		"air":
-			if plant.ventilation < 40.0:
+			if plant.ventilation < MIN_ADEQUATE_VENTILATION:
 				return _action("ventilate", "K VĚTRÁNÍ")
 		"light":
 			if daylight and plant.light_lux < 9000.0:
@@ -161,28 +163,31 @@ func _action(id: String, label: String) -> Dictionary:
 func _disease_check(plant: PlantSimulation) -> Dictionary:
 	var pressure := roundi(clampf(plant.disease_pressure, 0.0, 100.0))
 	if plant.disease_level > 0:
-		var action := "Použij OŠETŘIT a drž vláhu půdy pod 76 %."
+		var action := "Použij OŠETŘIT a drž vláhu půdy pod 76%."
 		if plant.ventilation > PlantSimulation.TREATMENT_READY_VENTILATION:
 			action = "Léčba působí. Nezalévej a vyčkej na pokles proudění."
 		elif plant.moisture >= 76.0:
-			action = "Ošetři rostlinu a nezalévej, dokud vláha neklesne pod 76 %."
-		return _check("disease", "PLÍSEŇ LISTŮ", "Aktivní · tlak %d %%" % pressure, "Bez příznaků · tlak 0–18 %", action, SEVERITY_CRITICAL)
+			action = "Ošetři rostlinu a nezalévej, dokud vláha neklesne pod 76%."
+		return _check("disease", "PLÍSEŇ LISTŮ", "Aktivní · tlak %d%%" % pressure, "Bez příznaků · tlak 0–18%", action, SEVERITY_CRITICAL)
 	if pressure > 65:
-		return _check("disease", "RIZIKO PLÍSNĚ", "Tlak %d %%" % pressure, "Bez příznaků · tlak 0–18 %", "Vyvětrej a sniž vlhkost dřív, než se plíseň projeví.", SEVERITY_BAD)
+		return _check("disease", "RIZIKO PLÍSNĚ", "Tlak %d%%" % pressure, "Bez příznaků · tlak 0–18%", "Vyvětrej a sniž vlhkost dřív, než se plíseň projeví.", SEVERITY_BAD)
 	if pressure > 18:
-		return _check("disease", "RIZIKO PLÍSNĚ", "Tlak %d %%" % pressure, "Bez příznaků · tlak 0–18 %", "Sleduj vlhkost vzduchu a udržuj dobré proudění.", SEVERITY_WATCH)
-	return _check("disease", "PLÍSEŇ", "Bez příznaků · tlak %d %%" % pressure, "Bez příznaků · tlak 0–18 %", "Není potřeba ošetřovat.", SEVERITY_OK)
+		return _check("disease", "RIZIKO PLÍSNĚ", "Tlak %d%%" % pressure, "Bez příznaků · tlak 0–18%", "Sleduj vlhkost vzduchu a udržuj dobré proudění.", SEVERITY_WATCH)
+	return _check("disease", "PLÍSEŇ", "Bez příznaků · tlak %d%%" % pressure, "Bez příznaků · tlak 0–18%", "Není potřeba ošetřovat.", SEVERITY_OK)
 
 
 func _moisture_check(plant: PlantSimulation) -> Dictionary:
 	var ideal_min := float(plant.profile.get("ideal_moisture_min", 42.0))
 	var ideal_max := float(plant.profile.get("ideal_moisture_max", 72.0))
-	var ideal := "Ideál %d–%d %%" % [roundi(ideal_min), roundi(ideal_max)]
-	var value := "Vláha půdy %d %%" % roundi(plant.moisture)
+	var ideal := "Ideál %d–%d%%" % [roundi(ideal_min), roundi(ideal_max)]
+	var value := "Vláha půdy %d%%" % roundi(plant.moisture)
 	if plant.moisture < 24.0:
 		return _check("moisture", "VLÁHA PŮDY", value, ideal, "Zalij rostlinu jednou bezpečnou dávkou.", SEVERITY_CRITICAL)
 	if plant.moisture > 88.0:
-		return _check("moisture", "VLÁHA PŮDY", value, ideal, "Nezalévej a zlepši proudění, dokud půda neproschne.", SEVERITY_CRITICAL)
+		var action := "Nezalévej a zlepši proudění, dokud půda neproschne."
+		if plant.ventilation >= MIN_ADEQUATE_VENTILATION:
+			action = "Proudění už je dostatečné. Nezalévej a nech půdu přirozeně proschnout."
+		return _check("moisture", "VLÁHA PŮDY", value, ideal, action, SEVERITY_CRITICAL)
 	if plant.moisture < ideal_min:
 		return _check("moisture", "VLÁHA PŮDY", value, ideal, "Před další zálivkou sleduj, zda vláha dál klesá.", SEVERITY_WATCH)
 	if plant.moisture > ideal_max:
@@ -193,8 +198,8 @@ func _moisture_check(plant: PlantSimulation) -> Dictionary:
 func _nutrient_check(plant: PlantSimulation) -> Dictionary:
 	var ideal_min := float(plant.profile.get("ideal_nutrients_min", 32.0))
 	var ideal_max := float(plant.profile.get("ideal_nutrients_max", 76.0))
-	var ideal := "Ideál %d–%d %%" % [roundi(ideal_min), roundi(ideal_max)]
-	var value := "Živiny %d %% · EC %.2f" % [roundi(plant.nutrients), plant.ec_ms_cm]
+	var ideal := "Ideál %d–%d%%" % [roundi(ideal_min), roundi(ideal_max)]
+	var value := "Živiny %d%% · EC %.2f" % [roundi(plant.nutrients), plant.ec_ms_cm]
 	if plant.nutrients < 23.0:
 		return _check("nutrients", "ŽIVINY", value, ideal, "Použij jednu dávku hnojiva a potom hodnotu znovu zkontroluj.", SEVERITY_BAD)
 	if plant.nutrients > 84.0:
@@ -205,14 +210,14 @@ func _nutrient_check(plant: PlantSimulation) -> Dictionary:
 
 
 func _air_check(plant: PlantSimulation) -> Dictionary:
-	var value := "Vzduch %d %% · proudění %d %%" % [roundi(plant.humidity_percent), roundi(plant.ventilation)]
-	if plant.humidity_percent > 76.0 and plant.ventilation < 40.0:
-		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost ≤76 % · proudění ≥40 %", "Vyvětrej. Vlhký stojatý vzduch rychle zvyšuje tlak plísně.", SEVERITY_BAD)
-	if plant.ventilation < 40.0:
-		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Proudění alespoň 40 %", "Vyvětrej, aby listy nezůstávaly ve stojatém vzduchu.", SEVERITY_WATCH)
+	var value := "Vzduch %d%% · proudění %d%%" % [roundi(plant.humidity_percent), roundi(plant.ventilation)]
+	if plant.humidity_percent > 76.0 and plant.ventilation < MIN_ADEQUATE_VENTILATION:
+		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost ≤76% · proudění ≥40%", "Vyvětrej. Vlhký stojatý vzduch rychle zvyšuje tlak plísně.", SEVERITY_BAD)
+	if plant.ventilation < MIN_ADEQUATE_VENTILATION:
+		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Proudění alespoň 40%", "Vyvětrej, aby listy nezůstávaly ve stojatém vzduchu.", SEVERITY_WATCH)
 	if plant.humidity_percent > 76.0:
-		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost vzduchu nejvýše 76 %", "Proudění je dobré, ale dál sleduj vysokou vlhkost vzduchu.", SEVERITY_WATCH)
-	return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost ≤76 % · proudění ≥40 %", "Vzduch kolem listů je bezpečný.", SEVERITY_OK)
+		return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost vzduchu nejvýše 76%", "Proudění je dobré, ale dál sleduj vysokou vlhkost vzduchu.", SEVERITY_WATCH)
+	return _check("air", "VZDUCH A PROUDĚNÍ", value, "Vlhkost ≤76% · proudění ≥40%", "Vzduch kolem listů je bezpečný.", SEVERITY_OK)
 
 
 func _light_check(plant: PlantSimulation, daylight: bool) -> Dictionary:

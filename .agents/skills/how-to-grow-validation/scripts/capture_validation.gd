@@ -2724,7 +2724,7 @@ func _capture_phase115_greenhouse_level4_compact(instance) -> bool:
 	await _settle(instance)
 	var greenhouse = instance.greenhouse_preview_view
 	var capture_valid: bool = (
-		greenhouse.size == Vector2(360.0, 620.0)
+		greenhouse.size == Vector2(360.0, 625.0)
 		and greenhouse._uses_compact_layout()
 		and greenhouse.crop_buttons.size() == 5
 		and greenhouse.crop_buttons[0].visible
@@ -2740,7 +2740,7 @@ func _capture_phase115_greenhouse_level4_compact(instance) -> bool:
 		and "OD ÚR. 5" in greenhouse.crop_buttons[4].text
 	)
 	if not capture_valid:
-		push_error("Phase 115 compact capture did not render exact 360x620 content with four unlocked crops and locked eggplant.")
+		push_error("Phase 115 compact capture did not render exact 360x625 content with four unlocked crops and locked eggplant.")
 	else:
 		capture_valid = _save_full_viewport("comic-greenhouse-level4-compact.png")
 	root.content_scale_size = previous_content_scale_size
@@ -2758,7 +2758,7 @@ func _capture_phase109_greenhouse_level2_compact(instance) -> bool:
 	await _settle(instance)
 	var greenhouse = instance.greenhouse_preview_view
 	var capture_valid: bool = (
-		greenhouse.size == Vector2(360.0, 620.0)
+		greenhouse.size == Vector2(360.0, 625.0)
 		and greenhouse.get_meta("responsive_layout_component", "") == "phase109_greenhouse_compact_layout_v1"
 		and greenhouse.crop_buttons.size() == 5
 		and greenhouse.crop_buttons[0].visible
@@ -2776,7 +2776,7 @@ func _capture_phase109_greenhouse_level2_compact(instance) -> bool:
 		and "OD ÚR. 5" in greenhouse.crop_buttons[4].text
 	)
 	if not capture_valid:
-		push_error("Phase 115 compact capture did not render exact 360x620 content with level-2 tomato/pepper and locked radish/cucumber/eggplant choices.")
+		push_error("Phase 115 compact capture did not render exact 360x625 content with level-2 tomato/pepper and locked radish/cucumber/eggplant choices.")
 	else:
 		capture_valid = _save_full_viewport("comic-greenhouse-level2-compact.png")
 	root.content_scale_size = previous_content_scale_size
@@ -3006,7 +3006,7 @@ func _prepare_phase41_level_progression_state(instance) -> void:
 	instance.last_coins_seen = 86
 	instance._set_coin_count(86.0)
 	instance._set_level_progression_open(true)
-	instance.level_progression_scroll.scroll_vertical = 0
+	instance.level_progression_tree_view.select_level(instance.session.get_level())
 	instance.level_progression_modal.set_meta("capture_state", "phase41_level_progression_candidate_v1")
 	instance._refresh_ui()
 
@@ -4830,9 +4830,9 @@ func _prepare_phase96_herbal_blend_order_state(instance) -> bool:
 	instance.session._ensure_orders()
 	var expected_blend_ids := ["evening_freshness", "soup_pair", "aromatic_sachet"]
 	var expected_requirements := [
-		"SMĚS · 2 BYLINY\nMÁTA · 4,0 g · kvalita 74 %\nMEDUŇKA · 4,5 g · kvalita 74 %",
-		"SMĚS · 2 BYLINY\nPETRŽEL · 4,2 g · kvalita 76 %\nMAJORÁNKA · 4,8 g · kvalita 78 %",
-		"SMĚS · 2 BYLINY\nLEVANDULE · 5,5 g · kvalita 82 %\nROZMARÝN · 4,8 g · kvalita 78 %",
+		"SMĚS · 2 BYLINY\nMÁTA · 4,0 g · kvalita 74%\nMEDUŇKA · 4,5 g · kvalita 74%",
+		"SMĚS · 2 BYLINY\nPETRŽEL · 4,2 g · kvalita 76%\nMAJORÁNKA · 4,8 g · kvalita 78%",
+		"SMĚS · 2 BYLINY\nLEVANDULE · 5,5 g · kvalita 82%\nROZMARÝN · 4,8 g · kvalita 78%",
 	]
 	if instance.session.orders.size() != expected_blend_ids.size():
 		push_error("Phase 96 blend capture requires exactly three canonical recipes.")
@@ -5066,7 +5066,7 @@ func _prepare_phase97_herbarium_master_journal_state(instance) -> bool:
 			or str(research_badge.get("id", "")) != "research_partner" \
 			or bool(research_badge.get("achieved", true)) \
 			or instance.grower_journal_cards.size() != 10 \
-			or instance.grower_journal_badge_count_label.text != "ODZNAKY  9 / 10" \
+			or instance.grower_journal_badge_count_label.text != "DOVEDNOSTI  9/10" \
 			or str((final_card.get("title") as Label).text) != "MISTR HERBÁŘE" \
 			or not bool((final_card.get("panel") as Control).get_meta("achieved", false)) \
 			or str((research_card.get("title") as Label).text) != "VÝZKUMNÝ PARTNER" \

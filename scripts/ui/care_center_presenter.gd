@@ -2,6 +2,8 @@ class_name CareCenterPresenter
 extends RefCounted
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const PaintedPanels := preload("res://scripts/ui/plant_detail_painted_assets.gd")
+const CareArt := preload("res://scripts/ui/care_center_painted_assets.gd")
 
 var summary_label: Label
 var status_label: Label
@@ -58,6 +60,8 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}) -> 
 		var state_label := card.get("state") as Label
 		var check_label := card.get("check") as Label
 		var action_button := card.get("action") as Button
+		var status_icon := card.get("status_icon") as TextureRect
+		var check_icon := card.get("check_icon") as TextureRect
 		if panel != null:
 			var parent := panel.get_parent()
 			if parent != null:
@@ -72,6 +76,7 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}) -> 
 		if state_label != null:
 			state_label.text = str(entry.get("status", ""))
 			state_label.add_theme_color_override("font_color", _tone_color(tone))
+			state_label.add_theme_stylebox_override("normal", _state_badge_style(tone))
 		if check_label != null:
 			check_label.text = str(entry.get("check_label", "BEZ PLÁNU"))
 			check_label.add_theme_color_override("font_color", _tone_color(tone))
@@ -79,7 +84,14 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}) -> 
 			action_button.text = str(entry.get("action", "OTEVŘÍT"))
 			action_button.disabled = not bool(entry.get("unlocked", false))
 			action_button.set_meta("care_target", str(entry.get("target", "detail")))
+			action_button.icon = CareArt.texture(_action_icon_for_entry(entry))
+			action_button.expand_icon = true
+			action_button.add_theme_constant_override("icon_max_width", 36)
 			ComicUITheme.apply_button(action_button, _button_color(tone), ComicUITheme.INK, 10)
+		if status_icon != null:
+			status_icon.texture = CareArt.texture(_status_icon_for_entry(entry))
+		if check_icon != null:
+			check_icon.texture = CareArt.texture("clock_leaf")
 
 
 func show_navigation_error(message: String) -> void:
@@ -89,20 +101,33 @@ func show_navigation_error(message: String) -> void:
 	status_label.add_theme_color_override("font_color", Color("#c34b35"))
 
 
-func _card_style(tone: String) -> StyleBoxFlat:
-	var border := _tone_color(tone)
-	var background := Color("#fff2c7")
+func _card_style(tone: String) -> StyleBoxTexture:
+	var tint := Color.WHITE
 	if tone == "critical":
-		background = Color("#ffe0b0")
+		tint = Color("#fff0dc")
+	elif tone == "warning":
+		tint = Color("#fff7df")
 	elif tone == "ready":
-		background = Color("#e5f6ba")
+		tint = Color("#efffdc")
 	elif tone == "processing":
-		background = Color("#d9eff5")
+		tint = Color("#e5fbff")
 	elif tone == "locked":
-		background = Color("#dfddd5")
+		tint = Color("#e7e5dd")
 	elif tone == "empty":
-		background = Color("#f0def7")
-	return ComicUITheme.style_box(background, border, 3, 14, Color("#07131c", 0.24), 4, 9.0)
+		tint = Color("#f5eaff")
+	return PaintedPanels.box("cream", 11.0, tint)
+
+
+func _state_badge_style(tone: String) -> StyleBoxFlat:
+	return ComicUITheme.style_box(
+		_tone_color(tone).lightened(0.82),
+		_tone_color(tone),
+		2,
+		9,
+		Color("#07131c", 0.15),
+		2,
+		5.0
+	)
 
 
 func _tone_color(tone: String) -> Color:
@@ -150,3 +175,43 @@ func _tone_for_state(state: String) -> String:
 	if state == "locked":
 		return "locked"
 	return "calm"
+
+
+func _status_icon_for_entry(entry: Dictionary) -> String:
+	var state := str(entry.get("state", "healthy"))
+	var combined := (str(entry.get("status", "")) + " " + str(entry.get("detail", ""))).to_lower()
+	match state:
+		"critical":
+			if "plíse" in combined or "chor" in combined:
+				return "sick_leaf"
+			return "water_alert"
+		"warning":
+			return "water_alert"
+		"harvest":
+			return "mint_basket"
+		"processing":
+			return "drying_tray"
+		"empty":
+			return "empty_pot"
+		"locked":
+			return "lock"
+	return "clock_leaf"
+
+
+func _action_icon_for_entry(entry: Dictionary) -> String:
+	var state := str(entry.get("state", "healthy"))
+	var target := str(entry.get("target", "detail"))
+	var combined := (str(entry.get("status", "")) + " " + str(entry.get("detail", ""))).to_lower()
+	if target == "storage" or state == "harvest":
+		return "harvest_basket"
+	if state == "processing":
+		return "drying_tray"
+	if state == "empty":
+		return "empty_pot"
+	if state == "locked":
+		return "lock"
+	if "plíse" in combined or "větr" in combined or "proudění" in combined:
+		return "wind"
+	if "zal" in combined or "such" in combined or "vlhk" in combined:
+		return "watering_can"
+	return "return_pot"
