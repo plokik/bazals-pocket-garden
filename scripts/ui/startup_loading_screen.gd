@@ -6,6 +6,8 @@ extends Control
 const MAIN_SCENE := "res://main.tscn"
 const MIN_VISIBLE_SECONDS := 1.8
 const STARTUP_LOGO := preload("res://assets/ui/startup/bazals_pocket_garden_logo.png")
+const ORCHID_FLOURISH := preload("res://assets/ui/startup/orchid_flourish.png")
+const FOUR_LEAF_CLOVER := preload("res://assets/ui/startup/four_leaf_clover.png")
 const FONT_BOLD := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
 var elapsed := 0.0
@@ -14,6 +16,10 @@ var load_complete := false
 var changing_scene := false
 var status_label: Label
 var art: TextureRect
+var orchid_left: TextureRect
+var orchid_right: TextureRect
+var clover_left: TextureRect
+var clover_right: TextureRect
 var progress_bar: ProgressBar
 var frame_style: StyleBoxFlat
 var status_style: StyleBoxFlat
@@ -50,6 +56,10 @@ func _process(delta: float) -> void:
 	art.scale = Vector2.ONE * (0.76 + 0.24 * _ease_out(growth))
 	art.modulate.a = clampf(elapsed / 0.45, 0.0, 1.0)
 	art.position.y = art.get_meta("base_y", 0.0) + sin(elapsed * 2.9) * 3.0
+	_animate_ornament(orchid_left, 0.0, 3.5, 0.035)
+	_animate_ornament(orchid_right, 1.8, 3.0, 0.03)
+	_animate_ornament(clover_left, 2.3, 2.0, 0.055)
+	_animate_ornament(clover_right, 4.0, 2.5, 0.05)
 	queue_redraw()
 	if load_complete and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
 		changing_scene = true
@@ -94,7 +104,7 @@ func _draw_floaters(center: Vector2) -> void:
 		point.y += sin(elapsed * 1.7 + float(index) * 1.3) * 7.0
 		var alpha := 0.38 + 0.38 * (0.5 + 0.5 * sin(elapsed * 3.1 + float(index) * 1.7))
 		if index % 3 == 0:
-			_draw_leaf_mote(point, phase + drift, alpha)
+			_draw_leaf_mote(point, phase + drift, alpha, 1.55)
 		else:
 			var glow := Color(1.0, 0.81, 0.29, alpha * 0.22)
 			draw_circle(point, 6.0, glow)
@@ -103,8 +113,8 @@ func _draw_floaters(center: Vector2) -> void:
 			draw_line(point + Vector2(0.0, -3.0), point + Vector2(0.0, 3.0), gold, 1.6, true)
 
 
-func _draw_leaf_mote(point: Vector2, angle: float, alpha: float) -> void:
-	draw_set_transform(point, angle, Vector2.ONE)
+func _draw_leaf_mote(point: Vector2, angle: float, alpha: float, visual_scale := 1.0) -> void:
+	draw_set_transform(point, angle, Vector2.ONE * visual_scale)
 	draw_colored_polygon(PackedVector2Array([Vector2(0.0, -8.0), Vector2(5.0, -2.0), Vector2(0.0, 7.0), Vector2(-5.0, -2.0)]), Color(0.14, 0.49, 0.20, alpha))
 	draw_line(Vector2(0.0, 6.0), Vector2(0.0, -5.0), Color(0.78, 0.96, 0.38, alpha * 0.9), 1.2, true)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
@@ -120,6 +130,10 @@ func _draw_progress_leaf() -> void:
 func _build_ui() -> void:
 	frame_style = _panel_style(Color("#fff5d6"), Color("#7c3d13"), 8, 24)
 	status_style = _panel_style(Color("#f1f7d6"), Color("#709845"), 3, 18)
+	orchid_left = _ornament(ORCHID_FLOURISH)
+	orchid_right = _ornament(ORCHID_FLOURISH, true)
+	clover_left = _ornament(FOUR_LEAF_CLOVER)
+	clover_right = _ornament(FOUR_LEAF_CLOVER, true)
 	art = TextureRect.new()
 	art.texture = STARTUP_LOGO
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -148,6 +162,24 @@ func _build_ui() -> void:
 	add_child(progress_bar)
 
 
+func _ornament(texture: Texture2D, mirrored := false) -> TextureRect:
+	var decoration := TextureRect.new()
+	decoration.texture = texture
+	decoration.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	decoration.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	decoration.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	decoration.flip_h = mirrored
+	decoration.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(decoration)
+	return decoration
+
+
+func _animate_ornament(decoration: TextureRect, phase: float, lift: float, tilt: float) -> void:
+	decoration.position.y = decoration.get_meta("base_y", 0.0) + sin(elapsed * 1.7 + phase) * lift
+	decoration.rotation = sin(elapsed * 1.2 + phase) * tilt
+	decoration.modulate.a = clampf(elapsed / 0.7, 0.0, 1.0)
+
+
 func _layout_ui() -> void:
 	if art == null:
 		return
@@ -161,11 +193,27 @@ func _layout_ui() -> void:
 	art.size = Vector2(art_size, art_size)
 	art.pivot_offset = art.size * 0.5
 	art.set_meta("base_y", art_y)
+	var orchid_height := clampf((art_y - 20.0) * 1.1, 50.0, 200.0)
+	var orchid_width := orchid_height * 0.69
+	_place_ornament(orchid_left, Vector2(left + 14.0, 25.0), Vector2(orchid_width, orchid_height))
+	_place_ornament(orchid_right, Vector2(left + safe_width - orchid_width - 14.0, 25.0), Vector2(orchid_width, orchid_height))
+	var bottom_space := size.y - (size.y * 0.715 + 102.0) - 24.0
+	var clover_size := clampf(bottom_space * 1.04, 36.0, 120.0)
+	var clover_y := size.y - clover_size - 22.0
+	_place_ornament(clover_left, Vector2(left + 28.0, clover_y), Vector2.ONE * clover_size)
+	_place_ornament(clover_right, Vector2(left + safe_width - clover_size - 28.0, clover_y), Vector2.ONE * clover_size)
 	status_label.position = Vector2(content_left, size.y * 0.731)
 	status_label.size = Vector2(content_width, 32.0)
 	progress_bar.position = Vector2(content_left + 18.0, size.y * 0.731 + 42.0)
 	progress_bar.size = Vector2(content_width - 36.0, 16.0)
 	queue_redraw()
+
+
+func _place_ornament(decoration: TextureRect, at: Vector2, dimensions: Vector2) -> void:
+	decoration.position = at
+	decoration.size = dimensions
+	decoration.pivot_offset = dimensions * 0.5
+	decoration.set_meta("base_y", at.y)
 
 
 func _label(value: String, font: Font, font_size: int, color: Color) -> Label:
