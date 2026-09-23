@@ -14251,6 +14251,8 @@ func _test_ui_driven_vertical_slice() -> void:
 
 
 func _test_main_scene_smoke() -> void:
+	var startup_scene := load("res://startup.tscn") as PackedScene
+	_check(ProjectSettings.get_setting("application/run/main_scene", "") == "res://startup.tscn" and startup_scene != null, "Spuštění aplikace nejprve otevře animovanou úvodní scénu před hlavním pokojem")
 	var packed := load("res://main.tscn") as PackedScene
 	_check(packed != null, "Hlavní scéna se načte")
 	if packed == null:

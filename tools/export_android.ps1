@@ -124,6 +124,7 @@ Get-ChildItem -LiteralPath (Join-Path $projectRoot 'scripts') -Recurse -File -Fi
     [void]$requiredScriptBases.Add($scriptBase)
 }
 $runtimeTextFiles.Add((Get-Item -LiteralPath (Join-Path $projectRoot 'main.tscn')))
+$runtimeTextFiles.Add((Get-Item -LiteralPath (Join-Path $projectRoot 'startup.tscn')))
 $runtimeTextFiles.Add((Get-Item -LiteralPath (Join-Path $projectRoot 'project.godot')))
 # Accept only canonical resource-path characters. A runtime script can contain a
 # regex literal such as `res://assets/[A-Za-z0-9_./-]+\.png`; treating the regex
@@ -241,6 +242,9 @@ if (-not $manifestIds.Contains($defaultProfileId)) {
 }
 if (-not ($apkEntries | Where-Object { $_ -match '^assets/\.godot/exported/.+-main\.scn$' })) {
     throw 'APK is missing the compiled main scene.'
+}
+if (-not ($apkEntries | Where-Object { $_ -match '^assets/\.godot/exported/.+-startup\.scn$' })) {
+    throw 'APK is missing the compiled animated startup scene.'
 }
 foreach ($requiredEntry in $requiredEntries) {
     if (-not $apkEntries.Contains($requiredEntry)) {
