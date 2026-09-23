@@ -14798,6 +14798,11 @@ func _test_main_scene_smoke() -> void:
 	_check(not selected_journal_id.is_empty() and selected_journal_id == instance.grower_journal_presenter.latest_next_goal_id and not selected_journal_card.is_empty() and bool((selected_journal_card.panel as Control).get_meta("selected", false)), "Nejbližší nesplněná dovednost je po otevření vybraná a její detail navazuje na zvýrazněný uzel stromu")
 	_check(instance.grower_journal_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.grower_journal_scroll.scroll_deadzone == 6 and instance.grower_journal_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.grower_journal_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.grower_journal_scroll.get_meta("scroll_id", "") == "grower_journal", "Pěstitelský deník používá stejný ověřený dotykový scroll kontrakt jako Sklad, Obchod a Měření")
 	_check(not journal_first_card.is_empty() and (journal_first_card.panel as Control).mouse_filter == Control.MOUSE_FILTER_PASS and (journal_first_card.progress as Control).mouse_filter == Control.MOUSE_FILTER_PASS, "Potomci karet deníku předávají vertikální tažení rodičovskému ScrollContaineru")
+	instance._select_grower_journal_badge("room_collector")
+	_check(instance.grower_journal_target_button.text == "OTEVŘÍT MŮJ POKOJ" and instance.grower_journal_target_button.custom_minimum_size.y >= 48.0, "Vybraná dovednost nabízí pojmenovaný a dostatečně velký přechod k odpovídající činnosti")
+	instance.grower_journal_target_button.pressed.emit()
+	_check(not instance.grower_journal_open and instance.garden_location_id == "player_room" and instance.player_room_panel.visible, "Cíl sběratele zavře deník a otevře skutečný pokoj hráče")
+	instance._open_grower_journal()
 	instance._close_grower_journal()
 	await process_frame
 	_check(not instance.grower_journal_open and not instance.grower_journal_modal.visible and instance.level_progression_open and instance.level_progression_modal.visible, "Fáze 49 zavření deníku vrátí hráče na stejnou Cestu pěstitele")

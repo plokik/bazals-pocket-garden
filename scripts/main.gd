@@ -283,6 +283,7 @@ var grower_journal_cards: Dictionary = {}
 var grower_journal_scroll: ScrollContainer
 var grower_journal_dashboard: Control
 var grower_journal_skill_tree: GrowerJournalSkillTreeView
+var grower_journal_target_button: Button
 var care_center_modal: Control
 var care_center_open := false
 var care_center_summary_label: Label
@@ -3135,6 +3136,14 @@ func _build_grower_journal_modal() -> Control:
 		var node := _build_grower_journal_card(str(GROWER_JOURNAL_BADGE_IDS[badge_index]), badge_index) as GrowerJournalSkillNode
 		grower_journal_skill_tree.register_node(node)
 	_configure_mobile_scroll(grower_journal_scroll, grower_journal_skill_tree, "grower_journal")
+	grower_journal_target_button = _action_button("PŘEJÍT K CÍLI", _go_to_selected_journal_goal)
+	grower_journal_target_button.custom_minimum_size.y = 52
+	grower_journal_target_button.set_meta("component", "grower_journal_goal_navigation_v1")
+	grower_journal_target_button.set_meta("touch_target_min_height", 52)
+	grower_journal_target_button.add_theme_font_override("font", FontExtraBold)
+	grower_journal_target_button.add_theme_font_size_override("font_size", 11)
+	_apply_painted_progression_button_style(grower_journal_target_button, "sage", ComicUITheme.NAVY)
+	column.add_child(grower_journal_target_button)
 	var close_button := _action_button("ZPĚT NA CESTU PĚSTITELE", _close_grower_journal)
 	close_button.custom_minimum_size.y = 58
 	close_button.set_meta("touch_target_min_height", 58)
@@ -3198,6 +3207,7 @@ func _build_grower_journal_card(badge_id: String, badge_index: int) -> Control:
 
 func _select_grower_journal_badge(badge_id: String) -> void:
 	grower_journal_presenter.select_badge(badge_id)
+	_refresh_grower_journal_target_button()
 
 
 func _grower_journal_badge_texture(badge_id: String) -> Texture2D:
@@ -5164,6 +5174,50 @@ func _refresh_grower_journal() -> void:
 	if session == null or grower_journal_summary_label == null:
 		return
 	grower_journal_presenter.refresh(session.get_grower_journal_snapshot())
+	_refresh_grower_journal_target_button()
+
+
+func _refresh_grower_journal_target_button() -> void:
+	if grower_journal_target_button == null:
+		return
+	var badge_id := grower_journal_presenter.selected_badge_id
+	var destination := "ZAHRADU"
+	match badge_id:
+		"first_cycle": destination = "PRVNÍ KVĚTINÁČ"
+		"species_collection", "herbarium_master": destination = "HERBÁŘ"
+		"trusted_supplier": destination = "SKLAD"
+		"quality_trio": destination = "MĚŘENÍ"
+		"workshop_master": destination = "OBCHOD"
+		"room_collector": destination = "MŮJ POKOJ"
+		"research_partner": destination = "VÝZKUM" if session.is_professor_story_unlocked() else "MĚŘENÍ"
+	grower_journal_target_button.text = "OTEVŘÍT %s" % destination
+
+
+func _go_to_selected_journal_goal() -> void:
+	var badge_id := grower_journal_presenter.selected_badge_id
+	_set_grower_journal_open(false)
+	match badge_id:
+		"first_cycle":
+			if not session.journey_completed:
+				_go_to_current_journey_step()
+			else:
+				_change_screen(0)
+				_open_rack_location()
+		"species_collection", "herbarium_master": _open_herbarium()
+		"trusted_supplier": _change_screen(1)
+		"quality_trio": _change_screen(3)
+		"workshop_master": _change_screen(2)
+		"room_collector":
+			_change_screen(0)
+			_open_player_room()
+		"research_partner":
+			if session.is_professor_story_unlocked():
+				_open_professor_story()
+			else:
+				_change_screen(3)
+		_:
+			_change_screen(0)
+			_open_rack_location()
 
 
 func _open_care_center() -> void:

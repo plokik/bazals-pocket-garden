@@ -45,6 +45,11 @@ func _capture() -> void:
 	await process_frame
 	instance._close_return_summary()
 	_save("first-step-guide.png")
+	instance._set_guide_modal_open(false, false)
+	instance._open_grower_journal()
+	await process_frame
+	await process_frame
+	_save("journal-goal-navigation.png")
 	quit(0)
 
 
