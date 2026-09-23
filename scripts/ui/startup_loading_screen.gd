@@ -4,7 +4,7 @@ extends Control
 ## the player sees the supplied game logo, then the existing save/intro flow takes over.
 
 const MAIN_SCENE := "res://main.tscn"
-const MIN_VISIBLE_SECONDS := 1.5
+const MIN_VISIBLE_SECONDS := 1.8
 const STARTUP_LOGO := preload("res://assets/ui/startup/bazals_pocket_garden_logo.png")
 const FONT_BOLD := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -47,7 +47,8 @@ func _process(delta: float) -> void:
 	progress_bar.value = displayed_progress * 100.0
 	status_label.text = "ZAHRADA JE PŘIPRAVENÁ" if load_complete else "PROBOUZÍME ZAHRADU%s" % ".".repeat(int(elapsed * 3.0) % 4)
 	var growth := clampf(elapsed / MIN_VISIBLE_SECONDS, 0.0, 1.0)
-	art.scale = Vector2.ONE * (0.90 + 0.10 * _ease_out(growth))
+	art.scale = Vector2.ONE * (0.76 + 0.24 * _ease_out(growth))
+	art.modulate.a = clampf(elapsed / 0.45, 0.0, 1.0)
 	art.position.y = art.get_meta("base_y", 0.0) + sin(elapsed * 2.9) * 3.0
 	queue_redraw()
 	if load_complete and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
@@ -69,12 +70,51 @@ func _draw() -> void:
 	var pulse := 0.5 + 0.5 * sin(elapsed * 2.3)
 	draw_circle(center, minf(size.x * 0.39, 176.0) + pulse * 3.0, Color("#e7f2ba", 0.43))
 	draw_arc(center, minf(size.x * 0.39, 176.0), -PI * 0.90, PI * 0.10, 48, Color("#8cad55", 0.42), 2.0, true)
-	for index in range(5):
-		var angle := -PI * 0.85 + float(index) * PI * 0.43 + elapsed * 0.14
-		var radius := minf(size.x * 0.43, 185.0)
-		var sparkle := center + Vector2(cos(angle), sin(angle)) * radius
-		var alpha := 0.28 + 0.34 * (0.5 + 0.5 * sin(elapsed * 3.2 + float(index)))
-		draw_circle(sparkle, 2.4 + 1.3 * alpha, Color(1.0, 0.85, 0.32, alpha))
+	_draw_sunbeams(center)
+	_draw_floaters(center)
+	_draw_progress_leaf()
+
+
+func _draw_sunbeams(center: Vector2) -> void:
+	var inner_radius := minf(size.x * 0.40, 180.0)
+	for index in range(12):
+		var angle := TAU * float(index) / 12.0 + sin(elapsed * 0.5) * 0.025
+		var direction := Vector2(cos(angle), sin(angle))
+		var strength := 0.13 + 0.09 * (0.5 + 0.5 * sin(elapsed * 2.1 + float(index)))
+		draw_line(center + direction * (inner_radius + 4.0), center + direction * (inner_radius + 15.0), Color(0.94, 0.72, 0.25, strength), 2.0, true)
+
+
+func _draw_floaters(center: Vector2) -> void:
+	var orbit_x := minf(size.x * 0.44, 195.0)
+	var orbit_y := minf(size.y * 0.24, 230.0)
+	for index in range(10):
+		var phase := TAU * float(index) / 10.0
+		var drift := elapsed * (0.18 if index % 2 == 0 else -0.13)
+		var point := center + Vector2(cos(phase + drift) * orbit_x, sin(phase + drift) * orbit_y)
+		point.y += sin(elapsed * 1.7 + float(index) * 1.3) * 7.0
+		var alpha := 0.38 + 0.38 * (0.5 + 0.5 * sin(elapsed * 3.1 + float(index) * 1.7))
+		if index % 3 == 0:
+			_draw_leaf_mote(point, phase + drift, alpha)
+		else:
+			var glow := Color(1.0, 0.81, 0.29, alpha * 0.22)
+			draw_circle(point, 6.0, glow)
+			var gold := Color(1.0, 0.85, 0.35, alpha)
+			draw_line(point + Vector2(-3.0, 0.0), point + Vector2(3.0, 0.0), gold, 1.6, true)
+			draw_line(point + Vector2(0.0, -3.0), point + Vector2(0.0, 3.0), gold, 1.6, true)
+
+
+func _draw_leaf_mote(point: Vector2, angle: float, alpha: float) -> void:
+	draw_set_transform(point, angle, Vector2.ONE)
+	draw_colored_polygon(PackedVector2Array([Vector2(0.0, -8.0), Vector2(5.0, -2.0), Vector2(0.0, 7.0), Vector2(-5.0, -2.0)]), Color(0.14, 0.49, 0.20, alpha))
+	draw_line(Vector2(0.0, 6.0), Vector2(0.0, -5.0), Color(0.78, 0.96, 0.38, alpha * 0.9), 1.2, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _draw_progress_leaf() -> void:
+	if progress_bar == null or displayed_progress <= 0.02:
+		return
+	var point := progress_bar.position + Vector2(progress_bar.size.x * displayed_progress, -6.0)
+	_draw_leaf_mote(point, -0.55 + sin(elapsed * 4.0) * 0.14, 0.92)
 
 
 func _build_ui() -> void:
