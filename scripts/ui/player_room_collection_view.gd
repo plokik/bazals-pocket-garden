@@ -88,6 +88,8 @@ var back_button: Button
 var theme_button: Button
 var decoration_slots: Array[String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 var decoration_catalog: Dictionary = {}
+var achievement_badge_ids: Array[String] = []
+var achievement_badge_icons: Dictionary = {}
 var decoration_buttons: Array[Button] = []
 var animations_paused := false
 var reduced_motion_enabled := false
@@ -294,6 +296,22 @@ func set_room_decorations(slot_ids: Array[String], catalog: Dictionary) -> void:
 	decoration_slots.assign(normalized_slots)
 	set_meta("placed_decoration_count", visible_placed_count)
 	set_meta("stored_placed_decoration_count", stored_placed_count)
+	queue_redraw()
+
+
+func set_achievement_display(badge_ids: Array[String], icons: Dictionary) -> void:
+	var displayed: Array[String] = []
+	# The painted shelf has six holders. Keep the newest earned milestone visible
+	# when the player eventually completes more than six permanent goals.
+	for index in range(maxi(0, badge_ids.size() - 6), badge_ids.size()):
+		var badge_id := badge_ids[index]
+		if icons.has(badge_id) and icons[badge_id] is Texture2D:
+			displayed.append(badge_id)
+	if displayed == achievement_badge_ids:
+		return
+	achievement_badge_ids = displayed
+	achievement_badge_icons = icons
+	set_meta("achievement_display_count", achievement_badge_ids.size())
 	queue_redraw()
 
 
@@ -582,6 +600,7 @@ func _draw() -> void:
 		_draw_decoration_slots(palette, true)
 		_draw_plant_drag_preview(palette)
 	_draw_painted_title_overlay()
+	_draw_earned_achievements()
 	# Optional owned room themes tint the complete composition as one surface.
 	# Sunrise stays byte-neutral for the approved Phase 149 target capture.
 	if palette.tint.a > 0.0:
@@ -756,6 +775,24 @@ func _draw_achievement_display(palette: Dictionary) -> void:
 			draw_line(center + Vector2(-12.0, 8.0) * fallback_scale, center + Vector2(-12.0, -8.0) * fallback_scale, wood, 5.0 * fallback_scale, true)
 			draw_line(center + Vector2(12.0, 8.0) * fallback_scale, center + Vector2(12.0, -8.0) * fallback_scale, wood, 5.0 * fallback_scale, true)
 			draw_line(center + Vector2(-12.0, 8.0) * fallback_scale, center + Vector2(12.0, 8.0) * fallback_scale, brass, 4.0 * fallback_scale, true)
+
+
+func _draw_earned_achievements() -> void:
+	if achievement_badge_ids.is_empty():
+		return
+	var centers := GardenSceneFraming.map_player_room_anchors(GardenSceneFraming.PLAYER_ROOM_ACHIEVEMENT_SOURCE_ANCHORS, size)
+	var scale_factor := VisualDesignSystem.design_scale(size)
+	for index in range(mini(achievement_badge_ids.size(), centers.size())):
+		var icon := achievement_badge_icons.get(achievement_badge_ids[index]) as Texture2D
+		if icon == null:
+			continue
+		var center := centers[index] + Vector2(0.0, -13.0) * scale_factor
+		draw_circle(center + Vector2(0.0, 2.0) * scale_factor, 17.0 * scale_factor, Color("#45250e", 0.38))
+		draw_circle(center, 16.0 * scale_factor, Color("#75401a"))
+		draw_circle(center, 13.5 * scale_factor, Color("#eab649"))
+		draw_circle(center, 11.5 * scale_factor, Color("#fff4d1"))
+		var icon_size := Vector2(24.0, 24.0) * scale_factor
+		draw_texture_rect(icon, Rect2(center - icon_size * 0.5, icon_size), false)
 
 
 func _draw_decoration_slots(palette: Dictionary, empty_pass := false) -> void:

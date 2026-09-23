@@ -22,7 +22,7 @@ func is_bound() -> bool:
 	return summary_label != null and status_label != null and reminder_button != null and care_cards.size() == GameSession.MAX_PLANT_SLOTS
 
 
-func refresh(game_session: GameSession, notification_state: Dictionary = {}) -> void:
+func refresh(game_session: GameSession, notification_state: Dictionary = {}, show_all := false) -> void:
 	if not is_bound():
 		return
 	var entries := game_session.get_care_center_entries()
@@ -66,6 +66,7 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}) -> 
 			var parent := panel.get_parent()
 			if parent != null:
 				parent.move_child(panel, order_index)
+			panel.visible = show_all or (bool(entry.get("attention", false)) if attention_count > 0 else bool(entry.get("unlocked", false)))
 			panel.add_theme_stylebox_override("panel", _card_style(tone))
 		if slot_label != null:
 			slot_label.text = "KVĚTINÁČ %d" % (slot_index + 1)

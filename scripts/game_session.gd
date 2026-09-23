@@ -3354,6 +3354,25 @@ func get_grower_journal_snapshot() -> Dictionary:
 	}
 
 
+func get_room_achievement_badge_ids() -> Array[String]:
+	# The room displays permanent milestones. The busy-rack goal is a live state
+	# and can become false when a plant is removed, so it stays in the journal.
+	const PERMANENT_BADGES := [
+		"first_cycle", "species_collection", "trusted_supplier",
+		"seasoned_grower", "quality_trio", "workshop_master",
+		"room_collector", "herbarium_master", "research_partner",
+	]
+	var achieved: Array[String] = []
+	for badge_variant in get_grower_journal_snapshot().get("badges", []):
+		if not badge_variant is Dictionary:
+			continue
+		var badge: Dictionary = badge_variant
+		var badge_id := str(badge.get("id", ""))
+		if badge_id in PERMANENT_BADGES and bool(badge.get("achieved", false)):
+			achieved.append(badge_id)
+	return achieved
+
+
 func _grower_badge(id: String, title: String, description: String, current: int, target: int) -> Dictionary:
 	var safe_target := maxi(1, target)
 	var safe_current := maxi(0, current)

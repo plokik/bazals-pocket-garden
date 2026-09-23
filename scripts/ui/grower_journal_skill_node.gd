@@ -71,7 +71,7 @@ func configure(id: String, index: int, texture: Texture2D, color: Color) -> void
 	var art_layer := Control.new()
 	art_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_frame.add_child(art_layer)
-	var normalized_texture := _normalized_icon_texture(texture)
+	var normalized_texture := normalized_icon_texture(texture)
 	icon_shadow = TextureRect.new()
 	icon_shadow.texture = normalized_texture
 	icon_shadow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -278,7 +278,7 @@ func _status_pill_style(is_achieved: bool, is_selected: bool) -> StyleBoxFlat:
 	return style
 
 
-func _normalized_icon_texture(source: Texture2D) -> Texture2D:
+static func normalized_icon_texture(source: Texture2D) -> Texture2D:
 	if source == null:
 		return source
 	var cache_key := source.resource_path if not source.resource_path.is_empty() else str(source.get_instance_id())

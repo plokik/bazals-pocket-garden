@@ -287,6 +287,8 @@ var care_center_modal: Control
 var care_center_open := false
 var care_center_summary_label: Label
 var care_center_status_label: Label
+var care_center_filter_button: Button
+var care_center_show_all := false
 var care_center_reminder_button: Button
 var care_center_notification_test_button: Button
 var care_center_cards: Dictionary = {}
@@ -3223,6 +3225,16 @@ func _grower_journal_badge_texture(badge_id: String) -> Texture2D:
 	return PaintedDetailArt.texture("leaf")
 
 
+func _refresh_room_achievements() -> void:
+	if session == null or player_room_view == null:
+		return
+	var earned := session.get_room_achievement_badge_ids()
+	var icons := {}
+	for badge_id in earned:
+		icons[badge_id] = GrowerJournalSkillNodeScene.normalized_icon_texture(_grower_journal_badge_texture(badge_id))
+	player_room_view.set_achievement_display(earned, icons)
+
+
 func _build_care_center_modal() -> Control:
 	var modal := PaintedModalShell.create_overlay(
 		"fullscreen_care_center_modal_v1",
@@ -3290,6 +3302,14 @@ func _build_care_center_modal() -> Control:
 	care_center_summary_label.add_theme_font_size_override("font_size", 12)
 	care_center_summary_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	summary_panel.add_child(care_center_summary_label)
+	care_center_filter_button = _action_button("ZOBRAZIT VŠECHNY KVĚTINÁČE", _toggle_care_center_filter)
+	care_center_filter_button.custom_minimum_size.y = 44
+	care_center_filter_button.set_meta("component", "care_center_attention_filter_v1")
+	care_center_filter_button.set_meta("touch_target_min_height", 44)
+	care_center_filter_button.add_theme_font_override("font", FontExtraBold)
+	care_center_filter_button.add_theme_font_size_override("font_size", 10)
+	ComicUITheme.apply_button(care_center_filter_button, ComicUITheme.TEAL, ComicUITheme.CREAM, 11)
+	column.add_child(care_center_filter_button)
 	care_center_scroll = ScrollContainer.new()
 	care_center_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	care_center_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -5051,12 +5071,14 @@ func _refresh_level_progression() -> void:
 	if session == null or level_progression_summary_label == null:
 		return
 	level_progression_presenter.refresh(session)
+	var journal := session.get_grower_journal_snapshot()
+	if grower_journal_launcher != null:
+		grower_journal_launcher.text = "PĚSTITELSKÝ DENÍK\n%d/%d DOVEDNOSTÍ" % [int(journal.get("completed_badges", 0)), int(journal.get("badge_total", 0))]
 	if level_progression_tree_view != null:
 		var claimable: Array[int] = []
 		for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
 			if session.can_claim_level_reward(reward_level):
 				claimable.append(reward_level)
-		var journal := session.get_grower_journal_snapshot()
 		level_progression_tree_view.set_state(
 			session.get_level(),
 			session.get_level_progress(),
@@ -5176,6 +5198,7 @@ func _set_care_center_open(opening: bool) -> void:
 	care_center_open = opening
 	care_center_modal.visible = opening
 	if opening:
+		care_center_show_all = false
 		care_center_scroll.scroll_vertical = 0
 		care_center_modal.move_to_front()
 		_refresh_care_center()
@@ -5186,10 +5209,19 @@ func _set_care_center_open(opening: bool) -> void:
 func _refresh_care_center() -> void:
 	if session == null or care_center_summary_label == null:
 		return
-	care_center_presenter.refresh(session, care_notification_service.get_ui_state(session))
+	care_center_presenter.refresh(session, care_notification_service.get_ui_state(session), care_center_show_all)
+	if care_center_filter_button != null:
+		var attention_count := session.get_care_attention_count()
+		care_center_filter_button.text = "ZOBRAZIT JEN POTŘEBNOU PÉČI" if care_center_show_all and attention_count > 0 else ("ZOBRAZIT ODEMČENÉ" if care_center_show_all else "ZOBRAZIT VŠECHNY KVĚTINÁČE")
 	_refresh_care_notification_test()
 	if not fast_time_guard_pending.is_empty():
 		_show_fast_time_guard_status(fast_time_guard_pending)
+
+
+func _toggle_care_center_filter() -> void:
+	care_center_show_all = not care_center_show_all
+	care_center_scroll.scroll_vertical = 0
+	_refresh_care_center()
 
 
 func _open_plant_diagnosis() -> void:
@@ -7760,6 +7792,7 @@ func _show_garden_location(location_id: String) -> void:
 	if normalized_id == GARDEN_LOCATION_PLAYER_ROOM and player_room_view != null and session != null:
 		player_room_view.set_cosmetic_theme(session.selected_room_theme)
 		player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
+		_refresh_room_achievements()
 	if normalized_id == GARDEN_LOCATION_GREENHOUSE:
 		_refresh_greenhouse_view()
 
@@ -7845,6 +7878,8 @@ func _refresh_ui() -> void:
 	player_room_view.set_cosmetic_theme(session.selected_room_theme)
 	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 	player_room_view.set_paused(session.paused)
+	if garden_location_id == GARDEN_LOCATION_PLAYER_ROOM:
+		_refresh_room_achievements()
 	_refresh_greenhouse_view()
 	_refresh_rack_greenhouse_attention()
 	_refresh_rack_controls()
@@ -8190,6 +8225,10 @@ func _show_dialog(message: String) -> void:
 		return
 	if not guide_dialog_presenter.is_bound():
 		return
+	if guide_modal_confirm_button != null:
+		var journey_navigation := session != null and not session.journey_completed and message == session.get_journey_dialog_text()
+		guide_modal_confirm_button.set_meta("journey_navigation", journey_navigation)
+		guide_modal_confirm_button.text = "UKÁZAT MÍSTO" if journey_navigation else "ROZUMÍM"
 	var mood := guide_dialog_presenter.refresh(message)
 	var character := guide_modal_character
 	if character != null:
@@ -8324,7 +8363,21 @@ func _on_guide_modal_confirm_pressed() -> void:
 	if is_garden_handover_active:
 		_progress_garden_handover()
 	else:
-		_close_guide_modal()
+		var go_to_journey := bool(guide_modal_confirm_button.get_meta("journey_navigation", false))
+		_set_guide_modal_open(false, false)
+		if go_to_journey:
+			_go_to_current_journey_step()
+
+
+func _go_to_current_journey_step() -> void:
+	if session == null or session.journey_completed:
+		return
+	var target_screen := session.get_journey_target_screen()
+	_change_screen(target_screen)
+	if target_screen == 0:
+		_open_plant_detail(0)
+		if session.journey_step == GameSession.JourneyStep.PLANT_SEED and session.plant.stage == PlantSimulation.Stage.EMPTY:
+			_open_seed_selector()
 
 
 func _on_guide_modal_close_pressed() -> void:

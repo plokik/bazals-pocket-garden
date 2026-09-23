@@ -12397,6 +12397,10 @@ func _test_phase42_care_center() -> void:
 	var locked_card: Dictionary = cards[4]
 	_check(presenter.is_bound() and summary.text == "POZORNOST 3 · AKTIVNÍ 3/10" and list.get_child(0) == disease_card.panel and str((disease_card.action as Button).get_meta("care_target", "")) == "detail", "Phase 42 presenter promítne společný stav všech deseti pozic a fyzicky přesune nejdůležitější kartu nahoru")
 	_check((disease_card.state as Label).text == "Plíseň listů" and not (disease_card.action as Button).disabled and (locked_card.action as Button).disabled and (locked_card.action as Button).text == "OD ÚROVNĚ 5", "Phase 42 presenter zachová dostupný cíl péče a jednoznačně zamkne budoucí květináč")
+	_check((disease_card.panel as PanelContainer).visible and not (locked_card.panel as PanelContainer).visible and not (cards[3].panel as PanelContainer).visible, "Centrum péče při potížích zobrazí jen květináče vyžadující zásah")
+	presenter.refresh(session, {}, true)
+	_check((locked_card.panel as PanelContainer).visible and (cards[3].panel as PanelContainer).visible, "Rozšířený pohled Centra péče vrátí odemčené i budoucí květináče")
+	presenter.refresh(session)
 	var wet: PlantSimulation = session.plants[3]
 	wet.stage = PlantSimulation.Stage.VEGETATIVE
 	wet.moisture = 97.84
@@ -12796,6 +12800,7 @@ func _test_phase49_grower_journal() -> void:
 	var session := GameSession.new(_load_plant_catalog())
 	var initial := session.get_grower_journal_snapshot()
 	_check(int(initial.completed_badges) == 0 and int(initial.badge_total) == 10 and str(initial.next_goal.id) == "first_cycle", "Fáze 98 nový hráč dostane deset odvozených cílů včetně titulu a Výzkumného partnera a jasně začne prvním úplným cyklem")
+	_check(session.get_room_achievement_badge_ids().is_empty(), "Nový pokoj začne s prázdnou vitrínou bez nezasloužených odznaků")
 	var species_before: Dictionary = session.species_progress.duplicate(true)
 	var equipment_before: Dictionary = session.equipment_levels.duplicate(true)
 	session.get_grower_journal_snapshot()
@@ -12822,6 +12827,8 @@ func _test_phase49_grower_journal() -> void:
 		session.plants[slot_index].stage = PlantSimulation.Stage.VEGETATIVE
 	var snapshot := session.get_grower_journal_snapshot()
 	_check(int(snapshot.completed_badges) == 6 and str(snapshot.next_goal.id) == "trusted_supplier" and int(snapshot.active_pots) == 5 and is_equal_approx(float(snapshot.total_dry_g), 58.3), "Fáze 49 souhrn spojí cyklus, druhy, stojan, kvalitu, dílnu i vzhledy a vybere první skutečně nesplněný cíl")
+	var room_badges := session.get_room_achievement_badge_ids()
+	_check(room_badges.size() == 5 and room_badges[0] == "first_cycle" and not "busy_rack" in room_badges, "Vitrína přebírá jen splněné trvalé milníky a nepovažuje aktuální osazení stojanu za trvalý odznak")
 	var presenter = preload("res://scripts/ui/grower_journal_presenter.gd").new()
 	var summary := Label.new()
 	var next_goal := Label.new()
@@ -13721,11 +13728,11 @@ func _test_phase92_garden_handover_ui() -> void:
 	_check(instance.herbarium_open and not instance.is_garden_handover_active and _phase92_progression_snapshot(replay_session) == replay_before, "Fáze 92 dokončené přehrání vrátí hráče do herbáře a nezmění intro, ekonomiku, inventář, balíčky, herbář ani cestu")
 	instance._close_herbarium()
 	instance._toggle_guide_dialog(true)
-	_check(instance.dialog_open and not instance.is_garden_handover_active and is_equal_approx(instance.guide_modal_card.anchor_bottom, 0.315) and instance.guide_modal_confirm_button.text == "ROZUMÍM" and instance.guide_modal_close_button.tooltip_text == "Zavřít" and instance.guide_modal_name_label.text == "PROFESOR BAZAL" and not "PŘEDÁNÍ ZAHRADY" in instance.guide_modal_label.text, "Fáze 92 po prologu obnoví původní výšku běžné karty, otazník, text vedené cesty a ovládání Profesora")
+	_check(instance.dialog_open and not instance.is_garden_handover_active and is_equal_approx(instance.guide_modal_card.anchor_bottom, 0.315) and instance.guide_modal_confirm_button.text == "UKÁZAT MÍSTO" and instance.guide_modal_close_button.tooltip_text == "Zavřít" and instance.guide_modal_name_label.text == "PROFESOR BAZAL" and not "PŘEDÁNÍ ZAHRADY" in instance.guide_modal_label.text, "Po prologu Profesor obnoví běžnou kartu a prvnímu úkolu nabídne přímou cestu do hry")
 	instance.guide_modal_confirm_button.pressed.emit()
 	var normal_guide_closed_immediately: bool = not instance.dialog_open
 	await create_timer(0.25).timeout
-	_check(normal_guide_closed_immediately and not instance.guide_modal.visible, "Fáze 92 obnovené tlačítko ROZUMÍM znovu běžně zavře průvodce")
+	_check(normal_guide_closed_immediately and not instance.guide_modal.visible and instance.active_screen == replay_session.get_journey_target_screen() and instance.seed_selector_open and instance.seed_selector_modal.visible, "Tlačítko prvního úkolu zavře Profesora a rovnou nabídne semínka k zasazení")
 
 	instance.queue_free()
 	await process_frame
@@ -14821,6 +14828,10 @@ func _test_main_scene_smoke() -> void:
 	var care_zero_card: Dictionary = instance.care_center_cards.get(0, {})
 	var care_one_card: Dictionary = instance.care_center_cards.get(1, {})
 	_check(instance.care_center_open and instance.care_center_modal.visible and instance.care_center_modal.mouse_filter == Control.MOUSE_FILTER_STOP and instance.care_center_modal.z_index > instance.level_progression_modal.z_index and instance.care_center_cards.size() == 10, "Phase 42 fullscreen centrum blokuje hru a ukáže všech deset květináčů v jednom rolovatelném seznamu")
+	_check((care_zero_card.panel as PanelContainer).visible and (care_one_card.panel as PanelContainer).visible and not (instance.care_center_cards[9].panel as PanelContainer).visible and not instance.care_center_show_all, "Centrum péče po otevření ukáže akutní rostliny a schová zamčené pozice")
+	instance._toggle_care_center_filter()
+	_check(instance.care_center_show_all and (instance.care_center_cards[9].panel as PanelContainer).visible, "Přepínač v Centru péče zpřístupní všech deset pozic bez změny rostlin")
+	instance._toggle_care_center_filter()
 	_check(instance.care_center_scroll.vertical_scroll_mode == ScrollContainer.SCROLL_MODE_AUTO and instance.care_center_scroll.scroll_deadzone == 6 and not instance.care_center_scroll.follow_focus and instance.care_center_scroll.mouse_filter == Control.MOUSE_FILTER_STOP and instance.care_center_scroll.get_meta("mobile_scroll_contract", "") == "mobile_vertical_scroll_v1" and instance.care_center_scroll.get_meta("scroll_id", "") == "care_center" and (care_zero_card.action as Button).mouse_filter == Control.MOUSE_FILTER_PASS, "Fáze 67 Centrum péče předává svislé gesto přes karty stejnému mobilnímu scroll kontraktu")
 	_check(_has_mobile_scroll_contract(instance.care_center_scroll, "care_center"), "Fáze 67 scroll Centrum péče drží AUTO/deadzone6/follow_focus false/STOP + stop-touch contract + scroll_id")
 	_check(_scroll_descendant_buttons_are_pass(instance.care_center_scroll), "Fáze 67 všechny tlačítkové descendenty ve scrollu péče předávají tažení nahoru")
