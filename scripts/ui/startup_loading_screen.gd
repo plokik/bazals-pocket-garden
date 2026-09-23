@@ -8,6 +8,7 @@ const MIN_VISIBLE_SECONDS := 1.8
 const STARTUP_LOGO := preload("res://assets/ui/startup/bazals_pocket_garden_logo.png")
 const ORCHID_FLOURISH := preload("res://assets/ui/startup/orchid_flourish.png")
 const FOUR_LEAF_CLOVER := preload("res://assets/ui/startup/four_leaf_clover.png")
+const LEAFY_FLOURISH := preload("res://assets/ui/startup/leafy_flourish_user.png")
 const FONT_BOLD := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
 var elapsed := 0.0
@@ -20,6 +21,7 @@ var orchid_left: TextureRect
 var orchid_right: TextureRect
 var clover_left: TextureRect
 var clover_right: TextureRect
+var leafy_flourish: TextureRect
 var progress_bar: ProgressBar
 var frame_style: StyleBoxFlat
 var status_style: StyleBoxFlat
@@ -60,6 +62,7 @@ func _process(delta: float) -> void:
 	_animate_ornament(orchid_right, 1.8, 3.0, 0.03)
 	_animate_ornament(clover_left, 2.3, 2.0, 0.055)
 	_animate_ornament(clover_right, 4.0, 2.5, 0.05)
+	_animate_ornament(leafy_flourish, 1.1, 2.5, 0.025)
 	queue_redraw()
 	if load_complete and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
 		changing_scene = true
@@ -134,6 +137,7 @@ func _build_ui() -> void:
 	orchid_right = _ornament(ORCHID_FLOURISH, true)
 	clover_left = _ornament(FOUR_LEAF_CLOVER)
 	clover_right = _ornament(FOUR_LEAF_CLOVER, true)
+	leafy_flourish = _ornament(LEAFY_FLOURISH)
 	art = TextureRect.new()
 	art.texture = STARTUP_LOGO
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -197,6 +201,11 @@ func _layout_ui() -> void:
 	var orchid_width := orchid_height * 0.69
 	_place_ornament(orchid_left, Vector2(left + 14.0, 25.0), Vector2(orchid_width, orchid_height))
 	_place_ornament(orchid_right, Vector2(left + safe_width - orchid_width - 14.0, 25.0), Vector2(orchid_width, orchid_height))
+	var gap_start := art_y + art_size
+	var gap_height := size.y * 0.715 - gap_start
+	var flourish_width := minf(safe_width * 0.43, gap_height * 1.55)
+	var flourish_height := flourish_width / 1.5
+	_place_ornament(leafy_flourish, Vector2((size.x - flourish_width) * 0.5, gap_start + (gap_height - flourish_height) * 0.5), Vector2(flourish_width, flourish_height))
 	var bottom_space := size.y - (size.y * 0.715 + 102.0) - 24.0
 	var clover_size := clampf(bottom_space * 1.04, 36.0, 120.0)
 	var clover_y := size.y - clover_size - 22.0
