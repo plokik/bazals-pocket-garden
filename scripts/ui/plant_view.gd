@@ -23,6 +23,7 @@ const COMIC_BEHAVIOR := Color("#9d5de8")
 const COMIC_BEHAVIOR_HIGHLIGHT := Color("#f4dcff")
 const COMIC_WILT_TINT := Color("#ff9a26")
 const COMIC_DEAD_TINT := Color("#7a7286")
+const WATER_SOIL_RATIO := 0.70
 const IDLE_EVENT_INTERVALS := [8.5, 11.0, 9.5]
 
 var simulation: PlantSimulation
@@ -556,24 +557,22 @@ func _get_water_drop_position(center: Vector2, index: int, phase: float, geometr
 		return center
 	if geometry.is_empty():
 		geometry = _detail_planter_geometry()
-	var growth := clampf(simulation.growth_percent / 100.0, 0.0, 1.0)
-	var height := lerpf(6.0, 138.0, pow(growth, 0.72))
-	var sway := sin(animation_time * 1.8) * (2.0 + growth * 3.0)
-	if simulation.moisture < 22.0:
-		sway += 4.0
-	var half_width := lerpf(5.0, 22.0, growth)
-	var column_ratio := float(clampi(index, 0, 5)) / 5.0
-	var soil := center + Vector2(0.0, -27.0)
-	var plant_top_y := center.y - 20.0 - height
-	if not geometry.is_empty():
-		var plant_rect: Rect2 = geometry.plant_rect
-		soil = Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.61)
-		plant_top_y = plant_rect.position.y + plant_rect.size.y * 0.10
-		half_width = minf(22.0, plant_rect.size.x * 0.09)
-	var drop_x := soil.x + sway + lerpf(-half_width, half_width, column_ratio)
-	var drop_start_y := maxf(6.0, plant_top_y - 18.0)
-	var drop_end_y := soil.y - 3.0
-	return Vector2(drop_x, lerpf(drop_start_y, drop_end_y, clampf(phase, 0.0, 1.0)))
+	var soil := _water_soil_position(center, geometry)
+	# Keep the small water cue beside the stem and inside the painted soil.
+	# The full plant sprite includes the pot, so a canopy-length stream would
+	# sit in front of the leaves and the rim rather than behind them.
+	var lane := float(clampi(index, 0, 2))
+	var start := soil + Vector2(49.0 + lane * 3.0, -11.0 - lane * 2.0)
+	var end := soil + Vector2(43.0 + lane * 3.0, -3.0)
+	var travel := clampf(phase, 0.0, 1.0)
+	return start.lerp(end, travel * travel)
+
+
+func _water_soil_position(center: Vector2, geometry: Dictionary) -> Vector2:
+	if geometry.is_empty():
+		return center + Vector2(0.0, -27.0)
+	var plant_rect: Rect2 = geometry.plant_rect
+	return Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * WATER_SOIL_RATIO)
 
 
 func _draw_effects(center: Vector2) -> void:
@@ -583,16 +582,24 @@ func _draw_effects(center: Vector2) -> void:
 		_draw_seed_planting(center)
 	if water_animation > 0.0:
 		var water_geometry := _detail_planter_geometry()
-		for index in range(6):
-			var phase := fmod(animation_time * 2.4 + index * 0.17, 1.0)
-			var p := _get_water_drop_position(center, index, phase, water_geometry)
-			draw_circle(p + Vector2(1.0, 2.0), 5.2, Color(COMIC_INK, water_animation), true, -1.0, true)
-			draw_circle(p, 3.8, Color(COMIC_WATER, water_animation), true, -1.0, true)
-			draw_circle(p + Vector2(-1.2, -1.4), 1.25, Color(COMIC_WATER_HIGHLIGHT, water_animation), true, -1.0, true)
-		var splash := sin((1.0 - water_animation) * PI)
-		for side in [-1.0, 1.0]:
-			draw_arc(center + Vector2(side * 16.0, -18.0), 12.0 + splash * 5.0, PI * 1.05, PI * 1.95, 12, Color(COMIC_INK, water_animation), 5.0, true)
-			draw_arc(center + Vector2(side * 16.0, -18.0), 12.0 + splash * 5.0, PI * 1.05, PI * 1.95, 12, Color(COMIC_WATER_HIGHLIGHT, water_animation), 2.0, true)
+		var soil := _water_soil_position(center, water_geometry)
+		var progress := 1.0 - water_animation
+		if not reduced_motion:
+			for index in range(3):
+				var phase := progress * 1.55 - float(index) * 0.21
+				if phase <= 0.0 or phase >= 1.0:
+					continue
+				var p := _get_water_drop_position(center, index, phase, water_geometry)
+				var alpha := minf(1.0, minf(phase * 5.0, (1.0 - phase) * 5.0)) * 0.85
+				draw_circle(p + Vector2(0.6, 1.0), 3.6, Color(COMIC_INK, alpha * 0.38), true, -1.0, true)
+				draw_circle(p, 2.8, Color(COMIC_WATER, alpha), true, -1.0, true)
+				draw_circle(p + Vector2(-0.8, -0.9), 0.9, Color(COMIC_WATER_HIGHLIGHT, alpha), true, -1.0, true)
+		var ripple_phase := clampf((progress - 0.32) / 0.58, 0.0, 1.0)
+		var ripple_alpha := sin(ripple_phase * PI) * 0.58
+		if ripple_alpha > 0.0:
+			draw_set_transform(soil + Vector2(45.0, -2.0), 0.0, Vector2(1.0, 0.28))
+			draw_arc(Vector2.ZERO, 5.0 + ripple_phase * 8.0, 0.0, TAU, 18, Color(COMIC_WATER_HIGHLIGHT, ripple_alpha), 2.1, true)
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	if sparkle_animation > 0.0:
 		for index in range(7):
 			var angle := animation_time * 1.7 + index * TAU / 7.0
@@ -603,11 +610,15 @@ func _draw_effects(center: Vector2) -> void:
 	if growth_burst_animation > 0.0:
 		var progress := 1.0 - growth_burst_animation
 		var alpha := sin(progress * PI)
-		for index in range(8):
-			var angle := -PI * 0.92 + index * TAU / 8.0
-			var radius := lerpf(20.0, 92.0, progress)
-			var mote := center + Vector2(cos(angle) * radius, -88.0 + sin(angle) * radius * 0.72)
-			_draw_leaf_mote(mote, angle + PI * 0.5, 0.72 + (index % 3) * 0.12, alpha)
+		var growth_geometry := _detail_planter_geometry()
+		if not growth_geometry.is_empty():
+			var plant_rect: Rect2 = growth_geometry.plant_rect
+			var canopy_center := Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.40)
+			for index in range(8):
+				var angle := -PI * 0.92 + index * TAU / 8.0
+				var radius := lerpf(16.0, 64.0, progress)
+				var mote := canopy_center + Vector2(cos(angle) * radius, sin(angle) * radius * 0.55)
+				_draw_leaf_mote(mote, angle + PI * 0.5, 0.72 + (index % 3) * 0.12, alpha)
 	if golden_shine_animation > 0.0:
 		_draw_golden_sweep(center)
 	if ladybug_animation > 0.0:
@@ -694,12 +705,15 @@ func _draw_seed_soil_impact(soil: Vector2, progress: float) -> void:
 
 
 func _draw_golden_sweep(center: Vector2) -> void:
+	var geometry := _detail_planter_geometry()
+	if geometry.is_empty():
+		return
 	var progress := 1.0 - golden_shine_animation
 	var alpha := sin(progress * PI)
-	var growth := clampf(simulation.growth_percent / 100.0, 0.0, 1.0)
-	var crown_height := lerpf(70.0, 245.0, pow(growth, 0.72))
-	var sweep_y := center.y - lerpf(22.0, crown_height, progress)
-	var half_width := lerpf(38.0, minf(size.x * 0.37, 150.0), growth)
+	var plant_rect: Rect2 = geometry.plant_rect
+	var soil := _water_soil_position(center, geometry)
+	var sweep_y := lerpf(soil.y - 18.0, plant_rect.position.y + plant_rect.size.y * 0.22, progress)
+	var half_width := minf(size.x * 0.32, plant_rect.size.x * 0.28)
 	draw_set_transform(Vector2(center.x, sweep_y), -0.10, Vector2.ONE)
 	draw_line(Vector2(-half_width, 0.0), Vector2(half_width, 0.0), Color(COMIC_INK, alpha * 0.32), 7.0, true)
 	draw_line(Vector2(-half_width, -1.0), Vector2(half_width, -1.0), Color("#ffe85a", alpha * 0.70), 3.5, true)

@@ -8,6 +8,7 @@ const CYAN := Color("#4bd9e8")
 const GREEN := Color("#64d65f")
 const PURPLE := Color("#9d5de8")
 const ORANGE := Color("#ff8a36")
+const COIN_TEXTURE := preload("res://assets/ui/target_b_exact/hud_coin_clean_v2.png")
 const MAX_EFFECTS := 4
 const PARTICLE_BUDGET := 12
 
@@ -265,27 +266,24 @@ func _draw_transition(progress: float) -> void:
 
 
 func _draw_coin_arc(progress: float) -> void:
-	var count := mini(8, _draw_particle_limit)
+	var count := mini(3, _draw_particle_limit)
 	var start := feedback_origin * size
 	var target_control := _reward_target("coins")
 	if target_control == null:
 		return
 	var target := _target_center(target_control)
-	var alpha := 1.0 - _smoothstep(0.72, 1.0, progress)
+	var alpha := 1.0 - _smoothstep(0.82, 1.0, progress)
 	for index in range(count):
-		var delay := float(index) / float(maxi(1, count)) * 0.20
+		var delay := float(index) / float(maxi(1, count)) * 0.14
 		if progress <= delay:
 			continue
 		var local := clampf((progress - delay) / (1.0 - delay), 0.0, 1.0)
 		if local >= 1.0:
 			continue
 		var point := start.lerp(target, _ease_out(local))
-		point.y -= sin(local * PI) * (54.0 + index * 4.0)
-		var radius := 5.5 + sin(local * PI) * 1.8
-		draw_circle(point + Vector2(1.5, 2.0), radius, Color(INK, alpha * 0.35))
-		draw_circle(point, radius, Color(GOLD, alpha))
-		draw_arc(point, radius, 0.0, TAU, 18, Color(INK, alpha), 1.8, true)
-		draw_line(point + Vector2(-2.0, -2.5), point + Vector2(2.0, -3.5), Color(CREAM, alpha), 1.4, true)
+		point += Vector2(-24.0 * sin(local * PI), -8.0 * sin(local * PI))
+		var coin_size := 18.0
+		draw_texture_rect(COIN_TEXTURE, Rect2(point - Vector2.ONE * coin_size * 0.5, Vector2.ONE * coin_size), false, Color(1.0, 1.0, 1.0, alpha))
 
 
 func _draw_xp_sparkles(progress: float) -> void:
@@ -324,14 +322,15 @@ func _target_center(control: Control) -> Vector2:
 func _draw_unlock_burst(progress: float) -> void:
 	var center := feedback_origin * size
 	var pulse := sin(progress * PI)
-	var ray_count := mini(12, _draw_particle_limit)
-	for index in range(ray_count):
-		var angle := TAU * float(index) / float(ray_count)
-		var inner := 28.0 + progress * 18.0
-		var outer := inner + (46.0 + float(index % 3) * 8.0) * pulse * feedback_intensity
-		draw_line(center + Vector2.from_angle(angle) * inner, center + Vector2.from_angle(angle) * outer, Color(GOLD, pulse * 0.78), 3.0, true)
-	draw_circle(center, (34.0 + progress * 52.0) * feedback_intensity, Color(GOLD, pulse * 0.10))
-	draw_arc(center, (28.0 + progress * 64.0) * feedback_intensity, 0.0, TAU, 48, Color(CREAM, pulse * 0.86), 3.0, true)
+	var radius := (18.0 + progress * 24.0) * feedback_intensity
+	# The cue rises from the plant without tracing a large white ring across
+	# the painted pot; the same restrained shape works for other unlocks.
+	draw_arc(center, radius, PI * 1.08, PI * 1.92, 22, Color(CREAM, pulse * 0.60), 2.0, true)
+	var leaf_count := mini(4, _draw_particle_limit)
+	for index in range(leaf_count):
+		var angle := PI * (1.12 + float(index) * 0.25)
+		var point := center + Vector2.from_angle(angle) * (radius + 6.0)
+		_draw_leaf(point, angle + PI * 0.5, Color(GREEN, pulse * 0.72))
 
 
 func _draw_edge_drops(progress: float) -> void:

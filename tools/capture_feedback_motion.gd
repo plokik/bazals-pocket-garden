@@ -11,6 +11,11 @@ func _capture() -> void:
 	_prepare_common_state(instance)
 	_prepare_detail_state(instance)
 	await _settle(instance)
+	# Pin the HUD fixture after startup tweens so before/after frames use the
+	# same visible currency state even with fresh isolated user profiles.
+	instance.session.coins = 6
+	instance.last_coins_seen = 6
+	instance._set_coin_count(6.0)
 	instance.session.reduced_motion = false
 	instance._apply_motion_preference()
 	var plant: PlantSimulation = instance.session.plant
@@ -47,10 +52,54 @@ func _capture() -> void:
 				return
 		instance.feedback_layer.finish_all()
 		view.set_paused(true)
+		if logical_size == Vector2i(432, 960):
+			await _capture_action_review(instance, plant, view, logical_size)
 	instance.queue_free()
 	await process_frame
 	print("FEEDBACK_MOTION_CAPTURE=PASSED")
 	call_deferred("_finish_capture_success")
+
+
+func _capture_action_review(instance, plant: PlantSimulation, view: PlantView, logical_size: Vector2i) -> void:
+	_set_stage(plant, PlantSimulation.Stage.GERMINATING, 0.0, 100.0, 0.0)
+	view.set_simulation(plant)
+	instance._refresh_ui()
+	view.set_paused(true)
+	for frame in range(10):
+		view.seed_animation = 1.0 - float(frame) / 10.0
+		view.queue_redraw()
+		await RenderingServer.frame_post_draw
+		if not _save_motion_frame(logical_size, "review-seed", frame):
+			return
+	_set_stage(plant, PlantSimulation.Stage.SPROUT, 24.0, 100.0, 1.0)
+	view.set_simulation(plant)
+	instance._refresh_ui()
+	view.set_paused(true)
+	await RenderingServer.frame_post_draw
+	if not _save_motion_frame(logical_size, "review-growth", 0):
+		return
+	_set_stage(plant, PlantSimulation.Stage.VEGETATIVE, 48.0, 100.0, 1.0)
+	view.set_simulation(plant)
+	instance._refresh_ui()
+	view.set_paused(true)
+	for frame in range(1, 10):
+		view.growth_burst_animation = 1.0 - float(frame - 1) / 9.0
+		view.golden_shine_animation = view.growth_burst_animation
+		view.queue_redraw()
+		await RenderingServer.frame_post_draw
+		if not _save_motion_frame(logical_size, "review-growth", frame):
+			return
+	_set_stage(plant, PlantSimulation.Stage.MATURE, 100.0, 100.0, 1.0)
+	view.set_simulation(plant)
+	instance._refresh_ui()
+	view.set_paused(true)
+	for frame in range(10):
+		view.sparkle_animation = 1.0 - float(frame) / 10.0
+		view.golden_shine_animation = view.sparkle_animation
+		view.queue_redraw()
+		await RenderingServer.frame_post_draw
+		if not _save_motion_frame(logical_size, "review-harvest", frame):
+			return
 
 
 func _save_motion_frame(logical_size: Vector2i, action: String, frame: int) -> bool:

@@ -13495,15 +13495,18 @@ func _test_basic_animations() -> void:
 	view._process(0.01)
 	_check(is_zero_approx(view.growth_burst_animation), "Průběžné procento růstu nespouští zlatou oslavu")
 	view.simulation.growth_percent = 100.0
-	var drops_follow_plant := true
-	for index in range(6):
-		var drop_position := view._get_water_drop_position(Vector2(100.0, 200.0), index, 0.5)
-		drops_follow_plant = drops_follow_plant and absf(drop_position.x - 100.0) < 30.0 and drop_position.y < 180.0
-	_check(drops_follow_plant, "Kapky zálivky padají přes korunu rostliny")
+	var drops_reach_soil := true
+	var soil_anchor := view._water_soil_position(Vector2(100.0, 200.0), view._detail_planter_geometry())
+	for index in range(3):
+		var drop_start := view._get_water_drop_position(Vector2(100.0, 200.0), index, 0.0)
+		var drop_mid := view._get_water_drop_position(Vector2(100.0, 200.0), index, 0.5)
+		var drop_end := view._get_water_drop_position(Vector2(100.0, 200.0), index, 1.0)
+		drops_reach_soil = drops_reach_soil and drop_start.x > soil_anchor.x + 40.0 and drop_start.x < soil_anchor.x + 60.0 and drop_start.y >= soil_anchor.y - 16.0 and drop_mid.y > drop_start.y and drop_end.y > drop_mid.y and drop_end.y < soil_anchor.y
+	_check(drops_reach_soil, "Tři krátké kapky postupně dopadnou do malované hlíny bez překrytí koruny")
 	view.size = Vector2(432.0, 960.0)
-	var water_soil := view.get_feedback_anchor()
+	var water_soil := view._water_soil_position(Vector2(view.size.x * 0.5, view.DetailLayout.shelf_y(view.size)), view._detail_planter_geometry())
 	var water_end := view._get_water_drop_position(Vector2(view.size.x * 0.5, view.DetailLayout.shelf_y(view.size)), 2, 1.0)
-	_check(absf(water_end.y - (water_soil.y - 3.0)) < 0.1 and absf(water_end.x - water_soil.x) < 25.0, "Lokální kapky končí u skutečné hlíny květináče při rozměru obrazovky 432 × 960")
+	_check(absf(water_end.y - (water_soil.y - 3.0)) < 0.1 and water_end.x > water_soil.x + 40.0 and water_end.x < water_soil.x + 60.0, "Lokální kapky končí v odkryté hlíně květináče při rozměru obrazovky 432 × 960")
 	view.growth_burst_animation = 0.0
 	view._process(0.01)
 	_check(is_zero_approx(view.growth_burst_animation), "Ani zrychlený růst v jedné fázi nespouští opakovaně komiksový burst")
