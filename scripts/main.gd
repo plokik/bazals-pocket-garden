@@ -648,6 +648,8 @@ func _notification(what: int) -> void:
 	# the system reminder lifecycle; otherwise the 20-second test is cancelled,
 	# rewritten and the game visibly flashes behind the transient system UI.
 	if what == NOTIFICATION_APPLICATION_PAUSED:
+		if feedback_layer != null:
+			feedback_layer.set_paused(true)
 		if session != null:
 			if not external_file_picker_open:
 				suspended_at_unix = Time.get_unix_time_from_system()
@@ -657,12 +659,16 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_request_safe_exit()
 	if what == NOTIFICATION_APPLICATION_RESUMED:
+		if feedback_layer != null:
+			feedback_layer.set_paused(false)
 		care_notification_service.enter_foreground()
 		care_notification_test_pending = false
 		if external_file_picker_open:
 			suspended_at_unix = 0.0
 		else:
 			_resume_from_background()
+			if plant_view != null:
+				plant_view.sync_growth_observation()
 		_present_pending_save_failure()
 		call_deferred("_consume_care_notification_destination")
 
@@ -1026,6 +1032,7 @@ func _build_ui() -> void:
 	feedback_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	feedback_layer.z_index = 120
 	add_child(feedback_layer)
+	feedback_layer.set_reward_targets(xp_bar, coin_icon, nav_buttons[1])
 	audio_haptics = GameAudioHapticsScene.new() as GameAudioHaptics
 	audio_haptics.name = "AudioHaptics"
 	add_child(audio_haptics)
@@ -7932,6 +7939,10 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 	if index != active_screen and player_room_view != null:
 		player_room_view.cancel_plant_drag()
 	var previous_screen := active_screen
+	if index != active_screen and feedback_layer != null:
+		feedback_layer.cancel_plant_effects()
+		if plant_view != null:
+			plant_view.clear_action_effects()
 	active_screen = screen_navigation_controller.apply_screen(index, active_screen, screens, nav_buttons, session, feedback_layer, transition_direction_override)
 	_refresh_corner_ornament_visibility()
 	if active_screen != 0 and plant_view != null:
@@ -7943,6 +7954,8 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 func _open_plant_detail(index: int) -> void:
 	if not session.select_plant(index):
 		return
+	if feedback_layer != null:
+		feedback_layer.cancel_plant_effects()
 	plant_behavior_presenter.reset_observation()
 	plant_view.set_simulation(session.plant)
 	garden_location_id = GARDEN_LOCATION_RACK
@@ -7991,6 +8004,10 @@ func _open_greenhouse() -> void:
 func _show_garden_location(location_id: String) -> void:
 	if player_room_view != null:
 		player_room_view.cancel_plant_drag()
+	if plant_detail_panel != null and plant_detail_panel.visible and feedback_layer != null:
+		feedback_layer.cancel_plant_effects()
+		if plant_view != null:
+			plant_view.clear_action_effects()
 	var normalized_id := location_id
 	if normalized_id not in [GARDEN_LOCATION_RACK, GARDEN_LOCATION_PLAYER_ROOM, GARDEN_LOCATION_GREENHOUSE]:
 		normalized_id = GARDEN_LOCATION_RACK
@@ -8251,6 +8268,8 @@ func _sync_background_animation_state() -> void:
 	greenhouse_preview_view.set_fast_time_visuals(stabilize_fast_time_visuals)
 	plant_view.set_paused(should_pause)
 	plant_view.set_fast_time_visuals(stabilize_fast_time_visuals)
+	if feedback_layer != null:
+		feedback_layer.set_paused(session.paused)
 
 
 func _refresh_shop_buy_button(button: Button, item_id: String, price: int) -> void:
@@ -8653,20 +8672,28 @@ func _on_session_feedback(kind: String, slot_index: int, payload: Dictionary) ->
 			"wind", "treatment": plant_view.play_action("wind")
 			"growth": plant_view.play_action("growth")
 			"harvest": plant_view.play_action("harvest")
-			"plant_rescued": plant_view.play_action("growth")
+			"plant_rescued": plant_view.play_action("rescue")
 			"plant_behavior":
 				var behavior_id := str(payload.get("behavior_id", ""))
 				var behavior_label := str(payload.get("label", ""))
 				plant_view.play_behavior_trigger(behavior_id, behavior_label)
 	if feedback_layer == null:
 		return
+	var plant_origin := _feedback_origin_for_plant(slot_index)
 	match kind:
-		"water": feedback_layer.play_feedback("water", Vector2(0.50, 0.50), 0.65)
-		"fertilize": feedback_layer.play_feedback("fertilize", Vector2(0.50, 0.51), 0.70)
+		# PlantView already draws drops to its actual pot and soil.
+		"water": pass
+		"xp": feedback_layer.play_feedback("xp", plant_origin, 1.0)
+		"coins":
+			if int(payload.get("amount", 0)) > 0:
+				feedback_layer.play_feedback("coins", plant_origin, 1.0)
+		"fertilize": feedback_layer.play_feedback("fertilize", plant_origin, 0.70)
 		"treatment": feedback_layer.play_feedback("fertilize", Vector2(0.50, 0.49), 0.82)
-		"growth": feedback_layer.play_feedback("growth", Vector2(0.50, 0.48), 1.0)
-		"harvest": feedback_layer.play_feedback("harvest", Vector2(0.50, 0.49), 1.0)
-		"sale": feedback_layer.play_feedback("coins", Vector2(0.55, 0.64), 1.0)
+		"growth":
+			if plant_detail_panel.visible and slot_index == session.selected_plant_index:
+				feedback_layer.play_feedback("growth", plant_origin, 1.0)
+		"harvest": feedback_layer.play_feedback("harvest", plant_origin, 1.0)
+		"sale": feedback_layer.play_feedback("coins", plant_origin, 1.0)
 		"order_complete": feedback_layer.play_feedback("journey_complete", Vector2(0.52, 0.50), 1.10)
 		"mastery_reward": feedback_layer.play_feedback("journey_complete", Vector2(0.52, 0.50), 1.10)
 		"daily_complete": feedback_layer.play_feedback("objective", Vector2(0.50, 0.46), 0.95)
@@ -8696,6 +8723,15 @@ func _on_session_feedback(kind: String, slot_index: int, payload: Dictionary) ->
 			_show_dialog("Zakázka pro %s je splněná! Kvalita %d%% vynesla %d mincí a %d XP." % [str(payload.get("customer", "odběratele")), roundi(float(payload.get("quality", 0.0)) * 100.0), int(payload.get("coins", 0)), int(payload.get("xp", 0))])
 		if not is_garden_handover_active and not professor_story_open:
 			_set_guide_modal_open(true, not session.reduced_motion)
+
+
+func _feedback_origin_for_plant(slot_index: int) -> Vector2:
+	if feedback_layer == null or feedback_layer.size.x <= 0.0 or feedback_layer.size.y <= 0.0:
+		return Vector2(0.5, 0.5)
+	if plant_view == null or not plant_view.is_visible_in_tree() or slot_index != session.selected_plant_index:
+		return Vector2(0.5, 0.5)
+	var local_point := feedback_layer.get_global_transform().affine_inverse() * (plant_view.get_global_transform() * plant_view.get_feedback_anchor())
+	return Vector2(clampf(local_point.x / feedback_layer.size.x, 0.0, 1.0), clampf(local_point.y / feedback_layer.size.y, 0.0, 1.0))
 
 
 func _on_reduce_motion_toggled(enabled: bool) -> void:

@@ -8,6 +8,15 @@ const CYAN := Color("#4bd9e8")
 const GREEN := Color("#64d65f")
 const PURPLE := Color("#9d5de8")
 const ORANGE := Color("#ff8a36")
+const MAX_EFFECTS := 4
+const PARTICLE_BUDGET := 12
+
+var effects: Array[Dictionary] = []
+var xp_target: Control
+var coin_target: Control
+var harvest_target: Control
+var animations_paused := false
+var _draw_particle_limit := PARTICLE_BUDGET
 
 var feedback_kind := ""
 var feedback_elapsed := 0.0
@@ -29,14 +38,41 @@ func _ready() -> void:
 	set_meta("particle_budget", 12)
 	set_meta("plant_behavior_feedback", "bounded_code_drawn_v1")
 	set_meta("blocks_input", false)
+	visibility_changed.connect(_sync_process_state)
+
+
+func set_reward_targets(xp_control: Control, coin_control: Control, harvest_control: Control = null) -> void:
+	xp_target = xp_control
+	coin_target = coin_control
+	harvest_target = harvest_control
+
+
+func set_paused(value: bool) -> void:
+	animations_paused = value
+	_sync_process_state()
+
+
+func _sync_process_state() -> void:
+	set_process(not animations_paused and (is_visible_in_tree() if is_inside_tree() else visible) and not is_idle())
+
+
+func cancel_plant_effects() -> void:
+	for index in range(effects.size() - 1, -1, -1):
+		if str(effects[index].kind) in ["water", "fertilize", "growth", "harvest", "plant_behavior", "warning"]:
+			effects.remove_at(index)
+	_sync_process_state()
+	queue_redraw()
 
 
 func set_reduced_motion(enabled: bool) -> void:
 	reduced_motion = enabled
 	set_meta("reduced_motion", enabled)
 	if enabled:
+		for effect in effects:
+			effect.duration = minf(float(effect.duration), 0.26)
 		feedback_duration = minf(feedback_duration, 0.26)
 		transition_duration = minf(transition_duration, 0.16)
+	_sync_process_state()
 
 
 func play_feedback(kind: String, normalized_origin := Vector2(0.5, 0.5), intensity := 1.0) -> void:
@@ -45,23 +81,49 @@ func play_feedback(kind: String, normalized_origin := Vector2(0.5, 0.5), intensi
 	feedback_intensity = clampf(intensity, 0.25, 1.5)
 	feedback_elapsed = 0.0
 	feedback_duration = 0.24 if reduced_motion else _duration_for(kind)
-	set_process(true)
+	for effect in effects:
+		if effect.kind == kind or (kind in ["unlock", "journey_complete"] and str(effect.kind) in ["unlock", "journey_complete"]):
+			# Repeated taps share one bounded cue; do not rewind an existing flight.
+			if kind == "journey_complete":
+				effect.kind = kind
+			effect.intensity = maxf(float(effect.intensity), feedback_intensity)
+			_sync_process_state()
+			return
+	if effects.size() >= MAX_EFFECTS:
+		var weakest := 0
+		for index in range(1, effects.size()):
+			if _priority(str(effects[index].kind)) < _priority(str(effects[weakest].kind)):
+				weakest = index
+		if _priority(kind) <= _priority(str(effects[weakest].kind)):
+			return
+		effects.remove_at(weakest)
+	effects.append({"kind": kind, "origin": feedback_origin, "intensity": feedback_intensity, "elapsed": 0.0, "duration": feedback_duration})
+	_sync_process_state()
 	queue_redraw()
+
+
+func _priority(kind: String) -> int:
+	if kind in ["xp", "coins", "unlock", "journey_complete", "harvest"]:
+		return 3
+	if kind in ["objective", "growth"]:
+		return 2
+	return 1
 
 
 func play_screen_transition(direction: int) -> void:
 	transition_direction = 1 if direction >= 0 else -1
 	transition_elapsed = 0.0
 	transition_duration = 0.14 if reduced_motion else 0.34
-	set_process(true)
+	_sync_process_state()
 	queue_redraw()
 
 
 func is_idle() -> bool:
-	return feedback_elapsed >= feedback_duration and transition_elapsed >= transition_duration
+	return effects.is_empty() and transition_elapsed >= transition_duration
 
 
 func finish_all() -> void:
+	effects.clear()
 	feedback_elapsed = feedback_duration
 	transition_elapsed = transition_duration
 	set_process(false)
@@ -69,11 +131,13 @@ func finish_all() -> void:
 
 
 func set_capture_feedback(kind: String, progress: float, normalized_origin := Vector2(0.5, 0.5), intensity := 1.0) -> void:
+	effects.clear()
 	feedback_kind = kind
 	feedback_origin = normalized_origin
 	feedback_intensity = intensity
 	feedback_duration = 1.0
 	feedback_elapsed = clampf(progress, 0.0, 0.999)
+	effects.append({"kind": kind, "origin": normalized_origin, "intensity": intensity, "elapsed": feedback_elapsed, "duration": 1.0})
 	transition_duration = 1.0
 	transition_elapsed = 1.0
 	set_process(false)
@@ -81,6 +145,7 @@ func set_capture_feedback(kind: String, progress: float, normalized_origin := Ve
 
 
 func set_capture_transition(progress: float, direction := 1) -> void:
+	effects.clear()
 	feedback_duration = 1.0
 	feedback_elapsed = 1.0
 	transition_direction = 1 if direction >= 0 else -1
@@ -95,7 +160,7 @@ func _duration_for(kind: String) -> float:
 		"unlock", "journey_complete":
 			return 0.92
 		"coins", "xp", "growth":
-			return 0.72
+			return 0.88 if kind == "xp" else 0.72
 		"harvest":
 			return 0.58
 		"plant_behavior":
@@ -107,21 +172,58 @@ func _duration_for(kind: String) -> float:
 
 
 func _process(delta: float) -> void:
-	if feedback_elapsed < feedback_duration:
-		feedback_elapsed = minf(feedback_duration, feedback_elapsed + delta)
+	if animations_paused:
+		return
+	for index in range(effects.size() - 1, -1, -1):
+		var effect := effects[index]
+		if str(effect.kind) in ["xp", "coins"] and _reward_target(str(effect.kind)) == null:
+			effects.remove_at(index)
+			continue
+		effect.elapsed = minf(float(effect.duration), float(effect.elapsed) + delta)
+		if float(effect.elapsed) >= float(effect.duration):
+			effects.remove_at(index)
+	if not effects.is_empty():
+		feedback_elapsed = float(effects.back().elapsed)
+		feedback_duration = float(effects.back().duration)
+	else:
+		feedback_elapsed = feedback_duration
 	if transition_elapsed < transition_duration:
 		transition_elapsed = minf(transition_duration, transition_elapsed + delta)
 	queue_redraw()
-	if is_idle():
-		set_process(false)
+	_sync_process_state()
 
 
 func _draw() -> void:
 	if transition_elapsed < transition_duration and transition_duration > 0.0:
 		_draw_transition(transition_elapsed / transition_duration)
-	if feedback_elapsed >= feedback_duration or feedback_duration <= 0.0:
+	var prior_kind := feedback_kind
+	var prior_origin := feedback_origin
+	var prior_intensity := feedback_intensity
+	var prior_elapsed := feedback_elapsed
+	var prior_duration := feedback_duration
+	_draw_particle_limit = maxi(1, PARTICLE_BUDGET / maxi(1, effects.size()))
+	for effect in effects:
+		feedback_kind = str(effect.kind)
+		feedback_origin = effect.origin
+		feedback_intensity = float(effect.intensity)
+		feedback_elapsed = float(effect.elapsed)
+		feedback_duration = float(effect.duration)
+		_draw_feedback_effect(clampf(feedback_elapsed / feedback_duration, 0.0, 1.0))
+	feedback_kind = prior_kind
+	feedback_origin = prior_origin
+	feedback_intensity = prior_intensity
+	feedback_elapsed = prior_elapsed
+	feedback_duration = prior_duration
+
+
+func _draw_feedback_effect(progress: float) -> void:
+	if reduced_motion:
+		var center := feedback_origin * size
+		var color := GOLD if feedback_kind in ["xp", "coins", "unlock", "journey_complete"] else CYAN
+		var alpha := 1.0 - progress
+		draw_circle(center, 18.0, Color(color, alpha * 0.08))
+		draw_arc(center, 22.0, 0.0, TAU, 28, Color(color, alpha * 0.42), 2.0, true)
 		return
-	var progress := clampf(feedback_elapsed / feedback_duration, 0.0, 1.0)
 	match feedback_kind:
 		"coins":
 			_draw_coin_arc(progress)
@@ -163,13 +265,20 @@ func _draw_transition(progress: float) -> void:
 
 
 func _draw_coin_arc(progress: float) -> void:
-	var count := 4 if reduced_motion else 8
+	var count := mini(8, _draw_particle_limit)
 	var start := feedback_origin * size
-	var target := Vector2(size.x * 0.45, size.y * 0.045)
+	var target_control := _reward_target("coins")
+	if target_control == null:
+		return
+	var target := _target_center(target_control)
 	var alpha := 1.0 - _smoothstep(0.72, 1.0, progress)
 	for index in range(count):
 		var delay := float(index) / float(maxi(1, count)) * 0.20
+		if progress <= delay:
+			continue
 		var local := clampf((progress - delay) / (1.0 - delay), 0.0, 1.0)
+		if local >= 1.0:
+			continue
 		var point := start.lerp(target, _ease_out(local))
 		point.y -= sin(local * PI) * (54.0 + index * 4.0)
 		var radius := 5.5 + sin(local * PI) * 1.8
@@ -181,20 +290,41 @@ func _draw_coin_arc(progress: float) -> void:
 
 func _draw_xp_sparkles(progress: float) -> void:
 	var start := feedback_origin * size
-	var target := Vector2(size.x * 0.83, size.y * 0.055)
-	var alpha := 1.0 - _smoothstep(0.68, 1.0, progress)
-	var count := 4 if reduced_motion else 9
+	var target_control := _reward_target("xp")
+	if target_control == null:
+		return
+	var target := _target_center(target_control)
+	var count := mini(9, _draw_particle_limit)
 	for index in range(count):
-		var phase := fmod(progress + float(index) * 0.085, 1.0)
-		var point := start.lerp(target, _ease_out(phase))
-		point += Vector2(sin(index * 2.4) * 18.0, -sin(phase * PI) * (36.0 + index * 2.0))
-		_draw_sparkle(point, 4.0 + float(index % 3), Color(GOLD, alpha))
+		var state := _xp_sparkle_state(progress, index, start, target)
+		if not bool(state.visible):
+			continue
+		_draw_sparkle(state.point, 4.0 + float(index % 3), Color(GOLD, float(state.alpha)))
+
+
+func _xp_sparkle_state(progress: float, index: int, start: Vector2, target: Vector2) -> Dictionary:
+	var delay := float(index) * 0.035
+	var local := (progress - delay) / (1.0 - delay)
+	if local <= 0.0 or local >= 1.0:
+		return {"visible": false, "point": target, "alpha": 0.0, "travel": clampf(local, 0.0, 1.0)}
+	var point := start.lerp(target, _ease_out(local))
+	point += Vector2(sin(index * 2.4) * 18.0 * sin(local * PI), -sin(local * PI) * (36.0 + index * 2.0))
+	return {"visible": true, "point": point, "alpha": 1.0 - _smoothstep(0.78, 1.0, local), "travel": local}
+
+
+func _reward_target(kind: String) -> Control:
+	var control := xp_target if kind == "xp" else coin_target
+	return control if is_instance_valid(control) and control.is_visible_in_tree() else null
+
+
+func _target_center(control: Control) -> Vector2:
+	return get_global_transform().affine_inverse() * (control.get_global_transform() * (control.size * 0.5))
 
 
 func _draw_unlock_burst(progress: float) -> void:
 	var center := feedback_origin * size
 	var pulse := sin(progress * PI)
-	var ray_count := 6 if reduced_motion else 12
+	var ray_count := mini(12, _draw_particle_limit)
 	for index in range(ray_count):
 		var angle := TAU * float(index) / float(ray_count)
 		var inner := 28.0 + progress * 18.0
@@ -205,12 +335,15 @@ func _draw_unlock_burst(progress: float) -> void:
 
 
 func _draw_edge_drops(progress: float) -> void:
-	var alpha := sin(progress * PI) * 0.72
-	var count := 4 if reduced_motion else 10
+	var alpha := sin(progress * PI) * 0.55
+	var count := mini(6, _draw_particle_limit)
+	var center := feedback_origin * size
 	for index in range(count):
-		var x := size.x * (0.08 + float(index) / float(maxi(1, count - 1)) * 0.84)
-		var y := fmod(progress * size.y * 0.22 + index * 17.0, size.y * 0.25)
-		var point := Vector2(x, size.y * 0.18 + y)
+		var delay := float(index) * 0.045
+		var local := (progress - delay) / (1.0 - delay)
+		if local <= 0.0 or local >= 1.0:
+			continue
+		var point := center + Vector2((float(index) - float(count - 1) * 0.5) * 9.0, lerpf(-65.0, -10.0, local))
 		draw_circle(point, 3.2, Color(CYAN, alpha))
 		draw_line(point + Vector2(0.0, -8.0), point, Color(CYAN, alpha * 0.75), 2.0, true)
 
@@ -218,7 +351,7 @@ func _draw_edge_drops(progress: float) -> void:
 func _draw_leaf_sparkles(progress: float) -> void:
 	var center := feedback_origin * size
 	var alpha := sin(progress * PI)
-	var count := 4 if reduced_motion else 10
+	var count := mini(10, _draw_particle_limit)
 	var color := GOLD if feedback_kind in ["harvest", "growth", "objective"] else PURPLE
 	for index in range(count):
 		var angle := TAU * float(index) / float(count) + progress * 0.55
@@ -232,8 +365,8 @@ func _draw_leaf_sparkles(progress: float) -> void:
 
 func _draw_harvest_flight(progress: float) -> void:
 	var start := feedback_origin * size
-	var target := Vector2(size.x * 0.375, size.y * 0.94)
-	var count := 1 if reduced_motion else 4
+	var target := _target_center(harvest_target) if is_instance_valid(harvest_target) and harvest_target.is_visible_in_tree() else Vector2(size.x * 0.375, size.y * 0.94)
+	var count := mini(4, _draw_particle_limit)
 	for index in range(count):
 		var delay := float(index) * 0.045
 		var travel := clampf((progress - delay) / maxf(0.01, 1.0 - delay), 0.0, 1.0)
@@ -264,7 +397,7 @@ func _draw_behavior_bloom(progress: float) -> void:
 	draw_circle(center, radius * 0.72, Color(PURPLE, envelope * 0.10))
 	draw_arc(center, radius, 0.0, TAU, 44, Color(PURPLE, envelope * 0.82), 3.2, true)
 	draw_arc(center, radius + 7.0, -PI * 0.12, PI * 0.42, 18, Color(CREAM, envelope * 0.92), 2.2, true)
-	var count := 3 if reduced_motion else 7
+	var count := mini(7, _draw_particle_limit)
 	for index in range(count):
 		var angle := -PI * 0.82 + TAU * float(index) / float(count) + progress * 0.28
 		var point := center + Vector2.from_angle(angle) * (radius + 10.0 + float(index % 2) * 6.0)

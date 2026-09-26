@@ -3031,6 +3031,12 @@ func _test_phase82_behavior_feedback() -> void:
 		instance.plant_detail_panel.modulate.a = 1.0
 		instance.plant_behavior_presenter.reset_observation()
 		instance._refresh_ui()
+		var feedback_xp_target: Vector2 = instance.feedback_layer._target_center(instance.xp_bar)
+		var feedback_coin_target: Vector2 = instance.feedback_layer._target_center(instance.coin_icon)
+		var feedback_harvest_target: Vector2 = instance.feedback_layer._target_center(instance.nav_buttons[1])
+		var feedback_plant_origin: Vector2 = instance._feedback_origin_for_plant(0) * instance.feedback_layer.size
+		var plant_anchor: Vector2 = instance.plant_view.get_global_transform() * instance.plant_view.get_feedback_anchor()
+		_check(instance.feedback_layer._reward_target("xp") == instance.xp_bar and instance.feedback_layer._reward_target("coins") == instance.coin_icon and feedback_xp_target.distance_to(feedback_coin_target) > 10.0 and feedback_harvest_target.y > feedback_xp_target.y and feedback_plant_origin.distance_to(plant_anchor) < 2.0, "Let XP, mincí a sklizně míří do skutečných HUD prvků a efekt začíná u geometrie květináče")
 		_check(instance.plant_behavior_presenter.is_bound() and instance.plant_behavior_badge.visible and instance.plant_behavior_badge.get_meta("component", "") == "plant_behavior_active_badge_v1" and instance.plant_behavior_badge_title.text == "VLASTNOST AKTIVNÍ" and "MÁTOVÉ VZPRUŽENÍ" in instance.plant_behavior_badge_value.text and instance.plant_view.get_meta("behavior_halo", "") == "active_only_code_drawn_v1" and int(instance.plant_view.get_meta("behavior_particle_budget", -1)) == 0 and bool(instance.plant_view.get_meta("behavior_active", false)), "Fáze 82 skutečný detail spojí active-only badge se stejným profilovým stavem a lehkým kódovým halo bez částic")
 
 		live_mint.moisture = 60.0
@@ -3065,7 +3071,10 @@ func _test_phase82_behavior_feedback() -> void:
 		instance.audio_haptics.last_cue = ""
 		instance._on_water_pressed()
 		await process_frame
-		_check(trigger_cleared_by_navigation and is_equal_approx(live_mint.health, 74.0) and is_zero_approx(instance.plant_view.behavior_pulse) and instance.plant_view.get_meta("behavior_id", "") == "" and instance.feedback_layer.feedback_kind == "water" and instance.audio_haptics.last_cue == "care", "Fáze 82 skutečná změna záložky pulz vyčistí a stejné mobilní tlačítko mimo detail nevykreslí plant_behavior záblesk ani zvláštní zvuk")
+		var plant_effect_outside_detail := false
+		for effect in instance.feedback_layer.effects:
+			plant_effect_outside_detail = plant_effect_outside_detail or str(effect.kind) in ["water", "plant_behavior"]
+		_check(trigger_cleared_by_navigation and is_equal_approx(live_mint.health, 74.0) and is_zero_approx(instance.plant_view.behavior_pulse) and instance.plant_view.get_meta("behavior_id", "") == "" and not plant_effect_outside_detail and instance.audio_haptics.last_cue == "care", "Fáze 82 změna záložky pulz vyčistí a zalití mimo detail nepřidá celoplošnou vrstvu kapek")
 		instance.queue_free()
 		await process_frame
 		await process_frame
@@ -13475,29 +13484,46 @@ func _test_basic_animations() -> void:
 	_check(PlantView.DetailBackground.resource_path.ends_with("backgrounds/comic_detail_window_v1.png") and PlantView.IDLE_EVENT_INTERVALS.size() == 3, "Mobilní detail používá nové komiksové okno a deterministický rozvrh vzácných událostí")
 	view.simulation.stage = PlantSimulation.Stage.SPROUT
 	view.simulation.growth_percent = 0.0
-	view.observed_stage = int(view.simulation.stage)
-	view.observed_growth_percent = 0.0
+	view.set_simulation(view.simulation)
 	view.play_action("water")
 	_check(is_equal_approx(view.water_animation, 1.0), "Zálivka spustí animaci kapek")
 	var water_before := view.water_animation
 	view._process(0.1)
 	_check(view.water_animation < water_before, "Animace zálivky se plynule utlumuje")
+	view.simulation.growth_percent = 1.0
+	view.growth_burst_animation = 0.0
+	view._process(0.01)
+	_check(is_zero_approx(view.growth_burst_animation), "Průběžné procento růstu nespouští zlatou oslavu")
 	view.simulation.growth_percent = 100.0
 	var drops_follow_plant := true
 	for index in range(6):
 		var drop_position := view._get_water_drop_position(Vector2(100.0, 200.0), index, 0.5)
 		drops_follow_plant = drops_follow_plant and absf(drop_position.x - 100.0) < 30.0 and drop_position.y < 180.0
 	_check(drops_follow_plant, "Kapky zálivky padají přes korunu rostliny")
+	view.size = Vector2(432.0, 960.0)
+	var water_soil := view.get_feedback_anchor()
+	var water_end := view._get_water_drop_position(Vector2(view.size.x * 0.5, view.DetailLayout.shelf_y(view.size)), 2, 1.0)
+	_check(absf(water_end.y - (water_soil.y - 3.0)) < 0.1 and absf(water_end.x - water_soil.x) < 25.0, "Lokální kapky končí u skutečné hlíny květináče při rozměru obrazovky 432 × 960")
 	view.growth_burst_animation = 0.0
 	view._process(0.01)
-	_check(view.growth_burst_animation > 0.0, "Růst o celý procentní bod automaticky spustí komiksový burst")
+	_check(is_zero_approx(view.growth_burst_animation), "Ani zrychlený růst v jedné fázi nespouští opakovaně komiksový burst")
 	view.play_action("fertilize")
 	_check(is_equal_approx(view.sparkle_animation, 1.0), "Hnojení spustí částicovou animaci")
+	view.simulation.stage = PlantSimulation.Stage.VEGETATIVE
 	view.play_action("growth")
 	_check(is_equal_approx(view.growth_burst_animation, 1.0) and is_equal_approx(view.golden_shine_animation, 1.0), "Komiksový růst spustí pružný listový efekt i zlatý průlet přes celou rostlinu")
 	var growth_before := view.growth_burst_animation
 	view._process(0.1)
-	_check(view.growth_burst_animation < growth_before, "Listový efekt růstu se deterministicky utlumuje")
+	_check(view.growth_burst_animation < growth_before and view.celebrated_stage == int(view.simulation.stage), "Růstový milník se spustí jednou a poté deterministicky dozní")
+	view.play_action("growth")
+	_check(view.growth_burst_animation < growth_before, "Duplicitní událost stejné fáze neobnoví oslavu")
+	view.set_simulation(view.simulation)
+	view._process(0.01)
+	_check(is_zero_approx(view.growth_burst_animation), "Opětovné otevření detailu nevyvolá falešný milník")
+	view.simulation.stage = PlantSimulation.Stage.MATURE
+	view.sync_growth_observation()
+	view._process(0.01)
+	_check(is_zero_approx(view.growth_burst_animation), "Návrat k rostlině po růstu mimo detail nevyvolá zpětnou oslavu")
 	view.play_action("wind")
 	_check(is_equal_approx(view.wind_animation, 1.0), "Vyvětrání spustí animaci větru za oknem")
 	view.play_ambient_event("ladybug")
@@ -13524,6 +13550,48 @@ func _test_basic_animations() -> void:
 	feedback._ready()
 	feedback.play_feedback("unlock", Vector2(0.5, 0.5), 1.0)
 	_check(feedback.feedback_kind == "unlock" and feedback.is_processing() and feedback.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Sdílená efektová vrstva spustí neblokující mobilní efekt z typované události")
+	feedback.play_feedback("xp", Vector2(0.4, 0.5), 1.0)
+	feedback.play_feedback("coins", Vector2(0.4, 0.5), 1.0)
+	_check(feedback.effects.size() == 3 and feedback.effects[0].kind == "unlock" and feedback.effects[1].kind == "xp" and feedback.effects[2].kind == "coins", "Odemčení, XP a mince doběhnou souběžně bez vzájemného přepsání")
+	feedback.play_feedback("harvest", Vector2(0.4, 0.5), 1.0)
+	feedback.play_feedback("journey_complete", Vector2(0.4, 0.5), 1.0)
+	_check(feedback.effects.size() == 4 and feedback.effects[0].kind == "journey_complete" and feedback.effects[3].kind == "harvest", "Sklizeň, XP, mince a dokončení cesty se vejdou do čtyř efektů; související oslavy se sloučí")
+	feedback.finish_all()
+	for kind in ["xp", "coins", "harvest", "objective"]:
+		feedback.play_feedback(kind)
+	feedback.play_feedback("unlock")
+	var important_kinds: Array[String] = []
+	for effect in feedback.effects:
+		important_kinds.append(str(effect.kind))
+	_check(feedback.effects.size() == 4 and "harvest" in important_kinds and "unlock" in important_kinds and "objective" not in important_kinds, "Při naplnění limitu ustoupí dekorativní cíl před sklizní a odemčením")
+	feedback.finish_all()
+	feedback.play_feedback("unlock")
+	feedback.play_feedback("xp")
+	feedback.play_feedback("coins")
+	feedback.play_feedback("harvest")
+	for _tap in range(20):
+		feedback.play_feedback("coins", Vector2(0.4, 0.5), 1.0)
+	_check(feedback.effects.size() == 4 and feedback.effects[2].elapsed == 0.0 and feedback._draw_particle_limit <= 12, "Rychlá opakování mincí se sloučí bez neomezené fronty")
+	var delayed := feedback._xp_sparkle_state(0.1, 8, Vector2.ZERO, Vector2(100.0, 0.0))
+	var flying := feedback._xp_sparkle_state(0.6, 8, Vector2.ZERO, Vector2(100.0, 0.0))
+	var finished := feedback._xp_sparkle_state(1.0, 8, Vector2.ZERO, Vector2(100.0, 0.0))
+	_check(not bool(delayed.visible) and bool(flying.visible) and float(flying.travel) > 0.0 and not bool(finished.visible), "XP jiskra po vlastním zpoždění jednou doletí a zmizí")
+	feedback.cancel_plant_effects()
+	_check(feedback.effects.size() == 3, "Změna rostliny neusekne globální odměny")
+	feedback.finish_all()
+	feedback.play_feedback("water")
+	feedback.play_feedback("unlock")
+	feedback.cancel_plant_effects()
+	_check(feedback.effects.size() == 1 and feedback.effects[0].kind == "unlock", "Přepnutí obrazovky odstraní efekt květináče a ponechá odemčení")
+	feedback._process(1.0)
+	_check(feedback.is_idle() and not feedback.is_processing(), "Doběhlé efekty se odstraní a vrstva přestane běžet")
+	feedback.play_feedback("unlock")
+	feedback.visible = false
+	_check(not feedback.is_processing(), "Skrytá obrazovka efektovou vrstvu nepřekresluje")
+	feedback.visible = true
+	feedback.set_paused(true)
+	_check(not feedback.is_processing(), "Pauza zastaví překreslování efektové vrstvy")
+	feedback.set_paused(false)
 	feedback.set_reduced_motion(true)
 	feedback.play_screen_transition(1)
 	_check(feedback.reduced_motion and feedback.transition_duration <= 0.16 and int(feedback.get_meta("particle_budget", 0)) <= 12, "Sdílené efekty mají omezený částicový rozpočet a krátkou alternativu pohybu")

@@ -46,6 +46,9 @@ var reduced_motion := false
 var fast_time_visuals := false
 var observed_growth_percent := -1.0
 var observed_stage := -1
+var celebrated_stage := -1
+var pending_growth_stage := -1
+var was_visible := false
 var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 
 
@@ -85,9 +88,12 @@ func set_simulation(value: PlantSimulation) -> void:
 	if simulation == null:
 		observed_growth_percent = -1.0
 		observed_stage = -1
+		celebrated_stage = -1
 	else:
 		observed_growth_percent = simulation.growth_percent
 		observed_stage = int(simulation.stage)
+		celebrated_stage = observed_stage
+	pending_growth_stage = -1
 	idle_event_elapsed = 0.0
 	idle_event_index = 0
 	shake_animation = 0.0
@@ -116,7 +122,32 @@ func set_paused(value: bool) -> void:
 
 
 func _sync_process_state() -> void:
-	set_process(not animations_paused and is_visible_in_tree())
+	var shown := is_visible_in_tree()
+	if shown and not was_visible:
+		sync_growth_observation()
+	was_visible = shown
+	set_process(not animations_paused and shown)
+
+
+func sync_growth_observation() -> void:
+	if simulation == null:
+		return
+	observed_stage = int(simulation.stage)
+	celebrated_stage = observed_stage
+	observed_growth_percent = simulation.growth_percent
+	pending_growth_stage = -1
+
+
+func clear_action_effects() -> void:
+	action_pulse = 0.0
+	seed_animation = 0.0
+	water_animation = 0.0
+	sparkle_animation = 0.0
+	growth_burst_animation = 0.0
+	golden_shine_animation = 0.0
+	wind_animation = 0.0
+	pending_growth_stage = -1
+	queue_redraw()
 
 
 func set_reduced_motion(value: bool) -> void:
@@ -149,11 +180,36 @@ func play_action(action: String) -> void:
 		sparkle_animation = strength
 		golden_shine_animation = strength
 	elif action == "growth":
-		growth_burst_animation = strength
+		if simulation != null:
+			_trigger_growth_milestone(int(simulation.stage))
+	elif action == "rescue":
+		sparkle_animation = strength
 		golden_shine_animation = strength
 	elif action == "wind":
 		wind_animation = strength
 	queue_redraw()
+
+
+func _trigger_growth_milestone(stage: int) -> void:
+	if stage == celebrated_stage or stage in [PlantSimulation.Stage.EMPTY, PlantSimulation.Stage.GERMINATING, PlantSimulation.Stage.DEAD]:
+		return
+	celebrated_stage = stage
+	if seed_animation > 0.0:
+		pending_growth_stage = stage
+		return
+	var strength := 0.35 if reduced_motion else 1.0
+	growth_burst_animation = strength
+	golden_shine_animation = strength
+	action_pulse = strength
+	queue_redraw()
+
+
+func get_feedback_anchor() -> Vector2:
+	var geometry := _detail_planter_geometry()
+	if geometry.is_empty():
+		return Vector2(size.x * 0.5, DetailLayout.shelf_y(size) - 70.0)
+	var plant_rect: Rect2 = geometry.plant_rect
+	return Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.61)
 
 
 func play_ambient_event(event_name: String) -> void:
@@ -214,17 +270,10 @@ func _process(delta: float) -> void:
 				golden_shine_animation = 0.0
 				action_pulse = 1.0
 			else:
-				growth_burst_animation = 1.0
-				golden_shine_animation = 1.0
-				action_pulse = 1.0
+				_trigger_growth_milestone(current_stage)
 			observed_growth_percent = simulation.growth_percent
 			observed_stage = current_stage
-		elif observed_growth_percent >= 0.0 and simulation.growth_percent >= observed_growth_percent + 1.0:
-			growth_burst_animation = 1.0
-			golden_shine_animation = 1.0
-			action_pulse = 1.0
-			observed_growth_percent = simulation.growth_percent
-		elif simulation.growth_percent < observed_growth_percent:
+		elif simulation.growth_percent != observed_growth_percent:
 			observed_growth_percent = simulation.growth_percent
 		if simulation.is_growing() and not simulation.is_wilted() and not reduced_motion:
 			idle_event_elapsed += delta
@@ -238,6 +287,12 @@ func _process(delta: float) -> void:
 	var decay := 3.0 if reduced_motion else 1.0
 	action_pulse = maxf(0.0, action_pulse - delta * 2.8 * decay)
 	seed_animation = maxf(0.0, seed_animation - delta / (0.18 if reduced_motion else 1.55))
+	if seed_animation <= 0.0 and pending_growth_stage >= 0:
+		pending_growth_stage = -1
+		var strength := 0.35 if reduced_motion else 1.0
+		growth_burst_animation = strength
+		golden_shine_animation = strength
+		action_pulse = strength
 	water_animation = maxf(0.0, water_animation - delta * 1.4 * decay)
 	sparkle_animation = maxf(0.0, sparkle_animation - delta * 1.2 * decay)
 	growth_burst_animation = maxf(0.0, growth_burst_animation - delta * 1.25 * decay)
@@ -276,7 +331,7 @@ func _draw() -> void:
 func _detail_planter_geometry() -> Dictionary:
 	if simulation == null or _is_harvest_state(simulation.stage):
 		return {}
-	var seed_is_falling := simulation.stage == PlantSimulation.Stage.GERMINATING and seed_animation > 0.0 and not reduced_motion and 1.0 - seed_animation < 0.74
+	var seed_is_falling := seed_animation > 0.0 and not reduced_motion and 1.0 - seed_animation < 0.74
 	var texture := EmptyPotTexture if simulation.stage == PlantSimulation.Stage.EMPTY or seed_is_falling else _texture_for_simulation()
 	return DetailLayout.layout(texture, size)
 
@@ -496,9 +551,11 @@ func _draw_harvest_state(center: Vector2) -> void:
 			draw_circle(p + Vector2.from_angle(angle) * 34.0, 13.0, Color("#42b95c"), true, -1.0, true)
 
 
-func _get_water_drop_position(center: Vector2, index: int, phase: float) -> Vector2:
+func _get_water_drop_position(center: Vector2, index: int, phase: float, geometry: Dictionary = {}) -> Vector2:
 	if simulation == null:
 		return center
+	if geometry.is_empty():
+		geometry = _detail_planter_geometry()
 	var growth := clampf(simulation.growth_percent / 100.0, 0.0, 1.0)
 	var height := lerpf(6.0, 138.0, pow(growth, 0.72))
 	var sway := sin(animation_time * 1.8) * (2.0 + growth * 3.0)
@@ -506,10 +563,16 @@ func _get_water_drop_position(center: Vector2, index: int, phase: float) -> Vect
 		sway += 4.0
 	var half_width := lerpf(5.0, 22.0, growth)
 	var column_ratio := float(clampi(index, 0, 5)) / 5.0
-	var drop_x := center.x + sway + lerpf(-half_width, half_width, column_ratio)
+	var soil := center + Vector2(0.0, -27.0)
 	var plant_top_y := center.y - 20.0 - height
+	if not geometry.is_empty():
+		var plant_rect: Rect2 = geometry.plant_rect
+		soil = Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.61)
+		plant_top_y = plant_rect.position.y + plant_rect.size.y * 0.10
+		half_width = minf(22.0, plant_rect.size.x * 0.09)
+	var drop_x := soil.x + sway + lerpf(-half_width, half_width, column_ratio)
 	var drop_start_y := maxf(6.0, plant_top_y - 18.0)
-	var drop_end_y := center.y - 27.0
+	var drop_end_y := soil.y - 3.0
 	return Vector2(drop_x, lerpf(drop_start_y, drop_end_y, clampf(phase, 0.0, 1.0)))
 
 
@@ -519,9 +582,10 @@ func _draw_effects(center: Vector2) -> void:
 	if seed_animation > 0.0:
 		_draw_seed_planting(center)
 	if water_animation > 0.0:
+		var water_geometry := _detail_planter_geometry()
 		for index in range(6):
 			var phase := fmod(animation_time * 2.4 + index * 0.17, 1.0)
-			var p := _get_water_drop_position(center, index, phase)
+			var p := _get_water_drop_position(center, index, phase, water_geometry)
 			draw_circle(p + Vector2(1.0, 2.0), 5.2, Color(COMIC_INK, water_animation), true, -1.0, true)
 			draw_circle(p, 3.8, Color(COMIC_WATER, water_animation), true, -1.0, true)
 			draw_circle(p + Vector2(-1.2, -1.4), 1.25, Color(COMIC_WATER_HIGHLIGHT, water_animation), true, -1.0, true)
