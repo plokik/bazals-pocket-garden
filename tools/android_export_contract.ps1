@@ -72,8 +72,8 @@ function Assert-AndroidPresetSetContract {
     param(
         [Parameter(Mandatory = $true)][string]$ProjectRoot,
         [Parameter(Mandatory = $true)][string]$PresetName,
-        [string]$ExpectedVersionName = '0.70.0-rc60',
-        [int]$ExpectedVersionCode = 77,
+        [string]$ExpectedVersionName = '0.71.0-rc61',
+        [int]$ExpectedVersionCode = 78,
         [int]$ExpectedSaveSchema = 41
     )
 

@@ -7,6 +7,8 @@ Hratelné MVP mobilního pěstitelského simulátoru pro Android. Projekt použ�
 
 ## Co je hotové
 
+- RC61 (`0.71.0-rc61`, code 78, schema 41) přidává živý start hry s logem Bazala, animovaným načítáním, beruškami a přechodem mrakem do pokoje. Aktualizuje denní výzvu, herbář a detail rostliny, přidává animované zasazení semínka rukou a bezpečnou výměnu rostliny v květináči. Před release proběhlo 6 821 regresí; release kandidát dále ověřuje export, výkon, odolnost, postup a responzivní rozvržení. [Poznámky k vydání RC61](docs/RC61_RELEASE_NOTES.md).
+
 - RC60 (`0.70.0-rc60`, code 77, schema 41) vydává novou Cestu pěstitele s desetistupňovým kouzelným květem, obrazový skill tree Pěstitelského deníku a sjednocené malované UI napříč hrou. Prošlo 6 798 regresí, 34/34 obrazových bran, výkon, endurance, 132 progresních cyklů, 15/15 responzivních případů a ověřený ARM64 debug APK export. Fyzický audit právě tohoto APK a store AAB zůstávají otevřené. [Poznámky k vydání RC60](docs/RC60_RELEASE_NOTES.md).
 
 - Dne 9. 9. 2026 vzniklo menší preview: první dávka pěti QA/donor obrázků ušetřila přibližně 6,29 MiB bez změny zdrojových PNG; všech 297 zbývajících exportovaných textur má stejné bajty. Centrum péče už při dostatečném proudění správně doporučuje nechat mokrou půdu proschnout. Čistý import přes explicitní `--import`, 6 767 kontrol, 34/34 obrazových bran a skutečný APK export prošly. Finální APK má 216,80 MiB a původní debug podpis; do odpojeného telefonu se neinstalovalo. [Změny, měření a nové APK](docs/audit/20260909_POST_AUDIT_PRUNING.md).

@@ -7329,13 +7329,13 @@ func _test_phase125_rack_cleanup_and_player_settings() -> void:
 		"Historická Fáze 125 zůstává zdokumentovaná a navazující Phase183 má responzivní geometrii čtyřikonového doku"
 	)
 	_check(
-		"config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
-		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		"config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
+		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 125 zůstává zachovaná v navazujícím RC60 code 77 a projekt bezpečně používá save schema 41"
+		"Fáze 125 zůstává zachovaná v navazujícím RC61 code 78 a projekt bezpečně používá save schema 41"
 	)
 
 
@@ -7457,13 +7457,13 @@ func _test_phase126_garden_visual_camera() -> void:
 		"Stojan, pokoj a skleník sdílejí kamerový kontrakt; pokoj má report-only důkaz i samostatnou 360×800 responzivní bránu"
 	)
 	_check(
-		"config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
-		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		"config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
+		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 126 zůstává zachovaná v navazujícím RC60 code 77 se současným save schema 41"
+		"Fáze 126 zůstává zachovaná v navazujícím RC61 code 78 se současným save schema 41"
 	)
 
 
@@ -7542,10 +7542,10 @@ func _test_phase127_final_visual_system() -> void:
 		and FileAccess.get_sha256("res://assets/ui/greenhouse/greenhouse_interior_phase120.png") == "83c8a58cb3b775ddcb67f3b9a62f6abd2fcf2ee128db656d8431404dab03372b"
 		and FileAccess.get_sha256("res://assets/ui/visual/phase127/room_decor_atlas_v2.png") == "27eae4a9087b1a9c03ee2116d126408f7f434297fd273caee250ba3b4c71e991"
 		and FileAccess.get_sha256("res://assets/ui/visual/phase127/greenhouse_atlas_v1.png") == "f4f80d5a121978f6ff71b6ba94f6bdd098051c601d096335df2c483a8994da6a"
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 127 zachová původní pozadí a její kontrakt pokračuje v aktuální identitě RC60 code 77"
+		"Fáze 127 zachová původní pozadí a její kontrakt pokračuje v aktuální identitě RC61 code 78"
 	)
 
 
@@ -7604,10 +7604,10 @@ func _test_phase128_plants_style_parity() -> void:
 		and "rc60_runtime_baseline/reference_shop_v1.png" in visual_cases_source
 		and "rc60_runtime_baseline/reference_measurement_v1.png" in visual_cases_source
 		and "PHASE128_PLANTS_STYLE_PARITY=PREVIEW_AWAITING_ACCEPTANCE" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Fáze 128 zůstává zachovaná v navazujícím RC60 se současným save schema 41"
+		"Fáze 128 zůstává zachovaná v navazujícím RC61 se současným save schema 41"
 	)
 
 
@@ -9729,13 +9729,13 @@ func _test_phase157_responsive_detail_header() -> void:
 	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
 	var phase_doc := FileAccess.get_file_as_string("res://docs/PHASE157_ANDROID_DETAIL_HEADER_FIX.md")
 	_check(
-		"config/version=\"0.70.0-rc60\"" in project_source \
-		and preset_source.count("version/code=77") == 3 \
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2 \
-		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source \
+		"config/version=\"0.71.0-rc61\"" in project_source \
+		and preset_source.count("version/code=78") == 3 \
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2 \
+		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source \
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source \
 		and GameSession.SAVE_SCHEMA == 41,
-		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC60 bez migrace uložené hry"
+		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC61 bez migrace uložené hry"
 	)
 	_check(
 		"phase157_responsive_detail_header_v1" in main_source \
@@ -10706,10 +10706,10 @@ func _test_phase165_rc58_android_handoff() -> void:
 		)
 	_check(
 		phase_doc_valid
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
-		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
+		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
 		and GameSession.SAVE_SCHEMA == 41,
 		"Fáze 165 zavádí samostatnou RC58 identitu bez migrace save a odděluje technický Android PASS od lidské fyzické brány"
@@ -11063,13 +11063,13 @@ func _test_phase108_rc35_stabilization() -> void:
 	_check(
 		preset_source.count("gradle_build/min_sdk=\"24\"") == 3
 		and preset_source.count("gradle_build/target_sdk=\"36\"") == 3
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
-		and "version/name=\"0.70.0-rc60-emulator\"" in preset_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
+		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
-		and "config/version=\"0.70.0-rc60\"" in project_source
+		and "config/version=\"0.71.0-rc61\"" in project_source
 		and GameSession.SAVE_SCHEMA >= 39,
-		"Aktuální RC60 code 77 zachovává minSdk 24, targetSdk 36 a save schema 41"
+		"Aktuální RC61 code 78 zachovává minSdk 24, targetSdk 36 a save schema 41"
 	)
 
 
@@ -11605,10 +11605,10 @@ func _test_phase115_greenhouse_eggplant() -> void:
 		and "comic-greenhouse-eggplant-growing.png" in capture_source
 		and "comic-greenhouse-level4-compact.png" in capture_source
 		and "GREENHOUSE_EGGPLANT_SCHEMA" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2,
-		"Úroveň 5 odemkne lilek, UI má vlastní kresbu, capture oba report-only důkazy a aktuální RC60 metadata používají code 77"
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2,
+		"Úroveň 5 odemkne lilek, UI má vlastní kresbu, capture oba report-only důkazy a aktuální RC61 metadata používají code 78"
 	)
 	view.queue_free()
 
@@ -11811,11 +11811,11 @@ func _test_phase116_greenhouse_orders() -> void:
 		and 'str(payload.get("order_kind", "single")) == "greenhouse"' in main_source
 		and "comic-greenhouse-order-ready.png" in capture_source
 		and "GREENHOUSE_ORDER_SCHEMA = 35" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Runtime fáze 116 zůstává propojený a aktuální Android metadata bezpečně navazují RC60"
+		"Runtime fáze 116 zůstává propojený a aktuální Android metadata bezpečně navazují RC61"
 	)
 
 
@@ -11970,11 +11970,11 @@ func _test_phase117_greenhouse_quality_orders() -> void:
 	_check(
 		"comic-greenhouse-quality-order-ready.png" in capture_source
 		and "GREENHOUSE_QUALITY_ORDER_SCHEMA = 36" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Capture, dokumentace a všechny Android presety nesou jednotný kontrakt fáze 117 v aktuálním RC60"
+		"Capture, dokumentace a všechny Android presety nesou jednotný kontrakt fáze 117 v aktuálním RC61"
 	)
 
 
@@ -12172,11 +12172,11 @@ func _test_phase118_greenhouse_reputation() -> void:
 		"comic-greenhouse-reputation-progress.png" in capture_source
 		and "comic-greenhouse-reputation-master.png" in capture_source
 		and "GREENHOUSE_REPUTATION_SCHEMA = 37" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Capture a dokumentace zachovají fázi 118, zatímco aktuální projekt a Android presety bezpečně navazují RC60"
+		"Capture a dokumentace zachovají fázi 118, zatímco aktuální projekt a Android presety bezpečně navazují RC61"
 	)
 
 
@@ -12235,11 +12235,11 @@ func _test_phase119_global_swipe_navigation() -> void:
 		and "comic-swipe-transition-left.png" in capture_source
 		and "comic-swipe-transition-right.png" in capture_source
 		and "PHASE119_GLOBAL_SWIPE_NAVIGATION=" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Zdroj, report-only capture, dokumentace a Android presety zachovají kontrakt fáze 119 v navazujícím RC60"
+		"Zdroj, report-only capture, dokumentace a Android presety zachovají kontrakt fáze 119 v navazujícím RC61"
 	)
 
 
@@ -12274,11 +12274,11 @@ func _test_phase120_raised_greenhouse_visuals() -> void:
 		and "_draw_background_cover" in greenhouse_source
 		and "_draw_water_drop" in greenhouse_source
 		and "PHASE120_RAISED_GREENHOUSE_VISUALS=" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Originální pozadí, perspektivní kresba záhonů, dokumentace a Android presety tvoří jednotný kontrakt fáze 120 uchovaný v navazujícím RC60"
+		"Originální pozadí, perspektivní kresba záhonů, dokumentace a Android presety tvoří jednotný kontrakt fáze 120 uchovaný v navazujícím RC61"
 	)
 
 
@@ -12923,7 +12923,7 @@ func _test_phase50_android_audit_tooling() -> void:
 		and "AAB_PRIVACY_SDK_ALLOWLIST=PASSED" in aab_export_source
 		and "GODOT_ANDROID_EXPECTED_SIGNER_SHA256" in aab_export_source
 		and "AAB_SIGNER_IDENTITY_CHECK=PASSED" in aab_export_source,
-		"RC60 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně dvě oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
+		"RC61 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně dvě oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
 	)
 
 
@@ -13544,11 +13544,11 @@ func _test_phase121_swipe_transaction_guard() -> void:
 		and "phase121_deferred_release_v1" in main_source
 		and "button.pressed.connect(_on_guarded_action_pressed.bind(callback))" in main_source
 		and "PHASE121_SWIPE_TRANSACTION_GUARD=" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Fáze 121 váže akční tlačítka přes odloženou ochranu stejného release gesta a zůstává zachovaná v navazujícím RC60"
+		"Fáze 121 váže akční tlačítka přes odloženou ochranu stejného release gesta a zůstává zachovaná v navazujícím RC61"
 	)
 
 
@@ -13563,11 +13563,11 @@ func _test_phase122_vertical_scroll_transaction_guard() -> void:
 		and "touch_axis_lock != ScreenNavigationControllerScene.DRAG_AXIS_UNDECIDED" in main_source
 		and "var drag_action_suppressed := touch_axis_lock in [" in main_source
 		and "PHASE122_VERTICAL_SCROLL_TRANSACTION_GUARD=" in phase_doc
-		and "config/version=\"0.70.0-rc60\"" in project_source
-		and preset_source.count("version/code=77") == 3
-		and preset_source.count("version/name=\"0.70.0-rc60\"") == 2
+		and "config/version=\"0.71.0-rc61\"" in project_source
+		and preset_source.count("version/code=78") == 3
+		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source,
-		"Fáze 122 rozšíří ochranu akčních tlačítek na svislý drag a zachová ScrollContainer i samostatný následující tap v RC60"
+		"Fáze 122 rozšíří ochranu akčních tlačítek na svislý drag a zachová ScrollContainer i samostatný následující tap v RC61"
 	)
 
 
@@ -15067,7 +15067,7 @@ func _test_main_scene_smoke() -> void:
 		and instance.return_summary_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1"
 		and instance.save_recovery_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1"
 		and instance.save_failure_modal.get_meta("shared_modal_shell", "") == "painted_modal_shell_v1",
-		"RC60 sjednocuje starší blokující dialogy jednou malovanou modalovou kostrou bez změny jejich obsahu a ovládání"
+		"RC61 sjednocuje starší blokující dialogy jednou malovanou modalovou kostrou bez změny jejich obsahu a ovládání"
 	)
 	instance.settings_launcher_button.pressed.emit()
 	await process_frame
