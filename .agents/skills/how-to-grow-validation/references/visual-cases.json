@@ -236,8 +236,8 @@
     },
     {
       "id": "detail-realtime",
-      "description": "User-approved Phase 184 RC59 plant detail with the Phase 172 scale, saucer and sill grounding; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_detail-realtime_v1.png",
+      "description": "User-approved RC61 plant detail with the current painted scale, saucer and sill grounding; historical references remain preserved.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_detail-realtime_v1.png",
       "actual": "comic-detail-idle.png",
       "size": [
         432,
@@ -258,7 +258,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -360,8 +360,8 @@
     },
     {
       "id": "feedback-water",
-      "description": "User-approved Phase 184 RC59 watering feedback over the approved current plant detail; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-water_v1.png",
+      "description": "User-approved RC61 watering feedback over the current plant detail; historical references remain preserved.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_feedback-water_v1.png",
       "actual": "comic-feedback-water.png",
       "size": [
         432,
@@ -382,7 +382,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -391,8 +391,8 @@
     },
     {
       "id": "feedback-growth",
-      "description": "User-approved Phase 184 RC59 growth feedback over the approved current plant detail; the historical Phase 74 reference remains preserved.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_feedback-growth_v1.png",
+      "description": "User-approved RC61 growth feedback over the current plant detail; historical references remain preserved.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_feedback-growth_v1.png",
       "actual": "comic-feedback-growth.png",
       "size": [
         432,
@@ -413,7 +413,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -962,8 +962,8 @@
     },
     {
       "id": "phase151-detail-runtime-approved",
-      "description": "Exact Phase 184 RC59 dynamic Godot plant detail explicitly approved by the user with the current scale, saucer and sill grounding; the Phase 151 reference remains preserved.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase151-detail-runtime-approved_v1.png",
+      "description": "Exact RC61 dynamic Godot plant detail explicitly approved by the user; the Phase 151 reference remains preserved.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase151-detail-runtime-approved_v1.png",
       "actual": "comic-detail-idle.png",
       "size": [
         432,
@@ -984,7 +984,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -1086,8 +1086,8 @@
     },
     {
       "id": "phase155-herbarium-runtime-approved",
-      "description": "Exact dynamic Godot painted Herbarium render explicitly approved by the user after Phase 155 implementation.",
-      "reference": "assets/ui/comic/reference_phase155_herbarium_runtime_v1.png",
+      "description": "Exact dynamic Godot painted Herbarium render explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase155-herbarium-runtime-approved_v1.png",
       "actual": "comic-phase155-herbarium.png",
       "size": [
         432,
@@ -1108,6 +1108,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
@@ -1363,8 +1364,8 @@
     },
     {
       "id": "phase161-daily-challenge-active-runtime-approved",
-      "description": "Exact active Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png",
+      "description": "Exact active Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-active.png",
       "size": [
         432,
@@ -1394,8 +1395,8 @@
     },
     {
       "id": "phase161-daily-challenge-completed-runtime-approved",
-      "description": "Exact completed Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png",
+      "description": "Exact completed Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-completed.png",
       "size": [
         432,
@@ -1425,8 +1426,8 @@
     },
     {
       "id": "phase161-daily-challenge-ready-queue-full-runtime-approved",
-      "description": "Exact ready Daily Challenge with a full botanical-pack queue explicitly approved by the user.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png",
+      "description": "Exact ready Daily Challenge with a full botanical-pack queue explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-ready-queue-full.png",
       "size": [
         432,
@@ -1456,8 +1457,8 @@
     },
     {
       "id": "phase161-daily-challenge-claimed-runtime-approved",
-      "description": "Exact claimed Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png",
+      "description": "Exact claimed Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-claimed.png",
       "size": [
         432,
@@ -1487,8 +1488,8 @@
     },
     {
       "id": "phase161-daily-challenge-unavailable-runtime-approved",
-      "description": "Exact unavailable-target Daily Challenge Godot render explicitly approved by the user after Phase 161 implementation.",
-      "reference": "assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png",
+      "description": "Exact unavailable-target Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "reference": "assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png",
       "actual": "comic-phase161-daily-challenge-unavailable.png",
       "size": [
         432,
@@ -1540,7 +1541,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
+      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,
