@@ -343,7 +343,7 @@ func _validate_phase161_daily_challenge(instance, case_id: String) -> String:
 	if instance.daily_challenge_backdrop == null \
 			or instance.daily_challenge_backdrop.texture == null \
 			or not instance.daily_challenge_backdrop.is_visible_in_tree() \
-			or instance.daily_challenge_backdrop.get_meta("component", "") != "painted_daily_challenge_clean_backdrop_phase161_v1":
+			or instance.daily_challenge_backdrop.get_meta("component", "") != "painted_daily_challenge_illustration_v2":
 		return "%s lost the painted Phase 161 daily-challenge backdrop." % case_id
 	if instance.daily_challenge_title_label == null \
 			or instance.daily_challenge_title_label.text.is_empty() \
@@ -375,7 +375,7 @@ func _validate_phase161_daily_challenge(instance, case_id: String) -> String:
 			return "%s found a missing Phase 161 daily-challenge action." % case_id
 		if action.size.y < 56.0 or float(action.get_meta("touch_target_min_height", 0.0)) < 56.0:
 			return "%s found a Phase 161 action below the 56px mobile touch target." % case_id
-		if not bool(action.get_meta("phase161_uses_baked_painted_surface", false)):
+		if not bool(action.get_meta("daily_challenge_painted_button_v2", false)):
 			return "%s detached a Phase 161 action from its painted surface." % case_id
 	return ""
 
@@ -677,6 +677,13 @@ func _validate_phase155_herbarium(instance, case_id: String) -> String:
 			or close_hitbox == null or close_hitbox.size.y < 56.0 \
 			or bottom_close == null or bottom_close.size.y < 56.0:
 		return "%s found a Phase 155 action below the mobile touch target." % case_id
+	var page_frame := _find_component(instance.herbarium_modal, "painted_herbarium_page_frame_phase155_v1") as PanelContainer
+	if page_frame == null:
+		return "%s lost the herbarium page frame." % case_id
+	var page_interior := page_frame.get_global_rect().grow(-5.0)
+	if not page_interior.encloses(replay.get_global_rect()) \
+			or not page_interior.encloses(bottom_close.get_global_rect()):
+		return "%s placed a bottom herbarium action across the page frame." % case_id
 	return ""
 
 

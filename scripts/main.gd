@@ -241,8 +241,6 @@ var daily_challenge_claim_button: Button
 var botanical_pack_launcher_button: Button
 var daily_challenge_backdrop: TextureRect
 var daily_challenge_context_visual: DailyChallengeVisual
-var daily_challenge_action_state_overlay: PanelContainer
-var daily_challenge_claim_state_overlay: PanelContainer
 var daily_challenge_warning_label: Label
 var daily_challenge_close_button: Button
 var botanical_pack_modal: Control
@@ -292,8 +290,10 @@ var care_center_filter_button: Button
 var care_center_show_all := false
 var care_center_reminder_button: Button
 var care_center_notification_test_button: Button
+var care_center_return_button: Button
 var care_center_cards: Dictionary = {}
 var care_center_scroll: ScrollContainer
+var care_center_list: VBoxContainer
 var fast_time_guard_pending: Dictionary = {}
 var care_notification_test_pending := false
 var plant_diagnosis_modal: Control
@@ -360,6 +360,8 @@ var detail_dialog_reveal: Control
 var detail_dialog_toggle_button: Button
 var detail_dialog_info_icon: TextureRect
 var detail_dialog_open := false
+var harvest_beat_pending := false
+var harvest_journey_message := ""
 var detail_dialog_tween: Tween
 var professor_research_launcher_button: Button
 var professor_research_launcher_icon: TextureRect
@@ -408,6 +410,11 @@ var settings_modal: Control
 var settings_modal_open := false
 var seed_selector_modal: Control
 var seed_selector_open := false
+var seed_selector_replacing := false
+var pending_replacement_species_id := ""
+var seed_selector_title_label: Label
+var seed_selector_intro_label: Label
+var seed_selector_confirm_button: Button
 var seed_selector_basil_button: Button
 var seed_selector_mint_button: Button
 var seed_selector_rosemary_button: Button
@@ -452,6 +459,7 @@ var moisture_card: Label
 var health_card: Label
 var condition_card: Label
 var seed_button: Button
+var replace_plant_button: Button
 var water_button: Button
 var lamp_button: Button
 var fertilizer_button: Button
@@ -557,7 +565,10 @@ func _ready() -> void:
 	var returning_player := session.intro_completed
 	care_notification_service.enter_foreground()
 	_build_theme()
+	var startup_ui_started_ms := Time.get_ticks_msec()
 	_build_ui()
+	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
+		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
 	_apply_audio_settings()
 	session.event_created.connect(_show_dialog)
@@ -570,7 +581,16 @@ func _ready() -> void:
 	plant_view.set_simulation(session.plant)
 	room_overview.set_session(session)
 	_apply_motion_preference()
+	var startup_refresh_started_ms := Time.get_ticks_msec()
 	_refresh_ui()
+	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
+		print("STARTUP_REFRESH_UI_MS=%d" % (Time.get_ticks_msec() - startup_refresh_started_ms))
+	if get_tree().root.has_meta("startup_open_player_room"):
+		get_tree().root.remove_meta("startup_open_player_room")
+		_open_player_room()
+		if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
+			print("STARTUP_MAIN_READY_MS=%d" % (Time.get_ticks_msec() - int(get_tree().root.get_meta("startup_request_ms"))))
+		get_tree().root.remove_meta("startup_request_ms")
 	var needs_save_recovery := SaveManager.last_load_status in [SaveManager.STATUS_CORRUPT, SaveManager.STATUS_UNSUPPORTED, SaveManager.STATUS_BACKUP_READ_ONLY]
 	if needs_save_recovery:
 		call_deferred("_open_save_recovery")
@@ -1590,6 +1610,13 @@ func _build_garden_screen() -> Control:
 	growth_time_column.add_child(growth_time_value_label)
 	real_time_growth_presenter.bind(growth_time_title_label, growth_time_value_label)
 	plant_detail_panel.add_child(growth_time_panel)
+	replace_plant_button = _action_button("VYMĚNIT BYLINKU", _open_replace_plant_selector)
+	replace_plant_button.custom_minimum_size.y = 46
+	replace_plant_button.visible = false
+	replace_plant_button.set_meta("component", "replace_plant_action_v1")
+	replace_plant_button.set_meta("touch_target_min_height", 46)
+	TooltipPolicy.apply(replace_plant_button, "Vybrat nové semínko pro tento květináč")
+	plant_detail_panel.add_child(replace_plant_button)
 	preload("res://scripts/ui/plant_detail_study_skin.gd").apply(self)
 	return margin
 
@@ -2205,26 +2232,26 @@ func _build_seed_selector_modal() -> Control:
 	var banner := PanelContainer.new()
 	banner.custom_minimum_size.y = 74
 	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.BLUE, ComicUITheme.GOLD, 4, 16, Color("#08131e", 0.35), 4, 8.0))
-	var title := Label.new()
-	title.text = "CO BUDE RŮST?"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	title.add_theme_constant_override("outline_size", 2)
-	banner.add_child(title)
+	seed_selector_title_label = Label.new()
+	seed_selector_title_label.text = "CO BUDE RŮST?"
+	seed_selector_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	seed_selector_title_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	seed_selector_title_label.add_theme_font_override("font", FontExtraBold)
+	seed_selector_title_label.add_theme_font_size_override("font_size", 24)
+	seed_selector_title_label.add_theme_color_override("font_color", ComicUITheme.CREAM)
+	seed_selector_title_label.add_theme_color_override("font_outline_color", ComicUITheme.INK)
+	seed_selector_title_label.add_theme_constant_override("outline_size", 2)
+	banner.add_child(seed_selector_title_label)
 	column.add_child(banner)
 
-	var intro := Label.new()
-	intro.text = "Vyber semínko pro tento květináč. Každá bylinka má vlastní tempo, péči i cenu sklizně."
-	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	intro.add_theme_font_override("font", FontSemiBold)
-	intro.add_theme_font_size_override("font_size", 12)
-	intro.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(intro)
+	seed_selector_intro_label = Label.new()
+	seed_selector_intro_label.text = "Vyber semínko pro tento květináč. Každá bylinka má vlastní tempo, péči i cenu sklizně."
+	seed_selector_intro_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	seed_selector_intro_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	seed_selector_intro_label.add_theme_font_override("font", FontSemiBold)
+	seed_selector_intro_label.add_theme_font_size_override("font_size", 12)
+	seed_selector_intro_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
+	column.add_child(seed_selector_intro_label)
 
 	seed_selector_scroll = ScrollContainer.new()
 	seed_selector_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -2260,6 +2287,13 @@ func _build_seed_selector_modal() -> Control:
 	seed_selector_status_label.add_theme_font_size_override("font_size", 12)
 	seed_selector_status_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	column.add_child(seed_selector_status_label)
+	seed_selector_confirm_button = _action_button("POTVRDIT VÝMĚNU", _confirm_replace_plant)
+	seed_selector_confirm_button.custom_minimum_size.y = 58
+	seed_selector_confirm_button.visible = false
+	seed_selector_confirm_button.set_meta("component", "replace_plant_confirmation_v1")
+	seed_selector_confirm_button.set_meta("touch_target_min_height", 58)
+	ComicUITheme.apply_button(seed_selector_confirm_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 13)
+	column.add_child(seed_selector_confirm_button)
 
 	var close_button := Button.new()
 	close_button.text = "ZPĚT KE KVĚTINÁČI"
@@ -2302,25 +2336,78 @@ func _build_herbarium_modal() -> Control:
 	herbarium_backdrop.set_meta("component", "painted_herbarium_clean_backdrop_phase155_v1")
 	herbarium_backdrop.set_meta("phase155_runtime_set", VisualDesignSystem.HERBARIUM_PHASE155_RUNTIME_SET_ID)
 	overlay.add_child(herbarium_backdrop)
+	var outer_frame := PanelContainer.new()
+	_apply_hud_rect(outer_frame, Rect2(0.025, 0.025, 0.95, 0.96))
+	outer_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 4.0))
+	outer_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(outer_frame)
+	var page_frame := PanelContainer.new()
+	_apply_hud_rect(page_frame, Rect2(0.045, 0.045, 0.91, 0.92))
+	page_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	page_frame.set_meta("component", "painted_herbarium_page_frame_phase155_v1")
+	page_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(page_frame)
+	var header_frame := PanelContainer.new()
+	_apply_hud_rect(header_frame, Rect2(0.065, 0.062, 0.87, 0.083))
+	header_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 4.0))
+	header_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(header_frame)
+	var collection_frame := PanelContainer.new()
+	_apply_hud_rect(collection_frame, Rect2(0.07, 0.155, 0.42, 0.078))
+	collection_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	collection_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(collection_frame)
+	var mastery_frame := PanelContainer.new()
+	_apply_hud_rect(mastery_frame, Rect2(0.51, 0.155, 0.42, 0.078))
+	mastery_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	mastery_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(mastery_frame)
+	var status_frame := PanelContainer.new()
+	_apply_hud_rect(status_frame, Rect2(0.07, 0.812, 0.86, 0.056))
+	status_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	status_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(status_frame)
 	var title := Label.new()
-	title.text = "BYLINKOVÝ\nHERBÁŘ"
-	_apply_hud_rect(title, Rect2(0.18, 0.035, 0.62, 0.105))
+	title.text = "BYLINKOVÝ HERBÁŘ"
+	_apply_hud_rect(title, Rect2(0.18, 0.076, 0.61, 0.052))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 25)
-	title.add_theme_color_override("font_color", Color("#482514"))
-	title.add_theme_color_override("font_outline_color", Color("#fff0bd", 0.72))
-	title.add_theme_constant_override("outline_size", 2)
+	title.add_theme_font_size_override("font_size", 18)
+	title.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	title.set_meta("component", "painted_herbarium_dynamic_title_phase155_v1")
 	overlay.add_child(title)
-	var top_close := _action_button("", _close_herbarium)
-	_apply_hud_rect(top_close, Rect2(0.82, 0.022, 0.145, 0.075))
+	var title_icon := TextureRect.new()
+	_apply_hud_rect(title_icon, Rect2(0.098, 0.077, 0.075, 0.051))
+	title_icon.texture = PaintedDetailArt.texture("book")
+	title_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	title_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	title_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(title_icon)
+	var top_close := _action_button("×", _close_herbarium)
+	_apply_hud_rect(top_close, Rect2(0.805, 0.073, 0.105, 0.061))
+	top_close.offset_left = -14.0
+	top_close.offset_right = -14.0
+	top_close.offset_top = -4.0
+	top_close.offset_bottom = -4.0
 	top_close.custom_minimum_size = Vector2(58, 58)
 	top_close.set_meta("touch_target_min_height", 58)
 	top_close.set_meta("component", "painted_herbarium_close_hitbox_phase155_v1")
+	top_close.add_theme_font_override("font", FontExtraBold)
+	top_close.add_theme_font_size_override("font_size", 22)
+	top_close.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		top_close.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	var close_icon := PanelContainer.new()
+	close_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	close_icon.offset_left = 7.0
+	close_icon.offset_top = 7.0
+	close_icon.offset_right = -7.0
+	close_icon.offset_bottom = -7.0
+	close_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	close_icon.show_behind_parent = true
+	close_icon.add_theme_stylebox_override("panel", PaintedDetailArt.box("teal", 4.0))
+	top_close.add_child(close_icon)
 	overlay.add_child(top_close)
 	herbarium_summary_label = Label.new()
 	_apply_hud_rect(herbarium_summary_label, Rect2(0.13, 0.145, 0.74, 0.076))
@@ -2336,30 +2423,28 @@ func _build_herbarium_modal() -> Control:
 	herbarium_summary_label.set_meta("component", "herbarium_summary_compatibility_data_v1")
 	overlay.add_child(herbarium_summary_label)
 	herbarium_collection_summary_label = _phase155_herbarium_summary_label()
-	_apply_hud_rect(herbarium_collection_summary_label, Rect2(0.155, 0.146, 0.31, 0.075))
+	_apply_hud_rect(herbarium_collection_summary_label, Rect2(0.09, 0.164, 0.38, 0.059))
 	herbarium_collection_summary_label.set_meta("component", "painted_herbarium_collection_summary_phase155_v1")
 	overlay.add_child(herbarium_collection_summary_label)
 	herbarium_mastery_summary_label = _phase155_herbarium_summary_label()
-	_apply_hud_rect(herbarium_mastery_summary_label, Rect2(0.535, 0.146, 0.31, 0.075))
+	_apply_hud_rect(herbarium_mastery_summary_label, Rect2(0.53, 0.164, 0.38, 0.059))
 	herbarium_mastery_summary_label.set_meta("component", "painted_herbarium_mastery_summary_phase155_v1")
 	overlay.add_child(herbarium_mastery_summary_label)
-	var replay_handover_button := _action_button("PŘEHRÁT PŘEDÁNÍ ZAHRADY", _open_garden_handover_replay)
-	_apply_hud_rect(replay_handover_button, Rect2(0.16, 0.208, 0.68, 0.075))
+	var replay_handover_button := _action_button("PŘEDÁNÍ ZAHRADY", _open_garden_handover_replay)
+	_apply_hud_rect(replay_handover_button, Rect2(0.09, 0.878, 0.39, 0.064))
 	replay_handover_button.custom_minimum_size.y = 60
 	replay_handover_button.set_meta("component", "herbarium_handover_replay_v1")
 	replay_handover_button.set_meta("phase155_component", "painted_handover_recess_action_v1")
 	replay_handover_button.set_meta("touch_target_min_height", 60)
 	replay_handover_button.add_theme_font_override("font", FontExtraBold)
-	replay_handover_button.add_theme_font_size_override("font_size", 11)
-	replay_handover_button.add_theme_color_override("font_color", Color("#fff2c4"))
-	replay_handover_button.add_theme_color_override("font_outline_color", Color("#321508"))
-	replay_handover_button.add_theme_constant_override("outline_size", 3)
+	replay_handover_button.add_theme_font_size_override("font_size", 9)
+	replay_handover_button.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
-		replay_handover_button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+		replay_handover_button.add_theme_stylebox_override(state, PaintedDetailArt.box("teal", 4.0))
 	herbarium_replay_from_garden_handover_button = replay_handover_button
 	overlay.add_child(replay_handover_button)
 	herbarium_scroll = ScrollContainer.new()
-	_apply_hud_rect(herbarium_scroll, Rect2(0.115, 0.285, 0.785, 0.545))
+	_apply_hud_rect(herbarium_scroll, Rect2(0.075, 0.253, 0.85, 0.54))
 	herbarium_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	herbarium_scroll.set_meta("mobile_scroll", true)
 	herbarium_scroll.set_meta("component", "painted_herbarium_species_scroll_phase155_v1")
@@ -2368,38 +2453,38 @@ func _build_herbarium_modal() -> Control:
 	herbarium_scroll.add_theme_stylebox_override("scroll", ComicUITheme.style_box(Color("#6f431e", 0.48), Color("#3a1d0b", 0.72), 1, 6))
 	herbarium_scroll.add_theme_stylebox_override("grabber", ComicUITheme.style_box(Color("#5d8b2f"), Color("#2f4d19"), 1, 6))
 	overlay.add_child(herbarium_scroll)
+	var list_inset := MarginContainer.new()
+	list_inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list_inset.add_theme_constant_override("margin_right", 4)
+	herbarium_scroll.add_child(list_inset)
 	var list := VBoxContainer.new()
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation", 12)
-	herbarium_scroll.add_child(list)
+	list.add_theme_constant_override("separation", 9)
+	list_inset.add_child(list)
 	for species_id in session.get_collection_species_ids():
 		list.add_child(_build_herbarium_card(species_id))
 	_configure_mobile_scroll(herbarium_scroll, list, "herbarium")
 	herbarium_status_label = Label.new()
-	_apply_hud_rect(herbarium_status_label, Rect2(0.13, 0.835, 0.74, 0.052))
+	_apply_hud_rect(herbarium_status_label, Rect2(0.09, 0.815, 0.82, 0.05))
 	herbarium_status_label.custom_minimum_size.y = 40
 	herbarium_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	herbarium_status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	herbarium_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	herbarium_status_label.add_theme_font_override("font", FontSemiBold)
 	herbarium_status_label.add_theme_font_size_override("font_size", 10)
-	herbarium_status_label.add_theme_color_override("font_color", Color("#4a2916"))
-	herbarium_status_label.add_theme_color_override("font_outline_color", Color("#fff0bd", 0.62))
-	herbarium_status_label.add_theme_constant_override("outline_size", 2)
+	herbarium_status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	herbarium_status_label.set_meta("component", "painted_herbarium_dynamic_status_phase155_v1")
 	overlay.add_child(herbarium_status_label)
-	var close_button := _action_button("ZAVŘÍT HERBÁŘ", _close_herbarium)
-	_apply_hud_rect(close_button, Rect2(0.175, 0.892, 0.65, 0.085))
-	close_button.custom_minimum_size.y = 68
-	close_button.set_meta("touch_target_min_height", 68)
+	var close_button := _action_button("ZAVŘÍT", _close_herbarium)
+	_apply_hud_rect(close_button, Rect2(0.52, 0.878, 0.39, 0.064))
+	close_button.custom_minimum_size.y = 60
+	close_button.set_meta("touch_target_min_height", 60)
 	close_button.set_meta("component", "painted_herbarium_bottom_close_phase155_v1")
 	close_button.add_theme_font_override("font", FontExtraBold)
-	close_button.add_theme_font_size_override("font_size", 16)
-	close_button.add_theme_color_override("font_color", Color("#fff2c4"))
-	close_button.add_theme_color_override("font_outline_color", Color("#20330f"))
-	close_button.add_theme_constant_override("outline_size", 3)
+	close_button.add_theme_font_size_override("font_size", 11)
+	close_button.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
-		close_button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+		close_button.add_theme_stylebox_override(state, PaintedDetailArt.box("sage", 4.0))
 	overlay.add_child(close_button)
 	herbarium_presenter.bind(herbarium_summary_label, herbarium_status_label, herbarium_cards, herbarium_collection_summary_label, herbarium_mastery_summary_label)
 	return overlay
@@ -2431,170 +2516,194 @@ func _build_daily_challenge_modal() -> Control:
 	overlay.set_meta("covers_full_viewport", true)
 	overlay.set_meta("phase161_runtime_set", VisualDesignSystem.DAILY_CHALLENGE_PHASE161_RUNTIME_SET_ID)
 	overlay.set_meta("phase161_scene_profile", VisualDesignSystem.DAILY_CHALLENGE_PHASE161_SCENE_PROFILE_ID)
-	overlay.set_meta("phase161_layer_policy", "clean_painted_plate_dynamic_text_buttons_and_context_effects_v1")
+	overlay.set_meta("phase161_layer_policy", "painted_cards_dynamic_text_buttons_and_context_effects_v2")
 	var scrim := ColorRect.new()
 	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#061923", 0.88)
+	scrim.color = Color("#102818", 0.82)
 	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	scrim.set_meta("component", "phase161_live_game_scrim_v1")
 	overlay.add_child(scrim)
+	var wood_frame := PanelContainer.new()
+	_apply_hud_rect(wood_frame, Rect2(0.035, 0.045, 0.93, 0.89))
+	wood_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("wood", 4.0))
+	wood_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(wood_frame)
+	var paper_frame := PanelContainer.new()
+	_apply_hud_rect(paper_frame, Rect2(0.052, 0.058, 0.896, 0.864))
+	paper_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	paper_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(paper_frame)
+	var header_frame := PanelContainer.new()
+	_apply_hud_rect(header_frame, Rect2(0.068, 0.076, 0.864, 0.076))
+	header_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 4.0))
+	header_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(header_frame)
+	var weather_frame := PanelContainer.new()
+	_apply_hud_rect(weather_frame, Rect2(0.075, 0.164, 0.85, 0.053))
+	weather_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
+	weather_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(weather_frame)
+	var mission_frame := PanelContainer.new()
+	_apply_hud_rect(mission_frame, Rect2(0.075, 0.225, 0.85, 0.15))
+	mission_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 5.0))
+	mission_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(mission_frame)
+	var illustration_frame := PanelContainer.new()
+	_apply_hud_rect(illustration_frame, Rect2(0.075, 0.383, 0.85, 0.219))
+	illustration_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 5.0))
+	illustration_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(illustration_frame)
 	daily_challenge_backdrop = TextureRect.new()
-	_apply_hud_rect(daily_challenge_backdrop, Rect2(0.0, 0.035, 1.0, 0.895))
-	daily_challenge_backdrop.texture = Phase161DailyChallengeBackdrop
+	_apply_hud_rect(daily_challenge_backdrop, Rect2(0.091, 0.393, 0.818, 0.199))
+	var illustration_atlas := AtlasTexture.new()
+	illustration_atlas.atlas = Phase161DailyChallengeBackdrop
+	illustration_atlas.region = Rect2(88.0, 515.0, 677.0, 570.0)
+	daily_challenge_backdrop.texture = illustration_atlas
 	daily_challenge_backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	daily_challenge_backdrop.stretch_mode = TextureRect.STRETCH_SCALE
+	daily_challenge_backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	daily_challenge_backdrop.clip_contents = true
 	daily_challenge_backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	daily_challenge_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	daily_challenge_backdrop.set_meta("component", "painted_daily_challenge_clean_backdrop_phase161_v1")
-	daily_challenge_backdrop.set_meta("source_pixel_policy", "neutral_clean_plate_no_baked_text_values_or_hud_v1")
+	daily_challenge_backdrop.set_meta("component", "painted_daily_challenge_illustration_v2")
+	daily_challenge_backdrop.set_meta("source_pixel_policy", "runtime_cropped_from_unchanged_phase161_painting_v2")
 	overlay.add_child(daily_challenge_backdrop)
 
 	var banner_title := Label.new()
 	banner_title.text = "DENNÍ VÝZVA"
-	_apply_hud_rect(banner_title, Rect2(0.105, 0.091, 0.79, 0.068))
+	_apply_hud_rect(banner_title, Rect2(0.17, 0.088, 0.66, 0.054))
 	banner_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	banner_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	banner_title.add_theme_font_override("font", FontExtraBold)
-	banner_title.add_theme_font_size_override("font_size", 23)
-	banner_title.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	banner_title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	banner_title.add_theme_constant_override("outline_size", 3)
+	banner_title.add_theme_font_size_override("font_size", 21)
+	banner_title.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	banner_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	banner_title.set_meta("component", "painted_daily_challenge_dynamic_header_phase161_v1")
 	overlay.add_child(banner_title)
+	var header_leaf := TextureRect.new()
+	_apply_hud_rect(header_leaf, Rect2(0.099, 0.091, 0.065, 0.047))
+	header_leaf.texture = PaintedDetailArt.texture("leaf")
+	header_leaf.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	header_leaf.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	header_leaf.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(header_leaf)
 
 	daily_challenge_weather_label = Label.new()
-	_apply_hud_rect(daily_challenge_weather_label, Rect2(0.105, 0.166, 0.79, 0.043))
+	_apply_hud_rect(daily_challenge_weather_label, Rect2(0.094, 0.173, 0.812, 0.034))
 	daily_challenge_weather_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	daily_challenge_weather_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	daily_challenge_weather_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	daily_challenge_weather_label.max_lines_visible = 2
 	daily_challenge_weather_label.add_theme_font_override("font", FontExtraBold)
-	daily_challenge_weather_label.add_theme_font_size_override("font_size", 12)
+	daily_challenge_weather_label.add_theme_font_size_override("font_size", 11)
 	daily_challenge_weather_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	daily_challenge_weather_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	daily_challenge_weather_label.set_meta("component", "painted_daily_challenge_dynamic_weather_phase161_v1")
 	overlay.add_child(daily_challenge_weather_label)
 
 	daily_challenge_title_label = Label.new()
-	_apply_hud_rect(daily_challenge_title_label, Rect2(0.11, 0.218, 0.78, 0.041))
+	_apply_hud_rect(daily_challenge_title_label, Rect2(0.103, 0.237, 0.794, 0.048))
 	daily_challenge_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	daily_challenge_title_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	daily_challenge_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	daily_challenge_title_label.max_lines_visible = 2
 	daily_challenge_title_label.add_theme_font_override("font", FontExtraBold)
-	daily_challenge_title_label.add_theme_font_size_override("font_size", 18)
-	daily_challenge_title_label.add_theme_color_override("font_color", ComicUITheme.PURPLE)
-	daily_challenge_title_label.add_theme_color_override("font_outline_color", Color("#fff4c8", 0.76))
-	daily_challenge_title_label.add_theme_constant_override("outline_size", 2)
+	daily_challenge_title_label.add_theme_font_size_override("font_size", 17)
+	daily_challenge_title_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	daily_challenge_title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(daily_challenge_title_label)
 
 	daily_challenge_body_label = Label.new()
-	_apply_hud_rect(daily_challenge_body_label, Rect2(0.105, 0.258, 0.79, 0.058))
+	_apply_hud_rect(daily_challenge_body_label, Rect2(0.11, 0.284, 0.78, 0.055))
 	daily_challenge_body_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	daily_challenge_body_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	daily_challenge_body_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	daily_challenge_body_label.max_lines_visible = 4
 	daily_challenge_body_label.add_theme_font_override("font", FontSemiBold)
-	daily_challenge_body_label.add_theme_font_size_override("font_size", 10)
+	daily_challenge_body_label.add_theme_font_size_override("font_size", 11)
 	daily_challenge_body_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	daily_challenge_body_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(daily_challenge_body_label)
 
 	daily_challenge_status_label = Label.new()
-	_apply_hud_rect(daily_challenge_status_label, Rect2(0.14, 0.300, 0.72, 0.035))
+	_apply_hud_rect(daily_challenge_status_label, Rect2(0.16, 0.34, 0.68, 0.028))
 	daily_challenge_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	daily_challenge_status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	daily_challenge_status_label.add_theme_font_override("font", FontExtraBold)
-	daily_challenge_status_label.add_theme_font_size_override("font_size", 12)
+	daily_challenge_status_label.add_theme_font_size_override("font_size", 11)
 	daily_challenge_status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	daily_challenge_status_label.add_theme_color_override("font_outline_color", Color("#fff4c8", 0.94))
-	daily_challenge_status_label.add_theme_constant_override("outline_size", 3)
 	daily_challenge_status_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(daily_challenge_status_label)
 
 	daily_challenge_context_visual = DailyChallengeVisualScene.new()
-	_apply_hud_rect(daily_challenge_context_visual, Rect2(0.105, 0.345, 0.79, 0.225))
+	_apply_hud_rect(daily_challenge_context_visual, Rect2(0.091, 0.393, 0.818, 0.199))
 	daily_challenge_context_visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	daily_challenge_context_visual.set_meta("phase161_layer_role", "dynamic_challenge_and_weather_context_only_v1")
 	overlay.add_child(daily_challenge_context_visual)
 
-	daily_challenge_action_state_overlay = _phase161_daily_state_overlay(Rect2(0.097, 0.579, 0.806, 0.066), Color("#667176", 0.54), "action_disabled")
-	overlay.add_child(daily_challenge_action_state_overlay)
 	daily_challenge_action_button = _action_button("OTEVŘÍT ÚKOL", _on_daily_challenge_action_requested)
-	_apply_hud_rect(daily_challenge_action_button, Rect2(0.075, 0.575, 0.85, 0.073))
+	_apply_hud_rect(daily_challenge_action_button, Rect2(0.075, 0.615, 0.85, 0.073))
 	daily_challenge_action_button.custom_minimum_size.y = 64
 	daily_challenge_action_button.set_meta("touch_target_min_height", 64)
-	_phase161_prepare_painted_button(daily_challenge_action_button, 13, ComicUITheme.CREAM, "action")
+	_phase161_prepare_painted_button(daily_challenge_action_button, 13, ComicUITheme.NAVY, "action")
 	overlay.add_child(daily_challenge_action_button)
 
-	daily_challenge_claim_state_overlay = _phase161_daily_state_overlay(Rect2(0.097, 0.648, 0.806, 0.067), Color("#63c73f", 0.48), "claim_ready")
-	overlay.add_child(daily_challenge_claim_state_overlay)
 	daily_challenge_claim_button = _action_button("VYZVEDNOUT ODMĚNU\n12 MINCÍ · 10 XP · 1 BALÍČEK", _on_daily_reward_claimed)
-	_apply_hud_rect(daily_challenge_claim_button, Rect2(0.075, 0.642, 0.85, 0.079))
+	_apply_hud_rect(daily_challenge_claim_button, Rect2(0.075, 0.697, 0.85, 0.075))
 	daily_challenge_claim_button.custom_minimum_size.y = 68
 	daily_challenge_claim_button.set_meta("touch_target_min_height", 68)
-	_phase161_prepare_painted_button(daily_challenge_claim_button, 10, ComicUITheme.CREAM, "claim")
+	_phase161_prepare_painted_button(daily_challenge_claim_button, 11, ComicUITheme.NAVY, "claim")
 	overlay.add_child(daily_challenge_claim_button)
 
-	botanical_pack_launcher_button = _action_button("BOTANICKÉ BALÍČKY", _open_botanical_pack)
-	_apply_hud_rect(botanical_pack_launcher_button, Rect2(0.075, 0.711, 0.85, 0.074))
+	botanical_pack_launcher_button = _action_button("BALÍČKY", _open_botanical_pack)
+	_apply_hud_rect(botanical_pack_launcher_button, Rect2(0.075, 0.782, 0.41, 0.075))
 	botanical_pack_launcher_button.custom_minimum_size.y = 64
 	botanical_pack_launcher_button.set_meta("component", "botanical_pack_daily_launcher_v1")
 	botanical_pack_launcher_button.set_meta("touch_target_min_height", 64)
-	_phase161_prepare_painted_button(botanical_pack_launcher_button, 12, ComicUITheme.CREAM, "botanical_packs")
+	_phase161_prepare_painted_button(botanical_pack_launcher_button, 10, ComicUITheme.NAVY, "botanical_packs")
 	overlay.add_child(botanical_pack_launcher_button)
 
 	daily_challenge_warning_label = Label.new()
-	_apply_hud_rect(daily_challenge_warning_label, Rect2(0.105, 0.786, 0.79, 0.054))
-	daily_challenge_warning_label.text = "Denní úkol se mění jednou za skutečný den.\nHotovou odměnu proto vyzvedni včas."
+	_apply_hud_rect(daily_challenge_warning_label, Rect2(0.085, 0.865, 0.83, 0.045))
+	daily_challenge_warning_label.text = "Výzva se mění každý den. Odměnu vyzvedni včas."
 	daily_challenge_warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	daily_challenge_warning_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	daily_challenge_warning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	daily_challenge_warning_label.max_lines_visible = 2
 	daily_challenge_warning_label.add_theme_font_override("font", FontSemiBold)
-	daily_challenge_warning_label.add_theme_font_size_override("font_size", 9)
+	daily_challenge_warning_label.add_theme_font_size_override("font_size", 10)
 	daily_challenge_warning_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	daily_challenge_warning_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	daily_challenge_warning_label.set_meta("component", "painted_daily_challenge_warning_phase161_v1")
 	overlay.add_child(daily_challenge_warning_label)
 
-	daily_challenge_close_button = _action_button("ZPĚT DO ZAHRADY", _close_daily_challenge)
-	_apply_hud_rect(daily_challenge_close_button, Rect2(0.075, 0.842, 0.85, 0.077))
+	daily_challenge_close_button = _action_button("ZPĚT", _close_daily_challenge)
+	_apply_hud_rect(daily_challenge_close_button, Rect2(0.515, 0.782, 0.41, 0.075))
 	daily_challenge_close_button.custom_minimum_size.y = 64
 	daily_challenge_close_button.set_meta("touch_target_min_height", 64)
-	_phase161_prepare_painted_button(daily_challenge_close_button, 13, ComicUITheme.CREAM, "close")
+	_phase161_prepare_painted_button(daily_challenge_close_button, 11, ComicUITheme.NAVY, "close")
 	overlay.add_child(daily_challenge_close_button)
 	daily_challenge_presenter.bind(daily_challenge_weather_label, daily_challenge_title_label, daily_challenge_body_label, daily_challenge_status_label, daily_challenge_action_button, daily_challenge_claim_button)
 	return overlay
 
 
-func _phase161_daily_state_overlay(rect: Rect2, color: Color, role: String) -> PanelContainer:
-	var panel := PanelContainer.new()
-	_apply_hud_rect(panel, rect)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.visible = false
-	panel.add_theme_stylebox_override("panel", ComicUITheme.style_box(color, Color(color, 0.0), 0, 12, Color.TRANSPARENT, 0, 0.0))
-	panel.set_meta("component", "painted_daily_challenge_state_tint_phase161_v1")
-	panel.set_meta("state_role", role)
-	return panel
-
-
 func _phase161_prepare_painted_button(button: Button, font_size: int, font_color: Color, role: String) -> void:
+	var box_kind := "cream"
+	if role == "action":
+		box_kind = "teal"
+	elif role == "claim":
+		box_kind = "sage"
 	button.add_theme_font_override("font", FontExtraBold)
 	button.add_theme_font_size_override("font_size", font_size)
 	button.add_theme_color_override("font_color", font_color)
 	button.add_theme_color_override("font_hover_color", font_color)
 	button.add_theme_color_override("font_pressed_color", font_color)
 	button.add_theme_color_override("font_focus_color", font_color)
-	button.add_theme_color_override("font_disabled_color", Color("#fff2c4", 0.88))
-	button.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	button.add_theme_constant_override("outline_size", 2)
-	button.set_meta("phase161_uses_baked_painted_surface", true)
+	button.add_theme_color_override("font_disabled_color", Color("#495747"))
+	button.add_theme_constant_override("outline_size", 0)
+	button.set_meta("daily_challenge_painted_button_v2", true)
 	button.set_meta("phase161_button_role", role)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
-		button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+		button.add_theme_stylebox_override(state, PaintedDetailArt.box(box_kind if state != "disabled" else "cream", 4.0))
 
 
 func _build_botanical_pack_modal() -> Control:
@@ -2843,7 +2952,7 @@ func _build_level_progression_modal() -> Control:
 	level_progression_xp_progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	level_progression_xp_progress.min_value = 0
 	level_progression_xp_progress.max_value = 100
-	level_progression_xp_progress.show_percentage = true
+	level_progression_xp_progress.show_percentage = false
 	level_progression_xp_progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	level_progression_xp_progress.add_theme_font_override("font", FontExtraBold)
 	level_progression_xp_progress.add_theme_font_size_override("font_size", 10)
@@ -2942,7 +3051,7 @@ func _build_level_progression_card(reward_level: int) -> Control:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 9)
+	title.add_theme_font_size_override("font_size", 17)
 	title.add_theme_constant_override("line_spacing", -1)
 	title.add_theme_color_override("font_color", ComicUITheme.INK)
 	badge.add_child(title)
@@ -3325,13 +3434,11 @@ func _build_care_center_modal() -> Control:
 	care_center_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	care_center_scroll.set_meta("mobile_scroll", true)
 	column.add_child(care_center_scroll)
-	var list := VBoxContainer.new()
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.add_theme_constant_override("separation", 9)
-	care_center_scroll.add_child(list)
-	for slot_index in range(GameSession.MAX_PLANT_SLOTS):
-		list.add_child(_build_care_center_card(slot_index))
-	_configure_mobile_scroll(care_center_scroll, list, "care_center")
+	care_center_list = VBoxContainer.new()
+	care_center_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	care_center_list.add_theme_constant_override("separation", 9)
+	care_center_scroll.add_child(care_center_list)
+	_configure_mobile_scroll(care_center_scroll, care_center_list, "care_center")
 	var status_panel := PanelContainer.new()
 	status_panel.custom_minimum_size.y = 46
 	status_panel.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 4.0))
@@ -3352,7 +3459,6 @@ func _build_care_center_modal() -> Control:
 	care_center_reminder_button.set_meta("reminder_scope", "in_app_only_v1")
 	care_center_reminder_button.add_theme_font_override("font", FontExtraBold)
 	care_center_reminder_button.add_theme_font_size_override("font_size", 11)
-	care_center_reminder_button.icon = CareCenterPaintedArt.texture("reminder")
 	care_center_reminder_button.expand_icon = true
 	care_center_reminder_button.add_theme_constant_override("icon_max_width", 36)
 	column.add_child(care_center_reminder_button)
@@ -3363,21 +3469,19 @@ func _build_care_center_modal() -> Control:
 	care_center_notification_test_button.set_meta("touch_target_min_height", 56)
 	care_center_notification_test_button.add_theme_font_override("font", FontExtraBold)
 	care_center_notification_test_button.add_theme_font_size_override("font_size", 11)
-	care_center_notification_test_button.icon = CareCenterPaintedArt.texture("reminder")
 	care_center_notification_test_button.expand_icon = true
 	care_center_notification_test_button.add_theme_constant_override("icon_max_width", 36)
 	ComicUITheme.apply_button(care_center_notification_test_button, ComicUITheme.ORANGE, ComicUITheme.CREAM, 11)
 	column.add_child(care_center_notification_test_button)
-	var close_button := _action_button("ZPĚT DO ZAHRADY", _close_care_center)
-	close_button.custom_minimum_size.y = 64
-	close_button.set_meta("touch_target_min_height", 64)
-	close_button.add_theme_font_override("font", FontExtraBold)
-	close_button.add_theme_font_size_override("font_size", 15)
-	close_button.icon = CareCenterPaintedArt.texture("return_pot")
-	close_button.expand_icon = true
-	close_button.add_theme_constant_override("icon_max_width", 40)
-	ComicUITheme.apply_button(close_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 15)
-	column.add_child(close_button)
+	care_center_return_button = _action_button("ZPĚT DO ZAHRADY", _close_care_center)
+	care_center_return_button.custom_minimum_size.y = 64
+	care_center_return_button.set_meta("touch_target_min_height", 64)
+	care_center_return_button.add_theme_font_override("font", FontExtraBold)
+	care_center_return_button.add_theme_font_size_override("font_size", 15)
+	care_center_return_button.expand_icon = true
+	care_center_return_button.add_theme_constant_override("icon_max_width", 40)
+	ComicUITheme.apply_button(care_center_return_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 15)
+	column.add_child(care_center_return_button)
 	care_center_presenter.bind(care_center_summary_label, care_center_status_label, care_center_reminder_button, care_center_cards)
 	return overlay
 
@@ -3948,21 +4052,21 @@ func _build_herbarium_card(species_id: String) -> Control:
 	var plant_profile := session.get_plant_profile(species_id)
 	var accent := _species_accent(species_id)
 	var card := PanelContainer.new()
-	card.custom_minimum_size.y = 382
-	card.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#fff0c0", 0.965), Color("#754719"), 3, 14, Color("#2b1408", 0.42), 5, 7.0))
+	card.custom_minimum_size.y = 374
+	card.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 12.0))
 	card.set_meta("species_id", species_id)
 	card.set_meta("component", "herbarium_species_mastery_card_v1")
 	card.set_meta("phase155_component", "painted_dynamic_species_page_v1")
 	card.set_meta("phase155_runtime_set", VisualDesignSystem.HERBARIUM_PHASE155_RUNTIME_SET_ID)
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 7)
+	column.add_theme_constant_override("separation", 8)
 	card.add_child(column)
 	var hero := HBoxContainer.new()
 	hero.add_theme_constant_override("separation", 9)
 	column.add_child(hero)
 	var icon_frame := PanelContainer.new()
 	icon_frame.custom_minimum_size = Vector2(118, 150)
-	icon_frame.add_theme_stylebox_override("panel", ComicUITheme.style_box(Color("#f5d98f", 0.88), Color("#9a6828"), 3, 13, Color("#321708", 0.30), 3, 5.0))
+	icon_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 7.0))
 	icon_frame.set_meta("component", "painted_herbarium_plant_portrait_frame_phase155_v1")
 	hero.add_child(icon_frame)
 	var icon := TextureRect.new()
@@ -3980,8 +4084,8 @@ func _build_herbarium_card(species_id: String) -> Control:
 	name_label.text = str(plant_profile.get("display_name", "Bylinka")).to_upper()
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.add_theme_font_override("font", FontExtraBold)
-	name_label.add_theme_font_size_override("font_size", 17)
-	name_label.add_theme_color_override("font_color", Color("#24451d"))
+	name_label.add_theme_font_size_override("font_size", 15)
+	name_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	identity.add_child(name_label)
 	var rarity_definition := session.get_species_rarity_definition(species_id)
 	var rarity_label := Label.new()
@@ -3992,26 +4096,26 @@ func _build_herbarium_card(species_id: String) -> Control:
 	identity.add_child(rarity_label)
 	var rank_label := Label.new()
 	rank_label.add_theme_font_override("font", FontExtraBold)
-	rank_label.add_theme_font_size_override("font_size", 13)
+	rank_label.add_theme_font_size_override("font_size", 11)
 	rank_label.add_theme_color_override("font_color", ComicUITheme.PURPLE)
 	identity.add_child(rank_label)
 	var progress_bar := ProgressBar.new()
 	progress_bar.custom_minimum_size.y = 26
 	progress_bar.max_value = 100.0
 	progress_bar.show_percentage = false
-	ComicUITheme.apply_progress(progress_bar, accent, Color("#174f56"), ComicUITheme.INK, 8)
+	ComicUITheme.apply_progress(progress_bar, accent, Color("#dbe9bc"), ComicUITheme.INK, 8)
 	identity.add_child(progress_bar)
 	var overview := Label.new()
 	overview.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	overview.add_theme_font_override("font", FontSemiBold)
-	overview.add_theme_font_size_override("font_size", 10)
-	overview.add_theme_color_override("font_color", Color("#4b2c17"))
+	overview.add_theme_font_size_override("font_size", 11)
+	overview.add_theme_color_override("font_color", ComicUITheme.INK)
 	identity.add_child(overview)
 	var behavior := Label.new()
 	behavior.custom_minimum_size.y = 44
 	behavior.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	behavior.add_theme_font_override("font", FontExtraBold)
-	behavior.add_theme_font_size_override("font_size", 9)
+	behavior.add_theme_font_size_override("font_size", 10)
 	behavior.add_theme_color_override("font_color", accent.darkened(0.30))
 	behavior.set_meta("component", "herbarium_species_behavior_v1")
 	column.add_child(behavior)
@@ -4019,13 +4123,16 @@ func _build_herbarium_card(species_id: String) -> Control:
 	stats_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	stats_label.add_theme_font_override("font", FontExtraBold)
 	stats_label.add_theme_font_size_override("font_size", 10)
-	stats_label.add_theme_color_override("font_color", Color("#4b2c17"))
-	column.add_child(stats_label)
+	stats_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
+	var stats_frame := PanelContainer.new()
+	stats_frame.add_theme_stylebox_override("panel", PaintedDetailArt.box("sage", 12.0))
+	stats_frame.add_child(stats_label)
+	column.add_child(stats_frame)
 	var goal_label := Label.new()
-	goal_label.custom_minimum_size.y = 40
+	goal_label.custom_minimum_size.y = 44
 	goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	goal_label.add_theme_font_override("font", FontSemiBold)
-	goal_label.add_theme_font_size_override("font_size", 10)
+	goal_label.add_theme_font_size_override("font_size", 11)
 	goal_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	column.add_child(goal_label)
 	var claim_button := _action_button("ODMĚNA", _on_mastery_reward_claimed.bind(species_id))
@@ -4034,9 +4141,12 @@ func _build_herbarium_card(species_id: String) -> Control:
 	claim_button.set_meta("phase155_component", "painted_species_reward_action_v1")
 	claim_button.add_theme_font_override("font", FontExtraBold)
 	claim_button.add_theme_font_size_override("font_size", 12)
-	ComicUITheme.apply_button(claim_button, accent, ComicUITheme.CREAM, 13)
+	claim_button.add_theme_color_override("font_color", ComicUITheme.NAVY)
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		claim_button.add_theme_stylebox_override(state, PaintedDetailArt.box("sage", 4.0))
+	claim_button.set_meta("herbarium_painted_reward_v2", true)
 	column.add_child(claim_button)
-	herbarium_cards[species_id] = {"panel": card, "icon": icon, "name": name_label, "rarity": rarity_label, "rank": rank_label, "progress": progress_bar, "overview": overview, "behavior": behavior, "stats": stats_label, "goal": goal_label, "claim": claim_button, "accent": accent}
+	herbarium_cards[species_id] = {"panel": card, "icon": icon, "name": name_label, "rarity": rarity_label, "rank": rank_label, "progress": progress_bar, "overview": overview, "behavior": behavior, "stats_frame": stats_frame, "stats": stats_label, "goal": goal_label, "claim": claim_button, "accent": accent}
 	return card
 
 
@@ -4205,8 +4315,16 @@ func _set_settings_modal_open(opening: bool) -> void:
 			audio_haptics.play_ui("tap")
 
 
-func _open_seed_selector() -> void:
+func _open_seed_selector(replacing := false) -> void:
+	seed_selector_replacing = replacing
+	pending_replacement_species_id = ""
 	_set_seed_selector_open(true)
+
+
+func _open_replace_plant_selector() -> void:
+	if session == null or session.plant.stage == PlantSimulation.Stage.EMPTY:
+		return
+	_open_seed_selector(true)
 
 
 func _close_seed_selector() -> void:
@@ -4233,10 +4351,17 @@ func _set_seed_selector_open(opening: bool) -> void:
 	seed_selector_open = opening
 	seed_selector_modal.visible = opening
 	if opening:
+		seed_selector_title_label.text = "NOVÉ SEMÍNKO" if seed_selector_replacing else "CO BUDE RŮST?"
+		seed_selector_intro_label.text = "Vyber novou bylinku. Původní rostlina zůstane, dokud výměnu nepotvrdíš." if seed_selector_replacing else "Vyber semínko pro tento květináč. Každá bylinka má vlastní tempo, péči i cenu sklizně."
+		seed_selector_scroll.scroll_vertical = 0
 		seed_selector_modal.move_to_front()
 		_refresh_seed_selector()
 		if audio_haptics != null:
 			audio_haptics.play_ui("tap")
+	else:
+		seed_selector_replacing = false
+		pending_replacement_species_id = ""
+		seed_selector_confirm_button.visible = false
 
 
 func _open_herbarium() -> void:
@@ -4887,7 +5012,7 @@ func _refresh_daily_challenge() -> void:
 	daily_challenge_presenter.refresh(session)
 	if botanical_pack_launcher_button != null:
 		var pack_count := session.get_botanical_pack_count() if session.has_method("get_botanical_pack_count") else 0
-		botanical_pack_launcher_button.text = "BOTANICKÉ BALÍČKY · %d" % pack_count
+		botanical_pack_launcher_button.text = "BALÍČKY · %d" % pack_count
 	_refresh_phase161_daily_challenge_visual()
 
 
@@ -4911,13 +5036,6 @@ func _refresh_phase161_daily_challenge_visual() -> void:
 	if daily_challenge_modal != null:
 		daily_challenge_modal.set_meta("phase161_presented_state", state)
 		daily_challenge_modal.set_meta("phase161_challenge_id", session.daily_challenge_id)
-	if daily_challenge_action_state_overlay != null and daily_challenge_action_button != null:
-		daily_challenge_action_state_overlay.visible = daily_challenge_action_button.disabled
-	if daily_challenge_claim_state_overlay != null and daily_challenge_claim_button != null:
-		daily_challenge_claim_state_overlay.visible = not daily_challenge_claim_button.disabled
-		var claim_color := ComicUITheme.CREAM if not daily_challenge_claim_button.disabled else Color("#fff2c4", 0.88)
-		for color_name in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-			daily_challenge_claim_button.add_theme_color_override(color_name, claim_color)
 
 
 func _get_botanical_pack_odds_text() -> String:
@@ -4954,7 +5072,7 @@ func _refresh_botanical_pack() -> void:
 	var can_open := bool(state.get("can_open", pack_count > 0)) and not botanical_pack_opening
 	botanical_pack_presenter.refresh(pack_count, _get_botanical_pack_odds_text(), _get_botanical_pack_pity_text(state), can_open, str(state.get("blocked_reason", "")), botanical_pack_last_reward)
 	if botanical_pack_launcher_button != null:
-		botanical_pack_launcher_button.text = "BOTANICKÉ BALÍČKY · %d" % pack_count
+		botanical_pack_launcher_button.text = "BALÍČKY · %d" % pack_count
 
 
 func _on_botanical_pack_opened() -> void:
@@ -5224,6 +5342,18 @@ func _open_care_center() -> void:
 	_set_care_center_open(true)
 
 
+func _ensure_care_center_cards() -> void:
+	if care_center_cards.size() == GameSession.MAX_PLANT_SLOTS:
+		return
+	care_center_reminder_button.icon = CareCenterPaintedArt.texture("reminder")
+	care_center_notification_test_button.icon = CareCenterPaintedArt.texture("reminder")
+	care_center_return_button.icon = CareCenterPaintedArt.texture("return_pot")
+	for slot_index in range(GameSession.MAX_PLANT_SLOTS):
+		care_center_list.add_child(_build_care_center_card(slot_index))
+	_configure_mobile_scroll(care_center_scroll, care_center_list, "care_center")
+	care_center_presenter.bind(care_center_summary_label, care_center_status_label, care_center_reminder_button, care_center_cards)
+
+
 func _close_care_center() -> void:
 	_set_care_center_open(false)
 
@@ -5233,6 +5363,8 @@ func _set_care_center_open(opening: bool) -> void:
 		return
 	if opening and save_recovery_open:
 		return
+	if opening:
+		_ensure_care_center_cards()
 	if opening and dialog_open:
 		_set_guide_modal_open(false, false)
 	if opening and settings_modal_open:
@@ -5528,15 +5660,45 @@ func _refresh_seed_selector() -> void:
 	if session == null or seed_species_buttons.is_empty():
 		return
 	seed_selector_presenter.refresh(session)
+	seed_selector_confirm_button.visible = seed_selector_replacing and not pending_replacement_species_id.is_empty()
+	if seed_selector_replacing:
+		for species_id in seed_species_buttons:
+			(seed_species_buttons[species_id] as Button).disabled = not session.can_replace_plant_with(str(species_id))
+		if pending_replacement_species_id.is_empty():
+			seed_selector_status_label.text = "První vedený cyklus dokonči s bazalkou. Její výměna spotřebuje další semínko." if not session.journey_completed and session.harvest_count == 0 else "Semínko a rozpracovaná sklizeň původní rostliny se po potvrzení nevrátí."
+		else:
+			var new_name := str(session.get_plant_profile(pending_replacement_species_id).get("ui_name", "novou bylinku"))
+			seed_selector_status_label.text = "Nová bylinka: %s. Původní rostlina i její sklizeň zmizí; spotřebuje se 1 nové semínko." % new_name
+			seed_selector_confirm_button.disabled = not session.can_replace_plant_with(pending_replacement_species_id)
 
 
 func _on_seed_species_selected(species_id: String) -> void:
+	if seed_selector_replacing:
+		if not session.can_replace_plant_with(species_id):
+			_refresh_seed_selector()
+			return
+		pending_replacement_species_id = species_id
+		_refresh_seed_selector()
+		return
 	if session.plant_seed(species_id):
 		_set_seed_selector_open(false)
 		_save_and_refresh()
 		if audio_haptics != null:
 			audio_haptics.play_ui("confirm")
 	else:
+		_refresh_seed_selector()
+
+
+func _confirm_replace_plant() -> void:
+	if not seed_selector_open or not seed_selector_replacing or pending_replacement_species_id.is_empty():
+		return
+	if session.replace_plant(pending_replacement_species_id):
+		_set_seed_selector_open(false)
+		_save_and_refresh()
+		if audio_haptics != null:
+			audio_haptics.play_ui("confirm")
+	else:
+		pending_replacement_species_id = ""
 		_refresh_seed_selector()
 
 
@@ -6198,6 +6360,8 @@ func _build_storage_screen() -> Control:
 	column.add_child(legacy_header)
 	inventory_label = Label.new()
 	inventory_label.text = "AKTUÁLNÍ ZÁSOBY"
+	inventory_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	inventory_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	inventory_label.add_theme_font_override("font", FontExtraBold)
 	inventory_label.add_theme_font_size_override("font_size", 13)
 	inventory_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
@@ -6846,7 +7010,7 @@ func _build_equipment_upgrade_tile(equipment_id: String, title_text: String, ico
 	column.add_theme_constant_override("separation", 2)
 	panel.add_child(column)
 	var level_label := Label.new()
-	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	level_label.add_theme_font_override("font", FontExtraBold)
 	level_label.add_theme_font_size_override("font_size", 9)
 	level_label.add_theme_color_override("font_color", accent.darkened(0.35))
@@ -7941,6 +8105,7 @@ func _refresh_ui() -> void:
 	plant_view.set_paused(session.paused)
 	plant_vitals_presenter.refresh(plant)
 	plant_action_presenter.refresh(plant, session.fertilizer_doses, float(session.get_equipment_level_data("watering_can").get("water_ml", 120.0)), float(session.get_equipment_level_data("protective_spray").get("disease_treatment_relief", 52.0)))
+	replace_plant_button.visible = plant.stage != PlantSimulation.Stage.EMPTY
 	real_time_growth_presenter.refresh(plant)
 	_refresh_plant_behavior(true)
 	measurement_presenter.refresh(plant, session.chart_samples)
@@ -8031,6 +8196,7 @@ func _refresh_active_ui() -> void:
 				plant_view.set_paused(session.paused)
 				plant_vitals_presenter.refresh(plant)
 				plant_action_presenter.refresh(plant, session.fertilizer_doses, float(session.get_equipment_level_data("watering_can").get("water_ml", 120.0)), float(session.get_equipment_level_data("protective_spray").get("disease_treatment_relief", 52.0)))
+				replace_plant_button.visible = plant.stage != PlantSimulation.Stage.EMPTY
 				real_time_growth_presenter.refresh(plant)
 				_refresh_plant_behavior(true)
 		1:
@@ -8442,7 +8608,10 @@ func _on_guide_modal_close_pressed() -> void:
 
 
 func _on_journey_changed(_step: int, _previous_step: int) -> void:
-	_show_dialog(session.get_journey_dialog_text())
+	if harvest_beat_pending:
+		harvest_journey_message = session.get_journey_dialog_text()
+	else:
+		_show_dialog(session.get_journey_dialog_text())
 	if feedback_layer != null:
 		feedback_layer.play_feedback("objective", Vector2(0.50, 0.46), 0.85)
 
@@ -8478,7 +8647,8 @@ func _on_session_feedback(kind: String, slot_index: int, payload: Dictionary) ->
 	if plant_view != null and slot_index == session.selected_plant_index:
 		match kind:
 			"water": plant_view.play_action("water")
-			"fertilize", "seed": plant_view.play_action("fertilize")
+			"fertilize": plant_view.play_action("fertilize")
+			"seed": plant_view.play_action("seed")
 			"light": plant_view.play_action("light")
 			"wind", "treatment": plant_view.play_action("wind")
 			"growth": plant_view.play_action("growth")
@@ -8886,6 +9056,8 @@ func _on_storage_action() -> void:
 	var previous_stage := session.plant.stage
 	match previous_stage:
 		PlantSimulation.Stage.MATURE:
+			harvest_beat_pending = true
+			harvest_journey_message = ""
 			succeeded = session.harvest()
 		PlantSimulation.Stage.HARVESTED:
 			succeeded = session.start_drying()
@@ -8897,9 +9069,17 @@ func _on_storage_action() -> void:
 			succeeded = session.clear_dead_plant()
 	if succeeded:
 		_play_success_pulse(storage_action_button)
+		if previous_stage == PlantSimulation.Stage.MATURE:
+			var harvested_name := session.plant.get_short_name()
+			var journey_message := harvest_journey_message
+			harvest_beat_pending = false
+			harvest_journey_message = ""
+			_save_and_refresh()
+			if feedback_layer != null:
+				feedback_layer.play_feedback("harvest", Vector2(0.50, 0.49), 1.0)
+			_show_harvest_result_after_beat(journey_message if not journey_message.is_empty() else "Sklizeno! Čerstvá bylinka %s je ve skladu a čeká na sušení." % harvested_name)
+			return
 		match previous_stage:
-			PlantSimulation.Stage.MATURE:
-				_show_dialog("Sklizeno! Čerstvá bylinka %s je ve skladu a čeká na sušení." % session.plant.get_short_name())
 			PlantSimulation.Stage.HARVESTED:
 				_show_dialog("Sušení začalo. Proudění vzduchu teď pomalu odvádí vodu z listů.")
 			PlantSimulation.Stage.DRY:
@@ -8907,6 +9087,15 @@ func _on_storage_action() -> void:
 			PlantSimulation.Stage.PACKAGED:
 				_show_dialog("Prodáno! Mince i úspěšná sklizeň byly připsány.")
 		_save_and_refresh()
+	elif previous_stage == PlantSimulation.Stage.MATURE:
+		harvest_beat_pending = false
+		harvest_journey_message = ""
+
+
+func _show_harvest_result_after_beat(message: String) -> void:
+	await get_tree().create_timer(0.27 if session.reduced_motion else 0.60).timeout
+	if is_inside_tree() and not save_recovery_open and not save_failure_open:
+		_show_dialog(message)
 
 
 func _on_order_pressed(index: int) -> void:

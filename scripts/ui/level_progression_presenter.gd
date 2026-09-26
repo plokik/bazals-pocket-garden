@@ -47,7 +47,8 @@ func refresh(game_session: GameSession) -> void:
 		var reward_label := card.get("reward") as Label
 		var unlock_label := card.get("unlock") as Label
 		var claim_button := card.get("claim") as Button
-		title.text = "ÚROVEŇ\n%d" % reward_level
+		title.text = str(reward_level)
+		badge.tooltip_text = "Úroveň %d" % reward_level
 		reward_label.text = "ODMĚNA · %s" % _reward_text(reward, game_session)
 		var unlocks := game_session.get_level_unlocks(reward_level)
 		unlock_label.text = "OTEVŘE · %s" % _join_strings(unlocks)

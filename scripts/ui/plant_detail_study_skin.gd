@@ -88,8 +88,13 @@ static func apply(main) -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 4)
 	care.add_child(column)
-	for control in [growth_panel, cards, action_row, main.growth_time_panel]:
+	for control in [growth_panel, cards, action_row, main.growth_time_panel, main.replace_plant_button]:
 		control.reparent(column)
+	button_style(main.replace_plant_button)
+	main.replace_plant_button.add_theme_font_override("font", main.FontExtraBold)
+	main.replace_plant_button.add_theme_font_size_override("font_size", 11)
+	main.replace_plant_button.add_theme_color_override("font_color", GREEN)
+	main.replace_plant_button.add_theme_color_override("font_hover_color", GREEN)
 	growth_panel.custom_minimum_size.y = 51
 	var empty := StyleBoxEmpty.new()
 	empty.content_margin_left = 3

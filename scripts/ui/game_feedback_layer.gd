@@ -94,8 +94,10 @@ func _duration_for(kind: String) -> float:
 	match kind:
 		"unlock", "journey_complete":
 			return 0.92
-		"coins", "xp", "harvest", "growth":
+		"coins", "xp", "growth":
 			return 0.72
+		"harvest":
+			return 0.58
 		"plant_behavior":
 			return 0.64
 		"warning":
@@ -129,9 +131,11 @@ func _draw() -> void:
 			_draw_unlock_burst(progress)
 		"water":
 			_draw_edge_drops(progress)
+		"harvest":
+			_draw_harvest_flight(progress)
 		"plant_behavior":
 			_draw_behavior_bloom(progress)
-		"fertilize", "growth", "harvest", "objective":
+		"fertilize", "growth", "objective":
 			_draw_leaf_sparkles(progress)
 		"warning":
 			_draw_warning_ring(progress)
@@ -224,6 +228,33 @@ func _draw_leaf_sparkles(progress: float) -> void:
 			_draw_sparkle(point, 4.0 + float(index % 3), Color(color, alpha * 0.88))
 		else:
 			_draw_leaf(point, angle, Color(GREEN, alpha * 0.82))
+
+
+func _draw_harvest_flight(progress: float) -> void:
+	var start := feedback_origin * size
+	var target := Vector2(size.x * 0.375, size.y * 0.94)
+	var count := 1 if reduced_motion else 4
+	for index in range(count):
+		var delay := float(index) * 0.045
+		var travel := clampf((progress - delay) / maxf(0.01, 1.0 - delay), 0.0, 1.0)
+		if travel <= 0.0 or travel >= 1.0:
+			continue
+		var edge := Vector2(size.x * 0.015, size.y * 0.49)
+		var lower_edge := Vector2(size.x * 0.015, size.y * 0.90)
+		var point: Vector2
+		if travel < 0.28:
+			point = start.lerp(edge, _ease_out(travel / 0.28))
+		elif travel < 0.77:
+			point = edge.lerp(lower_edge, (travel - 0.28) / 0.49)
+		else:
+			point = lower_edge.lerp(target, _ease_out((travel - 0.77) / 0.23))
+		point += Vector2((float(index) - 1.5) * 4.0, -sin(travel * PI) * 6.0)
+		var alpha := 1.0 - _smoothstep(0.78, 1.0, travel)
+		draw_circle(point, 11.0, Color(GOLD, alpha * 0.18))
+		_draw_leaf(point, -0.8 + travel * 2.6 + float(index) * 0.4, Color(GREEN, alpha))
+	if progress > 0.68:
+		var impact := (progress - 0.68) / 0.32
+		draw_arc(target, 9.0 + impact * 27.0, 0.0, TAU, 28, Color(GOLD, (1.0 - impact) * 0.75), 2.5, true)
 
 
 func _draw_behavior_bloom(progress: float) -> void:

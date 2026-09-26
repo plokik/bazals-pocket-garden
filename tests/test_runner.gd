@@ -617,7 +617,7 @@ func _test_phase22_daily_challenge_presenter() -> void:
 	session.daily_challenge_claimed = false
 	presenter.refresh(session)
 	_check(presenter.is_bound() and "DEN 1" in weather.text and "DNES" in weather.text and title.text == session.get_daily_challenge_title().to_upper() and body.text == session.get_daily_challenge_body(), "Phase 22 presenter denní výzvy promítne globální den, předpověď, název a popis bez změny modelu")
-	_check(not action.disabled and action.text == "ZASADIT BYLINKU" and claim.disabled and claim.text == "NEJDŘÍV SPLŇ DNEŠNÍ ÚKOL" and status.text == session.get_daily_challenge_status().to_upper(), "Phase 22 presenter nabídne přímou cestu k úkolu, uzamkne odměnu a zachová přesný stav nesplněného úkolu")
+	_check(not action.disabled and action.text == "ZASADIT BYLINKU" and claim.disabled and claim.text == "ODMĚNA PO SPLNĚNÍ\n12 MINCÍ · 10 XP · 1 BALÍČEK" and status.text == session.get_daily_challenge_status().to_upper(), "Phase 22 presenter nabídne přímou cestu k úkolu, uzamkne odměnu a ukáže její přesný obsah")
 	session.daily_challenge_completed = true
 	presenter.refresh(session)
 	_check(action.disabled and action.text == "ÚKOL SPLNĚN" and not claim.disabled and claim.text == "VYZVEDNOUT ODMĚNU\n12 MINCÍ · 10 XP · 1 BALÍČEK", "Fáze 78 presenter po splnění uzavře cestu k akci a pravdivě uvede mince, XP i jeden botanický balíček")
@@ -710,7 +710,7 @@ func _test_phase25_herbarium_presenter() -> void:
 	presenter.show_intro()
 	presenter.refresh(session)
 	_check(presenter.is_bound() and summary.text.begins_with("SBÍRKA  2/11 DRUHŮ   ·   18%") and status.text == "Každá bylinka má vlastní postup. Odměny se vyzvedávají po jedné.", "Fáze 102 herbářový presenter promítne jedenáct druhů, pravdivých 18 procent objevené sbírky a úvodní instrukci")
-	_check((cards.basil_genovese.overview as Label).text == str(session.get_plant_profile("basil_genovese").get("knowledge_intro", "")) and "SKLIZNĚ  0" in (cards.basil_genovese.stats as Label).text and (cards.basil_genovese.claim as Button).disabled and [session.coins, session.xp, session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds] == economy_before and session.species_progress == species_progress_before, "Phase 25 herbářový presenter naplní karty včetně oregana bez změny herní relace")
+	_check((cards.basil_genovese.overview as Label).text == str(session.get_plant_profile("basil_genovese").get("knowledge_intro", "")) and "SKLIZNĚ 0" in (cards.basil_genovese.stats as Label).text and (cards.basil_genovese.claim as Button).disabled and [session.coins, session.xp, session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds] == economy_before and session.species_progress == species_progress_before, "Phase 25 herbářový presenter naplní karty včetně oregana bez změny herní relace")
 	session.species_progress["basil_genovese"] = {"discovered": true, "harvests": 1, "best_quality": 0.60, "orders_completed": 0, "total_dry_g": 4.8, "claimed_tier": 1}
 	presenter.refresh(session)
 	_check(not (cards.basil_genovese.claim as Button).disabled and "VYZVEDNOUT · 10 MINCÍ · 8 XP" in (cards.basil_genovese.claim as Button).text and "1 ODMĚNA ČEKÁ" in summary.text, "Phase 25 herbářový presenter zpřístupní dosaženou mistrovskou odměnu a přesně ji započítá")
@@ -1778,7 +1778,7 @@ func _test_phase76_rarity_and_discovery() -> void:
 	var rosemary_stock_before := session.get_shop_stock(session.get_shop_seed_item_id("rosemary_officinalis"))
 	_check(rosemary_stock_before > 0 and session.buy_seed("rosemary_officinalis") and session.rosemary_seeds == 1 and session.is_species_discovered("rosemary_officinalis") and session.get_discovered_species_count() == 3, "Fáze 76 úspěšný nákup semínka u pana Kořínka objeví druh okamžitě a právě jednou")
 	presenter.refresh(session)
-	_check(summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and (cards.rosemary_officinalis.name as Label).text == "ROZMARÝN LÉKAŘSKÝ" and "SKLIZNĚ  0" in (cards.rosemary_officinalis.stats as Label).text, "Fáze 102 herbář po nákupu bez restartu odhalí rozmarýn a promítne sbírku 3/11")
+	_check(summary.text.begins_with("SBÍRKA  3/11 DRUHŮ") and (cards.rosemary_officinalis.name as Label).text == "ROZMARÝN LÉKAŘSKÝ" and "SKLIZNĚ 0" in (cards.rosemary_officinalis.stats as Label).text, "Fáze 102 herbář po nákupu bez restartu odhalí rozmarýn a promítne sbírku 3/11")
 	session.journey_completed = true
 	session.journey_step = GameSession.JourneyStep.COMPLETE
 	_check(session.plant_seed("rosemary_officinalis") and session.rosemary_seeds == 0 and session.is_species_discovered("rosemary_officinalis"), "Fáze 76 objevení druhu nezmizí ani po spotřebování posledního koupeného semínka")
@@ -10232,14 +10232,14 @@ func _test_phase161_approved_painted_daily_challenge() -> void:
 	var presenter_source := FileAccess.get_file_as_string("res://scripts/ui/daily_challenge_presenter.gd")
 	var visual_source := FileAccess.get_file_as_string("res://scripts/ui/daily_challenge_visual.gd")
 	_check(
-		"painted_daily_challenge_clean_backdrop_phase161_v1" in main_source \
-		and "phase161_uses_baked_painted_surface" in main_source \
+		"painted_daily_challenge_illustration_v2" in main_source \
+		and "daily_challenge_painted_button_v2" in main_source \
 		and "daily_challenge_presenter.bind(daily_challenge_weather_label, daily_challenge_title_label, daily_challenge_body_label, daily_challenge_status_label, daily_challenge_action_button, daily_challenge_claim_button)" in main_source \
 		and "daily_challenge_context_visual.configure" in main_source \
-		and "phase161_uses_baked_painted_surface" in presenter_source \
+		and "daily_challenge_painted_button_v2" in presenter_source \
 		and "func configure(value: String, today: String = \"\", tomorrow: String = \"\")" in visual_source \
 		and VisualDesignSystem.DAILY_CHALLENGE_PHASE161_TARGET_ASSET not in main_source,
-		"Godot skládá čistou malbu, živé texty, skutečná tlačítka a kontextovou vrstvu; celý schválený screenshot se do runtime nevkládá"
+		"Godot skládá malovanou ilustraci, živé texty, malovaná tlačítka a kontextovou vrstvu; celý schválený screenshot se do runtime nevkládá"
 	)
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var concept_case := {}
@@ -12647,6 +12647,31 @@ func _test_planting_and_watering() -> void:
 	_check(session.water(), "Rostlinu lze zalít")
 	_check(session.plant.moisture > moisture_before, "Zálivka zvýší vlhkost")
 	_check(not session.plant_seed(), "Do obsazeného květináče nelze zasadit podruhé")
+	var replacement := GameSession.new(_load_plant_catalog())
+	_check(not replacement.replace_plant("basil_genovese"), "Prázdný květináč nelze omylem vyměnit")
+	_check(replacement.plant_seed("basil_genovese"), "Příprava výměny zasadí původní bazalku")
+	replacement.mint_seeds = 1
+	replacement.plant.growth_percent = 48.0
+	var old_state := replacement.plant.to_dict()
+	var xp_before_replace := replacement.xp
+	var coins_before_replace := replacement.coins
+	_check(not replacement.replace_plant("unknown_species") and replacement.plant.to_dict() == old_state, "Neplatný výběr zachová původní rostlinu beze změny")
+	_check(not replacement.replace_plant("mint_peppermint") and replacement.plant.to_dict() == old_state, "Výměna neobejde první vedený cyklus s bazalkou")
+	replacement.journey_completed = true
+	replacement.daily_challenge_id = "plant"
+	replacement.daily_challenge_completed = false
+	_check(replacement.replace_plant("mint_peppermint") and replacement.plant.get_species_id() == "mint_peppermint" and replacement.plant.stage == PlantSimulation.Stage.GERMINATING and is_zero_approx(replacement.plant.growth_percent), "Potvrzená výměna založí nový cyklus v témže květináči")
+	_check(replacement.get_seed_count("basil_genovese") == 0 and replacement.get_seed_count("mint_peppermint") == 0 and replacement.xp == xp_before_replace + 2 and replacement.coins == coins_before_replace, "Výměna nevrací staré semínko ani mince a spotřebuje právě nové semínko")
+	_check(not replacement.daily_challenge_completed, "Výměna obsazeného květináče nesplní denní úkol určený pro novou výsadbu")
+	_check(replacement.get_occupied_count() == 1 and replacement.plants[1].stage == PlantSimulation.Stage.EMPTY and not replacement.replace_plant("mint_peppermint"), "Výměna nezasáhne jiný květináč a bez dalšího semínka se neopakuje")
+	var restored_replacement := GameSession.new(_load_plant_catalog())
+	restored_replacement.from_dict(replacement.to_dict())
+	_check(restored_replacement.plant.get_species_id() == "mint_peppermint" and restored_replacement.plant.stage == PlantSimulation.Stage.GERMINATING and restored_replacement.get_seed_count("mint_peppermint") == 0, "Nový cyklus i spotřeba semínka přežijí uložení a načtení")
+	var tutorial_replacement := GameSession.new(_load_plant_catalog())
+	_check(tutorial_replacement.plant_seed("basil_genovese"), "Úvodní bazalka se před opakováním zasadí")
+	tutorial_replacement.journey_step = GameSession.JourneyStep.HARVEST
+	tutorial_replacement.set_seed_count("basil_genovese", 1)
+	_check(tutorial_replacement.replace_plant("basil_genovese") and tutorial_replacement.plant.tutorial_cycle and tutorial_replacement.journey_step == GameSession.JourneyStep.WATER_PLANT and is_equal_approx(tutorial_replacement.plant.get_growth_target_seconds(), 720.0), "Výměna první bazalky bezpečně restartuje krátký vedený cyklus")
 
 
 func _test_stress_is_condition_driven() -> void:
@@ -14245,6 +14270,22 @@ func _test_ui_driven_vertical_slice() -> void:
 	_check(plant.stage == PlantSimulation.Stage.EMPTY and session.journey_completed and session.journey_reward_claimed and session.coins >= coins_before_sale + 25, "Prodej přes skutečné UI uzavře celý první cyklus a připíše jednorázovou odměnu")
 	_check(instance.guide_modal.visible and instance.guide_modal_character.get_mood_name() == "celebrate" and instance.feedback_layer.feedback_kind == "journey_complete", "Dokončení současně otevře celého oslavného Profesora Bazala a společný reward efekt")
 	instance._set_guide_modal_open(false, false)
+	session.set_seed_count("basil_genovese", 1)
+	session.set_seed_count("mint_peppermint", 1)
+	instance._change_screen(0)
+	instance._open_plant_detail(0)
+	instance.seed_button.pressed.emit()
+	instance.seed_selector_basil_button.pressed.emit()
+	var cycle_before_replacement := session.plant.to_dict()
+	instance.replace_plant_button.pressed.emit()
+	instance.seed_selector_mint_button.pressed.emit()
+	_check(instance.seed_selector_open and instance.seed_selector_replacing and instance.seed_selector_confirm_button.visible and session.plant.to_dict() == cycle_before_replacement, "Výběr náhradního semínka původní rostlinu zatím nemaže")
+	instance._close_seed_selector()
+	_check(session.plant.to_dict() == cycle_before_replacement and session.get_seed_count("mint_peppermint") == 1, "Zavření výměny ponechá rostlinu i nové semínko")
+	instance.replace_plant_button.pressed.emit()
+	instance.seed_selector_mint_button.pressed.emit()
+	instance.seed_selector_confirm_button.pressed.emit()
+	_check(not instance.seed_selector_open and session.plant.get_species_id() == "mint_peppermint" and session.plant.stage == PlantSimulation.Stage.GERMINATING and session.get_seed_count("mint_peppermint") == 0, "Potvrzení přes UI vymění pouze vybranou rostlinu a spotřebuje nové semínko")
 	instance.queue_free()
 	await process_frame
 	await process_frame
@@ -14696,7 +14737,7 @@ func _test_main_scene_smoke() -> void:
 	var ui_pack_species := str(ui_pack.get("species_id", ""))
 	instance.session.set_seed_count(ui_pack_species, 0)
 	instance._refresh_daily_challenge()
-	_check(instance.botanical_pack_launcher_button.get_meta("component", "") == "botanical_pack_daily_launcher_v1" and instance.botanical_pack_launcher_button.custom_minimum_size.y >= 64.0 and instance.botanical_pack_launcher_button.text == "BOTANICKÉ BALÍČKY · 1", "Fáze 78 karta denní výzvy přidá velký mobilní vstup s přesným počtem balíčků bez páté hlavní záložky")
+	_check(instance.botanical_pack_launcher_button.get_meta("component", "") == "botanical_pack_daily_launcher_v1" and instance.botanical_pack_launcher_button.custom_minimum_size.y >= 64.0 and instance.botanical_pack_launcher_button.text == "BALÍČKY · 1", "Fáze 78 karta denní výzvy přidá mobilní vstup s přesným počtem balíčků bez páté hlavní záložky")
 	instance._open_daily_challenge()
 	instance._open_botanical_pack()
 	await process_frame

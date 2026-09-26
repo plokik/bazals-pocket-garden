@@ -2112,7 +2112,7 @@ func _prepare_phase161_daily_challenge_state(instance, state: String) -> void:
 			plant.nutrients = 100.0
 	instance.daily_challenge_presenter.refresh(instance.session)
 	var pack_count: int = int(instance.session.get_botanical_pack_count())
-	instance.botanical_pack_launcher_button.text = "BOTANICKÉ BALÍČKY · %d" % pack_count
+	instance.botanical_pack_launcher_button.text = "BALÍČKY · %d" % pack_count
 	instance._refresh_phase161_daily_challenge_visual()
 	instance.daily_challenge_modal.set_meta("capture_state", "phase161_daily_challenge_%s_v1" % state)
 

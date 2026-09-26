@@ -2549,7 +2549,7 @@ func get_occupied_count() -> int:
 	return occupied
 
 
-func plant_seed(species_id := "") -> bool:
+func plant_seed(species_id := "", count_daily_challenge := true) -> bool:
 	var requested_species := species_id if not species_id.is_empty() else selected_seed_species
 	if not plant_profiles.has(requested_species):
 		event_created.emit("Tento druh rostliny zatím není dostupný.")
@@ -2572,12 +2572,44 @@ func plant_seed(species_id := "") -> bool:
 		progress["discovered"] = true
 		species_progress[requested_species] = progress
 		_change_seed_count(requested_species, -1)
-		_try_complete_daily_challenge("plant", true)
+		if count_daily_challenge:
+			_try_complete_daily_challenge("plant", true)
 		_grant_xp(2, "plant_seed")
 		feedback_requested.emit("seed", selected_plant_index, {"species_id": requested_species, "seeds": get_seed_count(requested_species)})
 		_advance_journey(JourneyStep.PLANT_SEED, JourneyStep.WATER_PLANT)
 		return true
 	return false
+
+
+func replace_plant(species_id: String) -> bool:
+	if plant.stage == PlantSimulation.Stage.EMPTY:
+		return false
+	# Validate before touching the old cycle. Closing the picker or choosing a
+	# locked seed must leave the existing plant and its harvest untouched.
+	if not can_replace_plant_with(species_id):
+		return false
+	var previous_species := plant.get_species_id()
+	var previous_state := plant.to_dict()
+	var previous_journey_step := journey_step
+	var restarting_first_cycle := not journey_completed and harvest_count == 0
+	plant.reset()
+	if restarting_first_cycle:
+		journey_step = JourneyStep.PLANT_SEED
+	if not plant_seed(species_id, false):
+		plant.configure_profile(get_plant_profile(previous_species))
+		plant.from_dict(previous_state)
+		journey_step = previous_journey_step
+		return false
+	event_created.emit("Květináč je znovu osázený. Předchozí rostlina byla odstraněna bez vrácení semínka nebo sklizně.")
+	return true
+
+
+func can_replace_plant_with(species_id: String) -> bool:
+	if plant.stage == PlantSimulation.Stage.EMPTY or not can_plant_species(species_id):
+		return false
+	# The guided first harvest must still be Bazal's basil even if its pot is
+	# restarted before the player completes that cycle.
+	return journey_completed or harvest_count > 0 or species_id == "basil_genovese"
 
 
 func prune_damaged_leaves() -> bool:

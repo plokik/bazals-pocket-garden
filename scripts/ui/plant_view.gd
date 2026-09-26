@@ -3,6 +3,7 @@ extends Control
 
 const DetailBackground := preload("res://assets/backgrounds/comic_detail_window_v1.png")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
+const PlantingHandTexture := preload("res://assets/ui/actions/planting_hand_v1.png")
 const DetailLayout := preload("res://scripts/ui/plant_detail_layout.gd")
 const PlanterGrounding := preload("res://scripts/ui/rack_planter_grounding.gd")
 const SaucerTexture := preload("res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png")
@@ -27,6 +28,7 @@ const IDLE_EVENT_INTERVALS := [8.5, 11.0, 9.5]
 var simulation: PlantSimulation
 var animation_time := 0.0
 var action_pulse := 0.0
+var seed_animation := 0.0
 var water_animation := 0.0
 var sparkle_animation := 0.0
 var growth_burst_animation := 0.0
@@ -91,6 +93,11 @@ func set_simulation(value: PlantSimulation) -> void:
 	shake_animation = 0.0
 	ladybug_animation = 0.0
 	golden_shine_animation = 0.0
+	seed_animation = 0.0
+	water_animation = 0.0
+	sparkle_animation = 0.0
+	growth_burst_animation = 0.0
+	action_pulse = 0.0
 	behavior_pulse = 0.0
 	behavior_active = false
 	behavior_label = ""
@@ -134,7 +141,9 @@ func set_fast_time_visuals(value: bool) -> void:
 func play_action(action: String) -> void:
 	var strength := 0.35 if reduced_motion else 1.0
 	action_pulse = strength
-	if action == "water":
+	if action == "seed":
+		seed_animation = 1.0
+	elif action == "water":
 		water_animation = strength
 	elif action == "fertilize" or action == "harvest":
 		sparkle_animation = strength
@@ -199,6 +208,11 @@ func _process(delta: float) -> void:
 				growth_burst_animation = 0.0
 				golden_shine_animation = 0.0
 				action_pulse = 0.0
+			elif simulation.stage == PlantSimulation.Stage.GERMINATING:
+				seed_animation = maxf(seed_animation, 1.0)
+				growth_burst_animation = 0.0
+				golden_shine_animation = 0.0
+				action_pulse = 1.0
 			else:
 				growth_burst_animation = 1.0
 				golden_shine_animation = 1.0
@@ -223,6 +237,7 @@ func _process(delta: float) -> void:
 		animation_time += delta
 	var decay := 3.0 if reduced_motion else 1.0
 	action_pulse = maxf(0.0, action_pulse - delta * 2.8 * decay)
+	seed_animation = maxf(0.0, seed_animation - delta / (0.18 if reduced_motion else 1.55))
 	water_animation = maxf(0.0, water_animation - delta * 1.4 * decay)
 	sparkle_animation = maxf(0.0, sparkle_animation - delta * 1.2 * decay)
 	growth_burst_animation = maxf(0.0, growth_burst_animation - delta * 1.25 * decay)
@@ -261,7 +276,8 @@ func _draw() -> void:
 func _detail_planter_geometry() -> Dictionary:
 	if simulation == null or _is_harvest_state(simulation.stage):
 		return {}
-	var texture := EmptyPotTexture if simulation.stage == PlantSimulation.Stage.EMPTY else _texture_for_simulation()
+	var seed_is_falling := simulation.stage == PlantSimulation.Stage.GERMINATING and seed_animation > 0.0 and not reduced_motion and 1.0 - seed_animation < 0.74
+	var texture := EmptyPotTexture if simulation.stage == PlantSimulation.Stage.EMPTY or seed_is_falling else _texture_for_simulation()
 	return DetailLayout.layout(texture, size)
 
 
@@ -500,6 +516,8 @@ func _get_water_drop_position(center: Vector2, index: int, phase: float) -> Vect
 func _draw_effects(center: Vector2) -> void:
 	if simulation.stage == PlantSimulation.Stage.MATURE and not _uses_sick_visual():
 		_draw_harvest_ready_effect(center)
+	if seed_animation > 0.0:
+		_draw_seed_planting(center)
 	if water_animation > 0.0:
 		for index in range(6):
 			var phase := fmod(animation_time * 2.4 + index * 0.17, 1.0)
@@ -530,6 +548,85 @@ func _draw_effects(center: Vector2) -> void:
 		_draw_golden_sweep(center)
 	if ladybug_animation > 0.0:
 		_draw_ladybug_event(center)
+
+
+func _draw_seed_planting(center: Vector2) -> void:
+	var progress := clampf(1.0 - seed_animation, 0.0, 1.0)
+	var geometry := _detail_planter_geometry()
+	var soil := center + Vector2(0.0, -110.0)
+	if not geometry.is_empty():
+		var pot_rect: Rect2 = geometry.plant_rect
+		soil = Vector2(pot_rect.get_center().x, pot_rect.position.y + pot_rect.size.y * 0.61)
+	if reduced_motion:
+		_draw_seed_soil_impact(soil, progress)
+		return
+	var hand_width := minf(size.x * 0.48, 270.0)
+	var hand_size := Vector2(hand_width, hand_width * PlantingHandTexture.get_height() / PlantingHandTexture.get_width())
+	var pinch_offset := hand_size * Vector2(0.18, 0.88)
+	var hover_pinch := soil + Vector2(38.0, -94.0)
+	var hand_shift := Vector2.ZERO
+	if progress < 0.34:
+		var arrival := clampf(progress / 0.34, 0.0, 1.0)
+		var ease_out := 1.0 - pow(1.0 - arrival, 3.0)
+		hand_shift = Vector2(minf(size.x * 0.56, 240.0), -110.0) * (1.0 - ease_out)
+	elif progress > 0.56:
+		var departure := clampf((progress - 0.56) / 0.34, 0.0, 1.0)
+		hand_shift = Vector2(minf(size.x * 0.60, 250.0), -95.0) * (departure * departure)
+	if progress < 0.91:
+		var hand_alpha := clampf((0.96 - progress) / 0.12, 0.0, 1.0)
+		draw_texture_rect(PlantingHandTexture, Rect2(hover_pinch + hand_shift - pinch_offset, hand_size), false, Color(1.0, 1.0, 1.0, hand_alpha))
+	if progress < 0.74:
+		var seed_position := hover_pinch + hand_shift
+		if progress >= 0.47:
+			var fall := clampf((progress - 0.47) / 0.27, 0.0, 1.0)
+			seed_position = hover_pinch.lerp(soil, fall * fall) + Vector2(-sin(fall * PI) * 12.0, 0.0)
+			_draw_seed_fall_trail(seed_position, fall)
+		_draw_held_seed(seed_position, progress)
+	else:
+		_draw_seed_soil_impact(soil, (progress - 0.74) / 0.26)
+
+
+func _draw_seed_fall_trail(seed_position: Vector2, fall: float) -> void:
+	var alpha := sin(fall * PI) * 0.55
+	if alpha <= 0.0:
+		return
+	for index in range(2):
+		var offset := Vector2(-8.0 - index * 6.0, -13.0 - index * 12.0)
+		draw_line(seed_position + offset, seed_position + offset + Vector2(3.0, 7.0), Color("#fff2b1", alpha * (1.0 - index * 0.35)), 2.0, true)
+
+
+func _draw_held_seed(position: Vector2, progress: float) -> void:
+	var angle := lerpf(-0.42, 0.58, clampf((progress - 0.47) / 0.27, 0.0, 1.0))
+	draw_set_transform(position, angle, Vector2(1.0, 0.72))
+	draw_circle(Vector2(0.0, 1.0), 9.0, COMIC_INK, true, -1.0, true)
+	draw_circle(Vector2.ZERO, 7.0, Color("#9c5524"), true, -1.0, true)
+	draw_circle(Vector2(-2.0, -2.0), 2.2, Color("#f4be62"), true, -1.0, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _draw_seed_soil_impact(soil: Vector2, progress: float) -> void:
+	var impact := clampf(progress, 0.0, 1.0)
+	var alpha := sin(impact * PI)
+	if alpha <= 0.0:
+		return
+	var settle := 1.0 - pow(1.0 - impact, 2.0)
+	# A small indentation makes the seed feel buried instead of merely vanishing.
+	draw_set_transform(soil + Vector2(0.0, 2.0), 0.0, Vector2(1.0, 0.26))
+	draw_circle(Vector2.ZERO, 9.0 + settle * 9.0, Color(COMIC_INK, alpha * 0.42), true, -1.0, true)
+	draw_circle(Vector2(0.0, -2.0), 7.0 + settle * 8.0, Color("#75411f", alpha * 0.72), true, -1.0, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	for index in range(6):
+		var direction := -1.0 if index % 2 == 0 else 1.0
+		var spread := 8.0 + float(index / 2) * 9.0
+		var point := soil + Vector2(direction * (spread + settle * 16.0), -sin(impact * PI) * (7.0 + float(index % 3) * 5.0))
+		var radius := (2.8 + float(index % 3) * 1.1) * (1.0 - impact * 0.35)
+		draw_circle(point, radius + 1.0, Color(COMIC_INK, alpha * 0.48), true, -1.0, true)
+		draw_circle(point, radius, Color("#a96a35", alpha * 0.88), true, -1.0, true)
+	for side in [-1.0, 1.0]:
+		var dust := soil + Vector2(side * (14.0 + settle * 16.0), -7.0 - sin(impact * PI) * 11.0)
+		draw_circle(dust, 7.0 + impact * 3.0, Color("#c88a4b", alpha * 0.21), true, -1.0, true)
+		draw_circle(dust + Vector2(side * 5.0, -4.0), 4.0 + impact * 2.0, Color("#e7bc76", alpha * 0.24), true, -1.0, true)
+	draw_arc(soil + Vector2(0.0, -4.0), 10.0 + settle * 18.0, PI * 0.10, PI * 0.90, 18, Color(COMIC_GOLD, alpha * 0.62), 2.0, true)
 
 
 func _draw_golden_sweep(center: Vector2) -> void:

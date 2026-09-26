@@ -2,6 +2,7 @@ class_name HerbariumPresenter
 extends RefCounted
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 
 var summary_label: Label
 var status_label: Label
@@ -46,6 +47,15 @@ func refresh(game_session: GameSession) -> void:
 		var claim_button := card.claim as Button
 		var can_claim := discovered and game_session.can_claim_mastery_reward(species_id)
 		claim_button.disabled = not can_claim
+		var card_panel := card.get("panel") as PanelContainer
+		if card_panel != null:
+			card_panel.custom_minimum_size.y = 0.0 if not discovered else 374.0
+		var stats_frame := card.get("stats_frame") as PanelContainer
+		if stats_frame != null:
+			stats_frame.visible = discovered
+		var goal_label := card.get("goal") as Label
+		if goal_label != null:
+			goal_label.visible = discovered
 		if not discovered:
 			(card.rank as Label).text = "JEŠTĚ NEOBJEVENO"
 			(card.progress as ProgressBar).value = 0.0
@@ -57,7 +67,7 @@ func refresh(game_session: GameSession) -> void:
 			(card.stats as Label).text = "SBÍRKA ČEKÁ NA PRVNÍ SEMÍNKO"
 			(card.goal as Label).text = "Nové druhy může nabídnout pan Kořínek nebo budoucí herní odměny."
 			claim_button.text = "NEJDŘÍV OBJEVIT"
-			ComicUITheme.apply_button(claim_button, Color("#74848b"), ComicUITheme.CREAM, 13)
+			_style_reward_button(claim_button, false)
 			continue
 		total_tiers += tier
 		(card.rank as Label).text = "HODNOST %d/5 · %s" % [tier, str(tier_data.get("title", ""))]
@@ -76,7 +86,7 @@ func refresh(game_session: GameSession) -> void:
 		if behavior_label_node != null:
 			behavior_label_node.visible = not behavior_lines.is_empty()
 			behavior_label_node.text = "VLASTNOST\n%s" % "\n".join(behavior_lines) if not behavior_lines.is_empty() else ""
-		(card.stats as Label).text = "SKLIZNĚ  %d   ·   NEJLEPŠÍ KVALITA  %d%%   ·   ZAKÁZKY  %d   ·   CELKEM  %.1f g" % [
+		(card.stats as Label).text = "SKLIZNĚ %d  ·  NEJLEPŠÍ KVALITA %d %%\nZAKÁZKY %d  ·  CELKEM %.1f g" % [
 			int(progress.get("harvests", 0)), roundi(float(progress.get("best_quality", 0.0)) * 100.0), int(progress.get("orders_completed", 0)), float(progress.get("total_dry_g", 0.0))]
 		(card.goal as Label).text = game_session.get_mastery_goal_text(species_id)
 		if can_claim:
@@ -85,7 +95,7 @@ func refresh(game_session: GameSession) -> void:
 			claim_button.text = "VYZVEDNOUT · %d MINCÍ · %d XP%s" % [int(reward.get("coins", 0)), int(reward.get("xp", 0)), " · %d× SEMÍNKO" % int(reward.get("seeds", 0)) if int(reward.get("seeds", 0)) > 0 else ""]
 		else:
 			claim_button.text = "VŠECHNY ODMĚNY VYZVEDNUTY" if tier >= GameSession.MASTERY_TIERS.size() else "DALŠÍ ODMĚNA PO SPLNĚNÍ CÍLE"
-		ComicUITheme.apply_button(claim_button, card.accent if can_claim else Color("#74848b"), ComicUITheme.INK if can_claim else ComicUITheme.CREAM, 13)
+		_style_reward_button(claim_button, can_claim)
 	var species_count := game_session.get_collection_species_ids().size()
 	var discovered_count := game_session.get_discovered_species_count()
 	var completion_percent := game_session.get_collection_completion_percent()
@@ -96,6 +106,19 @@ func refresh(game_session: GameSession) -> void:
 	if mastery_summary_label != null:
 		var short_waiting := " · %d ČEKÁ" % claimable if claimable > 0 else ""
 		mastery_summary_label.text = "MISTROVSTVÍ\n%d/%d%s" % [total_tiers, species_count * GameSession.MASTERY_TIERS.size(), short_waiting]
+
+
+func _style_reward_button(button: Button, can_claim: bool) -> void:
+	if not bool(button.get_meta("herbarium_painted_reward_v2", false)):
+		ComicUITheme.apply_button(button, ComicUITheme.GREEN if can_claim else Color("#74848b"), ComicUITheme.INK if can_claim else ComicUITheme.CREAM, 13)
+		return
+	var surface := "sage" if can_claim else "cream"
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		button.add_theme_stylebox_override(state, PaintedDetailArt.box(surface, 4.0))
+	button.add_theme_color_override("font_color", ComicUITheme.NAVY)
+	button.add_theme_color_override("font_hover_color", ComicUITheme.NAVY)
+	button.add_theme_color_override("font_pressed_color", ComicUITheme.NAVY)
+	button.add_theme_color_override("font_disabled_color", Color("#4d594e"))
 
 
 func show_intro() -> void:

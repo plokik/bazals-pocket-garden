@@ -9,12 +9,16 @@ const STARTUP_LOGO := preload("res://assets/ui/startup/bazals_pocket_garden_logo
 const ORCHID_FLOURISH := preload("res://assets/ui/startup/orchid_flourish.png")
 const FOUR_LEAF_CLOVER := preload("res://assets/ui/startup/four_leaf_clover.png")
 const LEAFY_FLOURISH := preload("res://assets/ui/startup/leafy_flourish_user.png")
+const LADYBUG_OVERLAY := preload("res://scripts/ui/startup_ladybug_overlay.gd")
+const CLOUD_DISSOLVE_SHADER := preload("res://assets/shaders/startup_cloud_dissolve.gdshader")
 const FONT_BOLD := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
 var elapsed := 0.0
 var displayed_progress := 0.0
 var load_complete := false
 var changing_scene := false
+var load_time_logged := false
+var request_started_ms := 0
 var status_label: Label
 var art: TextureRect
 var orchid_left: TextureRect
@@ -22,6 +26,7 @@ var orchid_right: TextureRect
 var clover_left: TextureRect
 var clover_right: TextureRect
 var leafy_flourish: TextureRect
+var ladybugs: Control
 var progress_bar: ProgressBar
 var frame_style: StyleBoxFlat
 var status_style: StyleBoxFlat
@@ -34,6 +39,8 @@ func _ready() -> void:
 	_build_ui()
 	_layout_ui()
 	resized.connect(_layout_ui)
+	request_started_ms = Time.get_ticks_msec()
+	get_tree().root.set_meta("startup_request_ms", request_started_ms)
 	var request_error := ResourceLoader.load_threaded_request(MAIN_SCENE, "PackedScene")
 	if request_error != OK:
 		_show_load_error()
@@ -49,11 +56,19 @@ func _process(delta: float) -> void:
 		set_process(false)
 		return
 	load_complete = status == ResourceLoader.THREAD_LOAD_LOADED
+	if load_complete and not load_time_logged:
+		load_time_logged = true
+		if OS.is_debug_build():
+			print("STARTUP_THREADED_LOAD_MS=%d" % (Time.get_ticks_msec() - request_started_ms))
 	var actual_progress := float(progress[0]) if not progress.is_empty() else 0.0
-	var target_progress := 1.0 if load_complete else minf(actual_progress, 0.95)
-	displayed_progress = move_toward(displayed_progress, target_progress, delta * 0.95)
+	# Godot may report zero until the whole scene is loaded. Keep the bar moving
+	# during that wait, but reserve the final segment for confirmed completion.
+	var waiting_progress := minf(elapsed * 0.16, 0.82)
+	var target_progress := 1.0 if load_complete else minf(maxf(actual_progress, waiting_progress), 0.90)
+	target_progress = maxf(target_progress, displayed_progress)
+	displayed_progress = move_toward(displayed_progress, target_progress, delta * (1.15 if load_complete else 0.42))
 	progress_bar.value = displayed_progress * 100.0
-	status_label.text = "ZAHRADA JE PŘIPRAVENÁ" if load_complete else "PROBOUZÍME ZAHRADU%s" % ".".repeat(int(elapsed * 3.0) % 4)
+	status_label.text = "DOKONČUJEME POKOJ..." if load_complete and displayed_progress < 0.995 else ("ZAHRADA JE PŘIPRAVENÁ" if load_complete else "PROBOUZÍME ZAHRADU%s" % ".".repeat(int(elapsed * 3.0) % 4))
 	var growth := clampf(elapsed / MIN_VISIBLE_SECONDS, 0.0, 1.0)
 	art.scale = Vector2.ONE * (0.76 + 0.24 * _ease_out(growth))
 	art.modulate.a = clampf(elapsed / 0.45, 0.0, 1.0)
@@ -63,14 +78,41 @@ func _process(delta: float) -> void:
 	_animate_ornament(clover_left, 2.3, 2.0, 0.055)
 	_animate_ornament(clover_right, 4.0, 2.5, 0.05)
 	_animate_ornament(leafy_flourish, 1.1, 2.5, 0.025)
+	ladybugs.set("elapsed", elapsed)
+	ladybugs.queue_redraw()
 	queue_redraw()
-	if load_complete and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
+	if load_complete and displayed_progress >= 0.995 and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
 		changing_scene = true
 		var packed := ResourceLoader.load_threaded_get(MAIN_SCENE) as PackedScene
 		if packed == null:
 			_show_load_error()
 			return
-		get_tree().change_scene_to_packed(packed)
+		_begin_cloud_transition(packed)
+
+
+func _begin_cloud_transition(packed: PackedScene) -> void:
+	var tree := get_tree()
+	var screen_image := get_viewport().get_texture().get_image()
+	var cloud_layer := CanvasLayer.new()
+	cloud_layer.name = "StartupCloudDissolve"
+	cloud_layer.layer = 100
+	var veil := TextureRect.new()
+	veil.texture = ImageTexture.create_from_image(screen_image)
+	veil.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	veil.stretch_mode = TextureRect.STRETCH_SCALE
+	veil.mouse_filter = Control.MOUSE_FILTER_STOP
+	cloud_layer.add_child(veil)
+	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var cloud_material := ShaderMaterial.new()
+	cloud_material.shader = CLOUD_DISSOLVE_SHADER
+	cloud_material.set_shader_parameter("progress", 0.0)
+	veil.material = cloud_material
+	tree.root.add_child(cloud_layer)
+	tree.root.set_meta("startup_open_player_room", true)
+	tree.change_scene_to_packed(packed)
+	var transition := tree.create_tween()
+	transition.tween_property(cloud_material, "shader_parameter/progress", 1.0, 0.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	transition.finished.connect(cloud_layer.queue_free)
 
 
 func _draw() -> void:
@@ -164,6 +206,10 @@ func _build_ui() -> void:
 	fill.set_corner_radius_all(9)
 	progress_bar.add_theme_stylebox_override("fill", fill)
 	add_child(progress_bar)
+	ladybugs = LADYBUG_OVERLAY.new()
+	ladybugs.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(ladybugs)
+	ladybugs.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 
 func _ornament(texture: Texture2D, mirrored := false) -> TextureRect:

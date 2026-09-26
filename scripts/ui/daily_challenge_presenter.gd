@@ -41,12 +41,12 @@ func refresh(game_session: GameSession) -> void:
 	var target_available := game_session.get_daily_challenge_target_slot() >= 0
 	action_button.disabled = game_session.daily_challenge_completed or game_session.daily_challenge_claimed or not target_available
 	action_button.text = "ÚKOL SPLNĚN" if game_session.daily_challenge_completed or game_session.daily_challenge_claimed else (game_session.get_daily_challenge_action_label() if target_available else "ČEKÁ NA VHODNÝ STAV")
-	if not bool(action_button.get_meta("phase161_uses_baked_painted_surface", false)):
+	if not bool(action_button.get_meta("daily_challenge_painted_button_v2", false)):
 		ComicUITheme.apply_button(action_button, ComicUITheme.BLUE if not action_button.disabled else Color("#74848b"), ComicUITheme.CREAM, 14)
 	claim_button.disabled = not game_session.daily_challenge_completed or game_session.daily_challenge_claimed
 	var pack_reward_text := "1 BALÍČEK"
 	if game_session.has_method("get_botanical_pack_state") and bool(game_session.get_botanical_pack_state().get("queue_full", false)):
 		pack_reward_text = "ZÁSOBNÍK BALÍČKŮ JE PLNÝ"
-	claim_button.text = "ODMĚNA VYZVEDNUTA" if game_session.daily_challenge_claimed else ("VYZVEDNOUT ODMĚNU\n12 MINCÍ · 10 XP · %s" % pack_reward_text if game_session.daily_challenge_completed else "NEJDŘÍV SPLŇ DNEŠNÍ ÚKOL")
-	if not bool(claim_button.get_meta("phase161_uses_baked_painted_surface", false)):
+	claim_button.text = "ODMĚNA VYZVEDNUTA" if game_session.daily_challenge_claimed else ("VYZVEDNOUT ODMĚNU\n12 MINCÍ · 10 XP · %s" % pack_reward_text if game_session.daily_challenge_completed else "ODMĚNA PO SPLNĚNÍ\n12 MINCÍ · 10 XP · 1 BALÍČEK")
+	if not bool(claim_button.get_meta("daily_challenge_painted_button_v2", false)):
 		ComicUITheme.apply_button(claim_button, ComicUITheme.GREEN if not claim_button.disabled else Color("#74848b"), ComicUITheme.INK if not claim_button.disabled else ComicUITheme.CREAM, 14)
