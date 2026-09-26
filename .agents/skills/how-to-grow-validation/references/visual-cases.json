@@ -1541,7 +1541,7 @@
       "masks": [],
       "pixel_tolerance": 12,
       "gate": true,
-      "approval_record": "docs/visual-proposals/20260926-rc61-runtime-baseline/runtime-reference-approval-v1.md",
+      "approval_record": "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
       "thresholds": {
         "max_mean_abs_error": 4.0,
         "max_rmse": 12.0,

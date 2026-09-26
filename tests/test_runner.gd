@@ -9663,10 +9663,10 @@ func _test_phase155_approved_painted_herbarium() -> void:
 		str(herbarium_visual_case.get("reference", "")) == VisualDesignSystem.HERBARIUM_PHASE155_TARGET_ASSET.trim_prefix("res://") \
 		and str(herbarium_visual_case.get("actual", "")) == "comic-phase155-herbarium.png" \
 		and not bool(herbarium_visual_case.get("gate", true)) \
-		and str(herbarium_runtime_visual_case.get("reference", "")) == "assets/ui/comic/reference_phase155_herbarium_runtime_v1.png" \
+		and str(herbarium_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc61_runtime_baseline/reference_phase155-herbarium-runtime-approved_v1.png" \
 		and str(herbarium_runtime_visual_case.get("actual", "")) == "comic-phase155-herbarium.png" \
 		and bool(herbarium_runtime_visual_case.get("gate", false)) \
-		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase155_herbarium_runtime_v1.png") == "8af6514760bba55dd78f47a0945febbd744ed65ae4462c1703399f32e9cc4530" \
+		and FileAccess.get_sha256("res://assets/ui/comic/rc61_runtime_baseline/reference_phase155-herbarium-runtime-approved_v1.png") == "9879f4dc9fc550be8783fb93e94f8ff3297105531f9fe13145886154ad3a66b3" \
 		and "comic-phase155-herbarium.png" in capture_source \
 		and "PHASE155_HERBARIUM_CAPTURE=PASSED" in capture_source,
 		"Phase155 zachovává report-only koncept a přidává samostatný append-only tvrdý baseline uživatelem schváleného skutečného Godot renderu"
@@ -10245,11 +10245,11 @@ func _test_phase161_approved_painted_daily_challenge() -> void:
 	var concept_case := {}
 	var phase161_runtime_cases := {}
 	var expected_phase161_cases := {
-		"phase161-daily-challenge-active-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png", "comic-phase161-daily-challenge-active.png"],
-		"phase161-daily-challenge-completed-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png", "comic-phase161-daily-challenge-completed.png"],
-		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
-		"phase161-daily-challenge-claimed-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png", "comic-phase161-daily-challenge-claimed.png"],
-		"phase161-daily-challenge-unavailable-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png", "comic-phase161-daily-challenge-unavailable.png"],
+		"phase161-daily-challenge-active-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png", "comic-phase161-daily-challenge-active.png"],
+		"phase161-daily-challenge-completed-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png", "comic-phase161-daily-challenge-completed.png"],
+		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
+		"phase161-daily-challenge-claimed-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png", "comic-phase161-daily-challenge-claimed.png"],
+		"phase161-daily-challenge-unavailable-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png", "comic-phase161-daily-challenge-unavailable.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
 		var visual_case := case_variant as Dictionary
