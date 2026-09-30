@@ -63,7 +63,9 @@ function Read-TextUtf8 {
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
         throw "Required file is missing: $Path"
     }
-    return [System.IO.File]::ReadAllText($Path, [System.Text.UTF8Encoding]::new($false))
+    # Multiline contract expressions use LF anchors; Windows Git checkouts may
+    # use CRLF. Normalize text only, never binary visual references.
+    return ([System.IO.File]::ReadAllText($Path, [System.Text.UTF8Encoding]::new($false))).Replace("`r`n", "`n")
 }
 
 function Unquote-Value {
