@@ -486,7 +486,7 @@ try {
         -Name 'STARTUP_PREFERENCES' `
         -ScriptPath (Join-Path $projectRoot 'tools\run_startup_preferences_smoke.ps1') `
         -Arguments @('-GodotPath', $resolvedGodot) `
-        -RequiredMarkers @('STARTUP_PREFERENCES_SMOKE=PASSED')
+        -RequiredMarkers @('STARTUP_PREFERENCES_SMOKE=PASSED', 'PREPARED_STARTUP_ASSETS=PASSED')
 
     Invoke-CheckedPowerShell `
         -Name 'VISUAL_CONTRACT' `

@@ -3,6 +3,7 @@ extends Button
 ## Illustrated botanical milestone used by the Grower Journal skill tree.
 
 const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
+const PreparedIcons := preload("res://scripts/ui/prepared_startup_icons.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
@@ -281,18 +282,29 @@ func _status_pill_style(is_achieved: bool, is_selected: bool) -> StyleBoxFlat:
 static func normalized_icon_texture(source: Texture2D) -> Texture2D:
 	if source == null:
 		return source
+	if PreparedIcons.JOURNAL_TEXTURES.has(source.resource_path):
+		return PreparedIcons.JOURNAL_TEXTURES[source.resource_path] as Texture2D
 	var cache_key := source.resource_path if not source.resource_path.is_empty() else str(source.get_instance_id())
 	if normalized_icon_cache.has(cache_key):
 		return normalized_icon_cache[cache_key] as Texture2D
-	var source_image := source.get_image()
-	if source_image == null or source_image.is_empty():
+	var normalized := normalized_icon_image(source)
+	if normalized == null:
 		normalized_icon_cache[cache_key] = source
 		return source
+	var normalized_texture := ImageTexture.create_from_image(normalized)
+	normalized_icon_cache[cache_key] = normalized_texture
+	return normalized_texture
+
+
+static func normalized_icon_image(source: Texture2D) -> Image:
+	# Original conversion, retained for the offline baker and unknown textures.
+	var source_image := source.get_image()
+	if source_image == null or source_image.is_empty():
+		return null
 	source_image.convert(Image.FORMAT_RGBA8)
 	var used_rect := source_image.get_used_rect()
 	if not used_rect.has_area():
-		normalized_icon_cache[cache_key] = source
-		return source
+		return null
 	var trimmed := source_image.get_region(used_rect)
 	var maximum_art_size := 70.0
 	var scale_factor := minf(maximum_art_size / float(trimmed.get_width()), maximum_art_size / float(trimmed.get_height()))
@@ -307,6 +319,4 @@ static func normalized_icon_texture(source: Texture2D) -> Texture2D:
 	normalized.blit_rect(trimmed, Rect2i(Vector2i.ZERO, target_size), destination)
 	normalized.fix_alpha_edges()
 	normalized.generate_mipmaps()
-	var normalized_texture := ImageTexture.create_from_image(normalized)
-	normalized_icon_cache[cache_key] = normalized_texture
-	return normalized_texture
+	return normalized

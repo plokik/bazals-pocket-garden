@@ -1,0 +1,105 @@
+{
+	"schema": "original_startup_pcm_v1",
+	"streams": {
+		"behavior": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 4852,
+			"pcm_sha256": "bc18290282e7a111414c2793f81e9dc4a52ead6233baec68262fe40a7edbbf96",
+			"stereo": false
+		},
+		"care": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 3528,
+			"pcm_sha256": "be873dcde4f78a31f43f2a02d318d253877e0ddd838861ae379ee7a2075f793c",
+			"stereo": false
+		},
+		"confirm": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 3970,
+			"pcm_sha256": "813ac4f7f2eab9d2017a7e93619aac41a49a9f7ce21ae304d2ba20ed308dd988",
+			"stereo": false
+		},
+		"error": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 3970,
+			"pcm_sha256": "eb44eeb205917075efd3fd28f63a9ac55583bb330faa6f3a025fc0d789e1b624",
+			"stereo": false
+		},
+		"fanfare": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 9262,
+			"pcm_sha256": "fe426be1b6b299a694448c1b9168d540040f47292b7122fe19db9ba411727722",
+			"stereo": false
+		},
+		"harvest": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 4852,
+			"pcm_sha256": "394441b3346f062b8e281d942a06e48f333b10d516028123757a22ee2e13f332",
+			"stereo": false
+		},
+		"music": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 66150,
+			"loop_mode": 1,
+			"mix_rate": 11025,
+			"pcm_bytes": 132300,
+			"pcm_sha256": "6257a8732ff9e42e24c365cbf776e7de729a351f1b7fe24e516dfa4fecd6a5bd",
+			"stereo": false
+		},
+		"reward": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 6174,
+			"pcm_sha256": "8ffde43a220f3300eb9648def6e33f1277c9ec1badff3e2ef1bc1bce0a2fb6be",
+			"stereo": false
+		},
+		"sparkle": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 5292,
+			"pcm_sha256": "d5605530ba3d1997c33a1bdb107c7bd75ad160c4005a30605c54e72e182a302a",
+			"stereo": false
+		},
+		"tap": {
+			"format": 1,
+			"loop_begin": 0,
+			"loop_end": 0,
+			"loop_mode": 0,
+			"mix_rate": 11025,
+			"pcm_bytes": 1434,
+			"pcm_sha256": "5dfc093650418ff5d5d7d7e24dde554d5ceed531b9210f5f5a1b6e9e366899d2",
+			"stereo": false
+		}
+	}
+}

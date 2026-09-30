@@ -51,6 +51,7 @@ const GrowerJournalSkillNodeScene := preload("res://scripts/ui/grower_journal_sk
 const CareCenterPresenterScene := preload("res://scripts/ui/care_center_presenter.gd")
 const CareCenterPaintedArt := preload("res://scripts/ui/care_center_painted_assets.gd")
 const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
+const PreparedStartupIcons := preload("res://scripts/ui/prepared_startup_icons.gd")
 const CareNotificationServiceScene := preload("res://scripts/services/care_notification_service.gd")
 const PlantDiagnosisServiceScene := preload("res://scripts/services/plant_diagnosis_service.gd")
 const PlantDiagnosisPresenterScene := preload("res://scripts/ui/plant_diagnosis_presenter.gd")
@@ -6867,15 +6868,22 @@ func _shop_normalized_icon_texture(source: Texture2D, safe_padding: int = 4) -> 
 	var cache_key := "%s::padding=%d" % [source_key, bounded_padding]
 	if shop_normalized_icon_textures.has(cache_key):
 		return shop_normalized_icon_textures[cache_key] as Texture2D
-	var image := source.get_image()
-	if image == null or image.is_empty():
-		shop_normalized_icon_textures[cache_key] = source
-		return source
-	var used_rect := image.get_used_rect()
+	var prepared: Dictionary = PreparedStartupIcons.ALPHA_BOUNDS.get(source_key, {})
+	var used_rect: Rect2i
+	var image_size: Vector2i
+	if not prepared.is_empty():
+		used_rect = prepared.rect
+		image_size = prepared.size
+	else:
+		var image := source.get_image()
+		if image == null or image.is_empty():
+			shop_normalized_icon_textures[cache_key] = source
+			return source
+		used_rect = image.get_used_rect()
+		image_size = image.get_size()
 	if not used_rect.has_area():
 		shop_normalized_icon_textures[cache_key] = source
 		return source
-	var image_size := image.get_size()
 	var left := maxi(0, used_rect.position.x - bounded_padding)
 	var top := maxi(0, used_rect.position.y - bounded_padding)
 	var right := mini(image_size.x, used_rect.position.x + used_rect.size.x + bounded_padding)

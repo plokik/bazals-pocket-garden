@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 	var waiting_progress := minf(elapsed * 0.16, 0.82)
 	var target_progress := 1.0 if load_complete else minf(maxf(actual_progress, waiting_progress), 0.90)
 	target_progress = maxf(target_progress, displayed_progress)
-	displayed_progress = move_toward(displayed_progress, target_progress, delta * (1.15 if load_complete else 0.42))
+	displayed_progress = move_toward(displayed_progress, target_progress, delta * (2.4 if load_complete else 0.42))
 	progress_bar.value = displayed_progress * 100.0
 	status_label.text = "DOKONČUJEME POKOJ..." if load_complete and displayed_progress < 0.995 else ("ZAHRADA JE PŘIPRAVENÁ" if load_complete else "PROBOUZÍME ZAHRADU%s" % ".".repeat(int(elapsed * 3.0) % 4))
 	var motion_time := 0.0 if reduced_motion else elapsed
