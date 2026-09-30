@@ -153,5 +153,3 @@ func _settings_slider(callback: Callable) -> HSlider:
 	slider.value_changed.connect(callback)
 	slider.set_meta("touch_target_min_height", 46)
 	return slider
-
-
