@@ -13067,17 +13067,19 @@ func _test_phase55_mobile_back_contract() -> void:
 
 func _test_phase56_safe_new_game_contract() -> void:
 	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var backup_view_source := FileAccess.get_file_as_string("res://scripts/ui/local_backup_modal_view.gd")
 	var save_source := FileAccess.get_file_as_string("res://scripts/save_manager.gd")
-	_check("phase56_version_save_status_v1" in main_source and "application/config/version" in main_source and "last_successful_save_unix" in main_source, "Fáze 56 technická obrazovka pravdivě ukazuje verzi i poslední potvrzené lokální uložení")
-	_check("phase56_safe_new_game_v1" in main_source and "OPRAVDU ZAČÍT ZNOVU" in main_source and "local_backup_new_game_armed" in main_source, "Fáze 56 běžná nová hra vyžaduje samostatné druhé potvrzení")
+	_check("phase56_version_save_status_v1" in backup_view_source and "application/config/version" in main_source and "last_successful_save_unix" in main_source, "Fáze 56 technická obrazovka pravdivě ukazuje verzi i poslední potvrzené lokální uložení")
+	_check("phase56_safe_new_game_v1" in backup_view_source and "OPRAVDU ZAČÍT ZNOVU" in main_source and "local_backup_new_game_armed" in main_source, "Fáze 56 běžná nová hra vyžaduje samostatné druhé potvrzení")
 	_check("BEFORE_NEW_GAME_PATH" in save_source and "install_new_game_session" in save_source and "_install_portable_session_to_paths" in save_source, "Fáze 56 bezpečný reset používá atomický zápis a oddělenou kopii předchozího postupu")
 
 
 func _test_phase58_previous_game_restore_contract() -> void:
 	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var backup_view_source := FileAccess.get_file_as_string("res://scripts/ui/local_backup_modal_view.gd")
 	var save_source := FileAccess.get_file_as_string("res://scripts/save_manager.gd")
 	var android_audit_source := FileAccess.get_file_as_string("res://tools/run_android_device_audit.ps1")
-	_check("phase58_restore_previous_game_v1" in main_source and "OBNOVIT PŘEDCHOZÍ HRU" in main_source and "POTVRDIT NÁVRAT" in main_source, "Fáze 58 zpřístupní předchozí hru pouze přes velké dvoukrokové mobilní tlačítko")
+	_check("phase58_restore_previous_game_v1" in backup_view_source and "OBNOVIT PŘEDCHOZÍ HRU" in backup_view_source and "POTVRDIT NÁVRAT" in main_source, "Fáze 58 zpřístupní předchozí hru pouze přes velké dvoukrokové mobilní tlačítko")
 	_check("read_before_new_game_backup" in save_source and "restore_before_new_game_session" in save_source, "Fáze 58 čte a obnovuje interní kopii jedinou auditovatelnou cestou")
 	_check("_install_portable_session_to_paths(restored" in save_source and "before_import_path" in save_source, "Fáze 58 před návratem staré hry atomicky uchová právě aktivní novější postup")
 	_check("OBNOVIT PŘEDCHOZÍ HRU" in android_audit_source and "POTVRDIT NÁVRAT" in android_audit_source and "survives an app restart" in android_audit_source, "Fáze 58 fyzický audit popisuje celý nedestruktivní reset, návrat a restart")
@@ -15151,7 +15153,11 @@ func _test_main_scene_smoke() -> void:
 	var displayed_version := str(ProjectSettings.get_setting("application/config/version", ""))
 	_check("VERZE %s" % displayed_version in instance.local_backup_info_label.text and "POSLEDNÍ ULOŽENÍ" in instance.local_backup_info_label.text and instance.local_backup_new_game_button.custom_minimum_size.y >= 64.0 and instance.local_backup_new_game_button.get_meta("component", "") == "phase56_safe_new_game_v1", "Fáze 56 obrazovka postupu ukáže verzi, stav uložení a velký bezpečný cíl nové hry")
 	var session_before_new_game_arm: GameSession = instance.session
-	instance._confirm_local_new_game()
+	instance.swipe_action_suppressed = true
+	instance.local_backup_new_game_button.pressed.emit()
+	_check(not instance.local_backup_new_game_armed and instance.session == session_before_new_game_arm, "Zálohovací dialog po oddělení UI stále potlačí akci při tažení")
+	instance.swipe_action_suppressed = false
+	instance.local_backup_new_game_button.pressed.emit()
 	_check(instance.local_backup_new_game_armed and instance.local_backup_new_game_button.text == "OPRAVDU ZAČÍT ZNOVU" and instance.session == session_before_new_game_arm and not instance.local_backup_confirm_button.visible, "Fáze 56 první klepnutí pouze ozbrojí reset a nezmění běžící hru")
 	instance._disarm_local_new_game()
 	var previous_game_preview: Dictionary = instance.session.to_dict()
@@ -15160,7 +15166,7 @@ func _test_main_scene_smoke() -> void:
 	instance._refresh_previous_game_restore_state()
 	_check(instance.local_backup_restore_previous_button.visible and instance.local_backup_restore_previous_button.custom_minimum_size.y >= 64.0 and instance.local_backup_restore_previous_button.get_meta("component", "") == "phase58_restore_previous_game_v1", "Fáze 58 zobrazí obnovu jen pro platnou předchozí hru a zachová velký mobilní cíl")
 	var session_before_previous_arm: GameSession = instance.session
-	instance._confirm_restore_previous_game()
+	instance.local_backup_restore_previous_button.pressed.emit()
 	_check(instance.local_backup_restore_previous_armed and instance.local_backup_restore_previous_button.text == "POTVRDIT NÁVRAT" and instance.session == session_before_previous_arm and "222 mincí" in instance.local_backup_status_label.text, "Fáze 58 první klepnutí pouze ukáže náhled předchozí hry bez změny aktivní relace")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(SaveManager.BEFORE_NEW_GAME_PATH))
 	instance._disarm_local_previous_game_restore()
@@ -15174,7 +15180,11 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.session.coins != 321 and instance.local_backup_confirm_button.visible and "321 mincí" in instance.local_backup_status_label.text, "Náhled importované zálohy ještě nemění běžící hru a vyžádá samostatné potvrzení")
 	instance.pending_local_backup_data.clear()
 	instance.local_backup_import_armed = false
-	instance._close_local_backup()
+	for raw_button in instance.local_backup_modal.find_children("*", "Button", true, false):
+		var button := raw_button as Button
+		if button.text == "ZPĚT":
+			button.pressed.emit()
+			break
 	_check(not instance.local_backup_open and not instance.local_backup_modal.visible, "Zrušení zálohy zachová herní relaci a vrátí hráče do stejné obrazovky")
 	instance._on_music_toggled(false)
 	instance._on_haptics_toggled(false)
