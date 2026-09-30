@@ -2,6 +2,8 @@
 
 Datum: 2026-09-30. Kandidát: `RC61-STABILITY-20260930`.
 
+Navazující opravy, měření a aktuální finální balíky V6 jsou v [RC61_FINAL_AUDIT_20260930.md](RC61_FINAL_AUDIT_20260930.md). Tento dokument zachovává původní evidenci V2.
+
 ## Výsledek změny
 
 - Animace ikonky světla má jednoho vlastníka v `PlantActionPresenter`. Pravidelná aktualizace UI i malovaná varianta respektují její průběh a zachovávají schválenou klidovou barvu.

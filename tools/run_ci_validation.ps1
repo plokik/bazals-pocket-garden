@@ -5,13 +5,13 @@ param(
     [ValidateRange(1, 1000)]
     [int]$ExpectedSaveSchema = 41,
     [ValidateRange(1, 10000)]
-    [int]$ExpectedMinimumRegressionTests = 6747,
+    [int]$ExpectedMinimumRegressionTests = 6849,
     [ValidateRange(1, 1000)]
     [int]$ExpectedVisualCases = 54,
     [ValidateRange(1, 1000)]
     [int]$ExpectedActiveVisualGates = 34,
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
-    [string]$ExpectedGoldenDigest = '0C25E4938CD9EC5D8E875A431F208209C88E681BCE3C87A0333051248120FD36',
+    [string]$ExpectedGoldenDigest = 'D799AB4F869DCB13EBE5B6E5CD0C08BFE9FA352D82C4D88315B9CB67B2791DD7',
     [switch]$FullVisualValidation
 )
 
@@ -175,7 +175,17 @@ function Get-GoldenDigest {
         if (-not (Test-Path -LiteralPath $absolute -PathType Leaf)) {
             throw "Golden reference is missing: $relative"
         }
-        $hash = (Get-FileHash -LiteralPath $absolute -Algorithm SHA256).Hash
+        if ($relative -eq $manifestRelative) {
+            # Match the committed LF manifest on Windows autocrlf checkouts.
+            # Reference PNGs remain byte-hashed; every manifest value is pinned.
+            $manifestBytes = [System.Text.Encoding]::UTF8.GetBytes((Read-TextUtf8 -Path $absolute).Replace("`r`n", "`n"))
+            $manifestSha = [System.Security.Cryptography.SHA256]::Create()
+            try {
+                $hash = ([System.BitConverter]::ToString($manifestSha.ComputeHash($manifestBytes))).Replace('-', '')
+            } finally { $manifestSha.Dispose() }
+        } else {
+            $hash = (Get-FileHash -LiteralPath $absolute -Algorithm SHA256).Hash
+        }
         $digestLines.Add("$relative|$hash")
     }
 
@@ -465,6 +475,12 @@ try {
     Write-Output "CI_RUNTIME_ASSETS=PASSED references=$($runtimeReferences.Count)"
     Write-Output 'CI_RELOCATABLE_TOOL_PATHS=PASSED'
     Write-Output 'CI_STATIC_CONTRACT=PASSED'
+
+    Invoke-CheckedPowerShell `
+        -Name 'STARTUP_PREFERENCES' `
+        -ScriptPath (Join-Path $projectRoot 'tools\run_startup_preferences_smoke.ps1') `
+        -Arguments @('-GodotPath', $resolvedGodot) `
+        -RequiredMarkers @('STARTUP_PREFERENCES_SMOKE=PASSED')
 
     Invoke-CheckedPowerShell `
         -Name 'VISUAL_CONTRACT' `

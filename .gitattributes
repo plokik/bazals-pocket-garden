@@ -1,0 +1,2 @@
+# Keep the pinned visual manifest portable across Windows and Linux checkouts.
+.agents/skills/how-to-grow-validation/references/visual-cases.json text eol=lf

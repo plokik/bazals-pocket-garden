@@ -51,6 +51,21 @@ $logPath = Join-Path $evidenceRoot 'godot-export.log'
 $logRelative = ".godot/android-export/$timestamp/godot-export.log"
 $isolatedAppData = Join-Path $evidenceRoot 'appdata'
 [System.IO.Directory]::CreateDirectory($isolatedAppData) | Out-Null
+# A fresh APPDATA must not also create a fresh signing identity for every APK.
+# Keep one local debug key across both ABIs and stage it into each isolated run.
+$debugKeyRoot = Join-Path $toolRoot 'debug-signing'
+$debugKeyPath = Join-Path $debugKeyRoot 'debug.keystore'
+[System.IO.Directory]::CreateDirectory($debugKeyRoot) | Out-Null
+if (-not (Test-Path -LiteralPath $debugKeyPath -PathType Leaf)) {
+    & (Join-Path $javaHome 'bin\keytool.exe') -genkeypair -keystore $debugKeyPath `
+        -storepass android -keypass android -alias androiddebugkey `
+        -dname 'CN=Android Debug,O=Android,C=US' -keyalg RSA -keysize 2048 -validity 9999 -storetype JKS
+    if ($LASTEXITCODE -ne 0) { throw 'Could not create the persistent local debug signing key.' }
+}
+$isolatedKeyRoot = Join-Path $isolatedAppData 'Godot\keystores'
+[System.IO.Directory]::CreateDirectory($isolatedKeyRoot) | Out-Null
+Copy-Item -LiteralPath $debugKeyPath -Destination (Join-Path $isolatedKeyRoot 'debug.keystore')
+Write-Output 'ANDROID_PERSISTENT_DEBUG_KEY=STAGED'
 $quotedApkArgument = '"' + $apkPath.Replace('\','/') + '"'
 if ($PresetName -notmatch '^[A-Za-z0-9 _-]{1,64}$') {
     throw 'Android export preset name contains unsupported characters.'
@@ -99,6 +114,18 @@ if ($LASTEXITCODE -ne 0) {
     throw 'APK signature verification failed.'
 }
 Write-Output 'APK_SIGNATURE_CHECK=PASSED'
+$publicCertificate = Join-Path $evidenceRoot 'debug-signing-certificate.der'
+& (Join-Path $javaHome 'bin\keytool.exe') -exportcert -keystore $debugKeyPath `
+    -storepass android -alias androiddebugkey -file $publicCertificate
+if ($LASTEXITCODE -ne 0) { throw 'Could not read the public debug signing certificate.' }
+$expectedCertificateDigest = (Get-FileHash -LiteralPath $publicCertificate -Algorithm SHA256).Hash
+$certificateOutput = (& (Join-Path $buildToolsDirectory.FullName 'apksigner.bat') verify --print-certs $apkPath | Out-String)
+$certificateMatch = [regex]::Match($certificateOutput, 'Signer #1 certificate SHA-256 digest: ([0-9a-fA-F]{64})')
+if ($LASTEXITCODE -ne 0 -or -not $certificateMatch.Success -or
+    $certificateMatch.Groups[1].Value.ToUpperInvariant() -ne $expectedCertificateDigest) {
+    throw 'APK signing identity differs from the persistent local debug key.'
+}
+Write-Output "APK_SIGNING_IDENTITY=PASSED sha256=$expectedCertificateDigest"
 
 $jarPath = Join-Path $javaHome 'bin\jar.exe'
 $apkEntries = @(& $jarPath tf $apkPath)

@@ -736,7 +736,10 @@ func _draw_window_life(palette: Dictionary) -> void:
 
 func _draw_painted_title_overlay() -> void:
 	var shared_panel := GardenSceneFraming.location_title_panel(size)
-	var panel_rect := Rect2(PHASE146_TITLE_RECT.position - Vector2(4.0, 4.0), Vector2(minf(PHASE146_TITLE_RECT.size.x, shared_panel.size.x) + 8.0, PHASE146_TITLE_RECT.size.y + 8.0))
+	# The baked plaque stretches with the room; keep the approved 432px layout,
+	# but cover its expanded width on short displays instead of a fixed 204px.
+	var plaque_width := PHASE146_TITLE_RECT.size.x * maxf(1.0, size.x / 432.0)
+	var panel_rect := Rect2(PHASE146_TITLE_RECT.position - Vector2(4.0, 4.0), Vector2(minf(plaque_width, shared_panel.size.x) + 8.0, PHASE146_TITLE_RECT.size.y + 8.0))
 	var title_style := PaintedDetailArt.box("wood", 0.0)
 	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
 		title_style.set_texture_margin(side, 12.0)

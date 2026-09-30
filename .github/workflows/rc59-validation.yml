@@ -1,4 +1,4 @@
-name: RC59 validation
+name: RC61 validation
 
 on:
   pull_request:
@@ -7,13 +7,14 @@ on:
       - main
       - master
       - "release/**"
+      - "fix/**"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: rc59-validation-${{ github.ref }}
+  group: rc61-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -91,7 +92,7 @@ jobs:
             -GodotPath $env:HOW_TO_GROW_GODOT `
             -PythonPath $python `
             -ExpectedSaveSchema 41 `
-            -ExpectedMinimumRegressionTests 6747 `
+            -ExpectedMinimumRegressionTests 6849 `
             -ExpectedVisualCases 54 `
             -ExpectedActiveVisualGates 34 `
-            -ExpectedGoldenDigest 77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170
+            -ExpectedGoldenDigest D799AB4F869DCB13EBE5B6E5CD0C08BFE9FA352D82C4D88315B9CB67B2791DD7

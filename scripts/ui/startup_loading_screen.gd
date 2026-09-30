@@ -30,10 +30,12 @@ var ladybugs: Control
 var progress_bar: ProgressBar
 var frame_style: StyleBoxFlat
 var status_style: StyleBoxFlat
+var reduced_motion := false
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	reduced_motion = _read_reduced_motion()
 	set_meta("component", "animated_cold_start_loading_v1")
 	set_meta("destination_scene", MAIN_SCENE)
 	_build_ui()
@@ -69,16 +71,17 @@ func _process(delta: float) -> void:
 	displayed_progress = move_toward(displayed_progress, target_progress, delta * (1.15 if load_complete else 0.42))
 	progress_bar.value = displayed_progress * 100.0
 	status_label.text = "DOKONČUJEME POKOJ..." if load_complete and displayed_progress < 0.995 else ("ZAHRADA JE PŘIPRAVENÁ" if load_complete else "PROBOUZÍME ZAHRADU%s" % ".".repeat(int(elapsed * 3.0) % 4))
-	var growth := clampf(elapsed / MIN_VISIBLE_SECONDS, 0.0, 1.0)
+	var motion_time := 0.0 if reduced_motion else elapsed
+	var growth := 1.0 if reduced_motion else clampf(elapsed / MIN_VISIBLE_SECONDS, 0.0, 1.0)
 	art.scale = Vector2.ONE * (0.76 + 0.24 * _ease_out(growth))
-	art.modulate.a = clampf(elapsed / 0.45, 0.0, 1.0)
-	art.position.y = art.get_meta("base_y", 0.0) + sin(elapsed * 2.9) * 3.0
+	art.modulate.a = 1.0 if reduced_motion else clampf(elapsed / 0.45, 0.0, 1.0)
+	art.position.y = art.get_meta("base_y", 0.0) + sin(motion_time * 2.9) * 3.0
 	_animate_ornament(orchid_left, 0.0, 3.5, 0.035)
 	_animate_ornament(orchid_right, 1.8, 3.0, 0.03)
 	_animate_ornament(clover_left, 2.3, 2.0, 0.055)
 	_animate_ornament(clover_right, 4.0, 2.5, 0.05)
 	_animate_ornament(leafy_flourish, 1.1, 2.5, 0.025)
-	ladybugs.set("elapsed", elapsed)
+	ladybugs.set("elapsed", motion_time)
 	ladybugs.queue_redraw()
 	queue_redraw()
 	if load_complete and displayed_progress >= 0.995 and elapsed >= MIN_VISIBLE_SECONDS and not changing_scene:
@@ -106,12 +109,16 @@ func _begin_cloud_transition(packed: PackedScene) -> void:
 	var cloud_material := ShaderMaterial.new()
 	cloud_material.shader = CLOUD_DISSOLVE_SHADER
 	cloud_material.set_shader_parameter("progress", 0.0)
-	veil.material = cloud_material
+	if not reduced_motion:
+		veil.material = cloud_material
 	tree.root.add_child(cloud_layer)
 	tree.root.set_meta("startup_open_player_room", true)
 	tree.change_scene_to_packed(packed)
 	var transition := tree.create_tween()
-	transition.tween_property(cloud_material, "shader_parameter/progress", 1.0, 0.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	if reduced_motion:
+		transition.tween_property(veil, "modulate:a", 0.0, 0.18)
+	else:
+		transition.tween_property(cloud_material, "shader_parameter/progress", 1.0, 0.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	transition.finished.connect(cloud_layer.queue_free)
 
 
@@ -122,11 +129,12 @@ func _draw() -> void:
 	draw_style_box(frame_style, Rect2(left, 12.0, safe_width, maxf(0.0, size.y - 24.0)))
 	draw_style_box(status_style, Rect2(left + 24.0, size.y * 0.715, safe_width - 48.0, 102.0))
 	var center := Vector2(size.x * 0.5, size.y * 0.405)
-	var pulse := 0.5 + 0.5 * sin(elapsed * 2.3)
+	var pulse := 0.5 if reduced_motion else 0.5 + 0.5 * sin(elapsed * 2.3)
 	draw_circle(center, minf(size.x * 0.39, 176.0) + pulse * 3.0, Color("#e7f2ba", 0.43))
 	draw_arc(center, minf(size.x * 0.39, 176.0), -PI * 0.90, PI * 0.10, 48, Color("#8cad55", 0.42), 2.0, true)
-	_draw_sunbeams(center)
-	_draw_floaters(center)
+	if not reduced_motion:
+		_draw_sunbeams(center)
+		_draw_floaters(center)
 	_draw_progress_leaf()
 
 
@@ -169,7 +177,7 @@ func _draw_progress_leaf() -> void:
 	if progress_bar == null or displayed_progress <= 0.02:
 		return
 	var point := progress_bar.position + Vector2(progress_bar.size.x * displayed_progress, -6.0)
-	_draw_leaf_mote(point, -0.55 + sin(elapsed * 4.0) * 0.14, 0.92)
+	_draw_leaf_mote(point, -0.55 + (0.0 if reduced_motion else sin(elapsed * 4.0) * 0.14), 0.92)
 
 
 func _build_ui() -> void:
@@ -225,9 +233,26 @@ func _ornament(texture: Texture2D, mirrored := false) -> TextureRect:
 
 
 func _animate_ornament(decoration: TextureRect, phase: float, lift: float, tilt: float) -> void:
-	decoration.position.y = decoration.get_meta("base_y", 0.0) + sin(elapsed * 1.7 + phase) * lift
-	decoration.rotation = sin(elapsed * 1.2 + phase) * tilt
-	decoration.modulate.a = clampf(elapsed / 0.7, 0.0, 1.0)
+	decoration.position.y = decoration.get_meta("base_y", 0.0) + (0.0 if reduced_motion else sin(elapsed * 1.7 + phase) * lift)
+	decoration.rotation = 0.0 if reduced_motion else sin(elapsed * 1.2 + phase) * tilt
+	decoration.modulate.a = 1.0 if reduced_motion else clampf(elapsed / 0.7, 0.0, 1.0)
+
+
+static func _read_reduced_motion(paths: Array = ["user://how_to_grow_save.json", "user://how_to_grow_save.backup.json"]) -> bool:
+	# Read only this display preference, without loading game resources or
+	# changing recovery state before SaveManager handles the save normally.
+	for path in paths:
+		if not FileAccess.file_exists(path):
+			continue
+		var file := FileAccess.open(path, FileAccess.READ)
+		if file == null or file.get_length() > 2 * 1024 * 1024:
+			continue
+		var parser := JSON.new()
+		if parser.parse(file.get_as_text()) != OK or not parser.data is Dictionary:
+			continue
+		var preference: Variant = parser.data.get("reduced_motion", false)
+		return preference if preference is bool else false
+	return false
 
 
 func _layout_ui() -> void:

@@ -1,8 +1,8 @@
 extends RefCounted
-## User-approved painted theme. Keying/cropping happens once in memory;
-## the generated source atlas and original game artwork remain unchanged.
+## User-approved painted theme, baked with tools/bake_painted_ui.gd.
+## Exact original keying/crops are prepared before startup; source art is immutable.
 
-const SOURCE := preload("res://assets/ui/detail_painted_v2/skin_source.png")
+const SOURCE := "res://assets/ui/detail_painted_v2/skin_source.png"
 const REGIONS := {
 	"wood": Rect2i(30, 62, 338, 324),
 	"cream": Rect2i(393, 73, 319, 302),
@@ -17,7 +17,21 @@ const REGIONS := {
 	"book": Rect2i(721, 777, 351, 240),
 	"help": Rect2i(1118, 746, 286, 284),
 }
-static var textures: Dictionary = {}
+const TEXTURES := {
+	"wood": preload("res://assets/ui/detail_painted_v2/runtime/wood.png"),
+	"cream": preload("res://assets/ui/detail_painted_v2/runtime/cream.png"),
+	"teal": preload("res://assets/ui/detail_painted_v2/runtime/teal.png"),
+	"sage": preload("res://assets/ui/detail_painted_v2/runtime/sage.png"),
+	"water": preload("res://assets/ui/detail_painted_v2/runtime/water.png"),
+	"leaf": preload("res://assets/ui/detail_painted_v2/runtime/leaf.png"),
+	"sun": preload("res://assets/ui/detail_painted_v2/runtime/sun.png"),
+	"can": preload("res://assets/ui/detail_painted_v2/runtime/can.png"),
+	"food": preload("res://assets/ui/detail_painted_v2/runtime/food.png"),
+	"wind": preload("res://assets/ui/detail_painted_v2/runtime/wind.png"),
+	"book": preload("res://assets/ui/detail_painted_v2/runtime/book.png"),
+	"help": preload("res://assets/ui/detail_painted_v2/runtime/help.png"),
+}
+
 
 
 static func centered_text_baseline(font: Font, font_size: int, line_rect: Rect2) -> Vector2:
@@ -27,26 +41,7 @@ static func centered_text_baseline(font: Font, font_size: int, line_rect: Rect2)
 
 
 static func texture(kind: String) -> Texture2D:
-	if textures.is_empty():
-		var source := SOURCE.get_image()
-		source.convert(Image.FORMAT_RGBA8)
-		for name in REGIONS:
-			var part := source.get_region(REGIONS[name])
-			for y in range(part.get_height()):
-				for x in range(part.get_width()):
-					var pixel := part.get_pixel(x, y)
-					# No artwork uses magenta. Includes keyed handle holes.
-					if minf(pixel.r, pixel.b) - pixel.g > 0.09:
-						part.set_pixel(x, y, Color.TRANSPARENT)
-			var bounds := part.get_used_rect()
-			if bounds.has_area():
-				part = part.get_region(bounds)
-			part.fix_alpha_edges()
-			if name in ["wood", "cream", "teal", "sage"]:
-				part.resize(128, 128, Image.INTERPOLATE_LANCZOS)
-			part.generate_mipmaps()
-			textures[name] = ImageTexture.create_from_image(part)
-	return textures.get(kind)
+	return TEXTURES.get(kind)
 
 
 static func box(kind: String, padding := 7.0, tint := Color.WHITE) -> StyleBoxTexture:
