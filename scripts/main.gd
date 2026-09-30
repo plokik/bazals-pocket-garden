@@ -635,6 +635,8 @@ func _process(delta: float) -> void:
 
 func _notification(what: int) -> void:
 	if what in [NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_OUT]:
+		if plant_action_presenter != null:
+			plant_action_presenter.stop_lamp_transition()
 		if player_room_view != null:
 			player_room_view.cancel_plant_drag(true)
 	if what == NOTIFICATION_WM_SIZE_CHANGED:
@@ -7936,6 +7938,8 @@ func _build_rack_dock_badge(
 
 
 func _change_screen(index: int, refresh_active := true, transition_direction_override := 0) -> void:
+	if index != active_screen:
+		plant_action_presenter.stop_lamp_transition()
 	if index != active_screen and player_room_view != null:
 		player_room_view.cancel_plant_drag()
 	var previous_screen := active_screen
@@ -7954,6 +7958,7 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 func _open_plant_detail(index: int) -> void:
 	if not session.select_plant(index):
 		return
+	plant_action_presenter.stop_lamp_transition()
 	if feedback_layer != null:
 		feedback_layer.cancel_plant_effects()
 	plant_behavior_presenter.reset_observation()
@@ -8002,6 +8007,7 @@ func _open_greenhouse() -> void:
 
 
 func _show_garden_location(location_id: String) -> void:
+	plant_action_presenter.stop_lamp_transition()
 	if player_room_view != null:
 		player_room_view.cancel_plant_drag()
 	if plant_detail_panel != null and plant_detail_panel.visible and feedback_layer != null:
@@ -8745,6 +8751,8 @@ func _on_reduce_motion_toggled(enabled: bool) -> void:
 
 
 func _apply_motion_preference() -> void:
+	if session.reduced_motion:
+		plant_action_presenter.stop_lamp_transition()
 	if feedback_layer != null:
 		feedback_layer.set_reduced_motion(session.reduced_motion)
 	if plant_view != null:
@@ -9073,6 +9081,11 @@ func _on_water_pressed() -> void:
 func _on_lamp_pressed() -> void:
 	if session.toggle_lamp():
 		_save_and_refresh()
+		_play_lamp_icon_transition(session.plant.lamp_on)
+
+
+func _play_lamp_icon_transition(enabled: bool) -> void:
+	plant_action_presenter.play_lamp_transition(enabled, session.reduced_motion)
 
 
 func _on_fertilize_pressed() -> void:

@@ -4,6 +4,7 @@ extends Control
 const DetailBackground := preload("res://assets/backgrounds/comic_detail_window_v1.png")
 const EmptyPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
 const PlantingHandTexture := preload("res://assets/ui/actions/planting_hand_v1.png")
+const WateringHandCanTexture := preload("res://assets/ui/actions/watering_hand_can_v1.png")
 const DetailLayout := preload("res://scripts/ui/plant_detail_layout.gd")
 const PlanterGrounding := preload("res://scripts/ui/rack_planter_grounding.gd")
 const SaucerTexture := preload("res://assets/ui/visual/phase170/rack/rack_ceramic_saucer_phase170_v1.png")
@@ -31,6 +32,8 @@ var animation_time := 0.0
 var action_pulse := 0.0
 var seed_animation := 0.0
 var water_animation := 0.0
+var light_animation := 0.0
+var light_turning_on := false
 var sparkle_animation := 0.0
 var growth_burst_animation := 0.0
 var wind_animation := 0.0
@@ -55,6 +58,7 @@ var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clip_contents = true
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	set_meta("visual_direction", "western_comic_botanical_v1")
 	set_meta("mature_asset", "catalog:species_stage_texture")
@@ -102,6 +106,8 @@ func set_simulation(value: PlantSimulation) -> void:
 	golden_shine_animation = 0.0
 	seed_animation = 0.0
 	water_animation = 0.0
+	light_animation = 0.0
+	light_turning_on = false
 	sparkle_animation = 0.0
 	growth_burst_animation = 0.0
 	action_pulse = 0.0
@@ -143,6 +149,7 @@ func clear_action_effects() -> void:
 	action_pulse = 0.0
 	seed_animation = 0.0
 	water_animation = 0.0
+	light_animation = 0.0
 	sparkle_animation = 0.0
 	growth_burst_animation = 0.0
 	golden_shine_animation = 0.0
@@ -177,6 +184,9 @@ func play_action(action: String) -> void:
 		seed_animation = 1.0
 	elif action == "water":
 		water_animation = strength
+	elif action == "light":
+		light_animation = strength
+		light_turning_on = simulation != null and simulation.lamp_on
 	elif action == "fertilize" or action == "harvest":
 		sparkle_animation = strength
 		golden_shine_animation = strength
@@ -294,7 +304,8 @@ func _process(delta: float) -> void:
 		growth_burst_animation = strength
 		golden_shine_animation = strength
 		action_pulse = strength
-	water_animation = maxf(0.0, water_animation - delta * 1.4 * decay)
+	water_animation = maxf(0.0, water_animation - delta / 1.15 * decay)
+	light_animation = maxf(0.0, light_animation - delta / 0.95 * decay)
 	sparkle_animation = maxf(0.0, sparkle_animation - delta * 1.2 * decay)
 	growth_burst_animation = maxf(0.0, growth_burst_animation - delta * 1.25 * decay)
 	wind_animation = maxf(0.0, wind_animation - delta * 0.75 * decay)
@@ -315,6 +326,8 @@ func _draw() -> void:
 	if simulation == null:
 		return
 	var pot_center := Vector2(size.x * 0.5, DetailLayout.shelf_y(size))
+	if light_animation > 0.0:
+		_draw_light_rays(pot_center)
 	if behavior_active or behavior_pulse > 0.0:
 		_draw_behavior_halo(pot_center)
 	if _is_harvest_state(simulation.stage):
@@ -575,9 +588,98 @@ func _water_soil_position(center: Vector2, geometry: Dictionary) -> Vector2:
 	return Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * WATER_SOIL_RATIO)
 
 
+func _draw_watering_can(soil: Vector2, progress: float) -> void:
+	var sprite_width := minf(size.x * 0.43, 185.0)
+	var sprite_size := Vector2(sprite_width, sprite_width * WateringHandCanTexture.get_height() / WateringHandCanTexture.get_width())
+	var nozzle_offset := sprite_size * Vector2(0.085, 0.79)
+	var sprite_origin := soil + Vector2(42.0, -47.0) - nozzle_offset
+	var shift := Vector2.ZERO
+	if progress < 0.24:
+		var arrival := clampf(progress / 0.24, 0.0, 1.0)
+		shift = Vector2(size.x * 0.42, -35.0) * pow(1.0 - arrival, 3.0)
+	elif progress > 0.78:
+		var departure := clampf((progress - 0.78) / 0.22, 0.0, 1.0)
+		shift = Vector2(size.x * 0.42, -35.0) * departure * departure
+	sprite_origin += shift
+	var pour := clampf((progress - 0.26) / 0.18, 0.0, 1.0) * (1.0 - clampf((progress - 0.64) / 0.14, 0.0, 1.0))
+	var tilt := -0.12 * pour
+	var alpha := clampf(progress / 0.09, 0.0, 1.0) * clampf((1.0 - progress) / 0.10, 0.0, 1.0)
+	var tint := Color(1.0, 1.0, 1.0, alpha)
+	var grip := sprite_origin + sprite_size * Vector2(0.50, 0.44)
+	# The hand and can are painted as one cutout, and tilt around the held handle.
+	draw_set_transform(grip, tilt, Vector2.ONE)
+	draw_texture_rect(WateringHandCanTexture, Rect2(sprite_origin - grip, sprite_size), false, tint)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	if pour <= 0.0:
+		return
+	var spout := grip + (sprite_origin + nozzle_offset - grip).rotated(tilt)
+	var landing := soil + Vector2(45.0, -10.0)
+	var water_alpha := alpha * pour
+	for index in range(5):
+		var travel := fposmod(progress * 3.8 + float(index) * 0.19, 1.0)
+		var bead := spout.lerp(landing, travel) + Vector2(sin(travel * PI) * 3.0, 0.0)
+		var bead_alpha := water_alpha * (0.55 + 0.45 * sin(travel * PI))
+		var radius := 3.1 + (index % 2) * 0.6
+		draw_circle(bead + Vector2(0.6, 0.9), radius + 0.7, Color(COMIC_INK, bead_alpha * 0.50), true, -1.0, true)
+		draw_circle(bead, radius, Color(COMIC_WATER, bead_alpha), true, -1.0, true)
+		draw_circle(bead + Vector2(-0.9, -1.0), 1.0, Color(COMIC_WATER_HIGHLIGHT, bead_alpha), true, -1.0, true)
+
+
+func _draw_light_rays(_center: Vector2) -> void:
+	var geometry := _detail_planter_geometry()
+	if geometry.is_empty():
+		return
+	var plant_rect: Rect2 = geometry.plant_rect
+	var progress := clampf(1.0 - light_animation, 0.0, 1.0)
+	var pulse := sin(progress * PI)
+	var reach := 1.0 if reduced_motion else (progress if light_turning_on else 1.0 - progress)
+	var source := Vector2(size.x * 0.80, -12.0)
+	var canopy := Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.43)
+	var spread := plant_rect.size.x * (0.13 + reach * 0.24)
+	for index in range(3):
+		var offset := float(index - 1) * spread * 0.57
+		var target := canopy + Vector2(offset, float(index % 2) * 10.0)
+		var width := 19.0 + reach * 16.0
+		draw_colored_polygon(PackedVector2Array([
+			source + Vector2(float(index - 1) * 10.0 - 9.0, 0.0),
+			source + Vector2(float(index - 1) * 10.0 + 9.0, 0.0),
+			target + Vector2(width, 0.0),
+			target + Vector2(-width, 0.0),
+		]), Color(1.0, 0.75, 0.22, pulse * (0.12 if light_turning_on else 0.075)))
+
+
+func _draw_light_canopy(_center: Vector2) -> void:
+	var geometry := _detail_planter_geometry()
+	if geometry.is_empty():
+		return
+	var plant_rect: Rect2 = geometry.plant_rect
+	var progress := clampf(1.0 - light_animation, 0.0, 1.0)
+	var pulse := sin(progress * PI)
+	var travel := 0.50 if reduced_motion else (progress if light_turning_on else 1.0 - progress)
+	var canopy := Vector2(plant_rect.get_center().x, plant_rect.position.y + plant_rect.size.y * 0.38)
+	var half_width := plant_rect.size.x * 0.30
+	var glint := canopy + Vector2(lerpf(-half_width, half_width, travel), -10.0)
+	var color := Color("#fff3a2") if light_turning_on else Color("#ffd274")
+	draw_set_transform(canopy, 0.0, Vector2(1.0, 0.62))
+	draw_circle(Vector2.ZERO, half_width * 1.52, Color("#ffdc65", pulse * (0.13 if light_turning_on else 0.075)), true, -1.0, true)
+	draw_circle(Vector2.ZERO, half_width * 0.94, Color("#fff1ae", pulse * (0.15 if light_turning_on else 0.065)), true, -1.0, true)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	for index in range(3):
+		var point := glint + Vector2(float(index - 1) * 16.0, float((index + 1) % 2) * 13.0)
+		draw_circle(point, 12.0 - float(index) * 2.0, Color(color, pulse * (0.25 if light_turning_on else 0.12)), true, -1.0, true)
+	if light_turning_on:
+		for index in range(3):
+			var sparkle := glint + Vector2(float(index - 1) * 22.0, -10.0 + float(index % 2) * 18.0)
+			_draw_comic_sparkle(sparkle, 2.2 + float(index % 2) * 0.8, pulse * 0.78)
+	else:
+		draw_arc(glint, 12.0 + (1.0 - travel) * 14.0, PI * 0.15, PI * 0.85, 18, Color("#ffe397", pulse * 0.55), 2.0, true)
+
+
 func _draw_effects(center: Vector2) -> void:
 	if simulation.stage == PlantSimulation.Stage.MATURE and not _uses_sick_visual():
 		_draw_harvest_ready_effect(center)
+	if light_animation > 0.0:
+		_draw_light_canopy(center)
 	if seed_animation > 0.0:
 		_draw_seed_planting(center)
 	if water_animation > 0.0:
@@ -585,8 +687,9 @@ func _draw_effects(center: Vector2) -> void:
 		var soil := _water_soil_position(center, water_geometry)
 		var progress := 1.0 - water_animation
 		if not reduced_motion:
+			_draw_watering_can(soil, progress)
 			for index in range(3):
-				var phase := progress * 1.55 - float(index) * 0.21
+				var phase := (progress - 0.30) * 2.45 - float(index) * 0.19
 				if phase <= 0.0 or phase >= 1.0:
 					continue
 				var p := _get_water_drop_position(center, index, phase, water_geometry)

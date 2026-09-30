@@ -24,13 +24,9 @@ func _set_text(button: Button, text_value: String, tooltip := "") -> void:
 	super._set_text(button, display, text_value if tooltip.is_empty() else tooltip)
 
 
-func _set_visual(button: Button, disabled: bool, icon_active := true) -> void:
-	super._set_visual(button, disabled, icon_active)
+func _get_icon_color(active: bool) -> Color:
 	# The VYP label carries the off state; retain the approved golden sun.
-	if not icon_active:
-		var glyph := button.get_meta("action_icon", null) as TextureRect
-		if glyph != null:
-			glyph.modulate = Color(0.88, 0.88, 0.88)
+	return Color.WHITE if active else Color(0.88, 0.88, 0.88)
 
 
 func _refresh_empty_cycle_card(empty: bool) -> void:

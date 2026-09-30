@@ -14303,6 +14303,7 @@ func _test_ui_driven_vertical_slice() -> void:
 	_check(session.plant.stage == PlantSimulation.Stage.GERMINATING and session.journey_step == GameSession.JourneyStep.WATER_PLANT, "Tlačítko ZASADIT založí skutečnou rostlinu a posune průvodce")
 	instance.water_button.pressed.emit()
 	_check(session.journey_step == GameSession.JourneyStep.VISIT_MEASUREMENTS and instance.plant_view.water_animation > 0.0, "Tlačítko zálivky propojí simulaci, lokální animaci a další úkol")
+	_test_light_feedback_with_ui(instance)
 	instance.nav_buttons[3].pressed.emit()
 	_check(instance.active_screen == 3 and session.journey_step == GameSession.JourneyStep.GROW_TO_MATURE and 3 in session.visited_screens, "Skutečná záložka MĚŘENÍ splní diagnostický krok vedené cesty")
 	instance.nav_buttons[0].pressed.emit()
@@ -15543,3 +15544,54 @@ func _visible_control_descendants_fit(parent: Control, tolerance := 0.5) -> bool
 		):
 			return false
 	return true
+
+
+func _test_light_feedback_with_ui(instance) -> void:
+	var session: GameSession = instance.session
+	var icon := instance.lamp_button.get_meta("action_icon") as TextureRect
+	var original_lamp := session.plant.lamp_on
+	_check(instance.plant_view.clip_contents, "Animace péče zůstávají uvnitř detailu a nepřekrývají navigaci")
+	instance.lamp_button.pressed.emit()
+	var first := icon.get_meta("light_tween") as Tween if icon.has_meta("light_tween") else null
+	_check(session.plant.lamp_on != original_lamp and instance.plant_view.light_animation > 0.0 and first != null, "Světlo přes skutečné tlačítko propojí stav, paprsky a animaci ikonky")
+	if first != null:
+		first.pause()
+		first.custom_step(0.12)
+	var animated_color := icon.modulate
+	instance._refresh_active_ui()
+	_check(icon.modulate == animated_color, "Pravidelná obnova UI nepřepíše barvu rozběhnuté animace světla")
+	instance.lamp_button.pressed.emit()
+	var second := icon.get_meta("light_tween") as Tween if icon.has_meta("light_tween") else null
+	_check(session.plant.lamp_on == original_lamp and second != null and second != first and not first.is_valid(), "Rychlé druhé kliknutí ukončí starý tween a ponechá správný stav světla")
+	if second != null:
+		second.pause()
+		second.custom_step(0.12)
+		animated_color = icon.modulate
+		instance._refresh_active_ui()
+		_check(icon.modulate == animated_color, "Malované UI nepřepisuje ani animaci vypínání světla")
+		second.custom_step(0.7)
+	var resting_color := Color.WHITE if original_lamp else Color(0.88, 0.88, 0.88)
+	_check(icon.scale == Vector2.ONE and is_zero_approx(icon.rotation) and icon.modulate == resting_color and not icon.has_meta("light_tween"), "Po dokončení má světlo původní rozměr, nulové natočení a pravdivou barvu")
+	instance.lamp_button.pressed.emit()
+	instance._open_plant_detail(session.selected_plant_index)
+	_check(not icon.has_meta("light_tween") and icon.scale == Vector2.ONE and is_zero_approx(instance.plant_view.light_animation), "Otevření jiného detailu zruší ikonku i paprsky předchozí rostliny")
+	instance.lamp_button.pressed.emit()
+	instance._open_rack_location()
+	_check(not icon.has_meta("light_tween") and is_zero_approx(instance.plant_view.light_animation), "Odchod do stojanu odstraní rozběhnuté světelné efekty")
+	instance._open_plant_detail(session.selected_plant_index)
+	instance.lamp_button.pressed.emit()
+	session.reduced_motion = true
+	instance._apply_motion_preference()
+	_check(not icon.has_meta("light_tween") and icon.scale == Vector2.ONE, "Zapnutí omezeného pohybu ukončí již běžící tween")
+	instance.lamp_button.pressed.emit()
+	_check(not icon.has_meta("light_tween") and instance.plant_view.light_animation > 0.0 and instance.plant_view.light_animation <= 0.35, "Omezený pohyb zachová krátkou světelnou odezvu bez pohybu ikonky")
+	instance.plant_view.water_animation = 1.0
+	instance.plant_view.clear_action_effects()
+	_check(is_zero_approx(instance.plant_view.water_animation) and is_zero_approx(instance.plant_view.light_animation), "Vyčištění akčních efektů odstraní zároveň konev i paprsky")
+	session.reduced_motion = false
+	instance._apply_motion_preference()
+	instance.lamp_button.pressed.emit()
+	instance._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_check(not icon.has_meta("light_tween") and icon.scale == Vector2.ONE, "Ztráta fokusu nezanechá rozpracovanou animaci tlačítka")
+	session.plant.lamp_on = original_lamp
+	instance._refresh_ui()

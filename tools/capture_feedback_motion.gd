@@ -38,6 +38,26 @@ func _capture() -> void:
 			if not _save_motion_frame(logical_size, "water", frame):
 				quit(2)
 				return
+		view.water_animation = 0.0
+		for enabled in [true, false]:
+			plant.lamp_on = not enabled
+			instance._refresh_ui()
+			instance.lamp_button.pressed.emit()
+			var icon := instance.lamp_button.get_meta("action_icon") as TextureRect
+			var lamp_tween := icon.get_meta("light_tween") as Tween if icon.has_meta("light_tween") else null
+			if lamp_tween != null:
+				lamp_tween.pause()
+			for frame in range(9):
+				view.light_animation = 1.0 - float(frame) / 9.0
+				if lamp_tween != null and lamp_tween.is_valid():
+					lamp_tween.custom_step(0.10)
+				instance._refresh_active_ui()
+				view.queue_redraw()
+				await RenderingServer.frame_post_draw
+				if not _save_motion_frame(logical_size, "light-on" if enabled else "light-off", frame):
+					quit(2)
+					return
+		view.light_animation = 0.0
 		var origin: Vector2 = instance._feedback_origin_for_plant(instance.session.selected_plant_index)
 		instance.feedback_layer.play_feedback("xp", origin)
 		instance.feedback_layer.play_feedback("coins", origin)

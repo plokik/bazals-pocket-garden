@@ -87,4 +87,57 @@ func _set_visual(button: Button, disabled: bool, icon_active := true) -> void:
 		content.modulate = Color(1, 1, 1, DISABLED_ALPHA if disabled else 1.0)
 	var icon := button.get_meta("action_icon", null) as TextureRect
 	if icon != null:
-		icon.modulate = Color.WHITE if icon_active else INACTIVE_ICON_COLOR
+		var target := _get_icon_color(icon_active)
+		var previous_target: Color = icon.get_meta("resting_color", target)
+		icon.set_meta("resting_color", target)
+		var tween := icon.get_meta("light_tween") as Tween if icon.has_meta("light_tween") else null
+		if tween != null and tween.is_valid() and previous_target == target and not disabled:
+			return
+		if tween != null:
+			_reset_icon_transition(icon)
+		icon.modulate = target
+
+
+func play_lamp_transition(enabled: bool, reduced_motion: bool) -> void:
+	stop_lamp_transition()
+	if lamp_button == null or reduced_motion or lamp_button.disabled:
+		return
+	var icon := lamp_button.get_meta("action_icon", null) as TextureRect
+	if icon == null:
+		return
+	var resting_color: Color = icon.get_meta("resting_color", icon.modulate)
+	icon.pivot_offset = icon.size * 0.5
+	icon.scale = Vector2(0.86, 0.86) if enabled else Vector2(1.10, 1.10)
+	icon.rotation = -0.12 if enabled else 0.10
+	icon.modulate = Color("#ffe28c") if enabled else Color.WHITE
+	var tween := icon.create_tween()
+	icon.set_meta("light_tween", tween)
+	tween.tween_property(icon, "scale", Vector2(1.14, 1.14) if enabled else Vector2(0.88, 0.88), 0.17).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(icon, "rotation", 0.10 if enabled else -0.06, 0.17)
+	tween.parallel().tween_property(icon, "modulate", resting_color, 0.38)
+	tween.tween_property(icon, "scale", Vector2.ONE, 0.21).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(icon, "rotation", 0.0, 0.21)
+	tween.finished.connect(func(): _reset_icon_transition(icon))
+
+
+func stop_lamp_transition() -> void:
+	if lamp_button == null:
+		return
+	var icon := lamp_button.get_meta("action_icon", null) as TextureRect
+	if icon != null:
+		_reset_icon_transition(icon)
+
+
+func _reset_icon_transition(icon: TextureRect) -> void:
+	var tween := icon.get_meta("light_tween") as Tween if icon.has_meta("light_tween") else null
+	if tween != null and tween.is_valid():
+		tween.kill()
+	if icon.has_meta("light_tween"):
+		icon.remove_meta("light_tween")
+	icon.scale = Vector2.ONE
+	icon.rotation = 0.0
+	icon.modulate = icon.get_meta("resting_color", icon.modulate)
+
+
+func _get_icon_color(active: bool) -> Color:
+	return Color.WHITE if active else INACTIVE_ICON_COLOR
