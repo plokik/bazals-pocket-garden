@@ -49,7 +49,7 @@ try {
     $env:APPDATA = $previousAppData
 }
 
-$output = Get-Content -LiteralPath $logPath -Raw
+$output = Get-Content -LiteralPath $logPath -Raw -Encoding UTF8
 Write-Output $output
 if ($process.ExitCode -eq 0 -and
     $output -match 'MVP_TESTS_PASSED=\d+' -and

@@ -13,6 +13,7 @@ Kandidát `RC61-STABILITY-FINAL-20260930-V6`, Godot 4.7, verze 0.71.0-rc61, Andr
 - Exporty mají jeden trvalý lokální debug podpis pro obě ABI. Klíč je v ignorovaném `.tooling/debug-signing/debug.keystore`, nikdy v Gitu. Každý export porovnává veřejný certifikát APK s tímto klíčem.
 - CI používá už schválené RC61 reference, 34 aktivních bran a minimum 6849 regresních kontrol. Digest manifestu používá stejné LF konce řádků jako Git; PNG jsou nadále hashované beze změny bajtů. Žádná reference, maska ani tolerance se nezměnila.
 - První čistý GitHub běh odhalil nekompatibilitu kontrolního parseru s CRLF konci řádků (`36770386011`). Čtení textových kontraktů nyní normalizuje CRLF na LF; binární reference ani herní sestavení se tím nemění.
+- Druhý běh (`36770626242`) a lokální čistý checkout shodně odhalily tři hashové kontroly historické provenance ovlivněné automatickým převodem řádků. `.gitattributes` zachovává původní schválené LF/CRLF bajty konkrétních souborů; původní hashe, manifesty a PNG se neupravují. CI vypisuje i časné neúspěšné kontroly a uchovává úplné diagnostické logy.
 
 ## Automatické výsledky
 

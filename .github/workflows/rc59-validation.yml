@@ -96,3 +96,15 @@ jobs:
             -ExpectedVisualCases 54 `
             -ExpectedActiveVisualGates 34 `
             -ExpectedGoldenDigest D799AB4F869DCB13EBE5B6E5CD0C08BFE9FA352D82C4D88315B9CB67B2791DD7
+
+      - name: Preserve complete validation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rc61-validation-${{ github.run_id }}
+          path: |
+            .godot/ci/
+            .godot/mvp-tests.log
+            .godot/asset-import.log
+          if-no-files-found: warn
+          retention-days: 14

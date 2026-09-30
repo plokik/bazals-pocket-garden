@@ -267,6 +267,10 @@ function Invoke-CheckedPowerShell {
     if ($exitCode -ne 0 -or $missing.Count -gt 0 -or $forbiddenError) {
         Write-Output "CI_STEP_${stepKey}=FAILED"
         Write-Output "CI_STEP_LOG=$logPath"
+        # Early failed assertions can otherwise disappear behind thousands of
+        # later successful checks in the limited console tail.
+        $failureLines = @($output -split "`n" | Where-Object { $_ -match '\[CHYBA\]|SCRIPT ERROR|Parse Error' })
+        if ($failureLines.Count -gt 0) { Write-Output ($failureLines -join [Environment]::NewLine) }
         $tail = @($rawOutput | Select-Object -Last 160)
         if ($tail.Count -gt 0) { Write-Output ($tail -join [Environment]::NewLine) }
         throw "CI step $Name failed: exit=$exitCode missing=$($missing -join ',') forbidden_error=$forbiddenError"
