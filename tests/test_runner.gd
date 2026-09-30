@@ -7288,6 +7288,7 @@ func _test_phase124_player_room_living_details() -> void:
 func _test_phase125_rack_cleanup_and_player_settings() -> void:
 	var rack_source := FileAccess.get_file_as_string("res://scripts/ui/room_overview.gd")
 	var main_source := FileAccess.get_file_as_string("res://scripts/main.gd")
+	var settings_view_source := FileAccess.get_file_as_string("res://scripts/ui/player_settings_modal_view.gd")
 	var capture_source := FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd")
 	var responsive_source := FileAccess.get_file_as_string("res://tools/responsive_layout_smoke.gd")
 	var performance_source := FileAccess.get_file_as_string("res://tools/performance_smoke.gd")
@@ -7323,8 +7324,8 @@ func _test_phase125_rack_cleanup_and_player_settings() -> void:
 		and "\"Doplňky a vzhled pokoje\"" in main_source
 		and not "\"Doplňky, mazlíček a vzhled pokoje\"" in main_source
 		and "painted_modal_shell.gd" in main_source
-		and "NASTAVENÍ HRÁČE" in main_source
-		and "fullscreen_player_settings_v1" in main_source
+		and "NASTAVENÍ HRÁČE" in settings_view_source
+		and "fullscreen_player_settings_v1" in settings_view_source
 		and gear_texture != null
 		and gear_texture.get_width() == 256
 		and gear_texture.get_height() == 256,
@@ -15148,7 +15149,11 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.settings_modal_open and instance.settings_modal.visible and instance.settings_modal.z_index > instance.guide_modal.z_index and instance.settings_modal.get_meta("blocks_game_input", false) and instance.settings_modal.get_meta("component", "") == "fullscreen_player_settings_v1", "Ozubené kolečko otevře samostatné hráčské nastavení nad hrou")
 	_check(instance.settings_music_button.custom_minimum_size.y >= 64.0 and instance.settings_sfx_button.custom_minimum_size.y >= 64.0 and instance.settings_haptics_button.custom_minimum_size.y >= 64.0 and instance.settings_motion_button.custom_minimum_size.y >= 64.0, "Hudba, efekty, vibrace a animace mají samostatné dotykové cíle 64 px")
 	_check(instance.local_backup_modal.get_meta("component", "") == "phase47_portable_local_backup_v1" and instance.local_backup_modal.z_index > instance.save_failure_modal.z_index and instance.local_backup_modal.get_meta("blocks_game_input", false), "Fáze 47 přidává nejvyšší blokující mobilní modal pro přenositelnou lokální zálohu")
-	instance._open_local_backup()
+	for raw_button in instance.settings_modal.find_children("*", "Button", true, false):
+		var button := raw_button as Button
+		if button.get_meta("component", "") == "phase47_local_backup_launcher_v1":
+			button.pressed.emit()
+			break
 	_check(instance.local_backup_open and instance.local_backup_modal.visible and not instance.local_backup_import_armed and not instance.local_backup_confirm_button.visible, "Záloha postupu se otevře bez předem ozbrojeného destruktivního importu")
 	var displayed_version := str(ProjectSettings.get_setting("application/config/version", ""))
 	_check("VERZE %s" % displayed_version in instance.local_backup_info_label.text and "POSLEDNÍ ULOŽENÍ" in instance.local_backup_info_label.text and instance.local_backup_new_game_button.custom_minimum_size.y >= 64.0 and instance.local_backup_new_game_button.get_meta("component", "") == "phase56_safe_new_game_v1", "Fáze 56 obrazovka postupu ukáže verzi, stav uložení a velký bezpečný cíl nové hry")
@@ -15186,12 +15191,24 @@ func _test_main_scene_smoke() -> void:
 			button.pressed.emit()
 			break
 	_check(not instance.local_backup_open and not instance.local_backup_modal.visible, "Zrušení zálohy zachová herní relaci a vrátí hráče do stejné obrazovky")
-	instance._on_music_toggled(false)
-	instance._on_haptics_toggled(false)
-	instance._on_music_volume_changed(25.0)
-	instance._on_sfx_volume_changed(65.0)
+	instance._open_settings_modal()
+	instance.settings_music_button.button_pressed = false
+	instance.settings_haptics_button.button_pressed = false
+	instance.settings_music_slider.value = 25.0
+	instance.settings_sfx_slider.value = 65.0
 	_check(not instance.session.music_enabled and not instance.session.haptics_enabled and is_equal_approx(instance.session.music_volume, 0.25) and is_equal_approx(instance.session.sfx_volume, 0.65), "Změny v modalu se okamžitě propíší do uložitelných Phase 9 nastavení")
-	instance._close_settings_modal()
+	instance.settings_sfx_button.button_pressed = false
+	instance.settings_motion_button.button_pressed = false
+	_check(not instance.session.sfx_enabled and instance.session.reduced_motion, "Přepínače efektů a animací v odděleném UI předají změny herní relaci")
+	instance.settings_sfx_button.button_pressed = true
+	instance.settings_motion_button.button_pressed = true
+	var settings_roundtrip := SaveManager.load_session(instance.plant_catalog)
+	_check(settings_roundtrip != null and not settings_roundtrip.music_enabled and not settings_roundtrip.haptics_enabled and settings_roundtrip.sfx_enabled and not settings_roundtrip.reduced_motion and is_equal_approx(settings_roundtrip.music_volume, 0.25) and is_equal_approx(settings_roundtrip.sfx_volume, 0.65), "Změny přes ovládací prvky nastavení přežijí nové načtení uložené hry")
+	for raw_button in instance.settings_modal.find_children("*", "Button", true, false):
+		var button := raw_button as Button
+		if button.text == "HOTOVO":
+			button.pressed.emit()
+			break
 	_check(not instance.settings_modal_open and not instance.settings_modal.visible, "Potvrzení nastavení vrátí hráče do stejného mobilního pokoje")
 	_check(instance.return_summary_modal.get_meta("component", "") == "phase15_mobile_return_summary_v1" and instance.save_recovery_modal.get_meta("component", "") == "phase15_safe_save_recovery_v1" and instance.save_recovery_modal.z_index > instance.daily_challenge_modal.z_index, "Phase 15 připraví oddělený návratový souhrn a nejvyšší bezpečný recovery modal")
 	_check(instance.save_failure_modal.get_meta("component", "") == "phase46_save_failure_modal_v1" and instance.save_failure_modal.z_index > instance.save_recovery_modal.z_index and instance.save_failure_retry_button.custom_minimum_size.y >= 64.0 and instance.save_failure_continue_button.custom_minimum_size.y >= 64.0, "Phase 46 přidá nejvyšší nedestruktivní mobilní dialog chyby ukládání se dvěma velkými cíli")
