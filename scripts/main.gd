@@ -8299,7 +8299,7 @@ func _show_dialog(message: String) -> void:
 	if guide_modal_confirm_button != null:
 		var journey_navigation := session != null and not session.journey_completed and message == session.get_journey_dialog_text()
 		guide_modal_confirm_button.set_meta("journey_navigation", journey_navigation)
-		guide_modal_confirm_button.text = "UKÁZAT MÍSTO" if journey_navigation else "ROZUMÍM"
+		guide_modal_confirm_button.text = guide_dialog_presenter.get_journey_navigation_label(session.get_journey_step_id()) if journey_navigation else "ROZUMÍM"
 	var mood := guide_dialog_presenter.refresh(message)
 	var character := guide_modal_character
 	if character != null:

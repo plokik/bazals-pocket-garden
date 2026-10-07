@@ -471,6 +471,7 @@ func _run_all() -> void:
 	await _test_phase93_professor_story_ui()
 	await _test_main_scene_smoke()
 	await _test_ui_driven_vertical_slice()
+	await preload("res://tests/first_journey_navigation_test.gd").run(self)
 	if failures == 0:
 		print("MVP TESTY PROŠLY: %d kontrol" % checks)
 		print("MVP_TESTS_PASSED=%d" % checks)
@@ -13827,7 +13828,7 @@ func _test_phase92_garden_handover_ui() -> void:
 	_check(instance.herbarium_open and not instance.is_garden_handover_active and _phase92_progression_snapshot(replay_session) == replay_before, "Fáze 92 dokončené přehrání vrátí hráče do herbáře a nezmění intro, ekonomiku, inventář, balíčky, herbář ani cestu")
 	instance._close_herbarium()
 	instance._toggle_guide_dialog(true)
-	_check(instance.dialog_open and not instance.is_garden_handover_active and is_equal_approx(instance.guide_modal_card.anchor_bottom, 0.315) and instance.guide_modal_confirm_button.text == "UKÁZAT MÍSTO" and instance.guide_modal_close_button.tooltip_text == "Zavřít" and instance.guide_modal_name_label.text == "PROFESOR BAZAL" and not "PŘEDÁNÍ ZAHRADY" in instance.guide_modal_label.text, "Po prologu Profesor obnoví běžnou kartu a prvnímu úkolu nabídne přímou cestu do hry")
+	_check(instance.dialog_open and not instance.is_garden_handover_active and is_equal_approx(instance.guide_modal_card.anchor_bottom, 0.315) and instance.guide_modal_confirm_button.text == "K SEMÍNKŮM" and instance.guide_modal_close_button.tooltip_text == "Zavřít" and instance.guide_modal_name_label.text == "PROFESOR BAZAL" and not "PŘEDÁNÍ ZAHRADY" in instance.guide_modal_label.text, "Po prologu Profesor obnoví běžnou kartu a prvnímu úkolu nabídne přímou cestu do hry")
 	instance.guide_modal_confirm_button.pressed.emit()
 	var normal_guide_closed_immediately: bool = not instance.dialog_open
 	await create_timer(0.25).timeout
