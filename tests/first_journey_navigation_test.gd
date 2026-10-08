@@ -33,6 +33,8 @@ static func run(host: SceneTree) -> void:
 		# Exercise the same path after a saved first session is restored.
 		var restored := GameSession.new(game.plant_catalog)
 		restored.from_dict(fresh.to_dict())
+		# Loading deliberately resumes live time; freeze it for the navigation assertion.
+		restored.paused = true
 		game._activate_session(restored)
 		game._show_dialog(restored.get_journey_dialog_text())
 		game._set_guide_modal_open(true, false)
