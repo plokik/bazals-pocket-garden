@@ -17,7 +17,10 @@ func is_bound() -> bool:
 func refresh(game_session: GameSession) -> void:
 	if not is_bound():
 		return
-	inventory_label.text = "AKTUÁLNÍ ZÁSOBY  ·  vybraná pozice %d/%d" % [game_session.selected_plant_index + 1, GameSession.MAX_PLANT_SLOTS]
+	if game_session.selected_plant_index >= GameSession.MAX_PLANT_SLOTS:
+		inventory_label.text = "AKTUÁLNÍ ZÁSOBY  ·  SKLIZEŇ VE SKLADU"
+	else:
+		inventory_label.text = "AKTUÁLNÍ ZÁSOBY  ·  vybraná pozice %d/%d" % [game_session.selected_plant_index + 1, GameSession.MAX_PLANT_SLOTS]
 	(value_labels.seeds as Label).text = str(game_session.get_total_seed_count())
 	(value_labels.fertilizer as Label).text = str(game_session.fertilizer_doses)
 	(value_labels.harvests as Label).text = str(game_session.harvest_count)

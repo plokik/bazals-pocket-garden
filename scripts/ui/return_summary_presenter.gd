@@ -36,7 +36,8 @@ func refresh(elapsed_seconds: float, weather_name: String, challenge_title: Stri
 			"wilted": state_text = "ZVADLÁ · ZACHRAŇ JI"
 			"dead": state_text = "UHYNULA · VYČISTI KVĚTINÁČ"
 			"drying_complete": state_text = "SUŠENÍ HOTOVO"
-		outcome_lines.append("Květináč %d · %s · %s" % [int(event.get("slot_number", 1)), str(event.get("species_name", "Rostlina")), state_text])
+		var location := "Sklad · sklizeň %d" % (int(event.get("slot_number", 1)) - GameSession.MAX_PLANT_SLOTS) if int(event.get("slot_number", 1)) > GameSession.MAX_PLANT_SLOTS else "Květináč %d" % int(event.get("slot_number", 1))
+		outcome_lines.append("%s · %s · %s" % [location, str(event.get("species_name", "Rostlina")), state_text])
 		if outcome_lines.size() >= 4:
 			break
 	if not outcome_lines.is_empty():

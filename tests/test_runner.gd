@@ -472,6 +472,7 @@ func _run_all() -> void:
 	await _test_main_scene_smoke()
 	await _test_ui_driven_vertical_slice()
 	await preload("res://tests/first_journey_navigation_test.gd").run(self)
+	await preload("res://tests/harvest_storage_test.gd").run(self, _load_plant_catalog())
 	if failures == 0:
 		print("MVP TESTY PROŠLY: %d kontrol" % checks)
 		print("MVP_TESTS_PASSED=%d" % checks)
@@ -5308,7 +5309,7 @@ func _test_phase96_blended_orders() -> void:
 	var partial_declined := partial_single_index >= 0 and partial_restored.decline_order(partial_single_index)
 	var partial_replacement: Dictionary = partial_restored.orders[partial_single_index] if partial_single_index >= 0 else {}
 	_check(partial_restore_unique and partial_declined and int(partial_replacement.get("sequence", -1)) == 57 and str(partial_replacement.get("id", "")) == "order_0057" and str(partial_replacement.get("kind", "")) == "single" and _phase96_active_blend_count(partial_restored, "evening_freshness") == 1 and _phase96_orders_are_bounded_unique(partial_restored), "Restore i pozdější výměna odmítnou duplicitní aktivní blend_id; sekvence 57 zůstane auditovatelná, ale deterministicky dostane jednoduchou bazalkovou náhradu")
-	_check(SaveManager._decode_supported_data('{"schema":42,"orders":[]}').is_empty() and str(SaveManager._decode_data_result('{"schema":42}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema 42 zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
+	_check(SaveManager._decode_supported_data('{"schema":43,"orders":[]}').is_empty() and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema 43 zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
 
 	var mastery := GameSession.new(catalog)
 	mastery.species_progress["basil_genovese"] = {"discovered": true, "harvests": 3, "best_quality": 0.74, "orders_completed": 1, "total_dry_g": 11.5, "claimed_tier": 2}
@@ -5699,9 +5700,9 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 		"Schema 34 round-trip zachová claimed finále, tři pečeti a oba odvozené title gettery"
 	)
 	_check(
-		SaveManager._decode_supported_data('{"schema":42,"story_chapters":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":42}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"Budoucí schema 42 zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
+		SaveManager._decode_supported_data('{"schema":43,"story_chapters":{}}').is_empty()
+		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"Budoucí schema 43 zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
 	)
 
 
@@ -5781,8 +5782,8 @@ func _test_phase98_professor_research() -> void:
 	_check(
 		corrupt_schema_results == [SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT]
 		and SaveManager._decode_supported_data('{"schema":27.5}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":42}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema 42 jako unsupported"
+		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema 43 jako unsupported"
 	)
 	var poisoned_research := {
 		"max_seen_utc_day": base_day,
@@ -6492,9 +6493,9 @@ func _test_phase99_research_variants_and_study() -> void:
 	)
 	_check(
 		int(SaveManager._decode_supported_data('{"schema":39,"professor_research":{}}').get("schema", 0)) == 39
-		and SaveManager._decode_supported_data('{"schema":42,"professor_research":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":42}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager přijme přesné schema 39, ale budoucí schema 42 nepustí do migrace výzkumných variant, pracovny ani pokojové sbírky"
+		and SaveManager._decode_supported_data('{"schema":43,"professor_research":{}}').is_empty()
+		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager přijme přesné schema 39, ale budoucí schema 43 nepustí do migrace výzkumných variant, pracovny ani pokojové sbírky"
 	)
 
 	var hook_cycle := 302
@@ -7831,7 +7832,7 @@ func _test_phase133_three_per_shelf_room_plants() -> void:
 	var saucer_texture := load("res://assets/ui/visual/phase133/room_plant_saucer_v1.png") as Texture2D
 	var saucer_profile := VisualDesignSystem.asset_profile("room_plant_saucer")
 	_check(
-		GameSession.SAVE_SCHEMA == 41
+		GameSession.SAVE_SCHEMA == 42
 		and GameSession.ROOM_THREE_PER_SHELF_SCHEMA == 40
 		and GameSession.ROOM_FINAL_RACK_PLANTS_SCHEMA == 41
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20
@@ -8297,7 +8298,7 @@ func _test_phase141_final_purchasable_rack_set() -> void:
 	var new_ids := ["silver_aglaonema", "pink_fittonia", "lemon_maranta", "colorful_coleus"]
 	var session := GameSession.new(_load_plant_catalog())
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and GameSession.ROOM_FINAL_RACK_PLANTS_SCHEMA == 41 \
 		and GameSession.PHASE141_ROOM_PLANT_IDS == new_ids \
 		and new_ids.all(func(decoration_id: String) -> bool: return decoration_id in GameSession.ROOM_DECORATION_IDS) \
@@ -8544,7 +8545,7 @@ func _test_phase144_rc55_android_candidate() -> void:
 		"0.66.0-rc55" in phase144_doc \
 		and "code 72" in phase144_doc \
 		and "A6F7DF58FC58DCBCFBEDF568B7B43FCF47766AFFE8BF289BE330B028B9D25ECD" in phase144_doc \
-		and GameSession.SAVE_SCHEMA == 41,
+		and GameSession.SAVE_SCHEMA == 42,
 		"Fáze 144 trvale dokládá immutable RC55 identitu a hash bez změny save schema"
 	)
 	_check(
@@ -8594,7 +8595,7 @@ func _test_phase145_layered_room_details() -> void:
 	var session := GameSession.new(_load_plant_catalog())
 	var cat_corner: Dictionary = session.get_room_decoration("cat_corner")
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and str(cat_corner.get("kind", "")) == "cat_corner" \
 		and str(cat_corner.get("slot_group", "")) == "pet_corner" \
 		and bool(cat_corner.get("dormant", false)) \
@@ -8699,7 +8700,7 @@ func _test_phase146_approved_room_master() -> void:
 	)
 	var session := GameSession.new(_load_plant_catalog())
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20 \
 		and GameSession.ROOM_PLANT_SLOT_COUNT == 12 \
 		and session.get_room_decoration_ids().size() == 20,
@@ -8904,7 +8905,7 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 		and room.get_meta("phase149_framing", "") == "phase149_exact_target_native_rects_v1" \
 		and room.get_meta("phase149_exact_target_set", "") == "phase149_player_room_exact_target_layers_v1" \
 		and room.decoration_buttons.size() == 20 \
-		and GameSession.SAVE_SCHEMA == 41 \
+		and GameSession.SAVE_SCHEMA == 42 \
 		and session.get_room_decoration_ids().size() == 20,
 		"Přemalovaný Pokoj sjednocuje obraz i 20 hitboxů na přesný crop 853 × 1548 bez změny save nebo ekonomiky"
 	)
@@ -9100,7 +9101,7 @@ func _test_phase149_exact_player_room_target() -> void:
 	var compare_source := FileAccess.get_file_as_string("res://tools/compare_phase149_room_target.py")
 	var phase_doc := FileAccess.get_file_as_string("res://docs/PHASE149_EXACT_PLAYER_ROOM_TARGET.md")
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20 \
 		and session.get_room_decoration_ids().size() == 20 \
 		and "comic-phase149-player-room-exact-target.png" in capture_source \
@@ -9706,7 +9707,7 @@ func _test_phase156_rc56_android_handoff() -> void:
 	_check(
 		"`0.67.0-rc56`, Android version code 73" in phase_doc \
 		and "91C48EC2DE794E1A83901585CCC998E31A50396E679CE785B98BD26FA2FA3AE7" in phase_doc \
-		and GameSession.SAVE_SCHEMA == 41,
+		and GameSession.SAVE_SCHEMA == 42,
 		"Fáze 156 uchovává historickou RC56 identitu, immutable hash a beze změny navazující save schema 41"
 	)
 	_check(
@@ -9745,7 +9746,7 @@ func _test_phase157_responsive_detail_header() -> void:
 		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2 \
 		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source \
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source \
-		and GameSession.SAVE_SCHEMA == 41,
+		and GameSession.SAVE_SCHEMA == 42,
 		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC61 bez migrace uložené hry"
 	)
 	_check(
@@ -9888,7 +9889,7 @@ func _test_phase158_room_layer_compositing() -> void:
 		and "visible_rgb_byte_exact_to_phase149" in builder_source \
 		and "FERN_BOTTOM_RIGHT_CONTOUR_OFFSET = -6" in builder_source \
 		and "PHASE158_ROOM_COMPOSITING=PASSED" in builder_source \
-		and GameSession.SAVE_SCHEMA == 41 \
+		and GameSession.SAVE_SCHEMA == 42 \
 		and "PHASE158_IMPLEMENTATION=IMPLEMENTED" in phase_doc \
 		and "PHASE158_SAVE_SCHEMA=41_UNCHANGED" in phase_doc \
 		and "PHASE158_RC57_IMMUTABILITY=PRESERVED" in phase_doc \
@@ -9972,7 +9973,7 @@ func _test_phase159_botanical_cloche() -> void:
 	var bought_cloche := session.purchase_or_place_room_decoration("golden_lamp", GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX)
 	var repeated_cloche := session.purchase_or_place_room_decoration("golden_lamp", GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX)
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and session.get_room_decoration_ids_for_slot(GameSession.PHASE159_RETIRED_POTS_SLOT_INDEX).is_empty() \
 		and session.get_room_decoration_ids_for_slot(GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX) == ["golden_lamp"] \
 		and str(retired_state.get("reason", "")) == "retired" \
@@ -10067,7 +10068,7 @@ func _test_phase160_room_floor_declutter() -> void:
 	var rejected_watering := fresh_session.purchase_or_place_room_decoration("plastic_watering_can", 17)
 	var rejected_pet_corner := fresh_session.purchase_or_place_room_decoration("cat_corner", 19)
 	_check(
-		GameSession.SAVE_SCHEMA == 41 \
+		GameSession.SAVE_SCHEMA == 42 \
 		and GameSession.DORMANT_ROOM_DECORATION_IDS == ["plastic_watering_can", "cat_corner"] \
 		and GameSession.PHASE160_DORMANT_ROOM_DECORATION_SLOT_INDICES == [17, 19] \
 		and fresh_session.get_room_decoration_ids_for_slot(17).is_empty() \
@@ -10690,7 +10691,7 @@ func _test_phase164_source_baseline() -> void:
 		)
 	_check(
 		phase_doc_valid
-		and GameSession.SAVE_SCHEMA == 41,
+		and GameSession.SAVE_SCHEMA == 42,
 		"Fáze 164 trvale dokládá ověřený RC57 zdrojový baseline oddělený od navazující RC58 identity, APK, telefonu a publikování"
 	)
 
@@ -10722,7 +10723,7 @@ func _test_phase165_rc58_android_handoff() -> void:
 		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
-		and GameSession.SAVE_SCHEMA == 41,
+		and GameSession.SAVE_SCHEMA == 42,
 		"Fáze 165 zavádí samostatnou RC58 identitu bez migrace save a odděluje technický Android PASS od lidské fyzické brány"
 	)
 

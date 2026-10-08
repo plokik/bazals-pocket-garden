@@ -200,6 +200,8 @@ var plant_catalog_repository := PlantCatalogRepositoryScene.new()
 var plant_presentation_catalog := PlantPresentationCatalogScene.new()
 var screen_navigation_controller := ScreenNavigationControllerScene.new()
 var storage_pipeline_presenter := StoragePipelinePresenterScene.new()
+var storage_batch_picker: OptionButton
+var condition_card_hint: Control
 var botanist_shop_presenter := BotanistShopPresenterScene.new()
 var daily_challenge_presenter := DailyChallengePresenterScene.new()
 var botanical_pack_presenter := BotanicalPackPresenterScene.new()
@@ -1584,6 +1586,9 @@ func _build_garden_screen() -> Control:
 		plant_diagnosis_launcher.add_theme_stylebox_override(state, empty_style)
 	plant_diagnosis_launcher.pressed.connect(_open_plant_diagnosis)
 	condition_panel.add_child(plant_diagnosis_launcher)
+	condition_card_hint = preload("res://scripts/ui/condition_card_hint.gd").new()
+	condition_card_hint.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	condition_panel.add_child(condition_card_hint)
 	plant_vitals_presenter.bind(stage_label, growth_label, growth_bar, moisture_card, health_card, condition_card)
 	plant_detail_panel.add_child(cards)
 
@@ -5171,7 +5176,7 @@ func _open_care_center() -> void:
 
 
 func _ensure_care_center_cards() -> void:
-	if care_center_cards.size() == GameSession.MAX_PLANT_SLOTS:
+	if care_center_cards.size() >= GameSession.MAX_PLANT_SLOTS:
 		return
 	care_center_reminder_button.icon = CareCenterPaintedArt.texture("reminder")
 	care_center_notification_test_button.icon = CareCenterPaintedArt.texture("reminder")
@@ -5223,6 +5228,13 @@ func _set_care_center_open(opening: bool) -> void:
 func _refresh_care_center() -> void:
 	if session == null or care_center_summary_label == null:
 		return
+	if care_center_list != null and not care_center_cards.is_empty():
+		for index in range(GameSession.MAX_PLANT_SLOTS, session.plants.size()):
+			if not care_center_cards.has(index):
+				care_center_list.add_child(_build_care_center_card(index))
+		for index in care_center_cards:
+			if int(index) >= GameSession.MAX_PLANT_SLOTS:
+				(care_center_cards[index].panel as Control).visible = int(index) < session.plants.size() and session.plants[int(index)].stage != PlantSimulation.Stage.EMPTY
 	care_center_presenter.refresh(session, care_notification_service.get_ui_state(session), care_center_show_all)
 	if care_center_filter_button != null:
 		var attention_count := session.get_care_attention_count()
@@ -6223,6 +6235,16 @@ func _build_storage_screen() -> Control:
 	process_title.add_theme_font_size_override("font_size", 20)
 	process_title.add_theme_color_override("font_color", ComicUITheme.INK)
 	harvest_column.add_child(process_title)
+	storage_batch_picker = OptionButton.new()
+	storage_batch_picker.custom_minimum_size.y = 44
+	storage_batch_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ComicUITheme.apply_button(storage_batch_picker, ComicUITheme.CREAM, ComicUITheme.INK, 10)
+	storage_batch_picker.add_theme_font_override("font", FontSemiBold)
+	storage_batch_picker.add_theme_font_size_override("font_size", 13)
+	storage_batch_picker.item_selected.connect(_on_storage_batch_selected)
+	storage_batch_picker.visible = false
+	storage_batch_picker.set_meta("component", "storage_harvest_batch_picker_v1")
+	harvest_column.add_child(storage_batch_picker)
 	var steps := GridContainer.new()
 	steps.columns = 4
 	steps.add_theme_constant_override("h_separation", 4)
@@ -7774,6 +7796,8 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 		if plant_view != null:
 			plant_view.clear_action_effects()
 	active_screen = screen_navigation_controller.apply_screen(index, active_screen, screens, nav_buttons, session, feedback_layer, transition_direction_override)
+	if active_screen == 0 and session.selected_plant_index >= GameSession.MAX_PLANT_SLOTS:
+		_show_garden_location(GARDEN_LOCATION_RACK)
 	_refresh_corner_ornament_visibility()
 	if active_screen != 0 and plant_view != null:
 		plant_view.clear_behavior_trigger()
@@ -7782,6 +7806,8 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 
 
 func _open_plant_detail(index: int) -> void:
+	if index >= GameSession.MAX_PLANT_SLOTS:
+		return
 	if not session.select_plant(index):
 		return
 	plant_action_presenter.stop_lamp_transition()
@@ -8274,7 +8300,42 @@ func _clear_xp_gain() -> void:
 
 
 func _update_storage_panel() -> void:
+	_refresh_storage_batch_picker()
 	storage_pipeline_presenter.refresh(session)
+
+
+func _refresh_storage_batch_picker() -> void:
+	if storage_batch_picker == null:
+		return
+	# Live UI refresh must not rebuild a menu while the player is choosing.
+	if storage_batch_picker.get_popup().visible:
+		return
+	var indices := session.get_storage_batch_indices()
+	var rebuild := storage_batch_picker.item_count != indices.size()
+	if not rebuild:
+		for item in range(indices.size()):
+			var batch := session.plants[indices[item]]
+			if storage_batch_picker.get_item_id(item) != indices[item] or storage_batch_picker.get_item_text(item) != "%s · %s" % [batch.get_short_name(), batch.get_stage_name()]:
+				rebuild = true
+				break
+	if rebuild:
+		storage_batch_picker.clear()
+	storage_batch_picker.visible = not indices.is_empty()
+	for index in indices:
+		var batch := session.plants[index]
+		if rebuild:
+			storage_batch_picker.add_item("%s · %s" % [batch.get_short_name(), batch.get_stage_name()], index)
+		if index == session.selected_plant_index:
+			storage_batch_picker.select(indices.find(index))
+	if not indices.is_empty() and session.selected_plant_index not in indices:
+		storage_batch_picker.select(-1)
+		storage_batch_picker.text = "VYBRAT SKLIZEŇ (%d)" % indices.size()
+
+
+func _on_storage_batch_selected(item_index: int) -> void:
+	if storage_batch_picker != null and session.select_plant(storage_batch_picker.get_item_id(item_index)):
+		plant_view.set_simulation(session.plant)
+		_refresh_ui()
 
 
 func _update_storage_steps(active_step: int) -> void:
@@ -8583,6 +8644,8 @@ func _apply_motion_preference() -> void:
 		feedback_layer.set_reduced_motion(session.reduced_motion)
 	if plant_view != null:
 		plant_view.set_reduced_motion(session.reduced_motion)
+	if condition_card_hint != null:
+		condition_card_hint.set_reduced_motion(session.reduced_motion)
 	if room_overview != null:
 		room_overview.set_reduced_motion(session.reduced_motion)
 	if player_room_view != null:

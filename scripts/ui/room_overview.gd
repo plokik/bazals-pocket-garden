@@ -872,13 +872,16 @@ func _draw_slot(index: int, rect: Rect2, slot: PlantSimulation) -> void:
 	var texture_profile := VisualDesignSystem.profile_for_path(texture.resource_path if texture != null else "")
 	set_meta("last_plant_visual_family", str(texture_profile.get("family", "")))
 	var plant_rect: Rect2 = geometry["plant_rect"]
-	_draw_rack_saucer(geometry["saucer_rect"])
+	var vacated := slot.stage == PlantSimulation.Stage.EMPTY and index in session.vacated_rack_slots
+	if not vacated:
+		_draw_rack_saucer(geometry["saucer_rect"])
 	var stress_tint := maxf(0.0, 1.0 - slot.health / 100.0) * 0.20
 	var health_tint := Color.WHITE if _uses_sick_visual_extended(slot) else Color.WHITE.lerp(Color("#d6bd75"), stress_tint)
 	health_tint = health_tint.lerp(_slot_state_tint(slot), 0.58)
 	# Ceramic rests on the plate instead of bobbing or rotating around its
 	# sprite center. Ambient light, dust, selection and harvest effects stay live.
-	draw_texture_rect(texture, plant_rect, false, health_tint)
+	if not vacated:
+		draw_texture_rect(texture, plant_rect, false, health_tint)
 	if slot.stage == PlantSimulation.Stage.MATURE and not _uses_sick_visual_extended(slot):
 		_draw_slot_harvest_ready(plant_rect, index)
 

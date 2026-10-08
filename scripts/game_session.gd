@@ -7,7 +7,9 @@ const ProfessorStoryScene := preload("res://scripts/professor_story.gd")
 const ProfessorResearchScene := preload("res://scripts/professor_research.gd")
 const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
-const SAVE_SCHEMA := 41
+const SAVE_SCHEMA := 42
+const HARVEST_STORAGE_SCHEMA := 42
+const MAX_STORAGE_BATCHES := 256
 const DAILY_CHALLENGE_REAL_DAY_SCHEMA := 15
 const REAL_TIME_GROWTH_SCHEMA := 19
 const PLANT_LIFECYCLE_SCHEMA := 20
@@ -743,6 +745,9 @@ signal story_chapter_changed(chapter_id: String, state: Dictionary)
 
 var plant: PlantSimulation
 var plants: Array[PlantSimulation] = []
+## First MAX_PLANT_SLOTS entries belong to the rack. Later entries are stable
+## storage batch handles, reused after sale so orders and navigation stay valid.
+var vacated_rack_slots: Array[int] = []
 var plant_profiles: Dictionary = {}
 var species_progress: Dictionary = {}
 var plant_rarity_catalog := PlantRarityCatalogScene.new()
@@ -862,6 +867,7 @@ func _init(profile_or_catalog: Dictionary = {}) -> void:
 
 func _create_plant_slots(profile: Dictionary) -> void:
 	plants.clear()
+	vacated_rack_slots.clear()
 	for index in range(MAX_PLANT_SLOTS):
 		var slot := PlantSimulation.new(profile)
 		slot.event_created.connect(_relay_event)
@@ -2217,7 +2223,7 @@ func _issue_daily_challenge(real_day: int) -> void:
 
 
 func _select_daily_challenge_id() -> String:
-	if get_occupied_count() == 0:
+	if get_occupied_count() == 0 and get_storage_batch_indices().is_empty():
 		return "plant"
 	var has_growing := false
 	var has_low_moisture := false
@@ -2517,12 +2523,14 @@ func get_slot_unlock_level(index: int) -> int:
 
 
 func is_plant_slot_unlocked(index: int) -> bool:
+	if index >= MAX_PLANT_SLOTS:
+		return index < plants.size() and plants[index].stage != PlantSimulation.Stage.EMPTY
 	return index >= 0 and index < plants.size() and get_level() >= get_slot_unlock_level(index)
 
 
 func get_unlocked_slot_count() -> int:
 	var unlocked := 0
-	for index in range(plants.size()):
+	for index in range(MAX_PLANT_SLOTS):
 		if is_plant_slot_unlocked(index):
 			unlocked += 1
 	return unlocked
@@ -2533,9 +2541,9 @@ func get_adjacent_unlocked_slot_index(offset: int) -> int:
 	if unlocked_count <= 1 or offset == 0:
 		return selected_plant_index
 	var direction := 1 if offset > 0 else -1
-	var candidate := selected_plant_index
+	var candidate := mini(selected_plant_index, MAX_PLANT_SLOTS - 1)
 	for step in range(MAX_PLANT_SLOTS):
-		candidate = wrapi(candidate + direction, 0, plants.size())
+		candidate = wrapi(candidate + direction, 0, MAX_PLANT_SLOTS)
 		if is_plant_slot_unlocked(candidate):
 			return candidate
 	return selected_plant_index
@@ -2543,13 +2551,15 @@ func get_adjacent_unlocked_slot_index(offset: int) -> int:
 
 func get_occupied_count() -> int:
 	var occupied := 0
-	for slot in plants:
+	for slot in plants.slice(0, MAX_PLANT_SLOTS):
 		if slot.stage != PlantSimulation.Stage.EMPTY:
 			occupied += 1
 	return occupied
 
 
 func plant_seed(species_id := "", count_daily_challenge := true) -> bool:
+	if selected_plant_index >= MAX_PLANT_SLOTS:
+		return false
 	var requested_species := species_id if not species_id.is_empty() else selected_seed_species
 	if not plant_profiles.has(requested_species):
 		event_created.emit("Tento druh rostliny zatím není dostupný.")
@@ -2566,6 +2576,7 @@ func plant_seed(species_id := "", count_daily_challenge := true) -> bool:
 	var tutorial_cycle := requested_species == "basil_genovese" and not journey_completed and journey_step == JourneyStep.PLANT_SEED and harvest_count == 0
 	var tutorial_target := float(plant.profile.get("tutorial_growth_seconds", -1.0)) if tutorial_cycle else -1.0
 	if plant.plant_seed(tutorial_target, tutorial_cycle):
+		vacated_rack_slots.erase(selected_plant_index)
 		plant.sync_environment(world_elapsed_seconds)
 		selected_seed_species = requested_species
 		var progress := get_species_progress(requested_species)
@@ -2817,12 +2828,51 @@ func harvest() -> bool:
 
 
 func start_drying() -> bool:
+	var storage_index := _available_storage_index()
+	if selected_plant_index < MAX_PLANT_SLOTS and storage_index < 0:
+		event_created.emit("Sušárna je plná. Nejprve zabal a prodej některou sklizeň.")
+		return false
 	var succeeded := plant.start_drying()
 	if succeeded:
+		if selected_plant_index < MAX_PLANT_SLOTS:
+			_move_harvest_to_storage(selected_plant_index, storage_index)
 		feedback_requested.emit("drying", selected_plant_index, {})
 		_try_complete_daily_challenge("start_drying", true)
 		_advance_journey(JourneyStep.START_DRYING, JourneyStep.WAIT_FOR_DRYING)
 	return succeeded
+
+
+func get_storage_batch_indices() -> Array[int]:
+	var result: Array[int] = []
+	for index in range(plants.size()):
+		if plants[index].stage in [PlantSimulation.Stage.HARVESTED, PlantSimulation.Stage.DRYING, PlantSimulation.Stage.DRY, PlantSimulation.Stage.PACKAGED]:
+			result.append(index)
+	return result
+
+
+func _available_storage_index() -> int:
+	for index in range(MAX_PLANT_SLOTS, plants.size()):
+		if plants[index].stage == PlantSimulation.Stage.EMPTY:
+			return index
+	return plants.size() if plants.size() < MAX_PLANT_SLOTS + MAX_STORAGE_BATCHES else -1
+
+
+func _move_harvest_to_storage(rack_index: int, storage_index: int) -> void:
+	var batch := plants[rack_index]
+	if storage_index == plants.size():
+		plants.append(batch)
+	else:
+		plants[storage_index] = batch
+	var empty_slot := PlantSimulation.new(get_plant_profile(batch.get_species_id()))
+	empty_slot.event_created.connect(_relay_event)
+	_apply_equipment_to_plant(empty_slot)
+	empty_slot.sync_environment(world_elapsed_seconds)
+	plants[rack_index] = empty_slot
+	if rack_index not in vacated_rack_slots:
+		vacated_rack_slots.append(rack_index)
+	if selected_plant_index == rack_index:
+		selected_plant_index = storage_index
+		plant = batch
 
 
 func package_harvest() -> bool:
@@ -3430,6 +3480,8 @@ func _get_unlocked_core_room_theme_count() -> int:
 func get_care_center_entries() -> Array[Dictionary]:
 	var entries: Array[Dictionary] = []
 	for slot_index in range(plants.size()):
+		if slot_index >= MAX_PLANT_SLOTS and plants[slot_index].stage == PlantSimulation.Stage.EMPTY:
+			continue
 		entries.append(_build_care_entry(slot_index, plants[slot_index]))
 	entries.sort_custom(_sort_care_entries)
 	return entries
@@ -4041,6 +4093,9 @@ func _advance_slot(index: int, seconds: float, environment_start_seconds := -1.0
 		return
 	if not collect_offline_event:
 		feedback_requested.emit("growth_stage", index, {"from": int(previous_stage), "to": int(slot.stage), "stage_name": slot.get_stage_name()})
+	# A stored tutorial harvest must finish even while a new rack plant is selected.
+	if slot.stage == PlantSimulation.Stage.DRY and slot.tutorial_cycle:
+		_advance_journey(JourneyStep.WAIT_FOR_DRYING, JourneyStep.PACKAGE)
 	if index != selected_plant_index:
 		return
 	if slot.stage == PlantSimulation.Stage.MATURE:
@@ -5302,7 +5357,9 @@ func to_dict() -> Dictionary:
 		"care_reminders_enabled": care_reminders_enabled,
 		"fast_time_guard_enabled": false,
 		"selected_plant_index": selected_plant_index,
-		"plants": plants.map(func(slot: PlantSimulation) -> Dictionary: return slot.to_dict()),
+		"plants": plants.slice(0, MAX_PLANT_SLOTS).map(func(slot: PlantSimulation) -> Dictionary: return slot.to_dict()),
+		"storage_harvests": plants.slice(MAX_PLANT_SLOTS).map(func(slot: PlantSimulation) -> Dictionary: return slot.to_dict()),
+		"vacated_rack_slots": vacated_rack_slots.duplicate(),
 		"saved_at_unix": saved_at_unix,
 	}
 
@@ -5468,6 +5525,8 @@ func from_dict(data: Dictionary) -> void:
 	# 37 tiers both receive the earned cosmetic title without retroactive coins.
 	greenhouse_reputation_claimed_tier = _get_greenhouse_reputation_tier_for_count(greenhouse_orders_completed)
 	_ensure_greenhouse_order()
+	plants.resize(MAX_PLANT_SLOTS)
+	vacated_rack_slots.clear()
 	var stored_plants = data.get("plants", [])
 	if stored_plants is Array and not stored_plants.is_empty():
 		for index in range(mini(stored_plants.size(), plants.size())):
@@ -5487,10 +5546,37 @@ func from_dict(data: Dictionary) -> void:
 		for slot in plants:
 			slot.mature_elapsed_seconds = 0.0
 			slot.critical_neglect_seconds = 0.0
+	if stored_schema >= HARVEST_STORAGE_SCHEMA:
+		var stored_batches = data.get("storage_harvests", [])
+		if stored_batches is Array:
+			for raw_batch in stored_batches.slice(0, MAX_STORAGE_BATCHES):
+				var batch := PlantSimulation.new(get_plant_profile("basil_genovese"))
+				batch.event_created.connect(_relay_event)
+				if raw_batch is Dictionary and plant_profiles.has(str(raw_batch.get("species_id", ""))):
+					batch.configure_profile(get_plant_profile(str(raw_batch.species_id)))
+					batch.from_dict(raw_batch)
+					if batch.stage not in [PlantSimulation.Stage.EMPTY, PlantSimulation.Stage.DRYING, PlantSimulation.Stage.DRY, PlantSimulation.Stage.PACKAGED]:
+						batch.clear_after_sale()
+				plants.append(batch)
+		var raw_vacated = data.get("vacated_rack_slots", [])
+		if raw_vacated is Array:
+			for raw_index in raw_vacated:
+				if not raw_index is int:
+					continue
+				var index: int = raw_index
+				if index >= 0 and index < MAX_PLANT_SLOTS and plants[index].stage == PlantSimulation.Stage.EMPTY and index not in vacated_rack_slots:
+					vacated_rack_slots.append(index)
 	selected_plant_index = clampi(_sanitize_int(data.get("selected_plant_index", 0), 0), 0, plants.size() - 1)
 	if not is_plant_slot_unlocked(selected_plant_index):
 		selected_plant_index = 0
 	plant = plants[selected_plant_index]
+	# Existing saves keep their exact harvest state and quantities. Only their
+	# location changes; no drying, packaging or rewards are replayed by migration.
+	for index in range(MAX_PLANT_SLOTS):
+		if is_plant_slot_unlocked(index) and plants[index].stage in [PlantSimulation.Stage.DRYING, PlantSimulation.Stage.DRY, PlantSimulation.Stage.PACKAGED]:
+			var storage_index := _available_storage_index()
+			if storage_index >= 0:
+				_move_harvest_to_storage(index, storage_index)
 	_sync_equipment_effects()
 	for slot in plants:
 		slot.sync_environment(world_elapsed_seconds)

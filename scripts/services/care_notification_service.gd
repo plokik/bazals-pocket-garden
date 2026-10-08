@@ -100,7 +100,7 @@ func prepare_background_reminder(game_session: GameSession, now_unix: float = -1
 	var trigger_millis := roundi((current_unix + delay_seconds) * 1000.0)
 	var slot_number := slot_index + 1
 	var title := "Bazal’s Pocket Garden · kontrola péče"
-	var body := "Květináč %d · %s." % [slot_number, status]
+	var body := "Sklad · sklizeň %d · %s." % [slot_number - GameSession.MAX_PLANT_SLOTS, status] if slot_index >= GameSession.MAX_PLANT_SLOTS else "Květináč %d · %s." % [slot_number, status]
 	var scheduled := bool(backend.scheduleReminder(trigger_millis, slot_number, title, body))
 	return _remember({
 		"state": "scheduled" if scheduled else "error",

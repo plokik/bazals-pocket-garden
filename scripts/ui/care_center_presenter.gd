@@ -19,7 +19,7 @@ func bind(summary: Label, status: Label, reminder: Button, cards: Dictionary) ->
 
 
 func is_bound() -> bool:
-	return summary_label != null and status_label != null and reminder_button != null and care_cards.size() == GameSession.MAX_PLANT_SLOTS
+	return summary_label != null and status_label != null and reminder_button != null and care_cards.size() >= GameSession.MAX_PLANT_SLOTS
 
 
 func refresh(game_session: GameSession, notification_state: Dictionary = {}, show_all := false) -> void:
@@ -30,7 +30,7 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}, sho
 	var active_count := 0
 	status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	for entry in entries:
-		if bool(entry.get("unlocked", false)) and bool(entry.get("alive", str(entry.get("state", "")) != "empty")):
+		if int(entry.get("slot_index", -1)) < GameSession.MAX_PLANT_SLOTS and bool(entry.get("unlocked", false)) and bool(entry.get("alive", str(entry.get("state", "")) != "empty")):
 			active_count += 1
 	if attention_count > 0:
 		summary_label.text = "POZORNOST %d · AKTIVNÍ %d/%d" % [attention_count, active_count, GameSession.MAX_PLANT_SLOTS]
@@ -69,7 +69,7 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}, sho
 			panel.visible = show_all or (bool(entry.get("attention", false)) if attention_count > 0 else bool(entry.get("unlocked", false)))
 			panel.add_theme_stylebox_override("panel", _card_style(tone))
 		if slot_label != null:
-			slot_label.text = "KVĚTINÁČ %d" % (slot_index + 1)
+			slot_label.text = "SKLAD · SKLIZEŇ %d" % (slot_index - GameSession.MAX_PLANT_SLOTS + 1) if slot_index >= GameSession.MAX_PLANT_SLOTS else "KVĚTINÁČ %d" % (slot_index + 1)
 		if title_label != null:
 			title_label.text = str(entry.get("species_name", "KVĚTINÁČ")).to_upper()
 		if detail_label != null:

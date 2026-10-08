@@ -194,13 +194,13 @@ static func _test_independent_session_toggle_and_save(suite: SceneTree) -> void:
 	restored.from_dict(saved)
 	var saved_plants = saved.get("plants", [])
 	suite._check(
-		GameSession.SAVE_SCHEMA == 41 and int(saved.get("schema", -1)) == 41
+		GameSession.SAVE_SCHEMA == 42 and int(saved.get("schema", -1)) == 42
 		and saved_plants is Array and saved_plants.size() == GameSession.MAX_PLANT_SLOTS
 		and bool((saved_plants[0] as Dictionary).get("lamp_on", false)) and bool((saved_plants[1] as Dictionary).get("lamp_on", false))
 		and restored.plants[0].lamp_on and restored.plants[1].lamp_on
 		and not restored.plants[2].lamp_on and not restored.plants[3].lamp_on
 		and restored.selected_plant_index == selected_before,
-		"Phase179 uloží a obnoví dva nezávisle rozsvícené sloty přes stávající schema 41 bez nového save formátu"
+		"Phase179 uloží a obnoví dva nezávisle rozsvícené sloty i přes schema 42 s oddělenou sušárnou"
 	)
 
 
