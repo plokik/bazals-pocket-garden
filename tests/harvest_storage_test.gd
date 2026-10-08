@@ -46,10 +46,13 @@ static func run(host: SceneTree, catalog: Dictionary) -> void:
 	var again := GameSession.new(catalog)
 	again.from_dict(migrated.to_dict())
 	host._check(migrated.plants[0].stage == PlantSimulation.Stage.EMPTY and migrated.get_storage_batch_indices().size() == 1 and again.get_storage_batch_indices().size() == 1 and is_equal_approx(again.plant.fresh_harvest_g, 31.2) and is_equal_approx(again.plant.harvest_quality, 0.87) and is_equal_approx(again.plant.drying_progress, 41.0) and again.coins == legacy.coins and again.xp == legacy.xp, "Sklad: schema 41 se bezpečně převede právě jednou bez ztráty nebo nové odměny")
+	var disk_saved := SaveManager._save_session_to_paths(migrated, "user://storage-test.json", "user://storage-test.backup.json", "user://storage-test.tmp.json")
+	var disk_loaded := SaveManager._load_session_from_paths(catalog, "user://storage-test.json", "user://storage-test.backup.json", "user://storage-test.recovery.json", migrated.saved_at_unix)
+	host._check(disk_saved and disk_loaded.vacated_rack_slots == [0] and disk_loaded.get_storage_batch_indices().size() == 1 and is_equal_approx(disk_loaded.plant.drying_progress, 41.0), "Sklad: skutečný JSON soubor zachová prázdné místo i skladovou dávku po restartu")
 
 	var hostile := migrated.to_dict()
 	hostile.storage_harvests = [{"species_id": "unknown", "stage": PlantSimulation.Stage.PACKAGED}, {"species_id": "basil_genovese", "stage": PlantSimulation.Stage.MATURE}, "invalid"]
-	hostile.vacated_rack_slots = [-1, 999, true, "0", 0, 0]
+	hostile.vacated_rack_slots = [-1, 999, true, "0", 0.5, INF, NAN, 0, 0.0]
 	again.from_dict(hostile)
 	host._check(again.get_storage_batch_indices().is_empty() and again.vacated_rack_slots == [0], "Sklad: neplatné dávky a falešné pozice neautorizují rostlinu ani duplicitu")
 	var blend: GameSession = host._phase95_unlock_second_chapter(catalog)

@@ -91,7 +91,7 @@ jobs:
           & .\tools\run_ci_validation.ps1 `
             -GodotPath $env:HOW_TO_GROW_GODOT `
             -PythonPath $python `
-            -ExpectedSaveSchema 41 `
+            -ExpectedSaveSchema 42 `
             -ExpectedMinimumRegressionTests 6849 `
             -ExpectedVisualCases 54 `
             -ExpectedActiveVisualGates 34 `

@@ -3,7 +3,7 @@ param(
     [string]$GodotPath = '',
     [string]$PythonPath = '',
     [ValidateRange(1, 1000)]
-    [int]$ExpectedSaveSchema = 41,
+    [int]$ExpectedSaveSchema = 42,
     [ValidateRange(1, 10000)]
     [int]$ExpectedMinimumRegressionTests = 6849,
     [ValidateRange(1, 1000)]

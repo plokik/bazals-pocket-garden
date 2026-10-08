@@ -5561,9 +5561,14 @@ func from_dict(data: Dictionary) -> void:
 		var raw_vacated = data.get("vacated_rack_slots", [])
 		if raw_vacated is Array:
 			for raw_index in raw_vacated:
-				if not raw_index is int:
+				# Godot JSON decodes whole numbers as floats. Accept exact finite
+				# integers in either representation, without coercing bools/strings.
+				if raw_index is bool or not (raw_index is int or raw_index is float):
 					continue
-				var index: int = raw_index
+				var numeric := float(raw_index)
+				if not is_finite(numeric) or numeric != floor(numeric) or numeric < 0.0 or numeric >= MAX_PLANT_SLOTS:
+					continue
+				var index := int(numeric)
 				if index >= 0 and index < MAX_PLANT_SLOTS and plants[index].stage == PlantSimulation.Stage.EMPTY and index not in vacated_rack_slots:
 					vacated_rack_slots.append(index)
 	selected_plant_index = clampi(_sanitize_int(data.get("selected_plant_index", 0), 0), 0, plants.size() - 1)

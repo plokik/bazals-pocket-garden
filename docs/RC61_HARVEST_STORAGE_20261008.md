@@ -29,16 +29,19 @@ animací. Diagnostika i její původní dotyková plocha zůstávají zachované
 
 ## Ověření
 
-- `MVP_TESTS_PASSED=6894`, bez Script Error / Parse Error.
+- `MVP_TESTS_PASSED=6895`, bez Script Error / Parse Error.
 - `HOW_TO_GROW_CAPTURE=PASSED`, `HOW_TO_GROW_VISUALS=PASSED`,
   `HOW_TO_GROW_VALIDATION=PASSED`: 34 aktivních vizuálních bran.
 - Kompletní capture a následná plná funkční kontrola finálního zdroje;
   poslední kontrola použila hotové capture pro beze změny vypadající brány.
   Změněný výběr dávek byl navíc znovu zachycen v reálném rendereru.
 - Nové testy ověřují souběžnou výsadbu a sušení, offline dokončení,
-  migraci, opakované akce, neplatné záznamy, běžné i směsné zakázky,
+  migraci, skutečný JSON soubor přes SaveManager a obnovení volného místa,
+  opakované akce, neplatné záznamy, běžné i směsné zakázky,
   skutečný výběr v UI, centrum péče a průchod dotyku přes lesk.
 - Schválené reference, manifest, masky ani tolerance nebyly upraveny.
+- CI má nově výslovně připnuté schema 42. První vzdálený běh správně
+  odmítl starou očekávanou hodnotu 41; vizuální digest i brány se nemění.
 - Telefon, APK a nové vydání nebyly v tomto kroku testovány ani vytvářeny.
 
 Lokální důkazy: `.godot/harvest-storage-20261008/validation/report.md`,
