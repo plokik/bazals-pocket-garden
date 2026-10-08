@@ -4,6 +4,7 @@ extends RefCounted
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const PaintedPanels := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const CareArt := preload("res://scripts/ui/care_center_painted_assets.gd")
+const CareSkin := preload("res://scripts/ui/care_center_skin.gd")
 
 var summary_label: Label
 var status_label: Label
@@ -45,7 +46,7 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}, sho
 		reminder_button.text = str(notification_state.get("button_text", reminder_button.text))
 	reminder_button.set_pressed_no_signal(reminder_enabled)
 	reminder_button.set_meta("notification_mode", str(notification_state.get("mode", "in_app_only")))
-	ComicUITheme.apply_button(reminder_button, ComicUITheme.TEAL if reminder_enabled else Color("#71808b"), ComicUITheme.CREAM, 10)
+	CareSkin.button(reminder_button, "sage", reminder_enabled)
 	for order_index in range(entries.size()):
 		var entry: Dictionary = entries[order_index]
 		var slot_index := int(entry.get("slot_index", -1))
@@ -87,8 +88,8 @@ func refresh(game_session: GameSession, notification_state: Dictionary = {}, sho
 			action_button.set_meta("care_target", str(entry.get("target", "detail")))
 			action_button.icon = CareArt.texture(_action_icon_for_entry(entry))
 			action_button.expand_icon = true
-			action_button.add_theme_constant_override("icon_max_width", 36)
-			ComicUITheme.apply_button(action_button, _button_color(tone), ComicUITheme.INK, 10)
+			action_button.add_theme_constant_override("icon_max_width", 28)
+			CareSkin.button(action_button, "sage" if tone == "locked" else "teal")
 		if status_icon != null:
 			status_icon.texture = CareArt.texture(_status_icon_for_entry(entry))
 		if check_icon != null:
@@ -119,47 +120,25 @@ func _card_style(tone: String) -> StyleBoxTexture:
 	return PaintedPanels.box("cream", 11.0, tint)
 
 
-func _state_badge_style(tone: String) -> StyleBoxFlat:
-	return ComicUITheme.style_box(
-		_tone_color(tone).lightened(0.82),
-		_tone_color(tone),
-		2,
-		9,
-		Color("#07131c", 0.15),
-		2,
-		5.0
-	)
+func _state_badge_style(_tone: String) -> StyleBoxEmpty:
+	return StyleBoxEmpty.new()
 
 
 func _tone_color(tone: String) -> Color:
 	match tone:
 		"critical":
-			return Color("#dc552f")
+			return Color("#a74124")
 		"warning":
-			return Color("#da8b12")
+			return Color("#98600c")
 		"ready":
-			return Color("#258f38")
+			return Color("#246b31")
 		"processing":
-			return Color("#138fc7")
+			return Color("#176681")
 		"empty":
 			return Color("#8544c7")
 		"locked":
 			return Color("#71808b")
 	return Color("#168c73")
-
-
-func _button_color(tone: String) -> Color:
-	if tone == "critical":
-		return ComicUITheme.ORANGE
-	if tone == "ready":
-		return ComicUITheme.GREEN
-	if tone == "processing":
-		return ComicUITheme.CYAN
-	if tone == "empty":
-		return Color("#b975ed")
-	if tone == "locked":
-		return Color("#71808b")
-	return ComicUITheme.TEAL
 
 
 func _tone_for_state(state: String) -> String:
