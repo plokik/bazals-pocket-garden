@@ -3975,13 +3975,13 @@ func get_journey_title() -> String:
 
 func get_journey_body() -> String:
 	match journey_step:
-		JourneyStep.PLANT_SEED: return "Otevři první květináč a klepni na ZASADIT. Jeden statečný lístek začíná pod hlínou."
+		JourneyStep.PLANT_SEED: return "V prvním květináči klepni na ZASADIT a vyber bazalku."
 		JourneyStep.WATER_PLANT: return "Zalij 120 ml. Vlhká půda ano, bazén pro kořeny ne."
 		JourneyStep.VISIT_MEASUREMENTS: return "Otevři záložku MĚŘENÍ. Hodnoty ti řeknou proč rostlina prospívá nebo strádá."
 		JourneyStep.GROW_TO_MATURE: return "Sleduj vlhkost, světlo a vzduch. Rostlina pokračuje v růstu i po zavření hry."
-		JourneyStep.HARVEST: return "Bazalka je připravená. Ve SKLADU spusť sklizeň, dokud jsou listy v nejlepší kondici."
+		JourneyStep.HARVEST: return "Ve SKLADU skliď bazalku, dokud jsou listy v nejlepší kondici."
 		JourneyStep.START_DRYING: return "Ve SKLADU zahaj sušení. Teď pracuje čas a proudění vzduchu."
-		JourneyStep.WAIT_FOR_DRYING: return "Počkej na 100% sušení. Proces pokračuje i po zavření hry; mokré listy do sáčku nepatří."
+		JourneyStep.WAIT_FOR_DRYING: return "Počkej na 100 % sušení. Listy schnou i po zavření hry."
 		JourneyStep.PACKAGE: return "Usušenou bazalku zabal ve SKLADU. Teprve balíček může na trh."
 		JourneyStep.SELL: return "Prodej hotový balíček. Mince a XP rozjedou další květináče."
 		JourneyStep.COMPLETE: return "Umíš celý cyklus: péče, sklizeň, zpracování i prodej. Teď buduj vlastní bylinkovou dílnu."

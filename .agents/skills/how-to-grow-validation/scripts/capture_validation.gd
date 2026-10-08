@@ -651,6 +651,8 @@ func _capture() -> void:
 
 	instance.feedback_layer.set_capture_transition(0.52, 1)
 	await process_frame
+	# Read back the completed draw, rather than a stale transition frame.
+	await RenderingServer.frame_post_draw
 	if not _save_full_viewport("comic-screen-transition.png"):
 		quit(2)
 		return
