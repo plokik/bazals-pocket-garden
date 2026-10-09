@@ -5,7 +5,6 @@ var metric_labels: Dictionary = {}
 var metric_graph: MetricGraph
 var knowledge_label: RichTextLabel
 var presentation_catalog: PlantPresentationCatalog
-var screen_presentation: RefCounted
 
 
 func bind(labels: Dictionary, graph: MetricGraph, knowledge: RichTextLabel = null, catalog: PlantPresentationCatalog = null) -> void:
@@ -35,5 +34,3 @@ func refresh(plant: PlantSimulation, chart_samples: Array[Dictionary]) -> void:
 	metric_graph.set_samples(chart_samples)
 	if knowledge_label != null and presentation_catalog != null:
 		knowledge_label.text = presentation_catalog.knowledge_text(plant.get_species_id())
-	if screen_presentation != null:
-		screen_presentation.refresh(plant)

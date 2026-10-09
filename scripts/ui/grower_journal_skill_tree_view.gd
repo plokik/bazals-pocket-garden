@@ -23,7 +23,6 @@ const EDGES := [
 ]
 
 var nodes: Array[GrowerJournalSkillNode] = []
-var screen_presentation: RefCounted
 
 
 func _ready() -> void:
@@ -60,9 +59,6 @@ func _notification(what: int) -> void:
 func _layout_nodes() -> void:
 	if size.x <= 0.0:
 		return
-	if screen_presentation != null:
-		screen_presentation.layout_tree(self)
-		return
 	for index in range(nodes.size()):
 		if index >= LAYOUT.size():
 			break
@@ -73,9 +69,6 @@ func _layout_nodes() -> void:
 
 
 func _draw() -> void:
-	if screen_presentation != null:
-		screen_presentation.draw_tree(self)
-		return
 	_draw_botanical_backdrop()
 	if nodes.size() < 2:
 		return

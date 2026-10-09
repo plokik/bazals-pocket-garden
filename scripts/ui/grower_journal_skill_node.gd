@@ -29,8 +29,6 @@ var state_badge: PanelContainer
 var state_label: Label
 var achieved := false
 var selected := false
-## Presentation only; original skill logic and callbacks stay in this node.
-var screen_presentation: RefCounted
 
 
 func configure(id: String, index: int, texture: Texture2D, color: Color) -> void:
@@ -188,12 +186,6 @@ func set_selected(is_selected: bool) -> void:
 func _apply_visual_state() -> void:
 	if icon_outer == null:
 		return
-	if screen_presentation != null:
-		screen_presentation.refresh_node(self)
-		queue_redraw()
-		if get_parent() != null:
-			get_parent().queue_redraw()
-		return
 	var outer_kind := "teal" if selected else ("sage" if achieved else "wood")
 	var inner_tint := Color("#edf7cc") if achieved else Color("#fff3c7")
 	if selected:
@@ -217,8 +209,6 @@ func _apply_visual_state() -> void:
 
 
 func _draw() -> void:
-	if screen_presentation != null:
-		return
 	var leaf_color := Color("#81c84b", 0.96) if achieved else (Color("#44c8b9", 0.94) if selected else Color("#a8b78e", 0.62))
 	_draw_medallion_leaf(Vector2(21.0, 77.0), -1.0, leaf_color)
 	_draw_medallion_leaf(Vector2(103.0, 77.0), 1.0, leaf_color)

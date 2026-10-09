@@ -113,8 +113,6 @@ func _capture() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
-	instance.legacy_storage_capture = true
-	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -517,13 +515,6 @@ func _capture() -> void:
 		quit(2)
 		return
 	print("PHASE155_HERBARIUM_CAPTURE=PASSED")
-	# Current ordinary runtime is captured separately from immutable history.
-	instance._set_legacy_herbarium_capture(false)
-	await _settle(instance)
-	if not _save_full_viewport("comic-herbarium-painted-20261009.png"):
-		quit(2)
-		return
-	instance._set_legacy_herbarium_capture(true)
 	instance._set_herbarium_open(false)
 
 	_prepare_phase5_measurement_state(instance)
@@ -540,14 +531,6 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-phase154-measurement.png"):
 		quit(2)
 		return
-	# The October 9 approved presentation gets its own current-runtime frame;
-	# existing references and their historical capture compositions stay intact.
-	instance._set_legacy_measurement_capture(false)
-	await _settle(instance)
-	if not _save_full_viewport("comic-measurement-painted-20261009.png"):
-		quit(2)
-		return
-	instance._set_legacy_measurement_capture(true)
 
 	_prepare_detail_state(instance)
 	await _settle(instance)
@@ -1665,60 +1648,7 @@ func _capture() -> void:
 	packed = null
 	room_image = null
 	hud_image = null
-	if not await _capture_current_storage():
-		quit(2)
-		return
-	if not await _capture_current_garden_locations():
-		quit(2)
-		return
 	call_deferred("_finish_capture_success")
-
-
-func _capture_current_storage() -> bool:
-	# Historical names above retain approved layouts; capture ordinary startup
-	# separately without changing references, crops, masks or tolerances.
-	var current = load("res://main.tscn").instantiate()
-	root.add_child(current)
-	await process_frame
-	await process_frame
-	_prepare_common_state(current)
-	_prepare_phase5_storage_state(current)
-	current.customer_orders_panel.show()
-	if current.coin_count_tween != null and current.coin_count_tween.is_valid():
-		current.coin_count_tween.kill()
-	current._set_coin_count(float(current.session.coins))
-	await _settle(current)
-	var result: bool = current.storage_pipeline_presenter.screen_presentation != null and _save_full_viewport("comic-storage-calm-20261009.png")
-	current.queue_free()
-	await process_frame
-	return result
-
-
-func _capture_current_garden_locations() -> bool:
-	# Capture the ordinary approved startup separately from historical references.
-	# No baseline, crop, mask or tolerance is updated by this additive evidence.
-	var previous_size := root.size
-	var previous_scale_size := root.content_scale_size
-	root.size = Vector2i(432, 960)
-	root.content_scale_size = Vector2i(432, 960)
-	var current = load("res://main.tscn").instantiate()
-	root.add_child(current)
-	await process_frame
-	await process_frame
-	_prepare_common_state(current)
-	_prepare_phase158_room_acceptance_state(current, _phase158_full_room_slots(), "approved_location_unification")
-	current._open_player_room()
-	await _settle(current)
-	var ok: bool = current.player_room_view.screen_presentation != null and _save_full_viewport("comic-player-room-unified-20261009.png")
-	_prepare_phase105_greenhouse_growing_state(current)
-	current.greenhouse_preview_view.remove_meta("visual_profile_capture")
-	await _settle(current)
-	ok = current.greenhouse_preview_view.screen_presentation == current.player_room_view.screen_presentation and _save_full_viewport("comic-greenhouse-unified-20261009.png") and ok
-	current.queue_free()
-	await process_frame
-	root.size = previous_size
-	root.content_scale_size = previous_scale_size
-	return ok
 
 
 func _capture_phase167_only() -> void:
@@ -1727,8 +1657,6 @@ func _capture_phase167_only() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
-	instance.legacy_storage_capture = true
-	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1814,8 +1742,6 @@ func _capture_phase162_only() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
-	instance.legacy_storage_capture = true
-	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1869,8 +1795,6 @@ func _finish_capture_success() -> void:
 
 
 func _prepare_common_state(instance) -> void:
-	instance._set_legacy_measurement_capture(true)
-	instance._set_legacy_herbarium_capture(true)
 	for plant in instance.session.plants:
 		plant.reset()
 		plant.configure_profile(instance.profile)

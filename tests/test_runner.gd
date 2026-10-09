@@ -473,11 +473,6 @@ func _run_all() -> void:
 	await _test_ui_driven_vertical_slice()
 	await preload("res://tests/first_journey_navigation_test.gd").run(self)
 	await preload("res://tests/harvest_storage_test.gd").run(self, _load_plant_catalog())
-	await preload("res://tests/measurement_presentation_test.gd").run(self)
-	await preload("res://tests/herbarium_presentation_test.gd").run(self)
-	await preload("res://tests/grower_journal_presentation_test.gd").run(self)
-	await preload("res://tests/storage_presentation_test.gd").run(self)
-	await preload("res://tests/garden_location_presentation_test.gd").run(self)
 	if failures == 0:
 		print("MVP TESTY PROŠLY: %d kontrol" % checks)
 		print("MVP_TESTS_PASSED=%d" % checks)
@@ -15331,10 +15326,7 @@ func _test_main_scene_smoke() -> void:
 	_check(storage_screen.get_meta("phase5_screen", "") == "storage_v1" and shop_screen.get_meta("phase5_screen", "") == "shop_v1" and measurement_screen.get_meta("phase5_screen", "") == "measurement_v1" and storage_screen.get_meta("ui_kit", "") == "comic_ui_v1" and shop_screen.get_meta("ui_kit", "") == "comic_ui_v1" and measurement_screen.get_meta("ui_kit", "") == "comic_ui_v1", "Sklad, obchod a měření sdílejí společný Phase 5 mobilní UI systém")
 	var inventory_cards_ok: bool = instance.inventory_value_labels.size() == 3
 	for inventory_value in instance.inventory_value_labels.values():
-		var inventory_ancestor: Node = (inventory_value as Label).get_parent()
-		while inventory_ancestor != null and inventory_ancestor.get_meta("component", "") != "comic_inventory_card_v1":
-			inventory_ancestor = inventory_ancestor.get_parent()
-		inventory_cards_ok = inventory_cards_ok and inventory_ancestor is PanelContainer
+		inventory_cards_ok = inventory_cards_ok and (inventory_value as Label).get_parent().get_parent().get_meta("component", "") == "comic_inventory_card_v1"
 	_check(inventory_cards_ok and instance.storage_step_labels.size() == 4 and instance.storage_progress_bar.get_meta("ui_kit", "") == "comic_ui_v1" and instance.storage_action_button.get_meta("component", "") == "comic_primary_pipeline_action_v1" and instance.storage_action_button.custom_minimum_size.y >= 68.0, "Sklad má tři zásobní karty, čtyřkrokovou pipeline a velkou primární akci")
 	var order_cards_ok: bool = instance.customer_orders_panel.get_meta("component", "") == "customer_orders_board_v1" and instance.order_card_panels.size() == 3 and instance.order_buttons.size() == 3 and instance.order_decline_buttons.size() == 3
 	for order_index in range(instance.order_buttons.size()):

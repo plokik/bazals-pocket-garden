@@ -4,7 +4,6 @@ const PlantViewScene := preload("res://scripts/ui/plant_view.gd")
 const RoomOverviewScene := preload("res://scripts/ui/room_overview.gd")
 const PlayerRoomViewScene := preload("res://scripts/ui/player_room_collection_view.gd")
 const GreenhousePreviewViewScene := preload("res://scripts/ui/greenhouse_preview_view.gd")
-const GardenLocationScreenPresentationScene := preload("res://scripts/ui/garden_location_screen_presentation.gd")
 const RoomDecorationModalScene := preload("res://scripts/ui/room_decoration_modal.gd")
 const MetricGraphScene := preload("res://scripts/ui/metric_graph.gd")
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
@@ -29,10 +28,6 @@ const CosmeticShowroomVisualLayout := preload("res://scripts/ui/cosmetic_showroo
 const SeedSelectorPresenterScene := preload("res://scripts/ui/seed_selector_presenter.gd")
 const HerbariumPresenterScene := preload("res://scripts/ui/herbarium_presenter.gd")
 const MeasurementPresenterScene := preload("res://scripts/ui/measurement_presenter.gd")
-const MeasurementScreenPresentationScene := preload("res://scripts/ui/measurement_screen_presentation.gd")
-const HerbariumScreenPresentationScene := preload("res://scripts/ui/herbarium_screen_presentation.gd")
-const GrowerJournalScreenPresentationScene := preload("res://scripts/ui/grower_journal_screen_presentation.gd")
-const StorageScreenPresentationScene := preload("res://scripts/ui/storage_screen_presentation.gd")
 const StorageInventoryPresenterScene := preload("res://scripts/ui/storage_inventory_presenter.gd")
 const PlantVitalsPresenterScene := preload("res://scripts/ui/plant_vitals_presenter.gd")
 const ReturnSummaryPresenterScene := preload("res://scripts/ui/return_summary_presenter.gd")
@@ -57,7 +52,6 @@ const GrowerJournalSkillTreeScene := preload("res://scripts/ui/grower_journal_sk
 const GrowerJournalSkillNodeScene := preload("res://scripts/ui/grower_journal_skill_node.gd")
 const CareCenterPresenterScene := preload("res://scripts/ui/care_center_presenter.gd")
 const CareCenterPaintedArt := preload("res://scripts/ui/care_center_painted_assets.gd")
-const CareCenterSkin := preload("res://scripts/ui/care_center_skin.gd")
 const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const PreparedStartupIcons := preload("res://scripts/ui/prepared_startup_icons.gd")
 const CareNotificationServiceScene := preload("res://scripts/services/care_notification_service.gd")
@@ -215,10 +209,6 @@ var cosmetic_showroom_presenter := CosmeticShowroomPresenterScene.new()
 var seed_selector_presenter := SeedSelectorPresenterScene.new()
 var herbarium_presenter := HerbariumPresenterScene.new()
 var measurement_presenter := MeasurementPresenterScene.new()
-var legacy_measurement_capture := false
-## Set before entering the tree only by historical validation captures.
-var legacy_storage_capture := false
-var legacy_garden_location_capture := false
 var storage_inventory_presenter := StorageInventoryPresenterScene.new()
 var plant_vitals_presenter := PlantVitalsPresenterScene.new()
 var return_summary_presenter := ReturnSummaryPresenterScene.new()
@@ -582,13 +572,6 @@ func _ready() -> void:
 	_build_theme()
 	var startup_ui_started_ms := Time.get_ticks_msec()
 	_build_ui()
-	MeasurementScreenPresentationScene.new().apply(self)
-	HerbariumScreenPresentationScene.new().apply(self)
-	GrowerJournalScreenPresentationScene.new().apply(self)
-	if not legacy_storage_capture:
-		StorageScreenPresentationScene.new().apply(self)
-	if not legacy_garden_location_capture:
-		GardenLocationScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
@@ -3264,8 +3247,7 @@ func _build_care_center_modal() -> Control:
 	banner.add_child(banner_row)
 	var heading := VBoxContainer.new()
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	heading.add_theme_constant_override("separation", 3)
-	heading.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	heading.add_theme_constant_override("separation", -2)
 	banner_row.add_child(heading)
 	var title := Label.new()
 	title.text = "CENTRUM PÉČE"
@@ -3290,11 +3272,10 @@ func _build_care_center_modal() -> Control:
 	var top_close := _action_button("×", _close_care_center)
 	top_close.custom_minimum_size = Vector2(56, 52)
 	top_close.size_flags_horizontal = Control.SIZE_SHRINK_END
-	top_close.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	top_close.set_meta("touch_target_min_height", 52)
 	top_close.add_theme_font_override("font", FontExtraBold)
 	top_close.add_theme_font_size_override("font_size", 25)
-	CareCenterSkin.button(top_close)
+	ComicUITheme.apply_button(top_close, ComicUITheme.TEAL, ComicUITheme.CREAM, 13)
 	banner_row.add_child(top_close)
 	var summary_panel := PanelContainer.new()
 	summary_panel.custom_minimum_size.y = 34
@@ -3314,7 +3295,7 @@ func _build_care_center_modal() -> Control:
 	care_center_filter_button.set_meta("touch_target_min_height", 44)
 	care_center_filter_button.add_theme_font_override("font", FontExtraBold)
 	care_center_filter_button.add_theme_font_size_override("font_size", 10)
-	CareCenterSkin.button(care_center_filter_button, "cream")
+	ComicUITheme.apply_button(care_center_filter_button, ComicUITheme.TEAL, ComicUITheme.CREAM, 11)
 	column.add_child(care_center_filter_button)
 	care_center_scroll = ScrollContainer.new()
 	care_center_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -3347,7 +3328,7 @@ func _build_care_center_modal() -> Control:
 	care_center_reminder_button.add_theme_font_override("font", FontExtraBold)
 	care_center_reminder_button.add_theme_font_size_override("font_size", 11)
 	care_center_reminder_button.expand_icon = true
-	care_center_reminder_button.add_theme_constant_override("icon_max_width", 28)
+	care_center_reminder_button.add_theme_constant_override("icon_max_width", 36)
 	column.add_child(care_center_reminder_button)
 	care_center_notification_test_button = _action_button("OVĚŘIT UPOZORNĚNÍ ZA 20 S", _on_care_notification_test_pressed)
 	care_center_notification_test_button.custom_minimum_size.y = 56
@@ -3358,7 +3339,7 @@ func _build_care_center_modal() -> Control:
 	care_center_notification_test_button.add_theme_font_size_override("font_size", 11)
 	care_center_notification_test_button.expand_icon = true
 	care_center_notification_test_button.add_theme_constant_override("icon_max_width", 36)
-	CareCenterSkin.button(care_center_notification_test_button, "cream")
+	ComicUITheme.apply_button(care_center_notification_test_button, ComicUITheme.ORANGE, ComicUITheme.CREAM, 11)
 	column.add_child(care_center_notification_test_button)
 	care_center_return_button = _action_button("ZPĚT DO ZAHRADY", _close_care_center)
 	care_center_return_button.custom_minimum_size.y = 64
@@ -3366,8 +3347,8 @@ func _build_care_center_modal() -> Control:
 	care_center_return_button.add_theme_font_override("font", FontExtraBold)
 	care_center_return_button.add_theme_font_size_override("font_size", 15)
 	care_center_return_button.expand_icon = true
-	care_center_return_button.add_theme_constant_override("icon_max_width", 30)
-	CareCenterSkin.button(care_center_return_button)
+	care_center_return_button.add_theme_constant_override("icon_max_width", 40)
+	ComicUITheme.apply_button(care_center_return_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 15)
 	column.add_child(care_center_return_button)
 	care_center_presenter.bind(care_center_summary_label, care_center_status_label, care_center_reminder_button, care_center_cards)
 	return overlay
@@ -3375,69 +3356,70 @@ func _build_care_center_modal() -> Control:
 
 func _build_care_center_card(slot_index: int) -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size.y = 166
+	panel.custom_minimum_size.y = 174
 	panel.set_meta("component", "painted_care_center_slot_card_v1")
 	panel.set_meta("slot_index", slot_index)
-	var column := VBoxContainer.new()
-	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	column.add_theme_constant_override("separation", 5)
-	panel.add_child(column)
 	var card_row := HBoxContainer.new()
 	card_row.add_theme_constant_override("separation", 9)
-	column.add_child(card_row)
+	panel.add_child(card_row)
 	var status_icon := TextureRect.new()
-	status_icon.custom_minimum_size = Vector2(44, 44)
+	status_icon.custom_minimum_size = Vector2(68, 68)
+	status_icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	status_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	status_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	status_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	status_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card_row.add_child(status_icon)
-	var heading := VBoxContainer.new()
-	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	heading.add_theme_constant_override("separation", 2)
-	card_row.add_child(heading)
+	var column := VBoxContainer.new()
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", 3)
+	card_row.add_child(column)
 	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 5)
-	heading.add_child(top)
+	top.add_theme_constant_override("separation", 7)
+	column.add_child(top)
 	var slot_label := Label.new()
-	slot_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slot_label.custom_minimum_size.x = 82
 	slot_label.add_theme_font_override("font", FontExtraBold)
 	slot_label.add_theme_font_size_override("font_size", 9)
 	slot_label.add_theme_color_override("font_color", Color("#4f7d3f"))
 	top.add_child(slot_label)
+	var title := Label.new()
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_font_override("font", FontExtraBold)
+	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_color_override("font_color", ComicUITheme.INK)
+	top.add_child(title)
+	var state := Label.new()
+	state.custom_minimum_size.y = 26
+	state.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	state.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	state.add_theme_font_override("font", FontExtraBold)
+	state.add_theme_font_size_override("font_size", 9)
+	column.add_child(state)
+	var detail := Label.new()
+	detail.custom_minimum_size.y = 36
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.add_theme_font_override("font", FontSemiBold)
+	detail.add_theme_font_size_override("font_size", 9)
+	detail.add_theme_color_override("font_color", ComicUITheme.NAVY)
+	column.add_child(detail)
+	var check_row := HBoxContainer.new()
+	check_row.alignment = BoxContainer.ALIGNMENT_END
+	check_row.add_theme_constant_override("separation", 4)
+	column.add_child(check_row)
 	var check_icon := TextureRect.new()
-	check_icon.custom_minimum_size = Vector2(16, 16)
-	check_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	check_icon.custom_minimum_size = Vector2(24, 24)
 	check_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	check_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	check_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	top.add_child(check_icon)
+	check_row.add_child(check_icon)
 	var check := Label.new()
+	check.custom_minimum_size.y = 24
+	check.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	check.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	check.add_theme_font_override("font", FontExtraBold)
-	check.add_theme_font_size_override("font_size", 8)
-	top.add_child(check)
-	var title := Label.new()
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title.add_theme_font_override("font", FontExtraBold)
-	title.add_theme_font_size_override("font_size", 15)
-	title.add_theme_color_override("font_color", ComicUITheme.INK)
-	heading.add_child(title)
-	var state := Label.new()
-	state.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	state.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	state.add_theme_font_override("font", FontExtraBold)
-	state.add_theme_font_size_override("font_size", 11)
-	heading.add_child(state)
-	var detail := Label.new()
-	detail.custom_minimum_size.y = 28
-	detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	detail.add_theme_font_override("font", FontSemiBold)
-	detail.add_theme_font_size_override("font_size", 10)
-	detail.add_theme_color_override("font_color", ComicUITheme.NAVY)
-	column.add_child(detail)
+	check.add_theme_font_size_override("font_size", 9)
+	check_row.add_child(check)
 	var action := _action_button("OTEVŘÍT DETAIL", _on_care_destination_pressed.bind(slot_index))
 	action.custom_minimum_size.y = 56
 	action.set_meta("touch_target_min_height", 56)
@@ -7381,8 +7363,6 @@ func _register_phase128_label_surface(label: Label, token_id: String, accent: Co
 
 
 func _set_phase128_plants_style_enabled(enabled: bool) -> void:
-	if measurement_presenter.screen_presentation != null:
-		measurement_presenter.screen_presentation.set_enabled(false)
 	phase128_plants_style_enabled = enabled
 	if not enabled:
 		for metric_id in phase154_measurement_legacy_value_labels:
@@ -7420,23 +7400,6 @@ func _set_phase128_plants_style_enabled(enabled: bool) -> void:
 		else:
 			label.remove_theme_stylebox_override("normal")
 	set_meta("phase128_plants_style_enabled", enabled)
-	if measurement_presenter.screen_presentation != null and enabled and not legacy_measurement_capture:
-		measurement_presenter.screen_presentation.set_enabled(true)
-
-
-func _set_legacy_measurement_capture(enabled: bool) -> void:
-	# Original named screenshots keep their historical composition. Ordinary
-	# play always starts with the approved painted screen and fixed sensor ribbon.
-	legacy_measurement_capture = enabled
-	if measurement_presenter.screen_presentation != null:
-		measurement_presenter.screen_presentation.set_enabled(not enabled and phase128_plants_style_enabled)
-
-
-func _set_legacy_herbarium_capture(enabled: bool) -> void:
-	# Named historical frames keep their immutable approved layout; ordinary
-	# startup uses the herbarium approved on 9 October 2026.
-	if herbarium_presenter.screen_presentation != null:
-		herbarium_presenter.screen_presentation.set_enabled(not enabled)
 
 
 func _screen_margin() -> MarginContainer:
