@@ -477,6 +477,7 @@ func _run_all() -> void:
 	await preload("res://tests/herbarium_presentation_test.gd").run(self)
 	await preload("res://tests/grower_journal_presentation_test.gd").run(self)
 	await preload("res://tests/storage_presentation_test.gd").run(self)
+	await preload("res://tests/garden_location_presentation_test.gd").run(self)
 	if failures == 0:
 		print("MVP TESTY PROŠLY: %d kontrol" % checks)
 		print("MVP_TESTS_PASSED=%d" % checks)

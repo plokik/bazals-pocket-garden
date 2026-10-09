@@ -4,6 +4,7 @@ const PlantViewScene := preload("res://scripts/ui/plant_view.gd")
 const RoomOverviewScene := preload("res://scripts/ui/room_overview.gd")
 const PlayerRoomViewScene := preload("res://scripts/ui/player_room_collection_view.gd")
 const GreenhousePreviewViewScene := preload("res://scripts/ui/greenhouse_preview_view.gd")
+const GardenLocationScreenPresentationScene := preload("res://scripts/ui/garden_location_screen_presentation.gd")
 const RoomDecorationModalScene := preload("res://scripts/ui/room_decoration_modal.gd")
 const MetricGraphScene := preload("res://scripts/ui/metric_graph.gd")
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
@@ -217,6 +218,7 @@ var measurement_presenter := MeasurementPresenterScene.new()
 var legacy_measurement_capture := false
 ## Set before entering the tree only by historical validation captures.
 var legacy_storage_capture := false
+var legacy_garden_location_capture := false
 var storage_inventory_presenter := StorageInventoryPresenterScene.new()
 var plant_vitals_presenter := PlantVitalsPresenterScene.new()
 var return_summary_presenter := ReturnSummaryPresenterScene.new()
@@ -585,6 +587,8 @@ func _ready() -> void:
 	GrowerJournalScreenPresentationScene.new().apply(self)
 	if not legacy_storage_capture:
 		StorageScreenPresentationScene.new().apply(self)
+	if not legacy_garden_location_capture:
+		GardenLocationScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()

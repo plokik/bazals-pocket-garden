@@ -86,6 +86,7 @@ const PHASE146_FIXED_MASTER_OFFSETS := {
 var selected_theme_id := "sunrise"
 var back_button: Button
 var theme_button: Button
+var screen_presentation: RefCounted
 var decoration_slots: Array[String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 var decoration_catalog: Dictionary = {}
 var achievement_badge_ids: Array[String] = []
@@ -482,6 +483,9 @@ func _on_resized() -> void:
 func _layout_navigation() -> void:
 	if back_button == null or theme_button == null:
 		return
+	if screen_presentation != null:
+		screen_presentation.layout_room(self)
+		return
 	_layout_phase149_navigation_button(back_button, PHASE149_BACK_RECT)
 	_layout_phase149_navigation_button(theme_button, PHASE149_THEME_RECT)
 
@@ -735,6 +739,9 @@ func _draw_window_life(palette: Dictionary) -> void:
 
 
 func _draw_painted_title_overlay() -> void:
+	if screen_presentation != null:
+		screen_presentation.draw_header(self, true)
+		return
 	var shared_panel := GardenSceneFraming.location_title_panel(size)
 	# The baked plaque stretches with the room; keep the approved 432px layout,
 	# but cover its expanded width on short displays instead of a fixed 204px.

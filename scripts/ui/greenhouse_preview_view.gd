@@ -76,6 +76,7 @@ const PHASE150_TARGET_CROP_OCCUPANCY := {
 }
 
 var back_button: Button
+var screen_presentation: RefCounted
 var action_button: Button
 var wallet_label: Label
 var selected_title_label: Label
@@ -339,6 +340,8 @@ func _layout_controls() -> void:
 		crop_buttons[crop_index].add_theme_font_size_override("font_size", 8 if crop_width <= TOUCH_TARGET_MIN else 10)
 		crop_buttons[crop_index].position = Vector2(16.0 + crop_index * (crop_width + crop_gap), size.y - 78.0)
 		crop_buttons[crop_index].size = Vector2(crop_width, TOUCH_TARGET_MIN)
+	if screen_presentation != null:
+		screen_presentation.layout_greenhouse(self)
 	queue_redraw()
 
 
@@ -398,6 +401,8 @@ func _refresh_controls() -> void:
 	for bed_index in range(bed_buttons.size()):
 		var bed_state := bed_states[bed_index]
 		TooltipPolicy.apply(bed_buttons[bed_index], "Záhon %d · %s" % [bed_index + 1, str(bed_state.get("stage_name", "stav nedostupný"))])
+	if screen_presentation != null:
+		screen_presentation.refresh_greenhouse(self)
 
 
 func _greenhouse_order_line() -> String:
@@ -502,6 +507,9 @@ func _draw_ambient_light() -> void:
 
 
 func _draw_title() -> void:
+	if screen_presentation != null:
+		screen_presentation.draw_header(self, false)
+		return
 	var panel_rect := GardenSceneFraming.location_title_panel(size)
 	draw_style_box(_painted_compact_box("wood", 0.0, 12.0), panel_rect)
 	var text_width := panel_rect.size.x - TITLE_TEXT_HORIZONTAL_INSET * 2.0
@@ -512,6 +520,8 @@ func _draw_title() -> void:
 
 
 func _draw_wallet_panel() -> void:
+	if screen_presentation != null:
+		return
 	var rect := _reputation_panel_rect()
 	draw_style_box(_painted_compact_box("wood", 0.0, 9.0), rect)
 	var leaf_texture := PaintedDetailArt.texture("leaf")
@@ -699,7 +709,8 @@ func _draw_bed(index: int, rect: Rect2, state: Dictionary) -> void:
 			draw_texture_rect(water_texture, VisualDesignSystem.asset_rect(water_id, state_marker_anchor, size, 0.82), false)
 	elif stage == "growing":
 		var bed_progress_rect := Rect2(rect.position.x + 16.0, minf(rect.end.y - 15.0, _status_rect().position.y - 25.0), rect.size.x - 32.0, 7.0)
-		_draw_painted_progress_bar(bed_progress_rect, progress)
+		if screen_presentation == null or index != selected_bed_index:
+			_draw_painted_progress_bar(bed_progress_rect, progress)
 	elif stage == "ready":
 		var ready_id := "greenhouse_status_ready"
 		var ready_texture := VisualDesignSystem.texture_for(ready_id)
@@ -885,6 +896,9 @@ func _draw_eggplant_crop(soil_rect: Rect2, stage: String, progress: float) -> vo
 
 
 func _draw_status_panel() -> void:
+	if screen_presentation != null:
+		screen_presentation.draw_status(self)
+		return
 	var rect := _status_rect()
 	draw_style_box(_painted_compact_box("wood", 0.0, 14.0), rect)
 	var state := bed_states[selected_bed_index]
@@ -894,6 +908,9 @@ func _draw_status_panel() -> void:
 
 
 func _draw_painted_progress_bar(rect: Rect2, progress: float) -> void:
+	if screen_presentation != null:
+		screen_presentation.draw_progress(self, rect, progress)
+		return
 	var track := StyleBoxFlat.new()
 	track.bg_color = Color("#e6edc9")
 	track.border_color = Color("#263d1b")

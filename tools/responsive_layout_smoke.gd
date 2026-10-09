@@ -264,11 +264,17 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 		await _settle_frames(2)
 		failure = _validate_phase153_shop(instance, str(test_case.id))
 	if failure.is_empty() and capture_phase154_measurement:
+		# This Phase 154 fixture audits its original 248px laboratory geometry.
+		# The current approved 150px presentation has dedicated live UI tests.
+		instance._set_legacy_measurement_capture(true)
 		instance._change_screen(3)
 		instance._refresh_ui()
 		await _settle_frames(2)
 		failure = _validate_phase154_measurement(instance, str(test_case.id))
 	if failure.is_empty() and capture_phase155_herbarium:
+		# Keep the original Phase 155 fixture geometry; the newer approved
+		# herbarium presentation is covered by its dedicated live UI tests.
+		instance._set_legacy_herbarium_capture(true)
 		instance._set_herbarium_open(true)
 		instance._refresh_herbarium()
 		await _settle_frames(3)
@@ -1099,9 +1105,12 @@ func _validate_phase109_compact_greenhouse(instance, test_case_id: String) -> St
 			return "%s produced crop choice %d geometry %s instead of %s." % [test_case_id, crop_index + 1, crop_rect, expected_crops[crop_index]]
 		if crop_rect.size.x < 64.0 or crop_rect.size.y < 64.0:
 			return "%s produced an undersized compact crop choice %d." % [test_case_id, crop_index + 1]
-	if greenhouse.back_button.get_rect() != Rect2(10.0, 76.0, 124.0, 64.0):
-		return "%s did not preserve the exact 124x64 greenhouse return CTA in the shared action row." % test_case_id
-	var greenhouse_title := GardenSceneFraming.location_title_panel(greenhouse.size)
+	if greenhouse.screen_presentation == null or greenhouse.back_button.get_rect() != Rect2(9.0, 74.0, 86.0, 64.0):
+		return "%s did not preserve the approved 86x64 greenhouse return action in its unified header." % test_case_id
+	var greenhouse_header: Rect2 = greenhouse.screen_presentation.header_rect(greenhouse)
+	if greenhouse_header != Rect2(0, 0, 198, 146) or not greenhouse_header.encloses(greenhouse.wallet_label.get_rect()):
+		return "%s placed the greenhouse reputation outside the approved compact header." % test_case_id
+	var greenhouse_title := Rect2(10, 16, 178, 24)
 	if greenhouse_title.intersects(greenhouse.back_button.get_rect()) or greenhouse_title.intersects(greenhouse.wallet_label.get_rect()):
 		return "%s overlapped the compact greenhouse title with its action row." % test_case_id
 	return ""
@@ -1200,17 +1209,19 @@ func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 			return "%s exposed a dormant Phase160 room-floor target at slot %d." % [test_case_id, dormant_slot_index]
 	if room.back_button.get_rect().intersects(room.theme_button.get_rect()):
 		return "%s overlapped the player-room navigation actions." % test_case_id
-	var expected_back_hitbox := PlayerRoomCollectionView.phase149_navigation_hitbox(PlayerRoomCollectionView.PHASE149_BACK_RECT, room.size)
-	var expected_theme_hitbox := PlayerRoomCollectionView.phase149_navigation_hitbox(PlayerRoomCollectionView.PHASE149_THEME_RECT, room.size)
+	var expected_back_hitbox := Rect2(9, 74, 86, 64)
+	var expected_theme_hitbox := Rect2(103, 74, 86, 64)
 	if not room.back_button.get_rect().is_equal_approx(expected_back_hitbox) \
 			or not room.theme_button.get_rect().is_equal_approx(expected_theme_hitbox):
-		return "%s did not keep the responsive Phase 149 hitboxes registered to the baked chrome." % test_case_id
+		return "%s did not keep the approved compact room actions registered to the unified header." % test_case_id
+	if room.screen_presentation == null or room.screen_presentation.header_rect(room) != Rect2(0, 0, 198, 146):
+		return "%s did not enable the approved compact room header at ordinary startup." % test_case_id
 	if PlayerRoomCollectionView.PHASE146_FIXED_MASTER_OFFSETS.get(14, Vector2.ZERO) != Vector2(0.0, 8.0) \
 			or PlayerRoomCollectionView.PHASE146_NESTED_POTS_SHELF_OCCLUSION.end.y > 1130.0:
 		return "%s did not keep the nested pots grounded behind the cabinet shelf lip." % test_case_id
-	var room_title := PlayerRoomCollectionView.phase149_scaled_painted_rect(PlayerRoomCollectionView.PHASE146_TITLE_RECT, room.size)
+	var room_title := Rect2(10, 16, 178, 24)
 	if room_title.intersects(room.back_button.get_rect()) or room_title.intersects(room.theme_button.get_rect()):
-		return "%s overlapped the Phase 146 room title with its left-side action row." % test_case_id
+		return "%s overlapped the approved room title with its action row." % test_case_id
 	return ""
 
 

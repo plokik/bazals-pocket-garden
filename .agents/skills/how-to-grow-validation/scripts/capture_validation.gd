@@ -114,6 +114,7 @@ func _capture() -> void:
 		return
 	var instance = packed.instantiate()
 	instance.legacy_storage_capture = true
+	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1667,6 +1668,9 @@ func _capture() -> void:
 	if not await _capture_current_storage():
 		quit(2)
 		return
+	if not await _capture_current_garden_locations():
+		quit(2)
+		return
 	call_deferred("_finish_capture_success")
 
 
@@ -1690,6 +1694,33 @@ func _capture_current_storage() -> bool:
 	return result
 
 
+func _capture_current_garden_locations() -> bool:
+	# Capture the ordinary approved startup separately from historical references.
+	# No baseline, crop, mask or tolerance is updated by this additive evidence.
+	var previous_size := root.size
+	var previous_scale_size := root.content_scale_size
+	root.size = Vector2i(432, 960)
+	root.content_scale_size = Vector2i(432, 960)
+	var current = load("res://main.tscn").instantiate()
+	root.add_child(current)
+	await process_frame
+	await process_frame
+	_prepare_common_state(current)
+	_prepare_phase158_room_acceptance_state(current, _phase158_full_room_slots(), "approved_location_unification")
+	current._open_player_room()
+	await _settle(current)
+	var ok: bool = current.player_room_view.screen_presentation != null and _save_full_viewport("comic-player-room-unified-20261009.png")
+	_prepare_phase105_greenhouse_growing_state(current)
+	current.greenhouse_preview_view.remove_meta("visual_profile_capture")
+	await _settle(current)
+	ok = current.greenhouse_preview_view.screen_presentation == current.player_room_view.screen_presentation and _save_full_viewport("comic-greenhouse-unified-20261009.png") and ok
+	current.queue_free()
+	await process_frame
+	root.size = previous_size
+	root.content_scale_size = previous_scale_size
+	return ok
+
+
 func _capture_phase167_only() -> void:
 	var packed := load("res://main.tscn") as PackedScene
 	if packed == null:
@@ -1697,6 +1728,7 @@ func _capture_phase167_only() -> void:
 		return
 	var instance = packed.instantiate()
 	instance.legacy_storage_capture = true
+	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1783,6 +1815,7 @@ func _capture_phase162_only() -> void:
 		return
 	var instance = packed.instantiate()
 	instance.legacy_storage_capture = true
+	instance.legacy_garden_location_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
