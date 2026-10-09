@@ -9,6 +9,8 @@ var status_label: Label
 var collection_summary_label: Label
 var mastery_summary_label: Label
 var species_cards: Dictionary = {}
+## Approved layout, with a reversible mode for historical captures.
+var screen_presentation: RefCounted
 
 
 func bind(summary: Label, status: Label, cards: Dictionary, collection_summary: Label = null, mastery_summary: Label = null) -> void:
@@ -106,6 +108,8 @@ func refresh(game_session: GameSession) -> void:
 	if mastery_summary_label != null:
 		var short_waiting := " · %d ČEKÁ" % claimable if claimable > 0 else ""
 		mastery_summary_label.text = "MISTROVSTVÍ\n%d/%d%s" % [total_tiers, species_count * GameSession.MASTERY_TIERS.size(), short_waiting]
+	if screen_presentation != null:
+		screen_presentation.refresh(game_session)
 
 
 func _style_reward_button(button: Button, can_claim: bool) -> void:

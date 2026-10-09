@@ -515,6 +515,13 @@ func _capture() -> void:
 		quit(2)
 		return
 	print("PHASE155_HERBARIUM_CAPTURE=PASSED")
+	# Current ordinary runtime is captured separately from immutable history.
+	instance._set_legacy_herbarium_capture(false)
+	await _settle(instance)
+	if not _save_full_viewport("comic-herbarium-painted-20261009.png"):
+		quit(2)
+		return
+	instance._set_legacy_herbarium_capture(true)
 	instance._set_herbarium_open(false)
 
 	_prepare_phase5_measurement_state(instance)
@@ -1804,6 +1811,7 @@ func _finish_capture_success() -> void:
 
 func _prepare_common_state(instance) -> void:
 	instance._set_legacy_measurement_capture(true)
+	instance._set_legacy_herbarium_capture(true)
 	for plant in instance.session.plants:
 		plant.reset()
 		plant.configure_profile(instance.profile)

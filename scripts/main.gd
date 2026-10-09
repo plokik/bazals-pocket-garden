@@ -29,6 +29,7 @@ const SeedSelectorPresenterScene := preload("res://scripts/ui/seed_selector_pres
 const HerbariumPresenterScene := preload("res://scripts/ui/herbarium_presenter.gd")
 const MeasurementPresenterScene := preload("res://scripts/ui/measurement_presenter.gd")
 const MeasurementScreenPresentationScene := preload("res://scripts/ui/measurement_screen_presentation.gd")
+const HerbariumScreenPresentationScene := preload("res://scripts/ui/herbarium_screen_presentation.gd")
 const StorageInventoryPresenterScene := preload("res://scripts/ui/storage_inventory_presenter.gd")
 const PlantVitalsPresenterScene := preload("res://scripts/ui/plant_vitals_presenter.gd")
 const ReturnSummaryPresenterScene := preload("res://scripts/ui/return_summary_presenter.gd")
@@ -576,6 +577,7 @@ func _ready() -> void:
 	var startup_ui_started_ms := Time.get_ticks_msec()
 	_build_ui()
 	MeasurementScreenPresentationScene.new().apply(self)
+	HerbariumScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
@@ -7417,6 +7419,13 @@ func _set_legacy_measurement_capture(enabled: bool) -> void:
 	legacy_measurement_capture = enabled
 	if measurement_presenter.screen_presentation != null:
 		measurement_presenter.screen_presentation.set_enabled(not enabled and phase128_plants_style_enabled)
+
+
+func _set_legacy_herbarium_capture(enabled: bool) -> void:
+	# Named historical frames keep their immutable approved layout; ordinary
+	# startup uses the herbarium approved on 9 October 2026.
+	if herbarium_presenter.screen_presentation != null:
+		herbarium_presenter.screen_presentation.set_enabled(not enabled)
 
 
 func _screen_margin() -> MarginContainer:
