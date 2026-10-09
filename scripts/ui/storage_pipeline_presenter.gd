@@ -7,6 +7,7 @@ var harvest_label: Label
 var action_button: Button
 var progress_bar: ProgressBar
 var step_labels: Array[Label] = []
+var screen_presentation: RefCounted
 
 
 func bind(label: Label, button: Button, progress: ProgressBar, steps: Array[Label]) -> void:
@@ -95,6 +96,9 @@ func refresh(game_session: GameSession) -> void:
 
 
 func update_steps(active_step: int) -> void:
+	if screen_presentation != null:
+		screen_presentation.refresh_steps(active_step)
+		return
 	for index in range(step_labels.size()):
 		var label := step_labels[index]
 		var panel := label.get_parent() as PanelContainer

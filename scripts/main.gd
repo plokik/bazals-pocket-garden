@@ -31,6 +31,7 @@ const MeasurementPresenterScene := preload("res://scripts/ui/measurement_present
 const MeasurementScreenPresentationScene := preload("res://scripts/ui/measurement_screen_presentation.gd")
 const HerbariumScreenPresentationScene := preload("res://scripts/ui/herbarium_screen_presentation.gd")
 const GrowerJournalScreenPresentationScene := preload("res://scripts/ui/grower_journal_screen_presentation.gd")
+const StorageScreenPresentationScene := preload("res://scripts/ui/storage_screen_presentation.gd")
 const StorageInventoryPresenterScene := preload("res://scripts/ui/storage_inventory_presenter.gd")
 const PlantVitalsPresenterScene := preload("res://scripts/ui/plant_vitals_presenter.gd")
 const ReturnSummaryPresenterScene := preload("res://scripts/ui/return_summary_presenter.gd")
@@ -214,6 +215,8 @@ var seed_selector_presenter := SeedSelectorPresenterScene.new()
 var herbarium_presenter := HerbariumPresenterScene.new()
 var measurement_presenter := MeasurementPresenterScene.new()
 var legacy_measurement_capture := false
+## Set before entering the tree only by historical validation captures.
+var legacy_storage_capture := false
 var storage_inventory_presenter := StorageInventoryPresenterScene.new()
 var plant_vitals_presenter := PlantVitalsPresenterScene.new()
 var return_summary_presenter := ReturnSummaryPresenterScene.new()
@@ -580,6 +583,8 @@ func _ready() -> void:
 	MeasurementScreenPresentationScene.new().apply(self)
 	HerbariumScreenPresentationScene.new().apply(self)
 	GrowerJournalScreenPresentationScene.new().apply(self)
+	if not legacy_storage_capture:
+		StorageScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()

@@ -15,6 +15,7 @@ var requirement_labels: Array[Label] = []
 var reward_labels: Array[Label] = []
 var action_buttons: Array[Button] = []
 var decline_buttons: Array[Button] = []
+var screen_presentation: RefCounted
 
 
 func _init() -> void:
@@ -145,6 +146,8 @@ func refresh(game_session: GameSession) -> void:
 			TooltipPolicy.apply(decline, "Bezplatná denní výměna nabídky" if not decline.disabled else "Další výměny budou zítra")
 		card_panels[index].set_meta("order_kind", "blend" if is_blend else "single")
 		card_panels[index].add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.CREAM, accent, 3, 14, Color("#0c1720", 0.24), 3, 9.0))
+	if screen_presentation != null:
+		screen_presentation.refresh_orders()
 
 
 func get_order_accent(accent_id: String) -> Color:

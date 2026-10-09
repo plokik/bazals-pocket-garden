@@ -113,6 +113,7 @@ func _capture() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
+	instance.legacy_storage_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1663,7 +1664,30 @@ func _capture() -> void:
 	packed = null
 	room_image = null
 	hud_image = null
+	if not await _capture_current_storage():
+		quit(2)
+		return
 	call_deferred("_finish_capture_success")
+
+
+func _capture_current_storage() -> bool:
+	# Historical names above retain approved layouts; capture ordinary startup
+	# separately without changing references, crops, masks or tolerances.
+	var current = load("res://main.tscn").instantiate()
+	root.add_child(current)
+	await process_frame
+	await process_frame
+	_prepare_common_state(current)
+	_prepare_phase5_storage_state(current)
+	current.customer_orders_panel.show()
+	if current.coin_count_tween != null and current.coin_count_tween.is_valid():
+		current.coin_count_tween.kill()
+	current._set_coin_count(float(current.session.coins))
+	await _settle(current)
+	var result: bool = current.storage_pipeline_presenter.screen_presentation != null and _save_full_viewport("comic-storage-calm-20261009.png")
+	current.queue_free()
+	await process_frame
+	return result
 
 
 func _capture_phase167_only() -> void:
@@ -1672,6 +1696,7 @@ func _capture_phase167_only() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
+	instance.legacy_storage_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
@@ -1757,6 +1782,7 @@ func _capture_phase162_only() -> void:
 		quit(2)
 		return
 	var instance = packed.instantiate()
+	instance.legacy_storage_capture = true
 	root.add_child(instance)
 	await process_frame
 	await process_frame
