@@ -5,11 +5,12 @@ const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 
 var metric_id := "temperature"
 var accent := Color("#ff8a1f")
+var compact_draw := false
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	custom_minimum_size = Vector2(42.0, 42.0)
+	custom_minimum_size = Vector2(24.0, 24.0) if compact_draw else Vector2(42.0, 42.0)
 	set_meta("component", "phase154_painted_metric_icon_v1")
 	set_meta("rendering", "smooth_vector_ui_icon_no_pixel_art_v1")
 	resized.connect(queue_redraw)
@@ -25,6 +26,10 @@ func configure(value: String, color: Color) -> void:
 func _draw() -> void:
 	var center := size * 0.5
 	var radius := minf(size.x, size.y) * 0.43
+	if compact_draw:
+		draw_set_transform(center, 0.0, Vector2.ONE * minf(size.x, size.y) / 42.0)
+		center = Vector2.ZERO
+		radius = 42.0 * 0.43
 	draw_circle(center + Vector2(0.0, 2.0), radius, Color("#3d2514", 0.22))
 	draw_circle(center, radius, Color("#fff5cf"))
 	draw_arc(center, radius, 0.0, TAU, 48, accent.darkened(0.28), 2.0, true)

@@ -531,6 +531,14 @@ func _capture() -> void:
 	if not _save_full_viewport("comic-phase154-measurement.png"):
 		quit(2)
 		return
+	# The October 9 approved presentation gets its own current-runtime frame;
+	# existing references and their historical capture compositions stay intact.
+	instance._set_legacy_measurement_capture(false)
+	await _settle(instance)
+	if not _save_full_viewport("comic-measurement-painted-20261009.png"):
+		quit(2)
+		return
+	instance._set_legacy_measurement_capture(true)
 
 	_prepare_detail_state(instance)
 	await _settle(instance)
@@ -1795,6 +1803,7 @@ func _finish_capture_success() -> void:
 
 
 func _prepare_common_state(instance) -> void:
+	instance._set_legacy_measurement_capture(true)
 	for plant in instance.session.plants:
 		plant.reset()
 		plant.configure_profile(instance.profile)

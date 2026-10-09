@@ -28,6 +28,7 @@ const CosmeticShowroomVisualLayout := preload("res://scripts/ui/cosmetic_showroo
 const SeedSelectorPresenterScene := preload("res://scripts/ui/seed_selector_presenter.gd")
 const HerbariumPresenterScene := preload("res://scripts/ui/herbarium_presenter.gd")
 const MeasurementPresenterScene := preload("res://scripts/ui/measurement_presenter.gd")
+const MeasurementScreenPresentationScene := preload("res://scripts/ui/measurement_screen_presentation.gd")
 const StorageInventoryPresenterScene := preload("res://scripts/ui/storage_inventory_presenter.gd")
 const PlantVitalsPresenterScene := preload("res://scripts/ui/plant_vitals_presenter.gd")
 const ReturnSummaryPresenterScene := preload("res://scripts/ui/return_summary_presenter.gd")
@@ -210,6 +211,7 @@ var cosmetic_showroom_presenter := CosmeticShowroomPresenterScene.new()
 var seed_selector_presenter := SeedSelectorPresenterScene.new()
 var herbarium_presenter := HerbariumPresenterScene.new()
 var measurement_presenter := MeasurementPresenterScene.new()
+var legacy_measurement_capture := false
 var storage_inventory_presenter := StorageInventoryPresenterScene.new()
 var plant_vitals_presenter := PlantVitalsPresenterScene.new()
 var return_summary_presenter := ReturnSummaryPresenterScene.new()
@@ -573,6 +575,7 @@ func _ready() -> void:
 	_build_theme()
 	var startup_ui_started_ms := Time.get_ticks_msec()
 	_build_ui()
+	MeasurementScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
@@ -7365,6 +7368,8 @@ func _register_phase128_label_surface(label: Label, token_id: String, accent: Co
 
 
 func _set_phase128_plants_style_enabled(enabled: bool) -> void:
+	if measurement_presenter.screen_presentation != null:
+		measurement_presenter.screen_presentation.set_enabled(false)
 	phase128_plants_style_enabled = enabled
 	if not enabled:
 		for metric_id in phase154_measurement_legacy_value_labels:
@@ -7402,6 +7407,16 @@ func _set_phase128_plants_style_enabled(enabled: bool) -> void:
 		else:
 			label.remove_theme_stylebox_override("normal")
 	set_meta("phase128_plants_style_enabled", enabled)
+	if measurement_presenter.screen_presentation != null and enabled and not legacy_measurement_capture:
+		measurement_presenter.screen_presentation.set_enabled(true)
+
+
+func _set_legacy_measurement_capture(enabled: bool) -> void:
+	# Original named screenshots keep their historical composition. Ordinary
+	# play always starts with the approved painted screen and fixed sensor ribbon.
+	legacy_measurement_capture = enabled
+	if measurement_presenter.screen_presentation != null:
+		measurement_presenter.screen_presentation.set_enabled(not enabled and phase128_plants_style_enabled)
 
 
 func _screen_margin() -> MarginContainer:
