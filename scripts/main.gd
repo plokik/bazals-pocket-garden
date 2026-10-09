@@ -30,6 +30,7 @@ const HerbariumPresenterScene := preload("res://scripts/ui/herbarium_presenter.g
 const MeasurementPresenterScene := preload("res://scripts/ui/measurement_presenter.gd")
 const MeasurementScreenPresentationScene := preload("res://scripts/ui/measurement_screen_presentation.gd")
 const HerbariumScreenPresentationScene := preload("res://scripts/ui/herbarium_screen_presentation.gd")
+const GrowerJournalScreenPresentationScene := preload("res://scripts/ui/grower_journal_screen_presentation.gd")
 const StorageInventoryPresenterScene := preload("res://scripts/ui/storage_inventory_presenter.gd")
 const PlantVitalsPresenterScene := preload("res://scripts/ui/plant_vitals_presenter.gd")
 const ReturnSummaryPresenterScene := preload("res://scripts/ui/return_summary_presenter.gd")
@@ -578,6 +579,7 @@ func _ready() -> void:
 	_build_ui()
 	MeasurementScreenPresentationScene.new().apply(self)
 	HerbariumScreenPresentationScene.new().apply(self)
+	GrowerJournalScreenPresentationScene.new().apply(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
