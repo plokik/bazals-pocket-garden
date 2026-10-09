@@ -21,6 +21,8 @@ ilustrace; snižuje počet silných rámečků a souběžných barevných důraz
 - Čekající zakázky mají tichá tlačítka; výměna používá tenký obrys.
   Výrazná tyrkysová barva zůstává na hlavní akci a dostupném odevzdání.
 - Velikosti textů a dotykových ploch proti schválenému náhledu nejsou zmenšeny.
+- Mince sdílí připravený exportovaný obrázek s horní lištou; nepoužívá
+  vyřazený pracovní `coin_glossy.png`.
 
 ## Zachování chování
 
@@ -40,6 +42,9 @@ nadále čte původní požadavky, ceny, XP a denní výměny.
   nedostupná akce během sušení, opakované zapnutí a dotykový posuv,
   shoda zakázek s původní nástěnkou.
 - Kompletní funkční sada: `MVP_TESTS_PASSED=6933`.
+- Lokální kontrola ve stejném režimu jako GitHub:
+  `CI_EXPORT_CONTRACT=PASSED presets=3`, `CI_RUNTIME_ASSETS=PASSED references=271`,
+  `CI_STATIC_CONTRACT=PASSED`, `HOW_TO_GROW_CI=PASSED`.
 - Kompletní snímkování: `HOW_TO_GROW_CAPTURE=PASSED`.
 - Všech 34 chráněných vizuálních porovnání prošlo:
   `HOW_TO_GROW_VISUALS=PASSED`, `HOW_TO_GROW_VALIDATION=PASSED`.
