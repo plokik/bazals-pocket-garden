@@ -2966,6 +2966,7 @@ func _build_level_progression_card(reward_level: int) -> Control:
 	unlock_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	details.add_child(unlock_label)
 	var claim := _action_button("VYZVEDNOUT", _on_level_reward_claimed.bind(reward_level))
+	claim.set_meta("component", "sage_level_reward_action_v1")
 	claim.set_meta("sage_palette_role", "primary")
 	claim.custom_minimum_size = Vector2(92, 76)
 	claim.set_meta("touch_target_min_height", 76)
@@ -3348,6 +3349,7 @@ func _build_care_center_modal() -> Control:
 	ComicUITheme.apply_button(care_center_notification_test_button, ComicUITheme.ORANGE, ComicUITheme.CREAM, 11)
 	column.add_child(care_center_notification_test_button)
 	care_center_return_button = _action_button("ZPĚT DO ZAHRADY", _close_care_center)
+	care_center_return_button.set_meta("component", "sage_care_return_action_v1")
 	care_center_return_button.custom_minimum_size.y = 64
 	care_center_return_button.set_meta("touch_target_min_height", 64)
 	care_center_return_button.add_theme_font_override("font", FontExtraBold)
@@ -3427,6 +3429,7 @@ func _build_care_center_card(slot_index: int) -> Control:
 	check.add_theme_font_size_override("font_size", 9)
 	check_row.add_child(check)
 	var action := _action_button("OTEVŘÍT DETAIL", _on_care_destination_pressed.bind(slot_index))
+	action.set_meta("component", "sage_care_destination_action_v1")
 	action.custom_minimum_size.y = 56
 	action.set_meta("touch_target_min_height", 56)
 	action.add_theme_font_override("font", FontExtraBold)
@@ -3501,6 +3504,7 @@ func _build_plant_diagnosis_modal() -> Control:
 	subtitle.add_theme_color_override("font_color", Color("#f4e9ff"))
 	heading.add_child(subtitle)
 	plant_diagnosis_close_button = _action_button("×", _close_plant_diagnosis)
+	plant_diagnosis_close_button.set_meta("sage_neutral_navigation", true)
 	plant_diagnosis_close_button.custom_minimum_size = Vector2(64, 64)
 	plant_diagnosis_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	plant_diagnosis_close_button.set_meta("touch_target_min_height", 64)

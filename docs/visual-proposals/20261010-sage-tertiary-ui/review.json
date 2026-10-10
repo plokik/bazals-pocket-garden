@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-10",
+  "base_commit": "887817029cf1ce92d8771bf9fe5b00653b0ce697",
+  "user_visual_acceptance": "APPROVED_BY_USER",
+  "scope": "Colour only: level progression, grower journal, care center, plant diagnosis and room decoration. Original layouts, texts, illustration assets, animations, controls, game rules and saved progress preserved. Warning states and destructive decoration removal remain distinct.",
+  "reviewed_previews": [
+    "review-growth.png",
+    "review-care.png"
+  ],
+  "regression_checks": 6950,
+  "approved_visual_gates_passed": 34,
+  "existing_reference_files_and_gates": "UNCHANGED",
+  "preservation": [
+    {
+      "screen": "progression",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        17,
+        308,
+        350,
+        941
+      ]
+    },
+    {
+      "screen": "progression",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        17,
+        269,
+        274,
+        781
+      ]
+    },
+    {
+      "screen": "journal",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": null
+    },
+    {
+      "screen": "journal",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": null
+    },
+    {
+      "screen": "care",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        22,
+        148,
+        410,
+        938
+      ]
+    },
+    {
+      "screen": "care",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        22,
+        148,
+        338,
+        778
+      ]
+    },
+    {
+      "screen": "diagnosis",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        33,
+        39,
+        396,
+        97
+      ]
+    },
+    {
+      "screen": "diagnosis",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        33,
+        39,
+        334,
+        97
+      ]
+    },
+    {
+      "screen": "decoration",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        42,
+        94,
+        381,
+        795
+      ]
+    },
+    {
+      "screen": "decoration",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        37,
+        85,
+        360,
+        420
+      ]
+    },
+    {
+      "screen": "care-wilted",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        22,
+        148,
+        410,
+        938
+      ]
+    },
+    {
+      "screen": "care-wilted",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        22,
+        148,
+        338,
+        778
+      ]
+    },
+    {
+      "screen": "diagnosis-warning",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        33,
+        39,
+        396,
+        97
+      ]
+    },
+    {
+      "screen": "diagnosis-warning",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true,
+      "visual_change_bbox": [
+        33,
+        39,
+        334,
+        97
+      ]
+    }
+  ],
+  "validation_artifacts": ".godot/sage-tertiary-20261010/validation",
+  "runtime_sha256_normalized_lf": {
+    "scripts/main.gd": "653cd1d6165c464ed7a58498bb0dbc5c48ab1b762b7376f44a4d4a4406846814",
+    "scripts/ui/sage_ui_palette.gd": "6ecfebeb8655fad961eb41fa03d145cce03edff602b39803edf5ef0620566eac",
+    "scripts/ui/room_decoration_modal.gd": "225493de740fe9fcb58fa29d8f06cbd3cba4fadd3ec55ed4a99b1251d9b9bac7"
+  },
+  "approval_quote": "Schvaluji, nahraj změny na GitHub a aktualizuj hru v emulátoru.",
+  "approved_date": "2026-10-10"
+}

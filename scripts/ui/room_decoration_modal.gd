@@ -57,6 +57,7 @@ func refresh(game_session: GameSession) -> void:
 	var current_wallet := int(session.coins)
 	wallet_label.text = "MÁTE %d MINCÍ" % current_wallet
 	status_label.text = "Vyber dekoraci do místa %d. Novou můžeš koupit nebo přemístit." % [target_slot_index + 1]
+	status_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 
 
 func close_modal() -> void:
@@ -384,6 +385,7 @@ func _build_decoration_card(decoration_id: String) -> Control:
 	column.add_child(status_label_local)
 
 	var action_button := _action_button("NAHRÁT", _on_decoration_pressed.bind(decoration_id))
+	action_button.set_meta("component", "sage_decoration_apply_action_v1")
 	action_button.custom_minimum_size.y = 56
 	action_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	action_button.mouse_filter = Control.MOUSE_FILTER_PASS

@@ -9,11 +9,17 @@ const FOREST := Color("#243b2b")
 const SECONDARY_PROPERTIES := [
 	"settings_modal", "local_backup_modal", "seed_selector_modal",
 	"customer_orders_panel", "professor_story_modal", "return_summary_modal",
+	"level_progression_modal", "grower_journal_modal", "care_center_modal",
+	"plant_diagnosis_modal", "room_decoration_modal",
 ]
 const SECONDARY_ACTION_COMPONENTS := [
 	"customer_order_action_v1", "professor_story_context_action_v1",
 	"sage_backup_export_action_v1", "sage_settings_done_action_v1",
 	"phase109_return_summary_garden_cta_v1",
+	"phase49_grower_journal_launcher_v1", "grower_journal_goal_navigation_v1",
+	"sage_level_reward_action_v1", "care_center_attention_filter_v1",
+	"sage_care_destination_action_v1", "sage_care_return_action_v1",
+	"plant_diagnosis_primary_action_v1", "sage_decoration_apply_action_v1",
 ]
 const PRIMARY_PROPERTIES := [
 	"seed_button", "water_button", "fertilizer_button", "storage_action_button", "daily_challenge_action_button",
@@ -89,6 +95,11 @@ func _on_node_added(node: Node) -> void:
 func _apply_control(node: Node) -> void:
 	if not is_instance_valid(node) or not (node is CanvasItem) or node.material != null:
 		return
+	# Decoration cards are built after opening their dialog. Resolve their
+	# explicit colour role here too, once their builder has finished.
+	if node is Button and str(node.get_meta("component", "")) in SECONDARY_ACTION_COMPONENTS:
+		node.set_meta("sage_palette_role", "primary")
+		node.set_meta("sage_secondary_action", true)
 	if node is PanelContainer or node is Panel or node is BaseButton or node is ProgressBar or node is ScrollBar or bool(node.get_meta("sage_palette_slider", false)):
 		node.material = primary_material if str(node.get_meta("sage_palette_role", "")) == "primary" else surface_material
 		if node is Button:
