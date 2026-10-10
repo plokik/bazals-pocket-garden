@@ -1886,6 +1886,7 @@ func _build_professor_story_modal() -> Control:
 	subtitle.add_theme_color_override("font_color", Color("#fff0b2"))
 	heading.add_child(subtitle)
 	var top_close := _action_button("×", _close_professor_story)
+	top_close.set_meta("sage_neutral_navigation", true)
 	top_close.custom_minimum_size = Vector2(56, 56)
 	top_close.size_flags_horizontal = Control.SIZE_SHRINK_END
 	top_close.set_meta("touch_target_min_height", 56)
@@ -2168,6 +2169,7 @@ func _build_seed_selector_modal() -> Control:
 
 	var close_button := Button.new()
 	close_button.text = "ZPĚT KE KVĚTINÁČI"
+	close_button.set_meta("sage_neutral_navigation", true)
 	close_button.custom_minimum_size.y = 68
 	close_button.focus_mode = Control.FOCUS_NONE
 	close_button.add_theme_font_override("font", FontExtraBold)

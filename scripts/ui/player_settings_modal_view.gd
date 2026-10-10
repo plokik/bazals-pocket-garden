@@ -110,6 +110,7 @@ func _init(
 
 	var close_button := Button.new()
 	close_button.text = "HOTOVO"
+	close_button.set_meta("component", "sage_settings_done_action_v1")
 	close_button.custom_minimum_size.y = 68
 	close_button.focus_mode = Control.FOCUS_NONE
 	close_button.add_theme_font_override("font", FontExtraBold)

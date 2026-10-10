@@ -6,6 +6,15 @@ const PaletteShader := preload("res://scripts/ui/sage_ui_palette.gdshader")
 const Framing := preload("res://scripts/ui/garden_scene_framing.gd")
 const RoomView := preload("res://scripts/ui/player_room_collection_view.gd")
 const FOREST := Color("#243b2b")
+const SECONDARY_PROPERTIES := [
+	"settings_modal", "local_backup_modal", "seed_selector_modal",
+	"customer_orders_panel", "professor_story_modal", "return_summary_modal",
+]
+const SECONDARY_ACTION_COMPONENTS := [
+	"customer_order_action_v1", "professor_story_context_action_v1",
+	"sage_backup_export_action_v1", "sage_settings_done_action_v1",
+	"phase109_return_summary_garden_cta_v1",
+]
 const PRIMARY_PROPERTIES := [
 	"seed_button", "water_button", "fertilizer_button", "storage_action_button", "daily_challenge_action_button",
 	"shop_sell_button", "seed_selector_confirm_button", "daily_challenge_claim_button",
@@ -29,6 +38,10 @@ func install(owner_control: Control) -> void:
 		var button = game.get(property_name)
 		if button is BaseButton:
 			button.set_meta("sage_palette_role", "primary")
+	for property_name in SECONDARY_PROPERTIES:
+		var screen = game.get(property_name)
+		if screen is Control:
+			_configure_secondary_tree(screen)
 	_apply_tree(game)
 	_install_regions(game.hud_background, "hud")
 	_install_regions(game.player_room_view, "room")
@@ -51,6 +64,22 @@ func _apply_tree(node: Node) -> void:
 		_apply_tree(child)
 
 
+func _configure_secondary_tree(node: Node) -> void:
+	# These dialogs retain their geometry and wording; only colour roles change.
+	if node is Label and node.get_theme_color("font_color").get_luminance() > 0.60:
+		node.set_meta("sage_readable_heading", true)
+	elif node is Slider:
+		node.set_meta("sage_palette_slider", true)
+	elif node is Button:
+		if str(node.get_meta("component", "")) in SECONDARY_ACTION_COMPONENTS:
+			node.set_meta("sage_palette_role", "primary")
+			node.set_meta("sage_secondary_action", true)
+		if node.toggle_mode:
+			node.set_meta("sage_secondary_toggle", true)
+	for child in node.get_children():
+		_configure_secondary_tree(child)
+
+
 func _on_node_added(node: Node) -> void:
 	# Cards/rewards created later receive the same palette after their builder.
 	if is_instance_valid(game) and game.is_ancestor_of(node):
@@ -60,7 +89,7 @@ func _on_node_added(node: Node) -> void:
 func _apply_control(node: Node) -> void:
 	if not is_instance_valid(node) or not (node is CanvasItem) or node.material != null:
 		return
-	if node is PanelContainer or node is Panel or node is BaseButton or node is ProgressBar or node is ScrollBar:
+	if node is PanelContainer or node is Panel or node is BaseButton or node is ProgressBar or node is ScrollBar or bool(node.get_meta("sage_palette_slider", false)):
 		node.material = primary_material if str(node.get_meta("sage_palette_role", "")) == "primary" else surface_material
 		if node is Button:
 			# A native Button icon shares its canvas with the frame. Identify its
@@ -82,6 +111,13 @@ func _sync_label(label: Label) -> void:
 	var desired := surface_material if framed else text_material
 	if label.material != desired:
 		label.material = desired
+	if bool(label.get_meta("sage_readable_heading", false)):
+		if label.get_theme_color("font_color") != FOREST:
+			label.add_theme_color_override("font_color", FOREST)
+		# Preserve outline metrics so removing its paint cannot shift the title.
+		for key in ["font_outline_color", "font_shadow_color"]:
+			if label.has_theme_color_override(key) and label.get_theme_color(key).a > 0.0:
+				label.add_theme_color_override(key, Color.TRANSPARENT)
 	if framed:
 		var previous := label.get_theme_color("font_color")
 		var warning := previous.r > previous.g+0.15 and previous.r > previous.b+0.15
@@ -92,6 +128,13 @@ func _sync_label(label: Label) -> void:
 func _sync_button_text(button: Button) -> void:
 	if not is_instance_valid(button) or button.text.is_empty():
 		return
+	if bool(button.get_meta("sage_secondary_toggle", false)):
+		button.material.set_shader_parameter("primary_action", button.button_pressed)
+	elif bool(button.get_meta("sage_secondary_action", false)):
+		button.material.set_shader_parameter("unify_action_accent", true)
+		button.material.set_shader_parameter("primary_action", not button.disabled)
+	elif bool(button.get_meta("sage_neutral_navigation", false)):
+		button.material.set_shader_parameter("unify_action_accent", true)
 	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color"]:
 		var previous := button.get_theme_color(state)
 		if previous.get_luminance() > 0.60:

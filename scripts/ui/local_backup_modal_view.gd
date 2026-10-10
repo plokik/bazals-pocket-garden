@@ -82,6 +82,7 @@ func _init(action_button_factory: Callable) -> void:
 	status_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	column.add_child(status_label)
 	var export_button: Button = action_button_factory.call("VYTVOŘIT ZÁLOHU", export_requested.emit)
+	export_button.set_meta("component", "sage_backup_export_action_v1")
 	export_button.custom_minimum_size.y = 64
 	export_button.set_meta("touch_target_min_height", 64)
 	ComicUITheme.apply_button(export_button, ComicUITheme.GREEN, ComicUITheme.CREAM, 14)

@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-10",
+  "base_commit": "ef0821376b2f2ed70416f46564787e860dfe0efe",
+  "user_visual_acceptance": "APPROVED_BY_USER",
+  "scope": "Colour only: settings, local backup, seed selection, customer orders, professor research and return summary. Original geometry, text, illustrations, input, rules and saves retained. Destructive backup confirmations keep orange.",
+  "reviewed_previews": [
+    "review-main.png",
+    "review-more.png"
+  ],
+  "regression_checks": 6950,
+  "approved_visual_gates_passed": 34,
+  "existing_reference_files_and_gates": "UNCHANGED",
+  "preservation": [
+    {
+      "screen": "settings",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "settings",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "backup",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "backup",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "seeds",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "seeds",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "orders",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "orders",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "research",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "research",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "return",
+      "width": 432,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    },
+    {
+      "screen": "return",
+      "width": 360,
+      "layout_text_input_unchanged": true,
+      "session_unchanged": true
+    }
+  ],
+  "validation_artifacts": ".godot\\sage-secondary-20261010\\validation",
+  "final_functional_validation": ".godot\\sage-secondary-20261010\\ci-final.log",
+  "runtime_sha256_normalized_lf": {
+    "scripts/main.gd": "25348cc75002d0b9e4cbef5c8d061ccfbb3b0faa99c7239904d2c6227b279b8a",
+    "scripts/ui/sage_ui_palette.gd": "81878164d277484a6c8ad29977fc1c70fe56db1ff22921983fc42832d49f0992",
+    "scripts/ui/sage_ui_palette.gdshader": "1422252f7f56aa195187babd76cb6227754c4be0ff6c55f5962c802bfc2d5087",
+    "scripts/ui/player_settings_modal_view.gd": "cf8134e934db9cbdcbe090080068d010c1edbaf6c665454313bd725ff1870921",
+    "scripts/ui/local_backup_modal_view.gd": "d15454a12d0a9ccc5f62c5a21885dd6a04932c8189ff30bb3a9b6c3dbf2bc7be"
+  },
+  "approval_quote": "Souhlasím",
+  "approved_date": "2026-10-10"
+}

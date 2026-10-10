@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 // Recolour only the control's own paint. Child illustrations stay untouched.
 uniform bool primary_action = false;
+uniform bool unify_action_accent = false;
 uniform bool text_only = false;
 uniform bool restrict_regions = false;
 uniform bool room_action_text = false;
@@ -38,8 +39,9 @@ void fragment() {
         bool region = !native_icon && (!restrict_regions || inside(region_a) || inside(region_b) || inside(region_c));
         if (region && !inside(exclude_a) && !inside(exclude_b) && !inside(exclude_c)) {
             // Keep warm wood, dark linework and the original painted gloss.
-            float wood = warm * (1.0 - smoothstep(0.67,0.84,light));
-            float mask = smoothstep(0.16,0.28,light) * (1.0 - wood) * (1.0-warning);
+            float wood = unify_action_accent ? 0.0 : warm * (1.0 - smoothstep(0.67,0.84,light));
+            float action_warning = unify_action_accent ? 0.0 : warning;
+            float mask = smoothstep(0.16,0.28,light) * (1.0 - wood) * (1.0-action_warning);
             vec3 sage = mix(vec3(0.18,0.29,0.16),vec3(0.71,0.82,0.55),smoothstep(0.16,0.50,light));
             sage = mix(sage,vec3(0.94,0.97,0.84),smoothstep(0.67,0.94,light));
             if (primary_action) {
