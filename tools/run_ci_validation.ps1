@@ -11,7 +11,7 @@ param(
     [ValidateRange(1, 1000)]
     [int]$ExpectedActiveVisualGates = 34,
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
-    [string]$ExpectedGoldenDigest = 'D799AB4F869DCB13EBE5B6E5CD0C08BFE9FA352D82C4D88315B9CB67B2791DD7',
+    [string]$ExpectedGoldenDigest = '3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F',
     [switch]$FullVisualValidation
 )
 

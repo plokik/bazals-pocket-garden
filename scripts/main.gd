@@ -572,6 +572,9 @@ func _ready() -> void:
 	_build_theme()
 	var startup_ui_started_ms := Time.get_ticks_msec()
 	_build_ui()
+	var sage_palette := preload("res://scripts/ui/sage_ui_palette.gd").new()
+	add_child(sage_palette)
+	sage_palette.install(self)
 	if OS.is_debug_build() and get_tree().root.has_meta("startup_request_ms"):
 		print("STARTUP_BUILD_UI_MS=%d" % (Time.get_ticks_msec() - startup_ui_started_ms))
 	_apply_display_safe_area()
@@ -2961,6 +2964,7 @@ func _build_level_progression_card(reward_level: int) -> Control:
 	unlock_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	details.add_child(unlock_label)
 	var claim := _action_button("VYZVEDNOUT", _on_level_reward_claimed.bind(reward_level))
+	claim.set_meta("sage_palette_role", "primary")
 	claim.custom_minimum_size = Vector2(92, 76)
 	claim.set_meta("touch_target_min_height", 76)
 	claim.add_theme_font_override("font", FontExtraBold)
@@ -4013,6 +4017,7 @@ func _build_herbarium_card(species_id: String) -> Control:
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		claim_button.add_theme_stylebox_override(state, PaintedDetailArt.box("sage", 4.0))
 	claim_button.set_meta("herbarium_painted_reward_v2", true)
+	claim_button.set_meta("sage_palette_role", "primary")
 	column.add_child(claim_button)
 	herbarium_cards[species_id] = {"panel": card, "icon": icon, "name": name_label, "rarity": rarity_label, "rank": rank_label, "progress": progress_bar, "overview": overview, "behavior": behavior, "stats_frame": stats_frame, "stats": stats_label, "goal": goal_label, "claim": claim_button, "accent": accent}
 	return card
@@ -6758,6 +6763,7 @@ func _build_uniform_shop_product_icon(source: Texture2D, safe_padding: int = 4) 
 
 
 func _style_shop_item_action(button: Button, font_size: int = 10) -> MarginContainer:
+	button.set_meta("sage_palette_role", "primary")
 	button.custom_minimum_size.y = 48
 	button.focus_mode = Control.FOCUS_NONE
 	button.set_meta("touch_target_min_height", 48)

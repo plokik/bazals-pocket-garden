@@ -106,7 +106,7 @@ static func _test_visual_baseline_transition(suite: SceneTree) -> void:
 		var historical: Dictionary = cases.get(historical_id, {})
 		suite._check(
 			bool(current.get("gate", false)) and _baseline_pixel_contract(current)
-			and str(current.get("reference", "")) == reference
+			and str(current.get("reference", "")) == "docs/audit/sage-palette-20261010/%s.png" % case_id
 			and str(current.get("actual", "")) == str(spec[3])
 			and str(current.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json",
 			"Fáze 167%s zachovává celý obraz, nulové masky a stejné přísné tolerance" % spec[0]

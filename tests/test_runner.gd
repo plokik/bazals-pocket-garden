@@ -1,5 +1,35 @@
 extends SceneTree
 
+
+func _test_approved_sage_reference_contract() -> void:
+	var base := "res://.agents/skills/how-to-grow-validation/references/"
+	var original: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(base + "visual-cases-original-colours-20261010.json"))
+	var active: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(base + "visual-cases.json"))
+	var approval: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://docs/audit/sage-palette-20261010/approval.json"))
+	var records := {}
+	for record: Dictionary in approval.get("references", []):
+		records[str(record.get("case", ""))] = record
+	_check(original.get("cases", []).size() == 54 and active.get("cases", []).size() == 54 and records.size() == 34 and str(approval.get("user_approval", "")) == "schvaluji", "Schválená zelená paleta má samostatný doklad a zachovává všech 54 případů a 34 bran")
+	for index in range(original.get("cases", []).size()):
+		var before: Dictionary = original["cases"][index]
+		var after: Dictionary = active.get("cases", [])[index] if index < active.get("cases", []).size() else {}
+		var case_id := str(before.get("id", ""))
+		var preserved := before.size() == after.size()
+		for key in before:
+			if key not in ["reference", "reference_crop"]:
+				preserved = preserved and before[key] == after.get(key)
+		if bool(before.get("gate", false)):
+			var record: Dictionary = records.get(case_id, {})
+			preserved = preserved and str(after.get("reference", "")) == "docs/audit/sage-palette-20261010/%s.png" % case_id
+			preserved = preserved and after.get("reference_crop") == before.get("actual_crop", [0.0, 0.0, 1.0, 1.0])
+			preserved = preserved and str(record.get("original_reference", "")) == str(before["reference"])
+			preserved = preserved and str(record.get("approved_reference", "")) == str(after.get("reference", ""))
+			preserved = preserved and FileAccess.get_sha256("res://" + str(before["reference"])).to_upper() == str(record.get("original_sha256", ""))
+			preserved = preserved and FileAccess.get_sha256("res://" + str(after.get("reference", ""))).to_upper() == str(record.get("approved_sha256", ""))
+		else:
+			preserved = preserved and before == after
+		_check(preserved, "Barevná reference %s zachovává původní soubor, limity, masky, rozměry, capture a stav brány" % case_id)
+
 var failures := 0
 var checks := 0
 var profile: Dictionary
@@ -305,6 +335,7 @@ func _test_phase166_room_drag() -> void:
 
 
 func _run_all() -> void:
+	_test_approved_sage_reference_contract()
 	profile = _load_profile()
 	_check(not profile.is_empty(), "Profil bazalky se načte")
 	_test_phase19_architecture_services()
@@ -7612,9 +7643,9 @@ func _test_phase128_plants_style_parity() -> void:
 		"Runtime používá společný ilustrovaný shell a capture odděluje tři nové report-only důkazy od historických schválených gate"
 	)
 	_check(
-		"rc60_runtime_baseline/reference_storage_v1.png" in visual_cases_source
-		and "rc60_runtime_baseline/reference_shop_v1.png" in visual_cases_source
-		and "rc60_runtime_baseline/reference_measurement_v1.png" in visual_cases_source
+		"docs/audit/sage-palette-20261010/storage.png" in visual_cases_source
+		and "docs/audit/sage-palette-20261010/shop.png" in visual_cases_source
+		and "docs/audit/sage-palette-20261010/measurement.png" in visual_cases_source
 		and "PHASE128_PLANTS_STYLE_PARITY=PREVIEW_AWAITING_ACCEPTANCE" in phase_doc
 		and "config/version=\"0.71.0-rc61\"" in project_source
 		and preset_source.count("version/code=78") == 3
@@ -9538,7 +9569,7 @@ func _test_phase153_approved_painted_shop() -> void:
 		str(shop_visual_case.get("reference", "")) == VisualDesignSystem.SHOP_PHASE153_TARGET_ASSET.trim_prefix("res://") \
 		and str(shop_visual_case.get("actual", "")) == "comic-phase153-shop.png" \
 		and not bool(shop_visual_case.get("gate", true)) \
-		and str(shop_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase153-shop-runtime-approved_v1.png" \
+		and str(shop_runtime_visual_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase153-shop-runtime-approved.png" \
 		and str(shop_runtime_visual_case.get("actual", "")) == "comic-phase153-shop.png" \
 		and bool(shop_runtime_visual_case.get("gate", false)) \
 		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase153_shop_runtime_v1.png") == "3dd2eefc3ecb1b50d6394e1368b67b62fd64d4c0cd65ce48c5784c6602754c12" \
@@ -9601,7 +9632,7 @@ func _test_phase154_approved_painted_measurement() -> void:
 		str(measurement_visual_case.get("reference", "")) == VisualDesignSystem.MEASUREMENT_PHASE154_TARGET_ASSET.trim_prefix("res://") \
 		and str(measurement_visual_case.get("actual", "")) == "comic-phase154-measurement.png" \
 		and not bool(measurement_visual_case.get("gate", true)) \
-		and str(measurement_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase154-measurement-runtime-approved_v1.png" \
+		and str(measurement_runtime_visual_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase154-measurement-runtime-approved.png" \
 		and str(measurement_runtime_visual_case.get("actual", "")) == "comic-phase154-measurement.png" \
 		and bool(measurement_runtime_visual_case.get("gate", false)) \
 		and FileAccess.get_sha256("res://assets/ui/comic/reference_phase154_measurement_runtime_v1.png") == "dcfbd62c674451a53cb286dc98292e91ea03ba2d17e79ed4e8927ea3a0e68ca5" \
@@ -9675,7 +9706,7 @@ func _test_phase155_approved_painted_herbarium() -> void:
 		str(herbarium_visual_case.get("reference", "")) == VisualDesignSystem.HERBARIUM_PHASE155_TARGET_ASSET.trim_prefix("res://") \
 		and str(herbarium_visual_case.get("actual", "")) == "comic-phase155-herbarium.png" \
 		and not bool(herbarium_visual_case.get("gate", true)) \
-		and str(herbarium_runtime_visual_case.get("reference", "")) == "assets/ui/comic/rc61_runtime_baseline/reference_phase155-herbarium-runtime-approved_v1.png" \
+		and str(herbarium_runtime_visual_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase155-herbarium-runtime-approved.png" \
 		and str(herbarium_runtime_visual_case.get("actual", "")) == "comic-phase155-herbarium.png" \
 		and bool(herbarium_runtime_visual_case.get("gate", false)) \
 		and FileAccess.get_sha256("res://assets/ui/comic/rc61_runtime_baseline/reference_phase155-herbarium-runtime-approved_v1.png") == "9879f4dc9fc550be8783fb93e94f8ff3297105531f9fe13145886154ad3a66b3" \
@@ -9803,7 +9834,7 @@ func _test_phase158_room_layer_compositing() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase158_runtime_cases := {}
 	var expected_phase158_cases := {
-		"phase158-player-room-empty-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase158-player-room-empty-runtime-approved_v1.png", "comic-phase158-player-room-empty-0-of-20.png"],
+		"phase158-player-room-empty-runtime-approved": ["docs/audit/sage-palette-20261010/phase158-player-room-empty-runtime-approved.png", "comic-phase158-player-room-empty-0-of-20.png"],
 		"phase158-player-room-sparse-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png", "comic-phase158-player-room-sparse-4-of-20.png"],
 		"phase158-player-room-phone-save-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png", "comic-phase158-player-room-phone-save-10-of-20.png"],
 		"phase158-player-room-full-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png", "comic-phase158-player-room-full-20-of-20.png"],
@@ -9915,7 +9946,7 @@ func _test_phase159_botanical_cloche() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase159_runtime_cases := {}
 	var expected_phase159_cases := {
-		"phase159-player-room-cloche-runtime-approved": ["assets/ui/comic/rc60_runtime_baseline/reference_phase159-player-room-cloche-runtime-approved_v1.png", "comic-phase159-player-room-botanical-cloche.png"],
+		"phase159-player-room-cloche-runtime-approved": ["docs/audit/sage-palette-20261010/phase159-player-room-cloche-runtime-approved.png", "comic-phase159-player-room-botanical-cloche.png"],
 		"phase159-player-room-full-cloche-runtime-approved": ["assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png", "comic-phase159-player-room-full-cloche.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
@@ -10257,11 +10288,11 @@ func _test_phase161_approved_painted_daily_challenge() -> void:
 	var concept_case := {}
 	var phase161_runtime_cases := {}
 	var expected_phase161_cases := {
-		"phase161-daily-challenge-active-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-active-runtime-approved_v1.png", "comic-phase161-daily-challenge-active.png"],
-		"phase161-daily-challenge-completed-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-completed-runtime-approved_v1.png", "comic-phase161-daily-challenge-completed.png"],
-		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-ready-queue-full-runtime-approved_v1.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
-		"phase161-daily-challenge-claimed-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-claimed-runtime-approved_v1.png", "comic-phase161-daily-challenge-claimed.png"],
-		"phase161-daily-challenge-unavailable-runtime-approved": ["assets/ui/comic/rc61_runtime_baseline/reference_phase161-daily-challenge-unavailable-runtime-approved_v1.png", "comic-phase161-daily-challenge-unavailable.png"],
+		"phase161-daily-challenge-active-runtime-approved": ["docs/audit/sage-palette-20261010/phase161-daily-challenge-active-runtime-approved.png", "comic-phase161-daily-challenge-active.png"],
+		"phase161-daily-challenge-completed-runtime-approved": ["docs/audit/sage-palette-20261010/phase161-daily-challenge-completed-runtime-approved.png", "comic-phase161-daily-challenge-completed.png"],
+		"phase161-daily-challenge-ready-queue-full-runtime-approved": ["docs/audit/sage-palette-20261010/phase161-daily-challenge-ready-queue-full-runtime-approved.png", "comic-phase161-daily-challenge-ready-queue-full.png"],
+		"phase161-daily-challenge-claimed-runtime-approved": ["docs/audit/sage-palette-20261010/phase161-daily-challenge-claimed-runtime-approved.png", "comic-phase161-daily-challenge-claimed.png"],
+		"phase161-daily-challenge-unavailable-runtime-approved": ["docs/audit/sage-palette-20261010/phase161-daily-challenge-unavailable-runtime-approved.png", "comic-phase161-daily-challenge-unavailable.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
 		var visual_case := case_variant as Dictionary
@@ -10383,7 +10414,7 @@ func _test_phase162_approved_painted_cosmetic_showroom() -> void:
 	var runtime_thresholds := runtime_case.get("thresholds", {}) as Dictionary
 	var runtime_size := runtime_case.get("size", []) as Array
 	_check(
-		str(runtime_case.get("reference", "")) == "assets/ui/comic/reference_phase162_cosmetic_showroom_runtime_v1.png" \
+		str(runtime_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase162-cosmetic-showroom-runtime-approved.png" \
 		and str(runtime_case.get("actual", "")) == "comic-phase162-cosmetic-showroom-selected.png" \
 		and runtime_size.size() == 2 \
 		and int(runtime_size[0]) == 432 \
@@ -10627,17 +10658,17 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 		and phase163_visual_case.get("actual_crop", []) == [0.0, 0.0, 1.0, 1.0] \
 		and phase163_visual_case.get("masks", null) == [] \
 		and not bool(phase163_visual_case.get("gate", true)) \
-		and str(phase163_runtime_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-rack-runtime-approved_v1.png" \
+		and str(phase163_runtime_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase163-rack-runtime-approved.png" \
 		and str(phase163_runtime_case.get("actual", "")) == "comic-rack-greenhouse-attention.png" \
 		and bool(phase163_runtime_case.get("gate", false)) \
 		and str(phase163_runtime_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_rack_runtime_v1.png") \
-		and str(phase163_feedback_unlock_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-feedback-unlock-runtime-approved_v1.png" \
+		and str(phase163_feedback_unlock_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase163-feedback-unlock-runtime-approved.png" \
 		and str(phase163_feedback_unlock_case.get("actual", "")) == "comic-feedback-unlock.png" \
 		and bool(phase163_feedback_unlock_case.get("gate", false)) \
 		and str(phase163_feedback_unlock_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
 		and FileAccess.file_exists("res://assets/ui/comic/reference_phase184_feedback_unlock_runtime_v1.png") \
-		and str(phase163_screen_transition_case.get("reference", "")) == "assets/ui/comic/rc60_runtime_baseline/reference_phase163-screen-transition-runtime-approved_v1.png" \
+		and str(phase163_screen_transition_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase163-screen-transition-runtime-approved.png" \
 		and str(phase163_screen_transition_case.get("actual", "")) == "comic-screen-transition.png" \
 		and bool(phase163_screen_transition_case.get("gate", false)) \
 		and str(phase163_screen_transition_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
