@@ -1,0 +1,18 @@
+# Malované výrobky — původ
+
+Vytvořeno vestavěným image_gen, 17. 10. 2026, s pravou průhledností.
+Stylová reference: původní schválený mint_crafting_atlas_v1.png; reference se neměnila.
+Tři samostatná volání, bez API/CLI fallbacku. Originály zůstávají v .codex/generated_images.
+
+## lavender
+
+Use case: stylized-concept. Asset type: single transparent painted 2D inventory item for Bazal's Pocket Garden. The attached existing mortar/pouch atlas is ONLY a STYLE reference, do not reproduce the atlas or mortar. Create ONE charming lavender scented sachet: plump natural ivory linen bag tied with a sage-green ribbon, a clear embroidered purple lavender sprig on its front, three small dried lavender flower tips peeking from the tied neck. Match the reference's hand-painted cozy mobile game rendering, softly glossy highlights, warm dark-brown illustrated contour, convincing fabric brush texture and gentle golden edge highlights; original painterly illustration, not photorealistic, not flat vector or 3D icon. 3/4 front view, fully centered, entire object visible, generous 12 percent transparent margin on all sides. Strong readable silhouette at 80 pixels, restrained lavender accent and sage green, no large cast shadow, no background props, no scene, NO text or letters, no particles, no glow, no watermark. Actual transparent RGBA background.
+
+## tea
+
+Use case: stylized-concept. Asset type: single transparent painted 2D inventory item for Bazal's Pocket Garden. Existing mortar/pouch atlas attached is ONLY the STYLE reference, do not reproduce the mortar or atlas. Draw ONE finished mint-and-lemon-balm herbal tea product: a squat amber glass tea jar, dark sage green cloth lid held by braided natural cord, a small ivory paper tag with a simple painted mint leaf symbol (NO letters), visible finely chopped green dried herbs through the amber glass, two fresh mint and lemon-balm leaves resting at its base as part of the item. Match reference's cozy hand-painted mobile game rendering, soft glossy highlights, warm dark-brown illustrated contour, brush texture, warm golden light; not photorealistic, not flat vector or plastic 3D. Three quarter front view, entire item centered with generous 12 percent transparent margin, strong silhouette at 80 pixels. Restrained sage green, amber and cream. No cup, no human, no large cast shadow, no backdrop or scene, NO text or letters, no particles, no glow or watermark. Actual transparent RGBA background.
+
+## gift
+
+Use case: stylized-concept. Asset type: single transparent painted 2D inventory item for Bazal's Pocket Garden. Existing mortar/pouch atlas attached is ONLY the STYLE reference, do not reproduce the mortar or atlas. Draw ONE compact charming gift bundle of garden herbs: a shallow rounded honey-brown woven wicker basket with a short curved handle, holding two small cream kraft herb packets tied together with one sage green ribbon, tiny painted botanical leaf symbols on packets (NO text), a small bunch of lavender and rosemary tucked naturally inside the basket. Only two packets, neatly balanced uncluttered silhouette. Match reference's cozy hand-painted mobile game rendering with warm brown illustrated contours, detailed natural materials, gentle golden edge highlights, soft brushwork; not photorealistic, not flat vector or plastic 3D. Three quarter front view, entire item centered, generous 12 percent transparent margin, strong silhouette at 100 pixels. Sage greens, warm honey browns, cream, tiny lavender accents. No table or background, no large cast shadow, no additional loose props outside basket, no people, NO text or letters, no particles or glow, no watermark. Actual transparent RGBA background.
+

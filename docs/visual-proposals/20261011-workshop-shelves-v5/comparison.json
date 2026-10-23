@@ -1,0 +1,6 @@
+{
+  "outside_cabinets_max_channel_difference": 7,
+  "outside_cabinets_changed_above_12": 0,
+  "outside_cabinets_pixels": 362781,
+  "note": "native renderer sampling may differ across captures"
+}

@@ -1,0 +1,120 @@
+{
+  "status": "owner_approved_branch_lighting",
+  "date": "2026-10-21",
+  "owner_request": "a nějaký efekt lesknutí nebo zaření alespon přidej k tomu",
+  "runtime_version": "4.4",
+  "integration": "standalone_prototype_only",
+  "scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "source_archive": "source-v4.4",
+  "new_effect": "Seven-second golden leaf sweep, silhouette-only warm halo, three tiny glints",
+  "art_pixels_changed": false,
+  "calm_disables_all_lighting": true,
+  "component_rect": [
+    48,
+    753,
+    336,
+    56
+  ],
+  "review_movie_kind": "animated_art_review_not_gameplay",
+  "review_movie": "vetvicka-lesk.mp4",
+  "detail_movie": "vetvicka-lesk-detail.mp4",
+  "movie_report": {
+    "all_bug_silhouettes_within_component": true,
+    "background": "res://docs/visual-proposals/20261021-teahouse-footer-spacing-v5b/cajovna-v5b-odstup-pod-deskou.png",
+    "both_bugs_moved": true,
+    "duration_seconds": 12,
+    "fps": 30,
+    "frames": 360,
+    "kind": "animated_art_review_not_gameplay",
+    "source_component": "res://prototypes/teahouse/tea_branch_ambient.gd"
+  },
+  "movie_decode_verified": true,
+  "runtime_checks": 649,
+  "runtime_failures": [],
+  "branch_evidence": {
+    "max_displacement": [
+      84.5826644897461,
+      78.1465835571289
+    ],
+    "max_stride": [
+      0.997921817649783,
+      0.997362610255228
+    ],
+    "minimum_body_clearance": 8.80157852172852,
+    "model_unchanged": true,
+    "sampled_poses": 642,
+    "sheen": {
+      "changed": 7973,
+      "clear_corner_samples": 56,
+      "isolated_bugs": {
+        "center_samples": [
+          9,
+          9
+        ],
+        "changed_pixels": 0,
+        "visible_pixels": 461
+      },
+      "model_unchanged": true,
+      "new_halo_pixels": 1000,
+      "outside_component": 0,
+      "periodic": true,
+      "rectangle_artifacts": 0
+    }
+  },
+  "source_mirror_equal_files": 24,
+  "player_saves_accessed": false,
+  "rules_and_scoring_changed": false,
+  "previous_main_regression": {
+    "validation_report": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v4-3-validation-20261021\\report.md",
+    "version": "4.3",
+    "approved_visual_gates_passed": 34,
+    "current_v4_4_main_rerun": false,
+    "reference_hashes_compared": 54,
+    "changed_reference_hashes": 0,
+    "functional_checks": 7955
+  },
+  "phone_tested": false,
+  "github_published": false,
+  "sha256": {
+    "prototypes/teahouse/README.md": "f2fee3c49c87f60543521b31cd6dbb732cfb87902827695b74f3aa13486491bb",
+    "prototypes/teahouse/tea_board_model_test.gd": "be50c72dc8d7c39b087274323d8215b47ca4655971867134b85b2e1045d536db",
+    "prototypes/teahouse/tea_board_model_test.gd.uid": "aebe439bb07376e9f0d024a65447f8bfedde357358d950975849aa393846d746",
+    "prototypes/teahouse/tea_board_model.gd": "62810eb6fd26f0f4f512b0dbb606ede606a83f913a18c563d397901afa5cce84",
+    "prototypes/teahouse/tea_board_model.gd.uid": "ed9cb88842a8ce7f8271e94c6004e15b48b3bed8b9b9bda716862a899ef306e4",
+    "prototypes/teahouse/tea_branch_ambient.gd": "666414381d2cec27bbe21dee2877e0a8364a5bed110573b87ec638d1fd5c963f",
+    "prototypes/teahouse/tea_branch_ambient.gd.uid": "257329ad2c2dcd40a52d88b7d6781de74085f6cc98d27de3b07084d9d299f033",
+    "prototypes/teahouse/tea_branch_review.gd": "1237f27a121ecc80e6096cffa8851afd43416f396b1ad337112fa7e31d66aaaa",
+    "prototypes/teahouse/tea_branch_review.gd.uid": "4596590be8ee27ad8f5f431c52a141bc9df3d8f89749e6e7ddb18e213eded957",
+    "prototypes/teahouse/tea_branch_sheen.gdshader": "5091531129b29821018af760cc5a92326c5cc3ccbbaab85f1003ae7e4b08b899",
+    "prototypes/teahouse/tea_cup_fill.gdshader": "c3c4c47892713796bdce0af9fd0b8bd41976460aa5ccc11f4229e86085ebc79a",
+    "prototypes/teahouse/tea_cup_fill.gdshader.uid": "d3f90e8767cddb5958d091376c2ce91091f7022b59f567dfcf246bcd3e7ff27a",
+    "prototypes/teahouse/tea_magic_effects.gd": "da618379bcf13f65527c2d733774c841c2626efceed15462be396e454846eb26",
+    "prototypes/teahouse/tea_prototype.gd": "2ee16fd144d83e3ea2d99331c7498e86577a92509c6715f59f85232bfde889ee",
+    "prototypes/teahouse/tea_prototype.gd.uid": "d81971c60f3dbd4e856143c343e9e607e43a322bcd76b11dc818f6b00d45b3b7",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350",
+    "prototypes/teahouse/tea_runtime_review.gd": "fb90f717da6361eb366d5cb71c22abe990220d1f9f764f24d0b1198248181878",
+    "prototypes/teahouse/tea_runtime_review.gd.uid": "b70d4e0be110f77c13ad26a015abd650e332f7cb71cfc66e70b19f68327d74f8",
+    "prototypes/teahouse/tea_teaware_visual.gd": "079c0ff0f3cb044bb8f7fed804d48c2af245501b0b5fc6fa2cf75c44514bf49d",
+    "prototypes/teahouse/tea_teaware_visual.gd.uid": "897f03b47da430aaaacc1145c5dab3262c8a21d77ee6c570b46534a4f4e8e0c4",
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "prototypes/teahouse/art/herb-symbols-v1.png.import": "751cd7fe35144e7e8cea645b7e5646bc4a376841f3c47675b6f9efb06ae7afdd",
+    "prototypes/teahouse/art/herb-symbols-v1.prompt.txt": "7d7df443d2a65ceee96e102630ee1d89a2a514233239c982526c861f867bd471",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.png": "d1df052bad5d6ac0abe21780a422d1e4ab07dc1cf3fa4329bb155bde25a70e13",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.png.import": "dbc70f928f0fbaeed0bb4065be123b453517b8d6102c22e45e3e63076927815e",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.prompt.txt": "72338109bbcf27df19ec5eff8adb567c1013a9b47fbef65d7621faf3251181ab",
+    "prototypes/teahouse/art/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "prototypes/teahouse/art/tea-cup-v2.png.import": "dd37a93e7b92b45c091dba2c8c6c74db849082ba1009f466bcac016588afe444",
+    "prototypes/teahouse/art/tea-cup-v2.prompt.txt": "25b77704c8ab9c01649df6322b43ac9acf3b6cdff04822777c569077f616c1ea",
+    "prototypes/teahouse/art/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "prototypes/teahouse/art/tea-pot-v2.png.import": "ea9f65242b417e8df18e35e626d96f4ee5c37eeec74493c55d8707a96d39be52",
+    "prototypes/teahouse/art/tea-pot-v2.prompt.txt": "fe29dba1f9bb1d600c1ca9c25a27bf3bebba10d509a83dbe79ae6883e88107aa",
+    "vetvicka-lesk.mp4": "b77850b0ebaae468ed77e0cda9362ca36ec4cb908b1548c6f21422e4673cc6c3",
+    "vetvicka-lesk-detail.mp4": "84e6463ecadf68cdf78eeaba26ff78aed203181879718ad4858be9e3f13b2430"
+  },
+  "owner_approval": {
+    "date": "2026-10-21",
+    "text": "Schvaluji lesk i záři.",
+    "evidence": "User-attached screenshot codex-clipboard-984fe8d8-20d4-41a2-944d-b411be8ef61a.png",
+    "scope": "Branch sheen and halo only; no whole-scene or main-game integration approval implied"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "status": "spacing_complete_awaiting_owner_visual_review",
+  "date": "2026-10-21",
+  "owner_request": "tohle posun dolu, je to moc prilepene na desku.",
+  "runtime_version": "4.2",
+  "illustration_version": "5b",
+  "illustration_tool": "built-in imagegen",
+  "illustration": "cajovna-v5b-odstup-pod-deskou.png",
+  "illustration_is_runtime_screenshot": false,
+  "illustration_is_pixel_exact": false,
+  "source_archive": "source-v4.2",
+  "runtime_scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "integration": "standalone_only",
+  "layout": {
+    "group_translation_y": 60,
+    "board_frame_bottom": 746,
+    "notice_y": 815,
+    "notice_size": [
+      384,
+      52
+    ],
+    "actions_y": 878,
+    "action_size": [
+      184,
+      48
+    ],
+    "board_notice_gap": 69,
+    "notice_actions_gap": 11,
+    "bottom_margin": 34,
+    "pouring_controls_changed": false
+  },
+  "runtime_checks": 594,
+  "tested_viewports": [
+    [
+      360,
+      800
+    ],
+    [
+      432,
+      960
+    ],
+    [
+      600,
+      900
+    ]
+  ],
+  "existing_tests_unchanged": true,
+  "rules_and_scoring_changed": false,
+  "model_and_prior_art_unchanged": true,
+  "player_saves_accessed": false,
+  "main_validation_rerun": false,
+  "previous_main_validation": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v4-1-validation-20261021\\report.md",
+  "source_mirror_equal_files": 175,
+  "runtime_log": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\audit-20261020\\project\\.godot\\tea-runtime-v4-2-spacing-final.log",
+  "phone_tested": false,
+  "github_published": false,
+  "sha256": {
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "prototypes/teahouse/art/herb-symbols-v1.prompt.txt": "7d7df443d2a65ceee96e102630ee1d89a2a514233239c982526c861f867bd471",
+    "prototypes/teahouse/art/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "prototypes/teahouse/art/tea-cup-v2.prompt.txt": "25b77704c8ab9c01649df6322b43ac9acf3b6cdff04822777c569077f616c1ea",
+    "prototypes/teahouse/art/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "prototypes/teahouse/art/tea-pot-v2.prompt.txt": "fe29dba1f9bb1d600c1ca9c25a27bf3bebba10d509a83dbe79ae6883e88107aa",
+    "prototypes/teahouse/README.md": "277360e6542c03e77372f7f2cb996049e4dfadb601e54ebc22f70428c90d21c2",
+    "prototypes/teahouse/tea_board_model_test.gd": "be50c72dc8d7c39b087274323d8215b47ca4655971867134b85b2e1045d536db",
+    "prototypes/teahouse/tea_board_model.gd": "62810eb6fd26f0f4f512b0dbb606ede606a83f913a18c563d397901afa5cce84",
+    "prototypes/teahouse/tea_cup_fill.gdshader": "c3c4c47892713796bdce0af9fd0b8bd41976460aa5ccc11f4229e86085ebc79a",
+    "prototypes/teahouse/tea_magic_effects.gd": "da618379bcf13f65527c2d733774c841c2626efceed15462be396e454846eb26",
+    "prototypes/teahouse/tea_prototype.gd": "900e445ebbfaacab14ff04698e5f60d9f7d374c492b2e79c9ffcc1fc12bcb648",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350",
+    "prototypes/teahouse/tea_runtime_review.gd": "bcaf72d60381ca0a5773fa422e48e72a29954ba7b3fe5332d792a5962a5dbe0b",
+    "prototypes/teahouse/tea_teaware_visual.gd": "079c0ff0f3cb044bb8f7fed804d48c2af245501b0b5fc6fa2cf75c44514bf49d",
+    "cajovna-v5b-odstup-pod-deskou.png": "f54169f38cc90e484200413584aec42c8cae3e6172be8d56b1bd4ba2de5a29d7"
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "date": "2026-10-21",
+  "status": "all_eight_fixed_and_regression_verified_visual_review_pending",
+  "scope": "Standalone teahouse v5 audit, desktop renderer and synthesized native mouse/touch events; no physical phone",
+  "findings": [
+    {
+      "id": "V5-01",
+      "kind": "input",
+      "severity": "high",
+      "title": "Rychlý tah zahodí poslední pozici",
+      "detail": "Press první buňka, motion druhá, release třetí: platný řetězec [5,11,17] je odmítnut jako příliš krátký. Potvrzeno nativními událostmi myši i dotyku.",
+      "source": "prototypes/teahouse/tea_prototype.gd:247",
+      "evidence": [
+        "release-mouse.png",
+        "release-touch.png"
+      ],
+      "suggestion": "Před ukončením tahu zpracovat i souřadnice release a doplnit regresi obou vstupů.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": [
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": false,
+          "viewport": [
+            360,
+            800
+          ]
+        },
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": true,
+          "viewport": [
+            360,
+            800
+          ]
+        },
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": false,
+          "viewport": [
+            432,
+            960
+          ]
+        },
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": true,
+          "viewport": [
+            432,
+            960
+          ]
+        },
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": false,
+          "viewport": [
+            600,
+            900
+          ]
+        },
+        {
+          "accepted": true,
+          "path": [
+            5,
+            11,
+            17
+          ],
+          "touch": true,
+          "viewport": [
+            600,
+            900
+          ]
+        }
+      ]
+    },
+    {
+      "id": "V5-02",
+      "kind": "feedback",
+      "severity": "medium",
+      "title": "Nepotřebná bylina letí do karty jiné přísady",
+      "detail": "Levandule nepatří do prvního receptu, ale letí na (150,270) uvnitř karty máty. Bylinky se správně nepřičítají do cíle, jejich vizuální cíl je chybný.",
+      "source": "prototypes/teahouse/tea_prototype.gd:584",
+      "evidence": [
+        "unneeded-herb-wrong-card.png"
+      ],
+      "suggestion": "Oddělit sběr cílových bylin a neutrální bodový cíl nepotřebných bylin.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "destination": [
+          286.0,
+          330.0
+        ],
+        "goal_counts_unchanged": true,
+        "herb": 2,
+        "native_flights_correct": true
+      }
+    },
+    {
+      "id": "V5-03",
+      "kind": "animation_geometry",
+      "severity": "medium",
+      "title": "Proud při zvedání konvičky může směřovat vzhůru",
+      "detail": "Při tilt .30 a fill .02 je počátek proudu y144.50 a jeho cíl y121.91; konec je o 22.60 px výš než hubice. Zachyceno ve zmrazené diagnostické póze skutečného rendereru.",
+      "source": "prototypes/teahouse/tea_teaware_visual.gd:110",
+      "evidence": [
+        "pour-start-upwards.png"
+      ],
+      "suggestion": "Začít viditelný proud až nad hladinou a sladit začátek nalévání se zvednutím konvičky.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "invalid_strengths": 0,
+        "pose_samples": 808,
+        "upward_streams": 0,
+        "visible_samples": 364
+      }
+    },
+    {
+      "id": "V5-04",
+      "kind": "audio",
+      "severity": "medium",
+      "title": "Zvuk vody končí dříve než nalévání",
+      "detail": "Jednorázový SFX má délku .85 s. Při skutečném držení po 1.05 s je pouring=true, ale audio_player_playing=false. K cíli .72 trvá nalévání asi 2.77 s.",
+      "source": "prototypes/teahouse/tea_prototype.gd:492",
+      "evidence": [
+        "stream-after-sound-ends.png",
+        "audit-report.json"
+      ],
+      "suggestion": "Použít lokální smyčku navázanou na skutečný proud, správně zastavit při puštění, ztrátě fokusu a ztlumení.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "continuous_visible_hold_seconds": 1.8,
+        "hidden_frames": 19,
+        "missing_audio_frames": 0,
+        "original_clip_seconds": 0.85,
+        "premature_audio_frames": 0,
+        "premature_fill_frames": 0,
+        "visible_frames": 298
+      }
+    },
+    {
+      "id": "V5-05",
+      "kind": "visual",
+      "severity": "medium",
+      "title": "Malované lístky a lemy se deformují podle panelu",
+      "detail": "Celý krémový a zelený panel se natahuje; source poměr 4.50:1 se používá i pro 2.75:1 a 7.38:1. Nastavení edge je ignorované. Deformace je vidět na kartě hotové směsi, oznamovací liště i malých přepínačích.",
+      "source": "prototypes/teahouse/tea_painted_skin.gd:54",
+      "evidence": [
+        "completion-duplicate-notices.png",
+        "source-gameplay-smes-pripravena.png"
+      ],
+      "suggestion": "Skládat povrch, lemy a dekorace odděleně, s pevnou velikostí rohů a lístků.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "cream": {
+          "changed_pixels": 0,
+          "compared_pixels": 2304,
+          "fraction": 0.0
+        },
+        "leaves": {
+          "changed_pixels": 0,
+          "compared_pixels": 12288,
+          "fraction": 0.0
+        },
+        "sage": {
+          "changed_pixels": 0,
+          "compared_pixels": 1152,
+          "fraction": 0.0
+        }
+      }
+    },
+    {
+      "id": "V5-06",
+      "kind": "visual",
+      "severity": "medium",
+      "title": "Pergamen nalévání nespojitě navazuje na dřevěný rám",
+      "detail": "Serving nahrazuje jen střední obdélník, zatímco zbývajících osm částí pochází ze zelené desky. Výsledkem jsou tvrdé světlé rohy a nestejný vnitřní povrch přibližně mezi (36,370) a (396,730).",
+      "source": "prototypes/teahouse/tea_painted_skin.gd:48",
+      "evidence": [
+        "pour-target.png",
+        "source-gameplay-hotovo.png"
+      ],
+      "suggestion": "Použít vlastní souvislý vnitřek rámu s odpovídajícími zaoblenými rohy.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "green_seam_pixels": 0,
+        "rounded_outer_corners": 4,
+        "sampled_seam_pixels": 8400
+      }
+    },
+    {
+      "id": "V5-07",
+      "kind": "readability",
+      "severity": "medium",
+      "title": "Cedulka řetězce zakrývá další herní kameny",
+      "detail": "Cedulka VOŇAVÝ ŘETĚZEC · 5 přibližně (160,646,172,28) zakrývá spodní části tří sousedních kamenů při pokračujícím tažení.",
+      "source": "prototypes/teahouse/tea_prototype.gd:706",
+      "evidence": [
+        "source-gameplay-retezec.png"
+      ],
+      "suggestion": "Umístit potvrzení řetězce mimo aktivní mřížku nebo využít existující spodní oznámení.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": {
+        "chain": [
+          19,
+          14,
+          21,
+          27,
+          33
+        ],
+        "longest_cream_run_inside_grid": 30,
+        "longest_opaque_multi_cell_row_block": 0,
+        "notice": "5 bylinek v řetězci · pusť a přidej do směsi"
+      }
+    },
+    {
+      "id": "V5-08",
+      "kind": "timing_and_information",
+      "severity": "low",
+      "title": "Hotová směs se hlásí před příletem bylin a sdělení se zdvojuje",
+      "detail": "Při zachycení notice už říká Směs je připravená, ale viditelná máta je 6/8 a zbývá 6 letících bylin. Následně velká karta a spodní lišta oznamují totéž.",
+      "source": "prototypes/teahouse/tea_prototype.gd:373",
+      "evidence": [
+        "completion-before-arrivals.png",
+        "completion-duplicate-notices.png"
+      ],
+      "suggestion": "Oznámit dokončení až po vizuálním doletu; v době velké potvrzovací karty skrýt duplicitní oznámení.",
+      "resolution_status": "fixed_and_regression_verified",
+      "resolution_version": "5.1",
+      "verification": [
+        {
+          "inspected_frames": 126,
+          "premature_card": false,
+          "premature_notice": false,
+          "ready_reached": true
+        },
+        {
+          "inspected_frames": 126,
+          "premature_card": false,
+          "premature_notice": false,
+          "ready_reached": true
+        },
+        {
+          "inspected_frames": 126,
+          "premature_card": false,
+          "premature_notice": false,
+          "ready_reached": true
+        },
+        {
+          "inspected_frames": 126,
+          "premature_card": false,
+          "premature_notice": false,
+          "ready_reached": true
+        }
+      ]
+    }
+  ],
+  "verified_production_source_hashes_unchanged": 42,
+  "diagnostic_capture_count": 17,
+  "resolution_report": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\20261021-teahouse-playable-v5-1\\review-status.json"
+}

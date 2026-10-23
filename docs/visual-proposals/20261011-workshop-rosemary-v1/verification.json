@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-11",
+  "functional_checks": 7506,
+  "native_capture": "ROSEMARY_RECIPE_NATIVE_CAPTURE=PASSED",
+  "android_package": "com.howtogrow.game.wheeltest",
+  "android_api": 36,
+  "android_abi": "x86_64",
+  "private_apk_sha256": "0015AE3117A19A6A7BF63BCB1EEC0769C48947A702066B272EC2B0B4C09D87F2",
+  "source_apk_sha256": "86B2219F803F91F146F71FDBCF0D88B2795F63229AD529521DE6D8098BE9C10C",
+  "mint_card_rgb_mean_error": 0.0,
+  "craft_double_tap_once": true,
+  "craft_persisted_after_restart": true,
+  "rosemary_g_after": 2.0,
+  "mint_g_after": 4.0,
+  "coins_after": 38,
+  "health_after_restart": 80.0111657295491,
+  "video_seconds": 8.7231,
+  "physical_phone_tested": false,
+  "golden_references_modified": false,
+  "full_golden_suite_run": false,
+  "published": false
+}

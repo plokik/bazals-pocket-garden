@@ -1,0 +1,19 @@
+# Klika a občasný lesk dveří skleníku — k osobnímu schválení
+
+Původní animace natáčení celého křídla a náhledu interiéru odstraněna. Po klepnutí na malované dveře se nyní pouze stiskne původní mosazná klika, na okamžik zůstane dole a vrátí se zpět. Celá sekvence trvá 0,56 s, potom následuje stávající vstup do původního interiéru. Vstupní signály a navigace zůstaly stejné.
+
+Přes sklo dveří občas přejede jemný diagonální lesk: trvá 1,5 s v cyklu 8,5 s, při první návštěvě začíná po 2 s viditelného aktivního času. Při zatažení za kliku se lesk skryje. Pauza, otevřené dialogy, pozadí aplikace a omezené animace respektují stávající pravidla; omezené animace dovolují okamžitý vstup.
+
+Změna je v `scripts/ui/greenhouse_entrance_view.gd`, novém `scripts/ui/greenhouse_door_effect.gdshader` a `tests/greenhouse_entrance_test.gd`. Shader používá přesné původní pixely malby pro páčku; jen drobná původní stopa páčky je během otočení vyplněna sousedními pixely. Kresba PNG, ostatní dveře, rám i štítek kliky zůstaly zachovány. Bez nové rastrové grafiky a bez změny animací schváleného kocoura.
+
+## Ověření
+
+- Konečný zdroj: **MVP_TESTS_PASSED=7194**, `.godot/door-handle-20261010/validation/tests.log`. Sedm nových kontrol pro původní malbu a průchod dotyků, přerušovaný lesk, omezené animace, stisk kliky při neměnné geometrii dveří, skrytí lesku během stisku a návrat kliky před vstupem. Zachovány kontroly opakovaného klepnutí, pauzy, pozadí, návratu během animace, viewportů a nezměněného herního profilu.
+- Nativní render a skutečný dotyk dveří: **DOOR_HANDLE_CAPTURE=PASSED; REAL_TOUCH=1; HANDLE_PULL=1; SHINE=1; VIEWPORTS=2**, exit 0. `.godot/door-handle-20261010/capture.log`. Skutečný vstup proběhl až po animaci kliky. Zdrojová logická plocha 432×960 a druhá 360×800. Prohlédnuty celková kresba, detail původní/stisknuté kliky a lesk; bez chyb kompilace shaderu.
+- `zatazeni-za-kliku.webp`: 40 nativních snímků, 1,933 s s krátkým podržením krajních stavů. `lesk-dveri.webp`: 90 snímků, 3,6 s. Všechny snímky zakódovaných náhledů dekódovány a ověřeny. `prehled.png` pouze zvětšuje skutečně vykreslené dveře. Náhledy jsou deterministický záznam produkčních komponent v izolovaném profilu.
+- Standardní chráněné vizuální porovnání: **27/34 bran prošlo, 7 neprošlo**. Všech sedm porovnání prohlédnuto; jde o původní pokojové reference před přidáním kocoura, pelíšku a misek. RMSE 13,419–13,438 proti limitu 12; změněno 3,076–3,083 % pixelů. Celý workflow proto není deklarován jako úspěšný. `.godot/door-handle-20261010/validation/report.md`. Reference, manifest, masky a limity zůstaly beze změny.
+- Čtrnáct stavů původního interiéru oproti dřívějšímu zachycení kocoura v5: nejvyšší MAE 0,03090, RMSE 0,79814, změněno nejvýše 0,12856 % pixelů nad rozdíl 10. `.godot/door-handle-20261010/interior-preservation.json`. Interiér se tímto zásahem nepřekresloval.
+- Android export prošel kontrolami zdroje, podpisu, ABI, obsahu, manifestu, soukromí a 16K zarovnání. APK `builds/android/bazals-pocket-garden-door-handle-v3-emulator-debug.apk`, SHA256 `661C831A5F58BB7FF8A1C8BC74794E819A7DE193AFB9BCDD4E762840F0EEEF28`.
+- AVD `Bazal_Current_Source_API36` aktualizován přes `adb install -r`: předem zálohovány oba čitelné profily schématu 42 a předchozí APK, po instalaci před spuštěním ověřena shoda obou profilů podle SHA256. Bez mazání dat a bez obnovy profilu.
+- V aktualizovaném emulátoru přes UI ověřena cesta pokoj → stojan → exteriér → klepnutí na dveře → původní interiér. Aktuální Android proces bez `SCRIPT ERROR`, `Parse Error`, `FATAL EXCEPTION`, `SHADER ERROR` a chyb kompilace shaderu. `.godot/door-handle-20261010/emulator/runtime.log`. Detail všech fází stisku a lesku doložen nativním záznamem.
+- `git diff --check` bez chyb. Telefon, commit, GitHub ani release nebyly součástí tohoto průchodu.

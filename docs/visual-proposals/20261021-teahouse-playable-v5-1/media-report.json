@@ -1,0 +1,17 @@
+{
+  "duration_seconds": 54.2,
+  "width": 432,
+  "height": 960,
+  "fps": 30,
+  "decoded_frames": 1626,
+  "decoded_without_errors": true,
+  "audio_codec": "AAC",
+  "video_codec": "H.264",
+  "native_game_audio": true,
+  "audio_mean_db": -32.5,
+  "audio_peak_db": -14.4,
+  "review_audio_constant_gain_db": 12.0,
+  "startup_trim_seconds": 0.1,
+  "startup_trim_reason": "subviewport setup only",
+  "native_resolution_no_upscale": true
+}

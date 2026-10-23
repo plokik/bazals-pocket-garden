@@ -1,0 +1,98 @@
+{
+  "extra_herb": {
+    "destination": [
+      286.0,
+      330.0
+    ],
+    "herb": 2,
+    "not_recipe_ingredient": true,
+    "path": [
+      2,
+      3,
+      10
+    ],
+    "recipe_goals": {
+      "0": 8,
+      "1": 6
+    }
+  },
+  "kind": "diagnostic_audit_not_gameplay",
+  "pour_audio": {
+    "audio_player_playing": true,
+    "clip_seconds": 0.85,
+    "elapsed_hold_seconds": 1.05,
+    "fill": 0.244227241818183,
+    "pouring": true,
+    "target_hold_seconds": 2.76923076923077
+  },
+  "pour_geometry": [
+    {
+      "destination": [
+        139.320007324219,
+        121.906150817871
+      ],
+      "fill": 0.02,
+      "origin": [
+        238.926284790039,
+        144.503448486328
+      ],
+      "potential_origin_below_water": true,
+      "tilt": 0.3,
+      "visible_stream": false,
+      "visible_upward_stream": false
+    },
+    {
+      "destination": [
+        139.320007324219,
+        110.669471740723
+      ],
+      "fill": 0.72,
+      "origin": [
+        199.854354858398,
+        75.8897323608398
+      ],
+      "potential_origin_below_water": false,
+      "tilt": 1.0,
+      "visible_stream": true,
+      "visible_upward_stream": false
+    }
+  ],
+  "premature_completion": {
+    "flights_remaining": 6,
+    "goals": {
+      "0": 8,
+      "1": 6
+    },
+    "notice": "Máta +3 · voňavá směs roste",
+    "visible_collected": {
+      "0": 6,
+      "1": 6
+    }
+  },
+  "release": [
+    {
+      "input": "mouse",
+      "last_sample_lost": false,
+      "legal_path": [
+        5,
+        11,
+        17
+      ],
+      "moves_after": 17,
+      "moves_before": 18,
+      "notice": "Meduňka +3 · voňavá směs roste"
+    },
+    {
+      "input": "touch",
+      "last_sample_lost": false,
+      "legal_path": [
+        5,
+        11,
+        17
+      ],
+      "moves_after": 17,
+      "moves_before": 18,
+      "notice": "Meduňka +3 · voňavá směs roste"
+    }
+  ]
+}

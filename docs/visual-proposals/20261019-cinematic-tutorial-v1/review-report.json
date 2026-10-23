@@ -1,0 +1,228 @@
+{
+  "status": "OWNER_VISUAL_REVIEW_PENDING",
+  "game_source_modified": false,
+  "save_profile": "Isolated APPDATA; preview has no save or quest APIs",
+  "movie": "C:\\Users\\drikv\\Documents\\ChatGPT\\How to grow_\\output\\cinematic-tutorial-20261019\\bazal-filmovy-uvod-v2.mp4",
+  "sha256": "09976e9e7649e1388e851e479953a889c8df88159a4fa49642f5dd81c62669ae",
+  "duration_seconds": 36.03,
+  "resolution": [
+    432,
+    960
+  ],
+  "fps": 30,
+  "audio": {
+    "speech": false,
+    "music": false,
+    "sfx": true,
+    "peak_dbfs": -17.2,
+    "rms_dbfs": -42.8
+  },
+  "native_preview_checks": 99,
+  "layouts": [
+    "432x960",
+    "360x800",
+    "360x640"
+  ],
+  "functional_checks_passed": 7800,
+  "legacy_visuals": {
+    "status": "FAILED",
+    "failed_count": 9,
+    "cases": [
+      {
+        "id": "phase149-player-room-exact-target",
+        "metrics": {
+          "mean_abs_error": 62.533442,
+          "rmse": 85.249709,
+          "maximum_error": 255,
+          "changed_ratio": 0.939355
+        },
+        "threshold_failures": [
+          "mean_abs_error=62.533442 > 10.000000",
+          "rmse=85.249709 > 28.000000",
+          "changed_ratio=0.939355 > 0.350000"
+        ]
+      },
+      {
+        "id": "phase158-player-room-empty-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 48.91423,
+          "rmse": 74.612232,
+          "maximum_error": 255,
+          "changed_ratio": 0.785462
+        },
+        "threshold_failures": [
+          "mean_abs_error=48.914230 > 4.000000",
+          "rmse=74.612232 > 12.000000",
+          "changed_ratio=0.785462 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase159-player-room-cloche-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.054137,
+          "rmse": 74.667464,
+          "maximum_error": 255,
+          "changed_ratio": 0.78886
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.054137 > 4.000000",
+          "rmse=74.667464 > 12.000000",
+          "changed_ratio=0.788860 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase163-rack-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 5.590322,
+          "rmse": 29.324164,
+          "maximum_error": 255,
+          "changed_ratio": 0.054311
+        },
+        "threshold_failures": [
+          "mean_abs_error=5.590322 > 4.000000",
+          "rmse=29.324164 > 12.000000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-clean-floor-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.082507,
+          "rmse": 75.72975,
+          "maximum_error": 255,
+          "changed_ratio": 0.79159
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.082507 > 4.000000",
+          "rmse=75.729750 > 12.000000",
+          "changed_ratio=0.791590 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-sparse-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.369381,
+          "rmse": 75.000006,
+          "maximum_error": 255,
+          "changed_ratio": 0.786017
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.369381 > 4.000000",
+          "rmse=75.000006 > 12.000000",
+          "changed_ratio=0.786017 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-phone-save-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.023879,
+          "rmse": 74.823219,
+          "maximum_error": 255,
+          "changed_ratio": 0.786791
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.023879 > 4.000000",
+          "rmse=74.823219 > 12.000000",
+          "changed_ratio=0.786791 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-full-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.009791,
+          "rmse": 75.695867,
+          "maximum_error": 255,
+          "changed_ratio": 0.789342
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.009791 > 4.000000",
+          "rmse=75.695867 > 12.000000",
+          "changed_ratio=0.789342 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-full-cloche-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.075006,
+          "rmse": 75.725607,
+          "maximum_error": 255,
+          "changed_ratio": 0.791295
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.075006 > 4.000000",
+          "rmse=75.725607 > 12.000000",
+          "changed_ratio=0.791295 > 0.060000"
+        ]
+      }
+    ],
+    "scope": "Legacy captures do not load the new cinematic. Production source and reference files remain unchanged. Do not claim the complete visual workflow passed."
+  },
+  "protected_source_sha256": {
+    "scripts/main.gd": "098473899f6dc6aba2e69c1b0c4e31e6134e603cd329c2301cc394891749e735",
+    "scripts/game_session.gd": "3b6ea3b5013427959b45c95a8ba933ae2c75d8f8b23472c85d9dc8a9e0568435",
+    "scripts/ui/guided_tutorial.gd": "ba6d41bc30517869145a0a7474570df611ab9b12af741f6034db27e04ddb6d7e",
+    "project.godot": "52fc3f991ec892e74927bc6a5e6f64cb5a8e4729199fa40b74d595b55b783bc2"
+  },
+  "protected_references_sha256": {
+    "docs/rack_room_source_of_truth_v1.png": "807e405c5294c90e22fa67cbe42d490243b9391fc95daac198e09138d12cf327",
+    "docs/approved_locked_slots_mockup.png": "20eda23ede9412d56a156303b9e670caa6032f06e53f1b25287edb7deee9af69",
+    "docs/audit/sage-palette-20261010/hud.png": "cc4a0954d7f0169f5cdd322ec6c6542d28a266e86e217cfafd9067f28c44b1ff",
+    "docs/audit/sage-palette-20261010/navigation.png": "d61ccdffe4cb033457cfbfb9731b8d32a7042674b67b1a75017434430fbddad4",
+    "docs/audit/sage-palette-20261010/storage.png": "0b586a48521d75131cf6791a410b496b4470d8fbeed6b83513ff39d824c65a43",
+    "docs/audit/sage-palette-20261010/shop.png": "fbc1f1218e881deeadd91cb2b37254ddeb7339d27fbc52b496b105dfcb127fa6",
+    "docs/audit/sage-palette-20261010/measurement.png": "ab8a819b9b659553682196996fc0a9857e78d512bfb45980806a2ec224133987",
+    "docs/audit/sage-palette-20261010/detail-realtime.png": "5c7304b3f587933858257fea2a868d40916fc3d90a76af801d0b916a1c5405a0",
+    "docs/audit/sage-palette-20261010/guide-explain.png": "2027d46b210e4c42d9d250f0041e36bbea039ef30e089312ba208da9c0c52cc8",
+    "docs/audit/sage-palette-20261010/guide-celebrate.png": "69317dfafd6cbe621ecd54a8b30e8a70933d023385468a962280673e98bf092d",
+    "docs/audit/sage-palette-20261010/guide-warning.png": "9d98bad4856e249690ba7d3d59e06aea6a83c6dc7d381981d11055f67eb44bfe",
+    "docs/audit/sage-palette-20261010/feedback-water.png": "99b0707e8dcc4657b8532cd1d6d1e29a91471c888252147ae6e78d757a4c6fd3",
+    "docs/audit/sage-palette-20261010/feedback-growth.png": "1955e09e044a4ad880c502248392c53fea19fa05e980e73e67450a8e8e619a47",
+    "docs/audit/sage-palette-20261010/feedback-coins.png": "a55296069b2753ebb328d8c37316890dd6fe08bfc76eda7dbe3282afba11b7af",
+    "assets/ui/comic/reference_phase151_feedback_unlock_v3.png": "8de514088c0d91d1522be222b7ab86b29171075d1f1bd3c8546f798ee7508a9d",
+    "assets/ui/comic/reference_phase151_screen_transition_v3.png": "7c360396115c2180eeb04a129f1191c30508d262b00ab4a2b5096a0cfc430704",
+    "docs/audit/sage-palette-20261010/phase163-feedback-unlock-runtime-approved.png": "104b2977ffa366127ef18e75b5f56bf8253c374bf28741f473f37d4fb892af1b",
+    "docs/audit/sage-palette-20261010/phase163-screen-transition-runtime-approved.png": "213e2238af35107b6f903344b469642917a532ae0a9021632ad48dbc56120713",
+    "docs/audit/sage-palette-20261010/phase149-player-room-exact-target.png": "2f95d7054a550dfca56f238966893929559611c3694ceb034740736f298268c2",
+    "docs/visual-proposals/phase150/greenhouse-exact-content-target-v1.png": "0a780e8c4a707966ed694c7933a15ee5a61b5ed04e88179687d4f46940de2eb2",
+    "docs/visual-proposals/phase151/user-approved-painted-rack-screen-v1.png": "7540369ad83e2dcb0a707052c649e8c0e919d621086b970985ea891eff02697c",
+    "docs/visual-proposals/phase151/user-approved-painted-detail-screen-v1.png": "599283f38afd50cfc6d121613f9687e15707cdf56ed1de6fe743765727bcafde",
+    "docs/visual-proposals/phase152/user-approved-painted-storage-screen-v1.png": "d19d7ea1fdc95ae7a69289b555363f0e104fbe029911e46335bdcce567292d28",
+    "docs/visual-proposals/phase153/user-approved-painted-shop-screen-v1.png": "5a69e32d9ba3ee96feb911f653c4f21cb41d972af5f6599da173eb0dea41d972",
+    "docs/visual-proposals/phase154/user-approved-painted-measurement-screen-v1.png": "d690acb3d1bcf174f856e7d72498f976991879e24714f9bb1a68d81b5ab46ffb",
+    "docs/visual-proposals/phase155/user-approved-painted-herbarium-screen-v1.png": "9aba0f190f2acfc3c7795616b8e9a6c0e2f3805c10b3f0bdc8fc6a9cfdd4c697",
+    "docs/visual-proposals/phase161/user-approved-painted-daily-challenge-screen-v1.png": "7972356773a32026e400c97c27df4f70881723f50b2e74e28a010d696a12533e",
+    "docs/visual-proposals/phase162/user-approved-painted-cosmetic-showroom-v1.png": "bc524f1d2c3111630385256481a4acb04cc51d99c2e4cf342d7fa468c3fc5dc0",
+    "docs/visual-proposals/phase163/user-approved-locked-planter-rack-screen-v1.png": "bd906524ed677fb996098578e3efbed3f19c797ac8078cbc8c7db86aeb1bc349",
+    "assets/ui/comic/reference_phase151_rack_runtime_v1.png": "d02b55e159c0b90622185bb0a6b45e2d35bb0712d8cf50b9a2dee9edad103d90",
+    "docs/audit/sage-palette-20261010/phase151-detail-runtime-approved.png": "5c7304b3f587933858257fea2a868d40916fc3d90a76af801d0b916a1c5405a0",
+    "docs/audit/sage-palette-20261010/phase152-storage-runtime-approved.png": "6c4f4047668fd493e4fbbb0d7b994ec27fd894008f08e5786071d2e80e4188c0",
+    "docs/audit/sage-palette-20261010/phase153-shop-runtime-approved.png": "624018d76a496c5f8908324f1f1e3f9cfbcb4c71a23022db29f3cff2103d64b7",
+    "docs/audit/sage-palette-20261010/phase154-measurement-runtime-approved.png": "73c7841758773fd827a42d9712dd495014be61fde8853cedcc0052b941660030",
+    "docs/audit/sage-palette-20261010/phase155-herbarium-runtime-approved.png": "1a4c2610265de56e71a509606861edf9673b540016fd7b524197c1ff9d65d2a5",
+    "assets/ui/comic/reference_phase160_player_room_clean_floor_runtime_v1.png": "a0a7d7d1a4120320fc0084af65429e9f997ac9cad29e51decf20278869363bd2",
+    "docs/audit/sage-palette-20261010/phase162-cosmetic-showroom-runtime-approved.png": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+    "docs/audit/sage-palette-20261010/phase158-player-room-empty-runtime-approved.png": "3e0e46f73bc28af156b2978e1fc11bef0f0cceedea5e1d03c612a5858749c6c1",
+    "assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png": "d5ad610b315cc4baa2f5adf8539eace3e3bd4b6553582768dbd362b89428da27",
+    "assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png": "cf100a3653df0f30ee0f6728db58001ffc91e797e321a6abbc5fac0112dba93b",
+    "assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png": "42804f92f7dc9b278511364e091498f9585458abb2da367d1eb6bec9feaa1f87",
+    "docs/audit/sage-palette-20261010/phase159-player-room-cloche-runtime-approved.png": "0b4cfbe5d5adfa2f9731c78e7b555ed36b96505c82c0b6e07a4f81be27d5ff2c",
+    "assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png": "42804f92f7dc9b278511364e091498f9585458abb2da367d1eb6bec9feaa1f87",
+    "docs/audit/sage-palette-20261010/phase161-daily-challenge-active-runtime-approved.png": "30696dba6edbe50afafcd11fbbd827039be1d15b5613eb4220a7ff1074906af2",
+    "docs/audit/sage-palette-20261010/phase161-daily-challenge-completed-runtime-approved.png": "b7f5d4a9373c076b9e16fbbe669bacc9779bacfbc9b4f9a4ec88f92da0146aba",
+    "docs/audit/sage-palette-20261010/phase161-daily-challenge-ready-queue-full-runtime-approved.png": "211247ec03ac49bd5719dd9461054951902caca37849c436508dd1a073c6fa6b",
+    "docs/audit/sage-palette-20261010/phase161-daily-challenge-claimed-runtime-approved.png": "f19994e9ee885bc9b09c7a1d1c8e6462cdf4480d501265f63b02e0aed51bab21",
+    "docs/audit/sage-palette-20261010/phase161-daily-challenge-unavailable-runtime-approved.png": "bae3cd4ffcfcea595265bc7a8b6b0a7b47182868caff426d3c69d3379bb79180",
+    "docs/audit/sage-palette-20261010/phase163-rack-runtime-approved.png": "0c6759ce4e2c04e7a78775d53b082fd176190c6c2c2e6a8d80b17efd4e450a43",
+    "docs/audit/sage-palette-20261010/phase167-player-room-clean-floor-runtime-approved.png": "a087abb2f6cd1078d101a46c3dbae05087c305ea0f8179aa5608628bec817327",
+    "docs/audit/sage-palette-20261010/phase167-player-room-sparse-runtime-approved.png": "1ce6cb787a61a1438f22f89b048d488e08fe25e0f198b22eea03c5ca1471c542",
+    "docs/audit/sage-palette-20261010/phase167-player-room-phone-save-runtime-approved.png": "7a8df3c297e43b271cc84231a9ff520adab3ba80f811a2b85e744283df5cb2c3",
+    "docs/audit/sage-palette-20261010/phase167-player-room-full-runtime-approved.png": "bcb995c5abd72ce0a383ab81cafa39e444d785f48ab7c0447e2f62fe05b61681",
+    "docs/audit/sage-palette-20261010/phase167-player-room-full-cloche-runtime-approved.png": "5bc310fd0ac03daf21096e50350a298ae817be80c55e2394d227985a75580145"
+  },
+  "scope": "Three-shot visual direction preview; full interactive growing-cycle integration awaits approval",
+  "limitations": [
+    "No Android test or APK",
+    "Clean-cache import crashed natively; validation mirror reused the current imported cache"
+  ],
+  "published": false,
+  "commit_created": false
+}

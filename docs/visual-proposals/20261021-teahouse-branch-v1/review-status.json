@@ -1,0 +1,105 @@
+{
+  "status": "awaiting_owner_visual_approval",
+  "date": "2026-10-21",
+  "owner_request": "sem pridej vizualni efekt vetvicky s okrasnyma listky a po ni polezou třeba dvě berušky nebo něco takového.",
+  "runtime_version": "4.3",
+  "scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "integration": "standalone_only",
+  "art_tool": "built-in imagegen",
+  "atlas": "prototypes/teahouse/art/tea-branch-ladybug-v1.png",
+  "prompt": "prototypes/teahouse/art/tea-branch-ladybug-v1.prompt.txt",
+  "alpha": {
+    "size": [
+      1254,
+      1254
+    ],
+    "minimum": 0,
+    "maximum": 255,
+    "fully_transparent_fraction": 0.8477
+  },
+  "animation": {
+    "ladybug_count": 2,
+    "ladybug_size": [
+      14,
+      20
+    ],
+    "component_rect": [
+      48,
+      753,
+      336,
+      56
+    ],
+    "minimum_gap_to_notice": 6,
+    "conservative_body_radius": 16,
+    "calm_freezes_all_pose": true,
+    "hidden_during_pouring_and_result": true,
+    "input_ignored": true
+  },
+  "review_movie_kind": "animated_art_review_not_gameplay",
+  "review_movie": "vetvicka-berusky.mp4",
+  "detail_movie": "vetvicka-detail.mp4",
+  "illustration_background": "docs/visual-proposals/20261021-teahouse-footer-spacing-v5b/cajovna-v5b-odstup-pod-deskou.png",
+  "review_scene_is_gameplay": false,
+  "movie_report": {
+    "all_bug_silhouettes_within_component": true,
+    "background": "res://docs/visual-proposals/20261021-teahouse-footer-spacing-v5b/cajovna-v5b-odstup-pod-deskou.png",
+    "both_bugs_moved": true,
+    "duration_seconds": 12,
+    "fps": 30,
+    "frames": 360,
+    "kind": "animated_art_review_not_gameplay",
+    "source_component": "res://prototypes/teahouse/tea_branch_ambient.gd"
+  },
+  "runtime_checks": 631,
+  "branch_evidence": {
+    "max_displacement": [
+      84.5826644897461,
+      78.1465835571289
+    ],
+    "max_stride": [
+      0.997921817649783,
+      0.997362610255228
+    ],
+    "minimum_body_clearance": 8.80157852172852,
+    "model_unchanged": true,
+    "sampled_poses": 642
+  },
+  "model_and_rng_unchanged": true,
+  "player_saves_accessed": false,
+  "rules_and_scoring_changed": false,
+  "all_three_recipes_verified": true,
+  "main_functional_checks": 7955,
+  "approved_visual_gates_passed": 34,
+  "reference_hashes_compared": 54,
+  "changed_reference_hashes": 0,
+  "native_capture_stderr_bytes": 0,
+  "source_mirror_equal_files": 178,
+  "source_archive": "source-v4.3",
+  "validation_report": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v4-3-validation-20261021\\report.md",
+  "runtime_log": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\audit-20261020\\project\\.godot\\tea-runtime-v4-3-final.log",
+  "phone_tested": false,
+  "github_published": false,
+  "sha256": {
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "prototypes/teahouse/art/herb-symbols-v1.prompt.txt": "7d7df443d2a65ceee96e102630ee1d89a2a514233239c982526c861f867bd471",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.png": "d1df052bad5d6ac0abe21780a422d1e4ab07dc1cf3fa4329bb155bde25a70e13",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.prompt.txt": "72338109bbcf27df19ec5eff8adb567c1013a9b47fbef65d7621faf3251181ab",
+    "prototypes/teahouse/art/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "prototypes/teahouse/art/tea-cup-v2.prompt.txt": "25b77704c8ab9c01649df6322b43ac9acf3b6cdff04822777c569077f616c1ea",
+    "prototypes/teahouse/art/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "prototypes/teahouse/art/tea-pot-v2.prompt.txt": "fe29dba1f9bb1d600c1ca9c25a27bf3bebba10d509a83dbe79ae6883e88107aa",
+    "prototypes/teahouse/README.md": "c5cea5de9e6f4971bee8e84d4d05017fce0b931b1ab84b7ebee283f5ed35f0e8",
+    "prototypes/teahouse/tea_board_model_test.gd": "be50c72dc8d7c39b087274323d8215b47ca4655971867134b85b2e1045d536db",
+    "prototypes/teahouse/tea_board_model.gd": "62810eb6fd26f0f4f512b0dbb606ede606a83f913a18c563d397901afa5cce84",
+    "prototypes/teahouse/tea_branch_ambient.gd": "58f85b2ad3141f4f99366061048b9bbee90aeb39ee0bfff524921bd8a098980c",
+    "prototypes/teahouse/tea_branch_review.gd": "fe88d48b429b808e0d92bd6128c8b36b40f76d7fd53e5bd3fce56b4fc850898d",
+    "prototypes/teahouse/tea_cup_fill.gdshader": "c3c4c47892713796bdce0af9fd0b8bd41976460aa5ccc11f4229e86085ebc79a",
+    "prototypes/teahouse/tea_magic_effects.gd": "da618379bcf13f65527c2d733774c841c2626efceed15462be396e454846eb26",
+    "prototypes/teahouse/tea_prototype.gd": "d5db5302d1b14012f3c93690df93fc6bbbc8f6b57c0ff7cb513287c897385226",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350",
+    "prototypes/teahouse/tea_runtime_review.gd": "7d8c274f206e89c74efedacbb74f86eceaf7a12e690ece7842251d80cd2bf439",
+    "prototypes/teahouse/tea_teaware_visual.gd": "079c0ff0f3cb044bb8f7fed804d48c2af245501b0b5fc6fa2cf75c44514bf49d",
+    "vetvicka-berusky.mp4": "f99d3a24d0d726c1b4543b15b0ff24c80f120d68b6d7487798d96d637c4d4ede",
+    "vetvicka-detail.mp4": "e436f1fb48848b808e9bf9248638aa62e2a939c2b3aaf79219aa35ed764b39d6"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASSED",
+  "date": "2026-10-20",
+  "functional_checks": 7955,
+  "focused_reference_checks": 145,
+  "visual_cases": 54,
+  "visual_gates_passed": 34,
+  "visual_gates_failed": 0,
+  "diagnostic_cases": 20,
+  "golden_digest": "81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F",
+  "historical_golden_digest_preserved": "3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F",
+  "historical_and_current_pngs_unchanged_during_validation": true,
+  "thresholds_masks_crops_gates_unchanged": true,
+  "source_mirror_parity_files": 11,
+  "independent_review": "No actionable findings; all9files, hashes, case contracts and LF normalization verified.",
+  "full_validation_marker": "HOW_TO_GROW_VALIDATION=PASSED",
+  "report": "tmp/reference-activation-20261020/validation/report.md",
+  "scope": "Local source/runtime verification; no phone, APK, GitHub push or release in this step."
+}

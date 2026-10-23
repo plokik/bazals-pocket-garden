@@ -1,0 +1,7 @@
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.howtogrow.game/com.godot.game.GodotAppLauncher }
+Status: ok
+LaunchState: COLD
+Activity: com.howtogrow.game/com.godot.game.GodotApp
+TotalTime: 2160
+WaitTime: 2161
+Complete

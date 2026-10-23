@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-11",
+  "functional_checks": 7486,
+  "native_capture": "MINT_RECIPE_NATIVE_CAPTURE=PASSED",
+  "android_package": "com.howtogrow.game.wheeltest",
+  "android_api": 36,
+  "android_abi": "x86_64",
+  "private_apk_sha256": "DF18EA60C7ED15405B2420E7D9418F7A1ECBBEFB1CCD144105986E1F292AA9F4",
+  "source_apk_sha256": "5A89A346C3F3C4F4D0E23087176CB6EB2D5B16CF0FAF351D38689015907C1E00",
+  "ad_limit_after_restart": true,
+  "actual_google_test_ad_completed": true,
+  "long_ad_pause_seconds": 76,
+  "summary_deferred_until_wheel_close": true,
+  "craft_double_tap_once": true,
+  "craft_persisted_after_restart": true,
+  "mint_g_after": 2,
+  "coins_after": 39,
+  "fertilizer_after": 5,
+  "physical_phone_tested": false,
+  "golden_references_modified": false,
+  "full_golden_suite_run": false,
+  "published": false
+}

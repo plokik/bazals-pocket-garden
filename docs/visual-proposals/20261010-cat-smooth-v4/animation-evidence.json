@@ -1,0 +1,16 @@
+{
+  "chase": {
+    "source_frames": 230,
+    "encoded_frames": 230,
+    "duration_ms": 7666,
+    "bytes": 9907884,
+    "native_capture": true
+  },
+  "room": {
+    "source_frames": 546,
+    "encoded_frames": 546,
+    "duration_ms": 18200,
+    "bytes": 8561208,
+    "native_capture": true
+  }
+}

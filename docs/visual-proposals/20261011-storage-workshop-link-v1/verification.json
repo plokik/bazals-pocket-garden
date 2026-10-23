@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-11",
+  "functional_checks": 7538,
+  "focused_workshop_checks": 107,
+  "native_capture": "WORKSHOP_STORAGE_CAPTURE=PASSED",
+  "native_widths": [
+    360,
+    432
+  ],
+  "unchanged_visual_cases": 4,
+  "mean_rgb_error": 0.0,
+  "art_and_craft_animation_unchanged": true,
+  "android_package": "com.howtogrow.game.wheeltest",
+  "android_api": 36,
+  "android_abi": "x86_64",
+  "android_touch_path_verified": true,
+  "android_back_to_workshop_verified": true,
+  "navigation_resources_unchanged": true,
+  "coins_after": 42,
+  "video_seconds": 7.3735,
+  "personal_profile_used": false,
+  "physical_phone_tested": false,
+  "golden_references_modified": false,
+  "full_golden_suite_run": false,
+  "published": false,
+  "apk_sha256": {
+    "storage-workshop-current-source.apk": "67C09191F7AC2E68524CEECE47BEBA85D441D6E33ECB6F2FD35223B844358C9E",
+    "storage-workshop-wheeltest.apk": "158E78B1EA832BD4149FB62F30B5E305F22586D8DFDDE7483C9E5CFBB082959C"
+  },
+  "source_sha256": {
+    "scripts/main.gd": "d26eae2e8777df88cd2d4f2951a5e3bdf98d5d92a24a8be52cd28bc7a3000b81",
+    "scripts/ui/storage_pipeline_presenter.gd": "c9618189f302bb1119453c1cc55c630e9d21c0d78794da67d21db710b637e53e",
+    "scripts/ui/workshop_modal.gd": "1477bd110d50d5d375cdb7715e2d7eaa4818727ed8700d6f33dd257abffbd734",
+    "tests/workshop_test.gd": "6fba0ae148ae18a07314ba9c78358e2c37ef9e5f8954fb1a4a0f002db1d37880"
+  }
+}

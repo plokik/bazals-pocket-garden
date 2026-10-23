@@ -1,0 +1,15 @@
+Precise correction of the supplied portrait teahouse UI concept.
+Image 1 is the EDIT TARGET. Keep its composition, teahouse background, warm lighting, carved wood tray, professor, paper cards, colors, all button positions and all other illustration COMPLETELY unchanged.
+Image 2 is the old gameplay reference ONLY for the exact 6x6 herb board pattern.
+Correct ONLY the third horizontal row inside the herb tray in image 1. It currently accidentally has five larger tiles. It MUST have SIX distinct round tiles, uniformly sized and aligned to the SAME six column centers as every other row above and below. The board must contain exactly 36 individual tiles: six equal rows of six, no missing or merged tiles.
+The third row, left to right, must be:
+1 mint (dark green serrated leaves),
+2 chamomile (white daisy with yellow center),
+3 lemon balm (light green rounded leaves),
+4 mint (dark green serrated leaves),
+5 lavender (purple stalks),
+6 mint (dark green serrated leaves).
+On the 840px-wide input, this third row is around y=995. Its six tile centers should align at x approximately 135,247,359,471,583,695. Match the round tile diameter of rows 2 and 4. Retain inset sage linen style, painted shading, and equal comfortable gaps.
+Do not change other five rows, don't move the wood frame, and don't add any additional decorations.
+Also correct just the tiny bottom footer wording to exactly: "HRATELNÝ NÁVRH · bez spotřeby sklizně · Esc zavřít".
+Everything else identical. Output the same portrait dimensions/aspect.

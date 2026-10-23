@@ -1,0 +1,150 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "edit",
+  "transparent_background": true,
+  "status": "OWNER_APPROVED_INTEGRATED_FUNCTIONALLY_VERIFIED",
+  "production_assets_replaced": true,
+  "shared_prompt": "Use case: precise-object-edit. Asset type: existing hand-painted 2D mobile game sprite, transparent PNG, review candidate. Edit only the cut-off upper foliage of the supplied sprite. Keep the exact existing visual identity: bold dark painted outlines, bright saturated foliage, turquoise ceramic pot, gold rim, yellow leaf emblem, light direction, soil, pot silhouette and viewing angle. Preserve the pot and lower 2/3 of the image completely unchanged. Reconstruct the missing naturally rounded tips within the original canvas by lowering/shortening only the uppermost stems/leaf group slightly as needed; leave transparent air above and around every tip. No horizontal or vertical flat cut edges. Do not redesign the plant, pot, emblem, add objects/text/borders, or change art style. Match the original near-square portrait aspect ratio and framing, retain the full pot and same baseline. Genuine alpha transparency, no colored/black/checkerboard background. Output one single complete sprite, no comparisons or captions.",
+  "targets": [
+    {
+      "source": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\plants\\comic\\lavender_mature_v1.png",
+      "prompt": "This is the mature lavender sprite. Three central purple flower spikes have missing tips cut off horizontally near the top. Repair only those clipped purple flower heads so their natural tapered rounded petal ends fit entirely below a modest transparent top margin. Preserve all other flower heads and narrow green leaves.",
+      "selected_candidate": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\20261020-crop-repairs-v1\\lavender-mature-candidate-v1.png"
+    },
+    {
+      "source": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\plants\\comic\\lavender_harvest_ready_v1.png",
+      "prompt": "This is the lavender ready-to-harvest sprite. The dense central purple flower heads have been cut horizontally near the top. Repair the upper central spikes with fully rounded, tapered petal tips and a transparent margin. Keep the original existing golden sparkles in their original places, no extra sparkles.",
+      "selected_candidate": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\20261020-crop-repairs-v1\\lavender-harvest-candidate-v2.png"
+    },
+    {
+      "source": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\plants\\comic\\mint_harvest_ready_v1.png",
+      "prompt": "This is the bushy mint ready-to-harvest sprite. Its topmost mint leaf cluster and leftmost leafy silhouette are cut in straight lines. Repair only those missing leaf tips and serrated outer edges, fitting the bush inside the current canvas with a transparent margin. Keep dense mint foliage, paired textured serrated leaves and current silhouette size; do not change the pot or add flowers.",
+      "selected_candidate": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\20261020-crop-repairs-v1\\mint-harvest-candidate-v1.png"
+    }
+  ],
+  "harvest_iteration": "Precise small repair to this existing transparent lavender ready-to-harvest sprite. The restored central purple spike now ends too close to the top edge. Lower ONLY the tallest central flower spike enough to leave at least 55 pixels of completely transparent air above its fully rounded pointed tip on this same portrait canvas. Keep every flower petal intact, no cutting, no horizontal flattened tip. Keep the rest of the illustration exactly as it is: all other flower spikes, narrow green leaves, existing golden sparkles, soil, turquoise/gold pot, yellow emblem, shading, outlines and pot baseline. Do not enlarge the sprite or zoom. Do not redraw or restyle. Every edge of the canvas must be fully transparent; remove stray near-invisible edge pixels. Output one complete sprite with genuine alpha transparency, same aspect ratio, no text or comparison.",
+  "note": "The exact owner-approved raw PNG outputs are integrated as v2 runtime assets; original v1 PNGs and approved visual references remain unchanged. Full visual workflow still fails on the same nine pre-existing room/navigation reference mismatches.",
+  "owner_approval": {
+    "date": "2026-10-20",
+    "reply": "ok",
+    "scope": "The three selected plant sprites shown in rostliny-pred-a-navrh.png."
+  },
+  "integration": {
+    "preserved_raw_outputs": true,
+    "import_size_limit": 640,
+    "imported_canvas": [
+      569,
+      640
+    ],
+    "measurement": "Godot 4.7 imported Texture2D alpha >127; last 60px above visible bottom",
+    "runtime_measurements": {
+      "res://assets/plants/comic/lavender_harvest_ready_v2.png": {
+        "alpha_bounds": [
+          1,
+          24,
+          555,
+          601
+        ],
+        "base_width": 307,
+        "canvas": [
+          569,
+          640
+        ],
+        "contact": [
+          268.5,
+          615
+        ],
+        "source_sha256": "0C7A6D711C8D8ADA31C38CDF9AB4B522508DE5AD8D433392CDF884AFC42DB2E9",
+        "texture_size": [
+          569,
+          640
+        ]
+      },
+      "res://assets/plants/comic/lavender_mature_v2.png": {
+        "alpha_bounds": [
+          23,
+          7,
+          534,
+          618
+        ],
+        "base_width": 316,
+        "canvas": [
+          569,
+          640
+        ],
+        "contact": [
+          271.0,
+          620
+        ],
+        "source_sha256": "10A5984CDE71C427B20B35063B0EEE626A4FB02000A0E5973D276202DD695EB0",
+        "texture_size": [
+          569,
+          640
+        ]
+      },
+      "res://assets/plants/comic/mint_harvest_ready_v2.png": {
+        "alpha_bounds": [
+          1,
+          4,
+          555,
+          598
+        ],
+        "base_width": 296,
+        "canvas": [
+          569,
+          640
+        ],
+        "contact": [
+          279.0,
+          599
+        ],
+        "source_sha256": "A84A35C98C66296CA51DC88444CC2AB9442B004F36624EBAD9B797B99D94F5BA",
+        "texture_size": [
+          569,
+          640
+        ]
+      }
+    }
+  },
+  "validation": {
+    "functional_marker": "MVP_TESTS_PASSED=7892",
+    "full_workflow": "FAILED_EXISTING_VISUAL_REFERENCE_MISMATCHES",
+    "visual_counts": {
+      "passed": 25,
+      "failed": 9,
+      "report_only": 20
+    },
+    "new_failed_visual_cases": [],
+    "native_art_capture": {
+      "screenshots": 10,
+      "logical_sizes": [
+        [
+          360,
+          800
+        ],
+        [
+          432,
+          960
+        ]
+      ],
+      "views": [
+        "rack",
+        "mature lavender detail",
+        "harvest lavender detail",
+        "harvest mint detail",
+        "lavender herbarium"
+      ],
+      "marker": "APPROVED_PLANT_CAPTURE=PASSED screenshots=10"
+    },
+    "prepared_startup": "PREPARED_STARTUP_ASSETS=PASSED audio=10 journal=10 bounds=28",
+    "footprints": "PHASE170_FOOTPRINTS=PASSED_67",
+    "source_and_mirror_files_matched": 17,
+    "profile_gameplay_fields_unchanged": true,
+    "player_save_writes": "isolated APPDATA, in-memory fixtures, captures block SaveManager writes",
+    "trailers_unchanged": true,
+    "evidence_directory": "tmp/plant-integration-20261020",
+    "report": "tmp/plant-integration-20261020/validation-final/report.md",
+    "runtime_art_report": "tmp/plant-integration-20261020/screenshots/runtime-art-report.json",
+    "references_or_thresholds_modified": false
+  }
+}

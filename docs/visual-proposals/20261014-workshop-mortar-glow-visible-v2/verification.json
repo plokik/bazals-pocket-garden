@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "date": "2026-10-14",
+  "scope": "make mortar glow clearly visible",
+  "focused_checks": 136,
+  "native_sizes": [
+    [
+      360,
+      800
+    ],
+    [
+      432,
+      960
+    ]
+  ],
+  "glow_duration_seconds": 2.2,
+  "visibility_comparisons": [
+    {
+      "width": 360,
+      "previous_mean_rgb_difference_from_off": 0.21799873922835877,
+      "current_mean_rgb_difference_from_off": 1.3314743071876223,
+      "relative_color_difference": 6.107715631294876
+    },
+    {
+      "width": 432,
+      "previous_mean_rgb_difference_from_off": 0.1440510562241201,
+      "current_mean_rgb_difference_from_off": 0.8797655441252589,
+      "relative_color_difference": 6.107317552441173
+    }
+  ],
+  "unchanged_dialog_comparisons": [
+    {
+      "state": "mint-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    },
+    {
+      "state": "mint-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "identical": true,
+      "mean_rgb_error": 0.0
+    }
+  ],
+  "atlases_and_approved_hearts_unchanged": true,
+  "shader_mask": "padded mipmapped painted silhouette, cached once and filtered to soften rings",
+  "preview_frames": 98,
+  "preview_fps": 25,
+  "static_peak_comparison": true,
+  "full_functional_suite_repeated_this_step": false,
+  "prior_full_functional_checks": 7567,
+  "approved_references_changed": false,
+  "android_tested_this_step": false,
+  "physical_phone_tested": false,
+  "personal_profile_used": false,
+  "committed": false,
+  "published": false
+}

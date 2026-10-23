@@ -1,0 +1,17 @@
+[
+  {
+    "path": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\workshop\\mint_crafting_atlas_v1.png",
+    "sha256": "6B0C5FAF1BA3B5F83C34B65111703476FFBE0A7E734E14D54E21A714386B3162",
+    "unchanged": true
+  },
+  {
+    "path": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\workshop\\rosemary_crafting_atlas_v1.png",
+    "sha256": "8985D142CF73369983B261FF13E801D14327369EAE265E9D9B3C8C2329B42568",
+    "unchanged": true
+  },
+  {
+    "path": "R:\\_projekty\\Bazal's Pocket Garden\\scripts\\ui\\workshop_success_effect.gd",
+    "sha256": "9B71E77E29C544E0C946212D158EA3DD7BA15A2C5DEDDF4C9D285F194783005F",
+    "unchanged": true
+  }
+]

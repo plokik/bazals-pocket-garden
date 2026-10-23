@@ -1,0 +1,52 @@
+{
+  "status": "integrated_installed_and_running",
+  "approved_version": "5.1",
+  "date": "2026-10-21",
+  "native_runtime_checks": 725,
+  "integration_checks": 102,
+  "main_functional_checks": 8057,
+  "main_visual_gates_passed": 34,
+  "approved_reference_hashes_checked": 54,
+  "changed_references": 0,
+  "validation_capture_stderr_bytes": 0,
+  "final_wording_only_fix_after_full_validation": "Clarified that level 5 unlocks the delivery quest, not free teahouse play; verified on final emulator APK.",
+  "android": {
+    "avd": "Bazal_Current_Source_API36",
+    "serial": "emulator-5554",
+    "api": 36,
+    "abi": "x86_64",
+    "gpu": "host",
+    "package": "com.howtogrow.game",
+    "version": "0.71.0-rc61-emulator",
+    "installed_apk_sha256": "b802ba36093b83e0e9da2ce72b4957c46292a5d6ea2334ea760ff7cded8f2313",
+    "launch_status": "ok",
+    "visible_scene": "teahouse matching board",
+    "native_touch_chain": {
+      "herb": "lemonbalm",
+      "collected_before": 0,
+      "collected_after": 3,
+      "moves_before": 18,
+      "moves_after": 17,
+      "score_after": 30
+    },
+    "back_to_quest_verified": true,
+    "reopen_clean_board_verified": true,
+    "latest_process_script_errors": 0,
+    "latest_process_java_crashes": 0,
+    "latest_process_shader_link_errors": 0
+  },
+  "save_handling": {
+    "old_emulator_save_and_backup_were_zero_bytes": true,
+    "old_emulator_files_archived": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-integration-20261021\\emulator\\before-install-appdata.tar",
+    "fresh_emulator_test_profile_created_through_recovery_ui": true,
+    "final_update_preserved_fresh_profile_bytes": true
+  },
+  "scope": {
+    "minigame_rewards_to_main_economy": false,
+    "inventory_consumption": false,
+    "save_schema_changed": false,
+    "phone_tested": false,
+    "github_pushed": false,
+    "release_created": false
+  }
+}

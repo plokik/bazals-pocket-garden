@@ -1,0 +1,37 @@
+from pathlib import Path
+import json
+import shutil
+
+PROPOSAL = Path(__file__).resolve().parent.parent
+REPO = PROPOSAL.parents[2]
+MIRROR_PROPOSAL = REPO / 'tmp/cinematic-tutorial-20261019/project/docs/visual-proposals/20261019-cinematic-tutorial-v1'
+OUTPUT = Path('C:/Users/drikv/Documents/ChatGPT/How to grow_/output/cinematic-tutorial-20261019')
+for pattern in ['scene-*.png','reduced-motion-*.png']:
+    for source in MIRROR_PROPOSAL.glob(pattern):
+        shutil.copy2(source,PROPOSAL/source.name)
+provenance = {
+    'method':'Built-in image_gen tool; no CLI/API fallback',
+    'asset':str(PROPOSAL/'assets/professor_seed_sheet_v2.png'),
+    'reference_images':[
+        'assets/ui/guide/professor_bazal_explain_v1.png',
+        'assets/ui/guide/professor_bazal_celebrate_v1.png'],
+    'generated_original':'C:/Users/drikv/.codex/generated_images/01a08214-50de-7d12-afec-542e5ec15886/exec-ad679332-2385-4fc9-91b6-90704e1d2d15.png',
+    'sprite_layout':{'columns':4,'rows':3,'cell_pixels':[362,362]},
+    'runtime_processing':'Uniform cell size, linear filtering, shader suppresses low-alpha color islands and softens bust lower edge; no destructive PNG edits',
+    'prompts':[
+        "Use case: illustration-story. Asset type: production animation sprite sheet for a cinematic mobile game introduction, not a mockup. References are identity/style references for Professor Bazal. Keep this exact friendly older male garden professor: green leafy hair, round green glasses, grey moustache and pointed beard, cream shirt, green gold-trimmed waistcoat, turquoise pendant. Rich hand-painted whimsical game art and crisp expressive facial drawing identical to references. Create ONE transparent sprite sheet, 4 columns x 3 rows = exactly 12 equal cells, no grid lines, no text, no numbers, no background. Each cell contains the same waist-up professor centered at exactly the same scale, head position and torso baseline, fully contained within that cell with generous clear transparent margins. No pointer, no coin. His right hand (viewer left) holds a tiny tan basil seed between thumb and forefinger. His other hand rests by waist. Animation read in row-major order across 12 cells: frame 1 warm closed-mouth smile with seed hand low near chest; frames 2-3 anticipation, slight elbow bend, eyes glance toward seed; frames 4-7 hand smoothly raises the seed to shoulder height and presents it to player with palm and fingers anatomically clear; frame 8 gentle blink while holding seed up; frames 9-12 eyes open, slight friendly nod, seed held in place. This is a single continuous subtle meaningful acting gesture, not twelve unrelated poses. Both shoulders, head and body remain registered, do not enlarge or shrink character from frame to frame. All outfits, face proportions, seed hand anatomy and lighting stay consistent. Frame 12 is a calm hold pose. Keep head upright and realistic stable silhouette, not chibi, not different characters. Genuine transparent alpha canvas.",
+        "Use case: precise-object-edit. Edit target is the supplied Professor Bazal 4 by 3 animation sprite sheet. Improve ONLY sprite-sheet edge hygiene for production animation: keep the same 12 poses, exact same character identity, face, beard, outfit, seed gesture and painted style. Put each waist-up character inside its own equal-size cell of a STRICT 4 columns by 3 rows rectangular grid, with at least 24 pixels of fully clear transparent padding on every side of each character, especially ABOVE HAIR. Keep same scale and identical torso baseline/head registration across all 12 cells. Clean all isolated red/green pixels and colored fringe, clean alpha edges. No colored specks on transparent canvas. Do not crop hair, hands, belt or shoulders. Do not add scene backgrounds, labels, frames, grid lines or text. Genuine transparent alpha background. A taller canvas is fine if needed for clean per-cell padding. This is a cleanup pass, not a character redesign. Frames in row-major order still show anticipation, lifting seed, holding seed, blink, gentle nod.",
+    ],
+    'reused_game_assets':['planting_hand_v1.png','empty_pot_v1.png','basil_young_v1.png','garden_v1/sfx'],
+    'production_integration':False,'visual_approval':'pending',
+}
+(PROPOSAL/'asset-provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2),encoding='utf-8')
+shutil.copy2(PROPOSAL/'asset-provenance.json',OUTPUT/'asset-provenance.json')
+for name in ['voice-brief.json','voice-preview-report.json']:
+    path = Path('C:/Users/drikv/Documents/ChatGPT/How to grow_/output/cinematic-intro-20261017')/name
+    if path.is_file():
+        data = json.loads(path.read_text(encoding='utf-8'))
+        data['status'] = 'DUBBING_SHELVED_BY_OWNER_20261019'
+        data['current_direction'] = 'Cinematic tutorial with professor, animated text and sound effects only; no speech. Existing audition audio retained as history.'
+        path.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
+print('CINEMATIC_REVIEW_PACKAGE=READY_FOR_OWNER_APPROVAL')

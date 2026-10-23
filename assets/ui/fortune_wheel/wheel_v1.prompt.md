@@ -1,0 +1,7 @@
+# Kolo štěstí – malovaný disk v1
+
+Generated with built-in image_gen on 2026-10-11. Original: exec-01cf2463-3b7a-47b3-96fe-02c3d9e4f7c4.png. True alpha preserved, no pixel edits. Runtime adds existing reward icons, text and a fixed pointer.
+
+## Exact prompt
+
+Create ONE production UI sprite for Bazal's Pocket Garden: a hand-painted wooden fortune wheel disk, perfectly front-on orthographic circular and centered, square canvas. Transparent background. Cozy detailed storybook game painting, warm honey wood rim with dark brown hand-inked contour, softly glossy highlights, subtle warm brass studs. The disk fills exactly about 94% of canvas width with even transparent margins. Eight perfectly equal radial sectors alternating pale sage green, soft leafy green and warm ivory. Sector zero is centered straight UP at 12 o'clock; its boundaries are at -22.5 and +22.5 degrees from vertical. Delicate dark olive dividing lines. Small circular warm brass central hub with one tiny embossed green leaf. Keep sector interiors EMPTY for runtime reward icons and labels. No text, no numbers, no reward symbols, no pointer, no arrow, no stand, no perspective, no environment, no cast shadow outside the disk, no extra object. Richly painted wood grain and gentle watercolor-like shading consistent with cozy illustrated gardening mobile game assets. The circle must remain geometrically circular and radial sector geometry even. True alpha transparency around silhouette.

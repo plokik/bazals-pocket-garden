@@ -1,0 +1,9 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+TEA_PAINTED_SKIN_GPU={"distinct_colors":[13672,9370,5589,1269,6464],"outside_requested_bounds":0,"source_unchanged":true,"transparent_token_corners":4,"visible_pixels":[152798,50390,24624,2263,17420]}
+TEA_CUP_GPU_PIXELS={"alpha_changes":0,"changed":4230,"outside_bowl":0,"outside_cup":0,"source_unchanged":true}
+TEA_BRANCH_AMBIENT={"max_displacement":[84.5826644897461,78.1465835571289],"max_stride":[0.997921817649783,0.997362610255228],"minimum_body_clearance":8.80157852172852,"model_unchanged":true,"sampled_poses":642}
+TEA_BRANCH_SHEEN_GPU={"changed":7973,"clear_corner_samples":56,"isolated_bugs":{"center_samples":[9,9],"changed_pixels":0,"visible_pixels":461},"model_unchanged":true,"new_halo_pixels":1000,"outside_component":0,"periodic":true,"rectangle_artifacts":0}
+TEA_EFFECTS_BOUNDS={"max_blooms":12,"max_particles":84,"model_unchanged":true,"visible_particles":56}
+TEA_RUNTIME_REVIEW_PASSED=659

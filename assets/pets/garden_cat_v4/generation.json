@@ -1,0 +1,20 @@
+{
+  "mode": "built-in imagegen",
+  "purpose": "versioned proposal for personal approval",
+  "approval": "pending",
+  "source_image": "exec-d71a6d52-2908-4cda-b78b-c136b1d82c66.png",
+  "reference": "assets/pets/garden_cat_v1/cat_poses_v1.png",
+  "sha256": "033188ac1d66f4176fe819a9964dffed58ccad47fe3c8286ba393d5c82b78314",
+  "size": [
+    1254,
+    1254
+  ],
+  "native_alpha_preserved": true,
+  "frames": 16,
+  "rows": [
+    "drink",
+    "sniff",
+    "greet",
+    "settle"
+  ]
+}

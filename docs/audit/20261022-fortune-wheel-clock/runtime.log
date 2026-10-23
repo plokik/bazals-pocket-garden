@@ -1,0 +1,10 @@
+--------- beginning of main
+10-22 15:38:16.948  2203  2257 I godot   : Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+10-22 15:38:17.083  2203  2257 E godot   : WARNING: Failed to load cached shader, recompiling.
+10-22 15:38:17.083  2203  2257 E godot   :    at: _load_from_cache (drivers/gles3/shader_gles3.cpp:615)
+10-22 15:38:18.032  2203  2257 I godot   : OpenGL API OpenGL ES 3.1 (4.5.0 NVIDIA 617.42) - Compatibility - Using Device: Google (NVIDIA Corporation) - Android Emulator OpenGL ES Translator (NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2)
+10-22 15:38:18.084  2203  2257 I godot   : 
+10-22 15:38:23.925  2203  2257 I godot   : STARTUP_THREADED_LOAD_MS=4501
+10-22 15:38:25.429  2203  2257 I godot   : STARTUP_BUILD_UI_MS=1338
+10-22 15:38:25.450  2203  2257 I godot   : STARTUP_REFRESH_UI_MS=9
+10-22 15:38:25.452  2203  2257 I godot   : STARTUP_MAIN_READY_MS=6028

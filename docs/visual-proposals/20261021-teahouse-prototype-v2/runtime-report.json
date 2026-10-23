@@ -1,0 +1,14 @@
+{
+  "checks": 300,
+  "demo": false,
+  "failures": [],
+  "gpu_cup_pixels": {
+    "alpha_changes": 0,
+    "changed": 4229,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "phone_tested": false,
+  "saves_accessed": false
+}

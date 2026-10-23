@@ -1,0 +1,11 @@
+{
+  "comparison": "approved mint card",
+  "crop": [
+    40,
+    117,
+    304,
+    507
+  ],
+  "unchanged": true,
+  "mean_absolute_rgb_error": 0.0
+}

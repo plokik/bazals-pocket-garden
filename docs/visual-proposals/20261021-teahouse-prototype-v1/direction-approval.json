@@ -1,0 +1,9 @@
+{
+  "scope": "prototype_direction_only",
+  "user_message": "souhlasím, ale chce to ješte hodně práce.",
+  "follow_up_priority": "Hlavně vzhled a animace",
+  "visual_polish_complete": false,
+  "main_game_integration_approved": false,
+  "approved_reference_baseline_changed": false,
+  "next_stage": "standalone_visual_and_animation_polish_v2"
+}

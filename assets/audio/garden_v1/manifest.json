@@ -1,0 +1,585 @@
+{
+  "version": 1,
+  "sample_rate": 48000,
+  "provenance": "Original offline composition and procedural sound design; no sampled recordings, vocals or external music.",
+  "music": {
+    "bazal_theme": {
+      "title": "Bazalova malá dobrodružství",
+      "file": "assets/audio/garden_v1/music/bazal_theme.ogg",
+      "seconds": 96.0,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.30625,
+      "rms_db": -23.74,
+      "sha256": "5aa6f14c366cd3ff39e47730491ff82c728d73e343d195a328fdce85db2d074f",
+      "bpm": 80,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "flute, harp, plucked bass, soft reeds, glass accents"
+    },
+    "workshop": {
+      "title": "Voňavá dílna",
+      "file": "assets/audio/garden_v1/music/workshop.ogg",
+      "seconds": 101.0526,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.42869,
+      "rms_db": -23.74,
+      "sha256": "420b0fb7f3632066d603ba0541de0701c124f0c86d313f67b64f4b2f46c02ce5",
+      "bpm": 76,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "wood, pluck, plucked bass, soft reeds, glass accents"
+    },
+    "growing": {
+      "title": "Trpělivost lístků",
+      "file": "assets/audio/garden_v1/music/growing.ogg",
+      "seconds": 106.6667,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.39898,
+      "rms_db": -23.74,
+      "sha256": "b906b182f786b2ab750d128bd1cf6b711613d3ebfaf86d67b3392dcaaf4def89",
+      "bpm": 72,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "flute, harp, plucked bass, soft reeds, glass accents"
+    },
+    "outside": {
+      "title": "Za dveřmi skleníku",
+      "file": "assets/audio/garden_v1/music/outside.ogg",
+      "seconds": 112.9412,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.32949,
+      "rms_db": -23.74,
+      "sha256": "c78a1b48ce732b842f20e723dd901233d829f70e121171749a19e9c8c01260ee",
+      "bpm": 68,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "flute, wood, plucked bass, soft reeds, glass accents"
+    },
+    "market": {
+      "title": "U zeleného lístku",
+      "file": "assets/audio/garden_v1/music/market.ogg",
+      "seconds": 91.4286,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.43404,
+      "rms_db": -23.74,
+      "sha256": "255c2c866014b117d0a2d8a804863a35b7184caa0d0ee1c0938aab3db0b97735",
+      "bpm": 84,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "wood, pluck, plucked bass, soft reeds, glass accents"
+    },
+    "journal": {
+      "title": "Stránky bylinkového deníku",
+      "file": "assets/audio/garden_v1/music/journal.ogg",
+      "seconds": 120.0,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.50996,
+      "rms_db": -23.74,
+      "sha256": "1bde858359739ce829631f954ecc49a87261c6355ac4b0a8ea504915ba008955",
+      "bpm": 64,
+      "bars": 32,
+      "key": "G major / E minor",
+      "instruments": "harp, wood, plucked bass, soft reeds, glass accents"
+    }
+  },
+  "sfx": {
+    "tap": {
+      "title": "Jemné dřevěné klepnutí",
+      "file": "assets/audio/garden_v1/sfx/tap.wav",
+      "seconds": 0.13,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.17,
+      "rms_db": -25.35,
+      "sha256": "0f8e70f79894437bc9df2fc72193a9cbf40a1008bba15b493c03a89802550785"
+    },
+    "confirm": {
+      "title": "Potvrzení",
+      "file": "assets/audio/garden_v1/sfx/confirm.wav",
+      "seconds": 0.465,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.22275,
+      "rms_db": -23.86,
+      "sha256": "6935e09ef422941b547d3ae51103248c0bed93fc018972c4bff50b8fc4ab6512"
+    },
+    "sparkle": {
+      "title": "Růst a drobný pokrok",
+      "file": "assets/audio/garden_v1/sfx/sparkle.wav",
+      "seconds": 0.98,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.20261,
+      "rms_db": -28.05,
+      "sha256": "2a259726fbf0cbaf6948a984b4ed7d6b6a6f96cff0530445bf3129d7108c4ad9"
+    },
+    "behavior": {
+      "title": "Reakce bylinky",
+      "file": "assets/audio/garden_v1/sfx/behavior.wav",
+      "seconds": 0.59,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.14024,
+      "rms_db": -32.66,
+      "sha256": "ef8ae0750a02fd8ac5033430d7b451a1192fa21a5b9fa773b864965854bca1d2"
+    },
+    "reward": {
+      "title": "Mince a odměna",
+      "file": "assets/audio/garden_v1/sfx/reward.wav",
+      "seconds": 0.85,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.27919,
+      "rms_db": -24.81,
+      "sha256": "c55c9283133d5ea9e69cb5070a738c3e3c788427ba38754a083bc9098337f4f0"
+    },
+    "fanfare": {
+      "title": "Velký úspěch",
+      "file": "assets/audio/garden_v1/sfx/fanfare.wav",
+      "seconds": 1.74,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.28149,
+      "rms_db": -29.18,
+      "sha256": "2367891005d39e1b35c6d4671ea1e7d64b9aaa83f30da73d21cd1d8a7c478fea"
+    },
+    "error": {
+      "title": "Jemné odmítnutí",
+      "file": "assets/audio/garden_v1/sfx/error.wav",
+      "seconds": 0.36,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.17109,
+      "rms_db": -26.03,
+      "sha256": "fa07c9a395c4005465ca046f706f124bbfa17c925cec742f03f92852195e1da9"
+    },
+    "light": {
+      "title": "Rozsvícení lampy",
+      "file": "assets/audio/garden_v1/sfx/light.wav",
+      "seconds": 0.92,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.17691,
+      "rms_db": -30.23,
+      "sha256": "6e3a93fea14d84afc95ba1c17f61a5bad683f0c672dc3aea71b4c306bc0a96c5"
+    },
+    "fertilize": {
+      "title": "Přisypání výživy",
+      "file": "assets/audio/garden_v1/sfx/fertilize.wav",
+      "seconds": 0.65,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.40889,
+      "rms_db": -24.72,
+      "sha256": "1fb637b23f2f5b70033206966b2bb8d57af4a201907ba4d30e6e4e1d019cdb6a"
+    },
+    "package": {
+      "title": "Zabalení bylinek",
+      "file": "assets/audio/garden_v1/sfx/package.wav",
+      "seconds": 0.8,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.34521,
+      "rms_db": -28.31,
+      "sha256": "12622b5614c2b52fbcbb26d07fd5798927505a28341055cabc9fb6881d07bce4"
+    },
+    "herbs": {
+      "title": "Vložení bylin",
+      "file": "assets/audio/garden_v1/sfx/herbs.wav",
+      "seconds": 0.5,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.37611,
+      "rms_db": -26.54,
+      "sha256": "3b0eed435e745bb800ed2c19f1dd9e6b615205da6912d109bd3eac848a58f038"
+    },
+    "page": {
+      "title": "Otočení stránky herbáře",
+      "file": "assets/audio/garden_v1/sfx/page.wav",
+      "seconds": 0.32,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.25185,
+      "rms_db": -29.39,
+      "sha256": "6d62a343ab18fc5a70e01ffeaf8fc42ceab03e7086dcb40756a6f88392334f31"
+    },
+    "purchase": {
+      "title": "Nákup",
+      "file": "assets/audio/garden_v1/sfx/purchase.wav",
+      "seconds": 0.64,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.2265,
+      "rms_db": -25.65,
+      "sha256": "04d68799a3e9f50734f88604595d2b7a55ad50fb8bd46c9e73d73b42aa066d4a"
+    },
+    "sale": {
+      "title": "Prodej",
+      "file": "assets/audio/garden_v1/sfx/sale.wav",
+      "seconds": 0.94,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.26247,
+      "rms_db": -25.77,
+      "sha256": "f7c1180abac8f45c8fba220e8766bfc680fb83fc9fa33df2d2338a83e749f905"
+    },
+    "craft_success": {
+      "title": "Voňavý výrobek je hotový",
+      "file": "assets/audio/garden_v1/sfx/craft_success.wav",
+      "seconds": 1.385,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.27273,
+      "rms_db": -28.1,
+      "sha256": "d8d4a6ee5928668f9855da1e4f6db5321796b47e7d8eba7a041016cd127eb643"
+    },
+    "delivery": {
+      "title": "Dodávka pro čajovnu",
+      "file": "assets/audio/garden_v1/sfx/delivery.wav",
+      "seconds": 1.92,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.25957,
+      "rms_db": -28.09,
+      "sha256": "7e540b78ec185276bb17e4c0483e30f2587e059637f97290d58a1e15e7a48f38"
+    },
+    "wheel_win": {
+      "title": "Výhra kola štěstí",
+      "file": "assets/audio/garden_v1/sfx/wheel_win.wav",
+      "seconds": 1.61,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.31009,
+      "rms_db": -25.47,
+      "sha256": "029d6d4f9954ffc5aff578065af05a3801c865c9d6dacde404b22ebb841609ac"
+    },
+    "wheel_tick": {
+      "title": "Zub kola štěstí",
+      "file": "assets/audio/garden_v1/sfx/wheel_tick.wav",
+      "seconds": 0.07,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.13703,
+      "rms_db": -29.27,
+      "sha256": "6d48c1914b93b4465ae6fd97b495752aae8d4e798bcf866a418aca01b748a5e8"
+    },
+    "door_magic": {
+      "title": "Kouzlo na klice",
+      "file": "assets/audio/garden_v1/sfx/door_magic.wav",
+      "seconds": 0.8,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.14161,
+      "rms_db": -30.07,
+      "sha256": "c88d287f7710be6efa2358afc5a8bed3c6d3fd3095cc42af26fbc9ec671bec0c"
+    },
+    "modal_open": {
+      "title": "Otevření přehledu",
+      "file": "assets/audio/garden_v1/sfx/modal_open.wav",
+      "seconds": 0.245,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.13732,
+      "rms_db": -28.15,
+      "sha256": "ecf5451c8e5f5dd3bfab98c91ad85517154e78aa384fcd0a66eb55d26a1da8f7"
+    },
+    "modal_close": {
+      "title": "Zavření přehledu",
+      "file": "assets/audio/garden_v1/sfx/modal_close.wav",
+      "seconds": 0.22,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.09624,
+      "rms_db": -29.66,
+      "sha256": "0a4d45895939d1863e50e9ce2b6efdb3456bdf21adf5faff1e35688b61c0ad31"
+    },
+    "nav": {
+      "title": "Přechod mezi obrazovkami",
+      "file": "assets/audio/garden_v1/sfx/nav.wav",
+      "seconds": 0.16,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.11,
+      "rms_db": -35.28,
+      "sha256": "cae2c510aa40d265ff9dfb59e85123980e11d9564ba898bff112b8c475482cc0"
+    },
+    "cat_meow": {
+      "title": "Kocourovo pozdravení",
+      "file": "assets/audio/garden_v1/sfx/cat_meow.wav",
+      "seconds": 0.7,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.2564,
+      "rms_db": -21.53,
+      "sha256": "d9b66257e5d983131baf18dcb6ce6d6f3a409a9aefb25fce0fc35a45f7be032b"
+    },
+    "cat_yawn": {
+      "title": "Tiché zívnutí",
+      "file": "assets/audio/garden_v1/sfx/cat_yawn.wav",
+      "seconds": 0.95,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.10786,
+      "rms_db": -29.05,
+      "sha256": "49d1f1b256228ec1d4ccc39f75e3285781a432d4cd6f4efd19f3d32356023ff1"
+    },
+    "research": {
+      "title": "Dokončený výzkum",
+      "file": "assets/audio/garden_v1/sfx/research.wav",
+      "seconds": 1.39,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.18319,
+      "rms_db": -30.58,
+      "sha256": "0b63e3383759e5be1596c2285a5ed596cc8300be4986620dbd22774da23965ac"
+    },
+    "daily_complete": {
+      "title": "Splněná denní výzva",
+      "file": "assets/audio/garden_v1/sfx/daily_complete.wav",
+      "seconds": 1.2,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.2084,
+      "rms_db": -30.63,
+      "sha256": "eb317319c6bb922ff9c8be949a014cfa1f3362e44068f354be2a1808085b7cac"
+    },
+    "care": {
+      "title": "Zálivka – proud a kapky",
+      "file": "assets/audio/garden_v1/sfx/care.wav",
+      "seconds": 1.05,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.1932,
+      "rms_db": -28.27,
+      "sha256": "5395a72162fec721be6160fe80892d6dbf23abb39b038a3050241e5713f2da5a"
+    },
+    "water": {
+      "title": "Zálivka",
+      "file": "assets/audio/garden_v1/sfx/water.wav",
+      "seconds": 1.05,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.1932,
+      "rms_db": -28.27,
+      "sha256": "5395a72162fec721be6160fe80892d6dbf23abb39b038a3050241e5713f2da5a"
+    },
+    "wind": {
+      "title": "Jemné proudění vzduchu",
+      "file": "assets/audio/garden_v1/sfx/wind.wav",
+      "seconds": 0.85,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.31244,
+      "rms_db": -25.11,
+      "sha256": "a503946915a098aa22298bc5b9ddf9e5cda2a67f2b1f3f953dde92d2b0ad46af"
+    },
+    "treatment": {
+      "title": "Ošetření rostliny",
+      "file": "assets/audio/garden_v1/sfx/treatment.wav",
+      "seconds": 0.7,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.25086,
+      "rms_db": -29.98,
+      "sha256": "54de572290965779cdb08cf42df7c7c44ce05b37153f73b08ca3582f4c1190bf"
+    },
+    "seed": {
+      "title": "Semínko dopadne do hlíny",
+      "file": "assets/audio/garden_v1/sfx/seed.wav",
+      "seconds": 0.7,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.20404,
+      "rms_db": -27.43,
+      "sha256": "683373cd023ff112e0716b0b94ba9a1ee4fd765fde7ecf8ab2977c6600bcf1ec"
+    },
+    "harvest": {
+      "title": "Ustřižení a sklizeň",
+      "file": "assets/audio/garden_v1/sfx/harvest.wav",
+      "seconds": 0.7,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.34636,
+      "rms_db": -28.14,
+      "sha256": "7feb7371cf7224dfde1e89dc5a04fd1db5620dc0d3bfea3c8e047b3d7e05aed6"
+    },
+    "drying": {
+      "title": "Uložení do sušárny",
+      "file": "assets/audio/garden_v1/sfx/drying.wav",
+      "seconds": 0.45,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.41144,
+      "rms_db": -24.34,
+      "sha256": "17927ae3f88b1fea24f54494f02b9aea39caccd2b92993915179dbe42caa2ab7"
+    },
+    "door_handle": {
+      "title": "Stažení kovové kliky",
+      "file": "assets/audio/garden_v1/sfx/door_handle.wav",
+      "seconds": 0.32,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.22821,
+      "rms_db": -22.82,
+      "sha256": "470e05e8632ca7a11b5e70b15bc54c8b3c8053a37cff04ddceee39b205fb3b2e"
+    },
+    "door_enter": {
+      "title": "Tichý vstup do skleníku",
+      "file": "assets/audio/garden_v1/sfx/door_enter.wav",
+      "seconds": 0.38,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.08601,
+      "rms_db": -34.71,
+      "sha256": "6f8d531642088f864c0470cbef5242b0ad90a71edd0ffb19ae1038e7282309fc"
+    },
+    "grind": {
+      "title": "Kroužení tloučku v hmoždíři",
+      "file": "assets/audio/garden_v1/sfx/grind.wav",
+      "seconds": 1.2,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.36171,
+      "rms_db": -26.23,
+      "sha256": "131be338aa3aa59813718463429582f1afa2e1ad7163bc05bd5c75cdbef47649"
+    },
+    "tea_pour": {
+      "title": "Nalévání čaje",
+      "file": "assets/audio/garden_v1/sfx/tea_pour.wav",
+      "seconds": 0.85,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.10982,
+      "rms_db": -30.89,
+      "sha256": "4ad829e1f4312ee5516dff72c45e333a119e76e7d776d778ef0b51d4c44e64cd"
+    },
+    "gift_wrap": {
+      "title": "Stuha a dárkový papír",
+      "file": "assets/audio/garden_v1/sfx/gift_wrap.wav",
+      "seconds": 0.82,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.3603,
+      "rms_db": -27.98,
+      "sha256": "9a702dfe997291b2ee89a150e3bedcf3817f8a6611a6b429f6a000e622230245"
+    },
+    "cat_purr": {
+      "title": "Předení při pohlazení",
+      "file": "assets/audio/garden_v1/sfx/cat_purr.wav",
+      "seconds": 1.8,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.07328,
+      "rms_db": -39.82,
+      "sha256": "467bce6d840d62dce97fcbadc3b40140184ff3a6e90c2c70f3fa14803ce77060"
+    },
+    "cat_drink": {
+      "title": "Kocour pije vodu",
+      "file": "assets/audio/garden_v1/sfx/cat_drink.wav",
+      "seconds": 0.8,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.06024,
+      "rms_db": -37.6,
+      "sha256": "880aafdcaa120e0cad700d5a7da161b3e161dd2c6e2d4be1e5b5227277bf1600"
+    },
+    "cat_steps": {
+      "title": "Měkké tlapky",
+      "file": "assets/audio/garden_v1/sfx/cat_steps.wav",
+      "seconds": 0.5,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.055,
+      "rms_db": -35.29,
+      "sha256": "12db7e60c00a6729a5284d7bf67ed7550f9919775445996c28df0a06af35c4c3"
+    },
+    "mouse": {
+      "title": "Myší písknutí",
+      "file": "assets/audio/garden_v1/sfx/mouse.wav",
+      "seconds": 0.23,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.0277,
+      "rms_db": -42.97,
+      "sha256": "c1eae7167d36aa7396379505ea937b493f660d396d13041c1604fdaa2869dbb8"
+    },
+    "cat_chase": {
+      "title": "Kocour vyrazí za myší",
+      "file": "assets/audio/garden_v1/sfx/cat_chase.wav",
+      "seconds": 0.6,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.17784,
+      "rms_db": -29.72,
+      "sha256": "08e43e0c495cdcac4052e3892882aee24093d2ad2cac7b3a99f68d012458d4bb"
+    },
+    "plant_clear": {
+      "title": "Vyprázdnění květináče",
+      "file": "assets/audio/garden_v1/sfx/plant_clear.wav",
+      "seconds": 0.55,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.22776,
+      "rms_db": -30.29,
+      "sha256": "e08182b769e62e5dd8ab476e6489e7d8eecabfa2d4888c900883cab0641dbcfe"
+    },
+    "pot_place": {
+      "title": "Položení keramického květináče",
+      "file": "assets/audio/garden_v1/sfx/pot_place.wav",
+      "seconds": 0.275,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.21762,
+      "rms_db": -23.08,
+      "sha256": "f42b0aa1475ebf2c232f628fa03a332840984b85c377766e1c977b0c577f3276"
+    },
+    "tap_alt": {
+      "title": "Alternativní klepnutí",
+      "file": "assets/audio/garden_v1/sfx/tap_alt.wav",
+      "seconds": 0.12,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.14,
+      "rms_db": -27.71,
+      "sha256": "ae8aad94427e44887a35c3023399c73613acf9b16dc859209066b07324116a1f"
+    },
+    "water_alt": {
+      "title": "Alternativní zálivka",
+      "file": "assets/audio/garden_v1/sfx/water_alt.wav",
+      "seconds": 1.05,
+      "stereo": false,
+      "loop": false,
+      "peak": 0.17388,
+      "rms_db": -29.69,
+      "sha256": "fa9eda1809a15ac2d4a9178e51f0fa8bda631f955c2dad363c4eccebab282bb4"
+    }
+  },
+  "ambience": {
+    "garden_air": {
+      "title": "Zahradní vánek a vzdálení ptáci",
+      "file": "assets/audio/garden_v1/ambience/garden_air.ogg",
+      "seconds": 24.0,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.03235,
+      "rms_db": -49.02,
+      "sha256": "0b1d050da64275119334b0ac70ff78188502e2a19ba458eb610e34ec4d06ee50"
+    },
+    "greenhouse_air": {
+      "title": "Tiché listí uvnitř skleníku",
+      "file": "assets/audio/garden_v1/ambience/greenhouse_air.ogg",
+      "seconds": 24.0,
+      "stereo": true,
+      "loop": true,
+      "peak": 0.01291,
+      "rms_db": -53.13,
+      "sha256": "a3dd0fa39bdd3630b0ca7ae13280f7ca6edb83970f89dcee03fe2f789f600703"
+    }
+  }
+}

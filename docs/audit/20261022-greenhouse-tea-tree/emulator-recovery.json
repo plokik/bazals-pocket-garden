@@ -1,0 +1,11 @@
+{
+  "cause": "Both pre-existing emulator save files were zero bytes after a cold boot.",
+  "empty_state_archive": "tmp/greenhouse-tea-20261022/emulator/before-recovery-empty-appdata.tar",
+  "verified_backup_archive": "tmp\\cat-space-20261022\\emulator\\before-update-appdata.tar",
+  "restored_files": {
+    "how_to_grow_save.json": "55929d51dd652b70c0a7dabfa224224e4ce02d1dac3f5a4b5b5aecc3a873fd68",
+    "how_to_grow_save.backup.json": "5ed9afc525f04730cd5cc71e8584d9fa9d9f2b1f2f4f77ae49ee79a9fcf14246"
+  },
+  "coin_balance_unchanged_from_verified_backup": 35,
+  "full_backup_restored_without_editing_profile": true
+}

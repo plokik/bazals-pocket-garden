@@ -1,0 +1,36 @@
+{
+  "status": "READY_FOR_VISUAL_APPROVAL",
+  "date": "2026-10-17",
+  "scope": "isolated proposal, no runtime integration",
+  "proposal_checks": 75,
+  "native_layout_checks": 172,
+  "native_pointer_flow": "PASSED",
+  "reduced_motion": "PASSED",
+  "native_sizes": [
+    "360x800",
+    "432x960",
+    "360x640"
+  ],
+  "regression_tests": 7567,
+  "regression_visual_workflow": "FAILED_PREEXISTING_PHASE166_CAPTURE",
+  "regression_error": "Phase 166 capture did not reach a held plant drag",
+  "regression_full_pass_marker": false,
+  "protected_files": 284,
+  "protected_changed": 0,
+  "production_save_read": false,
+  "production_save_written": false,
+  "source_assets_replaced": false,
+  "approved_references_changed": false,
+  "android_tested": false,
+  "apk_created": false,
+  "publish": false,
+  "current_game_unchanged": true,
+  "rewards": {
+    "coins": 80,
+    "lemonbalm_seeds": 2
+  },
+  "asset_generator": "built-in image_gen",
+  "source_prompt_file": "art/PROMPTS.md",
+  "logs": ".godot/teahouse-products-20261017 (checks-final.log, capture-fit.log, launch.log, regression/tests.log, regression-runner.log)",
+  "launch_smoke": "PASSED"
+}

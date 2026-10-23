@@ -1,0 +1,244 @@
+{
+  "audit_regressions": {
+    "V5-01": [
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          360,
+          800
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          360,
+          800
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          432,
+          960
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          432,
+          960
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          600,
+          900
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          600,
+          900
+        ]
+      }
+    ],
+    "V5-02": {
+      "destination": [
+        286.0,
+        330.0
+      ],
+      "goal_counts_unchanged": true,
+      "herb": 2,
+      "native_flights_correct": true
+    },
+    "V5-03": {
+      "invalid_strengths": 0,
+      "pose_samples": 808,
+      "upward_streams": 0,
+      "visible_samples": 364
+    },
+    "V5-04": {
+      "continuous_visible_hold_seconds": 1.8,
+      "hidden_frames": 19,
+      "missing_audio_frames": 0,
+      "original_clip_seconds": 0.85,
+      "premature_audio_frames": 0,
+      "premature_fill_frames": 0,
+      "visible_frames": 298
+    },
+    "V5-05": {
+      "cream": {
+        "changed_pixels": 0,
+        "compared_pixels": 2304,
+        "fraction": 0.0
+      },
+      "leaves": {
+        "changed_pixels": 0,
+        "compared_pixels": 12288,
+        "fraction": 0.0
+      },
+      "sage": {
+        "changed_pixels": 0,
+        "compared_pixels": 1152,
+        "fraction": 0.0
+      }
+    },
+    "V5-06": {
+      "green_seam_pixels": 0,
+      "rounded_outer_corners": 4,
+      "sampled_seam_pixels": 8400
+    },
+    "V5-07": {
+      "chain": [
+        19,
+        14,
+        21,
+        27,
+        33
+      ],
+      "longest_cream_run_inside_grid": 30,
+      "longest_opaque_multi_cell_row_block": 0,
+      "notice": "5 bylinek v řetězci · pusť a přidej do směsi"
+    },
+    "V5-08": [
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      }
+    ]
+  },
+  "branch": {
+    "max_displacement": [
+      84.5826644897461,
+      78.1465835571289
+    ],
+    "max_stride": [
+      0.997921817649783,
+      0.997362610255228
+    ],
+    "minimum_body_clearance": 8.80157852172852,
+    "model_unchanged": true,
+    "sampled_poses": 642,
+    "sheen": {
+      "changed": 7973,
+      "clear_corner_samples": 56,
+      "isolated_bugs": {
+        "center_samples": [
+          9,
+          9
+        ],
+        "changed_pixels": 0,
+        "visible_pixels": 461
+      },
+      "model_unchanged": true,
+      "new_halo_pixels": 1000,
+      "outside_component": 0,
+      "periodic": true,
+      "rectangle_artifacts": 0
+    }
+  },
+  "checks": 725,
+  "demo": false,
+  "effects": {
+    "max_blooms": 12,
+    "max_particles": 84,
+    "model_unchanged": true,
+    "visible_particles": 56
+  },
+  "failures": [],
+  "gpu_cup_pixels": {
+    "alpha_changes": 0,
+    "changed": 4230,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "gpu_skin_pixels": {
+    "distinct_colors": [
+      13672,
+      4114,
+      3743,
+      1269,
+      7066
+    ],
+    "outside_requested_bounds": 0,
+    "source_unchanged": true,
+    "transparent_token_corners": 4,
+    "visible_pixels": [
+      152798,
+      52287,
+      26093,
+      2263,
+      17273
+    ]
+  },
+  "motion": {
+    "clipped_partial_cases": 32,
+    "overlapping_chains": [
+      6,
+      3
+    ],
+    "overlapping_herb": 2
+  },
+  "phone_tested": false,
+  "recording": {},
+  "saves_accessed": false
+}

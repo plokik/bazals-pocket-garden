@@ -1,0 +1,324 @@
+{
+  "status": "eight_fixes_verified_awaiting_owner_visual_approval",
+  "date": "2026-10-21",
+  "version": "5.1",
+  "integration": "standalone_playable_prototype_only",
+  "scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "source_archive": "source-v5.1",
+  "gameplay_movie": "cajovna-v5-1-cela-objednavka.mp4",
+  "gameplay_execution_root": "R:\\_projekty\\Bazal's Pocket Garden",
+  "gameplay_recording_is_actual_runtime": true,
+  "media": {
+    "duration_seconds": 54.2,
+    "width": 432,
+    "height": 960,
+    "fps": 30,
+    "decoded_frames": 1626,
+    "decoded_without_errors": true,
+    "audio_codec": "AAC",
+    "video_codec": "H.264",
+    "native_game_audio": true,
+    "audio_mean_db": -32.5,
+    "audio_peak_db": -14.4,
+    "review_audio_constant_gain_db": 12.0,
+    "startup_trim_seconds": 0.1,
+    "startup_trim_reason": "subviewport setup only",
+    "native_resolution_no_upscale": true
+  },
+  "actual_order": {
+    "audio_muted": false,
+    "initial_read_seconds": 3.0,
+    "intended_fps": 30,
+    "native_gestures": 7,
+    "quality": "perfect",
+    "rehearsed_turns": 7,
+    "result_read_seconds": 3.0,
+    "scene_seconds": 54.2666666666661,
+    "visible_pointer": true
+  },
+  "demo_checks": 27,
+  "model_checks": 5099,
+  "native_runtime_checks": 725,
+  "audit_regressions": {
+    "V5-01": [
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          360,
+          800
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          360,
+          800
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          432,
+          960
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          432,
+          960
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": false,
+        "viewport": [
+          600,
+          900
+        ]
+      },
+      {
+        "accepted": true,
+        "path": [
+          5,
+          11,
+          17
+        ],
+        "touch": true,
+        "viewport": [
+          600,
+          900
+        ]
+      }
+    ],
+    "V5-02": {
+      "destination": [
+        286.0,
+        330.0
+      ],
+      "goal_counts_unchanged": true,
+      "herb": 2,
+      "native_flights_correct": true
+    },
+    "V5-03": {
+      "invalid_strengths": 0,
+      "pose_samples": 808,
+      "upward_streams": 0,
+      "visible_samples": 364
+    },
+    "V5-04": {
+      "continuous_visible_hold_seconds": 1.8,
+      "hidden_frames": 19,
+      "missing_audio_frames": 0,
+      "original_clip_seconds": 0.85,
+      "premature_audio_frames": 0,
+      "premature_fill_frames": 0,
+      "visible_frames": 298
+    },
+    "V5-05": {
+      "cream": {
+        "changed_pixels": 0,
+        "compared_pixels": 2304,
+        "fraction": 0.0
+      },
+      "leaves": {
+        "changed_pixels": 0,
+        "compared_pixels": 12288,
+        "fraction": 0.0
+      },
+      "sage": {
+        "changed_pixels": 0,
+        "compared_pixels": 1152,
+        "fraction": 0.0
+      }
+    },
+    "V5-06": {
+      "green_seam_pixels": 0,
+      "rounded_outer_corners": 4,
+      "sampled_seam_pixels": 8400
+    },
+    "V5-07": {
+      "chain": [
+        19,
+        14,
+        21,
+        27,
+        33
+      ],
+      "longest_cream_run_inside_grid": 30,
+      "longest_opaque_multi_cell_row_block": 0,
+      "notice": "5 bylinek v řetězci · pusť a přidej do směsi"
+    },
+    "V5-08": [
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      },
+      {
+        "inspected_frames": 126,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      }
+    ]
+  },
+  "branch_evidence": {
+    "max_displacement": [
+      84.5826644897461,
+      78.1465835571289
+    ],
+    "max_stride": [
+      0.997921817649783,
+      0.997362610255228
+    ],
+    "minimum_body_clearance": 8.80157852172852,
+    "model_unchanged": true,
+    "sampled_poses": 642,
+    "sheen": {
+      "changed": 7973,
+      "clear_corner_samples": 56,
+      "isolated_bugs": {
+        "center_samples": [
+          9,
+          9
+        ],
+        "changed_pixels": 0,
+        "visible_pixels": 461
+      },
+      "model_unchanged": true,
+      "new_halo_pixels": 1000,
+      "outside_component": 0,
+      "periodic": true,
+      "rectangle_artifacts": 0
+    }
+  },
+  "cup_evidence": {
+    "alpha_changes": 0,
+    "changed": 4230,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "main_functional_checks": 7955,
+  "main_visual_gates_passed": 34,
+  "main_validation_report": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v5-1-validation-20261021\\report.md",
+  "changed_reference_hashes": 0,
+  "approved_reference_hashes_checked": 54,
+  "source_mirror_equal_files": 45,
+  "protected_unchanged_sources": [
+    "tea_board_model.gd",
+    "tea_board_model_test.gd",
+    "tea_cup_fill.gdshader",
+    "tea_magic_effects.gd",
+    "tea_branch_ambient.gd",
+    "tea_branch_sheen.gdshader",
+    "art/herb-symbols-v1.png",
+    "art/tea-branch-ladybug-v1.png",
+    "art/tea-cup-v2.png",
+    "art/tea-pot-v2.png",
+    "art/tea-ui-v5.png",
+    "art/tea-environment-v5.png"
+  ],
+  "art_tool": "built-in imagegen",
+  "new_asset": "source-v5.1/art/tea-panels-v5-1.png",
+  "image_prompt": "source-v5.1/art/tea-panels-v5-1.prompt.txt",
+  "rules_changed": false,
+  "scoring_changed": false,
+  "player_saves_accessed": false,
+  "default_main_scene_changed": false,
+  "phone_tested": false,
+  "github_published": false,
+  "release_created": false,
+  "native_capture_stderr_bytes": 0,
+  "sha256": {
+    "prototypes/teahouse/README.md": "a8233cb6e4bd39a49015d2374af42ce5ad3eb8577280c77b2c39e7098b5daaf1",
+    "prototypes/teahouse/tea_board_model.gd": "62810eb6fd26f0f4f512b0dbb606ede606a83f913a18c563d397901afa5cce84",
+    "prototypes/teahouse/tea_board_model.gd.uid": "ed9cb88842a8ce7f8271e94c6004e15b48b3bed8b9b9bda716862a899ef306e4",
+    "prototypes/teahouse/tea_board_model_test.gd": "be50c72dc8d7c39b087274323d8215b47ca4655971867134b85b2e1045d536db",
+    "prototypes/teahouse/tea_board_model_test.gd.uid": "aebe439bb07376e9f0d024a65447f8bfedde357358d950975849aa393846d746",
+    "prototypes/teahouse/tea_branch_ambient.gd": "666414381d2cec27bbe21dee2877e0a8364a5bed110573b87ec638d1fd5c963f",
+    "prototypes/teahouse/tea_branch_ambient.gd.uid": "257329ad2c2dcd40a52d88b7d6781de74085f6cc98d27de3b07084d9d299f033",
+    "prototypes/teahouse/tea_branch_review.gd": "1237f27a121ecc80e6096cffa8851afd43416f396b1ad337112fa7e31d66aaaa",
+    "prototypes/teahouse/tea_branch_review.gd.uid": "4596590be8ee27ad8f5f431c52a141bc9df3d8f89749e6e7ddb18e213eded957",
+    "prototypes/teahouse/tea_branch_sheen.gdshader": "5091531129b29821018af760cc5a92326c5cc3ccbbaab85f1003ae7e4b08b899",
+    "prototypes/teahouse/tea_branch_sheen.gdshader.uid": "81084c8d7c03141f445db6c61883b9e0a371935b89180331948ddbfaf3de7277",
+    "prototypes/teahouse/tea_cup_fill.gdshader": "c3c4c47892713796bdce0af9fd0b8bd41976460aa5ccc11f4229e86085ebc79a",
+    "prototypes/teahouse/tea_cup_fill.gdshader.uid": "d3f90e8767cddb5958d091376c2ce91091f7022b59f567dfcf246bcd3e7ff27a",
+    "prototypes/teahouse/tea_magic_effects.gd": "da618379bcf13f65527c2d733774c841c2626efceed15462be396e454846eb26",
+    "prototypes/teahouse/tea_magic_effects.gd.uid": "597cd7d62551d18d247d895ba84476cd1dee81562f4a994dfb832a65c02de669",
+    "prototypes/teahouse/tea_painted_skin.gd": "ebe2e296ccaaa3d41602327be43f66f0f119dc0e1dc0a25f0b92a4c10323b2a5",
+    "prototypes/teahouse/tea_painted_skin.gd.uid": "84e542cf9f27ed059a78d6fca2a5ae730cd6aafffe5438cdd7acc27427114404",
+    "prototypes/teahouse/tea_prototype.gd": "412cfd0578687318ebea4a7847a3e38740ea618efb022464aed3c200719c21d0",
+    "prototypes/teahouse/tea_prototype.gd.uid": "d81971c60f3dbd4e856143c343e9e607e43a322bcd76b11dc818f6b00d45b3b7",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350",
+    "prototypes/teahouse/tea_runtime_review.gd": "0c518a2110674d0e5f851e73fff1b6fdb97ce2a1e150e8f4e7d90c9621dec5c3",
+    "prototypes/teahouse/tea_runtime_review.gd.uid": "b70d4e0be110f77c13ad26a015abd650e332f7cb71cfc66e70b19f68327d74f8",
+    "prototypes/teahouse/tea_teaware_visual.gd": "abf922c494603d3932c47b355b31080f85ce454f09f545367f7cfe796c9aee22",
+    "prototypes/teahouse/tea_teaware_visual.gd.uid": "897f03b47da430aaaacc1145c5dab3262c8a21d77ee6c570b46534a4f4e8e0c4",
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "prototypes/teahouse/art/herb-symbols-v1.png.import": "bf524fef51d0b0195fccc37e2a5b0347936d4443082c66b214c8e3f413028d1e",
+    "prototypes/teahouse/art/herb-symbols-v1.prompt.txt": "7d7df443d2a65ceee96e102630ee1d89a2a514233239c982526c861f867bd471",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.png": "d1df052bad5d6ac0abe21780a422d1e4ab07dc1cf3fa4329bb155bde25a70e13",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.png.import": "dbc70f928f0fbaeed0bb4065be123b453517b8d6102c22e45e3e63076927815e",
+    "prototypes/teahouse/art/tea-branch-ladybug-v1.prompt.txt": "72338109bbcf27df19ec5eff8adb567c1013a9b47fbef65d7621faf3251181ab",
+    "prototypes/teahouse/art/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "prototypes/teahouse/art/tea-cup-v2.png.import": "32531c51cc114b2022022490421f0adbcf3da394460c327be771463a740f1a8b",
+    "prototypes/teahouse/art/tea-cup-v2.prompt.txt": "25b77704c8ab9c01649df6322b43ac9acf3b6cdff04822777c569077f616c1ea",
+    "prototypes/teahouse/art/tea-environment-v5.png": "ff3231a187b94157a48888aed4519f6f38075806f7ffbad36d2b64d39896590c",
+    "prototypes/teahouse/art/tea-environment-v5.png.import": "752a0688463531cba8d42fcd832b00a63ea9aff8ca28c5c9308538ad57a07425",
+    "prototypes/teahouse/art/tea-environment-v5.prompt.txt": "3ea75af6c65be3cb0bf989ae925a746c6da287426cfb7be446f1fde7a8f058f8",
+    "prototypes/teahouse/art/tea-panels-v5-1.png": "3483f3a2e417ba4c6db84c0b34bbefc108d35061a58f54b6ad3bb661d8745add",
+    "prototypes/teahouse/art/tea-panels-v5-1.png.import": "8a78454639df759ae524c18958e61ef89054add246ab6dd820efe44f15401ba3",
+    "prototypes/teahouse/art/tea-panels-v5-1.prompt.txt": "64639862f2a9420022f57e98da0541b0d6bda93ff48972e43a4737827634674c",
+    "prototypes/teahouse/art/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "prototypes/teahouse/art/tea-pot-v2.png.import": "3c39227841c167c003c294c0cf92fc1e416ded4ba5f3e14558ac5aede32b5f75",
+    "prototypes/teahouse/art/tea-pot-v2.prompt.txt": "fe29dba1f9bb1d600c1ca9c25a27bf3bebba10d509a83dbe79ae6883e88107aa",
+    "prototypes/teahouse/art/tea-ui-v5.png": "e54d67ac95e6397f36dd0b8f140a75b62bb3a038d598fecfe4eb860ab17c23f8",
+    "prototypes/teahouse/art/tea-ui-v5.png.import": "e400aa33b7e00c595a85f8972231a511070a9347243f85dc1fe3ed2c901b1967",
+    "prototypes/teahouse/art/tea-ui-v5.prompt.txt": "47bb709c7734b5c399d34d3a7dccff617beef52565f7b26c9a98d5c4d3b5807f",
+    "cajovna-v5-1-cela-objednavka.mp4": "a5e564f2ed42d044db4cc16779c2eafe9901229f84bf4687d8d230acae0f627f"
+  }
+}

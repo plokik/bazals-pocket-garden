@@ -1,0 +1,26 @@
+[
+  {
+    "state": "drying",
+    "width": 360,
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "packaged",
+    "width": 360,
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "drying",
+    "width": 432,
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "packaged",
+    "width": 432,
+    "identical": true,
+    "mean_rgb_error": 0.0
+  }
+]

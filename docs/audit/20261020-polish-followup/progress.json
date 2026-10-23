@@ -1,0 +1,280 @@
+{
+  "date": "2026-10-20",
+  "scope": "Continue the agreed 20261020 audit polish plan, step4; preserve the trailer.",
+  "authoritative_checkout": "R:\\_projekty\\Bazal's Pocket Garden",
+  "branch": "fix/rc61-feedback-motion",
+  "completed": [
+    {
+      "item": "Petržel, ořez při růstové animaci",
+      "result": "Confirmed with actual GPU-rendered plant control: 2-6 opaque pixels outside three compact viewports at the growth peak. Shared headroom attenuation removes all alpha overflow; idle and roomy frames remain pixel-identical.",
+      "production_change": "scripts/ui/plant_view_study.gd",
+      "proof": "tmp/audit-followup-20261020/canopy-result.json"
+    },
+    {
+      "item": "Časově citlivé čekání dílny",
+      "result": "Four fixed0.2s reduced-motion waits now observe actual completion with a2s bound and reject modal/session/revision cancellation. Original health, stock, result text and phase assertions are preserved. Timeout and cancellation regression checks pass.",
+      "change": "tests/workshop_test.gd"
+    },
+    {
+      "item": "Schválené reference dílny a navigace",
+      "result": "Nine reference mappings activated from exact owner-approved candidates; all34gates pass with unchanged thresholds/masks/crops.",
+      "approval": "docs/audit/workshop-navigation-20261020/approval.json"
+    }
+  ],
+  "checks": {
+    "status": "PASSED",
+    "date": "2026-10-20",
+    "functional_checks": 7955,
+    "focused_reference_checks": 145,
+    "visual_cases": 54,
+    "visual_gates_passed": 34,
+    "visual_gates_failed": 0,
+    "diagnostic_cases": 20,
+    "golden_digest": "81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F",
+    "historical_golden_digest_preserved": "3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F",
+    "historical_and_current_pngs_unchanged_during_validation": true,
+    "thresholds_masks_crops_gates_unchanged": true,
+    "source_mirror_parity_files": 11,
+    "independent_review": "No actionable findings; all9files, hashes, case contracts and LF normalization verified.",
+    "full_validation_marker": "HOW_TO_GROW_VALIDATION=PASSED",
+    "report": "tmp/reference-activation-20261020/validation/report.md",
+    "scope": "Local source/runtime verification; no phone, APK, GitHub push or release in this step."
+  },
+  "native_canopy": {
+    "frames": [
+      {
+        "area": [
+          432,
+          451
+        ],
+        "burst": 0.0,
+        "opaque_outside_before": 0,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 91
+      },
+      {
+        "area": [
+          432,
+          451
+        ],
+        "burst": 0.7114,
+        "opaque_outside_before": 0,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 76
+      },
+      {
+        "area": [
+          432,
+          365
+        ],
+        "burst": 0.0,
+        "opaque_outside_before": 0,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 14
+      },
+      {
+        "area": [
+          432,
+          365
+        ],
+        "burst": 0.7114,
+        "opaque_outside_before": 3,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 6
+      },
+      {
+        "area": [
+          410,
+          363
+        ],
+        "burst": 0.0,
+        "opaque_outside_before": 0,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 14
+      },
+      {
+        "area": [
+          410,
+          363
+        ],
+        "burst": 0.7114,
+        "opaque_outside_before": 6,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 6
+      },
+      {
+        "area": [
+          360,
+          300
+        ],
+        "burst": 0.0,
+        "opaque_outside_before": 0,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 12
+      },
+      {
+        "area": [
+          360,
+          300
+        ],
+        "burst": 0.7114,
+        "opaque_outside_before": 2,
+        "opaque_outside_after": 0,
+        "alpha_outside_after": 0,
+        "top_after": 5
+      }
+    ],
+    "idle_and_roomy_frames_pixel_identical": true,
+    "simulation_unchanged": true
+  },
+  "independent_workshop_review": "No actionable defects found in bounded completion waits.",
+  "pending": [],
+  "trailer": "Unchanged; user explicitly excluded re-recording.",
+  "device_test": "Not performed; not part of this step.",
+  "publishing": "No commit, push or release in this step.",
+  "checks_before_reference_activation": {
+    "functional_marker": "MVP_TESTS_PASSED=7898",
+    "focused": "FOLLOWUP_CHECKS=142 failures=0",
+    "visual_counts": {
+      "passed": 25,
+      "failed": 9,
+      "reported": 20
+    },
+    "new_failing_cases": [],
+    "references_thresholds_unchanged": true,
+    "visual_failures": [
+      {
+        "id": "phase149-player-room-exact-target",
+        "metrics": {
+          "mean_abs_error": 62.533513,
+          "rmse": 85.249709,
+          "maximum_error": 255,
+          "changed_ratio": 0.939355
+        },
+        "threshold_failures": [
+          "mean_abs_error=62.533513 > 10.000000",
+          "rmse=85.249709 > 28.000000",
+          "changed_ratio=0.939355 > 0.350000"
+        ]
+      },
+      {
+        "id": "phase158-player-room-empty-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 48.910832,
+          "rmse": 74.611922,
+          "maximum_error": 255,
+          "changed_ratio": 0.785446
+        },
+        "threshold_failures": [
+          "mean_abs_error=48.910832 > 4.000000",
+          "rmse=74.611922 > 12.000000",
+          "changed_ratio=0.785446 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase159-player-room-cloche-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.049036,
+          "rmse": 74.664352,
+          "maximum_error": 255,
+          "changed_ratio": 0.788737
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.049036 > 4.000000",
+          "rmse=74.664352 > 12.000000",
+          "changed_ratio=0.788737 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase163-rack-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 5.590322,
+          "rmse": 29.324164,
+          "maximum_error": 255,
+          "changed_ratio": 0.054311
+        },
+        "threshold_failures": [
+          "mean_abs_error=5.590322 > 4.000000",
+          "rmse=29.324164 > 12.000000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-clean-floor-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.079049,
+          "rmse": 75.727871,
+          "maximum_error": 255,
+          "changed_ratio": 0.791558
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.079049 > 4.000000",
+          "rmse=75.727871 > 12.000000",
+          "changed_ratio=0.791558 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-sparse-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.36817,
+          "rmse": 74.999993,
+          "maximum_error": 255,
+          "changed_ratio": 0.786017
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.368170 > 4.000000",
+          "rmse=74.999993 > 12.000000",
+          "changed_ratio=0.786017 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-phone-save-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 49.021676,
+          "rmse": 74.822923,
+          "maximum_error": 255,
+          "changed_ratio": 0.786772
+        },
+        "threshold_failures": [
+          "mean_abs_error=49.021676 > 4.000000",
+          "rmse=74.822923 > 12.000000",
+          "changed_ratio=0.786772 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-full-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.010159,
+          "rmse": 75.696074,
+          "maximum_error": 255,
+          "changed_ratio": 0.789335
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.010159 > 4.000000",
+          "rmse=75.696074 > 12.000000",
+          "changed_ratio=0.789335 > 0.060000"
+        ]
+      },
+      {
+        "id": "phase167-player-room-full-cloche-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 50.071638,
+          "rmse": 75.723989,
+          "maximum_error": 255,
+          "changed_ratio": 0.791228
+        },
+        "threshold_failures": [
+          "mean_abs_error=50.071638 > 4.000000",
+          "rmse=75.723989 > 12.000000",
+          "changed_ratio=0.791228 > 0.060000"
+        ]
+      }
+    ]
+  }
+}

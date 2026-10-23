@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-11",
+  "functional_checks": 7516,
+  "native_capture": "WORKSHOP_CLARITY_NATIVE_CAPTURE=PASSED",
+  "native_widths": [
+    360,
+    432
+  ],
+  "approved_art_and_animation_unchanged": true,
+  "android_package": "com.howtogrow.game.wheeltest",
+  "android_api": 36,
+  "android_abi": "x86_64",
+  "android_render_size": [
+    1080,
+    2400
+  ],
+  "source_apk_sha256": "7FE42FB5BA353D545B5DA98207368E59EA4C87F57FC6C2B28C6F66B63E697280",
+  "private_apk_sha256": "30AC31EC250A49A805440F49475EEE481C957AC127B9E99F136CF6E64BA370F1",
+  "android_double_tap_once": true,
+  "android_tap_after_healing_spends_nothing": true,
+  "android_healed_target_kept_visible": true,
+  "android_explicit_target_selection_verified": true,
+  "android_craft_persisted_after_restart": true,
+  "coins_after_restart": 38,
+  "rosemary_g_after_restart": 2.0,
+  "selected_plant_health_after_restart": 90.0098662439903,
+  "other_plant_health_after_restart": 55.0098662439909,
+  "video_seconds": 8.4333,
+  "physical_phone_tested": false,
+  "personal_profile_used": false,
+  "golden_references_modified": false,
+  "full_golden_suite_run": false,
+  "published": false,
+  "source_sha256": {
+    "scripts/ui/workshop_modal.gd": "a7a799d3b5108fe1f20bd72220242dceb98963a1a3abfdfeb80b296eca22d255",
+    "scripts/workshop_recipes.gd": "8bbe80865370f75610dffe5750dccbe02bfb112426b6f8a0f9d577e8a20bee32",
+    "tests/workshop_test.gd": "a1d03c8fc3bd92e5b3dbb0918d1e1340b92c0108bde6982d477390dded2d3913"
+  }
+}

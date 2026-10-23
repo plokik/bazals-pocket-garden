@@ -1,0 +1,28 @@
+{
+  "touch_route": [
+    "room",
+    "rack",
+    "greenhouse_exterior",
+    "garden_decoration_shop",
+    "back",
+    "door_interior",
+    "back",
+    "shop"
+  ],
+  "disabled_purchase_taps": 3,
+  "wallet_preserved": true,
+  "before_schema": 45,
+  "after_schema": 46,
+  "preserved_fields": {
+    "coins": true,
+    "owned_room_decorations": true,
+    "room_decoration_slots": true,
+    "seed_inventory": true,
+    "workshop_products": true,
+    "equipment_levels": true
+  },
+  "new_cosmetic_not_granted_for_free": true,
+  "runtime_script_or_java_or_shader_errors": false,
+  "paid_success_tested_in_native_godot": true,
+  "paid_success_tested_on_android": false
+}

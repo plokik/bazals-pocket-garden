@@ -1,0 +1,28 @@
+{
+  "checks": 563,
+  "demo": false,
+  "effects": {
+    "max_blooms": 12,
+    "max_particles": 84,
+    "model_unchanged": true,
+    "visible_particles": 56
+  },
+  "failures": [],
+  "gpu_cup_pixels": {
+    "alpha_changes": 0,
+    "changed": 4229,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "motion": {
+    "clipped_partial_cases": 32,
+    "overlapping_chains": [
+      6,
+      3
+    ],
+    "overlapping_herb": 2
+  },
+  "phone_tested": false,
+  "saves_accessed": false
+}

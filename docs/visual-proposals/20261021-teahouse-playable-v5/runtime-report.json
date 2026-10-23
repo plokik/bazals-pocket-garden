@@ -1,0 +1,78 @@
+{
+  "branch": {
+    "max_displacement": [
+      84.5826644897461,
+      78.1465835571289
+    ],
+    "max_stride": [
+      0.997921817649783,
+      0.997362610255228
+    ],
+    "minimum_body_clearance": 8.80157852172852,
+    "model_unchanged": true,
+    "sampled_poses": 642,
+    "sheen": {
+      "changed": 7973,
+      "clear_corner_samples": 56,
+      "isolated_bugs": {
+        "center_samples": [
+          9,
+          9
+        ],
+        "changed_pixels": 0,
+        "visible_pixels": 461
+      },
+      "model_unchanged": true,
+      "new_halo_pixels": 1000,
+      "outside_component": 0,
+      "periodic": true,
+      "rectangle_artifacts": 0
+    }
+  },
+  "checks": 659,
+  "demo": false,
+  "effects": {
+    "max_blooms": 12,
+    "max_particles": 84,
+    "model_unchanged": true,
+    "visible_particles": 56
+  },
+  "failures": [],
+  "gpu_cup_pixels": {
+    "alpha_changes": 0,
+    "changed": 4230,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "gpu_skin_pixels": {
+    "distinct_colors": [
+      13672,
+      9370,
+      5589,
+      1269,
+      6464
+    ],
+    "outside_requested_bounds": 0,
+    "source_unchanged": true,
+    "transparent_token_corners": 4,
+    "visible_pixels": [
+      152798,
+      50390,
+      24624,
+      2263,
+      17420
+    ]
+  },
+  "motion": {
+    "clipped_partial_cases": 32,
+    "overlapping_chains": [
+      6,
+      3
+    ],
+    "overlapping_herb": 2
+  },
+  "phone_tested": false,
+  "recording": {},
+  "saves_accessed": false
+}

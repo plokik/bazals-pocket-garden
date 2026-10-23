@@ -1,0 +1,47 @@
+[
+  {
+    "file": "lavender-sachet-v1.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "transparent_pixels": 940566,
+    "semi_transparent_pixels": 631310,
+    "alpha_bbox": [
+      0,
+      23,
+      1214,
+      1254
+    ]
+  },
+  {
+    "file": "mint-lemonbalm-tea-v1.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "transparent_pixels": 773965,
+    "semi_transparent_pixels": 797677,
+    "alpha_bbox": [
+      0,
+      17,
+      1230,
+      1254
+    ]
+  },
+  {
+    "file": "herbal-gift-v1.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "transparent_pixels": 809477,
+    "semi_transparent_pixels": 762353,
+    "alpha_bbox": [
+      77,
+      39,
+      1240,
+      1254
+    ]
+  }
+]

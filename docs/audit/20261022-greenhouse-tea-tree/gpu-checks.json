@@ -1,0 +1,12 @@
+{
+  "wind_changed_pixels": 14551,
+  "outside_canopy_changed_pixels": 0,
+  "protected_pixel_max_difference": {
+    "pot_and_trunk_base": 0,
+    "door_and_handle": 0,
+    "left_window_post": 0,
+    "inner_window_post": 0,
+    "window_crossbar": 0
+  },
+  "reduced_motion_bit_identical": true
+}

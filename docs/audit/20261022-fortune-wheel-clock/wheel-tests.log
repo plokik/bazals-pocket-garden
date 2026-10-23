@@ -1,0 +1,108 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+[OK] Kolo: 1 zdarma a 2 reklamní otočení, reset o půlnoci UTC
+[OK] Kolo: odmítá neznámý druh otočení
+[OK] Kolo: bez zápisu nevznikne rezervace
+[OK] Kolo: uloží rezervaci bez odečtení tahu
+[OK] Kolo: dvojklik nezmění pevný výsledek
+[OK] Kolo: selhání zápisu vrátí odměnu i počítadla
+[OK] Kolo: opakování po chybě zachová výsledek a uloží jeden tah
+[OK] Kolo: nelze zopakovat již připsanou odměnu ani zdarma otočit podruhé
+[OK] Kolo: rezervace reklamního otočení 0
+[OK] Kolo: zavření reklamy samo o sobě neodměňuje
+[OK] Kolo: odmítá cizí callback
+[OK] Kolo: SDK earned callback připíše právě jeden tah
+[OK] Kolo: duplicitní reklamní callback nic nepřidá
+[OK] Kolo: rezervace reklamního otočení 1
+[OK] Kolo: zavření reklamy samo o sobě neodměňuje
+[OK] Kolo: odmítá cizí callback
+[OK] Kolo: SDK earned callback připíše právě jeden tah
+[OK] Kolo: duplicitní reklamní callback nic nepřidá
+[OK] Kolo: čtvrté otočení je odmítnuto
+[OK] Kolo: restart zachová vyčerpaný den a poslední potvrzení
+[OK] Kolo: posun hodin zpět neobnoví den
+[OK] Kolo: sekundu před půlnocí se nic neresetuje
+[OK] Kolo: přesně o půlnoci nové 3 tahy
+[OK] Kolo: neztratí rezervaci při chybě zápisu zrušení
+[OK] Kolo: přerušená reklama neodečte otočení
+[OK] Kolo: reklamní rezervace zachová identitu i výsledek po restartu
+[OK] Kolo: reklama dokončená přes půlnoc se započítá do nového dne právě jednou
+[OK] Kolo: sektor 0 udělí přesnou existující odměnu
+[OK] Kolo: sektor 1 udělí přesnou existující odměnu
+[OK] Kolo: sektor 2 udělí přesnou existující odměnu
+[OK] Kolo: sektor 3 udělí přesnou existující odměnu
+[OK] Kolo: sektor 4 udělí přesnou existující odměnu
+[OK] Kolo: sektor 5 udělí přesnou existující odměnu
+[OK] Kolo: sektor 6 udělí přesnou existující odměnu
+[OK] Kolo: sektor 7 udělí přesnou existující odměnu
+[OK] Kolo: migrace schema 42 zachová zásoby a ignoruje podstrčený nový klíč
+[OK] Kolo: trvale zachovává vlastní hranici schema 43 i v pozdějších save
+[OK] Kolo: poškozený vstup je bezpečně omezen
+[OK] Kolo: poškozený vstup je bezpečně omezen
+[OK] Kolo: poškozený vstup je bezpečně omezen
+[OK] Kolo: poškozený vstup je bezpečně omezen
+[OK] Kolo: poškozený vstup je bezpečně omezen
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/false)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (free/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/true)
+[OK] Kolo čas: neplatný čas rezervace nic nezmění ani neukládá (ad/true)
+[OK] Kolo čas: kontrola neplatného předání začíná platnou rezervací free
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu free
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu free
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu free
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu free
+[OK] Kolo čas: po neplatném čase lze stejnou rezervaci správně dokončit free
+[OK] Kolo čas: kontrola neplatného předání začíná platnou rezervací ad
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu ad
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu ad
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu ad
+[OK] Kolo čas: neplatný čas předání zachová identitu, výsledek i zásoby bez zápisu ad
+[OK] Kolo čas: po neplatném čase lze stejnou rezervaci správně dokončit ad
+[OK] Kolo čas: volné otočení lze rezervovat těsně před půlnocí
+[OK] Kolo čas: půlnoc zachová rozpracované volné otočení a sama neudělí odměnu
+[OK] Kolo čas: selhání uložení po půlnoci zachová celé rozpracované otočení
+[OK] Kolo čas: volné otočení přes půlnoc přidá jednu přesnou odměnu a spotřebuje volný tah nového dne
+[OK] Kolo čas: opožděný dvojí callback ani další volný tah nezopakují půlnoční odměnu
+[OK] Kolo čas: několik offline dnů obnoví jen aktuální tři tahy bez bankování odměn
+[OK] Kolo čas: návrat hodin po vícedenním skoku neotevře další den ani tah
+[OK] Kolo: dialog blokuje ostatní ovládání
+[OK] Kolo: systémové Zpět vrátí hráče do dílny
+[OK] Kolo: druhé kliknutí během animace neudělí druhou odměnu
+[OK] Kolo: omezený pohyb skončí a ukáže výsledek
+[OK] Kolo: ukazatel zastaví na vyhraném sektoru
+[OK] Kolo: desktop nepředstírá reklamní odměnu
+[OK] Kolo UI: chyba reklamy neodečte tah a obnoví ovládání
+[OK] Kolo UI: hráč může zrušit načítání reklamy bez ztráty tahu
+[OK] Kolo UI: návrat z reklamy nepřekryje výhru souhrnem zahrady
+[OK] Kolo UI: read-only obnova neodešle potvrzení ani neudělí odměnu
+[OK] Kolo UI: odměna uložena jednou, animace počká na zavření reklamy
+[OK] Kolo UI: po reklamě proběhne roztočení a návrat ovládání
+[OK] Kolo UI: odložený souhrn se ukáže až po zavření kola
+[OK] Kolo UI: chybný zápis neodstraní nativní potvrzení odměny
+[OK] Kolo UI: opakování zápisu dokončí poslední tah a zablokuje čtvrtý
+[OK] Kolo UI: opožděný callback nemůže odměnit novou nebo importovanou hru
+[OK] Kolo odpočet: launcher i dialog ukazují stejný zbývající čas zaokrouhlený nahoru a explicitní UTC půlnoc
+[OK] Kolo odpočet: sekundy skutečně ubývají nezávisle na pauze a rychlosti simulace
+[OK] Kolo odpočet: ani poslední zlomek sekundy neukáže předčasně dostupný reset
+[OK] Kolo odpočet: přesná půlnoc překlopí jednu sekundu na 24 hodin a obnoví 1+2 otočení
+[OK] Kolo odpočet: návrat po několika offline dnech přepočte právě současný den
+[OK] Kolo odpočet: při vrácení hodin neukáže dostupný tah a více než 24 hodin neobtéká
+[OK] Kolo odpočet: skutečný font dvou řádků včetně sekund se vejde do celého launcheru
+[OK] Kolo odpočet: běh času, půlnoc a rollback nepřidávají mince, semínka, XP ani jiné herní odměny
+[OK] Kolo odpočet: návrat z pozadí synchronně obnoví den i živý text bez čekání na čtvrtsekundový tick
+[OK] Kolo odpočet: ani synchronní resume samo neuděluje odměnu
+[OK] Kolo odpočet: test obnoví celý model a původní nastavení bez zásahu do starších scénářů
+FORTUNE_CLOCK_CHECKS=104 FAILURES=0

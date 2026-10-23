@@ -1,0 +1,10 @@
+{
+  "source_frames": 60,
+  "encoded_frames": 60,
+  "duration_ms": 2850,
+  "bytes": 2562708,
+  "native_capture": true,
+  "real_touch": true,
+  "effect_seconds": 0.72,
+  "handle_seconds": 0.56
+}

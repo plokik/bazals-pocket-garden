@@ -1,0 +1,10 @@
+Precise minimal layout edit of the provided portrait hand-painted teahouse UI concept.
+The supplied image is the EDIT TARGET. Make only this requested change: move the ENTIRE footer control group straight down by approximately 48 pixels in the 840-by-1871 original (about 2.6% of the image height).
+The group consists of:
+- the long cream instruction plaque "Spoj alespoň 3 stejné bylinky jedním tahem."
+- the two green buttons "NÁPOVĚDA" and "ZKUSIT ZNOVU".
+Translate all three elements down by exactly the same distance. Keep their widths, heights, artwork, lettering, font size, shading and horizontal positions identical. Keep the gap between the plaque and the buttons identical. The larger gap should be BETWEEN the bottom of the herb sorting tray and the top of the instruction plaque.
+Copy the original group faithfully; do not restyle, enlarge, shrink or rewrite anything.
+Fill the vacated strip above the translated plaque with the same continuous warm wooden tabletop texture, natural wood grain and matching lighting. Preserve the cream cloth at far left and cup rim at far right. Keep ample room beneath the lowered buttons.
+Everything else in the image must remain unchanged: all 36 tiles in their exact existing pattern, wooden tray position and size, herbs, professor, upper cards, window background, light, colors, complete portrait dimensions and framing.
+Do not shift the board or any upper UI. No additional text, icons, decorations, footer, recipe selector buttons, changes to the tile pattern, or crop. Only show the final full portrait game-screen concept with the lower group moved down.

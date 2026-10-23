@@ -1,0 +1,10 @@
+{
+  "checks": 20,
+  "demo": true,
+  "effects": {},
+  "failures": [],
+  "gpu_cup_pixels": {},
+  "motion": {},
+  "phone_tested": false,
+  "saves_accessed": false
+}

@@ -1,0 +1,46 @@
+{
+  "mode": "builtin_imagegen",
+  "approval": "AWAITING_USER_VISUAL_REVIEW",
+  "production_pngs_edited": false,
+  "assets": [
+    {
+      "path": "assets/pets/garden_cat_v1/cat_actions_v1.png",
+      "sha256": "0a21279ca839d1555725178a53fc79a2bb3d75d87f9200969a8ee17444eae3a8",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "path": "assets/pets/garden_cat_v1/cat_corner_v1.png",
+      "sha256": "0349afd59cda9e21448c532453e489f55c2f7c77c5ccd1656d2c8330b43d9994",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    },
+    {
+      "path": "assets/pets/garden_cat_v1/cat_poses_v1.png",
+      "sha256": "65239fca1202b684701ef133d740a6e315596f52aeef0b4337e5c0a0c2d0fc6b",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    }
+  ]
+}

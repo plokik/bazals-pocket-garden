@@ -1,0 +1,74 @@
+[
+  {
+    "state": "mint-ready",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "rosemary-ready",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "rosemary-rest",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "mint-ready",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "rosemary-ready",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  },
+  {
+    "state": "rosemary-rest",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "identical": true,
+    "mean_rgb_error": 0.0
+  }
+]

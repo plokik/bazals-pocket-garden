@@ -1,0 +1,61 @@
+{
+  "status": "AWAITING_USER_LAYOUT_REVIEW",
+  "cat_width_before": 76,
+  "cat_width_now": 110,
+  "scale_increase_percent": 44.74,
+  "bed_width_max": 180,
+  "foreground_anchor": [
+    0.4,
+    16
+  ],
+  "resting_places": "Alternates carpet/bed by walking back after each stroll",
+  "core_regression_checks": 6976,
+  "final_cat_acceptance_checks": 26,
+  "capture_sizes": [
+    [
+      432,
+      960
+    ],
+    [
+      360,
+      800
+    ]
+  ],
+  "original_pngs_modified": false,
+  "protected_references_modified": false,
+  "protected_visual_suite_rerun_for_this_resize": false,
+  "artifacts": [
+    {
+      "path": "before-after.png",
+      "sha256": "cff771efb493fdbdb683d654e00f5575679d2f3a09024abc655980963803fd41"
+    },
+    {
+      "path": "cat-greenhouse-360.png",
+      "sha256": "5fd3fff864ce0113a4d7c6a6b7a85c3da35fdb92fed62a66e5bb212205b3433c"
+    },
+    {
+      "path": "cat-greenhouse-432.png",
+      "sha256": "ceb0720483d62e1ce294b91e68da5248cfeb6601499e864151cf6cab99a2d787"
+    },
+    {
+      "path": "cat-player_room-360.png",
+      "sha256": "d15cb28db9f51f9644d27459db42e168551a69a98b69e66b13c8b2978ff51e8a"
+    },
+    {
+      "path": "cat-player_room-432.png",
+      "sha256": "36a77a1a5967c912e050c043c6c0602a543a0561c79a761c4bdf82134b9ca959"
+    },
+    {
+      "path": "cat-rack-360.png",
+      "sha256": "bf9f7514baeed9abeddd12ec245e2d712cc7d3922f5308c71d73770513430b18"
+    },
+    {
+      "path": "cat-rack-432.png",
+      "sha256": "6fd5735fd1f238e055a208bc60627ea46f97efac7de095693983bb1f4e57d278"
+    },
+    {
+      "path": "bigger-cat-animation.gif",
+      "sha256": "593c47455ce71a204967e14e5a9ec0685b33fc977b67a250abd3b0d08fce9ec9"
+    }
+  ]
+}

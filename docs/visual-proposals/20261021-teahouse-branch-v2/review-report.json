@@ -1,0 +1,10 @@
+{
+  "all_bug_silhouettes_within_component": true,
+  "background": "res://docs/visual-proposals/20261021-teahouse-footer-spacing-v5b/cajovna-v5b-odstup-pod-deskou.png",
+  "both_bugs_moved": true,
+  "duration_seconds": 12,
+  "fps": 30,
+  "frames": 360,
+  "kind": "animated_art_review_not_gameplay",
+  "source_component": "res://prototypes/teahouse/tea_branch_ambient.gd"
+}

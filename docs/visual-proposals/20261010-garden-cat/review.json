@@ -1,0 +1,43 @@
+{
+  "status": "AWAITING_USER_VISUAL_REVIEW",
+  "runtime": "Godot 4.7 gl_compatibility on PC, isolated APPDATA",
+  "functional_checks": 6976,
+  "new_cat_checks": 26,
+  "visual_gates": 34,
+  "visual_gates_passed": 34,
+  "reference_changes": false,
+  "native_render_size": [
+    864,
+    1920
+  ],
+  "preview_speed_note": "Long resting pauses shortened for demonstration.",
+  "github_uploaded": false,
+  "emulator_installed": false,
+  "assets": [
+    {
+      "path": "cat-greenhouse-walk.png",
+      "sha256": "36a74b452b10883a5f51bc3d0a8c724f440e083febfd1df504abe561bf00e42a",
+      "bytes": 3321564
+    },
+    {
+      "path": "cat-rack-walk.png",
+      "sha256": "279325fcd3ee3c3df90f337963a8b725f27382c47d1765e2ea974d1a0c1dca05",
+      "bytes": 3016949
+    },
+    {
+      "path": "cat-room-sleep.png",
+      "sha256": "06c29cf062ae8b535e32ca4f5f70494f9db2d7f807d55e6309cbd86dd75ddd89",
+      "bytes": 3300083
+    },
+    {
+      "path": "cat-behaviors.gif",
+      "sha256": "3bcb505aa4c471303cf75137244d3138708e66ea6f7a7685a8252eebce146e43",
+      "bytes": 1769116
+    },
+    {
+      "path": "cat-gameplay.gif",
+      "sha256": "f017111035b63f39a436697b2ef551fc7990db1a63f604bd917bbcddd0748f86",
+      "bytes": 1242575
+    }
+  ]
+}

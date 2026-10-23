@@ -1,0 +1,26 @@
+[
+  {
+    "width": 360,
+    "changed_pixels_above_2": 4365,
+    "changed_ratio": 0.020036170681551117,
+    "bounds_in_dialog_crop": [
+      54,
+      248,
+      225,
+      385
+    ],
+    "mean_rgb_error": 0.21799873922835877
+  },
+  {
+    "width": 432,
+    "changed_pixels_above_2": 4365,
+    "changed_ratio": 0.01323818420031056,
+    "bounds_in_dialog_crop": [
+      90,
+      248,
+      261,
+      385
+    ],
+    "mean_rgb_error": 0.1440510562241201
+  }
+]

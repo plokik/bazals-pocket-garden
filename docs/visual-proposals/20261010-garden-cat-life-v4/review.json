@@ -1,0 +1,62 @@
+{
+  "status": "awaiting personal approval",
+  "version": "cat life v4",
+  "base_head": "ed58703fc93d9bd3f7cd7e0545a774b05748f7f7",
+  "full_functional_checks": 7012,
+  "cat_checks": 62,
+  "viewport_touch": "passed",
+  "native_capture_frames": 378,
+  "raw_visual": {
+    "passed": 27,
+    "failed": 7,
+    "failed_cases": [
+      "phase158-player-room-empty-runtime-approved",
+      "phase159-player-room-cloche-runtime-approved",
+      "phase167-player-room-clean-floor-runtime-approved",
+      "phase167-player-room-sparse-runtime-approved",
+      "phase167-player-room-phone-save-runtime-approved",
+      "phase167-player-room-full-runtime-approved",
+      "phase167-player-room-full-cloche-runtime-approved"
+    ],
+    "status": "FAILED"
+  },
+  "background_only_visual": {
+    "passed": 34,
+    "total": 34,
+    "status": "PASSED"
+  },
+  "reference_policy": "unchanged PNGs, masks, manifest and thresholds",
+  "original_cat_sha256": {
+    "cat_actions_v1.png": "0a21279ca839d1555725178a53fc79a2bb3d75d87f9200969a8ee17444eae3a8",
+    "cat_corner_v1.png": "0349afd59cda9e21448c532453e489f55c2f7c77c5ccd1656d2c8330b43d9994",
+    "cat_poses_v1.png": "65239fca1202b684701ef133d740a6e315596f52aeef0b4337e5c0a0c2d0fc6b"
+  },
+  "new_atlas_sha256": "033188ac1d66f4176fe819a9964dffed58ccad47fe3c8286ba393d5c82b78314",
+  "component_sha256": "fe974f0609d4d5e2f9561616890a588b527ae74015964027801ff3ff6b37c071",
+  "apk_sha256": "83c234c124fcf26f3e4308d000b05e79925e5e533ed08127af2cf11644b35041",
+  "emulator": "Bazal_Current_Source_API36:5556",
+  "installed_with": "adb install -r",
+  "save_unchanged_at_install": true,
+  "save_hashes_before_install": {
+    "how_to_grow_save.json": "60d8f860e6c0965830e34e6724e91a9755c0a0e7ce45385260de9696446b767f",
+    "how_to_grow_save.backup.json": "f1ad4c0fd392099b0a2779ced92557338a3825b73a5a0c3df44b0f92f80182d0"
+  },
+  "android_ui_pet_test": "observed sleeping cat wake and sit after click",
+  "android_runtime_errors": false,
+  "phone_tested": false,
+  "github_published": false,
+  "release_created": false,
+  "artifacts": {
+    "android-pohlazeni.png": "8b28aa835b21ab8d4655a65eb40fbd6216afc5412d463b0cbbb217149500b649",
+    "detail-sniff.png": "9cf38908d4c7e4865d0dbe8871c2d720512779844d6bfface0f08072544a88a1",
+    "napiti.gif": "52eb225cd74a6addb259319d0108d773551e23b7772db69cf47d3d5a51235c98",
+    "ocichani.gif": "577a822550c9d3702cc030e82494df56d7c3a3d447457af6721da8f594f00ae1",
+    "pohlazeni-a-spanek.gif": "dd4542abca27a74aa7ee239b58f61d45afa858b320ee7ca5030679b933d4338d",
+    "prehled.png": "421a042dd0599c0936f6870ab4847464b5920cdc0df02f64fc4ae7e1bbd87616",
+    "REVIEW.md": "8654a32ae03fc661b63d0151b18d7385510768d849e839a65ead17b6b91aa9c0",
+    "room-drink-360.png": "8990e61eaf5cb127c2b52535332267582cc5f93e830248d3971fcccfdf8bc5c6",
+    "room-drink-432.png": "3162a973ca0141cbc12fdaaf64b37820ea237167d340e5218c4a3097e45a7d5c",
+    "room-sleep.png": "744f9ac0fa7d3847b7d4918178172dd82077fbca967d8426e96898ea9f42327d",
+    "touch-greet.png": "0f4ceee9cdf0c889741b92cf9923bd3a2cef99256f27af6249260869281afe3e"
+  }
+}

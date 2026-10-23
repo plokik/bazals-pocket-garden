@@ -1,0 +1,26 @@
+BAZAL — FILMOVÝ ÚVOD, NÁVRH 1
+
+Ke schválení: tři propojené úvodní scény, bez dabingu a bez hudební stopy.
+Zůstávají pouze jemné efekty listování, semínka, vody a potvrzení.
+
+1. Profesor přivítá hráče a ukáže semínko.
+2. Detail ruky a květináče představí první sázení.
+3. Profesor ukáže vodu, světlo a čas; zadá úkol zasadit bazalku.
+
+Skutečné obrazovky hry tvoří podklad. Ztlumení a rozostření potlačí jejich
+ovládání a zvýrazní profesora s animovaným textem. Gesto používá 12 kreslených
+snímků; nejde pouze o houpání původního portrétu.
+
+V interaktivním náhledu můžeš text ihned dokončit klepnutím, pokračovat,
+přeskočit úvod a vypnout zvuky. Vlastní tempo čtení není časově omezené.
+Video ukazuje stejné scény automaticky, přibližně 36 sekund.
+
+Změny nejsou zapojené do běžné nové hry a nepracují s uloženým postupem.
+Nejde o nový release ani instalaci na telefon. Po schválení této režie lze
+napojit stejný jazyk scén na skutečné úkony prvního pěstování.
+
+Spuštění: Spustit-filmovy-navrh.ps1, samostatná kopie projektu a vlastní profil.
+Náhled nemění schválené referenční snímky.
+
+Grafika profesora: vestavěný imagegen, původní profesor použit jako reference.
+Přesné prompty a původ assetů: asset-provenance.json.

@@ -1,0 +1,16 @@
+{
+  "shine": {
+    "source_frames": 90,
+    "encoded_frames": 90,
+    "duration_ms": 3600,
+    "bytes": 3674364,
+    "native_capture": true
+  },
+  "handle": {
+    "source_frames": 40,
+    "encoded_frames": 40,
+    "duration_ms": 1933,
+    "bytes": 1619770,
+    "native_capture": true
+  }
+}

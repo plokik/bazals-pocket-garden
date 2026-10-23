@@ -1,0 +1,61 @@
+{
+  "status": "awaiting_owner_visual_approval",
+  "date": "2026-10-21",
+  "approved_scope": "prototype_direction",
+  "owner_priority": "Hlavně vzhled a animace",
+  "scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "integration": "standalone_only",
+  "rules_and_scoring_changed": false,
+  "player_saves_accessed": false,
+  "phone_tested": false,
+  "github_published": false,
+  "excluded_from_all_three_android_exports": true,
+  "model_checks": 5099,
+  "runtime_checks": 300,
+  "gpu_cup_pixels": {
+    "alpha_changes": 0,
+    "changed": 4229,
+    "outside_bowl": 0,
+    "outside_cup": 0,
+    "source_unchanged": true
+  },
+  "main_functional_checks": 7955,
+  "approved_visual_gates_passed": 34,
+  "validation_report": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v2-validation-20261021\\report.md",
+  "post_export_filter_tests": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-v2-validation-20261021\\export-exclusion-tests.log",
+  "native_capture_stderr_bytes": 0,
+  "source_mirror_equal_files": 174,
+  "art_tool": "built-in imagegen",
+  "graphics": [
+    {
+      "png": "prototypes/teahouse/art/tea-cup-v2.png",
+      "prompt": "prototypes/teahouse/art/tea-cup-v2.prompt.txt"
+    },
+    {
+      "png": "prototypes/teahouse/art/tea-pot-v2.png",
+      "prompt": "prototypes/teahouse/art/tea-pot-v2.prompt.txt"
+    }
+  ],
+  "deferred": [
+    "owner visual approval",
+    "main-game integration",
+    "inventory and reward economy",
+    "additional guests",
+    "Android device verification"
+  ],
+  "sha256": {
+    "prototypes/teahouse/art/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "prototypes/teahouse/art/tea-cup-v2.prompt.txt": "25b77704c8ab9c01649df6322b43ac9acf3b6cdff04822777c569077f616c1ea",
+    "prototypes/teahouse/tea_teaware_visual.gd": "fbdd2bce51aed87656a4dda21b28f9099ef8ff2c6d340e538eb2a47e21757d4e",
+    "prototypes/teahouse/art/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "prototypes/teahouse/tea_cup_fill.gdshader": "a3eddc8f29246a178c97359ff67726a4c4670940725b5b91506ffacf29aad10b",
+    "prototypes/teahouse/tea_board_model_test.gd": "be50c72dc8d7c39b087274323d8215b47ca4655971867134b85b2e1045d536db",
+    "prototypes/teahouse/art/herb-symbols-v1.prompt.txt": "7d7df443d2a65ceee96e102630ee1d89a2a514233239c982526c861f867bd471",
+    "prototypes/teahouse/art/tea-pot-v2.prompt.txt": "fe29dba1f9bb1d600c1ca9c25a27bf3bebba10d509a83dbe79ae6883e88107aa",
+    "prototypes/teahouse/tea_runtime_review.gd": "3eec92eb513fb13fcbbb0172bd037435d9866c405fc2e6ce0223f5320f853969",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350",
+    "prototypes/teahouse/tea_board_model.gd": "62810eb6fd26f0f4f512b0dbb606ede606a83f913a18c563d397901afa5cce84",
+    "prototypes/teahouse/tea_prototype.gd": "6ded05b51329b119d0898661eb20bf86cac7d0f2d77a5fab0bb34460d2658a3a",
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07"
+  }
+}

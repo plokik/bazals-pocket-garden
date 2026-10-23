@@ -1,0 +1,14 @@
+[
+  {
+    "width": 360,
+    "previous_mean_rgb_difference_from_off": 0.21799873922835877,
+    "current_mean_rgb_difference_from_off": 1.3314743071876223,
+    "relative_color_difference": 6.107715631294876
+  },
+  {
+    "width": 432,
+    "previous_mean_rgb_difference_from_off": 0.1440510562241201,
+    "current_mean_rgb_difference_from_off": 0.8797655441252589,
+    "relative_color_difference": 6.107317552441173
+  }
+]

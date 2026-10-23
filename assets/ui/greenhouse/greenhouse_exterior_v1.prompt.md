@@ -1,0 +1,10 @@
+# Greenhouse exterior v1
+
+Mode: built-in imagegen, opaque image, one production asset.
+Style reference: `assets/ui/visual/phase150/greenhouse/greenhouse_phase150_canonical_content_v1.png`.
+Production file: `greenhouse_exterior_v1.png`, original generated pixels, 938×1677.
+Status: implemented proposal awaiting personal visual approval.
+
+## Exact prompt
+
+Use case: stylized-concept. Asset type: portrait painted mobile-game background, greenhouse EXTERIOR entrance, for Bazal's Pocket Garden. The supplied image is ONLY a style/material reference for the existing greenhouse interior; do not copy its text or interface. Create the exterior of that same small cozy greenhouse: rich hand-painted cartoon illustration, clean dark contours, warm wooden foundations and amber timber details, deep forest-green metal/glass frame, pale sage-green reflections, bright spring foliage, golden soft sunlight. View from a garden path, nearly straight-on with a little depth visible on the right. The greenhouse occupies most of the central composition, roof complete and visible. One prominently CLOSED full-height glass door at the center of the front facade, with a readable warm brass handle and timber/green frame, framed by glass windows revealing soft silhouettes of plants inside. Door approximately x=39–64 percent, y=40–75 percent of the whole illustration. Quiet garden around it: a few terracotta pots of herbs and small white flowers at either side; a short stone path leads from bottom foreground to the door. Layered lush leaves in the top corners, airy softly painted sky at top, no crowding. Keep the center door unobscured and make it clearly the interactive destination. Detailed brush-painted textures and rounded friendly shapes matching the reference, saturated botanical greens with restrained warm highlights. Portrait composition, full bleed background. NO letters, labels, signs, interface, buttons, numbers, people, animals, watermark or logo. Top 15 percent and lower 12 percent remain visually calm for a small in-game header and hint. Do not change the visual style into photorealism, flat vector, or 3D render.

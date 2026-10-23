@@ -1,0 +1,7 @@
+Precise, minimal UI cleanup of the supplied portrait hand-painted teahouse concept. The supplied image is the EDIT TARGET. Preserve all the illustration above the bottom action buttons pixel-for-pixel as much as possible: same professor Bazal, window, lighting, recipes, title, exactly 6 rows x6 columns of herb tiles, tray, main cream instruction strip, NÁPOVĚDA and ZKUSIT ZNOVU buttons. Do NOT redraw the board, character, text or buttons. Keep full portrait dimensions and framing.
+Edit ONLY the area BELOW the NÁPOVĚDA / ZKUSIT ZNOVU buttons, approximately the lowest 11 percent of the portrait:
+- Completely remove the small helper sentence "Táhni přes stejné bylinky. Spojovat jde i šikmo."
+- Completely remove the three green recipe-selector chips "SVĚŽÍ", "KVĚTINOVÝ", "ZAHRADNÍ".
+- Completely remove the small footer "HRATELNÝ NÁVRH ..." and any similar prototype/Esc note.
+Fill just those removed UI areas with a seamless continuation of the existing warm hand-painted honey-wood tabletop, matching its wood grain, perspective and soft light. Preserve the cream cloth peeking in at the far left edge and existing right-edge cup rim where present. No new decorations or objects. Leave breathing room below the two real action buttons.
+No added text, no replacement controls, no new icons, no labels or captions. Do not crop the screen shorter. No alterations anywhere else.

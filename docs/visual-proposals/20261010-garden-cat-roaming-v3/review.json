@@ -1,0 +1,108 @@
+{
+  "status": "IMPLEMENTED_AWAITING_USER_MOTION_REVIEW",
+  "base_cat_art_approved_by_user": true,
+  "production_pngs_unchanged": true,
+  "cat_width": 110,
+  "locations": [
+    "player_room",
+    "rack",
+    "greenhouse",
+    "storage",
+    "shop",
+    "measurement",
+    "detail"
+  ],
+  "sleep_glyphs": "zzZZ",
+  "core_regression_checks": 6992,
+  "cat_acceptance_checks": 42,
+  "capture_sizes": [
+    [
+      432,
+      960
+    ],
+    [
+      360,
+      800
+    ]
+  ],
+  "raw_historical_reference_gates_passed": 27,
+  "raw_historical_reference_gates_failed": 7,
+  "raw_report_before_final_floor_and_glyph_placement_polish": true,
+  "background_only_gates_passed": 34,
+  "protected_references_modified": false,
+  "background_check_actor_disabled_only_in_isolated_capture": true,
+  "emulator_updated": true,
+  "emulator_save_hashes_unchanged_after_install": true,
+  "emulator_runtime_errors": false,
+  "phone_tested": false,
+  "github_uploaded": false,
+  "apk_path": "R:\\_projekty\\Bazal's Pocket Garden\\builds\\android\\bazals-pocket-garden-cat-roaming-v3-emulator-debug.apk",
+  "apk_sha256": "09a954702739ed6779b7f0899732cc3266696594be0b8705e7429374dec4beb7",
+  "component_sha256": "84611e50c6b3ba7813b75277e305cc6db2ade4f13f77dee0ccc3155a7067dc10",
+  "artifacts": [
+    {
+      "path": "cat-detail-360.png",
+      "sha256": "b847bbfb29b7f0a30e7598ef1ad5c25637561a35f29ab33aff658ee5ce6b6a7d"
+    },
+    {
+      "path": "cat-detail-432.png",
+      "sha256": "1a8f624f89b19512e2aba2d4e7d49570070f3b24e6abc03b85a4b849c94aa68f"
+    },
+    {
+      "path": "cat-greenhouse-360.png",
+      "sha256": "1d711feb39bc2786b2b098edff56b74a2d8d6e8d30bde389c73c5ba0b070c313"
+    },
+    {
+      "path": "cat-greenhouse-432.png",
+      "sha256": "8ab098fe41ab6955aedc0b96d4a367b9c16fefc296a49ef3c1e1aa4879c9b98b"
+    },
+    {
+      "path": "cat-measurement-360.png",
+      "sha256": "9c34e697946cbb7cc9dab9a87204d1c19169fd46bbbad003f07732e4ccae52d9"
+    },
+    {
+      "path": "cat-measurement-432.png",
+      "sha256": "6b7e4155dbec4bbb2a5c5746ba507027723ce995b151e70084f1dcfa05f231cd"
+    },
+    {
+      "path": "cat-player_room-360.png",
+      "sha256": "6953804e90759700fec5c093db75b5d4b2b144b3bc7677c7fc313c9c221f6da8"
+    },
+    {
+      "path": "cat-player_room-432.png",
+      "sha256": "d36699b0b5d1155f7e0ba8fec41fa1d18c50314316e083cdfd6f3c685b0605f6"
+    },
+    {
+      "path": "cat-rack-360.png",
+      "sha256": "82fa48acba4c13dfa9f0ff6827b2ee1f772f8e199411034590c7a2cfa3c7b422"
+    },
+    {
+      "path": "cat-rack-432.png",
+      "sha256": "c114c318cc36116e10df95906b08c17f2889327f57b00251070366053fa69dc0"
+    },
+    {
+      "path": "cat-shop-360.png",
+      "sha256": "6ff11a0b622f6778fe269e02fd941b362c073602c7903c5ff68cdea59e124cda"
+    },
+    {
+      "path": "cat-shop-432.png",
+      "sha256": "85402b77aaa68ef4ba56916b54d19efaf99bacca3540a0ef060e26ffc32d84f7"
+    },
+    {
+      "path": "cat-storage-360.png",
+      "sha256": "9d98825fc7faf35a359cc5329270354ffecd63c148bdebbe14ee601329056f88"
+    },
+    {
+      "path": "cat-storage-432.png",
+      "sha256": "2a7b5bf89c03990f445d55955193af25f066fb5614f57ffb628017c5397edbab"
+    },
+    {
+      "path": "new-routes.png",
+      "sha256": "c4b033cb1fcaf21dadf16662eb547961c6f475c318f002aa68452e571218fd42"
+    },
+    {
+      "path": "sleep-zzz.gif",
+      "sha256": "db6fc6889a6df6b748e3becfe8d76a5263b50421128ec113b6a418c826d92c2f"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+[OK] Čajovna integrace: bez otevřené dílny nelze obejít přirozený vstup
+[OK] Čajovna integrace: skutečné kliknutí na pracovní stůl otevře původní dílnu
+[OK] Čajovna integrace: stránka výrobků neotevře hru před vstupem do čajovny
+[OK] Čajovna integrace: přirozená stránka čajovny nabízí schválený launcher
+[OK] Čajovna integrace: výroba v původním modalu nedovolí souběžné hraní
+[OK] Čajovna integrace: rozpracované výrobky blokují souběžný vstup
+[OK] Čajovna integrace: skutečný launcher otevře vloženou hru nad zachovanou dílnou
+[OK] Čajovna integrace: hlavní hra používá produkční vloženou scénu
+[OK] Čajovna integrace: schválené malované panely chrání neutrální materiál před dalším globálním přebarvením
+[OK] Čajovna integrace: kolo blokuje globální swipe, stojan a podkladové ovládání
+[OK] Čajovna integrace: převezme klidný režim a vypnuté SFX bez druhé hudební vrstvy
+[OK] Čajovna integrace: skutečný dlouhý horizontální swipe neovládne podkladovou navigaci ani nespotřebuje tah
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: dvojí otevření nevytvoří druhou instanci ani neresetuje rozehrané kolo
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: mouse/touch tahy neprojdou do navigace a nezmění uloženou session
+[OK] Čajovna integrace: Escape uvolní hru a vrátí pouze do čajovny, nikoli z celé aplikace
+[OK] Čajovna integrace: návrat obnoví launcher a zachová původní dodávku i výrobky
+[OK] Čajovna integrace: opětovné otevření na rozměru (360, 800)
+[OK] Čajovna integrace: všechna viditelná tlačítka leží v bezpečné ploše (360, 800)/24.0/32.0
+[OK] Čajovna integrace: celá deska i všech 36 interaktivních středů zůstávají uvnitř (360, 800)/24.0/32.0
+[OK] Čajovna integrace: vložená scéna má skutečnou plochu a host blokuje průklik (360, 800)/24.0/32.0
+[OK] Čajovna integrace: opětovné otevření na rozměru (432, 960)
+[OK] Čajovna integrace: všechna viditelná tlačítka leží v bezpečné ploše (432, 960)/0.0/0.0
+[OK] Čajovna integrace: celá deska i všech 36 interaktivních středů zůstávají uvnitř (432, 960)/0.0/0.0
+[OK] Čajovna integrace: vložená scéna má skutečnou plochu a host blokuje průklik (432, 960)/0.0/0.0
+[OK] Čajovna integrace: opětovné otevření na rozměru (600, 900)
+[OK] Čajovna integrace: všechna viditelná tlačítka leží v bezpečné ploše (600, 900)/0.0/0.0
+[OK] Čajovna integrace: celá deska i všech 36 interaktivních středů zůstávají uvnitř (600, 900)/0.0/0.0
+[OK] Čajovna integrace: vložená scéna má skutečnou plochu a host blokuje průklik (600, 900)/0.0/0.0
+[OK] Čajovna integrace: další návštěva otevře nové kolo
+[OK] Čajovna integrace: návrat po zavření začíná čistým lokálním kolem
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: celý skutečný recept otevře nalévání bez změny modelu fixturem
+[OK] Čajovna integrace: skutečné podržení naplní šálek a respektuje vypnuté SFX
+[OK] Čajovna integrace: skutečně dokončený čaj ukáže perfect bez mincí, XP, výrobků či odměny ze staré dodávky
+[OK] Čajovna integrace: opakovaný release nemůže vytvořit herní odměnu
+[OK] Čajovna integrace: první Android Zpět ukončí jen minihru
+[OK] Čajovna integrace: druhé Android Zpět teprve zavře dílnu
+[OK] Čajovna integrace: samostatná další návštěva respektuje změněné nastavení zvuku
+[OK] Čajovna integrace: čtvrtinová hlasitost sníží skutečný SFX výstup a vlastní hudba zůstane vypnutá
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: myš započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: rychlý tah používá skutečný nalezený řetězec tří bylin
+[OK] Čajovna integrace: dotyk započítá poslední buňku až z release právě jednou
+[OK] Čajovna integrace: skutečný tah dokončí animaci v omezeném čase
+[OK] Čajovna integrace: celý skutečný recept otevře nalévání bez změny modelu fixturem
+[OK] Čajovna integrace: živé nalévání používá skutečný proud a jeho zvukovou smyčku
+[OK] Čajovna integrace: odchod během nalévání synchronně zastaví smyčku, input i proces
+[OK] Čajovna integrace: zavřené nalévání nezanechá živou scénu ani opožděnou odměnu
+[OK] Čajovna integrace: launcher svázaný se starou session nemůže otevřít hru pro jiný profil
+[OK] Čajovna integrace: kontrola výměny profilu začíná skutečně otevřenou hrou
+[OK] Čajovna integrace: změna session za běhu automaticky uvolní starou čajovnu
+[OK] Čajovna integrace: ochrana při výměně profilu zachová původní i novou session
+[OK] Čajovna integrace: hraní, opakování i návraty nevyvolají persist ani nezapíší žádný produkční save
+[OK] Čajovna integrace: izolace testu přesně obnoví původní produkční soubory
+TEAHOUSE_INTEGRATION_CHECKS=102 FAILURES=0

@@ -1,0 +1,33 @@
+{
+  "audit_regressions": {
+    "V5-08": [
+      {
+        "inspected_frames": 23,
+        "premature_card": false,
+        "premature_notice": false,
+        "ready_reached": true
+      }
+    ]
+  },
+  "branch": {},
+  "checks": 27,
+  "demo": true,
+  "effects": {},
+  "failures": [],
+  "gpu_cup_pixels": {},
+  "gpu_skin_pixels": {},
+  "motion": {},
+  "phone_tested": false,
+  "recording": {
+    "audio_muted": false,
+    "initial_read_seconds": 3.0,
+    "intended_fps": 30,
+    "native_gestures": 7,
+    "quality": "perfect",
+    "rehearsed_turns": 7,
+    "result_read_seconds": 3.0,
+    "scene_seconds": 54.2666666666661,
+    "visible_pointer": true
+  },
+  "saves_accessed": false
+}

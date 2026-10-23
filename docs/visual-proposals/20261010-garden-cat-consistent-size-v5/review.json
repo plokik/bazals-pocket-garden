@@ -1,0 +1,33 @@
+{
+  "approved_art_v4": true,
+  "approval_source": "User: Schvaluji. uprav velikost kocky...",
+  "size_change_v5_approval": "pending personal visual review",
+  "frames": 40,
+  "contexts": 7,
+  "responsive_captures": 14,
+  "functional_checks": 7107,
+  "cat_checks": 157,
+  "raw_visual_gates": {
+    "passed": 27,
+    "failed": 7
+  },
+  "supplemental_visual_gates": {
+    "passed": 33,
+    "failed": 1,
+    "failed_case": "phase163-screen-transition-runtime-approved"
+  },
+  "source_art_sha256": {
+    "assets/pets/garden_cat_v1/cat_poses_v1.png": "65239fca1202b684701ef133d740a6e315596f52aeef0b4337e5c0a0c2d0fc6b",
+    "assets/pets/garden_cat_v1/cat_actions_v1.png": "0a21279ca839d1555725178a53fc79a2bb3d75d87f9200969a8ee17444eae3a8",
+    "assets/pets/garden_cat_v1/cat_corner_v1.png": "0349afd59cda9e21448c532453e489f55c2f7c77c5ccd1656d2c8330b43d9994",
+    "assets/pets/garden_cat_v4/cat_life_v4.png": "033188ac1d66f4176fe819a9964dffed58ccad47fe3c8286ba393d5c82b78314"
+  },
+  "files": {
+    ".gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "android-size.png": "41a233a36db8656abfec258e6429128cc4fc8d9d5667df365c495d7ab8c74369",
+    "REVIEW.md": "5608eeebf938cdf043ede4d25679936c9a55a5ea683d9b69ad579756ace89f6e",
+    "velikost-pred-a-po.png": "977eafe1acdd05b00280dd9ddff10cad42c468bb58f41a23cfa7fe9efe2df936",
+    "vsech-40-snimku.png": "65bf8ebadf46caa8fdaec3604238e260f5bc8e4af20a404b132e842721b7b5a9",
+    "vsechna-mista.png": "69e930190046fae97db658e0049b6361fb64dbaf6682036fc43db2a988e7de8d"
+  }
+}

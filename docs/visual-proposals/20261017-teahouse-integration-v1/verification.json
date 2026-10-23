@@ -1,0 +1,77 @@
+{
+  "status": "INTEGRATED_WITH_PREEXISTING_REFERENCE_MISMATCHES",
+  "date": "2026-10-17",
+  "user_approval": "Souhlasím",
+  "schema": 44,
+  "functional_checks": 7665,
+  "functional_status": "PASSED",
+  "native_checks": 80,
+  "native_status": "PASSED",
+  "native_sizes": [
+    "360x800",
+    "432x960"
+  ],
+  "migration": {
+    "checks": 32,
+    "coins": 39,
+    "failures": 0,
+    "source_schema": 43,
+    "source_sha256": "2d044a7afa4d193db69160888d0155add5a51e8cad01fb789a519b150141f533",
+    "storage_batches": 3,
+    "target_schema": 44,
+    "xp": 100
+  },
+  "reward": {
+    "coins": 80,
+    "lemonbalm_seeds": 2
+  },
+  "global_visual_status": "FAILED",
+  "global_validation_passed": false,
+  "gates": {
+    "passed": 25,
+    "failed": 9
+  },
+  "failed_reference_cases": [
+    "phase149-player-room-exact-target",
+    "phase158-player-room-empty-runtime-approved",
+    "phase159-player-room-cloche-runtime-approved",
+    "phase163-rack-runtime-approved",
+    "phase167-player-room-clean-floor-runtime-approved",
+    "phase167-player-room-full-cloche-runtime-approved",
+    "phase167-player-room-full-runtime-approved",
+    "phase167-player-room-phone-save-runtime-approved",
+    "phase167-player-room-sparse-runtime-approved"
+  ],
+  "before_integration_failed_reference_cases": [
+    "phase149-player-room-exact-target",
+    "phase158-player-room-empty-runtime-approved",
+    "phase159-player-room-cloche-runtime-approved",
+    "phase163-rack-runtime-approved",
+    "phase167-player-room-clean-floor-runtime-approved",
+    "phase167-player-room-full-cloche-runtime-approved",
+    "phase167-player-room-full-runtime-approved",
+    "phase167-player-room-phone-save-runtime-approved",
+    "phase167-player-room-sparse-runtime-approved"
+  ],
+  "new_failed_gates": [],
+  "baseline_project": "complete project mirror; before/main.gd, before/game_session.gd, before/workshop_modal.gd; assets and imported textures reused read-only; no editor or import in baseline mirror",
+  "approved_references_changed": false,
+  "approved_art_sha256": {
+    "lavender-sachet-v1.png": "49e3aba1db50cd2daf30997cd4327539b9b3c32574a0f8b06d22ef2d68ccb3d1",
+    "mint-lemonbalm-tea-v1.png": "1b2ccc041261b45ecca45b70fb5a929641c3aa408ed77e23f77ecc2a843bd209",
+    "herbal-gift-v1.png": "1e6337e410fce458b4e008590a048b060e8534b1283a7ded0de92ddb8a578241"
+  },
+  "protected_prior_files_changed": [
+    "scripts/game_session.gd",
+    "scripts/main.gd",
+    "scripts/ui/workshop_modal.gd",
+    "tests/fortune_wheel_test.gd",
+    "tests/test_runner.gd"
+  ],
+  "personal_profile_read": false,
+  "personal_profile_written": false,
+  "android_tested": false,
+  "apk_created": false,
+  "github_published": false,
+  "logs": ".godot/teahouse-integration-20261017"
+}

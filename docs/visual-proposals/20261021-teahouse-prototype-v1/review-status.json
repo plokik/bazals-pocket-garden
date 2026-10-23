@@ -1,0 +1,37 @@
+{
+  "status": "awaiting_owner_playtest_and_visual_approval",
+  "date": "2026-10-21",
+  "scene": "res://prototypes/teahouse/tea_prototype.tscn",
+  "integration": "standalone_only",
+  "main_scene_changed": false,
+  "player_saves_accessed": false,
+  "new_game_economy": false,
+  "phone_tested": false,
+  "github_published": false,
+  "model_checks": 5092,
+  "runtime_input_checks": 248,
+  "demo_checks": 15,
+  "original_game_checks": 7955,
+  "approved_visual_gates_passed": 34,
+  "validation_status": "MVP_TESTS_PASSED=7955\r\nHOW_TO_GROW_CAPTURE=PASSED\r\nHOW_TO_GROW_VISUALS=PASSED\r\nHOW_TO_GROW_VALIDATION=PASSED",
+  "validation_report": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-validation-20261021\\report.md",
+  "art_tool": "built-in imagegen",
+  "art_prompt": "prototypes/teahouse/art/herb-symbols-v1.prompt.txt",
+  "unfinished_visuals": [
+    "code-drawn cup and teapot"
+  ],
+  "deferred": [
+    "main-game entry",
+    "inventory and rewards economy",
+    "additional guests",
+    "final painted teaware"
+  ],
+  "sha256": {
+    "prototypes/teahouse/tea_runtime_review.gd": "a6469831676bde5f921a441c23d79b43f8eab5b1b603712640871a8e89d0e357",
+    "prototypes/teahouse/art/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "prototypes/teahouse/tea_board_model.gd": "8bf8ccd93edc5b075e1f52d807b72fc5cef1fd48a9b2accf3129e9c0ba30a4bb",
+    "prototypes/teahouse/tea_prototype.gd": "885727fd0fa629f6a33bde736fc661bf9b1c34a83d9fe8ee40c83ff9f512b329",
+    "prototypes/teahouse/tea_board_model_test.gd": "9f465660c5d23b1ba9581e8526e5d556dc657440ab51f8ece914361504d9c2b5",
+    "prototypes/teahouse/tea_prototype.tscn": "321cbbb92fc9e8fe2fc2dc3ea91a06f5041f671c490eea7aa5b97e355ef19350"
+  }
+}

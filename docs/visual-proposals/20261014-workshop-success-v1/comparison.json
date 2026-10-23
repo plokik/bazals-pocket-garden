@@ -1,0 +1,80 @@
+[
+  {
+    "state": "mint-ready",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 0.0
+  },
+  {
+    "state": "rosemary-ready",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 0.00024421296296296295
+  },
+  {
+    "state": "rosemary-rest",
+    "width": 360,
+    "dialog_crop": [
+      32,
+      32,
+      328,
+      768
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 0.0008518518518518519
+  },
+  {
+    "state": "mint-ready",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 1.6075102880658438e-05
+  },
+  {
+    "state": "rosemary-ready",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 0.00022264017489711933
+  },
+  {
+    "state": "rosemary-rest",
+    "width": 432,
+    "dialog_crop": [
+      32,
+      32,
+      400,
+      928
+    ],
+    "dialog_identical": true,
+    "dialog_mean_rgb_error": 0.0,
+    "full_frame_mean_rgb_error": 0.0003568672839506173
+  }
+]

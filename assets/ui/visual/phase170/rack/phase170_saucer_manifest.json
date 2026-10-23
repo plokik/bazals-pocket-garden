@@ -159,29 +159,29 @@
       "base_width": 300,
       "source_sha256": "150DD0B64B2B7F783AB3B1E85D285C4476CA18D0C7B95E405766C9AB5AA2C546"
     },
-    "res://assets/plants/comic/lavender_harvest_ready_v1.png": {
+    "res://assets/plants/comic/lavender_harvest_ready_v2.png": {
+      "base_width": 307,
       "canvas": [
-        570,
+        569,
         640
       ],
       "contact": [
-        268.0,
-        632
+        268.5,
+        615
       ],
-      "base_width": 324,
-      "source_sha256": "5A8056DFBDCF4B7E2B448881C753F9CAFCE245059232E05EB9601A91FFB754C0"
+      "source_sha256": "0C7A6D711C8D8ADA31C38CDF9AB4B522508DE5AD8D433392CDF884AFC42DB2E9"
     },
-    "res://assets/plants/comic/lavender_mature_v1.png": {
+    "res://assets/plants/comic/lavender_mature_v2.png": {
+      "base_width": 316,
       "canvas": [
-        570,
+        569,
         640
       ],
       "contact": [
-        277.5,
-        632
+        271.0,
+        620
       ],
-      "base_width": 335,
-      "source_sha256": "CC6FA850602BBCBF207BC3DCCA38616EF1831165225372F921BBBB15CFCD4031"
+      "source_sha256": "10A5984CDE71C427B20B35063B0EEE626A4FB02000A0E5973D276202DD695EB0"
     },
     "res://assets/plants/comic/lavender_seed_v1.png": {
       "canvas": [
@@ -375,17 +375,17 @@
       "base_width": 338,
       "source_sha256": "61909CA61A2591D1DA1D06E3867D05BCC683F1D8291BA96D87CCF7DFF046EE0C"
     },
-    "res://assets/plants/comic/mint_harvest_ready_v1.png": {
+    "res://assets/plants/comic/mint_harvest_ready_v2.png": {
+      "base_width": 296,
       "canvas": [
-        570,
+        569,
         640
       ],
       "contact": [
-        273.5,
-        631
+        279.0,
+        599
       ],
-      "base_width": 321,
-      "source_sha256": "F7013C30887AACBE4BB88D0DE8048331AA120431D16167CF66A36C8822C8124C"
+      "source_sha256": "A84A35C98C66296CA51DC88444CC2AB9442B004F36624EBAD9B797B99D94F5BA"
     },
     "res://assets/plants/comic/mint_mature_v1.png": {
       "canvas": [

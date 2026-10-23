@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-22",
+  "status": "fixed_verified_and_running_in_emulator",
+  "full_game_checks": 8115,
+  "focused_checks": 506,
+  "new_layout_checks": 12,
+  "visual_gates_passed": 34,
+  "approved_reference_pngs_unchanged": 54,
+  "native_capture_viewports": [
+    "360x800",
+    "432x960",
+    "600x900"
+  ],
+  "native_capture_poses": [
+    "sit",
+    "stretch",
+    "sleep",
+    "drink"
+  ],
+  "emulator": "Bazal_Current_Source_API36",
+  "primary_and_backup_unchanged_during_install": true,
+  "apk": "bazals-pocket-garden-20261022-cat-space-x86_64.apk",
+  "apk_sha256": "65ce941575e0bbf3bf265a96569abf030c35c7592e5d9314604529ce14e61cbc",
+  "physical_phone_tested": false,
+  "visual_owner_approval": "pending",
+  "release_created": false,
+  "pushed_to_github": false
+}

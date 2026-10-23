@@ -1,0 +1,104 @@
+{
+  "schema": "approved_workshop_navigation_references_v1",
+  "approved_on": "2026-10-20",
+  "status": "APPROVED_BY_USER",
+  "user_approval": "ok",
+  "approval_question": "Schvaluješ použití těchto současných snímků jako nových kontrolních referencí?",
+  "scope": "Exactly nine existing workshop/navigation reference PNG mappings; no game, threshold, mask, crop, gate, case count or capture changes.",
+  "reviewed_preview": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/review.png",
+  "review_sha256": "9dfb1ebad7af52bc25c915c871f6bc690ee268ec08d7eee48eaad465c2b4956d",
+  "proposal": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/approval-pending.json",
+  "proposal_sha256": "2d6c090990e89445b28b6c66fd0545433b88c50343a7adabca63bceab7be859b",
+  "historical_manifest": ".agents/skills/how-to-grow-validation/references/visual-cases-sage-20261010.json",
+  "historical_manifest_sha256_lf": "fb19223970190b2a083617d3fc41489a5421092cf03c3972a0a819082c57e36c",
+  "previous_golden_digest": "3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F",
+  "golden_digest": "81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F",
+  "active_cases": 54,
+  "active_gates": 34,
+  "historical_references_preserved": true,
+  "thresholds_masks_actual_crops_sizes_and_gate_flags_unchanged": true,
+  "references": [
+    {
+      "id": "phase149-player-room-exact-target",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase149-player-room-exact-target.png",
+      "previous_sha256": "2f95d7054a550dfca56f238966893929559611c3694ceb034740736f298268c2",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase149-player-room-exact-target.png",
+      "approved_sha256": "3e223d3ee195f2dd8fb685b391714767978b86ec352cabada303eea003f4daa5",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase149-player-room-exact-target.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase149-player-room-exact-target.png"
+    },
+    {
+      "id": "phase158-player-room-empty-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase158-player-room-empty-runtime-approved.png",
+      "previous_sha256": "3e0e46f73bc28af156b2978e1fc11bef0f0cceedea5e1d03c612a5858749c6c1",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase158-player-room-empty-runtime-approved.png",
+      "approved_sha256": "cd94031182f3c48f2da44e8dc571f0a90259ddb60c66498b7fb57f94b4a723b4",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase158-player-room-empty-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase158-player-room-empty-0-of-20.png"
+    },
+    {
+      "id": "phase159-player-room-cloche-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase159-player-room-cloche-runtime-approved.png",
+      "previous_sha256": "0b4cfbe5d5adfa2f9731c78e7b555ed36b96505c82c0b6e07a4f81be27d5ff2c",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase159-player-room-cloche-runtime-approved.png",
+      "approved_sha256": "efe3b6f6e9880612b8ffe6eef1476d10f6a22f849fed31165c4af0e04e554725",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase159-player-room-cloche-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase159-player-room-botanical-cloche.png"
+    },
+    {
+      "id": "phase163-rack-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase163-rack-runtime-approved.png",
+      "previous_sha256": "0c6759ce4e2c04e7a78775d53b082fd176190c6c2c2e6a8d80b17efd4e450a43",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase163-rack-runtime-approved.png",
+      "approved_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase163-rack-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-rack-greenhouse-attention.png"
+    },
+    {
+      "id": "phase167-player-room-clean-floor-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase167-player-room-clean-floor-runtime-approved.png",
+      "previous_sha256": "a087abb2f6cd1078d101a46c3dbae05087c305ea0f8179aa5608628bec817327",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-clean-floor-runtime-approved.png",
+      "approved_sha256": "63dac160e77aed823118c92d19a9f39a9672e971174ee2bc5ab48695ad204290",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase167-player-room-clean-floor-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase160-player-room-clean-floor.png"
+    },
+    {
+      "id": "phase167-player-room-sparse-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase167-player-room-sparse-runtime-approved.png",
+      "previous_sha256": "1ce6cb787a61a1438f22f89b048d488e08fe25e0f198b22eea03c5ca1471c542",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-sparse-runtime-approved.png",
+      "approved_sha256": "19ab2173d2a1d8a9ba3c9e7b5bf848650c9d0902ef50eed6804fa3a623722aac",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase167-player-room-sparse-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase158-player-room-sparse-4-of-20.png"
+    },
+    {
+      "id": "phase167-player-room-phone-save-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase167-player-room-phone-save-runtime-approved.png",
+      "previous_sha256": "7a8df3c297e43b271cc84231a9ff520adab3ba80f811a2b85e744283df5cb2c3",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-phone-save-runtime-approved.png",
+      "approved_sha256": "55ac1daeea306c1f1ae0042388506c42046dfccbe772dda4617a48628b14975e",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase167-player-room-phone-save-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase158-player-room-phone-save-10-of-20.png"
+    },
+    {
+      "id": "phase167-player-room-full-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase167-player-room-full-runtime-approved.png",
+      "previous_sha256": "bcb995c5abd72ce0a383ab81cafa39e444d785f48ab7c0447e2f62fe05b61681",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-full-runtime-approved.png",
+      "approved_sha256": "92f986c9a12d8c956b4fb6643cec0ed4a101644cd2e420392fb0d17fb4c916ed",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase167-player-room-full-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase158-player-room-full-20-of-20.png"
+    },
+    {
+      "id": "phase167-player-room-full-cloche-runtime-approved",
+      "previous_reference": "docs/audit/sage-palette-20261010/phase167-player-room-full-cloche-runtime-approved.png",
+      "previous_sha256": "5bc310fd0ac03daf21096e50350a298ae817be80c55e2394d227985a75580145",
+      "approved_reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-full-cloche-runtime-approved.png",
+      "approved_sha256": "107136155f2ccd6cc15c1c4d6c306d6aa07d8aa5013f48169ff1b078c779f953",
+      "approved_candidate": "docs/visual-proposals/20261020-workshop-navigation-reference-review-v1/candidates/phase167-player-room-full-cloche-runtime-approved.png",
+      "source_capture": "tmp/audit-followup-20261020/validation/comic-phase159-player-room-full-cloche.png"
+    }
+  ],
+  "proposal_sha256_lf": "9bb0c956ef6787ae9c90a097ed2f89e549d876b911e5235cccc18696c0162ab9"
+}

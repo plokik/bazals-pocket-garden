@@ -1,0 +1,109 @@
+{
+  "status": "passed",
+  "date": "2026-10-11",
+  "scope": "workshop result navigation",
+  "full_functional_checks": 7558,
+  "focused_workshop_checks": 127,
+  "new_checks": 20,
+  "native_sizes": [
+    [
+      360,
+      800
+    ],
+    [
+      432,
+      960
+    ]
+  ],
+  "initial_dialog_pixel_comparisons": [
+    {
+      "state": "mint-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_identical": false,
+      "full_frame_mean_rgb_error": 0.0004560185185185185
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_identical": false,
+      "full_frame_mean_rgb_error": 0.0007893518518518518
+    },
+    {
+      "state": "mint-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_identical": false,
+      "full_frame_mean_rgb_error": 1.6075102880658438e-05
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_identical": false,
+      "full_frame_mean_rgb_error": 0.00027408050411522635
+    }
+  ],
+  "atlases_and_animation_unchanged": true,
+  "approved_references_changed": false,
+  "historical_full_golden_suite_run": false,
+  "android": {
+    "emulator": "Bazal_Source_Test_API36",
+    "serial": "emulator-5560",
+    "package": "com.howtogrow.game.wheeltest",
+    "api": 36,
+    "abi": "x86_64",
+    "touch_tonic_to_treated_plant": true,
+    "touch_mint_return_to_workshop": true,
+    "tonic_spent_grams": 2,
+    "tonic_spent_coins": 4,
+    "tonic_health_gain": 20,
+    "mint_spent_grams": 2,
+    "mint_spent_coins": 3,
+    "mint_doses_added": 2,
+    "link_preserved_saved_resources": true,
+    "video_seconds": 5.5104,
+    "apk": {
+      "assets_identical": true,
+      "asset_count": 967,
+      "source_sha256": "9d3ad24807952cb8206a9af1efb756ef561e8fe374d3d09681789416ff525843",
+      "private_sha256": "5cb06b9c1de14df85725a3228fa300368e08fa060b2d4037b3f90ed9ce86970e"
+    }
+  },
+  "personal_profile_used": false,
+  "physical_phone_tested": false,
+  "committed": false,
+  "published": false,
+  "release_created": false,
+  "existing_test_diagnostics": "Two headless shader diagnostics, 40 pre-existing ventilation metadata diagnostics and expected invalid-data/save-failure test diagnostics; no script or parse errors.",
+  "evidence_directory": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\workshop-result-20261011"
+}

@@ -1,0 +1,33 @@
+{
+  "apk": "R:\\_projekty\\Bazal's Pocket Garden\\builds\\android\\bazals-pocket-garden-20261021-teahouse-x86_64.apk",
+  "sha256": "b802ba36093b83e0e9da2ce72b4957c46292a5d6ea2334ea760ff7cded8f2313",
+  "production_entries": [
+    "assets/scripts/teahouse/tea_game.tscn.remap",
+    "assets/scripts/teahouse/tea_game.gdc",
+    "assets/scripts/ui/teahouse_modal.gdc"
+  ],
+  "prototypes_excluded": true,
+  "source_sha256": {
+    "scripts/main.gd": "94aafff56f7e59b1696f8e1559c7a55cbf2b226cc7e72221a177d8dd90557400",
+    "scripts/ui/workshop_modal.gd": "ade1129d04d1416435e97b478d102bf705ab8f32bd42c7fc23e029ab2cd7e95a",
+    "scripts/ui/workshop_products_panel.gd": "e1024c83accd5f225e31577718e682a3df8029df9d1332454a66c1a587ac8b82",
+    "scripts/ui/teahouse_modal.gd": "9cca120ee632d6905aeb5a02d7a41800313543c5162fe9e2c1e57e4bf90419e2",
+    "tests/teahouse_integration_test.gd": "a68519947718f03616e38205bfdf209599f4b944872dc4d60b87594b5daead0c",
+    "scripts/teahouse/tea_board_model.gd": "7c5d02ec19df28a0ea2e47dba48258a701453d3246d18cbced1fa4375b197817",
+    "scripts/teahouse/tea_branch_ambient.gd": "f9644584106020eb0de003a7093556ea480d2fc1d1f1fd6cdd18f36384abb13f",
+    "scripts/teahouse/tea_branch_sheen.gdshader": "8ce46d4e0805d6e69dec7c6baa7f024e7c755cea1531b607c1e6ea16eb0e6e9c",
+    "scripts/teahouse/tea_cup_fill.gdshader": "b892d383f7c26cd5ecb59bb1d66489deaf6ebbade7b49b322159bb83c0d2da95",
+    "scripts/teahouse/tea_game.gd": "b551cb65e9d083fc72731b08edf97798b5faccc160a8c4b303f774c2a3946430",
+    "scripts/teahouse/tea_game.tscn": "123e7dc5cad9ae680f6fd5f761a7d68790e1329b19d2cd3613d680b319e167e4",
+    "scripts/teahouse/tea_magic_effects.gd": "427bb281c8c1e47c7458bea14609b71f1b3a089922ab34a6043c9b019af4deec",
+    "scripts/teahouse/tea_painted_skin.gd": "2324de46ca0bb5f5a6f6d1d1fb120ead4b1aecdbf61373eaa8c496eb75781f95",
+    "scripts/teahouse/tea_teaware_visual.gd": "eecae7ffe5bd59517f6d64cbb81419dcf0c91b40ed02961a9f69d84350958628",
+    "assets/ui/teahouse/herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "assets/ui/teahouse/tea-branch-ladybug-v1.png": "d1df052bad5d6ac0abe21780a422d1e4ab07dc1cf3fa4329bb155bde25a70e13",
+    "assets/ui/teahouse/tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "assets/ui/teahouse/tea-environment-v5.png": "ff3231a187b94157a48888aed4519f6f38075806f7ffbad36d2b64d39896590c",
+    "assets/ui/teahouse/tea-panels-v5-1.png": "3483f3a2e417ba4c6db84c0b34bbefc108d35061a58f54b6ad3bb661d8745add",
+    "assets/ui/teahouse/tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "assets/ui/teahouse/tea-ui-v5.png": "e54d67ac95e6397f36dd0b8f140a75b62bb3a038d598fecfe4eb860ab17c23f8"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "status": "fixed_verified_and_installed",
+  "date": "2026-10-22",
+  "cause": "Launcher displayed the fixed next-midnight wall-clock time instead of a countdown.",
+  "fixes": [
+    "Live HH:MM:SS countdown in launcher and modal",
+    "Immediate recomputation on application resume",
+    "Ceiling prevents zero before actual midnight",
+    "Explicit daily 00:00 UTC avoids ambiguous timezone/DST conversion",
+    "Hours do not wrap at 24 after clock rollback",
+    "Invalid reserve/settle timestamps cannot mutate or persist rewards"
+  ],
+  "daily_rules": {
+    "free": 1,
+    "rewarded_ads": 2,
+    "reset": "00:00 UTC",
+    "unchanged": true
+  },
+  "checks": {
+    "wheel_focused": 104,
+    "new_regressions": 46,
+    "full_game": 8103,
+    "approved_visual_gates_passed": 34,
+    "approved_reference_pngs_unchanged": 54
+  },
+  "android": {
+    "avd": "Bazal_Current_Source_API36",
+    "serial": "emulator-5554",
+    "abi": "x86_64",
+    "gpu": "host",
+    "app_pid": 2203,
+    "launcher_before": "08:18:53",
+    "launcher_after": "08:18:50",
+    "native_background_resume": true,
+    "primary_and_backup_preserved_at_install": true,
+    "wheel_receipts_and_coins_preserved_during_smoke": true,
+    "save_protection_not_bypassed": true,
+    "gif_frames": 7,
+    "distinct_gif_frames": 7
+  },
+  "apk": {
+    "path": "R:\\_projekty\\Bazal's Pocket Garden\\builds\\android\\bazals-pocket-garden-20261022-wheel-clock-x86_64.apk",
+    "sha256": "fbf325c689b9fcb23444aba7e1f45b7978869dfea2fbf8b3ac8e4a25f1bacf0f"
+  },
+  "source_sha256": {
+    "scripts/fortune_wheel.gd": "8f430d270b9ce957e4982b16f51ff282ff574780e3151d58806e93d0190d0f9c",
+    "scripts/ui/fortune_wheel_modal.gd": "3322e725776172f003d5b4228ff7d84c121ff0cfbf911b2f356962073525de61",
+    "tests/fortune_wheel_test.gd": "e09eea417f99622169ed9314c11f5aff197ccc28ac39a09bcaba824db936ce45"
+  },
+  "save_schema_changed": false,
+  "phone_tested": false,
+  "github_pushed": false,
+  "release_created": false
+}

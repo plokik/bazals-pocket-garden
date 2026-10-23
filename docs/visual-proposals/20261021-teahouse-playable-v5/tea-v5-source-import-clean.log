@@ -1,0 +1,151 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[   0% ] first_scan_filesystem | Started Inicializace projektu (5 steps)
+[   0% ] first_scan_filesystem | Prohledávání struktury souborů...
+[  16% ] first_scan_filesystem | Načítání názvů globálních tříd...
+[  33% ] first_scan_filesystem | Ověřování GDExtension rozšíření...
+[  50% ] first_scan_filesystem | Vytváření autoload skriptů...
+[  66% ] first_scan_filesystem | Inicializace zásuvných modulů...
+[  83% ] first_scan_filesystem | Spouštení prohledávání souborů...
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started Registrace globálních tříd... (34 steps)
+[   0% ] update_scripts_classes | 
+[   2% ] update_scripts_classes | 
+[   5% ] update_scripts_classes | 
+[   8% ] update_scripts_classes | 
+[  11% ] update_scripts_classes | 
+[  14% ] update_scripts_classes | 
+[  17% ] update_scripts_classes | 
+[  20% ] update_scripts_classes | 
+[  22% ] update_scripts_classes | 
+[  25% ] update_scripts_classes | 
+[  28% ] update_scripts_classes | 
+[  31% ] update_scripts_classes | 
+[  34% ] update_scripts_classes | 
+[  37% ] update_scripts_classes | GameFeedbackLayer
+[  40% ] update_scripts_classes | 
+[  42% ] update_scripts_classes | LocalBackupModalView
+[  45% ] update_scripts_classes | MeasurementPresenter
+[  48% ] update_scripts_classes | 
+[  51% ] update_scripts_classes | PlayerSettingsModalView
+[  54% ] update_scripts_classes | 
+[  57% ] update_scripts_classes | 
+[  60% ] update_scripts_classes | 
+[  62% ] update_scripts_classes | 
+[  65% ] update_scripts_classes | 
+[  68% ] update_scripts_classes | 
+[  71% ] update_scripts_classes | 
+[  74% ] update_scripts_classes | 
+[  77% ] update_scripts_classes | 
+[  80% ] update_scripts_classes | 
+[  82% ] update_scripts_classes | 
+[  85% ] update_scripts_classes | 
+[  88% ] update_scripts_classes | 
+[  91% ] update_scripts_classes | 
+[  94% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started Prohledávání akcí... (32 steps)
+[   0% ] _update_scan_actions | lavender_harvest_ready_v2.png
+[   3% ] _update_scan_actions | lavender_mature_v2.png
+[   6% ] _update_scan_actions | mint_harvest_ready_v2.png
+[   9% ] _update_scan_actions | plynula-honicka.webp
+[  12% ] _update_scan_actions | pohyb-v-pokoji.webp
+[  15% ] _update_scan_actions | lesk-dveri.webp
+[  18% ] _update_scan_actions | zatazeni-za-kliku.webp
+[  21% ] _update_scan_actions | vstup-do-skleniku.webp
+[  24% ] _update_scan_actions | prulet-listim.webp
+[  27% ] _update_scan_actions | background-rack.png
+[  30% ] _update_scan_actions | background-workshop.png
+[  33% ] _update_scan_actions | professor_seed_sheet_v2.png
+[  36% ] _update_scan_actions | reduced-motion-360x640.png
+[  39% ] _update_scan_actions | scene-1-360x640.png
+[  42% ] _update_scan_actions | scene-1-360x800.png
+[  45% ] _update_scan_actions | scene-1-432x960.png
+[  48% ] _update_scan_actions | scene-2-360x640.png
+[  51% ] _update_scan_actions | scene-2-360x800.png
+[  54% ] _update_scan_actions | scene-2-432x960.png
+[  57% ] _update_scan_actions | scene-3-360x640.png
+[  60% ] _update_scan_actions | scene-3-360x800.png
+[  63% ] _update_scan_actions | scene-3-432x960.png
+[  66% ] _update_scan_actions | lavender-harvest-candidate-v1.png
+[  69% ] _update_scan_actions | lavender-harvest-candidate-v2.png
+[  72% ] _update_scan_actions | lavender-mature-candidate-v1.png
+[  75% ] _update_scan_actions | mint-harvest-candidate-v1.png
+[  78% ] _update_scan_actions | herb-symbols-v1.png
+[  81% ] _update_scan_actions | tea-branch-ladybug-v1.png
+[  84% ] _update_scan_actions | tea-cup-v2.png
+[  87% ] _update_scan_actions | tea-environment-v5.png
+[  90% ] _update_scan_actions | tea-pot-v2.png
+[  93% ] _update_scan_actions | tea-ui-v5.png
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started (Re)Importování assetů (25 steps)
+[   0% ] reimport | Příprava souborů pro opětovný import...
+[   3% ] reimport | Příprava souborů pro opětovný import...
+[   7% ] reimport | Příprava souborů pro opětovný import...
+[  11% ] reimport | Příprava souborů pro opětovný import...
+[  15% ] reimport | Příprava souborů pro opětovný import...
+[  19% ] reimport | Příprava souborů pro opětovný import...
+[  23% ] reimport | Příprava souborů pro opětovný import...
+[  26% ] reimport | Příprava souborů pro opětovný import...
+[  30% ] reimport | Příprava souborů pro opětovný import...
+[  34% ] reimport | Příprava souborů pro opětovný import...
+[  38% ] reimport | Příprava souborů pro opětovný import...
+[  42% ] reimport | Příprava souborů pro opětovný import...
+[  46% ] reimport | Příprava souborů pro opětovný import...
+[  50% ] reimport | Příprava souborů pro opětovný import...
+[  53% ] reimport | Příprava souborů pro opětovný import...
+[  57% ] reimport | Příprava souborů pro opětovný import...
+[  61% ] reimport | Příprava souborů pro opětovný import...
+[  65% ] reimport | Příprava souborů pro opětovný import...
+[  69% ] reimport | Příprava souborů pro opětovný import...
+[  73% ] reimport | Příprava souborů pro opětovný import...
+[  76% ] reimport | Příprava souborů pro opětovný import...
+[  80% ] reimport | Příprava souborů pro opětovný import...
+[  84% ] reimport | Příprava souborů pro opětovný import...
+[  88% ] reimport | Příprava souborů pro opětovný import...
+[  92% ] reimport | Příprava souborů pro opětovný import...
+[   0% ] reimport | Provádění operací před opětovným importem...
+[   0% ] reimport | tea-ui-v5.png
+[   3% ] reimport | tea-pot-v2.png
+[   7% ] reimport | tea-environment-v5.png
+[  11% ] reimport | tea-cup-v2.png
+[  15% ] reimport | herb-symbols-v1.png
+[  19% ] reimport | mint-harvest-candidate-v1.png
+[  23% ] reimport | lavender-mature-candidate-v1.png
+[  26% ] reimport | lavender-harvest-candidate-v2.png
+[  30% ] reimport | lavender-harvest-candidate-v1.png
+[  34% ] reimport | scene-3-432x960.png
+[  38% ] reimport | scene-3-360x800.png
+[  42% ] reimport | scene-3-360x640.png
+[  46% ] reimport | scene-2-432x960.png
+[  50% ] reimport | scene-2-360x800.png
+[  53% ] reimport | scene-2-360x640.png
+[  57% ] reimport | scene-1-432x960.png
+[  61% ] reimport | scene-1-360x800.png
+[  65% ] reimport | scene-1-360x640.png
+[  69% ] reimport | reduced-motion-360x640.png
+[  73% ] reimport | professor_seed_sheet_v2.png
+[  76% ] reimport | background-workshop.png
+[  80% ] reimport | background-rack.png
+[  84% ] reimport | mint_harvest_ready_v2.png
+[  88% ] reimport | lavender_mature_v2.png
+[  92% ] reimport | lavender_harvest_ready_v2.png
+[  96% ] reimport | Dokončování importu zdrojů...
+[ DONE ] reimport
+
+[   0% ] reimport | Started (Re)Importování assetů (25 steps)
+[   0% ] reimport | Provádění operací po opětovném importu...
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started Načítání editoru (5 steps)
+[   0% ] loading_editor_layout | Načítání rozvržení editoru...
+[  16% ] loading_editor_layout | Načítání doků...
+[  33% ] loading_editor_layout | Opětovné otevírání scén...
+[  50% ] loading_editor_layout | Načítání rozvržení středu editoru...
+[  66% ] loading_editor_layout | Načítání rozvržení okna zásuvných modulů...
+[  83% ] loading_editor_layout | Rozvržení editoru připraveno.
+[ DONE ] loading_editor_layout
+

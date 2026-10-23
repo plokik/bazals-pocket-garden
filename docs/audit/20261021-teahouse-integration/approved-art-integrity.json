@@ -1,0 +1,13 @@
+{
+  "approved_version": "5.1",
+  "source": "docs/visual-proposals/20261021-teahouse-playable-v5-1/source-v5.1",
+  "unchanged_painted_assets": {
+    "herb-symbols-v1.png": "1e6e722a649dc42d2ec94fe116bab7fd01fc44f70bcb292ccd3b27f343a98a07",
+    "tea-branch-ladybug-v1.png": "d1df052bad5d6ac0abe21780a422d1e4ab07dc1cf3fa4329bb155bde25a70e13",
+    "tea-cup-v2.png": "3b7955cdf0f97efb077bbb55e43b2c98bb6e6cd04ba62e6acbe011f80c473e4e",
+    "tea-environment-v5.png": "ff3231a187b94157a48888aed4519f6f38075806f7ffbad36d2b64d39896590c",
+    "tea-panels-v5-1.png": "3483f3a2e417ba4c6db84c0b34bbefc108d35061a58f54b6ad3bb661d8745add",
+    "tea-pot-v2.png": "7b182da18cb7f26a784f1a990da88ba46da8d3433e619aeb9643a45e3f3c19e2",
+    "tea-ui-v5.png": "e54d67ac95e6397f36dd0b8f140a75b62bb3a038d598fecfe4eb860ab17c23f8"
+  }
+}

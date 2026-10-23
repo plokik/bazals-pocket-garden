@@ -1,0 +1,21 @@
+{
+  "status": "owner_likes_direction_footer_cleanup_requested",
+  "date": "2026-10-21",
+  "type": "static_visual_concept",
+  "owner_feedback": "schvaluji ale zda se mi ze furt vizualně to není dodělané a chybí tomu něco",
+  "tool": "built-in imagegen",
+  "image": "cajovna-v5-vytvarny-navrh.png",
+  "generated_source": "C:\\Users\\drikv\\.codex\\generated_images\\01a08214-50de-7d12-afec-542e5ec15886\\exec-1a4d4ac4-51df-41a7-93b1-e826106c8732.png",
+  "source_reference": "docs/visual-proposals/20261021-teahouse-prototype-v4/spojovani.png",
+  "integration": "not_integrated",
+  "prototype_source_changes": 0,
+  "runtime_tests_rerun": false,
+  "png_sha256": "6d52ec0e5824ce163ed0462537644bcdddc1f0a0e5080ba6693101a0cda0626a",
+  "caveats": [
+    "Static illustration is not a screenshot of running v5",
+    "Generated tile arrangement and text are illustrative; original live board, wording, counts and input geometry must remain authoritative during implementation",
+    "No save, gameplay, export, reference or publishing changes"
+  ],
+  "owner_feedback_followup": "Libí se mí to dost, jen nevím proč tam je tohle? až moc informací možná.",
+  "owner_cleanup_approval": "Ok."
+}

@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "date": "2026-10-14",
+  "scope": "workshop success hearts and sparks",
+  "functional_checks": 7566,
+  "focused_checks": 135,
+  "new_checks": 8,
+  "native_sizes": [
+    [
+      360,
+      800
+    ],
+    [
+      432,
+      960
+    ]
+  ],
+  "unchanged_dialog_comparisons": [
+    {
+      "state": "mint-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.0
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.00024421296296296295
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.0008518518518518519
+    },
+    {
+      "state": "mint-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 1.6075102880658438e-05
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.00022264017489711933
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.0003568672839506173
+    }
+  ],
+  "painted_atlases_unchanged": true,
+  "approved_references_changed": false,
+  "full_historical_golden_suite_run": false,
+  "runtime_frame_preview": {
+    "fps": 25,
+    "frames": 48,
+    "duration_seconds": 1.9200000000000006,
+    "method": "deterministic native Godot render of the effect timeline"
+  },
+  "reduced_motion": "static heart and star with a short fade; no travel or bounce",
+  "effect_duration_seconds": 1.45,
+  "save_schema_changed": false,
+  "physical_phone_tested": false,
+  "android_tested_this_step": false,
+  "personal_profile_used": false,
+  "committed": false,
+  "published": false,
+  "note": "The full suite ran before the final edge-antialiasing-only adjustment; final source passed the focused suite and native capture. Existing headless shader, ventilation metadata, and intentional invalid-data test diagnostics persist."
+}

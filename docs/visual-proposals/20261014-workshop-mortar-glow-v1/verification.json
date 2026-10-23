@@ -1,0 +1,144 @@
+{
+  "status": "passed",
+  "date": "2026-10-14",
+  "scope": "soft mortar silhouette glow",
+  "functional_checks": 7567,
+  "focused_workshop_checks": 136,
+  "new_checks": 1,
+  "strengthened_checks": "back during both recipes, failure, reduced motion, close, idle, and cleanup",
+  "native_sizes": [
+    [
+      360,
+      800
+    ],
+    [
+      432,
+      960
+    ]
+  ],
+  "unchanged_dialog_comparisons": [
+    {
+      "state": "mint-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.000681712962962963
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.001042824074074074
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 360,
+      "dialog_crop": [
+        32,
+        32,
+        328,
+        768
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.0026064814814814818
+    },
+    {
+      "state": "mint-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 6.349665637860082e-05
+    },
+    {
+      "state": "rosemary-ready",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 9.484310699588477e-05
+    },
+    {
+      "state": "rosemary-rest",
+      "width": 432,
+      "dialog_crop": [
+        32,
+        32,
+        400,
+        928
+      ],
+      "dialog_identical": true,
+      "dialog_mean_rgb_error": 0.0,
+      "full_frame_mean_rgb_error": 0.00326806841563786
+    }
+  ],
+  "glow_on_off_comparisons": [
+    {
+      "width": 360,
+      "changed_pixels_above_2": 4365,
+      "changed_ratio": 0.020036170681551117,
+      "bounds_in_dialog_crop": [
+        54,
+        248,
+        225,
+        385
+      ],
+      "mean_rgb_error": 0.21799873922835877
+    },
+    {
+      "width": 432,
+      "changed_pixels_above_2": 4365,
+      "changed_ratio": 0.01323818420031056,
+      "bounds_in_dialog_crop": [
+        90,
+        248,
+        261,
+        385
+      ],
+      "mean_rgb_error": 0.1440510562241201
+    }
+  ],
+  "glow_duration_seconds": 2.2,
+  "painted_atlases_and_approved_heart_effect_unchanged": true,
+  "approved_references_changed": false,
+  "historical_full_golden_suite_run": false,
+  "preview": {
+    "fps": 25,
+    "frames": 98,
+    "seconds": 3.9200000000000026,
+    "method": "deterministic native Godot frames of mixing and the approved success effect"
+  },
+  "reduced_motion": "static silhouette halo with a gentle fade and no breathing pulse",
+  "save_schema_changed": false,
+  "personal_profile_used": false,
+  "android_tested_this_step": false,
+  "physical_phone_tested": false,
+  "committed": false,
+  "published": false,
+  "release_created": false,
+  "existing_diagnostics": "Headless shader diagnostics, ventilation metadata and expected invalid-data/save-failure diagnostics remain; no script, parse or new shader errors."
+}

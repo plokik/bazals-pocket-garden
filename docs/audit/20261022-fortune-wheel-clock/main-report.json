@@ -1,0 +1,1991 @@
+{
+  "schema": 1,
+  "manifest": "R:\\_projekty\\Bazal's Pocket Garden\\.agents\\skills\\how-to-grow-validation\\references\\visual-cases.json",
+  "project_root": "R:\\_projekty\\Bazal's Pocket Garden",
+  "artifacts": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation",
+  "report_only": false,
+  "results": [
+    {
+      "id": "room",
+      "description": "Full deterministic plant rack compared with the approved rack target.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\rack_room_source_of_truth_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\room.png",
+      "reference_sha256": "807e405c5294c90e22fa67cbe42d490243b9391fc95daac198e09138d12cf327",
+      "actual_sha256": "729c14c6efea13be117202ce7b7e75d0e1081263cb8a19f4d9104a63fae88079",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 3080,
+      "valid_pixels": 411640,
+      "changed_pixels": 390754,
+      "metrics": {
+        "mean_abs_error": 71.291576,
+        "rmse": 95.420506,
+        "maximum_error": 255,
+        "changed_ratio": 0.949261
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\room\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\room\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\room\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\room\\comparison.png"
+      }
+    },
+    {
+      "id": "locked-slots",
+      "description": "Level-one locked-slot layout compared with the approved mockup.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\approved_locked_slots_mockup.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\locked-slots.png",
+      "reference_sha256": "20eda23ede9412d56a156303b9e670caa6032f06e53f1b25287edb7deee9af69",
+      "actual_sha256": "c9611ccbe3dcb04bd8b3de1feefeced14447a08d285936791b1e4b05ec7a5129",
+      "normalized_size": [
+        432,
+        316
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 136512,
+      "changed_pixels": 133754,
+      "metrics": {
+        "mean_abs_error": 72.166061,
+        "rmse": 89.160926,
+        "maximum_error": 255,
+        "changed_ratio": 0.979797
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\locked-slots\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\locked-slots\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\locked-slots\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\locked-slots\\comparison.png"
+      }
+    },
+    {
+      "id": "hud",
+      "description": "Approved Phase 4 code-native comic HUD with dynamic values masked.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\hud.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\hud.png",
+      "reference_sha256": "cc4a0954d7f0169f5cdd322ec6c6542d28a266e86e217cfafd9067f28c44b1ff",
+      "actual_sha256": "cc4a0954d7f0169f5cdd322ec6c6542d28a266e86e217cfafd9067f28c44b1ff",
+      "normalized_size": [
+        432,
+        74
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 13322,
+      "valid_pixels": 18646,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\hud\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\hud\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\hud\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\hud\\comparison.png"
+      }
+    },
+    {
+      "id": "navigation",
+      "description": "Approved Phase 4 four-card comic mobile navigation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\navigation.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\navigation.png",
+      "reference_sha256": "d61ccdffe4cb033457cfbfb9731b8d32a7042674b67b1a75017434430fbddad4",
+      "actual_sha256": "d61ccdffe4cb033457cfbfb9731b8d32a7042674b67b1a75017434430fbddad4",
+      "normalized_size": [
+        432,
+        97
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 41904,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\navigation\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\navigation\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\navigation\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\navigation\\comparison.png"
+      }
+    },
+    {
+      "id": "storage",
+      "description": "Approved Phase 5 storage cards and four-step processing flow.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\storage.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-storage.png",
+      "reference_sha256": "0b586a48521d75131cf6791a410b496b4470d8fbeed6b83513ff39d824c65a43",
+      "actual_sha256": "0b586a48521d75131cf6791a410b496b4470d8fbeed6b83513ff39d824c65a43",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\storage\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\storage\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\storage\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\storage\\comparison.png"
+      }
+    },
+    {
+      "id": "shop",
+      "description": "Approved Phase 5 mobile shop item cards and purchase controls.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\shop.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-shop.png",
+      "reference_sha256": "fbc1f1218e881deeadd91cb2b37254ddeb7339d27fbc52b496b105dfcb127fa6",
+      "actual_sha256": "4595e38217896f6d643061c841fe93891ed6f43c3b0010f368716c018b2014dc",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 1258,
+      "metrics": {
+        "mean_abs_error": 0.098349,
+        "rmse": 2.406866,
+        "maximum_error": 204,
+        "changed_ratio": 0.003033
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\shop\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\shop\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\shop\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\shop\\comparison.png"
+      }
+    },
+    {
+      "id": "measurement",
+      "description": "Approved Phase 5 live metrics, comic graph, and knowledge panel.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\measurement.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-measurement.png",
+      "reference_sha256": "ab8a819b9b659553682196996fc0a9857e78d512bfb45980806a2ec224133987",
+      "actual_sha256": "41819597dbe1b0e2bea40538744b8e0e9bc194afb99c033510eb52e3ba49e843",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 3461,
+      "metrics": {
+        "mean_abs_error": 0.598093,
+        "rmse": 8.480427,
+        "maximum_error": 247,
+        "changed_ratio": 0.008345
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\measurement\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\measurement\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\measurement\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\measurement\\comparison.png"
+      }
+    },
+    {
+      "id": "detail-realtime",
+      "description": "User-approved RC61 plant detail with the current painted scale, saucer and sill grounding; historical references remain preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\detail-realtime.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-detail-idle.png",
+      "reference_sha256": "5c7304b3f587933858257fea2a868d40916fc3d90a76af801d0b916a1c5405a0",
+      "actual_sha256": "21e677e74555d7362de088682cb04974e0b8128471c79b8d739e25ad88ac14f1",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 906,
+      "metrics": {
+        "mean_abs_error": 0.076063,
+        "rmse": 1.978074,
+        "maximum_error": 200,
+        "changed_ratio": 0.002185
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\detail-realtime\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\detail-realtime\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\detail-realtime\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\detail-realtime\\comparison.png"
+      }
+    },
+    {
+      "id": "guide-explain",
+      "description": "User-approved Phase 184 RC59 Professor Bazal explain state over the approved current rack and compact dock; the modal behavior is unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\guide-explain.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-guide-explain.png",
+      "reference_sha256": "2027d46b210e4c42d9d250f0041e36bbea039ef30e089312ba208da9c0c52cc8",
+      "actual_sha256": "0635691cd3cd9d85a69ec25ac1cab5bc23d2f8afecb92f205700be0e5be2ddf1",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 10215,
+      "metrics": {
+        "mean_abs_error": 0.500837,
+        "rmse": 3.554737,
+        "maximum_error": 47,
+        "changed_ratio": 0.024631
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-explain\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-explain\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-explain\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-explain\\comparison.png"
+      }
+    },
+    {
+      "id": "guide-celebrate",
+      "description": "User-approved Phase 184 RC59 Professor Bazal celebration state over the approved current rack and compact dock; the modal behavior is unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\guide-celebrate.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-guide-celebrate.png",
+      "reference_sha256": "69317dfafd6cbe621ecd54a8b30e8a70933d023385468a962280673e98bf092d",
+      "actual_sha256": "e2072acc0823d0bc424341d849769900f5af7d97ea8e29cfafc9b78919348a4c",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 10234,
+      "metrics": {
+        "mean_abs_error": 0.493879,
+        "rmse": 3.515716,
+        "maximum_error": 47,
+        "changed_ratio": 0.024677
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-celebrate\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-celebrate\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-celebrate\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-celebrate\\comparison.png"
+      }
+    },
+    {
+      "id": "guide-warning",
+      "description": "User-approved Phase 184 RC59 Professor Bazal warning state over the approved current rack and compact dock; the modal behavior is unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\guide-warning.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-guide-warning.png",
+      "reference_sha256": "9d98bad4856e249690ba7d3d59e06aea6a83c6dc7d381981d11055f67eb44bfe",
+      "actual_sha256": "628463f5ec794963e901166790fa549b9c876fa136e35f8f69bc7125f7a824b8",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 11186,
+      "metrics": {
+        "mean_abs_error": 0.545237,
+        "rmse": 3.688647,
+        "maximum_error": 47,
+        "changed_ratio": 0.026972
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-warning\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-warning\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-warning\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\guide-warning\\comparison.png"
+      }
+    },
+    {
+      "id": "feedback-water",
+      "description": "User-approved RC61 watering feedback over the current plant detail; historical references remain preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\feedback-water.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-feedback-water.png",
+      "reference_sha256": "99b0707e8dcc4657b8532cd1d6d1e29a91471c888252147ae6e78d757a4c6fd3",
+      "actual_sha256": "cbfba48b3db00a13ba9d14697a9f9360ca059bb4cbe2393adcfaa2082b9ddc27",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 1811,
+      "metrics": {
+        "mean_abs_error": 0.140616,
+        "rmse": 2.851211,
+        "maximum_error": 199,
+        "changed_ratio": 0.004367
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-water\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-water\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-water\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-water\\comparison.png"
+      }
+    },
+    {
+      "id": "feedback-growth",
+      "description": "User-approved RC61 growth feedback over the current plant detail; historical references remain preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\feedback-growth.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-feedback-growth.png",
+      "reference_sha256": "1955e09e044a4ad880c502248392c53fea19fa05e980e73e67450a8e8e619a47",
+      "actual_sha256": "fb6ebe4d42493c20ad46c36b3bd60ca47740d4fb2c12dfdc108769036c7f91af",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 2026,
+      "metrics": {
+        "mean_abs_error": 0.160495,
+        "rmse": 3.027402,
+        "maximum_error": 202,
+        "changed_ratio": 0.004885
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-growth\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-growth\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-growth\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-growth\\comparison.png"
+      }
+    },
+    {
+      "id": "feedback-coins",
+      "description": "Approved Phase 7 shared coin reward feedback effect.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\feedback-coins.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-feedback-coins.png",
+      "reference_sha256": "a55296069b2753ebb328d8c37316890dd6fe08bfc76eda7dbe3282afba11b7af",
+      "actual_sha256": "a55296069b2753ebb328d8c37316890dd6fe08bfc76eda7dbe3282afba11b7af",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-coins\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-coins\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-coins\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-coins\\comparison.png"
+      }
+    },
+    {
+      "id": "feedback-unlock",
+      "description": "Historical approved rack-slot unlock feedback over the Phase 151 painted rack. Preserved append-only and superseded by the Phase 163 runtime gate.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase151_feedback_unlock_v3.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-feedback-unlock.png",
+      "reference_sha256": "8de514088c0d91d1522be222b7ab86b29171075d1f1bd3c8546f798ee7508a9d",
+      "actual_sha256": "05c4ef46881c4369ce531ca280acfb32d3b35665a3f888c33ca6af2a253be7b0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 58692,
+      "valid_pixels": 356028,
+      "changed_pixels": 298879,
+      "metrics": {
+        "mean_abs_error": 48.426735,
+        "rmse": 73.115752,
+        "maximum_error": 255,
+        "changed_ratio": 0.839482
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=48.426735 > 4.000000",
+        "rmse=73.115752 > 12.000000",
+        "changed_ratio=0.839482 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-unlock\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-unlock\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-unlock\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\feedback-unlock\\comparison.png"
+      }
+    },
+    {
+      "id": "screen-transition",
+      "description": "Historical approved directional cyan-gold mobile transition over the Phase 151 painted rack. Preserved append-only and superseded by the Phase 163 runtime gate.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase151_screen_transition_v3.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-screen-transition.png",
+      "reference_sha256": "7c360396115c2180eeb04a129f1191c30508d262b00ab4a2b5096a0cfc430704",
+      "actual_sha256": "070070a0def7beb3592a32a6e9676468cbf49500867b5810e8719543b115b874",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 58692,
+      "valid_pixels": 356028,
+      "changed_pixels": 288205,
+      "metrics": {
+        "mean_abs_error": 44.288271,
+        "rmse": 67.911171,
+        "maximum_error": 255,
+        "changed_ratio": 0.809501
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=44.288271 > 4.000000",
+        "rmse=67.911171 > 12.000000",
+        "changed_ratio=0.809501 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\screen-transition\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\screen-transition\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\screen-transition\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\screen-transition\\comparison.png"
+      }
+    },
+    {
+      "id": "phase163-feedback-unlock-runtime-approved",
+      "description": "User-approved Phase 184 RC59 rack-slot unlock feedback over the current rack and compact dock. The effect is unchanged; the historical Phase 163 reference remains preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase163-feedback-unlock-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-feedback-unlock.png",
+      "reference_sha256": "104b2977ffa366127ef18e75b5f56bf8253c374bf28741f473f37d4fb892af1b",
+      "actual_sha256": "05c4ef46881c4369ce531ca280acfb32d3b35665a3f888c33ca6af2a253be7b0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 58692,
+      "valid_pixels": 356028,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 255,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-feedback-unlock-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-feedback-unlock-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-feedback-unlock-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-feedback-unlock-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase163-screen-transition-runtime-approved",
+      "description": "User-approved Phase 184 RC59 cyan-gold screen transition over the current rack and compact dock. The effect is unchanged; the historical Phase 163 reference remains preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase163-screen-transition-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-screen-transition.png",
+      "reference_sha256": "213e2238af35107b6f903344b469642917a532ae0a9021632ad48dbc56120713",
+      "actual_sha256": "070070a0def7beb3592a32a6e9676468cbf49500867b5810e8719543b115b874",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 58692,
+      "valid_pixels": 356028,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 255,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-screen-transition-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-screen-transition-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-screen-transition-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-screen-transition-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase149-player-room-exact-target",
+      "description": "User-designated exact Phase 149 room composition, normalized to the content area between the global HUD and navigation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase149-player-room-exact-target.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase149-player-room-exact-target.png",
+      "reference_sha256": "3e223d3ee195f2dd8fb685b391714767978b86ec352cabada303eea003f4daa5",
+      "actual_sha256": "2308cc2a937e58ca0b7c6bc7a0afc5c41d0b660f1b782b7ab79f0721f13ff266",
+      "normalized_size": [
+        432,
+        780
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 336960,
+      "changed_pixels": 400,
+      "metrics": {
+        "mean_abs_error": 0.1127,
+        "rmse": 3.53869,
+        "maximum_error": 205,
+        "changed_ratio": 0.001187
+      },
+      "thresholds": {
+        "max_mean_abs_error": 10.0,
+        "max_rmse": 28.0,
+        "max_changed_ratio": 0.35
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase149-player-room-exact-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase149-player-room-exact-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase149-player-room-exact-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase149-player-room-exact-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase150-greenhouse-approved-target",
+      "description": "User-approved Phase 150 painted greenhouse composition, normalized from its 864x1544 content reference to the live content area. This intentionally remains report-only because the reference bakes one concrete crop state while the live view stays dynamic.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase150\\greenhouse-exact-content-target-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase150-greenhouse-approved-target.png",
+      "reference_sha256": "0a780e8c4a707966ed694c7933a15ee5a61b5ed04e88179687d4f46940de2eb2",
+      "actual_sha256": "e32d5fd3df00cce14c05124d910f8428abeda789a3c66a2a3468d6a063cb7dab",
+      "normalized_size": [
+        432,
+        780
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 336960,
+      "changed_pixels": 263255,
+      "metrics": {
+        "mean_abs_error": 47.829395,
+        "rmse": 73.234943,
+        "maximum_error": 255,
+        "changed_ratio": 0.781265
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase150-greenhouse-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase150-greenhouse-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase150-greenhouse-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase150-greenhouse-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase151-rack-approved-target",
+      "description": "User-approved Phase 151 painted rack concept. It remains report-only because the concept bakes one level and plant state; the separately approved real runtime render is gated below.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase151\\user-approved-painted-rack-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-rack-greenhouse-attention.png",
+      "reference_sha256": "7540369ad83e2dcb0a707052c649e8c0e919d621086b970985ea891eff02697c",
+      "actual_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 402726,
+      "metrics": {
+        "mean_abs_error": 69.822553,
+        "rmse": 92.632413,
+        "maximum_error": 255,
+        "changed_ratio": 0.971079
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase151-detail-approved-target",
+      "description": "User-approved Phase 151 painted detail concept. It remains report-only while the separately approved real runtime render is gated below.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase151\\user-approved-painted-detail-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-detail-idle.png",
+      "reference_sha256": "599283f38afd50cfc6d121613f9687e15707cdf56ed1de6fe743765727bcafde",
+      "actual_sha256": "21e677e74555d7362de088682cb04974e0b8128471c79b8d739e25ad88ac14f1",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 403248,
+      "metrics": {
+        "mean_abs_error": 87.232712,
+        "rmse": 113.857756,
+        "maximum_error": 255,
+        "changed_ratio": 0.972338
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase152-storage-approved-target",
+      "description": "User-approved Phase 152 painted storage concept. It remains report-only because its inventory values are baked; the separately approved real runtime render is gated below.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase152\\user-approved-painted-storage-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase128-storage.png",
+      "reference_sha256": "d19d7ea1fdc95ae7a69289b555363f0e104fbe029911e46335bdcce567292d28",
+      "actual_sha256": "6c4f4047668fd493e4fbbb0d7b994ec27fd894008f08e5786071d2e80e4188c0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 400263,
+      "metrics": {
+        "mean_abs_error": 82.111091,
+        "rmse": 106.288175,
+        "maximum_error": 255,
+        "changed_ratio": 0.96514
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase153-shop-approved-target",
+      "description": "User-approved Phase 153 painted botanical shop composition. Report-only until the user reviews the real dynamic Godot render; prices, stock and category state remain dynamic.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase153\\user-approved-painted-shop-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase153-shop.png",
+      "reference_sha256": "5a69e32d9ba3ee96feb911f653c4f21cb41d972af5f6599da173eb0dea41d972",
+      "actual_sha256": "9c01d0629a20603333bad3343ed46c06f2048de8abb83a63433cceba98726fe3",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 385705,
+      "metrics": {
+        "mean_abs_error": 71.266919,
+        "rmse": 96.16317,
+        "maximum_error": 255,
+        "changed_ratio": 0.930037
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase154-measurement-approved-target",
+      "description": "User-approved Phase 154 painted botanical measurement composition. It remains report-only because the separately approved real runtime render is gated below; all ten sensor values, the 72-hour graph, guidance and scrolling remain dynamic.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase154\\user-approved-painted-measurement-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase154-measurement.png",
+      "reference_sha256": "d690acb3d1bcf174f856e7d72498f976991879e24714f9bb1a68d81b5ab46ffb",
+      "actual_sha256": "fe200d8ec5464b4a3597383d941ee8216e7974113e27912e8ac70170ccc862e9",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 409414,
+      "metrics": {
+        "mean_abs_error": 85.071873,
+        "rmse": 110.80831,
+        "maximum_error": 255,
+        "changed_ratio": 0.987206
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase155-herbarium-approved-target",
+      "description": "User-approved Phase 155 painted herbarium composition. Report-only until the user reviews the actual dynamic Godot render; all eleven species, mastery progress, descriptions, rewards, handover replay and vertical scrolling remain live.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase155\\user-approved-painted-herbarium-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase155-herbarium.png",
+      "reference_sha256": "9aba0f190f2acfc3c7795616b8e9a6c0e2f3805c10b3f0bdc8fc6a9cfdd4c697",
+      "actual_sha256": "1a4c2610265de56e71a509606861edf9673b540016fd7b524197c1ff9d65d2a5",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 387786,
+      "metrics": {
+        "mean_abs_error": 91.410802,
+        "rmse": 116.100525,
+        "maximum_error": 255,
+        "changed_ratio": 0.935055
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-approved-target",
+      "description": "User-approved Phase 161 painted Daily Challenge composition. Report-only until the user reviews the actual layered Godot render; all fourteen challenge types, weather, target availability, status, rewards and pack count remain dynamic.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase161\\user-approved-painted-daily-challenge-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-active.png",
+      "reference_sha256": "7972356773a32026e400c97c27df4f70881723f50b2e74e28a010d696a12533e",
+      "actual_sha256": "30696dba6edbe50afafcd11fbbd827039be1d15b5613eb4220a7ff1074906af2",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 393503,
+      "metrics": {
+        "mean_abs_error": 80.253985,
+        "rmse": 106.211731,
+        "maximum_error": 255,
+        "changed_ratio": 0.94884
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase162-cosmetic-showroom-approved-target",
+      "description": "User-approved Phase 162 painted Cosmetic Showroom composition. Report-only until the user reviews the actual layered Godot render; all four themes, wallet values, purchase and selection states, research lock and scrolling remain live.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase162\\user-approved-painted-cosmetic-showroom-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase162-cosmetic-showroom-selected.png",
+      "reference_sha256": "bc524f1d2c3111630385256481a4acb04cc51d99c2e4cf342d7fa468c3fc5dc0",
+      "actual_sha256": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 317546,
+      "metrics": {
+        "mean_abs_error": 46.964885,
+        "rmse": 70.052941,
+        "maximum_error": 255,
+        "changed_ratio": 0.765688
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase163-rack-locked-planter-approved-target",
+      "description": "User-approved Phase 163 painted rack composition with one shared compact locked-planter master and one shared grow-light master. Report-only until the user reviews the actual dynamic Godot render; all ten slots, levels, plant states, care, lights and interactions remain live.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\visual-proposals\\phase163\\user-approved-locked-planter-rack-screen-v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-rack-greenhouse-attention.png",
+      "reference_sha256": "bd906524ed677fb996098578e3efbed3f19c797ac8078cbc8c7db86aeb1bc349",
+      "actual_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 18,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 405590,
+      "metrics": {
+        "mean_abs_error": 75.676043,
+        "rmse": 98.634559,
+        "maximum_error": 255,
+        "changed_ratio": 0.977985
+      },
+      "thresholds": {},
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-locked-planter-approved-target\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-locked-planter-approved-target\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-locked-planter-approved-target\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-locked-planter-approved-target\\comparison.png"
+      }
+    },
+    {
+      "id": "phase151-rack-runtime-approved",
+      "description": "Historical exact dynamic Godot rack render approved after Phase 151. Preserved report-only after the user explicitly approved the superseding Phase 163 locked-planter and grow-light runtime.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase151_rack_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-rack-greenhouse-attention.png",
+      "reference_sha256": "d02b55e159c0b90622185bb0a6b45e2d35bb0712d8cf50b9a2dee9edad103d90",
+      "actual_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 348169,
+      "metrics": {
+        "mean_abs_error": 51.835806,
+        "rmse": 77.913573,
+        "maximum_error": 255,
+        "changed_ratio": 0.839528
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=51.835806 > 4.000000",
+        "rmse=77.913573 > 12.000000",
+        "changed_ratio=0.839528 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-rack-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase151-detail-runtime-approved",
+      "description": "Exact RC61 dynamic Godot plant detail explicitly approved by the user; the Phase 151 reference remains preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase151-detail-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-detail-idle.png",
+      "reference_sha256": "5c7304b3f587933858257fea2a868d40916fc3d90a76af801d0b916a1c5405a0",
+      "actual_sha256": "21e677e74555d7362de088682cb04974e0b8128471c79b8d739e25ad88ac14f1",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 906,
+      "metrics": {
+        "mean_abs_error": 0.076063,
+        "rmse": 1.978074,
+        "maximum_error": 200,
+        "changed_ratio": 0.002185
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase151-detail-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase152-storage-runtime-approved",
+      "description": "Exact dynamic Godot painted storage render explicitly approved by the user after Phase 152 implementation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase152-storage-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase128-storage.png",
+      "reference_sha256": "6c4f4047668fd493e4fbbb0d7b994ec27fd894008f08e5786071d2e80e4188c0",
+      "actual_sha256": "6c4f4047668fd493e4fbbb0d7b994ec27fd894008f08e5786071d2e80e4188c0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase152-storage-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase153-shop-runtime-approved",
+      "description": "Exact dynamic Godot painted shop render explicitly approved by the user after Phase 153 implementation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase153-shop-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase153-shop.png",
+      "reference_sha256": "624018d76a496c5f8908324f1f1e3f9cfbcb4c71a23022db29f3cff2103d64b7",
+      "actual_sha256": "9c01d0629a20603333bad3343ed46c06f2048de8abb83a63433cceba98726fe3",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 1403,
+      "metrics": {
+        "mean_abs_error": 0.111623,
+        "rmse": 2.593206,
+        "maximum_error": 197,
+        "changed_ratio": 0.003383
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase153-shop-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase154-measurement-runtime-approved",
+      "description": "Exact dynamic Godot painted Measurement render explicitly approved by the user after Phase 154 implementation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase154-measurement-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase154-measurement.png",
+      "reference_sha256": "73c7841758773fd827a42d9712dd495014be61fde8853cedcc0052b941660030",
+      "actual_sha256": "fe200d8ec5464b4a3597383d941ee8216e7974113e27912e8ac70170ccc862e9",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 3901,
+      "metrics": {
+        "mean_abs_error": 0.711139,
+        "rmse": 8.780844,
+        "maximum_error": 229,
+        "changed_ratio": 0.009406
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase154-measurement-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase155-herbarium-runtime-approved",
+      "description": "Exact dynamic Godot painted Herbarium render explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase155-herbarium-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase155-herbarium.png",
+      "reference_sha256": "1a4c2610265de56e71a509606861edf9673b540016fd7b524197c1ff9d65d2a5",
+      "actual_sha256": "1a4c2610265de56e71a509606861edf9673b540016fd7b524197c1ff9d65d2a5",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase155-herbarium-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase160-player-room-clean-floor-runtime-approved",
+      "description": "Historical Exact dynamic Godot painted Player Room clean-floor render explicitly approved by the user after Phase 160 implementation. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-clean-floor-runtime-approved.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase160_player_room_clean_floor_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase160-player-room-clean-floor.png",
+      "reference_sha256": "a0a7d7d1a4120320fc0084af65429e9f997ac9cad29e51decf20278869363bd2",
+      "actual_sha256": "b9f334ce7d4e5453347a4c06933e95624588029991041d537b680e64871c6e29",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 405025,
+      "metrics": {
+        "mean_abs_error": 65.018813,
+        "rmse": 88.985593,
+        "maximum_error": 255,
+        "changed_ratio": 0.976623
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=65.018813 > 4.000000",
+        "rmse=88.985593 > 12.000000",
+        "changed_ratio=0.976623 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase160-player-room-clean-floor-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase160-player-room-clean-floor-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase160-player-room-clean-floor-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase160-player-room-clean-floor-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase162-cosmetic-showroom-runtime-approved",
+      "description": "Exact dynamic Godot painted Cosmetic Showroom selected-state render explicitly approved by the user after Phase 162 implementation.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase162-cosmetic-showroom-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase162-cosmetic-showroom-selected.png",
+      "reference_sha256": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+      "actual_sha256": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase162-cosmetic-showroom-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase158-player-room-empty-runtime-approved",
+      "description": "Exact empty 0/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase158-player-room-empty-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-empty-0-of-20.png",
+      "reference_sha256": "cd94031182f3c48f2da44e8dc571f0a90259ddb60c66498b7fb57f94b4a723b4",
+      "actual_sha256": "6547c9ea3d0b9a6a280ba6e8d491932101a425484bd3df19d342067ff5219576",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 490,
+      "metrics": {
+        "mean_abs_error": 0.096606,
+        "rmse": 3.198207,
+        "maximum_error": 205,
+        "changed_ratio": 0.001182
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-empty-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-empty-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-empty-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-empty-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase158-player-room-sparse-runtime-approved",
+      "description": "Historical Exact sparse 4/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-sparse-runtime-approved.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase158_player_room_sparse_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-sparse-4-of-20.png",
+      "reference_sha256": "d5ad610b315cc4baa2f5adf8539eace3e3bd4b6553582768dbd362b89428da27",
+      "actual_sha256": "164d7ffba3f127d114cc4925e52f03fcfc85c0d13e8a9eef3271395ec4f48da0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 404058,
+      "metrics": {
+        "mean_abs_error": 63.979361,
+        "rmse": 87.90243,
+        "maximum_error": 255,
+        "changed_ratio": 0.974291
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=63.979361 > 4.000000",
+        "rmse=87.902430 > 12.000000",
+        "changed_ratio=0.974291 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-sparse-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-sparse-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-sparse-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-sparse-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase158-player-room-phone-save-runtime-approved",
+      "description": "Historical Exact sanitized phone-save 10/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-phone-save-runtime-approved.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase158_player_room_phone_save_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-phone-save-10-of-20.png",
+      "reference_sha256": "cf100a3653df0f30ee0f6728db58001ffc91e797e321a6abbc5fac0112dba93b",
+      "actual_sha256": "96e36c6ce8c816d241f8d1e01188e072552b9069575c28ea71892f32f938e0ac",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 404047,
+      "metrics": {
+        "mean_abs_error": 63.865159,
+        "rmse": 88.005487,
+        "maximum_error": 255,
+        "changed_ratio": 0.974265
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=63.865159 > 4.000000",
+        "rmse=88.005487 > 12.000000",
+        "changed_ratio=0.974265 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-phone-save-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-phone-save-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-phone-save-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-phone-save-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase158-player-room-full-runtime-approved",
+      "description": "Historical Exact full 20/20 Player Room Godot render with the enlarged Phase 159 cloche explicitly approved by the user. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-full-runtime-approved.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase158_player_room_full_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-full-20-of-20.png",
+      "reference_sha256": "42804f92f7dc9b278511364e091498f9585458abb2da367d1eb6bec9feaa1f87",
+      "actual_sha256": "a58c2d010fe8d777d8cb7c5571f686c268dade8e5207358d7ef236286ea43709",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 405119,
+      "metrics": {
+        "mean_abs_error": 65.076678,
+        "rmse": 89.023058,
+        "maximum_error": 255,
+        "changed_ratio": 0.976849
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=65.076678 > 4.000000",
+        "rmse=89.023058 > 12.000000",
+        "changed_ratio=0.976849 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-full-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-full-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-full-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase158-player-room-full-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase159-player-room-cloche-runtime-approved",
+      "description": "Exact Player Room Godot render containing only the Phase 159 botanical cloche at the user-approved 115 percent scale.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase159-player-room-cloche-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase159-player-room-botanical-cloche.png",
+      "reference_sha256": "efe3b6f6e9880612b8ffe6eef1476d10f6a22f849fed31165c4af0e04e554725",
+      "actual_sha256": "756dfc586558142f229c83a6dac99f0d3b43b23c321cd33d5a33861917f1e2ae",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 517,
+      "metrics": {
+        "mean_abs_error": 0.097858,
+        "rmse": 3.190303,
+        "maximum_error": 207,
+        "changed_ratio": 0.001247
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-cloche-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-cloche-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-cloche-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-cloche-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase159-player-room-full-cloche-runtime-approved",
+      "description": "Historical Exact full Player Room Godot render with the Phase 159 botanical cloche at the user-approved 115 percent scale. Preserved report-only after the user approved the Phase 167 repaired room rack; superseded by phase167-player-room-full-cloche-runtime-approved.",
+      "status": "reported",
+      "gate": false,
+      "gate_enforced": false,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\assets\\ui\\comic\\reference_phase159_player_room_full_cloche_runtime_v1.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase159-player-room-full-cloche.png",
+      "reference_sha256": "42804f92f7dc9b278511364e091498f9585458abb2da367d1eb6bec9feaa1f87",
+      "actual_sha256": "ae7d4e612654c9deaccf591da4591e4761c2228d8f3aa02ba1a950e350ac44d3",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 405122,
+      "metrics": {
+        "mean_abs_error": 65.077025,
+        "rmse": 89.023972,
+        "maximum_error": 255,
+        "changed_ratio": 0.976857
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=65.077025 > 4.000000",
+        "rmse=89.023972 > 12.000000",
+        "changed_ratio=0.976857 > 0.060000"
+      ],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-full-cloche-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-full-cloche-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-full-cloche-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase159-player-room-full-cloche-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-active-runtime-approved",
+      "description": "Exact active Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase161-daily-challenge-active-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-active.png",
+      "reference_sha256": "30696dba6edbe50afafcd11fbbd827039be1d15b5613eb4220a7ff1074906af2",
+      "actual_sha256": "30696dba6edbe50afafcd11fbbd827039be1d15b5613eb4220a7ff1074906af2",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-active-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-active-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-active-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-active-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-completed-runtime-approved",
+      "description": "Exact completed Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase161-daily-challenge-completed-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-completed.png",
+      "reference_sha256": "b7f5d4a9373c076b9e16fbbe669bacc9779bacfbc9b4f9a4ec88f92da0146aba",
+      "actual_sha256": "b7f5d4a9373c076b9e16fbbe669bacc9779bacfbc9b4f9a4ec88f92da0146aba",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-completed-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-completed-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-completed-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-completed-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-ready-queue-full-runtime-approved",
+      "description": "Exact ready Daily Challenge with a full botanical-pack queue explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase161-daily-challenge-ready-queue-full-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-ready-queue-full.png",
+      "reference_sha256": "211247ec03ac49bd5719dd9461054951902caca37849c436508dd1a073c6fa6b",
+      "actual_sha256": "211247ec03ac49bd5719dd9461054951902caca37849c436508dd1a073c6fa6b",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-ready-queue-full-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-ready-queue-full-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-ready-queue-full-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-ready-queue-full-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-claimed-runtime-approved",
+      "description": "Exact claimed Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase161-daily-challenge-claimed-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-claimed.png",
+      "reference_sha256": "f19994e9ee885bc9b09c7a1d1c8e6462cdf4480d501265f63b02e0aed51bab21",
+      "actual_sha256": "f19994e9ee885bc9b09c7a1d1c8e6462cdf4480d501265f63b02e0aed51bab21",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-claimed-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-claimed-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-claimed-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-claimed-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase161-daily-challenge-unavailable-runtime-approved",
+      "description": "Exact unavailable-target Daily Challenge Godot render explicitly approved by the user for RC61.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase161-daily-challenge-unavailable-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase161-daily-challenge-unavailable.png",
+      "reference_sha256": "bae3cd4ffcfcea595265bc7a8b6b0a7b47182868caff426d3c69d3379bb79180",
+      "actual_sha256": "bae3cd4ffcfcea595265bc7a8b6b0a7b47182868caff426d3c69d3379bb79180",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-unavailable-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-unavailable-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-unavailable-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase161-daily-challenge-unavailable-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase163-rack-runtime-approved",
+      "description": "Exact Phase 184 RC59 dynamic Godot rack explicitly approved by the user with the later Phase 171 grounding and Phase 183 compact dock; the Phase 163 reference remains preserved.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase163-rack-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-rack-greenhouse-attention.png",
+      "reference_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "actual_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 0,
+      "metrics": {
+        "mean_abs_error": 0.0,
+        "rmse": 0.0,
+        "maximum_error": 0,
+        "changed_ratio": 0.0
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase163-rack-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase167-player-room-clean-floor-runtime-approved",
+      "description": "User-approved Phase 167 repaired room rack artwork in the inherited clean-floor fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase167-player-room-clean-floor-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase160-player-room-clean-floor.png",
+      "reference_sha256": "63dac160e77aed823118c92d19a9f39a9672e971174ee2bc5ab48695ad204290",
+      "actual_sha256": "b9f334ce7d4e5453347a4c06933e95624588029991041d537b680e64871c6e29",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 507,
+      "metrics": {
+        "mean_abs_error": 0.098179,
+        "rmse": 3.202539,
+        "maximum_error": 205,
+        "changed_ratio": 0.001223
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-clean-floor-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-clean-floor-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-clean-floor-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-clean-floor-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase167-player-room-sparse-runtime-approved",
+      "description": "User-approved Phase 167 repaired room rack artwork in the inherited sparse fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase167-player-room-sparse-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-sparse-4-of-20.png",
+      "reference_sha256": "19ab2173d2a1d8a9ba3c9e7b5bf848650c9d0902ef50eed6804fa3a623722aac",
+      "actual_sha256": "164d7ffba3f127d114cc4925e52f03fcfc85c0d13e8a9eef3271395ec4f48da0",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 472,
+      "metrics": {
+        "mean_abs_error": 0.091941,
+        "rmse": 3.17332,
+        "maximum_error": 205,
+        "changed_ratio": 0.001138
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-sparse-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-sparse-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-sparse-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-sparse-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase167-player-room-phone-save-runtime-approved",
+      "description": "User-approved Phase 167 repaired room rack artwork in the inherited phone-save fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase167-player-room-phone-save-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-phone-save-10-of-20.png",
+      "reference_sha256": "55ac1daeea306c1f1ae0042388506c42046dfccbe772dda4617a48628b14975e",
+      "actual_sha256": "96e36c6ce8c816d241f8d1e01188e072552b9069575c28ea71892f32f938e0ac",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 477,
+      "metrics": {
+        "mean_abs_error": 0.093287,
+        "rmse": 3.178144,
+        "maximum_error": 205,
+        "changed_ratio": 0.00115
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-phone-save-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-phone-save-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-phone-save-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-phone-save-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase167-player-room-full-runtime-approved",
+      "description": "User-approved Phase 167 repaired room rack artwork in the inherited full fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase167-player-room-full-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase158-player-room-full-20-of-20.png",
+      "reference_sha256": "92f986c9a12d8c956b4fb6643cec0ed4a101644cd2e420392fb0d17fb4c916ed",
+      "actual_sha256": "a58c2d010fe8d777d8cb7c5571f686c268dade8e5207358d7ef236286ea43709",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 494,
+      "metrics": {
+        "mean_abs_error": 0.092414,
+        "rmse": 3.14672,
+        "maximum_error": 205,
+        "changed_ratio": 0.001191
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-runtime-approved\\comparison.png"
+      }
+    },
+    {
+      "id": "phase167-player-room-full-cloche-runtime-approved",
+      "description": "User-approved Phase 167 repaired room rack artwork in the inherited full-cloche fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
+      "status": "passed",
+      "gate": true,
+      "gate_enforced": true,
+      "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\workshop-navigation-20261020\\phase167-player-room-full-cloche-runtime-approved.png",
+      "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\comic-phase159-player-room-full-cloche.png",
+      "reference_sha256": "107136155f2ccd6cc15c1c4d6c306d6aa07d8aa5013f48169ff1b078c779f953",
+      "actual_sha256": "ae7d4e612654c9deaccf591da4591e4761c2228d8f3aa02ba1a950e350ac44d3",
+      "normalized_size": [
+        432,
+        960
+      ],
+      "pixel_tolerance": 12,
+      "masked_pixels": 0,
+      "valid_pixels": 414720,
+      "changed_pixels": 506,
+      "metrics": {
+        "mean_abs_error": 0.098327,
+        "rmse": 3.199928,
+        "maximum_error": 205,
+        "changed_ratio": 0.00122
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [],
+      "artifacts": {
+        "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-cloche-runtime-approved\\reference-normalized.png",
+        "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-cloche-runtime-approved\\actual-normalized.png",
+        "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-cloche-runtime-approved\\heatmap.png",
+        "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\fortune-clock-20261022\\validation\\phase167-player-room-full-cloche-runtime-approved\\comparison.png"
+      }
+    }
+  ]
+}

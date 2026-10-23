@@ -1,0 +1,9 @@
+{
+  "checks": 15,
+  "demo": true,
+  "effects": {},
+  "failures": [],
+  "gpu_cup_pixels": {},
+  "phone_tested": false,
+  "saves_accessed": false
+}
