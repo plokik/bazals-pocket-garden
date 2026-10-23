@@ -7,7 +7,14 @@ const ProfessorStoryScene := preload("res://scripts/professor_story.gd")
 const ProfessorResearchScene := preload("res://scripts/professor_research.gd")
 const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
-const SAVE_SCHEMA := 42
+const SAVE_SCHEMA := 46
+const GREENHOUSE_DECORATIONS_SCHEMA := 46
+const GreenhouseDecorationsScene := preload("res://scripts/greenhouse_decorations.gd")
+const GUIDED_TUTORIAL_SCHEMA := 45
+const WORKSHOP_PRODUCTS_SCHEMA := 44
+const WorkshopProductsScene := preload("res://scripts/workshop_products.gd")
+const FORTUNE_WHEEL_SCHEMA := 43
+const FortuneWheelScene := preload("res://scripts/fortune_wheel.gd")
 const HARVEST_STORAGE_SCHEMA := 42
 const MAX_STORAGE_BATCHES := 256
 const DAILY_CHALLENGE_REAL_DAY_SCHEMA := 15
@@ -799,10 +806,16 @@ var oregano_seeds: int:
 		set_seed_count("oregano_vulgare", value)
 var selected_seed_species := "basil_genovese"
 var fertilizer_doses := 2
+var fortune_wheel := FortuneWheelScene.new()
+var workshop_products := WorkshopProductsScene.new()
 var harvest_count := 0
 var speed_multiplier := 1.0
 var paused := false
 var intro_completed := false
+## Only fresh games opt in; old saves never acquire a new overlay on load.
+var guided_tutorial_enabled := true
+var guided_tutorial_started := false
+var guided_tutorial_snoozed_step := ""
 var journey_step := JourneyStep.PLANT_SEED
 var journey_completed := false
 var journey_reward_claimed := false
@@ -823,6 +836,7 @@ var saved_at_unix := 0.0
 var unlocked_room_themes: Array[String] = ["sunrise"]
 var selected_room_theme := "sunrise"
 var owned_room_decorations: Array[String] = []
+var owned_greenhouse_decorations: Array[String] = []
 var room_decoration_slots: Array[String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 var greenhouse = GreenhouseSimulationScene.new()
 var greenhouse_order: Dictionary = {}
@@ -5306,12 +5320,17 @@ func to_dict() -> Dictionary:
 		"botanical_pack_pity": botanical_pack_pity,
 		"selected_seed_species": selected_seed_species,
 		"fertilizer_doses": fertilizer_doses,
+		"fortune_wheel": fortune_wheel.to_dict(),
+		"workshop_products": workshop_products.to_dict(),
 		"harvest_count": harvest_count,
 		# Ke klíčům se starší build bezpečně vrátí, ale produkční save už nikdy
 		# neuchovává hráčské zrychlení ani pauzu.
 		"speed_multiplier": 1.0,
 		"paused": false,
 		"intro_completed": intro_completed,
+		"guided_tutorial_enabled": guided_tutorial_enabled,
+		"guided_tutorial_started": guided_tutorial_started,
+		"guided_tutorial_snoozed_step": guided_tutorial_snoozed_step,
 		"journey_step": int(journey_step),
 		"journey_completed": journey_completed,
 		"journey_reward_claimed": journey_reward_claimed,
@@ -5346,6 +5365,7 @@ func to_dict() -> Dictionary:
 		"unlocked_room_themes": unlocked_room_themes,
 		"selected_room_theme": selected_room_theme,
 		"owned_room_decorations": owned_room_decorations.duplicate(),
+		"owned_greenhouse_decorations": owned_greenhouse_decorations.duplicate(),
 		"room_decoration_slots": room_decoration_slots.duplicate(),
 		"greenhouse_beds": greenhouse.to_dict(),
 		"greenhouse_order": greenhouse_order.duplicate(true),
@@ -5393,12 +5413,22 @@ func from_dict(data: Dictionary) -> void:
 	if not plant_profiles.has(selected_seed_species):
 		selected_seed_species = "basil_genovese"
 	fertilizer_doses = _sanitize_nonnegative_int(data.get("fertilizer_doses", 2), 2)
+	fortune_wheel = FortuneWheelScene.new()
+	if stored_schema >= FORTUNE_WHEEL_SCHEMA:
+		fortune_wheel.from_dict(data.get("fortune_wheel", {}))
+	workshop_products = WorkshopProductsScene.new()
+	if stored_schema >= WORKSHOP_PRODUCTS_SCHEMA:
+		workshop_products.from_dict(data.get("workshop_products", {}))
 	harvest_count = _sanitize_nonnegative_int(data.get("harvest_count", 0), 0)
 	# Schema 1–18 mohlo zůstat na 1000× nebo v ruční pauze. Nový reálný
 	# pěstitelský čas vždy obnoví bezpečný běžící stav bez ztráty rostlin.
 	speed_multiplier = 1.0
 	paused = false
 	intro_completed = bool(data.get("intro_completed", false))
+	guided_tutorial_enabled = stored_schema >= GUIDED_TUTORIAL_SCHEMA and data.get("guided_tutorial_enabled", false) is bool and data.get("guided_tutorial_enabled", false) == true
+	guided_tutorial_started = stored_schema >= GUIDED_TUTORIAL_SCHEMA and data.get("guided_tutorial_started", false) is bool and data.get("guided_tutorial_started", false) == true
+	var snoozed: Variant = data.get("guided_tutorial_snoozed_step", "")
+	guided_tutorial_snoozed_step = str(snoozed) if stored_schema >= GUIDED_TUTORIAL_SCHEMA and snoozed is String and snoozed in ["grow_to_mature", "wait_for_drying"] else ""
 	journey_step = clampi(_sanitize_int(data.get("journey_step", JourneyStep.PLANT_SEED), JourneyStep.PLANT_SEED), JourneyStep.PLANT_SEED, JourneyStep.COMPLETE)
 	journey_completed = bool(data.get("journey_completed", journey_step == JourneyStep.COMPLETE))
 	journey_reward_claimed = bool(data.get("journey_reward_claimed", journey_completed))
@@ -5633,6 +5663,8 @@ func from_dict(data: Dictionary) -> void:
 	selected_room_theme = str(data.get("selected_room_theme", "sunrise"))
 	if not ROOM_THEMES.has(selected_room_theme) or selected_room_theme not in unlocked_room_themes:
 		selected_room_theme = "sunrise"
+	owned_greenhouse_decorations.assign(GreenhouseDecorationsScene.sanitize_owned(
+		data.get("owned_greenhouse_decorations", []), stored_schema))
 	owned_room_decorations.clear()
 	room_decoration_slots.assign(_empty_room_decoration_slots())
 	if stored_schema >= ROOM_DECORATION_SCHEMA:

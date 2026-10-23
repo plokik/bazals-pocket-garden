@@ -188,7 +188,7 @@ static func _test_all_silhouettes(suite: SceneTree, rack: Rack, samples: Array, 
 				var geometry: Dictionary = rack._rack_slot_geometry(index, slot, sample.simulation)
 				var plant_rect: Rect2 = geometry.get("plant_rect", Rect2())
 				var saucer_rect: Rect2 = geometry.get("saucer_rect", Rect2())
-				var alpha_rect := _project(silhouettes[str(sample.path)], plant_rect, Vector2(570, 640))
+				var alpha_rect := _project(silhouettes[str(sample.path)], plant_rect, _plant_canvas(str(sample.path)))
 				var expected_floor := _paint_y(RAW_FRONT[row], viewport) - 11.0 * (viewport.y - 90.0) / 1586.0
 				var contact_fits := absf(saucer_rect.end.y - expected_floor) < EPSILON \
 					and saucer_rect.end.y < rack._slot_label_rect(slot).position.y
@@ -271,7 +271,7 @@ static func _test_mixed_states(suite: SceneTree, rack: Rack, catalog: Dictionary
 					plant.stage = PlantSimulation.Stage.HARVESTED if row == 0 else PlantSimulation.Stage.PACKAGED
 				var geometry: Dictionary = rack._rack_slot_geometry(index, slot, plant)
 				var texture: Texture2D = geometry.texture
-				alpha_rect = _project(silhouettes[texture.resource_path], geometry.plant_rect, Vector2(570, 640))
+				alpha_rect = _project(silhouettes[texture.resource_path], geometry.plant_rect, texture.get_size())
 				plaque = rack._slot_label_rect(slot)
 			valid = valid and _has_side_space(alpha_rect, viewport) and _has_side_space(locked_alpha, viewport) \
 				and _rect_near(plaque, rack._slot_label_rect(slot)) and _rect_near(rack._locked_plaque_rect(all_locked), rack._slot_label_rect(slot))
@@ -307,10 +307,14 @@ static func _test_runtime_boundary(suite: SceneTree, rack: Rack) -> void:
 static func _measure_silhouettes(samples: Array) -> Dictionary:
 	var result := {}
 	for sample: Dictionary in samples:
-		var bounds := _alpha_bounds(Image.load_from_file(str(sample.path)))
+		var bounds := _alpha_bounds(Phase170._runtime_image(str(sample.path)))
 		if bounds.has_area():
 			result[str(sample.path)] = bounds
 	return result
+
+
+static func _plant_canvas(path: String) -> Vector2:
+	return (load(path) as Texture2D).get_size()
 
 
 static func _alpha_bounds(image: Image) -> Rect2:

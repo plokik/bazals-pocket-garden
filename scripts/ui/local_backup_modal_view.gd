@@ -19,6 +19,13 @@ var status_label: Label
 var confirm_button: Button
 var restore_previous_button: Button
 var new_game_button: Button
+var _card: PanelContainer
+var _column: VBoxContainer
+var _close_button: Button
+var _compact_column: VBoxContainer
+var _content_scroll: ScrollContainer
+var _compact_layout := false
+var _layout_queued := false
 
 
 func _init(action_button_factory: Callable) -> void:
@@ -46,6 +53,8 @@ func _init(action_button_factory: Callable) -> void:
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_theme_constant_override("separation", 12)
 	card.add_child(column)
+	_card = card
+	_column = column
 	var title := Label.new()
 	title.text = "ZÁLOHA A POSTUP"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -116,3 +125,54 @@ func _init(action_button_factory: Callable) -> void:
 	close_button.set_meta("touch_target_min_height", 64)
 	ComicUITheme.apply_button(close_button, ComicUITheme.PURPLE, ComicUITheme.CREAM, 14)
 	column.add_child(close_button)
+	_close_button = close_button
+	_compact_column = VBoxContainer.new()
+	_compact_column.add_theme_constant_override("separation", 12)
+	_compact_column.visible = false
+	card.add_child(_compact_column)
+	_content_scroll = ScrollContainer.new()
+	_content_scroll.name = "BackupContentScroll"
+	_content_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_content_scroll.follow_focus = true
+	_content_scroll.scroll_deadzone = 12
+	_compact_column.add_child(_content_scroll)
+	resized.connect(_queue_compact_layout)
+	visibility_changed.connect(_queue_compact_layout)
+	column.minimum_size_changed.connect(_queue_compact_layout)
+	_queue_compact_layout()
+
+
+func _queue_compact_layout() -> void:
+	if _layout_queued:
+		return
+	_layout_queued = true
+	_update_compact_layout.call_deferred()
+
+
+func _update_compact_layout() -> void:
+	_layout_queued = false
+	if not is_inside_tree() or size.y <= 0.0:
+		return
+	var natural_height := _column.get_combined_minimum_size().y
+	if _compact_layout:
+		natural_height += 12.0 + _close_button.get_combined_minimum_size().y
+	var legacy_bottom := maxf(size.y * 0.925, size.y * 0.075 + natural_height + 30.0)
+	var needs_scroll := legacy_bottom > size.y - 16.0
+	if needs_scroll != _compact_layout:
+		_compact_layout = needs_scroll
+		if needs_scroll:
+			_column.reparent(_content_scroll, false)
+			_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			_close_button.reparent(_compact_column, false)
+			_compact_column.visible = true
+		else:
+			_close_button.reparent(_column, false)
+			_column.reparent(_card, false)
+			_compact_column.visible = false
+			_content_scroll.scroll_vertical = 0
+	_card.set_anchor(SIDE_TOP, 0.04 if needs_scroll else 0.075)
+	_card.set_anchor(SIDE_BOTTOM, 0.96 if needs_scroll else 0.925)
+	_card.offset_top = 0.0
+	_card.offset_bottom = 0.0
+	set_meta("compact_scroll_layout", needs_scroll)

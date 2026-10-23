@@ -1,5 +1,12 @@
 # Third-party software, fonty a assety — auditní soupis
 
+> **Vývojová změna 2026-10-11:** zdroj přidává
+> `com.google.android.gms:play-services-ads:25.5.0` (Google Mobile Ads SDK,
+> Google SDK terms), s oficiálními testovacími ID a bez mediátorů.
+> Původní offline inventář níže zůstává historickým dokladem a nepokrývá
+> novou závislost ani její transitivní closure. Před veřejným vydáním se musí
+> inventář a Data safety znovu ověřit. [Zdroj integrace](https://developers.google.com/admob/android/quick-start).
+
 Datum auditu: **2026-08-30**
 
 Stav: `INCOMPLETE_BLOCKING_PUBLIC_RELEASE`

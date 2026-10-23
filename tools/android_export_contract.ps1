@@ -74,7 +74,7 @@ function Assert-AndroidPresetSetContract {
         [Parameter(Mandatory = $true)][string]$PresetName,
         [string]$ExpectedVersionName = '0.71.0-rc61',
         [int]$ExpectedVersionCode = 78,
-        [int]$ExpectedSaveSchema = 41
+        [int]$ExpectedSaveSchema = 46
     )
 
     $presetPath = Join-Path $ProjectRoot 'export_presets.cfg'
@@ -203,6 +203,7 @@ function Assert-AndroidMergedManifestContract {
         'android.permission.RECEIVE_BOOT_COMPLETED',
         'com.howtogrow.notifications.CareNotificationReceiver',
         'com.howtogrow.notifications.CareBootReceiver'
+        'ca-app-pub-3940256099942544~3347511713'
     )
     foreach ($pattern in $requiredPatterns) {
         if ($ManifestText -notmatch $pattern) {
@@ -215,7 +216,14 @@ function Assert-AndroidMergedManifestContract {
 
     $allowedPermissions = @(
         'android.permission.POST_NOTIFICATIONS',
-        'android.permission.RECEIVE_BOOT_COMPLETED'
+        'android.permission.RECEIVE_BOOT_COMPLETED',
+        # Official test rewarded SDK dependency permissions. Advertising IDs,
+        # Topics and attribution permissions remain explicitly removed.
+        'android.permission.INTERNET',
+        'android.permission.ACCESS_NETWORK_STATE',
+        'android.permission.WAKE_LOCK',
+        'android.permission.FOREGROUND_SERVICE',
+        ($PresetContract.PackageName + '.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION')
     )
     $declaredPermissions = @(
         [regex]::Matches(
@@ -235,11 +243,15 @@ function Assert-AndroidMergedManifestContract {
 function Assert-AndroidDexPrivacyContract {
     param([Parameter(Mandatory = $true)][string]$DexPackagesText)
 
+    # Play-services-basement ships these three exception classes, not a
+    # Firebase data SDK. Ignore only their exact class names and aggregate
+    # package rows; every other Firebase class/member remains forbidden.
+    $privacyClasses = ($DexPackagesText -split "`n" | Where-Object { $_ -notmatch '^P\s' }) -join "`n"
+    $privacyClasses = $privacyClasses -replace 'com\.google\.firebase\.(?:FirebaseExceptionMapper|FirebaseApiNotAvailableException|FirebaseException)\b', ''
+
     $forbiddenSdkTokens = @(
         'com.google.firebase',
-        'com.google.android.gms',
-        'com.google.android.ump',
-        'com.google.ads',
+        'com.google.android.gms.analytics',
         'com.android.billingclient',
         'io.sentry',
         'com.facebook',
@@ -250,8 +262,13 @@ function Assert-AndroidDexPrivacyContract {
         'com.segment.analytics'
     )
     foreach ($token in $forbiddenSdkTokens) {
-        if ($DexPackagesText -match [regex]::Escape($token)) {
+        if ($privacyClasses -match [regex]::Escape($token)) {
             throw "Android artifact contains a forbidden analytics, ads, billing, attribution or social SDK token: $token"
+        }
+    }
+    foreach ($required in @('com.howtogrow.ads.RewardedWheelBridge', 'com.google.android.gms.ads')) {
+        if ($DexPackagesText -notmatch [regex]::Escape($required)) {
+            throw "Android artifact is missing the test rewarded ads bridge: $required"
         }
     }
 }

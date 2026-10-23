@@ -5,15 +5,21 @@ const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 
 var harvest_label: Label
 var action_button: Button
+var workshop_button: Button
 var progress_bar: ProgressBar
 var step_labels: Array[Label] = []
 
 
-func bind(label: Label, button: Button, progress: ProgressBar, steps: Array[Label]) -> void:
+func bind(label: Label, button: Button, progress: ProgressBar, steps: Array[Label], workshop: Button = null) -> void:
 	harvest_label = label
 	action_button = button
 	progress_bar = progress
 	step_labels = steps
+	workshop_button = workshop
+
+
+static func can_use_in_workshop(plant: PlantSimulation) -> bool:
+	return plant.stage == PlantSimulation.Stage.DRY and is_finite(plant.dry_harvest_g) and plant.dry_harvest_g > 0.0
 
 
 func is_bound() -> bool:
@@ -24,6 +30,8 @@ func refresh(game_session: GameSession) -> void:
 	if not is_bound():
 		return
 	var plant: PlantSimulation = game_session.plant
+	if workshop_button != null:
+		workshop_button.visible = can_use_in_workshop(plant)
 	var active_step := -1
 	var progress := 0.0
 	var is_wilted := plant.has_method("is_wilted") and plant.is_wilted()
@@ -75,7 +83,7 @@ func refresh(game_session: GameSession) -> void:
 		PlantSimulation.Stage.DRY:
 			active_step = 2
 			progress = 70.0
-			harvest_label.text = "Suchá bylinka %s: %.1f g\nZabal ji, aby byla připravená pro odběratele." % [plant.get_short_name(), plant.dry_harvest_g]
+			harvest_label.text = "Suchá bylinka %s: %.1f g\nZabal ji k prodeji, nebo využij v dílně." % [plant.get_short_name(), plant.dry_harvest_g]
 			action_button.text = "Zabalit do sáčku"
 			action_button.disabled = false
 		PlantSimulation.Stage.PACKAGED:

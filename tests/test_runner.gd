@@ -2,9 +2,11 @@ extends SceneTree
 
 
 func _test_approved_sage_reference_contract() -> void:
+	# Keep the original palette receipt and all its PNG hashes immutable.
+	# The owner-approved workshop transition validates the active manifest separately.
 	var base := "res://.agents/skills/how-to-grow-validation/references/"
 	var original: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(base + "visual-cases-original-colours-20261010.json"))
-	var active: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(base + "visual-cases.json"))
+	var active: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(base + "visual-cases-sage-20261010.json"))
 	var approval: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://docs/audit/sage-palette-20261010/approval.json"))
 	var records := {}
 	for record: Dictionary in approval.get("references", []):
@@ -336,6 +338,7 @@ func _test_phase166_room_drag() -> void:
 
 func _run_all() -> void:
 	_test_approved_sage_reference_contract()
+	preload("res://tests/approved_reference_transition_test.gd").run(self)
 	profile = _load_profile()
 	_check(not profile.is_empty(), "Profil bazalky se načte")
 	_test_phase19_architecture_services()
@@ -498,12 +501,27 @@ func _run_all() -> void:
 	_test_basic_animations()
 	_test_android_export_profile()
 	await _test_audio_haptics()
+	await preload("res://tests/audio_soundscape_test.gd").run(self)
 	await _test_phase92_garden_handover_ui()
 	await _test_phase93_professor_story_ui()
 	await _test_main_scene_smoke()
 	await _test_ui_driven_vertical_slice()
 	await preload("res://tests/first_journey_navigation_test.gd").run(self)
 	await preload("res://tests/harvest_storage_test.gd").run(self, _load_plant_catalog())
+	await preload("res://tests/garden_cat_companion_test.gd").run(self)
+	await preload("res://tests/garden_cat_outdoor_test.gd").run(self)
+	await preload("res://tests/garden_cat_walk_test.gd").run(self)
+	await preload("res://tests/workshop_test.gd").run(self)
+	await preload("res://tests/workshop_products_test.gd").run(self)
+	await preload("res://tests/teahouse_integration_test.gd").run(self)
+	await preload("res://tests/fortune_wheel_test.gd").run(self)
+	await preload("res://tests/greenhouse_entrance_test.gd").run(self)
+	preload("res://tests/greenhouse_decorations_test.gd").run(self)
+	await preload("res://tests/greenhouse_decoration_ui_test.gd").run(self)
+	await preload("res://tests/guided_tutorial_test.gd").run(self)
+	await preload("res://tests/compact_modal_layout_test.gd").run(self)
+	await preload("res://tests/measurement_context_test.gd").run(self)
+	preload("res://tests/plant_canopy_bounds_test.gd").run(self)
 	if failures == 0:
 		print("MVP TESTY PROŠLY: %d kontrol" % checks)
 		print("MVP_TESTS_PASSED=%d" % checks)
@@ -2612,7 +2630,7 @@ func _test_phase80_scalable_catalog() -> void:
 		},
 		"mint_peppermint": {
 			"seed": "res://assets/plants/comic/mint_seed_v1.png", "sprout": "res://assets/plants/comic/mint_sprout_v1.png", "young": "res://assets/plants/comic/mint_young_v1.png",
-			"mature": "res://assets/plants/comic/mint_mature_v1.png", "sick": "res://assets/plants/comic/mint_sick_v1.png", "harvest_ready": "res://assets/plants/comic/mint_harvest_ready_v1.png",
+			"mature": "res://assets/plants/comic/mint_mature_v1.png", "sick": "res://assets/plants/comic/mint_sick_v1.png", "harvest_ready": "res://assets/plants/comic/mint_harvest_ready_v2.png",
 		},
 		"oregano_vulgare": {
 			"seed": "res://assets/plants/comic/oregano_seed_v1.png", "sprout": "res://assets/plants/comic/oregano_sprout_v1.png", "young": "res://assets/plants/comic/oregano_young_v1.png",
@@ -2867,9 +2885,9 @@ func _test_phase81_epic_lavender() -> void:
 		"seed": "res://assets/plants/comic/lavender_seed_v1.png",
 		"sprout": "res://assets/plants/comic/lavender_sprout_v1.png",
 		"young": "res://assets/plants/comic/lavender_young_v1.png",
-		"mature": "res://assets/plants/comic/lavender_mature_v1.png",
+		"mature": "res://assets/plants/comic/lavender_mature_v2.png",
 		"sick": "res://assets/plants/comic/lavender_sick_v1.png",
-		"harvest_ready": "res://assets/plants/comic/lavender_harvest_ready_v1.png",
+		"harvest_ready": "res://assets/plants/comic/lavender_harvest_ready_v2.png",
 	}
 	var lavender_assets_exact := true
 	for state_id in expected_lavender_paths:
@@ -5340,7 +5358,7 @@ func _test_phase96_blended_orders() -> void:
 	var partial_declined := partial_single_index >= 0 and partial_restored.decline_order(partial_single_index)
 	var partial_replacement: Dictionary = partial_restored.orders[partial_single_index] if partial_single_index >= 0 else {}
 	_check(partial_restore_unique and partial_declined and int(partial_replacement.get("sequence", -1)) == 57 and str(partial_replacement.get("id", "")) == "order_0057" and str(partial_replacement.get("kind", "")) == "single" and _phase96_active_blend_count(partial_restored, "evening_freshness") == 1 and _phase96_orders_are_bounded_unique(partial_restored), "Restore i pozdější výměna odmítnou duplicitní aktivní blend_id; sekvence 57 zůstane auditovatelná, ale deterministicky dostane jednoduchou bazalkovou náhradu")
-	_check(SaveManager._decode_supported_data('{"schema":43,"orders":[]}').is_empty() and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema 43 zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
+	_check(SaveManager._decode_supported_data(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1,"orders":[]})).is_empty() and str(SaveManager._decode_data_result(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1})).get("status", "")) == SaveManager.STATUS_UNSUPPORTED, "Budoucí schema zůstává zablokované jako unsupported a nikdy se nepředá do migrace směsí")
 
 	var mastery := GameSession.new(catalog)
 	mastery.species_progress["basil_genovese"] = {"discovered": true, "harvests": 3, "best_quality": 0.74, "orders_completed": 1, "total_dry_g": 11.5, "claimed_tier": 2}
@@ -5731,9 +5749,9 @@ func _test_phase97_grand_herbarium_exhibition() -> void:
 		"Schema 34 round-trip zachová claimed finále, tři pečeti a oba odvozené title gettery"
 	)
 	_check(
-		SaveManager._decode_supported_data('{"schema":43,"story_chapters":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"Budoucí schema 43 zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
+		SaveManager._decode_supported_data(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1,"story_chapters":{}})).is_empty()
+		and str(SaveManager._decode_data_result(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1})).get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"Budoucí schema zůstává unsupported a nikdy se nepředá do migrace příběhového finále"
 	)
 
 
@@ -5813,8 +5831,8 @@ func _test_phase98_professor_research() -> void:
 	_check(
 		corrupt_schema_results == [SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT, SaveManager.STATUS_CORRUPT]
 		and SaveManager._decode_supported_data('{"schema":27.5}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema 43 jako unsupported"
+		and str(SaveManager._decode_data_result(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1})).get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager odmítne desetinné, bool i řetězcové schema jako corrupt a přesné budoucí schema jako unsupported"
 	)
 	var poisoned_research := {
 		"max_seen_utc_day": base_day,
@@ -6524,9 +6542,9 @@ func _test_phase99_research_variants_and_study() -> void:
 	)
 	_check(
 		int(SaveManager._decode_supported_data('{"schema":39,"professor_research":{}}').get("schema", 0)) == 39
-		and SaveManager._decode_supported_data('{"schema":43,"professor_research":{}}').is_empty()
-		and str(SaveManager._decode_data_result('{"schema":43}').get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
-		"SaveManager přijme přesné schema 39, ale budoucí schema 43 nepustí do migrace výzkumných variant, pracovny ani pokojové sbírky"
+		and SaveManager._decode_supported_data(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1,"professor_research":{}})).is_empty()
+		and str(SaveManager._decode_data_result(JSON.stringify({"schema":GameSession.SAVE_SCHEMA+1})).get("status", "")) == SaveManager.STATUS_UNSUPPORTED,
+		"SaveManager přijme přesné schema 39, ale budoucí schema nepustí do migrace výzkumných variant, pracovny ani pokojové sbírky"
 	)
 
 	var hook_cycle := 302
@@ -7433,9 +7451,9 @@ func _phase183_rack_dock_geometry_is_valid(instance, logical_size: Vector2) -> b
 		union_rect = button_rect if index == 0 else union_rect.merge(button_rect)
 		if index > 0:
 			var previous := buttons[index - 1]
-			valid = valid and is_equal_approx(previous.position.x + previous.size.x, button.position.x)
+			valid = valid and is_equal_approx(previous.position.x + previous.size.x + 10.0, button.position.x)
 	valid = valid \
-		and union_rect.size.is_equal_approx(Vector2(272.0, 68.0)) \
+		and union_rect.size.is_equal_approx(Vector2(302.0, 68.0)) \
 		and absf(union_rect.get_center().x - logical_size.x * 0.5) <= 0.5 \
 		and is_equal_approx(union_rect.end.y, instance.plants_room_panel.size.y - 8.0) \
 		and union_rect.position.x >= 0.0 \
@@ -7863,7 +7881,7 @@ func _test_phase133_three_per_shelf_room_plants() -> void:
 	var saucer_texture := load("res://assets/ui/visual/phase133/room_plant_saucer_v1.png") as Texture2D
 	var saucer_profile := VisualDesignSystem.asset_profile("room_plant_saucer")
 	_check(
-		GameSession.SAVE_SCHEMA == 42
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA
 		and GameSession.ROOM_THREE_PER_SHELF_SCHEMA == 40
 		and GameSession.ROOM_FINAL_RACK_PLANTS_SCHEMA == 41
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20
@@ -8329,7 +8347,7 @@ func _test_phase141_final_purchasable_rack_set() -> void:
 	var new_ids := ["silver_aglaonema", "pink_fittonia", "lemon_maranta", "colorful_coleus"]
 	var session := GameSession.new(_load_plant_catalog())
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and GameSession.ROOM_FINAL_RACK_PLANTS_SCHEMA == 41 \
 		and GameSession.PHASE141_ROOM_PLANT_IDS == new_ids \
 		and new_ids.all(func(decoration_id: String) -> bool: return decoration_id in GameSession.ROOM_DECORATION_IDS) \
@@ -8576,7 +8594,7 @@ func _test_phase144_rc55_android_candidate() -> void:
 		"0.66.0-rc55" in phase144_doc \
 		and "code 72" in phase144_doc \
 		and "A6F7DF58FC58DCBCFBEDF568B7B43FCF47766AFFE8BF289BE330B028B9D25ECD" in phase144_doc \
-		and GameSession.SAVE_SCHEMA == 42,
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA,
 		"Fáze 144 trvale dokládá immutable RC55 identitu a hash bez změny save schema"
 	)
 	_check(
@@ -8626,7 +8644,7 @@ func _test_phase145_layered_room_details() -> void:
 	var session := GameSession.new(_load_plant_catalog())
 	var cat_corner: Dictionary = session.get_room_decoration("cat_corner")
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and str(cat_corner.get("kind", "")) == "cat_corner" \
 		and str(cat_corner.get("slot_group", "")) == "pet_corner" \
 		and bool(cat_corner.get("dormant", false)) \
@@ -8731,7 +8749,7 @@ func _test_phase146_approved_room_master() -> void:
 	)
 	var session := GameSession.new(_load_plant_catalog())
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20 \
 		and GameSession.ROOM_PLANT_SLOT_COUNT == 12 \
 		and session.get_room_decoration_ids().size() == 20,
@@ -8936,7 +8954,7 @@ func _test_phase148_painted_cartoon_player_room() -> void:
 		and room.get_meta("phase149_framing", "") == "phase149_exact_target_native_rects_v1" \
 		and room.get_meta("phase149_exact_target_set", "") == "phase149_player_room_exact_target_layers_v1" \
 		and room.decoration_buttons.size() == 20 \
-		and GameSession.SAVE_SCHEMA == 42 \
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and session.get_room_decoration_ids().size() == 20,
 		"Přemalovaný Pokoj sjednocuje obraz i 20 hitboxů na přesný crop 853 × 1548 bez změny save nebo ekonomiky"
 	)
@@ -9132,7 +9150,7 @@ func _test_phase149_exact_player_room_target() -> void:
 	var compare_source := FileAccess.get_file_as_string("res://tools/compare_phase149_room_target.py")
 	var phase_doc := FileAccess.get_file_as_string("res://docs/PHASE149_EXACT_PLAYER_ROOM_TARGET.md")
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and GameSession.ROOM_DECORATION_SLOT_COUNT == 20 \
 		and session.get_room_decoration_ids().size() == 20 \
 		and "comic-phase149-player-room-exact-target.png" in capture_source \
@@ -9738,7 +9756,7 @@ func _test_phase156_rc56_android_handoff() -> void:
 	_check(
 		"`0.67.0-rc56`, Android version code 73" in phase_doc \
 		and "91C48EC2DE794E1A83901585CCC998E31A50396E679CE785B98BD26FA2FA3AE7" in phase_doc \
-		and GameSession.SAVE_SCHEMA == 42,
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA,
 		"Fáze 156 uchovává historickou RC56 identitu, immutable hash a beze změny navazující save schema 41"
 	)
 	_check(
@@ -9777,7 +9795,7 @@ func _test_phase157_responsive_detail_header() -> void:
 		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2 \
 		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source \
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source \
-		and GameSession.SAVE_SCHEMA == 42,
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA,
 		"Fáze 157 zůstává historicky doložená a současný zdroj navazuje RC61 bez migrace uložené hry"
 	)
 	_check(
@@ -9834,7 +9852,7 @@ func _test_phase158_room_layer_compositing() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase158_runtime_cases := {}
 	var expected_phase158_cases := {
-		"phase158-player-room-empty-runtime-approved": ["docs/audit/sage-palette-20261010/phase158-player-room-empty-runtime-approved.png", "comic-phase158-player-room-empty-0-of-20.png"],
+		"phase158-player-room-empty-runtime-approved": ["docs/audit/workshop-navigation-20261020/phase158-player-room-empty-runtime-approved.png", "comic-phase158-player-room-empty-0-of-20.png"],
 		"phase158-player-room-sparse-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_sparse_runtime_v1.png", "comic-phase158-player-room-sparse-4-of-20.png"],
 		"phase158-player-room-phone-save-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_phone_save_runtime_v1.png", "comic-phase158-player-room-phone-save-10-of-20.png"],
 		"phase158-player-room-full-runtime-approved": ["assets/ui/comic/reference_phase158_player_room_full_runtime_v1.png", "comic-phase158-player-room-full-20-of-20.png"],
@@ -9920,7 +9938,7 @@ func _test_phase158_room_layer_compositing() -> void:
 		and "visible_rgb_byte_exact_to_phase149" in builder_source \
 		and "FERN_BOTTOM_RIGHT_CONTOUR_OFFSET = -6" in builder_source \
 		and "PHASE158_ROOM_COMPOSITING=PASSED" in builder_source \
-		and GameSession.SAVE_SCHEMA == 42 \
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and "PHASE158_IMPLEMENTATION=IMPLEMENTED" in phase_doc \
 		and "PHASE158_SAVE_SCHEMA=41_UNCHANGED" in phase_doc \
 		and "PHASE158_RC57_IMMUTABILITY=PRESERVED" in phase_doc \
@@ -9946,7 +9964,7 @@ func _test_phase159_botanical_cloche() -> void:
 	var parsed_visual_cases = JSON.parse_string(FileAccess.get_file_as_string("res://.agents/skills/how-to-grow-validation/references/visual-cases.json"))
 	var phase159_runtime_cases := {}
 	var expected_phase159_cases := {
-		"phase159-player-room-cloche-runtime-approved": ["docs/audit/sage-palette-20261010/phase159-player-room-cloche-runtime-approved.png", "comic-phase159-player-room-botanical-cloche.png"],
+		"phase159-player-room-cloche-runtime-approved": ["docs/audit/workshop-navigation-20261020/phase159-player-room-cloche-runtime-approved.png", "comic-phase159-player-room-botanical-cloche.png"],
 		"phase159-player-room-full-cloche-runtime-approved": ["assets/ui/comic/reference_phase159_player_room_full_cloche_runtime_v1.png", "comic-phase159-player-room-full-cloche.png"],
 	}
 	for case_variant in (parsed_visual_cases as Dictionary).get("cases", []):
@@ -10004,7 +10022,7 @@ func _test_phase159_botanical_cloche() -> void:
 	var bought_cloche := session.purchase_or_place_room_decoration("golden_lamp", GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX)
 	var repeated_cloche := session.purchase_or_place_room_decoration("golden_lamp", GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX)
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and session.get_room_decoration_ids_for_slot(GameSession.PHASE159_RETIRED_POTS_SLOT_INDEX).is_empty() \
 		and session.get_room_decoration_ids_for_slot(GameSession.PHASE159_BOTANICAL_CLOCHE_SLOT_INDEX) == ["golden_lamp"] \
 		and str(retired_state.get("reason", "")) == "retired" \
@@ -10099,7 +10117,7 @@ func _test_phase160_room_floor_declutter() -> void:
 	var rejected_watering := fresh_session.purchase_or_place_room_decoration("plastic_watering_can", 17)
 	var rejected_pet_corner := fresh_session.purchase_or_place_room_decoration("cat_corner", 19)
 	_check(
-		GameSession.SAVE_SCHEMA == 42 \
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA \
 		and GameSession.DORMANT_ROOM_DECORATION_IDS == ["plastic_watering_can", "cat_corner"] \
 		and GameSession.PHASE160_DORMANT_ROOM_DECORATION_SLOT_INDICES == [17, 19] \
 		and fresh_session.get_room_decoration_ids_for_slot(17).is_empty() \
@@ -10658,7 +10676,7 @@ func _test_phase163_approved_locked_planter_rack() -> void:
 		and phase163_visual_case.get("actual_crop", []) == [0.0, 0.0, 1.0, 1.0] \
 		and phase163_visual_case.get("masks", null) == [] \
 		and not bool(phase163_visual_case.get("gate", true)) \
-		and str(phase163_runtime_case.get("reference", "")) == "docs/audit/sage-palette-20261010/phase163-rack-runtime-approved.png" \
+		and str(phase163_runtime_case.get("reference", "")) == "docs/audit/workshop-navigation-20261020/phase163-rack-runtime-approved.png" \
 		and str(phase163_runtime_case.get("actual", "")) == "comic-rack-greenhouse-attention.png" \
 		and bool(phase163_runtime_case.get("gate", false)) \
 		and str(phase163_runtime_case.get("approval_record", "")) == "docs/visual-proposals/20260922-rc60-runtime-baseline/runtime-reference-approval-v1.json" \
@@ -10722,7 +10740,7 @@ func _test_phase164_source_baseline() -> void:
 		)
 	_check(
 		phase_doc_valid
-		and GameSession.SAVE_SCHEMA == 42,
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA,
 		"Fáze 164 trvale dokládá ověřený RC57 zdrojový baseline oddělený od navazující RC58 identity, APK, telefonu a publikování"
 	)
 
@@ -10754,7 +10772,7 @@ func _test_phase165_rc58_android_handoff() -> void:
 		and preset_source.count("version/name=\"0.71.0-rc61\"") == 2
 		and "version/name=\"0.71.0-rc61-emulator\"" in preset_source
 		and "bazals-pocket-garden-rc60-emulator-x86_64-debug.apk" in preset_source
-		and GameSession.SAVE_SCHEMA == 42,
+		and GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA,
 		"Fáze 165 zavádí samostatnou RC58 identitu bez migrace save a odděluje technický Android PASS od lidské fyzické brány"
 	)
 
@@ -12966,7 +12984,7 @@ func _test_phase50_android_audit_tooling() -> void:
 		and "AAB_PRIVACY_SDK_ALLOWLIST=PASSED" in aab_export_source
 		and "GODOT_ANDROID_EXPECTED_SIGNER_SHA256" in aab_export_source
 		and "AAB_SIGNER_IDENTITY_CHECK=PASSED" in aab_export_source,
-		"RC61 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně dvě oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
+		"RC61 Android brány vyžadují zachovaný save, anonymizují zařízení, povolují přesně vyjmenovaná oprávnění, odmítají zakázané SDK a vážou AAB k očekávanému podpisovému certifikátu"
 	)
 
 
@@ -13500,7 +13518,7 @@ func _test_basic_animations() -> void:
 	_check(view._texture_for_simulation().resource_path.ends_with("comic/mint_sprout_v1.png") and room_family._texture_for(view.simulation).resource_path.ends_with("comic/mint_sprout_v1.png"), "Detail i stojan vykreslí výhonek máty ze stejné nové rodiny")
 	view.simulation.stage = PlantSimulation.Stage.MATURE
 	view.simulation.growth_percent = 100.0
-	_check(view._texture_for_simulation().resource_path.ends_with("comic/mint_harvest_ready_v1.png"), "Zralá máta používá vlastní hustý sklizňový sprite")
+	_check(view._texture_for_simulation().resource_path.ends_with("comic/mint_harvest_ready_v2.png"), "Zralá máta používá vlastní hustý sklizňový sprite")
 	view.simulation.disease_level = 1
 	_check(view._texture_for_simulation().resource_path.ends_with("comic/mint_sick_v1.png"), "Nemocná máta zůstává okamžitě vizuálně čitelná")
 	view.simulation.disease_level = 0
@@ -14548,6 +14566,8 @@ func _test_main_scene_smoke() -> void:
 	_check(instance.player_room_view.back_button.size.y >= 60.0 and instance.player_room_view.theme_button.size.y >= 60.0 and instance.player_room_view.selected_theme_id == instance.session.selected_room_theme, "Hráčský pokoj má velký návrat, přímý vstup do existujícího showroomu a ihned zobrazuje zvolený vzhled")
 	var room_slot_targets_valid: bool = instance.player_room_view.decoration_buttons.size() == 20
 	var expected_room_slot_target := PlayerRoomCollectionView.decoration_touch_target_size(instance.player_room_view.size)
+	if instance.player_room_view.get_meta("workshop_room", false):
+		expected_room_slot_target = Vector2(56, 56)
 	for room_slot_button in instance.player_room_view.decoration_buttons:
 		room_slot_targets_valid = room_slot_targets_valid \
 			and room_slot_button.size.is_equal_approx(expected_room_slot_target) \
@@ -14556,7 +14576,9 @@ func _test_main_scene_smoke() -> void:
 	_check(room_slot_targets_valid, "Fáze 133 všech dvacet sémantických míst používá nekolizní responzivní dotykový cíl 56–64 px")
 	instance.session.coins = maxi(instance.session.coins, 40)
 	var decoration_coins_before: int = int(instance.session.coins)
-	instance.player_room_view.decoration_buttons[0].pressed.emit()
+	# Exercise the retained catalog directly. The user-approved painted
+	# workshop deliberately has no clickable decoration slots anymore.
+	instance._open_room_decoration_modal(0)
 	await process_frame
 	await process_frame
 	var orchid_card: Dictionary = instance.room_decoration_modal.decoration_cards.get("room_orchid", {})
@@ -14591,6 +14613,8 @@ func _test_main_scene_smoke() -> void:
 	_check(back_closed_player_room and instance.garden_location_id == "rack" and instance.plants_room_panel.visible and not instance.player_room_panel.visible, "Systémové Zpět vrátí hráčský pokoj na stojan před pokusem ukončit hru")
 	instance._open_greenhouse()
 	await process_frame
+	instance.greenhouse_entrance_view.door_button.pressed.emit()
+	instance.greenhouse_entrance_view._advance_opening(1.0)
 	_check(
 		bool(instance.hud_background.get_meta("corner_ornaments_visible", false))
 		and bool(instance.hud_background.get_meta("rack_gap_fill_active", false))
@@ -14628,6 +14652,8 @@ func _test_main_scene_smoke() -> void:
 	instance._open_greenhouse()
 	await process_frame
 	var greenhouse_coins_before: int = instance.session.coins
+	instance.greenhouse_entrance_view.door_button.pressed.emit()
+	instance.greenhouse_entrance_view._advance_opening(1.0)
 	var greenhouse_xp_before: int = instance.session.xp
 	instance.greenhouse_preview_view.select_bed(0)
 	var tomato_choice: Button = instance.greenhouse_preview_view.crop_buttons[0]
@@ -14695,7 +14721,8 @@ func _test_main_scene_smoke() -> void:
 		"Druhá 64px volba zasadí papriku za 14 mincí a okamžitě vrátí kontextovou akci zálivky"
 	)
 	var back_closed_greenhouse: bool = instance._consume_mobile_back_navigation()
-	_check(back_closed_greenhouse and instance.garden_location_id == "rack" and instance.plants_room_panel.visible and not instance.greenhouse_panel.visible, "Systémové Zpět vrátí funkční skleník bezpečně na stojan")
+	_check(back_closed_greenhouse and instance.garden_location_id == "greenhouse_exterior" and instance.greenhouse_entrance_panel.visible and not instance.greenhouse_panel.visible, "Systémové Zpět vrátí funkční skleník bezpečně do exteriéru")
+	_check(instance._consume_mobile_back_navigation() and instance.garden_location_id == "rack" and instance.plants_room_panel.visible, "Další systémové Zpět vrátí exteriér skleníku na stojan")
 	instance._open_plant_detail(0)
 	var back_closed_detail: bool = instance._consume_mobile_back_navigation()
 	_check(back_closed_detail and instance.plants_room_panel.visible and not instance.plant_detail_panel.visible, "Fáze 55 systémové Zpět vrátí detail rostliny na stojan")
@@ -15140,7 +15167,7 @@ func _test_main_scene_smoke() -> void:
 	for rack_button_index in range(painted_rack_buttons.size()):
 		var rack_button := painted_rack_buttons[rack_button_index]
 		var rack_label := rack_button.get_node_or_null("PaintedLabel") as Label
-		painted_rack_controls_ok = painted_rack_controls_ok and rack_button.get_meta("painted_style", "") == "shared_cream_icon_label_card_v1" and rack_button.get_meta("painted_label", "") == expected_rack_labels[rack_button_index] and rack_label != null and rack_label.text == expected_rack_labels[rack_button_index] and rack_label.get_meta("component", "") == "painted_rack_dock_label_v1" and rack_label.mouse_filter == Control.MOUSE_FILTER_IGNORE
+		painted_rack_controls_ok = painted_rack_controls_ok and rack_button.get_meta("painted_style", "") == "shared_sage_dock_segment_v2" and rack_button.get_meta("painted_label", "") == expected_rack_labels[rack_button_index] and rack_label != null and rack_label.text == expected_rack_labels[rack_button_index] and rack_label.get_meta("component", "") == "painted_rack_dock_label_v1" and rack_label.mouse_filter == Control.MOUSE_FILTER_IGNORE
 	_check(painted_rack_controls_ok and instance.plants_room_panel.get_meta("approved_painted_screen", "") == "rack_matches_plant_detail_v1" and instance.plants_room_panel.get_meta("visual_system", "") == "painted_wood_cream_sage_teal_v1" and instance.rack_greenhouse_button.get_meta("painted_style", "") == "shared_cream_location_card_v1" and instance.rack_player_room_button.get_meta("painted_style", "") == "shared_cream_location_card_v1" and instance.dialog_panel.get_meta("launcher_art", "") == "painted_help_icon_v1" and instance.room_overview.get_meta("approved_painted_screen", "") == "rack_screen_matches_plant_detail_v1" and instance.room_overview.get_meta("painted_header", "") == "cream_title_sage_count_leaf_emblem_v1" and instance.room_overview.get_meta("painted_slot_labels", "") == "shared_cream_and_sage_compact_cards_v2", "Stojan používá schválené krémové, šalvějové a dřevěné karty, jednotné popisky ikon a malovaný symbol nápovědy")
 	_check(instance.room_overview.get_meta("comic_vertical_slice", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_plant_family", "") == "profile_driven_catalog_v1" and instance.room_overview.get_meta("comic_mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("plant_asset_family", "") == "profile_driven_catalog_v1" and instance.plant_view.get_meta("mature_asset", "") == "catalog:species_stage_texture" and instance.plant_view.get_meta("motion_profile", "") == "grounded_ceramic_live_fx_v1" and instance.plant_view.get_meta("sprite_canvas", "") == "570x640_bottom_center", "Phase172 detail zachová katalogovou komiksovou rodinu a celý canvas; živé FX už neposouvají ukotvenou keramiku")
 	var post_harvest_plant := PlantSimulation.new(profile)

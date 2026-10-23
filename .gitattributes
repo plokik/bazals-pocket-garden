@@ -1,5 +1,6 @@
 # Keep the pinned visual manifest portable across Windows and Linux checkouts.
 .agents/skills/how-to-grow-validation/references/visual-cases.json text eol=lf
+.agents/skills/how-to-grow-validation/references/visual-cases-sage-20261010.json text eol=lf
 # Preserve the existing approved byte hashes of historical art provenance files.
 tools/extract_phase148_painted_room_assets.py text eol=lf
 assets/ui/visual/phase148/player_room/phase148_painted_room_assets_manifest.json text eol=crlf

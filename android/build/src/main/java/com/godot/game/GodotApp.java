@@ -41,6 +41,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.splashscreen.SplashScreen;
 
 import com.howtogrow.notifications.CareNotificationBridge;
+import com.howtogrow.ads.RewardedWheelBridge;
 
 /**
  * Template activity for Godot Android builds.
@@ -74,6 +75,7 @@ public class GodotApp extends GodotActivity {
 		EdgeToEdge.enable(this);
 		super.onCreate(savedInstanceState);
 		CareNotificationBridge.initialize(this);
+		RewardedWheelBridge.initialize(this);
 		CareNotificationBridge.captureLaunchIntent(getIntent());
 
 		Godot godot = getGodot();

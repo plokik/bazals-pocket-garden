@@ -13,14 +13,14 @@
   "behavior_ids": ["fragrant_bloom"],
   "accent_hex": "#8b4dff",
   "seed_preview_texture": "res://assets/plants/comic/lavender_sprout_v1.png",
-  "herbarium_texture": "res://assets/plants/comic/lavender_mature_v1.png",
+  "herbarium_texture": "res://assets/plants/comic/lavender_mature_v2.png",
   "stage_textures": {
     "seed": "res://assets/plants/comic/lavender_seed_v1.png",
     "sprout": "res://assets/plants/comic/lavender_sprout_v1.png",
     "young": "res://assets/plants/comic/lavender_young_v1.png",
-    "mature": "res://assets/plants/comic/lavender_mature_v1.png",
+    "mature": "res://assets/plants/comic/lavender_mature_v2.png",
     "sick": "res://assets/plants/comic/lavender_sick_v1.png",
-    "harvest_ready": "res://assets/plants/comic/lavender_harvest_ready_v1.png"
+    "harvest_ready": "res://assets/plants/comic/lavender_harvest_ready_v2.png"
   },
   "seed_care_description": "plné slunce a sušší rytmus · ideálně přibližně 18 hodin",
   "shop_description": "Epicky voňavá bylina pro suchý a vzdušný substrát",

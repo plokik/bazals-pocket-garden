@@ -5,6 +5,7 @@ var metric_labels: Dictionary = {}
 var metric_graph: MetricGraph
 var knowledge_label: RichTextLabel
 var presentation_catalog: PlantPresentationCatalog
+var selection_label: Label
 
 
 func bind(labels: Dictionary, graph: MetricGraph, knowledge: RichTextLabel = null, catalog: PlantPresentationCatalog = null) -> void:
@@ -18,9 +19,22 @@ func is_bound() -> bool:
 	return metric_labels.size() == 10 and metric_graph != null
 
 
-func refresh(plant: PlantSimulation, chart_samples: Array[Dictionary]) -> void:
+func bind_selection(label: Label) -> void:
+	selection_label = label
+
+
+func refresh(plant: PlantSimulation, chart_samples: Array[Dictionary], selected_index := -1) -> void:
 	if not is_bound() or plant == null:
 		return
+	if selection_label != null:
+		var plant_name := str(plant.profile.get("ui_name", plant.get_display_name()))
+		var location := "KVĚTINÁČ %d/%d" % [selected_index + 1, GameSession.MAX_PLANT_SLOTS]
+		if selected_index >= GameSession.MAX_PLANT_SLOTS:
+			location = "SKLIZEŇ VE SKLADU"
+		elif selected_index < 0:
+			location = "VYBRANÁ ROSTLINA"
+		selection_label.text = "%s · %s" % [location, "VOLNÝ" if plant.stage == PlantSimulation.Stage.EMPTY else plant_name.to_upper()]
+		selection_label.tooltip_text = selection_label.text
 	(metric_labels.temperature as Label).text = "%.1f °C" % plant.temperature_c
 	(metric_labels.humidity as Label).text = "%.0f%%" % plant.humidity_percent
 	(metric_labels.ph as Label).text = "%.2f" % plant.ph

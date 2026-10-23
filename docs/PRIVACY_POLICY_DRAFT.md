@@ -1,6 +1,6 @@
 # Zásady ochrany soukromí — DRAFT
 
-Datum návrhu: **2026-08-30**
+Datum návrhu: **2026-10-11**
 
 Stav: `DRAFT_NOT_READY_FOR_PUBLICATION`
 
@@ -22,9 +22,11 @@ package ID `com.howtogrow.game`.
 
 ## Stručně
 
-Bazal’s Pocket Garden je offline hra bez uživatelského účtu, vlastního serveru,
-analytiky, reklam, nákupů v aplikaci a premium měny. Hra sama neodesílá herní
-postup ani jiné uživatelské údaje vývojáři nebo třetím stranám.
+Bazal’s Pocket Garden ukládá herní postup lokálně, bez účtu a vlastního serveru.
+Aktuální vývojová verze obsahuje dobrovolné **testovací odměňované reklamy
+Google AdMob** pro dvě dodatečná denní otočení kola štěstí. Základní hraní
+a jedno bezplatné denní otočení fungují bez reklamy. Živé reklamy, analytika
+vývojáře, nákupy v aplikaci ani premium měna nejsou zapojeny.
 
 ## Jaká data hra používá
 
@@ -35,9 +37,11 @@ Hra lokálně na zařízení zpracovává data potřebná k hraní, zejména:
 - volbu, zda jsou zapnuté připomínky péče;
 - čas, číslo květináče, nadpis a text naplánované lokální připomínky.
 
-Tato data se ukládají do soukromého úložiště aplikace. Nejsou odesílána na
-server, protože aplikace žádný server nepoužívá a její Android manifest
-nedeklaruje oprávnění `INTERNET`.
+Herní postup se ukládá do soukromého úložiště aplikace a herní kód jej neodesílá
+na server. Manifest nyní deklaruje `INTERNET` a `ACCESS_NETWORK_STATE` pro
+vyžádanou testovací reklamu. Reklamní SDK komunikuje se službami Google;
+ani testovací režim nelze označovat za nulový přenos dat. Přesné zpracování
+dat SDK musí být ověřeno před jakýmkoli veřejným vydáním s reklamami.
 
 ## Oznámení a připomínky
 
@@ -81,9 +85,14 @@ bylinu nekonzumujte nebo nepoužívejte k léčbě pouze podle údajů ve hře.
 
 ## Sdílení, prodej, reklama a profilování
 
-Hra neprodává ani nesdílí uživatelská data, neobsahuje reklamní SDK, nepoužívá
-reklamní identifikátor, neprovádí analytiku ani profilování a nenabízí nákupy v
-aplikaci.
+Vývojová verze obsahuje Google Mobile Ads SDK 25.5.0 s pevnými oficiálními
+testovacími ID. Inicializaci SDK vyvolá až žádost hráče o reklamní otočení.
+Oprávnění Advertising ID, AdServices ID, Topics a Attribution jsou z manifestu
+odstraněna. Herní kód Google nepředává uložený postup. Identifikátor potvrzení
+odměny se ukládá pouze lokálně, aby se odměna nepřipsala opakovaně.
+Před přechodem na živé reklamní ID je nutné doplnit souhlasy podle požadavků
+poskytovatele a znovu prověřit tyto zásady i Data safety. Tento návrh není
+schváleným prohlášením pro veřejné vydání.
 
 ## Uchování a smazání
 

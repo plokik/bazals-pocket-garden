@@ -649,6 +649,9 @@ func _capture() -> void:
 		quit(2)
 		return
 
+	# Finish deferred layout/feedback refreshes before fixing the captured
+	# transition phase. Otherwise a late refresh can resume this frozen cue.
+	await _settle(instance)
 	instance.feedback_layer.set_capture_transition(0.52, 1)
 	await process_frame
 	# Read back the completed draw, rather than a stale transition frame.
@@ -2297,6 +2300,13 @@ func _capture_phase166_room_drag(instance) -> bool:
 	# Real runtime layers and actual Main input/save path, never a painted mockup.
 	# Validation runs with isolated APPDATA; no player save is read or modified.
 	var view = instance.player_room_view
+	# This old report-only diagnostic has no case in visual-cases.json. The
+	# approved fixed workshop intentionally has no movable shelf targets. Keep
+	# its current contract covered by workshop_test rather than driving a hidden
+	# legacy gesture and aborting every unrelated approved visual comparison.
+	if bool(view.get_meta("fixed_workshop_shelves",false)):
+		print("PHASE166_DIAGNOSTIC_NOT_APPLICABLE=fixed_workshop_shelves")
+		return true
 	var previous_owned: Array[String] = instance.session.owned_room_decorations.duplicate()
 	if "room_orchid" not in instance.session.owned_room_decorations:
 		instance.session.owned_room_decorations.append("room_orchid")
@@ -2476,7 +2486,7 @@ func _prepare_phase104_decoration_shop_state(instance) -> void:
 func _prepare_phase105_greenhouse_empty_state(instance) -> void:
 	instance.session.greenhouse.reset()
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase105_greenhouse_empty_report_only_v1")
 
@@ -2488,7 +2498,7 @@ func _prepare_phase105_greenhouse_growing_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(0)
 	instance.session.greenhouse.advance(10800.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.set_meta("visual_profile_capture", "greenhouse_phase127_v1")
 	instance.greenhouse_preview_view.select_bed(0)
@@ -2498,7 +2508,7 @@ func _prepare_phase105_greenhouse_growing_state(instance) -> void:
 func _prepare_phase105_greenhouse_ready_state(instance) -> void:
 	instance.session.greenhouse.advance(10800.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.set_meta("visual_profile_capture", "greenhouse_phase127_v1")
 	instance.greenhouse_preview_view.select_bed(0)
@@ -2513,7 +2523,7 @@ func _prepare_phase106_greenhouse_pepper_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(1)
 	instance.session.greenhouse.advance(21600.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(1)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase106_greenhouse_pepper_growing_report_only_v1")
@@ -2524,7 +2534,7 @@ func _prepare_phase107_greenhouse_locked_state(instance) -> void:
 	instance.session.xp = 0
 	instance.session.coins = maxi(instance.session.coins, 18)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase107_greenhouse_locked_crops_report_only_v1")
@@ -2538,7 +2548,7 @@ func _prepare_phase107_greenhouse_cucumber_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(2)
 	instance.session.greenhouse.advance(27000.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(2)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase107_greenhouse_cucumber_growing_report_only_v1")
@@ -2552,7 +2562,7 @@ func _prepare_phase113_greenhouse_radish_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(1)
 	instance.session.greenhouse.advance(10800.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(1)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase113_greenhouse_radish_growing_report_only_v1")
@@ -2566,7 +2576,7 @@ func _prepare_phase115_greenhouse_eggplant_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(3)
 	instance.session.greenhouse.advance(32400.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(3)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase115_greenhouse_eggplant_growing_report_only_v1")
@@ -2592,7 +2602,7 @@ func _prepare_phase116_greenhouse_order_state(instance) -> void:
 	instance.session.perform_greenhouse_bed_action(0)
 	instance.session.greenhouse.advance(21600.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase116_greenhouse_order_ready_report_only_v1")
@@ -2622,7 +2632,7 @@ func _prepare_phase117_greenhouse_quality_order_state(instance) -> void:
 		instance.session.greenhouse.water(bed_index)
 	instance.session.greenhouse.advance(28800.0)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(1)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase117_greenhouse_quality_order_ready_report_only_v1")
@@ -2689,7 +2699,7 @@ func _prepare_phase150_approved_greenhouse_state(instance) -> bool:
 	}
 	_sync_capture_coin_hud(instance)
 	instance._set_day_display(10)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance.greenhouse_preview_view.set_greenhouse_state(
 		states,
 		synthetic_greenhouse.get_crop_catalog(),
@@ -2719,7 +2729,7 @@ func _capture_phase115_greenhouse_level4_compact(instance) -> bool:
 	instance.session.xp = 300
 	instance.session.coins = maxi(instance.session.coins, 100)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase115_greenhouse_level4_compact_report_only_v1")
@@ -2797,7 +2807,7 @@ func _prepare_phase109_greenhouse_level2_state(instance) -> void:
 	instance.session.xp = 100
 	instance.session.coins = maxi(instance.session.coins, 100)
 	_sync_capture_coin_hud(instance)
-	instance._open_greenhouse()
+	instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 	instance._refresh_greenhouse_view()
 	instance.greenhouse_preview_view.select_bed(0)
 	instance.greenhouse_preview_view.set_meta("capture_state", "phase109_greenhouse_level2_compact_report_only_v1")

@@ -27,7 +27,7 @@ func _capture() -> void:
 		await process_frame
 		await process_frame
 		instance._apply_safe_area_rect(Rect2(Vector2.ZERO, logical), logical, logical)
-		instance._open_greenhouse()
+		instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 		var view: GreenhousePreviewView = instance.greenhouse_preview_view
 		view.set_greenhouse_state(states, synthetic_greenhouse.get_crop_catalog(), 420, 400)
 		view.select_bed(0)

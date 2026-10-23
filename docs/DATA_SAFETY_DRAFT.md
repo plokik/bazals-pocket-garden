@@ -1,5 +1,12 @@
 # Google Play Data safety — pracovní návrh
 
+> **2026-10-11: historický audit níže již nepopisuje aktuální vývojový build.**
+> Kolo štěstí nově používá Google Mobile Ads SDK 25.5.0 a oficiální testovací
+> reklamy. Manifest obsahuje síťová oprávnění a další deklarace této závislosti.
+> Odpovědi „žádné kategorie“ ani původní audit dvou oprávnění nesmějí být
+> převzaty do Play Console. Před veřejným vydáním je nutný nový audit přesného
+> AAB, SDK dat a souhlasů. Podrobnosti: [Kolo štěstí](FORTUNE_WHEEL.md).
+
 Datum auditu: **2026-08-30**
 
 Stav: `DRAFT_PENDING_FINAL_AAB_AND_PUBLISHER_CONFIRMATION`
@@ -8,7 +15,7 @@ Toto není export formuláře z Play Console. Jde o doporučené odpovědi odvoz
 ze zdrojů, Android manifestu a auditního APK. Před odesláním je nutné zopakovat
 audit přesného podepsaného AAB včetně všech transitivních SDK.
 
-## Doporučené hlavní odpovědi
+## Historické odpovědi před přidáním testovacích reklam (nepoužívat)
 
 | Otázka / oblast | Návrh odpovědi | Důvod |
 | --- | --- | --- |

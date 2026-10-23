@@ -1,6 +1,5 @@
 extends SceneTree
 ## Check prepared data against the original algorithms and PCM fingerprints.
-const Audio := preload("res://scripts/audio_haptics.gd")
 const Synth := preload("res://tools/startup_audio_synthesis.gd")
 const Icons := preload("res://scripts/ui/prepared_startup_icons.gd")
 const SkillNode := preload("res://scripts/ui/grower_journal_skill_node.gd")
@@ -9,8 +8,10 @@ func _initialize() -> void:
 	var synth := Synth.new()
 	var original: Dictionary = synth.build_cues()
 	original.music = synth._make_music_loop()
-	var prepared: Dictionary = Audio.CUE_STREAMS.duplicate()
-	prepared.music = Audio.MUSIC_STREAM
+	# Historical PCM remains reproducible, but the live game now uses the score
+	# in garden_v1. Do not require the runtime to preload archived six-second audio.
+	var prepared: Dictionary = {}
+	for id in original: prepared[id] = load("res://assets/audio/prepared/%s.res" % id)
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/audio/prepared/pcm_manifest.json"))
 	var valid := true
 	for id in original:

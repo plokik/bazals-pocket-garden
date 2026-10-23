@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -21,13 +22,26 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest().upper()
 
 
-def measure() -> dict:
+def measure(imported_measurements: dict | None = None) -> dict:
     paths = {"res://assets/plants/comic/empty_pot_v1.png"}
     for path in sorted((ROOT / "data/plants").glob("*.json")):
         paths.update(json.loads(path.read_text(encoding="utf-8-sig")).get("stage_textures", {}).values())
     plants = {}
     for path in sorted(paths):
         source = ROOT / path.removeprefix("res://")
+        config = source.with_suffix(source.suffix + ".import").read_text(encoding="utf-8")
+        size_limit_match = re.search(r"^process/size_limit=(\d+)$", config, re.MULTILINE)
+        size_limit = int(size_limit_match.group(1)) if size_limit_match else 0
+        if size_limit:
+            # Pillow and Godot use different resampling implementations. Require
+            # engine-measured pixels instead of approximating their alpha edges.
+            record = (imported_measurements or {}).get(path)
+            if not record or record.get("source_sha256") != sha(source):
+                raise ValueError(f"Run tools/measure_imported_plant_footprints.gd and pass --imported-measurements for {path}")
+            if max(record["canvas"]) > size_limit:
+                raise ValueError(f"Imported canvas exceeds its configured size limit: {path}")
+            plants[path] = {key: record[key] for key in ("canvas", "contact", "base_width", "source_sha256")}
+            continue
         rgba = np.array(Image.open(source).convert("RGBA"))
         alpha = rgba[:, :, 3] > 127
         ys, _ = np.where(alpha)
@@ -73,8 +87,10 @@ def measure() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--imported-measurements", type=Path, help="JSON from tools/measure_imported_plant_footprints.gd after Godot import")
     args = parser.parse_args()
-    result = measure()
+    imported = json.loads(args.imported_measurements.read_text(encoding="utf-8")) if args.imported_measurements else None
+    result = measure(imported)
     if args.check:
         if json.loads(MANIFEST.read_text(encoding="utf-8")) != result:
             raise ValueError("Footprint manifest no longer matches the immutable sources")

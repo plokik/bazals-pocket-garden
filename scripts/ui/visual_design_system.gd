@@ -284,6 +284,10 @@ const FAMILY_PROFILES := {
 }
 
 const PATH_FAMILY_RULES := [
+	{"prefix": "res://assets/pets/garden_cat_corner_v2/", "family": "room_collectible"},
+	{"prefix": "res://assets/pets/garden_cat_v1/", "family": "room_collectible"},
+	{"prefix": "res://assets/pets/garden_cat_v4/", "family": "room_collectible"},
+	{"prefix": "res://assets/pets/garden_cat_v6/", "family": "room_collectible"},
 	{"prefix": "res://assets/ui/visual/phase167/", "family": "room_collectible"},
 	{"prefix": "res://assets/ui/visual/phase158/", "family": "room_collectible"},
 	{"prefix": "res://assets/ui/visual/phase151/", "family": "ui_chrome"},

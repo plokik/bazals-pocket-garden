@@ -24,6 +24,10 @@ static func run(suite: SceneTree, catalog: Dictionary) -> void:
 	suite.root.add_child(instance)
 	await suite.process_frame
 	await suite.process_frame
+	# The live workshop is now a user-approved fixed painting. Keep the old
+	# movable-room regression on its actual retained component, wired to the
+	# same session/save handlers; workshop_test verifies the new input policy.
+	install_legacy_room_view(instance)
 	suite._finish_phase92_startup_for_test(instance)
 	instance._close_save_recovery()
 	instance._close_save_failure()
@@ -273,6 +277,23 @@ static func _mouse(point: Vector2, pressed: bool) -> InputEventMouseButton:
 	event.button_mask = MOUSE_BUTTON_MASK_LEFT if pressed else 0
 	event.pressed = pressed
 	return event
+
+
+static func install_legacy_room_view(instance) -> void:
+	var previous: Control = instance.player_room_view
+	var parent := previous.get_parent()
+	parent.remove_child(previous)
+	previous.queue_free()
+	var legacy := RoomView.new()
+	legacy.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	legacy.rack_requested.connect(instance._open_rack_location)
+	legacy.theme_requested.connect(instance._open_cosmetic_modal)
+	legacy.decoration_slot_requested.connect(instance._open_room_decoration_modal)
+	legacy.plant_move_requested.connect(instance._on_room_plant_move_requested)
+	legacy.plant_drag_started.connect(instance._on_room_plant_drag_started)
+	instance.player_room_view = legacy
+	parent.add_child(legacy)
+	legacy.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 
 
 static func _mouse_tap(suite: SceneTree, point: Vector2) -> void:

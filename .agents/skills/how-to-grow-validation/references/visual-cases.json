@@ -652,7 +652,7 @@
     {
       "id": "phase149-player-room-exact-target",
       "description": "User-designated exact Phase 149 room composition, normalized to the content area between the global HUD and navigation.",
-      "reference": "docs/audit/sage-palette-20261010/phase149-player-room-exact-target.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase149-player-room-exact-target.png",
       "actual": "comic-phase149-player-room-exact-target.png",
       "size": [
         432,
@@ -1179,7 +1179,7 @@
     {
       "id": "phase158-player-room-empty-runtime-approved",
       "description": "Exact empty 0/20 Player Room Godot render explicitly approved by the user after the Phase 158 compositing repair.",
-      "reference": "docs/audit/sage-palette-20261010/phase158-player-room-empty-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase158-player-room-empty-runtime-approved.png",
       "actual": "comic-phase158-player-room-empty-0-of-20.png",
       "size": [
         432,
@@ -1303,7 +1303,7 @@
     {
       "id": "phase159-player-room-cloche-runtime-approved",
       "description": "Exact Player Room Godot render containing only the Phase 159 botanical cloche at the user-approved 115 percent scale.",
-      "reference": "docs/audit/sage-palette-20261010/phase159-player-room-cloche-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase159-player-room-cloche-runtime-approved.png",
       "actual": "comic-phase159-player-room-botanical-cloche.png",
       "size": [
         432,
@@ -1520,7 +1520,7 @@
     {
       "id": "phase163-rack-runtime-approved",
       "description": "Exact Phase 184 RC59 dynamic Godot rack explicitly approved by the user with the later Phase 171 grounding and Phase 183 compact dock; the Phase 163 reference remains preserved.",
-      "reference": "docs/audit/sage-palette-20261010/phase163-rack-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase163-rack-runtime-approved.png",
       "actual": "comic-rack-greenhouse-attention.png",
       "size": [
         432,
@@ -1551,7 +1551,7 @@
     {
       "id": "phase167-player-room-clean-floor-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited clean-floor fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "docs/audit/sage-palette-20261010/phase167-player-room-clean-floor-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-clean-floor-runtime-approved.png",
       "actual": "comic-phase160-player-room-clean-floor.png",
       "size": [
         432,
@@ -1582,7 +1582,7 @@
     {
       "id": "phase167-player-room-sparse-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited sparse fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "docs/audit/sage-palette-20261010/phase167-player-room-sparse-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-sparse-runtime-approved.png",
       "actual": "comic-phase158-player-room-sparse-4-of-20.png",
       "size": [
         432,
@@ -1613,7 +1613,7 @@
     {
       "id": "phase167-player-room-phone-save-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited phone-save fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "docs/audit/sage-palette-20261010/phase167-player-room-phone-save-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-phone-save-runtime-approved.png",
       "actual": "comic-phase158-player-room-phone-save-10-of-20.png",
       "size": [
         432,
@@ -1644,7 +1644,7 @@
     {
       "id": "phase167-player-room-full-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited full fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "docs/audit/sage-palette-20261010/phase167-player-room-full-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-full-runtime-approved.png",
       "actual": "comic-phase158-player-room-full-20-of-20.png",
       "size": [
         432,
@@ -1675,7 +1675,7 @@
     {
       "id": "phase167-player-room-full-cloche-runtime-approved",
       "description": "User-approved Phase 167 repaired room rack artwork in the inherited full-cloche fixture. The approved room render is recorded separately; fixture state, crop, masks and thresholds are unchanged.",
-      "reference": "docs/audit/sage-palette-20261010/phase167-player-room-full-cloche-runtime-approved.png",
+      "reference": "docs/audit/workshop-navigation-20261020/phase167-player-room-full-cloche-runtime-approved.png",
       "actual": "comic-phase159-player-room-full-cloche.png",
       "size": [
         432,

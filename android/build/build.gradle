@@ -32,6 +32,8 @@ configurations {
 }
 
 dependencies {
+    // Official Google test rewarded ads only; see docs/FORTUNE_WHEEL.md.
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
     // Android instrumented test dependencies
     androidTestImplementation "androidx.test.ext:junit:$versions.junitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espressoCoreVersion"

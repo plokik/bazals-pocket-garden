@@ -13,7 +13,6 @@ const SAUCER_SHA := "cf9a59e9eceb000cde7be7d452d7a790619766ff5cacdc80bec8e55d4fc
 const SAUCER_CROP := Rect2(56, 98, 2062, 528)
 const RACK_PATH := "res://assets/ui/visual/phase171/rack/rack_stand_painted_phase171_v1.png"
 const RACK_SHA := "00f8cf9a50e8ea23baac629a64f7b0af79ba1eeab3f5f46fca7a9a99681b698c"
-const CANVAS := Vector2(570, 640)
 # Six distinct sizes implied by the rounded safe-area cases and main's VBox;
 # the final size preserves the older isolated Phase151 test fixture as well.
 const AREAS := [Vector2(432, 451), Vector2(432, 365), Vector2(500, 361), Vector2(410, 363), Vector2(404, 375), Vector2(360, 300), Vector2(432, 445)]
@@ -88,8 +87,9 @@ static func _measure_sources(suite: SceneTree, samples: Array) -> Dictionary:
 	var valid := samples.size() == 67
 	for sample: Dictionary in samples:
 		var path := str(sample.path)
-		var image := Image.load_from_file(path)
-		if image == null or image.get_size() != Vector2i(570, 640):
+		var image := Phase170._runtime_image(path)
+		var expected_canvas := Vector2i(569, 640) if Phase170.APPROVED_REPAIRS.has(path) else Vector2i(570, 640)
+		if image == null or image.get_size() != expected_canvas:
 			valid = false
 			continue
 		var footprint := Phase170._measure_source_footprint(image)
@@ -104,7 +104,7 @@ static func _measure_sources(suite: SceneTree, samples: Array) -> Dictionary:
 			and Phase170._footprints_match(footprint, declared) \
 			and FileAccess.get_sha256(path).to_lower() == str(declared.get("source_sha256", "")).to_lower()
 		sources[path] = {"footprint": footprint, "alpha_bounds": alpha_bounds}
-	suite._check(valid and sources.size() == 67, "Phase172 nezávisle změří kontakt a skutečnou nenulovou alfa siluetu všech 67 nezměněných plných canvasů, včetně spodního paddingu levandule")
+	suite._check(valid and sources.size() == 67, "Phase172 nezávisle změří kontakt a nenulovou alfa siluetu všech 67 importovaných canvasů, včetně schválených oprav a paddingu levandule")
 	return sources
 
 
@@ -144,12 +144,13 @@ static func _test_layout_matrix(suite: SceneTree, detail: Detail, samples: Array
 
 
 static func _expected_layout(footprint: Dictionary, area: Vector2) -> Dictionary:
+	var canvas := Phase170._array_vector(footprint.canvas)
 	var source_contact := Phase170._array_vector(footprint.contact)
 	var plate_height_per_scale := float(footprint.base_width) * 1.24 * SAUCER_CROP.size.y / SAUCER_CROP.size.x
 	var floor_y := _floor_y(area)
 	var back := 798.0 * area.y / 1024.0
 	var top_inset := maxf(8.0, area.y * 0.025)
-	var scale_factor := minf(minf(310.0, area.y * 1.02) / 640.0, area.x * 0.78 / 570.0)
+	var scale_factor := minf(minf(310.0, area.y * 1.02) / canvas.y, area.x * 0.78 / canvas.x)
 	# Closed-form independent maximum scale: retain the old requested size
 	# unless either the whole canvas top or the full saucer depth requires less.
 	scale_factor = minf(scale_factor, (floor_y - top_inset) / (source_contact.y + plate_height_per_scale * 0.30))
@@ -157,7 +158,7 @@ static func _expected_layout(footprint: Dictionary, area: Vector2) -> Dictionary
 	var saucer_size := Vector2(float(footprint.base_width) * scale_factor * 1.24, plate_height_per_scale * scale_factor)
 	var contact := Vector2(area.x * 0.5, floor_y - saucer_size.y * 0.30)
 	return {
-		"plant_rect": Rect2(contact - source_contact * scale_factor, CANVAS * scale_factor),
+		"plant_rect": Rect2(contact - source_contact * scale_factor, canvas * scale_factor),
 		"saucer_rect": Rect2(Vector2(contact.x - saucer_size.x * 0.5, floor_y - saucer_size.y), saucer_size),
 		"contact": contact,
 		"shelf_y": floor_y,
@@ -173,12 +174,13 @@ static func _layout_error(actual: Dictionary, expected: Dictionary, source: Dict
 		return "fit/kontakt neodpovídá nezávislému výpočtu: %s vs %s" % [actual, expected]
 	var plant_rect: Rect2 = actual.plant_rect
 	var saucer_rect: Rect2 = actual.saucer_rect
-	var scale_factor := plant_rect.size.x / CANVAS.x
+	var canvas := Phase170._array_vector(source.footprint.canvas)
+	var scale_factor := plant_rect.size.x / canvas.x
 	var source_bounds: Rect2 = source.alpha_bounds
 	var alpha_rect := Rect2(plant_rect.position + source_bounds.position * scale_factor, source_bounds.size * scale_factor)
 	var contact: Vector2 = actual.contact
 	var source_contact := Phase170._array_vector(source.footprint.contact)
-	if absf(plant_rect.size.y / CANVAS.y - scale_factor) > EPSILON or not Phase170._near(contact, plant_rect.position + source_contact * scale_factor):
+	if absf(plant_rect.size.y / canvas.y - scale_factor) > EPSILON or not Phase170._near(contact, plant_rect.position + source_contact * scale_factor):
 		return "deformovaný canvas nebo kontakt mimo projekci alfa"
 	if not Phase170._inside(saucer_rect, contact) or absf(saucer_rect.end.y - _floor_y(area)) > EPSILON:
 		return "keramika nedosedá do podmisky nebo podmiska na parapet"

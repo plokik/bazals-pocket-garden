@@ -91,11 +91,11 @@ jobs:
           & .\tools\run_ci_validation.ps1 `
             -GodotPath $env:HOW_TO_GROW_GODOT `
             -PythonPath $python `
-            -ExpectedSaveSchema 42 `
+            -ExpectedSaveSchema 46 `
             -ExpectedMinimumRegressionTests 6849 `
             -ExpectedVisualCases 54 `
             -ExpectedActiveVisualGates 34 `
-            -ExpectedGoldenDigest 3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F
+            -ExpectedGoldenDigest 81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F
 
       - name: Preserve complete validation diagnostics
         if: always()

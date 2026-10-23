@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-17",
+  "original_audio_assets": 55,
+  "music_tracks": 6,
+  "music_seconds": 628.0891,
+  "effect_files": 47,
+  "ambience_beds": 2,
+  "complete_functional_checks": 7753,
+  "focused_audio_checks": 88,
+  "native_game_checks": 16,
+  "real_godot_mix": {
+    "sample_rate": 44100,
+    "seconds": 10.681179138321996,
+    "peak": 0.389251708984375,
+    "rms": 0.03330221224796674
+  },
+  "visual_capture": "passed",
+  "global_visual_validation": "failed_preexisting_9_references",
+  "new_failed_visual_gates": [],
+  "reference_hashes_unchanged": true,
+  "device_test": false,
+  "published": false,
+  "files": [
+    "scripts/audio_haptics.gd",
+    "scripts/audio_soundscape.gd",
+    "scripts/audio_library.gd",
+    "scripts/main.gd",
+    "scripts/ui/workshop_modal.gd",
+    "scripts/ui/workshop_products_panel.gd",
+    "scripts/ui/fortune_wheel_modal.gd",
+    "scripts/ui/garden_cat_companion.gd",
+    "tests/audio_soundscape_test.gd",
+    "tests/test_runner.gd",
+    "tools/prepared_startup_assets_smoke.gd",
+    "tools/audio/compose_soundtrack.py",
+    "tools/audio/verify_audio_assets.py"
+  ],
+  "listening_approval": "pending",
+  "visual_report": ".godot/soundtrack-20261017/validation/report.md",
+  "visual_delta": ".godot/soundtrack-20261017/visual-delta.json"
+}

@@ -17,6 +17,13 @@ const VIEWPORTS := [Vector2(432, 780), Vector2(360, 620)]
 const STATE_IDS := ["seed", "sprout", "young", "mature", "sick", "harvest_ready"]
 const STORAGE_STAGES := [PlantSimulation.Stage.HARVESTED, PlantSimulation.Stage.DRYING, PlantSimulation.Stage.DRY, PlantSimulation.Stage.PACKAGED]
 const EPSILON := 0.002
+# Owner-approved crop repairs keep the historical sources intact. Pin the raw
+# approved outputs separately from their 640px imported runtime canvases.
+const APPROVED_REPAIRS := {
+	"res://assets/plants/comic/lavender_mature_v2.png": "10a5984cde71c427b20b35063b0eee626a4fb02000a0e5973d276202dd695eb0",
+	"res://assets/plants/comic/lavender_harvest_ready_v2.png": "0c7a6d711c8d8ada31c38cdf9ab4b522508de5ad8d433392cdf884afc42db2e9",
+	"res://assets/plants/comic/mint_harvest_ready_v2.png": "a84a35c98c66296ca51dc88444cc2ab9442b004f36624ebad9b797b99d94f5ba",
+}
 
 
 static func run(suite: SceneTree) -> void:
@@ -36,7 +43,7 @@ static func run(suite: SceneTree) -> void:
 		and catalog.size() == 11 and samples.size() == 67 and paths.size() == 67
 		and declared.size() == 67 and _same_keys(paths, declared)
 		and FileAccess.get_sha256(HISTORICAL_MANIFEST) == HISTORICAL_MANIFEST_SHA256,
-		"Fáze 170 mapuje přesně 11×6 původních stavových PNG a jeden prázdný květináč bez změny manifestu Phase151"
+		"Fáze 170 mapuje přesně 11×6 stavových PNG a jeden prázdný květináč; historický manifest Phase151 zůstává nezměněný"
 	)
 	if samples.size() != 67 or declared.size() != 67:
 		return
@@ -99,6 +106,8 @@ static func _test_source_footprints(suite: SceneTree, samples: Array, declared: 
 	for row: Dictionary in historical.get("stage_textures", []):
 		original_hashes[str(row.get("path", ""))] = str(row.get("source_sha256", "")).to_lower()
 	var sources_intact := original_hashes.size() == 67
+	for path: String in original_hashes:
+		sources_intact = sources_intact and FileAccess.get_sha256(path) == str(original_hashes[path])
 	var measurements_exact := true
 	var measured := {}
 	var errors: Array[String] = []
@@ -106,29 +115,45 @@ static func _test_source_footprints(suite: SceneTree, samples: Array, declared: 
 		var path := str(sample.path)
 		var record: Dictionary = declared.get(path, {})
 		var footprint := Grounding.source_footprint(path)
-		var expected_sha := str(original_hashes.get(path, ""))
+		var expected_sha := str(APPROVED_REPAIRS.get(path, original_hashes.get(path, "")))
 		var source_valid := not expected_sha.is_empty() and FileAccess.get_sha256(path) == expected_sha \
 			and str(record.get("source_sha256", "")).to_lower() == expected_sha \
 			and str(footprint.get("source_sha256", "")).to_lower() == expected_sha
 		sources_intact = sources_intact and source_valid
-		var image := Image.load_from_file(path)
+		var image := _runtime_image(path)
 		if image == null:
 			measurements_exact = false
 			_append_error(errors, path + ": PNG nelze načíst")
 			continue
 		var actual := _measure_source_footprint(image)
 		measured[path] = actual
-		var exact := source_valid and image.get_size() == Vector2i(570, 640) \
+		var expected_canvas := Vector2i(569, 640) if APPROVED_REPAIRS.has(path) else Vector2i(570, 640)
+		var exact := source_valid and image.get_size() == expected_canvas \
 			and _footprints_match(record, actual) and _footprints_match(footprint, actual)
 		measurements_exact = measurements_exact and exact
 		if not exact:
 			_append_error(errors, path + ": nesouhlasí zdroj nebo dolní alfa pás")
 	suite._check(sources_intact, "Fáze 170 zachová bajty všech 67 PNG a jejich původní SHA z Phase151 včetně samostatně připnutého EMPTY")
+	var repairs_valid := true
+	for path: String in APPROVED_REPAIRS:
+		var config := ConfigFile.new()
+		var image := _runtime_image(path)
+		repairs_valid = repairs_valid and config.load(path + ".import") == OK \
+			and int(config.get_value("params", "process/size_limit", 0)) == 640 \
+			and int(config.get_value("params", "compress/mode", -1)) == 0 \
+			and bool(config.get_value("params", "mipmaps/generate", false)) \
+			and image != null and image.get_used_rect().position.y > 2
+	suite._check(repairs_valid, "Tři schválené opravy zachovají prostor nad rostlinou, lossless import s mipmapami a nejvýše 640px runtime texturu")
 	suite._check(
 		measurements_exact and measured.size() == 67,
 		"Fáze 170 všech 67 kontaktů a šířek odpovídá nezávislému měření alfa>127 v posledních 60 px nad skutečným dnem: %s" % "; ".join(errors)
 	)
 	return measured
+
+
+static func _runtime_image(path: String) -> Image:
+	var texture := load(path) as Texture2D
+	return texture.get_image() if texture != null else null
 
 
 static func _measure_source_footprint(image: Image) -> Dictionary:

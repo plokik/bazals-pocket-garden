@@ -3,7 +3,7 @@ param(
     [string]$GodotPath = '',
     [string]$PythonPath = '',
     [ValidateRange(1, 1000)]
-    [int]$ExpectedSaveSchema = 42,
+    [int]$ExpectedSaveSchema = 46,
     [ValidateRange(1, 10000)]
     [int]$ExpectedMinimumRegressionTests = 6849,
     [ValidateRange(1, 1000)]
@@ -11,7 +11,7 @@ param(
     [ValidateRange(1, 1000)]
     [int]$ExpectedActiveVisualGates = 34,
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
-    [string]$ExpectedGoldenDigest = '3ED859507965E729E84FAAFDE4B100F551F3FCF62D2FD5C69EA2180C549F430F',
+    [string]$ExpectedGoldenDigest = '81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F',
     [switch]$FullVisualValidation
 )
 

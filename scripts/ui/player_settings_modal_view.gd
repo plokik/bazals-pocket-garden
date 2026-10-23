@@ -16,6 +16,13 @@ var settings_motion_button: Button
 var settings_music_slider: HSlider
 var settings_sfx_slider: HSlider
 var settings_status_label: Label
+var _card: PanelContainer
+var _column: VBoxContainer
+var _close_button: Button
+var _compact_column: VBoxContainer
+var _content_scroll: ScrollContainer
+var _compact_layout := false
+var _layout_queued := false
 
 
 func _init(
@@ -33,6 +40,9 @@ func _init(
 	var modal := PaintedModalShell.create_overlay("fullscreen_player_settings_v1", 190, Color("#071823", 0.88), "PlayerSettingsModal")
 	var overlay: Control = modal.overlay
 	root = overlay
+	# Main keeps the Control, rather than this construction helper. The root
+	# therefore owns its resize controller for the lifetime of the modal.
+	root.set_meta("settings_layout_controller", self)
 	var card := PaintedModalShell.create_anchored_card(
 		overlay,
 		Rect2(0.055, 0.145, 0.89, 0.69),
@@ -40,6 +50,8 @@ func _init(
 		"comic_audio_settings_card_v1"
 	)
 	var column := PaintedModalShell.create_column(card, 10)
+	_card = card
+	_column = column
 	var banner := PanelContainer.new()
 	banner.custom_minimum_size.y = 78
 	banner.add_theme_stylebox_override("panel", ComicUITheme.style_box(ComicUITheme.PURPLE, ComicUITheme.GOLD, 4, 17, Color("#08131e", 0.35), 4, 8.0))
@@ -119,6 +131,57 @@ func _init(
 	close_button.set_meta("touch_target_min_height", 68)
 	close_button.pressed.connect(close_settings)
 	column.add_child(close_button)
+	_close_button = close_button
+	# The original column stays untouched when it fits. Compact screens get a
+	# scrollable body and the same, always reachable 68px close action.
+	_compact_column = PaintedModalShell.create_column(card, 10)
+	_compact_column.visible = false
+	_content_scroll = ScrollContainer.new()
+	_content_scroll.name = "SettingsContentScroll"
+	_content_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_content_scroll.follow_focus = true
+	_content_scroll.scroll_deadzone = 12
+	_compact_column.add_child(_content_scroll)
+	root.resized.connect(_queue_compact_layout)
+	root.visibility_changed.connect(_queue_compact_layout)
+	column.minimum_size_changed.connect(_queue_compact_layout)
+	_queue_compact_layout()
+
+
+func _queue_compact_layout() -> void:
+	if _layout_queued:
+		return
+	_layout_queued = true
+	_update_compact_layout.call_deferred()
+
+
+func _update_compact_layout() -> void:
+	_layout_queued = false
+	if not is_instance_valid(root) or not root.is_inside_tree() or root.size.y <= 0.0:
+		return
+	var natural_height := _column.get_combined_minimum_size().y
+	if _compact_layout:
+		natural_height += 10.0 + _close_button.get_combined_minimum_size().y
+	var legacy_bottom := maxf(root.size.y * 0.835, root.size.y * 0.145 + natural_height + 32.0)
+	var needs_scroll := legacy_bottom > root.size.y - 16.0
+	if needs_scroll != _compact_layout:
+		_compact_layout = needs_scroll
+		if needs_scroll:
+			_column.reparent(_content_scroll, false)
+			_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			_close_button.reparent(_compact_column, false)
+			_compact_column.visible = true
+		else:
+			_close_button.reparent(_column, false)
+			_column.reparent(_card, false)
+			_compact_column.visible = false
+			_content_scroll.scroll_vertical = 0
+	_card.set_anchor(SIDE_TOP, 0.04 if needs_scroll else 0.145)
+	_card.set_anchor(SIDE_BOTTOM, 0.96 if needs_scroll else 0.835)
+	_card.offset_top = 0.0
+	_card.offset_bottom = 0.0
+	root.set_meta("compact_scroll_layout", needs_scroll)
 
 
 func _settings_toggle_button(title: String, callback: Callable) -> Button:

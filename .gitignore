@@ -9,6 +9,8 @@ tmp/
 *.aab
 godot-*.log
 android-export.log
+__pycache__/
+*.py[cod]
 
 # IDE and operating-system metadata
 .idea/

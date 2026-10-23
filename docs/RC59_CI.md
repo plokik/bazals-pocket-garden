@@ -1,6 +1,6 @@
-# RC59 continuous validation
+# RC61 continuous validation
 
-`RC59 validation` is a deliberately read-only GitHub Actions gate for the source project. It prepares CI for a future remote repository; it does not publish, sign, export, install, or send project artifacts to another service.
+`RC61 validation` is a deliberately read-only GitHub Actions gate for the source project. The historical filename is retained. It does not publish, sign, export or install the game; GitHub Actions retains diagnostic logs as an artifact for 14 days.
 
 ## Automated pull-request gates
 
@@ -9,13 +9,13 @@ The Windows job:
 1. checks out the repository with read-only `contents` permission;
 2. installs Python 3.12 and pinned `Pillow==11.3.0`;
 3. downloads the exact `4.7-stable` Windows editor from the official `godotengine/godot-builds` GitHub release and verifies it against that release's `SHA512-SUMS.txt`;
-4. checks project/export version coherence and keeps `SAVE_SCHEMA=41` explicit;
+4. checks project/export version coherence and keeps `SAVE_SCHEMA=46` explicit;
 5. requires the three Android presets to share version code, package ID, and export exclusions;
 6. rejects missing literal `res://` resources and runtime resources hidden by an export exclusion; the only explicit exception is the existing `docs/visual-proposals/**` design-contract metadata declared in `visual_design_system.gd`, which is verified as present but is intentionally not packaged;
 7. runs the focused headless GDScript visual-contract audit, including a fresh Godot asset import;
 8. runs the complete `tests/test_runner.gd` regression suite and requires its `MVP_TESTS_PASSED=<count>` marker;
-9. requires at least 6,747 regression checks, preventing an accidentally reduced suite from passing;
-10. pins the approved visual contract to 54 cases, 34 active gates and digest `77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170`;
+9. requires at least 6,849 regression checks, preventing an accidentally reduced suite from passing;
+10. pins the approved visual contract to 54 cases, 34 active gates and digest `81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F`;
 11. hashes the visual manifest and every referenced golden image before and after the run, failing if validation modified any of them.
 12. rejects a drive-bound Godot 4.7 executable path in any project PowerShell tool, preserving relocatability between disks and checkout names.
 
@@ -30,11 +30,11 @@ Run the same headless gates from the repository root:
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\run_ci_validation.ps1 `
   -PythonPath '<python-with-Pillow>' `
-  -ExpectedSaveSchema 41 `
-  -ExpectedMinimumRegressionTests 6747 `
+  -ExpectedSaveSchema 46 `
+  -ExpectedMinimumRegressionTests 6849 `
   -ExpectedVisualCases 54 `
   -ExpectedActiveVisualGates 34 `
-  -ExpectedGoldenDigest 77946B927604C1CB0C8D7931BD8FFC167E299C858C35B97D548FC07F691E7170
+  -ExpectedGoldenDigest 81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F
 ```
 
 Bez parametru `-GodotPath` se použije `HOW_TO_GROW_GODOT`, Godot umístěný vedle složky projektu nebo `godot4`/`godot` z `PATH`. Cestu lze stále zadat explicitně, pokud editor leží jinde.
@@ -43,7 +43,9 @@ On a real Windows desktop with a functioning renderer, append `-FullVisualValida
 
 ## Evidence and boundaries
 
-Primary CI evidence is written under `.godot/ci/<UTC timestamp>` and `.godot/visual-contract/<UTC timestamp>`. The regression runner also uses ignored local paths such as `.godot/mvp-tests.log`, `.godot/asset-import.log`, `.godot/test-appdata/` and Godot's import cache. The workflow intentionally has no artifact-upload step; successful markers and failure diagnostics remain in the normal GitHub Actions job log.
+Primary CI evidence is written under `.godot/ci/<UTC timestamp>` and `.godot/visual-contract/<UTC timestamp>`. The regression runner also uses ignored local paths such as `.godot/mvp-tests.log`, `.godot/asset-import.log`, `.godot/test-appdata/` and Godot's import cache. The workflow uploads diagnostic logs on success or failure and retains them for 14 days; successful markers and failure diagnostics also remain in the normal GitHub Actions job log.
+
+The nine workshop/navigation PNG mappings were approved on 2026-10-20. Their [approval record](audit/workshop-navigation-20261020/approval.json) pins the reviewed candidates and the previous references. The original palette manifest and PNGs remain unchanged; all 54 cases, 34 gates, masks, crops and thresholds are retained.
 
 The pinned digest is an accidental-drift guard, not a substitute for repository review rules: any intentional baseline update must include its dated visual approval record and an explicit review of the new digest. On a future remote, protect the workflow, visual manifest and golden references with branch rules or CODEOWNERS.
 

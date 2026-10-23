@@ -249,7 +249,7 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 		instance._close_room_decoration_modal()
 		instance._open_rack_location()
 	if failure.is_empty() and capture_compact_greenhouse:
-		instance._open_greenhouse()
+		instance._show_garden_location(instance.GARDEN_LOCATION_GREENHOUSE)
 		await _settle_frames(2)
 		failure = _validate_phase109_compact_greenhouse(instance, str(test_case.id))
 	if failure.is_empty() and capture_player_room:
@@ -915,7 +915,7 @@ func _validate_phase103_home_locations(instance, test_case_id: String) -> String
 		if index > 0 and button_rect.position.x < dock_buttons[index - 1].get_global_rect().end.x - 0.1:
 			return "%s overlapped adjacent buttons in the compact Phase183 four-icon rack dock." % test_case_id
 		dock_rect = button_rect if index == 0 else dock_rect.merge(button_rect)
-	if not dock_rect.size.is_equal_approx(Vector2(272.0, 68.0)) or absf(dock_rect.get_center().x - rack_rect.get_center().x) > 0.5 or not is_equal_approx(dock_rect.end.y, rack_rect.end.y - 8.0):
+	if not dock_rect.size.is_equal_approx(Vector2(302.0, 68.0)) or absf(dock_rect.get_center().x - rack_rect.get_center().x) > 0.5 or not is_equal_approx(dock_rect.end.y, rack_rect.end.y - 8.0):
 		return "%s did not center the compact Phase183 four-icon rack dock on its painted floor background." % test_case_id
 	var research_unlocked: bool = instance.session.is_professor_story_unlocked()
 	if bool(instance.professor_research_launcher_button.get_meta("research_locked", true)) == research_unlocked or instance.professor_research_lock_badge.visible == research_unlocked:
@@ -1111,6 +1111,8 @@ func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 	var room = instance.player_room_view
 	if room.size != Vector2(360.0, 625.0):
 		return "%s produced player-room content %s instead of exact 360x625 after the 78px rendered HUD and 97px dock." % [test_case_id, room.size]
+	if room.get_meta("workshop_room", false):
+		return _validate_workshop_room(room, test_case_id)
 	if room.get_meta("visual_camera_component", "") != "phase126_garden_visual_camera_v1" \
 			or room.get_meta("room_asset", "") != "player_room_phase149_target_clean_v1.png" \
 			or room.get_meta("room_foreground_asset", "") != "player_room_furniture_foreground_phase158_v2.png" \
@@ -1211,6 +1213,45 @@ func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 	var room_title := PlayerRoomCollectionView.phase149_scaled_painted_rect(PlayerRoomCollectionView.PHASE146_TITLE_RECT, room.size)
 	if room_title.intersects(room.back_button.get_rect()) or room_title.intersects(room.theme_button.get_rect()):
 		return "%s overlapped the Phase 146 room title with its left-side action row." % test_case_id
+	return ""
+
+
+func _validate_workshop_room(room, test_case_id: String) -> String:
+	# A new review composition has live chrome and different shelves. Validate
+	# its real hitboxes; keep the historical baked-chrome contract above intact.
+	if room.decoration_buttons.size() != 20 or room.get_meta("workshop_visual", "") != "bazal_workshop_proposal_v1":
+		return "%s is missing the twenty preserved workshop decoration slots." % test_case_id
+	var surface := Rect2(Vector2.ZERO, room.size)
+	var visible_targets: Array[Rect2] = []
+	for button in room.decoration_buttons:
+		var rect: Rect2 = button.get_rect()
+		if not surface.encloses(rect) or rect.size.x < 56 or rect.size.y < 56:
+			return "%s has an undersized or overflowing workshop decoration target." % test_case_id
+		if button.visible:
+			for previous in visible_targets:
+				if rect.intersects(previous):
+					return "%s overlaps live workshop decoration targets." % test_case_id
+			visible_targets.append(rect)
+	for index in range(12):
+		var foot: Vector2 = room._decoration_visual_centers(room.size)[index]
+		if room.plant_slot_at_position(foot) != -1 or room.plant_drag_enabled:
+			return "%s can manipulate a saved hidden decoration behind the fixed painting." % test_case_id
+	for button in room.decoration_buttons:
+		if button.visible or not button.disabled or button.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+			return "%s has an invisible decoration target over the fixed workshop painting." % test_case_id
+	for button in [room.back_button, room.theme_button, room.workbench_button]:
+		var rect: Rect2 = button.get_rect()
+		if not surface.encloses(rect) or rect.size.y < 56:
+			return "%s has an inaccessible workshop navigation action." % test_case_id
+		for target in visible_targets:
+			if rect.intersects(target):
+				return "%s overlaps workshop navigation with a decoration." % test_case_id
+	if room.back_button.get_rect().intersects(room.theme_button.get_rect()):
+		return "%s overlaps workshop navigation actions." % test_case_id
+	for index in PlayerRoomCollectionView.PHASE160_DORMANT_DECORATION_SLOT_INDICES:
+		var button: Button = room.decoration_buttons[index]
+		if button.visible or not button.disabled or button.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+			return "%s re-enabled a dormant historical decoration slot." % test_case_id
 	return ""
 
 

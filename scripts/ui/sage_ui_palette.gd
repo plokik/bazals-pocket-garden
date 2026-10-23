@@ -50,7 +50,10 @@ func install(owner_control: Control) -> void:
 			_configure_secondary_tree(screen)
 	_apply_tree(game)
 	_install_regions(game.hud_background, "hud")
-	_install_regions(game.player_room_view, "room")
+	# The workshop uses live UI cards. Historical masks for baked room buttons
+	# would recolour arbitrary wall pixels in its new background painting.
+	if not bool(game.player_room_view.get_meta("workshop_room", false)):
+		_install_regions(game.player_room_view, "room")
 	_install_regions(game.greenhouse_preview_view, "greenhouse")
 	_install_regions(game.plant_detail_panel, "surface")
 	_install_regions(game.plant_detail_selector, "detail_header")

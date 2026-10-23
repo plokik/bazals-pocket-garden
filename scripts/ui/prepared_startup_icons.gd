@@ -24,7 +24,7 @@ const ALPHA_BOUNDS := {
 	"res://assets/plants/comic/rosemary_sprout_v2.png": {"rect": Rect2i(56, 188, 458, 444), "size": Vector2i(570, 640)},
 	"res://assets/plants/comic/rosemary_mature_v2.png": {"rect": Rect2i(78, 12, 414, 620), "size": Vector2i(570, 640)},
 	"res://assets/plants/comic/lavender_sprout_v1.png": {"rect": Rect2i(42, 188, 485, 444), "size": Vector2i(570, 640)},
-	"res://assets/plants/comic/lavender_mature_v1.png": {"rect": Rect2i(45, 12, 480, 620), "size": Vector2i(570, 640)},
+	"res://assets/plants/comic/lavender_mature_v2.png": {"rect": Rect2i(23, 7, 534, 618), "size": Vector2i(569, 640)},
 	"res://assets/plants/comic/chives_sprout_v1.png": {"rect": Rect2i(78, 188, 414, 444), "size": Vector2i(570, 640)},
 	"res://assets/plants/comic/chives_mature_v1.png": {"rect": Rect2i(61, 12, 448, 620), "size": Vector2i(570, 640)},
 	"res://assets/plants/comic/marjoram_sprout_v1.png": {"rect": Rect2i(78, 191, 414, 441), "size": Vector2i(570, 640)},

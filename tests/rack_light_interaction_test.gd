@@ -194,7 +194,7 @@ static func _test_independent_session_toggle_and_save(suite: SceneTree) -> void:
 	restored.from_dict(saved)
 	var saved_plants = saved.get("plants", [])
 	suite._check(
-		GameSession.SAVE_SCHEMA == 42 and int(saved.get("schema", -1)) == 42
+		GameSession.SAVE_SCHEMA >= GameSession.HARVEST_STORAGE_SCHEMA and int(saved.get("schema", -1)) == GameSession.SAVE_SCHEMA
 		and saved_plants is Array and saved_plants.size() == GameSession.MAX_PLANT_SLOTS
 		and bool((saved_plants[0] as Dictionary).get("lamp_on", false)) and bool((saved_plants[1] as Dictionary).get("lamp_on", false))
 		and restored.plants[0].lamp_on and restored.plants[1].lamp_on
