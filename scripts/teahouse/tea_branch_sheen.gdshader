@@ -3,6 +3,7 @@ render_mode unshaded;
 
 uniform float effect_clock = 0.0;
 uniform bool calm = false;
+uniform sampler2D branch_texture_image : filter_linear, repeat_disable;
 uniform vec4 branch_region = vec4(40.0, 230.0, 1176.0, 266.0);
 uniform vec2 atlas_size = vec2(1254.0);
 varying vec4 draw_tint;
@@ -38,7 +39,7 @@ void fragment() {
 		vec3 lit_paint = mix(painted.rgb, vec3(1.0, 0.96, 0.70), band * 0.48);
 		lit_paint += vec3(0.10, 0.065, 0.018) * band;
 		float breath = 0.875 + 0.125 * sin(effect_clock * 6.28318530718 / 7.0);
-		float halo = (soft_alpha(TEXTURE, TEXTURE_PIXEL_SIZE, UV, 1.0) * 0.22 + soft_alpha(TEXTURE, TEXTURE_PIXEL_SIZE, UV, 2.2) * 0.10) * breath * (1.0 + band * 0.35);
+		float halo = (soft_alpha(branch_texture_image, TEXTURE_PIXEL_SIZE, UV, 1.0) * 0.22 + soft_alpha(branch_texture_image, TEXTURE_PIXEL_SIZE, UV, 2.2) * 0.10) * breath * (1.0 + band * 0.35);
 		vec2 inset = vec2(1.0) / vec2(336.0, 56.0);
 		vec2 edge = smoothstep(vec2(0.0), inset, local_uv) * (vec2(1.0) - smoothstep(vec2(1.0) - inset, vec2(1.0), local_uv));
 		float halo_alpha = halo * (1.0 - painted.a) * edge.x * edge.y;

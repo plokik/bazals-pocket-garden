@@ -16,12 +16,12 @@ const PlantRenderGeometry := preload("res://scripts/ui/room_plant_render_geometr
 const PaintedDetailArt := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const FontSemiBold := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
-const PlayerRoomInterior := preload("res://assets/ui/player_room/player_room_phase149_target_clean_v1.png")
-const PlayerRoomForegroundOcclusion := preload("res://assets/ui/visual/phase158/player_room/player_room_furniture_foreground_phase158_v2.png")
-const PlayerRoomPhase146Interior := preload("res://assets/ui/player_room/player_room_interior_phase146_approved_empty_v1.png")
-const PlayerRoomApprovedFullMaster := preload("res://assets/ui/player_room/player_room_interior_phase146_approved_full_v1.png")
-const PlayerRoomFixedDecorLayer := preload("res://assets/ui/visual/phase146/player_room_fixed_decor_layer_v3.png")
-const PlayerRoomTopShelfProof := preload("res://assets/ui/player_room/player_room_interior_phase139_top_shelf_proof_v1.png")
+const PlayerRoomInteriorPath := "res://assets/ui/player_room/player_room_phase149_target_clean_v1.png"
+const PlayerRoomForegroundOcclusionPath := "res://assets/ui/visual/phase158/player_room/player_room_furniture_foreground_phase158_v2.png"
+const PlayerRoomPhase146InteriorPath := "res://assets/ui/player_room/player_room_interior_phase146_approved_empty_v1.png"
+const PlayerRoomApprovedFullMasterPath := "res://assets/ui/player_room/player_room_interior_phase146_approved_full_v1.png"
+const PlayerRoomFixedDecorLayerPath := "res://assets/ui/visual/phase146/player_room_fixed_decor_layer_v3.png"
+const PlayerRoomTopShelfProofPath := "res://assets/ui/player_room/player_room_interior_phase139_top_shelf_proof_v1.png"
 
 const SUPPORTED_THEMES := ["sunrise", "lagoon", "amethyst", "research_study"]
 const DECORATION_SLOT_COUNT := 20
@@ -100,6 +100,7 @@ var plant_drag_notice := ""
 var plant_drag_notice_seconds := 0.0
 var _plant_mesh_cache: Dictionary = {}
 var _plant_mesh_cache_size := Vector2.ZERO
+var _legacy_room_texture_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -666,18 +667,29 @@ func _is_phase149_canonical_target_state() -> bool:
 
 func _draw_background_cover() -> void:
 	if _is_phase139_top_shelf_proof():
-		var source_rect := GardenSceneFraming.cover_source_rect(PlayerRoomTopShelfProof.get_size(), size)
-		draw_texture_rect_region(PlayerRoomTopShelfProof, Rect2(Vector2.ZERO, size), source_rect)
+		var texture := _legacy_room_texture(PlayerRoomTopShelfProofPath)
+		var source_rect := GardenSceneFraming.cover_source_rect(texture.get_size(), size)
+		draw_texture_rect_region(texture, Rect2(Vector2.ZERO, size), source_rect)
 		return
 	elif _is_phase146_capture():
-		var source_rect := GardenSceneFraming.cover_source_rect(PlayerRoomPhase146Interior.get_size(), size)
-		draw_texture_rect_region(PlayerRoomPhase146Interior, Rect2(Vector2.ZERO, size), source_rect)
+		var texture := _legacy_room_texture(PlayerRoomPhase146InteriorPath)
+		var source_rect := GardenSceneFraming.cover_source_rect(texture.get_size(), size)
+		draw_texture_rect_region(texture, Rect2(Vector2.ZERO, size), source_rect)
 		return
-	draw_texture_rect(PlayerRoomInterior, Rect2(Vector2.ZERO, size), false)
+	draw_texture_rect(_legacy_room_texture(PlayerRoomInteriorPath), Rect2(Vector2.ZERO, size), false)
+
+
+func _legacy_room_texture(path: String) -> Texture2D:
+	# WorkshopRoomView replaces the legacy draw path. Keep its historical art
+	# unloaded until a legacy view/capture draws it, then retain strong references
+	# so subsequent redraws reuse the same textures without loading them again.
+	if not _legacy_room_texture_cache.has(path):
+		_legacy_room_texture_cache[path] = load(path) as Texture2D
+	return _legacy_room_texture_cache[path] as Texture2D
 
 
 func _draw_phase149_foreground_occlusion() -> void:
-	draw_texture_rect(PlayerRoomForegroundOcclusion, Rect2(Vector2.ZERO, size), false)
+	draw_texture_rect(_legacy_room_texture(PlayerRoomForegroundOcclusionPath), Rect2(Vector2.ZERO, size), false)
 
 
 func _is_phase139_top_shelf_proof() -> bool:
@@ -1091,7 +1103,7 @@ func _draw_phase146_fixed_decoration(slot_index: int) -> bool:
 		var destination_bottom_right := GardenSceneFraming.map_player_room_point(target_region.end, size)
 		var destination_rect := Rect2(destination_top_left, destination_bottom_right - destination_top_left)
 		_draw_phase146_fixed_contact_shadow(destination_rect, slot_index)
-		draw_texture_rect_region(PlayerRoomFixedDecorLayer, destination_rect, source_region)
+		draw_texture_rect_region(_legacy_room_texture(PlayerRoomFixedDecorLayerPath), destination_rect, source_region)
 		if slot_index == 14:
 			_draw_phase146_nested_pots_shelf_occlusion()
 	return true
@@ -1114,7 +1126,7 @@ func _draw_phase146_nested_pots_shelf_occlusion() -> void:
 	var destination_bottom_right := GardenSceneFraming.map_player_room_point(PHASE146_NESTED_POTS_SHELF_OCCLUSION.end, size)
 	var destination_rect := Rect2(destination_top_left, destination_bottom_right - destination_top_left)
 	draw_texture_rect_region(
-		PlayerRoomPhase146Interior,
+		_legacy_room_texture(PlayerRoomPhase146InteriorPath),
 		destination_rect,
 		PHASE146_NESTED_POTS_SHELF_OCCLUSION
 	)

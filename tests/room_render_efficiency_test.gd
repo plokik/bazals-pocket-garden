@@ -192,7 +192,7 @@ static func _test_gesture_lifecycle(suite: SceneTree, host: Control, view: RoomP
 
 static func _test_performance_tooling(suite: SceneTree) -> void:
 	var source := FileAccess.get_file_as_string("res://tools/performance_smoke.gd")
-	suite._check('"player_room"' in source and '"player_room_drag"' in source and '"grower_journal"' in source, "Fáze 168 výkonová sada přidává plný Pokoj a skutečný drag a zachovává staré scénáře")
+	suite._check('"player_room"' in source and '"workshop_interactions"' in source and '"greenhouse_exterior"' in source and '"teahouse"' in source and '"grower_journal"' in source and '"player_room_drag"' not in source, "Výkonová sada měří současnou dílnu, venkovní scénu a čajovnu místo odstraněného přesouvání dekorací")
 	suite._check("const MAX_CPU_P95_MS := 20.0" in source and "const MAX_FRAME_P95_MS := 25.0" in source and "const MAX_DRAW_CALLS := 575" in source and "const MAX_STATIC_MEMORY_MIB := 512.0" in source, "Fáze 168 nezvyšuje existující výkonové limity ani paměťový rozpočet")
 
 

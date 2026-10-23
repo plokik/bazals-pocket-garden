@@ -28,6 +28,7 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	sheen_material = ShaderMaterial.new()
 	sheen_material.shader = Sheen
+	sheen_material.set_shader_parameter("branch_texture_image", Atlas)
 	material = sheen_material
 	# Points follow the actual stem in the painted atlas, not a free-floating orbit.
 	var points := PackedVector2Array([Vector2(20, 29), Vector2(55, 29), Vector2(88, 32), Vector2(120, 29), Vector2(154, 26), Vector2(183, 25), Vector2(214, 25), Vector2(245, 30), Vector2(277, 36), Vector2(310, 36)])

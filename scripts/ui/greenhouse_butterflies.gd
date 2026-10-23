@@ -33,6 +33,7 @@ func _ready() -> void:
 		visitor.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		var wings := ShaderMaterial.new()
 		wings.shader = Wings
+		wings.set_shader_parameter("butterfly_texture_image", Butterfly)
 		visitor.material = wings
 		visitor.scale = Vector2.ONE * VISITOR_SIZES[index] / PAINT_PIXELS
 		visitor.visible = false

@@ -178,7 +178,25 @@ func set_room_decorations(slot_ids: Array[String], catalog: Dictionary) -> void:
 func _draw() -> void:
 	if size.x <= 0 or size.y <= 0:
 		return
-	draw_texture_rect(WorkshopBackground, Rect2(Vector2.ZERO, size), false)
+	var art := scene_art_rect()
+	# Preserve the approved phone canvas. Quiet sage margins on wide screens keep
+	# the complete painting visible without stretching its furniture or tools.
+	if art.position.x > 0.0:
+		draw_rect(Rect2(Vector2.ZERO,size),Color("#24382c"))
+		for step in range(6):
+			var alpha := 0.18 * (1.0 - float(step) / 6.0)
+			draw_rect(Rect2(art.position.x - float(step + 1) * 2.0,0,2,size.y),Color(0,0,0,alpha))
+			draw_rect(Rect2(art.end.x + float(step) * 2.0,0,2,size.y),Color(0,0,0,alpha))
+	draw_texture_rect(WorkshopBackground, art, false)
 	var palette := _palette_for_theme(selected_theme_id)
 	if palette.tint.a > 0:
 		draw_rect(Rect2(Vector2.ZERO, size), palette.tint)
+
+
+func scene_art_rect(canvas := Vector2.ZERO) -> Rect2:
+	if canvas == Vector2.ZERO:
+		canvas = size
+	if canvas.x / maxf(canvas.y, 1.0) <= 0.60:
+		return Rect2(Vector2.ZERO, canvas)
+	var width := canvas.y * float(WorkshopBackground.get_width()) / float(WorkshopBackground.get_height())
+	return Rect2((canvas.x - width) * 0.5, 0, width, canvas.y)

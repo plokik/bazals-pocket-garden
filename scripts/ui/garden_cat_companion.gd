@@ -325,26 +325,35 @@ func _corner_rect() -> Rect2:
 
 
 func _bed_rect() -> Rect2:
-	var width := minf(200.0, size.x * 0.43)
+	var room := _room_art_rect()
+	var width := minf(200.0, room.size.x * 0.43)
 	var height := width * BED_REGION.size.y / BED_REGION.size.x
-	return Rect2(size.x - width - 20.0, size.y - height - 20.0, width, height)
+	return Rect2(room.end.x - width - 20.0, room.end.y - height - 20.0, width, height)
 
 
 func _bowl_rect(water: bool) -> Rect2:
-	var width := minf(76.0, size.x * 0.16)
+	var room := _room_art_rect()
+	var width := minf(76.0, room.size.x * 0.16)
 	var region := WATER_BOWL_REGION if water else FOOD_BOWL_REGION
 	var height := width * region.size.y / region.size.x
 	# A compact feeding corner on the left leaves the middle floor free.
 	# Water is in front of the food; the cat drinks facing left, so its
 	# body stays in the open floor rather than standing over the food.
-	var left := 22.0
+	var left := room.position.x + 22.0
 	var floor_inset := 28.0 if water else 88.0
-	return Rect2(left, size.y - floor_inset - height, width, height)
+	return Rect2(left, room.end.y - floor_inset - height, width, height)
+
+
+func _room_art_rect() -> Rect2:
+	if context == "player_room" and is_instance_valid(game) and game.player_room_view.has_method("scene_art_rect"):
+		return game.player_room_view.scene_art_rect(size)
+	return Rect2(Vector2.ZERO, size)
 
 
 func _home_position() -> Vector2:
 	if not rest_in_bed:
-		return Vector2(size.x * 0.50, size.y - 16.0)
+		var room := _room_art_rect()
+		return Vector2(room.get_center().x, room.end.y - 16.0)
 	var bed := _bed_rect()
 	return bed.position + bed.size * Vector2(0.55, 0.66)
 
@@ -487,8 +496,9 @@ func _room_stroll_target() -> Vector2:
 	for index in range(4):
 		half_body = maxf(half_body, _body_size(index).x * 0.5)
 	var left := maxf(_bowl_rect(true).end.x, _bowl_rect(false).end.x) + half_body + 16.0
-	var right := maxf(left, size.x - half_body - 14.0)
-	return Vector2(rng.randf_range(left, right), size.y - 7.0)
+	var room := _room_art_rect()
+	var right := maxf(left, room.end.x - half_body - 14.0)
+	return Vector2(rng.randf_range(left, right), room.end.y - 7.0)
 
 
 func _can_sniff_plant() -> bool:
@@ -828,16 +838,18 @@ func _draw() -> void:
 		frame = 7
 		origin = _home_position()
 	var body_size := _body_size(frame)
+	var visitor_alpha := _visitor_alpha(origin, _visitor_half_width())
 	var breath := 0.0 if reduced or preview_frame >= 0 else sin(visual_clock * 2.2) * 0.6
 	var bob := sin(walk_stride_distance / 7.5 * PI) * 0.45 if pose == "walk" and not reduced else 0.0
 	if pose == "chase" and not reduced:
 		_draw_chase_dust()
 	draw_set_transform(origin + Vector2(0.0, -1.0), 0.0, Vector2(1.0, 0.20))
-	draw_circle(Vector2.ZERO, body_size.x * 0.34, Color(0.15, 0.07, 0.02, 0.18))
+	draw_circle(Vector2.ZERO, body_size.x * 0.34, Color(0.15, 0.07, 0.02, 0.18 * visitor_alpha))
 	var pose_mix := 1.0 if reduced or preview_frame >= 0 or blend_from_frame < 0 else smoothstep(0.0, POSE_BLEND_SECONDS, blend_age)
 	var cat_origin := origin + Vector2(0.0, bob - cat_lift)
 	var sample := Vector3(frame, frame, 0.0) if reduced or preview_frame >= 0 else _frame_sample()
 	_update_cat_paint(sample, cat_origin, breath, pose_mix)
+	cat_painter.modulate.a = visitor_alpha
 	draw_set_transform(Vector2.ZERO)
 	if context == "greenhouse_exterior" and mouse_visible and not reduced:
 		_draw_mouse()
@@ -864,15 +876,29 @@ func _draw_corner_prop(texture: Texture2D, rect: Rect2, region: Rect2) -> void:
 
 func _draw_mouse() -> void:
 	var frame := int(elapsed * 12.0) % 4 if pose == "chase" and chase_stage not in ["tease", "skid"] else 1
+	var visitor_alpha := _visitor_alpha(mouse_position, 36.0)
 	draw_set_transform(mouse_position + Vector2(0.0, -1.0), 0.0, Vector2(1.0, 0.18))
-	draw_circle(Vector2.ZERO, 16.0, Color(0.15, 0.07, 0.02, 0.16))
+	draw_circle(Vector2.ZERO, 16.0, Color(0.15, 0.07, 0.02, 0.16 * visitor_alpha))
 	draw_set_transform(mouse_position - Vector2(0.0, mouse_lift), 0.0, Vector2(mouse_facing, 1.0))
 	var mix := _frame_mix(elapsed * 12.0) if pose == "chase" and chase_stage not in ["tease", "skid"] else 0.0
 	var rect := Rect2(-32.0, -64.0 * 295.0 / 543.0, 64.0, 64.0 * 295.0 / 543.0)
-	draw_texture_rect(mouse_frames[frame], rect, false, Color(1.0, 1.0, 1.0, 1.0 - mix))
+	draw_texture_rect(mouse_frames[frame], rect, false, Color(1.0, 1.0, 1.0, (1.0 - mix) * visitor_alpha))
 	if mix > 0.0:
-		draw_texture_rect(mouse_frames[(frame + 1) % 4], rect, false, Color(1.0, 1.0, 1.0, mix))
+		draw_texture_rect(mouse_frames[(frame + 1) % 4], rect, false, Color(1.0, 1.0, 1.0, mix * visitor_alpha))
 	draw_set_transform(Vector2.ZERO)
+
+
+func _visitor_half_width() -> float:
+	var width := 0.0
+	for index in [0, 1, 2, 3, 28, 29, 30, 31]:
+		width = maxf(width, _body_size(index).x)
+	return width * 0.5 + 8.0
+
+
+func _visitor_alpha(feet: Vector2, half_width: float) -> float:
+	if context == "greenhouse_exterior" and is_instance_valid(game):
+		return game.greenhouse_entrance_view.visitor_visibility(feet, half_width)
+	return 1.0
 
 
 func _update_cat_paint(sample: Vector3, origin: Vector2, breath: float, pose_mix: float) -> void:
@@ -928,4 +954,4 @@ func _draw_chase_dust() -> void:
 	for index in range(3):
 		var phase := fposmod(elapsed * 3.0 + index * 0.33, 1.0)
 		var point := cat_position + Vector2(-facing * (40.0 + phase * 18.0), -3.0 - phase * 7.0)
-		draw_circle(point, 2.0 + phase * 3.0, Color(0.91, 0.83, 0.61, sin(phase * PI) * (1.0 - phase) * 0.45))
+		draw_circle(point, 2.0 + phase * 3.0, Color(0.91, 0.83, 0.61, sin(phase * PI) * (1.0 - phase) * 0.45 * _visitor_alpha(point, 4.0)))

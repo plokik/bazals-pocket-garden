@@ -141,6 +141,23 @@ func door_rect() -> Rect2:
 	return Rect2(art.position + DOOR_SOURCE.position * scale, DOOR_SOURCE.size * scale)
 
 
+func visitor_visibility(feet: Vector2, half_width: float) -> float:
+	# Cover framing can raise the foreground pots into the old horizontal route.
+	# On those wider canvases visitors emerge only into the clear central path,
+	# with a short soft entry/exit rather than crossing the painted ceramics.
+	var art := _art_rect()
+	var scale := art.size.x / float(Exterior.get_width())
+	var pot_front := art.position.y + 1348.0 * scale
+	if feet.y >= pot_front + 4.0:
+		return 1.0
+	var left := art.position.x + 349.0 * scale + half_width + 4.0
+	var right := art.position.x + 700.0 * scale - half_width - 4.0
+	if right - left < 24.0:
+		return 0.0
+	var fade := minf(18.0, (right - left) * 0.25)
+	return smoothstep(left, left + fade, feet.x) * (1.0 - smoothstep(right - fade, right, feet.x))
+
+
 func _layout() -> void:
 	if door_button == null:
 		return

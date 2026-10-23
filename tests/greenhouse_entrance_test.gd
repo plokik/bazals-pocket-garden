@@ -50,6 +50,7 @@ static func run(host: SceneTree) -> void:
 	for index in range(butterflies.visitors.size()):
 		var wings: ShaderMaterial = butterflies.visitors[index].material
 		var glow: ShaderMaterial = butterflies.auras[index].material
+		aura_tracks_wings = aura_tracks_wings and wings.get_shader_parameter("butterfly_texture_image") == butterflies.visitors[index].texture
 		for parameter in ["current_frame", "next_frame", "frame_mix"]:
 			aura_tracks_wings = aura_tracks_wings and wings.get_shader_parameter(parameter) == glow.get_shader_parameter(parameter)
 		aura_tracks_wings = aura_tracks_wings and glow.get_shader_parameter("butterfly_texture_image") == butterflies.visitors[index].texture

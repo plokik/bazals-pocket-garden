@@ -75,17 +75,17 @@ func refresh(plant: PlantSimulation, fertilizer_doses: int, water_amount_ml := 1
 
 func _set_text(button: Button, text_value: String, tooltip := "") -> void:
 	TooltipPolicy.apply(button, text_value if tooltip.is_empty() else tooltip)
-	var label := button.get_meta("action_label", null) as Label
+	var label := button.get_meta("action_label") as Label if button.has_meta("action_label") else null
 	if label != null:
 		label.text = text_value
 
 
 func _set_visual(button: Button, disabled: bool, icon_active := true) -> void:
 	button.disabled = disabled
-	var content := button.get_meta("action_content", null) as Control
+	var content := button.get_meta("action_content") as Control if button.has_meta("action_content") else null
 	if content != null:
 		content.modulate = Color(1, 1, 1, DISABLED_ALPHA if disabled else 1.0)
-	var icon := button.get_meta("action_icon", null) as TextureRect
+	var icon := button.get_meta("action_icon") as TextureRect if button.has_meta("action_icon") else null
 	if icon != null:
 		var target := _get_icon_color(icon_active)
 		var previous_target: Color = icon.get_meta("resting_color", target)
@@ -102,7 +102,7 @@ func play_lamp_transition(enabled: bool, reduced_motion: bool) -> void:
 	stop_lamp_transition()
 	if lamp_button == null or reduced_motion or lamp_button.disabled:
 		return
-	var icon := lamp_button.get_meta("action_icon", null) as TextureRect
+	var icon := lamp_button.get_meta("action_icon") as TextureRect if lamp_button.has_meta("action_icon") else null
 	if icon == null:
 		return
 	var resting_color: Color = icon.get_meta("resting_color", icon.modulate)
@@ -123,7 +123,7 @@ func play_lamp_transition(enabled: bool, reduced_motion: bool) -> void:
 func stop_lamp_transition() -> void:
 	if lamp_button == null:
 		return
-	var icon := lamp_button.get_meta("action_icon", null) as TextureRect
+	var icon := lamp_button.get_meta("action_icon") as TextureRect if lamp_button.has_meta("action_icon") else null
 	if icon != null:
 		_reset_icon_transition(icon)
 

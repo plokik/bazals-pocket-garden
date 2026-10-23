@@ -84,8 +84,25 @@ static func export_portable_backup_to_path(session: GameSession, path: String) -
 		return {"ok": false, "message": "Vybraný soubor se nepodařilo otevřít pro zápis."}
 	file.store_string(backup_text)
 	file.flush()
+	var write_error := file.get_error()
+	var written_bytes := file.get_length()
 	file.close()
+	if write_error != OK or written_bytes != backup_text.to_utf8_buffer().size() or not _verify_portable_backup_export(path, backup_text):
+		return {"ok": false, "message": "Zálohu se nepodařilo úplně zapsat a ověřit. Vyber jiné umístění a zkus export znovu."}
 	return {"ok": true, "message": "Záloha postupu byla bezpečně exportována."}
+
+
+static func _verify_portable_backup_export(path: String, expected_text: String) -> bool:
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return false
+	if file.get_length() != expected_text.to_utf8_buffer().size():
+		file.close()
+		return false
+	var actual_text := file.get_as_text()
+	var read_error := file.get_error()
+	file.close()
+	return read_error == OK and actual_text == expected_text and bool(decode_portable_backup(actual_text).get("ok", false))
 
 
 static func read_portable_backup_from_path(path: String) -> Dictionary:
@@ -331,6 +348,12 @@ static func _load_data_with_recovery(save_path: String, backup_path: String, rec
 		if _heal_primary_from_backup(save_path, backup_path, recovery_path):
 			return {"status": STATUS_BACKUP_RECOVERED, "data": backup_result.data, "message": "Poškozený save byl obnoven z poslední platné zálohy."}
 		return {"status": STATUS_BACKUP_READ_ONLY, "data": backup_result.data, "message": "Načetla se platná záloha pouze pro čtení; primární soubor se nepodařilo bezpečně opravit a zápis zůstal zablokovaný."}
+	# A surviving backup is still player data when the primary is absent.
+	# Never turn an unsupported/unreadable sole copy into a writable new game.
+	if backup_result.status == STATUS_UNSUPPORTED:
+		return {"status": STATUS_UNSUPPORTED, "data": {}, "message": "Záloha pochází z novější nepodporované verze a zůstala nedotčená. Zápis je chráněný."}
+	if backup_result.status == STATUS_CORRUPT:
+		return {"status": STATUS_CORRUPT, "data": {}, "message": "Uloženou hru ani její zálohu se nepodařilo přečíst. Existující soubory zůstaly nedotčené a zápis je chráněný."}
 	if not primary_exists:
 		return {"status": STATUS_NEW, "data": {}, "message": "Nová lokální hra."}
 	return {"status": STATUS_CORRUPT, "data": {}, "message": "Save je poškozený a zůstal nedotčený."}

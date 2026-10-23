@@ -22,10 +22,8 @@ const MAX_FRAME_P95_MS := 25.0
 const MAX_DRAW_CALLS := 575
 const MAX_STATIC_MEMORY_MIB := 512.0
 const CPU_ONLY_RETRY_WARMUP_FRAMES := 120
-const SCENARIO_IDS := ["room", "storage", "shop", "measurement", "grower_journal", "player_room", "player_room_drag"]
-const PlayerRoomScene := preload("res://scripts/ui/player_room_collection_view.gd")
-const PLAYER_ROOM_DRAG_SOURCE := 4
-const PLAYER_ROOM_TOUCH_ID := 73
+const SCENARIO_IDS := ["room", "storage", "shop", "measurement", "grower_journal", "player_room", "workshop_interactions", "greenhouse_exterior", "teahouse"]
+const SCENARIO_TOUCH_ID := 73
 
 
 func _init() -> void:
@@ -40,6 +38,9 @@ func _run() -> void:
 		return
 	DirAccess.make_dir_recursive_absolute(output_directory)
 	Engine.max_fps = TARGET_FPS
+	Input.emulate_mouse_from_touch = true
+	Input.emulate_touch_from_mouse = false
+	Input.use_accumulated_input = false
 	var packed := load("res://main.tscn") as PackedScene
 	if packed == null:
 		push_error("Could not load res://main.tscn")
@@ -54,6 +55,21 @@ func _run() -> void:
 	instance.session.paused = false
 	instance.session.speed_multiplier = 1.0
 	instance.session.selected_room_theme = "amethyst"
+	# Fixtures belong exclusively to run_performance_smoke.ps1's isolated profile.
+	# Skip the first-run film; it must not cover the scene being measured.
+	instance.is_garden_handover_active = false
+	instance.return_to_herbarium_after_handover = false
+	instance.garden_handover_presenter.reset()
+	instance.session.intro_completed = true
+	instance.session.journey_completed = true
+	instance.session.journey_reward_claimed = true
+	instance.session.journey_step = GameSession.JourneyStep.COMPLETE
+	instance.session.reduced_motion = false
+	instance.session.guided_tutorial_enabled = false
+	instance._apply_normal_guide_mode()
+	instance._close_professor_story()
+	instance._close_save_recovery()
+	instance._close_save_failure()
 	for plant in instance.session.plants:
 		plant.stage = PlantSimulation.Stage.MATURE
 		plant.growth_percent = 82.0
@@ -68,7 +84,7 @@ func _run() -> void:
 	var scenario_reports: Dictionary = {}
 	var passed := true
 	for scenario_id in SCENARIO_IDS:
-		var scenario_context := _prepare_scenario(instance, scenario_id)
+		var scenario_context := await _prepare_scenario(instance, scenario_id)
 		var warmup_frames := ROOM_WARMUP_FRAMES if scenario_id == "room" else MATRIX_WARMUP_FRAMES
 		var sample_frames := ROOM_SAMPLE_FRAMES if scenario_id == "room" else MATRIX_SAMPLE_FRAMES
 		for frame in range(warmup_frames):
@@ -91,7 +107,7 @@ func _run() -> void:
 		else:
 			scenario_report["cpu_retry_performed"] = false
 		if not scenario_context.is_empty():
-			var cleanup := _finish_player_room_scenario(instance, scenario_context)
+			var cleanup := _finish_scenario(instance, scenario_context)
 			scenario_report["scenario_cleanup"] = cleanup
 			scenario_report["passed"] = bool(scenario_report.passed) and bool(cleanup.passed)
 			scenario_report["result"] = "PASSED" if bool(scenario_report.passed) else "FAILED"
@@ -149,7 +165,8 @@ func _run() -> void:
 
 
 func _prepare_scenario(instance, scenario_id: String) -> Dictionary:
-	var context: Dictionary = {}
+	instance.teahouse_modal.close()
+	instance.workshop_modal.close()
 	instance._set_grower_journal_open(false)
 	instance._set_level_progression_open(false)
 	instance._set_herbarium_open(false)
@@ -158,6 +175,14 @@ func _prepare_scenario(instance, scenario_id: String) -> Dictionary:
 	instance._set_cosmetic_modal_open(false)
 	instance._set_guide_modal_open(false, false)
 	instance._close_return_summary()
+	var context := {
+		"scenario_id": scenario_id, "setup_errors": [], "sampling": false,
+		"sample_frame": 0, "input_actions": 0, "accepted_matches": 0,
+		"matches_since_restart": 0, "gesture": [], "gesture_step": -1,
+		"coins_before": instance.session.coins,
+		"slots_before": instance.session.get_room_decoration_slots().duplicate(),
+		"products_before": instance.session.workshop_products.to_dict().duplicate(true),
+	}
 	match scenario_id:
 		"storage":
 			instance._change_screen(1)
@@ -175,290 +200,225 @@ func _prepare_scenario(instance, scenario_id: String) -> Dictionary:
 			instance._open_room()
 			instance._open_grower_journal()
 			instance.grower_journal_scroll.scroll_vertical = 0
-		"player_room", "player_room_drag":
-			context = _prepare_player_room_scenario(instance, scenario_id)
+		"player_room", "workshop_interactions", "teahouse":
+			instance._change_screen(0)
+			instance._open_player_room()
+			if scenario_id != "player_room":
+				await _settle_layout()
+				_tap_button(instance.player_room_view.workbench_button, context)
+				await _settle_layout()
+				if not instance.workshop_open or not instance.workshop_modal.is_visible_in_tree():
+					(context.setup_errors as Array).append("Visible workbench touch did not open recipes")
+				else:
+					_tap_button(instance.workshop_modal.products_button, context)
+					await _settle_layout()
+					if scenario_id == "teahouse":
+						_tap_button(instance.workshop_modal.products_panel.order_button, context)
+						await _settle_layout()
+						_tap_button(instance.workshop_modal.products_panel.play_button, context)
+						await _settle_layout()
+		"greenhouse_exterior":
+			instance.session.owned_greenhouse_decorations.assign(["tea_tree"])
+			instance._change_screen(0)
+			instance._open_greenhouse()
 		_:
 			instance._change_screen(0)
 			instance._open_room()
 	instance.feedback_layer.finish_all()
 	instance._refresh_ui()
+	await _settle_layout()
 	return context
 
 
-func _prepare_player_room_scenario(instance, scenario_id: String) -> Dictionary:
-	var context := {
-		"scenario_id": scenario_id, "view": instance.player_room_view,
-		"drag_required": scenario_id == "player_room_drag", "press_attempted": false,
-		"motion_events": 0, "motion_sequence": 0, "drag_start_wall_ms": -1.0,
-		"draw_signals": {}, "draw_bindings": [], "move_requests": 0, "slot_requests": 0,
-		"setup_errors": [], "expected_slots": [], "expected_fixed_slots": [],
-	}
-	var view = instance.player_room_view
-	if not view is PlayerRoomScene:
-		(context.setup_errors as Array).append("PlayerRoomCollectionView is missing")
-		return context
-	# Only the isolated performance session is populated. No purchase, drop,
-	# save call, source asset rewrite or production save migration is performed.
-	instance.is_garden_handover_active = false
-	instance.return_to_herbarium_after_handover = false
-	instance.garden_handover_presenter.reset()
-	instance.session.intro_completed = true
-	instance.session.journey_completed = true
-	instance.session.journey_reward_claimed = true
-	instance.session.journey_step = GameSession.JourneyStep.COMPLETE
-	instance._apply_normal_guide_mode()
-	instance._set_guide_modal_open(false, false)
-	instance._close_professor_story()
-	instance._close_room_decoration_modal()
-	instance._close_save_recovery()
-	instance._close_save_failure()
-	instance.session.paused = false
-	var slots: Array[String] = []
-	slots.resize(PlayerRoomScene.DECORATION_SLOT_COUNT)
-	slots.fill("")
-	for slot_index in range(slots.size()):
-		if PlayerRoomScene._is_hidden_decoration_slot(slot_index):
-			continue
-		var item_id := str(PlayerRoomScene.PHASE149_CANONICAL_SLOT_IDS[slot_index])
-		if not instance.session.is_room_decoration_compatible(item_id, slot_index):
-			(context.setup_errors as Array).append("Invalid full-room fixture at slot %d" % slot_index)
-			continue
-		slots[slot_index] = item_id
-		if item_id not in instance.session.owned_room_decorations:
-			instance.session.owned_room_decorations.append(item_id)
-		if slot_index >= PlayerRoomScene.PLANT_SLOT_COUNT:
-			(context.expected_fixed_slots as Array).append(slot_index)
-	context.expected_slots = slots.duplicate()
-	instance.session.room_decoration_slots.assign(slots)
-	instance._change_screen(0)
-	instance._open_player_room()
-	view.set_reduced_motion(false)
-	_connect_room_draw_counters(view, context)
-	var move_callback := _on_room_move_requested.bind(context)
-	var slot_callback := _on_room_slot_requested.bind(context)
-	view.plant_move_requested.connect(move_callback)
-	view.decoration_slot_requested.connect(slot_callback)
-	context["move_callback"] = move_callback
-	context["slot_callback"] = slot_callback
-	return context
+func _settle_layout() -> void:
+	for frame in range(3):
+		await process_frame
 
 
-func _drive_scenario_frame(instance, context: Dictionary, warmup_frame: int) -> void:
-	if context.is_empty() or not bool(context.drag_required):
+func _tap_button(button: Button, context: Dictionary) -> bool:
+	if not is_instance_valid(button) or not button.is_visible_in_tree() or button.disabled:
+		(context.setup_errors as Array).append("Requested button is missing, hidden or disabled")
+		return false
+	var point := button.get_global_rect().get_center()
+	if not root.get_visible_rect().has_point(point):
+		(context.setup_errors as Array).append("Requested button is outside the viewport: %s" % button.name)
+		return false
+	_push_touch(point, true)
+	_push_touch(point, false)
+	context.input_actions = int(context.input_actions) + 1
+	return true
+
+
+func _push_touch(point: Vector2, pressed: bool) -> void:
+	var event := InputEventScreenTouch.new()
+	event.index = SCENARIO_TOUCH_ID
+	event.position = point
+	event.pressed = pressed
+	root.push_input(event, true)
+
+
+func _drive_scenario_frame(instance, context: Dictionary, _warmup_frame: int) -> void:
+	if context.is_empty() or not bool(context.sampling):
 		return
-	var view = context.view
-	if not is_instance_valid(view) or not view is PlayerRoomScene:
-		return
-	if not bool(context.press_attempted):
-		# Two ordinary frames settle the room's layout before input coordinates
-		# are sampled; the remaining warmup advances the real 450 ms hold.
-		if warmup_frame < 2:
-			return
-		context.press_attempted = true
-		if not bool(_player_room_state(instance, context).scene_valid):
-			(context.setup_errors as Array).append("Full player room was not ready for viewport input")
-			return
-		var local_start: Vector2 = view.plant_slot_hit_rect(PLAYER_ROOM_DRAG_SOURCE).get_center()
-		var viewport_start: Vector2 = view.get_global_transform_with_canvas() * local_start
-		if view.plant_slot_at_position(local_start, true) != PLAYER_ROOM_DRAG_SOURCE or not root.get_visible_rect().has_point(viewport_start):
-			(context.setup_errors as Array).append("Drag source is not a reachable occupied plant cell")
-			return
-		context["local_start"] = local_start
-		context["last_local_pointer"] = local_start
-		context["press_ticks_usec"] = Time.get_ticks_usec()
-		var press := InputEventScreenTouch.new()
-		press.index = PLAYER_ROOM_TOUCH_ID
-		press.position = viewport_start
-		press.pressed = true
-		root.push_input(press, true)
-		if view.plant_drag.pointer_id != PLAYER_ROOM_TOUCH_ID or view.plant_drag.source_slot != PLAYER_ROOM_DRAG_SOURCE:
-			(context.setup_errors as Array).append("Viewport press did not reach the room plant controller")
-	if not view.plant_drag.dragging:
-		return
-	if float(context.drag_start_wall_ms) < 0.0:
-		context.drag_start_wall_ms = float(Time.get_ticks_usec() - int(context.get("press_ticks_usec", Time.get_ticks_usec()))) / 1000.0
-	# A bounded moving pointer stays in the middle rack area, away from top
-	# navigation and modal buttons. It is never released onto another slot.
-	var phase := float(context.motion_sequence) * 0.09
-	var local_point: Vector2 = context.local_start + Vector2(sin(phase) * 20.0, cos(phase) * 12.0) * (view.size.x / 432.0)
-	var motion := InputEventScreenDrag.new()
-	motion.index = PLAYER_ROOM_TOUCH_ID
-	var viewport_transform: Transform2D = view.get_global_transform_with_canvas()
-	motion.position = viewport_transform * local_point
-	motion.relative = motion.position - viewport_transform * (context.last_local_pointer as Vector2)
-	context.last_local_pointer = local_point
-	context.motion_sequence = int(context.motion_sequence) + 1
-	context.motion_events = int(context.motion_events) + 1
-	root.push_input(motion, true)
+	var frame := int(context.sample_frame)
+	context.sample_frame = frame + 1
+	if context.scenario_id == "workshop_interactions" and frame % 60 == 0:
+		var panel = instance.workshop_modal.products_panel
+		var product_id: String = ["lavender", "gift", "tea"][(frame / 60) % 3]
+		if panel.is_visible_in_tree() and panel.page == "products":
+			_tap_button(panel.product_buttons.get(product_id), context)
+			if panel.selected != product_id:
+				(context.setup_errors as Array).append("Native product touch did not select %s" % product_id)
+	elif context.scenario_id == "teahouse":
+		_drive_teahouse_frame(instance, context, frame)
 
 
-func _player_room_state(instance, context: Dictionary) -> Dictionary:
-	var view = context.get("view")
-	var state := {
-		"scene_valid": false, "player_room_visible": false, "plant_count": 0,
-		"full_12_plants": false, "fixed_decoration_count": 0, "full_fixed_decorations": false,
-		"slots_unchanged": false, "drag_active": false, "pointer_matches_event": false,
-	}
-	if not is_instance_valid(view) or not view is PlayerRoomScene:
-		return state
+func _drive_teahouse_frame(instance, context: Dictionary, frame: int) -> void:
+	var view = instance.teahouse_modal.view
+	if not is_instance_valid(view): return
+	if int(context.gesture_step) >= 0:
+		var path: Array = context.gesture
+		var step := int(context.gesture_step)
+		var local_point: Vector2 = view.origin + view._center(path[mini(step, path.size()-1)]) * view.zoom
+		var point: Vector2 = view.get_global_transform_with_canvas() * local_point
+		if step == 0:
+			context["score_before_gesture"] = view.model.score
+			_push_touch(point, true)
+		elif step < path.size():
+			var motion := InputEventScreenDrag.new()
+			motion.index = SCENARIO_TOUCH_ID
+			motion.position = point
+			root.push_input(motion, true)
+		else:
+			_push_touch(point, false)
+			if view.model.score > int(context.score_before_gesture):
+				context.accepted_matches = int(context.accepted_matches) + 1
+				context.matches_since_restart = int(context.matches_since_restart) + 1
+			else:
+				(context.setup_errors as Array).append("Viewport herb gesture did not resolve a valid match")
+			context.gesture_step = -1
+			context.gesture = []
+			return
+		context.gesture_step = step + 1
+	elif frame % 90 == 0 and not view.busy and view.displayed_phase == "matching":
+		# Restart via the actual visible UI after two matches, keeping this
+		# bounded six-second scenario in matching even on its single CPU retry.
+		if int(context.matches_since_restart) >= 2:
+			if _tap_button(view.reset_button, context): context.matches_since_restart = 0
+			return
+		var path: Array[int] = view.find_needed_chain()
+		if path.size() < 3:
+			(context.setup_errors as Array).append("Matching board has no legal three-herb gesture")
+			return
+		context.gesture = path
+		context.gesture_step = 0
+
+
+func _scenario_state(instance, context: Dictionary) -> Dictionary:
+	var scenario_id: String = context.scenario_id
+	var state := {"scene_valid": false, "visible": false, "cat_visible": false,
+		"butterflies_visible": false, "effects_active": false}
+	var blocking: bool = instance._is_blocking_modal_open()
 	state["active_screen"] = instance.active_screen
 	state["garden_location_id"] = instance.garden_location_id
-	state["blocking_modal_open"] = instance._is_blocking_modal_open()
-	state.player_room_visible = view.is_visible_in_tree() and view.get_global_rect().intersection(root.get_visible_rect()).has_area()
-	var expected: Array = context.expected_slots
-	var unique_plants := {}
-	for slot_index in range(mini(PlayerRoomScene.PLANT_SLOT_COUNT, view.decoration_slots.size())):
-		var item_id := str(view.decoration_slots[slot_index])
-		if not item_id.is_empty() and str((GameSession.ROOM_DECORATIONS.get(item_id, {}) as Dictionary).get("slot_group", "")) == "plant":
-			state.plant_count = int(state.plant_count) + 1
-			unique_plants[item_id] = true
-	state.full_12_plants = int(state.plant_count) == 12 and unique_plants.size() == 12
-	for slot_index in context.expected_fixed_slots:
-		if slot_index < view.decoration_slots.size() and slot_index < expected.size() and not str(expected[slot_index]).is_empty() and view.decoration_slots[slot_index] == expected[slot_index] and not PlayerRoomScene._is_hidden_decoration_slot(slot_index):
-			state.fixed_decoration_count = int(state.fixed_decoration_count) + 1
-	state.full_fixed_decorations = not (context.expected_fixed_slots as Array).is_empty() and int(state.fixed_decoration_count) == (context.expected_fixed_slots as Array).size()
-	state.slots_unchanged = view.decoration_slots == expected and instance.session.get_room_decoration_slots() == expected
-	state.drag_active = view.plant_drag.dragging and not view.plant_drag.cancelled and view.plant_drag.pointer_id == PLAYER_ROOM_TOUCH_ID and view.plant_drag.source_slot == PLAYER_ROOM_DRAG_SOURCE and expected.size() > PLAYER_ROOM_DRAG_SOURCE and view.plant_drag.decoration_id == str(expected[PLAYER_ROOM_DRAG_SOURCE])
-	state.pointer_matches_event = context.has("last_local_pointer") and view.plant_drag.pointer_position.distance_to(context.last_local_pointer) < 0.01
-	state.scene_valid = bool(state.player_room_visible) and bool(state.full_12_plants) and bool(state.full_fixed_decorations) and bool(state.slots_unchanged) and instance.active_screen == 0 and instance.garden_location_id == instance.GARDEN_LOCATION_PLAYER_ROOM and not bool(state.blocking_modal_open) and not instance.is_garden_handover_active and not instance.external_file_picker_open
+	state["blocking_modal_open"] = blocking
+	var surface: Control
+	match scenario_id:
+		"storage": surface = instance.screens[1]
+		"shop": surface = instance.screens[2]
+		"measurement": surface = instance.screens[3]
+		"grower_journal": surface = instance.grower_journal_scroll
+		"player_room": surface = instance.player_room_view
+		"workshop_interactions": surface = instance.workshop_modal.products_panel
+		"greenhouse_exterior": surface = instance.greenhouse_entrance_view
+		"teahouse": surface = instance.teahouse_modal.view
+		_: surface = instance.room_overview
+	if not is_instance_valid(surface): return state
+	state.visible = surface.is_visible_in_tree() and surface.get_global_rect().intersection(root.get_visible_rect()).has_area()
+	var expected_screen: int = {"storage": 1, "shop": 2, "measurement": 3}.get(scenario_id, 0)
+	state.scene_valid = bool(state.visible) and instance.active_screen == expected_screen
+	match scenario_id:
+		"grower_journal":
+			state.scene_valid = bool(state.scene_valid) and instance.grower_journal_open and blocking
+		"player_room":
+			state.scene_valid = bool(state.scene_valid) and instance.garden_location_id == "player_room" and not blocking and bool(surface.get_meta("fixed_workshop_shelves", false)) and not surface.plant_drag_enabled
+		"workshop_interactions":
+			state["selected_product"] = surface.selected
+			state.scene_valid = bool(state.scene_valid) and instance.garden_location_id == "player_room" and instance.workshop_open and blocking and surface.page == "products" and surface.bound_session == instance.session and surface.product_buttons.size() == 3
+		"greenhouse_exterior":
+			var cat = instance.garden_cat_companion
+			var entrance = instance.greenhouse_entrance_view
+			state.cat_visible = cat.is_visible_in_tree() and not cat.offstage and cat.context == "greenhouse_exterior"
+			for butterfly in entrance.butterflies.visitors:
+				if butterfly.is_visible_in_tree() and butterfly.modulate.a > 0.01: state.butterflies_visible = true
+			state["tea_tree_owned"] = entrance.tea_tree_owned
+			state.scene_valid = bool(state.scene_valid) and instance.garden_location_id == "greenhouse_exterior" and not blocking and entrance.tea_tree_owned and entrance.tea_exterior != null and bool(state.cat_visible) and bool(state.butterflies_visible) and not entrance.animations_paused and not entrance.reduced_motion
+		"teahouse":
+			state.effects_active = not surface.flying.is_empty() or float(surface.match_age) < surface.FLIGHT_DURATION
+			state.scene_valid = bool(state.scene_valid) and instance.teahouse_open and instance.workshop_open and blocking and surface.embedded and instance.teahouse_modal.bound_session == instance.session and surface.model.board.size() == 36 and not surface.reduced_motion
+		_:
+			state.scene_valid = bool(state.scene_valid) and not blocking
+			if scenario_id == "room": state.scene_valid = bool(state.scene_valid) and instance.garden_location_id == "rack" and not instance.plant_detail_panel.visible
 	return state
 
 
-func _begin_player_room_evidence(instance, context: Dictionary) -> Dictionary:
-	if context.is_empty():
-		return {}
+func _begin_scenario_evidence(instance, context: Dictionary) -> Dictionary:
+	if context.is_empty(): return {}
+	context.sampling = true
+	context.sample_frame = 0
+	if context.scenario_id == "greenhouse_exterior":
+		# Deterministic presentation-only fixture: include wing/aura shaders,
+		# the owned canopy and an unobscured moving cat for the complete sample.
+		# Re-armed for a CPU-only retry; thresholds and sample duration do not change.
+		var entrance = instance.greenhouse_entrance_view
+		entrance.butterflies.flight_elapsed = 2.0
+		entrance.butterflies.refresh()
+		var cat = instance.garden_cat_companion
+		cat._set_context("greenhouse_exterior")
+		cat.offstage = false
+		cat.cat_position = Vector2(70.0, cat._floor_y())
+		cat._walk_to(Vector2(cat.size.x - 70.0, cat._floor_y()), "sit")
 	return {
-		"before": _player_room_state(instance, context), "valid_frames": 0,
-		"visible_frames": 0, "full_12_frames": 0, "full_fixed_frames": 0,
-		"drag_active_frames": 0, "pointer_event_received_frames": 0,
-		"first_invalid_state": {}, "drag_required": context.drag_required,
-		"expected_visible_fixed_slots": (context.expected_fixed_slots as Array).duplicate(),
-		"draw_signals_before": (context.draw_signals as Dictionary).duplicate(),
-		"mesh_cache_before": _room_mesh_cache_snapshot(context.view),
-		"motion_events_before": context.motion_events,
-		"input_route": "viewport_native_touch_real_warmup_hold_then_per_frame_drag",
+		"before": _scenario_state(instance, context), "valid_frames": 0,
+		"visible_frames": 0, "effects_frames": 0, "first_invalid_state": {},
+		"input_actions_before": context.input_actions,
+		"accepted_matches_before": context.accepted_matches,
+		"cat_clock_before": instance.garden_cat_companion.visual_clock,
+		"tea_phase_before": instance.greenhouse_entrance_view.tea_wind_phase,
+		"input_route": "viewport_native_touch_current_visible_controls",
 	}
 
 
-func _record_player_room_sample(instance, context: Dictionary, evidence: Dictionary) -> void:
-	var state := _player_room_state(instance, context)
-	if bool(state.player_room_visible):
-		evidence.visible_frames = int(evidence.visible_frames) + 1
-	if bool(state.full_12_plants):
-		evidence.full_12_frames = int(evidence.full_12_frames) + 1
-	if bool(state.full_fixed_decorations):
-		evidence.full_fixed_frames = int(evidence.full_fixed_frames) + 1
-	if bool(state.drag_active):
-		evidence.drag_active_frames = int(evidence.drag_active_frames) + 1
-	if bool(state.drag_active) and bool(state.pointer_matches_event):
-		evidence.pointer_event_received_frames = int(evidence.pointer_event_received_frames) + 1
-	var valid := bool(state.scene_valid) and (not bool(context.drag_required) or bool(state.drag_active) and bool(state.pointer_matches_event))
-	if valid:
-		evidence.valid_frames = int(evidence.valid_frames) + 1
-	elif (evidence.first_invalid_state as Dictionary).is_empty():
-		evidence.first_invalid_state = state
+func _record_scenario_sample(instance, context: Dictionary, evidence: Dictionary) -> void:
+	var state := _scenario_state(instance, context)
+	if bool(state.visible): evidence.visible_frames = int(evidence.visible_frames) + 1
+	if bool(state.effects_active): evidence.effects_frames = int(evidence.effects_frames) + 1
+	if bool(state.scene_valid): evidence.valid_frames = int(evidence.valid_frames) + 1
+	elif (evidence.first_invalid_state as Dictionary).is_empty(): evidence.first_invalid_state = state
 
 
-func _finish_player_room_evidence(instance, context: Dictionary, evidence: Dictionary, sample_frames: int) -> void:
-	evidence["after"] = _player_room_state(instance, context)
+func _finish_scenario_evidence(instance, context: Dictionary, evidence: Dictionary, sample_frames: int) -> void:
+	context.sampling = false
+	evidence["after"] = _scenario_state(instance, context)
 	evidence["setup_errors"] = (context.setup_errors as Array).duplicate()
-	evidence["draw_signals_after"] = (context.draw_signals as Dictionary).duplicate()
-	evidence["draw_signals_during_sample"] = {}
-	for node_path in context.draw_signals:
-		evidence.draw_signals_during_sample[node_path] = int(context.draw_signals[node_path]) - int((evidence.draw_signals_before as Dictionary).get(node_path, 0))
-	evidence["mesh_cache_after"] = _room_mesh_cache_snapshot(context.view)
-	evidence["motion_events_during_sample"] = int(context.motion_events) - int(evidence.motion_events_before)
-	evidence["drag_start_wall_ms"] = context.drag_start_wall_ms
-	evidence["move_requests"] = context.move_requests
-	evidence["slot_requests"] = context.slot_requests
-	evidence["player_room_visible_throughout"] = bool(evidence.before.player_room_visible) and bool(evidence.after.player_room_visible) and int(evidence.visible_frames) == sample_frames
-	evidence["full_12_plants_throughout"] = bool(evidence.before.full_12_plants) and bool(evidence.after.full_12_plants) and int(evidence.full_12_frames) == sample_frames
-	evidence["drag_active_throughout"] = bool(evidence.before.drag_active) and bool(evidence.after.drag_active) and int(evidence.drag_active_frames) == sample_frames
-	evidence["valid"] = bool(evidence.before.scene_valid) and bool(evidence.after.scene_valid) and int(evidence.valid_frames) == sample_frames and (context.setup_errors as Array).is_empty() and int(context.move_requests) == 0 and int(context.slot_requests) == 0
-	if bool(context.drag_required):
-		evidence.valid = bool(evidence.valid) and bool(evidence.drag_active_throughout) and int(evidence.motion_events_during_sample) == sample_frames and int(evidence.pointer_event_received_frames) == sample_frames
+	evidence["input_actions_during_sample"] = int(context.input_actions) - int(evidence.input_actions_before)
+	evidence["accepted_matches_during_sample"] = int(context.accepted_matches) - int(evidence.accepted_matches_before)
+	evidence["cat_clock_advanced"] = instance.garden_cat_companion.visual_clock > float(evidence.cat_clock_before)
+	evidence["tea_canopy_advanced"] = not is_equal_approx(instance.greenhouse_entrance_view.tea_wind_phase, float(evidence.tea_phase_before))
+	evidence["valid"] = bool(evidence.before.scene_valid) and bool(evidence.after.scene_valid) and int(evidence.valid_frames) == sample_frames and (context.setup_errors as Array).is_empty()
+	if context.scenario_id == "workshop_interactions":
+		evidence.valid = bool(evidence.valid) and int(evidence.input_actions_during_sample) >= 3
+	elif context.scenario_id == "teahouse":
+		evidence.valid = bool(evidence.valid) and int(evidence.accepted_matches_during_sample) >= 2 and int(evidence.effects_frames) > 0
+	elif context.scenario_id == "greenhouse_exterior":
+		evidence.valid = bool(evidence.valid) and bool(evidence.cat_clock_advanced) and bool(evidence.tea_canopy_advanced)
 
 
-func _connect_room_draw_counters(node: Node, context: Dictionary) -> void:
-	if node is CanvasItem:
-		var node_path := str(node.get_path())
-		context.draw_signals[node_path] = 0
-		var callback := _on_room_draw.bind(context, node_path)
-		(node as CanvasItem).draw.connect(callback)
-		(context.draw_bindings as Array).append({"node": node, "callback": callback})
-	for child in node.get_children():
-		_connect_room_draw_counters(child, context)
-
-
-func _on_room_draw(context: Dictionary, node_path: String) -> void:
-	context.draw_signals[node_path] = int(context.draw_signals[node_path]) + 1
-
-
-func _on_room_move_requested(_source_slot: int, _target_slot: int, _item_id: String, context: Dictionary) -> void:
-	context.move_requests = int(context.move_requests) + 1
-
-
-func _on_room_slot_requested(_slot_index: int, context: Dictionary) -> void:
-	context.slot_requests = int(context.slot_requests) + 1
-
-
-func _room_mesh_cache_snapshot(view) -> Dictionary:
-	if not is_instance_valid(view):
-		return {"available": false}
-	for property: Dictionary in view.get_property_list():
-		if str(property.get("name", "")) != "_plant_mesh_cache":
-			continue
-		var cache = view.get("_plant_mesh_cache")
-		if not cache is Dictionary:
-			return {"available": false}
-		var resource_ids := {}
-		for key in cache:
-			var mesh = cache[key]
-			resource_ids[str(key)] = mesh.get_instance_id() if is_instance_valid(mesh) else 0
-		return {"available": true, "entry_count": cache.size(), "resource_ids": resource_ids}
-	return {"available": false}
-
-
-func _finish_player_room_scenario(instance, context: Dictionary) -> Dictionary:
-	var view = context.view
-	var cancelled := true
-	if is_instance_valid(view) and bool(context.drag_required) and bool(context.press_attempted):
-		var cancel_key := InputEventKey.new()
-		cancel_key.keycode = KEY_ESCAPE
-		cancel_key.pressed = true
-		root.push_input(cancel_key, true)
-		var cancel_key_release := InputEventKey.new()
-		cancel_key_release.keycode = KEY_ESCAPE
-		cancel_key_release.pressed = false
-		root.push_input(cancel_key_release, true)
-		var release := InputEventScreenTouch.new()
-		release.index = PLAYER_ROOM_TOUCH_ID
-		release.position = Vector2(-64.0, -64.0)
-		release.pressed = false
-		release.canceled = true
-		root.push_input(release, true)
-		cancelled = not view.plant_drag.is_tracking() and PLAYER_ROOM_TOUCH_ID not in view.plant_drag.touch_ids
-		if not cancelled:
-			# Failure stays recorded; this fallback only drains a stuck test contact.
-			view.cancel_plant_drag(true)
-	var unchanged: bool = instance.session.get_room_decoration_slots() == context.expected_slots
-	var result := {
-		"cancel_route": "viewport_escape_and_canceled_touch_release",
-		"drag_cancelled": cancelled, "slots_unchanged": unchanged,
-		"move_requests": context.move_requests, "slot_requests": context.slot_requests,
-		"passed": cancelled and unchanged and int(context.move_requests) == 0 and int(context.slot_requests) == 0,
-	}
-	for binding: Dictionary in context.draw_bindings:
-		var node = binding.node
-		if is_instance_valid(node) and node.draw.is_connected(binding.callback):
-			node.draw.disconnect(binding.callback)
-	if is_instance_valid(view) and context.has("move_callback"):
-		view.plant_move_requested.disconnect(context.move_callback)
-		view.decoration_slot_requested.disconnect(context.slot_callback)
-	context.draw_bindings = []
-	context.erase("move_callback")
-	context.erase("slot_callback")
-	return result
+func _finish_scenario(instance, context: Dictionary) -> Dictionary:
+	if context.scenario_id == "teahouse" and is_instance_valid(instance.teahouse_modal.view):
+		instance.teahouse_modal.view._cancel_pointer()
+	var unchanged: bool = instance.session.coins == int(context.coins_before) and instance.session.get_room_decoration_slots() == context.slots_before and instance.session.workshop_products.to_dict() == context.products_before
+	return {"coins_decorations_products_unchanged": unchanged, "passed": unchanged}
 
 
 func _measure_scenario(sample_frames: int, instance = null, context: Dictionary = {}) -> Dictionary:
@@ -467,7 +427,7 @@ func _measure_scenario(sample_frames: int, instance = null, context: Dictionary 
 	var max_draw_calls := 0
 	var max_objects := 0
 	var max_primitives := 0
-	var evidence := _begin_player_room_evidence(instance, context)
+	var evidence := _begin_scenario_evidence(instance, context)
 	var previous_ticks := Time.get_ticks_usec()
 	for frame in range(sample_frames):
 		_drive_scenario_frame(instance, context, MATRIX_WARMUP_FRAMES + frame)
@@ -480,7 +440,7 @@ func _measure_scenario(sample_frames: int, instance = null, context: Dictionary 
 		max_objects = maxi(max_objects, int(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME)))
 		max_primitives = maxi(max_primitives, int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)))
 		if not context.is_empty():
-			_record_player_room_sample(instance, context, evidence)
+			_record_scenario_sample(instance, context, evidence)
 	var static_memory_mib := float(Performance.get_monitor(Performance.MEMORY_STATIC)) / 1048576.0
 	var metrics := {
 		"cpu_average_ms": _average(cpu_samples),
@@ -503,7 +463,7 @@ func _measure_scenario(sample_frames: int, instance = null, context: Dictionary 
 	metrics["passed"] = passed
 	metrics["result"] = "PASSED" if passed else "FAILED"
 	if not context.is_empty():
-		_finish_player_room_evidence(instance, context, evidence, sample_frames)
+		_finish_scenario_evidence(instance, context, evidence, sample_frames)
 		metrics["performance_thresholds_passed"] = passed
 		metrics["scenario_evidence"] = evidence
 		metrics["scenario_setup_valid"] = bool(evidence.valid)
