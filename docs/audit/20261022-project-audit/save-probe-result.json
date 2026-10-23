@@ -1,0 +1,23 @@
+{
+  "corrupt_primary_case": {
+    "future_backup_preserved": true,
+    "load_status": "corrupt",
+    "primary_preserved": true,
+    "writes_blocked": true
+  },
+  "final_backup_schema": 46.0,
+  "first_save_ok": true,
+  "future_backup_preserved_after_first_save": true,
+  "future_backup_preserved_after_second_save": false,
+  "future_backup_preserved_on_load": true,
+  "load_status": "new",
+  "loaded_coins": 30,
+  "second_save_ok": true,
+  "valid_primary_control": {
+    "future_backup_preserved_on_load": true,
+    "load_status": "primary",
+    "loaded_coins": 123,
+    "writes_blocked": false
+  },
+  "writes_blocked": false
+}

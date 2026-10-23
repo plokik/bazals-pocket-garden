@@ -1,0 +1,41 @@
+{
+  "exterior_tea_cat_butterflies": {
+    "cpu_average_ms": 5.5999,
+    "cpu_max_ms": 8.202,
+    "cpu_p95_ms": 8.202,
+    "frame_average_ms": 16.6657111111111,
+    "frame_max_ms": 17.07,
+    "frame_p95_ms": 16.727,
+    "max_draw_calls": 136,
+    "max_primitives": 5568,
+    "max_render_objects": 359,
+    "passed": true,
+    "result": "PASSED",
+    "setup": {
+      "blocking": false,
+      "butterfly_flight_elapsed": 4.04492133333333,
+      "cat_visible": true,
+      "entrance_visible": true,
+      "location": "greenhouse_exterior"
+    },
+    "static_memory_mib": 114.106852531433
+  },
+  "teahouse_matching": {
+    "cpu_average_ms": 7.47549999999999,
+    "cpu_max_ms": 23.33,
+    "cpu_p95_ms": 23.33,
+    "frame_average_ms": 16.6660027777778,
+    "frame_max_ms": 23.38,
+    "frame_p95_ms": 16.703,
+    "max_draw_calls": 249,
+    "max_primitives": 7762,
+    "max_render_objects": 1246,
+    "passed": false,
+    "result": "FAILED",
+    "setup": {
+      "opened": true,
+      "visible": true
+    },
+    "static_memory_mib": 116.761660575867
+  }
+}

@@ -1,0 +1,545 @@
+{
+  "cases": [
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "baseline_1080x2400",
+      "logical": [
+        432,
+        960
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        432.0,
+        960.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        1080.0,
+        2400.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/baseline_1080x2400.png",
+      "window": [
+        1080.0,
+        2400.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        38.0,
+        0.0,
+        48.0
+      ],
+      "failure": "",
+      "id": "camera_and_gesture_1080x2400",
+      "logical": [
+        432,
+        960
+      ],
+      "margins": [
+        0.0,
+        38.4000015258789,
+        0.0,
+        48.0
+      ],
+      "safe_content_size": [
+        432.0,
+        873.599975585938
+      ],
+      "safe_rect": [
+        0.0,
+        96.0,
+        1080.0,
+        2184.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/camera_and_gesture_1080x2400.png",
+      "window": [
+        1080.0,
+        2400.0
+      ]
+    },
+    {
+      "applied_margins": [
+        20.0,
+        40.0,
+        20.0,
+        50.0
+      ],
+      "failure": "",
+      "id": "wide_1080x1920",
+      "logical": [
+        540,
+        960
+      ],
+      "margins": [
+        20.0,
+        40.0,
+        20.0,
+        50.0
+      ],
+      "safe_content_size": [
+        500.0,
+        870.0
+      ],
+      "safe_rect": [
+        40.0,
+        80.0,
+        1000.0,
+        1740.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/wide_1080x1920.png",
+      "window": [
+        1080.0,
+        1920.0
+      ]
+    },
+    {
+      "applied_margins": [
+        17.0,
+        36.0,
+        17.0,
+        52.0
+      ],
+      "failure": "",
+      "id": "asymmetric_1170x2532",
+      "logical": [
+        444,
+        960
+      ],
+      "margins": [
+        17.0769233703613,
+        36.3981056213379,
+        17.0769233703613,
+        51.5639839172363
+      ],
+      "safe_content_size": [
+        409.846160888672,
+        872.037902832031
+      ],
+      "safe_rect": [
+        45.0,
+        96.0,
+        1080.0,
+        2300.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/asymmetric_1170x2532.png",
+      "window": [
+        1170.0,
+        2532.0
+      ]
+    },
+    {
+      "applied_margins": [
+        14.0,
+        38.0,
+        14.0,
+        38.0
+      ],
+      "failure": "",
+      "id": "compact_720x1600",
+      "logical": [
+        432,
+        960
+      ],
+      "margins": [
+        14.4000005722046,
+        38.4000015258789,
+        14.4000005722046,
+        38.4000015258789
+      ],
+      "safe_content_size": [
+        403.200012207031,
+        883.200012207031
+      ],
+      "safe_rect": [
+        24.0,
+        64.0,
+        672.0,
+        1472.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/compact_720x1600.png",
+      "window": [
+        720.0,
+        1600.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "oversized_safe_rect_is_clamped",
+      "logical": [
+        432,
+        960
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        432.0,
+        960.0
+      ],
+      "safe_rect": [
+        -40.0,
+        -20.0,
+        1200.0,
+        2500.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/oversized_safe_rect_is_clamped.png",
+      "window": [
+        1080.0,
+        2400.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "invalid_safe_rect_falls_back",
+      "logical": [
+        432,
+        960
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        432.0,
+        960.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/invalid_safe_rect_falls_back.png",
+      "window": [
+        1080.0,
+        2400.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase109_greenhouse_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase109_greenhouse_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase126_player_room_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase126_player_room_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase153_shop_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase153_shop_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase154_measurement_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase154_measurement_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase155_herbarium_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase155_herbarium_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase157_detail_header_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase157_detail_header_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase161_daily_challenge_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase161_daily_challenge_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    },
+    {
+      "applied_margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "failure": "",
+      "id": "phase162_cosmetic_showroom_360x800",
+      "logical": [
+        360,
+        800
+      ],
+      "margins": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "safe_content_size": [
+        360.0,
+        800.0
+      ],
+      "safe_rect": [
+        0.0,
+        0.0,
+        360.0,
+        800.0
+      ],
+      "screenshot": "R:/_projekty/Bazal's Pocket Garden/.godot/responsive/20261023-040210Z/phase162_cosmetic_showroom_360x800.png",
+      "window": [
+        360.0,
+        800.0
+      ]
+    }
+  ],
+  "failure": "",
+  "matrix_cases": 15,
+  "minimum_safe_content": [
+    360.0,
+    800.0
+  ],
+  "required_surfaces": {
+    "blocking_modals": 17,
+    "edge_background": "mobile_edge_to_edge_chrome_v1",
+    "global_swipe_navigation": "phase119_axis_locked_top_level_v1",
+    "safe_content": "dynamic_mobile_safe_area_v1",
+    "screens": 4,
+    "visual_design_system": "phase127_final_visual_system_v1",
+    "visual_scene_profiles": 10
+  },
+  "result": "PASSED"
+}

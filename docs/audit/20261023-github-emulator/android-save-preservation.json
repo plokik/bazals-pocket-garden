@@ -1,0 +1,9 @@
+{
+  "primary_and_backup_byte_identical_after_install": true,
+  "sha256": {
+    "how_to_grow_save.json": "d52b31a10746a1763ece0266749f9e138a83d3e935cdbd1f91efc05159895c4e",
+    "how_to_grow_save.backup.json": "86af2a47b41a8918cf484a1d793e674925edc7ba64bcd6b0a714962712f86d29"
+  },
+  "apk_sha256": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9",
+  "installed_base_apk_sha256": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9"
+}

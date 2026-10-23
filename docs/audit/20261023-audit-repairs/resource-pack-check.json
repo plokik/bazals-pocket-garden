@@ -1,0 +1,37 @@
+{
+  "type": "Godot Android resource ZIP; not an APK",
+  "exit_code": 0,
+  "path": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\audit-repairs-20261023\\android-resources.zip",
+  "bytes": 193483721,
+  "sha256": "83117ce11bba946ddf19737e93c6d808fa9828335509f834efa505aa7360a184",
+  "entries": 1135,
+  "excluded_entries": {
+    "assets/ui/greenhouse/butterfly_amber_v1.png": [],
+    "assets/pets/garden_cat_v1/cat_corner_v1.png": [],
+    "assets/ui/workshop/bazal_workshop_empty_v1.png": [],
+    "assets/ui/greenhouse/greenhouse_interior_phase120.png": []
+  },
+  "required_entries": {
+    "assets/ui/greenhouse/butterfly_flight_v2.png": [
+      ".godot/imported/butterfly_flight_v2.png-85e28b44c04b0bc42ff6ebcdf5ae792c.ctex",
+      "assets/ui/greenhouse/butterfly_flight_v2.png.import"
+    ],
+    "assets/ui/greenhouse/tea_tree_exterior_v1.png": [
+      ".godot/imported/tea_tree_exterior_v1.png-dce9fbbcc9e927939617852c5eb1e524.ctex",
+      "assets/ui/greenhouse/tea_tree_exterior_v1.png.import"
+    ],
+    "assets/ui/workshop/bazal_workshop_painted_shelves_v2.png": [
+      ".godot/imported/bazal_workshop_painted_shelves_v2.png-8dbd1a789e870df68b52a305752ebb86.ctex",
+      "assets/ui/workshop/bazal_workshop_painted_shelves_v2.png.import"
+    ],
+    "assets/pets/garden_cat_v1/cat_actions_v1.png": [
+      ".godot/imported/cat_actions_v1.png-3a61295bc9e181b8017510f5a1fcd8d5.ctex",
+      "assets/pets/garden_cat_v1/cat_actions_v1.png.import"
+    ],
+    "assets/pets/garden_cat_v1/cat_poses_v1.png": [
+      ".godot/imported/cat_poses_v1.png-b4decc08c4b1b4560ff504ceb632600f.ctex",
+      "assets/pets/garden_cat_v1/cat_poses_v1.png.import"
+    ]
+  },
+  "source_assets_preserved": true
+}

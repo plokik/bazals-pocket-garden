@@ -1,0 +1,22 @@
+{
+  "contract": "phase127_final_visual_system_v1",
+  "errors": [],
+  "explicit_asset_profiles": 68,
+  "family_counts": {
+    "environment_plate": 41,
+    "gameplay_plant": 115,
+    "greenhouse_collectible": 22,
+    "legacy_reference": 20,
+    "room_collectible": 195,
+    "ui_chrome": 225
+  },
+  "master_art_direction": "phase131_living_botanical_master_v1",
+  "master_reference_asset": "res://assets/ui/visual/phase128/measurement_corner_backdrop_v1.png",
+  "master_reference_sha256": "ff3e920e8cc432240ebe9c0620e570a12b7e19aafaafb5faed7a817e849dd0f5",
+  "profiled_pngs": 618,
+  "result": "PASSED",
+  "runtime_referenced_pngs": 217,
+  "scene_profiles": 10,
+  "style": "bazal_sunny_botanical_comic_v1",
+  "unprofiled_pngs": 0
+}

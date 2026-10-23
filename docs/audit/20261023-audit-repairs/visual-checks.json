@@ -1,0 +1,94 @@
+{
+  "workshop-360.png": {
+    "full_frame_changed_pixels": 402,
+    "max_channel_error": 30,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "workshop-432.png": {
+    "full_frame_changed_pixels": 420,
+    "max_channel_error": 30,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "butterflies-360.png": {
+    "full_frame_changed_pixels": 402,
+    "max_channel_error": 30,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "butterflies-432.png": {
+    "full_frame_changed_pixels": 420,
+    "max_channel_error": 30,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "butterflies-540.png": {
+    "full_frame_changed_pixels": 426,
+    "max_channel_error": 30,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "butterflies-600.png": {
+    "full_frame_changed_pixels": 424,
+    "max_channel_error": 29,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "butterflies-720.png": {
+    "full_frame_changed_pixels": 422,
+    "max_channel_error": 29,
+    "scene_changed_pixels_below_header": 0,
+    "diagnostic_note": "Full-frame differences are limited to the animated corner ornaments in rows0-26; scene comparison excludes only the72px HUD."
+  },
+  "reference_pngs_checked": 54,
+  "reference_pngs_changed": [],
+  "workshop_lazy_cache": [
+    {
+      "canvas": "(360, 800)",
+      "legacy_cache_size": 0
+    },
+    {
+      "canvas": "(432, 960)",
+      "legacy_cache_size": 0
+    },
+    {
+      "canvas": "(540, 960)",
+      "legacy_cache_size": 0
+    },
+    {
+      "canvas": "(600, 900)",
+      "legacy_cache_size": 0
+    },
+    {
+      "canvas": "(720, 960)",
+      "legacy_cache_size": 0
+    }
+  ],
+  "tea_branch_six_phases": {
+    "0": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    },
+    "1": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    },
+    "2": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    },
+    "3": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    },
+    "4": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    },
+    "5": {
+      "changed_pixels": 0,
+      "max_channel_error": 0
+    }
+  }
+}

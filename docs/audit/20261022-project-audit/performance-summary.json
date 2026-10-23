@@ -1,0 +1,65 @@
+{
+  "status": "FAILED",
+  "scenarios": {
+    "grower_journal": {
+      "result": "PASSED",
+      "cpu_p95_ms": 12.962,
+      "frame_p95_ms": 16.687,
+      "max_draw_calls": 373,
+      "static_memory_mib": 115.022806167603
+    },
+    "measurement": {
+      "result": "PASSED",
+      "cpu_p95_ms": 4.979,
+      "frame_p95_ms": 16.714,
+      "max_draw_calls": 272,
+      "static_memory_mib": 114.350963592529
+    },
+    "player_room": {
+      "result": "PASSED",
+      "cpu_p95_ms": 4.593,
+      "frame_p95_ms": 16.752,
+      "max_draw_calls": 146,
+      "static_memory_mib": 116.045846939087
+    },
+    "player_room_drag": {
+      "result": "FAILED",
+      "cpu_p95_ms": 24.123,
+      "frame_p95_ms": 16.689,
+      "max_draw_calls": 146,
+      "static_memory_mib": 116.079847335815,
+      "setup_valid": false,
+      "setup_errors": [
+        "Drag source is not a reachable occupied plant cell"
+      ]
+    },
+    "room": {
+      "result": "PASSED",
+      "cpu_p95_ms": 15.516,
+      "frame_p95_ms": 16.719,
+      "max_draw_calls": 426,
+      "static_memory_mib": 114.369199752808
+    },
+    "shop": {
+      "result": "PASSED",
+      "cpu_p95_ms": 4.84,
+      "frame_p95_ms": 16.683,
+      "max_draw_calls": 181,
+      "static_memory_mib": 114.537107467651
+    },
+    "storage": {
+      "result": "PASSED",
+      "cpu_p95_ms": 5.614,
+      "frame_p95_ms": 16.7,
+      "max_draw_calls": 80,
+      "static_memory_mib": 114.196203231812
+    }
+  },
+  "thresholds": {
+    "cpu_p95_ms": 20.0,
+    "draw_calls": 575,
+    "frame_p95_ms": 25.0,
+    "static_memory_mib": 512.0
+  },
+  "scope": "Windows desktop Compatibility renderer; not physical Android or sustained thermal test."
+}

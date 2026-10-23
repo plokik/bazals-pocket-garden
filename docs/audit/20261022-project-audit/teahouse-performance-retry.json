@@ -1,0 +1,19 @@
+{
+  "cpu_average_ms": 5.32128333333337,
+  "cpu_max_ms": 6.256,
+  "cpu_p95_ms": 6.256,
+  "frame_average_ms": 16.6659027777778,
+  "frame_max_ms": 17.079,
+  "frame_p95_ms": 16.705,
+  "max_draw_calls": 249,
+  "max_primitives": 7762,
+  "max_render_objects": 1246,
+  "passed": true,
+  "reason": "Single independent retry after CPU-only failure; thresholds unchanged.",
+  "result": "PASSED",
+  "setup": {
+    "opened": true,
+    "visible": true
+  },
+  "static_memory_mib": 116.731612205505
+}

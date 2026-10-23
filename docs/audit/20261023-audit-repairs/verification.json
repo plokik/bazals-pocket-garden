@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-23",
+  "project_root": "R:\\_projekty\\Bazal's Pocket Garden",
+  "branch": "fix/rc61-feedback-motion",
+  "base_commit": "ed58703fc93d9bd3f7cd7e0545a774b05748f7f7",
+  "source_state": "existing dirty working tree; this repair is not a new commit",
+  "runtime_code_sha256": {
+    "export_presets.cfg": "ab9b5704816f6de2398e33bf38d8e6d7945f2461ef2ff37168ea7151e6c6e62a",
+    "scripts/save_manager.gd": "5badc9fb48d92f7dfaf106f5f9f86ceac8fd443ffd33a3f7b09937ef90417227",
+    "scripts/teahouse/tea_branch_ambient.gd": "f0aa11b0c7e01589fac2af87c3191b7d8044bb7ce3d24cf19e9bb982621fd19c",
+    "scripts/teahouse/tea_branch_sheen.gdshader": "597da3dc881b279eb98c180106712c4a31185c8d9c8788ece56871a7c31b3b4a",
+    "scripts/ui/garden_cat_companion.gd": "730d21cdac0e9e61cec369ae27da9f8fadd28abb8c9f41da7719174973cb65f5",
+    "scripts/ui/greenhouse_butterflies.gd": "d608d93a11d1776a00a4cfaa715fc91cbcc6000221f580bd84205cfbac90e0ee",
+    "scripts/ui/greenhouse_butterfly_wings.gdshader": "08e113f2b0903f80ecf84bdd66bc773dd1c43ee0a07e0a8fd1a3d5a4ec8635f9",
+    "scripts/ui/greenhouse_entrance_view.gd": "796881d602d5f2a59603124d0028ab7f2bd59b7e75073b9be44b7b260a8da7e1",
+    "scripts/ui/plant_action_presenter.gd": "91abfb12e45312c4efc809806c79f3771304fa7f30d648a864078b8e2460b684",
+    "scripts/ui/player_room_collection_view.gd": "aba24e0289faa2fdb8f4aac408c30815d4d93e99a4dc168e865f90c62999f151",
+    "scripts/ui/workshop_room_view.gd": "7c4ecc4f874396356969d6519f6bbde331ed838ee58099e60ac7eaaa54c0fd35",
+    "tests/audit_visual_geometry_test.gd": "42192274328fd03995c9018bf63dc469e188aed6e4875182e5613eb52615709f",
+    "tests/audit_visual_geometry_test.gd.uid": "52a1bbf82da2101a1f78fbbdbc7e99082587a3577879371d67bd09bcd12f86ea",
+    "tests/greenhouse_entrance_test.gd": "29aa5fc3b8594855969852516a64082986398558f47b8e58a139022ac694fb35",
+    "tests/room_render_efficiency_test.gd": "740763b8bc4444965cf1a39cb09ad7e9f55725c953edf6dc9288ac6f665ee801",
+    "tests/save_backup_protection_test.gd": "930f1bcfc268a7ef9b9d704c78fc52c7fff6591b45fd1004ab3873e4f72e200d",
+    "tests/save_backup_protection_test.gd.uid": "d722c9acac005b5aaf2b5c439d788c888bb39a7d68fd7505a22fd479f16e7bd4",
+    "tests/test_runner.gd": "fec4327dc2f46d55d5779b7516866ac2d294d8ded3060db99689d7888dafe919",
+    "tools/assert_test_diagnostics.ps1": "8449855a0881bf08e155ec4cd5102fc40b05aa8a91810366b11def8a4d1f87dc",
+    "tools/performance_smoke.gd": "09586451e97bccfcf196b7be5ef4cd9bca0d76aec79a172c5d53a877e9fcaf47",
+    "tools/run_tests.ps1": "f5aa56946b2f129f4cec49e197237137135791426e9c8b81059e5fc73276d414"
+  },
+  "approvals": {
+    "wide_workshop": "approved by owner in chat",
+    "wide_cat_passage": "approved by owner in chat"
+  },
+  "save_schema": {
+    "before": 46,
+    "after": 46
+  },
+  "checks": {
+    "save_focused": {
+      "checks": 34,
+      "failures": 0
+    },
+    "functional": {
+      "passed": 8306
+    },
+    "visual_gates": {
+      "passed": 34,
+      "total": 34
+    },
+    "reference_pngs": {
+      "checked": 54,
+      "changed": 0
+    },
+    "unexpected_test_errors": 0,
+    "expected_negative_fixture_errors": 18,
+    "diagnostic_policy_checks": {
+      "passed": 15
+    },
+    "responsive_cases": {
+      "passed": 15
+    },
+    "visual_contract": {
+      "profiled_pngs": 618,
+      "unprofiled_pngs": 0
+    },
+    "performance": {
+      "passed": 9,
+      "total": 9,
+      "cpu_p95_max_ms": 18.201,
+      "frame_p95_max_ms": 16.768,
+      "max_draw_calls": 421,
+      "static_memory_mib": 118.148732185364
+    },
+    "phone_workshop_and_butterflies": "zero changed scene pixels below 72px HUD; differences only animated corner ornaments",
+    "tea_branch": "six native phases, zero changed pixels",
+    "resource_export": "passed; four exact obsolete assets absent, five current assets present"
+  },
+  "verification_method": {
+    "isolated_appdata": true,
+    "canonical": "full tests and full native capture; final full tests and comparison reused those captures after tea-branch-only shader binding repair",
+    "tea_branch_final": "six independently captured native phases before/after final binding repair",
+    "performance": "final native desktop Compatibility matrix; original budgets unchanged",
+    "geometry_canvases": [
+      "360x800",
+      "432x960",
+      "540x960",
+      "600x900",
+      "720x960"
+    ]
+  },
+  "limitations": [
+    "No physical Android or emulator install in this repair pass.",
+    "Resource ZIP export is not an APK build or Android architecture validation.",
+    "No physical disk-full or power-loss test; portable export overwrite is not atomic.",
+    "Cat uses a clear-corridor visibility fade; no foreground silhouette mask or obstacle navigation was introduced.",
+    "Legacy-image 31.26 MiB estimate is nominal decoded image data, not measured RAM/VRAM/startup-time savings.",
+    "Previous unrelated working-tree changes remain uncommitted; no GitHub push or release performed."
+  ]
+}

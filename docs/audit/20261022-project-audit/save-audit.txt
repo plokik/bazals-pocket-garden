@@ -1,0 +1,32 @@
+Read-only save/economy audit, 2026-10-22
+Authoritative checkout: R:\_projekty\Bazal's Pocket Garden
+No runtime files, tests or approved references changed. Godot execution delegated to root.
+
+CONFIRMED SOURCE-LEVEL FINDING (runtime probe prepared, root will run)
+P2: A missing primary plus a backup from a newer schema is treated as a new game.
+Location: scripts/save_manager.gd:329-336; writes are allowed by :302.
+Trigger: primary absent, backup valid JSON with schema=SAVE_SCHEMA+1, e.g. interrupted replacement followed by launching an older build.
+Result: load returns NEW and 30 coins, writes_blocked=false. First save creates a current-schema primary, preserving backup. Second save classifies the future backup as invalid at :221 and removes it at :239-245, replacing the sole newer profile with the default/current game.
+Expected: preserve and expose unsupported backup, block writes until explicit recovery/newgame choice.
+Scope: corrupt existing primary correctly blocks writes (CORRUPT); supported primary remains authoritative and is not part of this finding.
+Test gap: tests/test_runner.gd:13361-13369 covers future primary with older valid backup, not future backup with missing primary.
+Probe: tmp/project-audit-20261022/save_probe.gd. Unique res://tmp/project-audit-20261022/audit-*.json fixture paths only. Run with isolated APPDATA and --headless --path . --script res://tmp/project-audit-20261022/save_probe.gd.
+Marker: SAVE_AUDIT_RESULT. Receipt: tmp/project-audit-20261022/save-probe-result.json.
+
+SOURCE-LEVEL VALIDATION GAP (do not label runtime-reproduced)
+Portable backup export reports success even without verifying write completion.
+Location: scripts/save_manager.gd:82-88.
+After FileAccess.open succeeds, store_string and flush are followed by unconditional ok:true. No get_error or post-write decode/readback. An I/O failure after opening (e.g. full removable storage) therefore has no branch reporting export failure. The normal test at tests/test_runner.gd:13372-13374 only checks a successful writable destination.
+Recommended scope: verify stream error and/or decode the written bytes before reporting 'safely exported'; keep the previous exported backup safe until the candidate validates. No full-disk fault was induced during audit.
+
+NOT CONFIRMED AS BUGS
+- Earlier room decoration/theme/equipment purchases mutate the active session then save; failure opens explicit memory-only warning with retry/continue. Do not call this silent loss solely because there is no rollback. _save_current_session/_apply_save_result in main.gd:4573-4611 own that behavior.
+- Previous emulator incidents with both primary and backup zero bytes have no established source-level cause. All normal save writes open the TEMP path (:187), validate it (:198), preserve a validated previous copy before removing primary (:228-251), and validate installed primary (:261). No unrelated direct writer of primary/backup found in runtime scripts. Coldboot/storage durability remains unproven, not a confirmed SaveManager defect.
+
+CHECKED WITHOUT NEW FINDINGS
+- Fortune wheel: durable reservation before animation/ad; reward and consumed turn saved together; failed persistence restores wallet/fertilizer/seeds/pending state; daily UTC reset and clock rollback guard. scripts/fortune_wheel.gd:24-35,60-117; dedicated tests include midnight, offline multi-day and resume.
+- Rewarded ad native bridge: random token, earned receipt persisted before acknowledgement, old-profile receipt cannot reward replacement profile. No live commercial ad IDs; official test unit only. Did not execute an ad/device test.
+- Workshop goods: craft/sell/quest acceptance/delivery roll back their changed inventory/economy fields on failed persistence. UI passes a persistence callback. scripts/workshop_products.gd:88-191.
+- Teahouse minigame adapter gives game view no wallet/inventory/save access. It is intentionally a replayable minigame, not an independent economic reward source. scripts/ui/teahouse_modal.gd.
+- Tea-tree purchase: required synchronous boolean persistence callback, duplicate guard, protected-save guard, complete wallet/ownership/saved_at rollback; feedback after successful save. scripts/greenhouse_decorations.gd:29-70.
+- New-game/import paths preserve prior disk primary separately before installing a validated replacement. Existing tests cover normal install, restore and invalid new session.

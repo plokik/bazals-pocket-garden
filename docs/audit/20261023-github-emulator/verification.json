@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-23",
+  "branch": "fix/rc61-feedback-motion",
+  "runtime_source_commit": "a52157acc75de73aee650024f801dc555d2d5052",
+  "runtime_commits": [
+    "b0a9ac0d1c489bf388967984acd8a1d194b7dc77 art: version approved garden assets and visual review history",
+    "9b7566659f175416453a3e111e40f6f89a15d577 feat: integrate garden companions, workshop, teahouse and daily rewards",
+    "a52157acc75de73aee650024f801dc555d2d5052 fix: protect saves and correct wide layouts and test diagnostics"
+  ],
+  "documentation_commit": "this commit",
+  "ci_from_committed_source": {
+    "result": "PASSED",
+    "functional_checks": 8306,
+    "startup_preferences": "PASSED",
+    "prepared_startup_assets": "PASSED",
+    "visual_contract": "PASSED",
+    "runtime_resource_references": 375,
+    "cases": 54,
+    "active_visual_gates": 34,
+    "golden_digest": "81C18A8090A80C4A6B1D05124FD6CCE974AB48FA44D998B630992FBEC133CF7F",
+    "first_import_native_crash": {
+      "exception": "0xc0000005",
+      "result": "FAILED",
+      "stage": "fresh Godot font import on this Windows PC",
+      "retry": "complete CI passed after retry using the partially populated import cache",
+      "root_cause": "not established"
+    }
+  },
+  "previous_full_native_visual_and_performance_verification": "../20261023-audit-repairs/verification.json",
+  "android": {
+    "avd": "Bazal_Current_Source_API36",
+    "serial": "emulator-5554",
+    "api": 36,
+    "abi": "x86_64",
+    "package": "com.howtogrow.game",
+    "version": "0.71.0-rc61-emulator",
+    "version_code": 78,
+    "apk_sha256": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9",
+    "installed_base_apk_sha256": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9",
+    "apk_bytes": 283680540,
+    "checks_passed": [
+      "APK_SIGNATURE_CHECK",
+      "APK_SIGNING_IDENTITY",
+      "APK_ABI_CHECK",
+      "APK_ENTRY_SCAN",
+      "APK_QA_DONOR_PAYLOAD_CHECK",
+      "APK_PAYLOAD_CHECK",
+      "APK_MANIFEST_CONTRACT",
+      "ANDROID_NOTIFICATION_PAYLOAD_CHECK",
+      "APK_PRIVACY_SDK_ALLOWLIST",
+      "APK_16K_ALIGNMENT_CHECK"
+    ],
+    "saved_files_preserved_byte_for_byte": 2,
+    "launch_status": "ok",
+    "visible_scene": "workshop",
+    "script_parse_java_shader_failure_lines": 0,
+    "old_shader_cache_recompile_warnings": 1
+  },
+  "publication_scope": {
+    "target": "existing feature branch",
+    "release_created": false,
+    "default_branch_merged": false,
+    "physical_phone_tested": false,
+    "raw_player_saves_committed": false
+  },
+  "commit_organization": {
+    "art": "approved resources, source prompts, review history and authoring tools",
+    "features": "integrated gameplay, tests, Android test ads, soundscape and tutorial",
+    "audit": "save protection, wide layouts, lazy historical textures and diagnostics/performance checks",
+    "documentation": "audit reports and this delivery evidence"
+  }
+}

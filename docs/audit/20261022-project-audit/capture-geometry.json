@@ -1,0 +1,1048 @@
+[
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "rack-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "workshop-room-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (40.0, 684.0), S: (280.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-wheel-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [
+      {
+        "path": "WorkshopRecipes/@MarginContainer@1656/@PanelContainer@1657/@VBoxContainer@1658/@HBoxContainer@1744/@Button@1746",
+        "rect": "[P: (40.0, 704.0), S: (280.0, 56.0)]"
+      }
+    ],
+    "image": "recipes-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "products-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "teahouse-quest-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "teahouse-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "exterior-original-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "exterior-tea-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "cat_feet": "(100.0, 607.0)",
+    "controls": [],
+    "image": "exterior-cat-100-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "cat_feet": "(180.0, 607.0)",
+    "controls": [],
+    "image": "exterior-cat-180-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (16.0, 145.0), S: (328.0, 509.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (40.0, 578.0), S: (280.0, 52.0)]"
+      }
+    ],
+    "image": "tea-shop-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "greenhouse-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "lavender-detail-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "herbarium-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "daily-challenge-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "settings-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "storage-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "shop-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [],
+    "image": "measurement-360x800.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "rack-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "workshop-room-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (40.0, 800.0), S: (352.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-wheel-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [
+      {
+        "path": "WorkshopRecipes/@MarginContainer@1656/@PanelContainer@1657/@VBoxContainer@1658/@HBoxContainer@1744/@Button@1746",
+        "rect": "[P: (40.0, 864.0), S: (352.0, 56.0)]"
+      }
+    ],
+    "image": "recipes-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "products-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-quest-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-original-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-tea-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "cat_feet": "(100.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-100-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "cat_feet": "(180.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-180-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (16.0, 205.0), S: (400.0, 549.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (40.0, 678.0), S: (352.0, 52.0)]"
+      }
+    ],
+    "image": "tea-shop-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "greenhouse-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "lavender-detail-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "herbarium-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "daily-challenge-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "settings-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "storage-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "shop-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      432,
+      960
+    ],
+    "controls": [],
+    "image": "measurement-432x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "rack-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "workshop-room-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (54.0, 840.0), S: (432.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-wheel-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [
+      {
+        "path": "WorkshopRecipes/@MarginContainer@1656/@PanelContainer@1657/@VBoxContainer@1658/@HBoxContainer@1744/@Button@1746",
+        "rect": "[P: (40.0, 864.0), S: (460.0, 56.0)]"
+      }
+    ],
+    "image": "recipes-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "products-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-quest-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-original-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-tea-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "cat_feet": "(100.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-100-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "cat_feet": "(180.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-180-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (70.0, 205.0), S: (400.0, 549.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (94.0, 678.0), S: (352.0, 52.0)]"
+      }
+    ],
+    "image": "tea-shop-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "greenhouse-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "lavender-detail-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "herbarium-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "daily-challenge-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "settings-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "storage-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "shop-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      540,
+      960
+    ],
+    "controls": [],
+    "image": "measurement-540x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "rack-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "workshop-room-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (84.0, 812.0), S: (432.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-wheel-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [
+      {
+        "path": "WorkshopRecipes/@MarginContainer@1656/@PanelContainer@1657/@VBoxContainer@1658/@HBoxContainer@1744/@Button@1746",
+        "rect": "[P: (40.0, 804.0), S: (520.0, 56.0)]"
+      }
+    ],
+    "image": "recipes-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "products-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "teahouse-quest-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "teahouse-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "exterior-original-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "exterior-tea-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "cat_feet": "(100.0, 707.0)",
+    "controls": [],
+    "image": "exterior-cat-100-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "cat_feet": "(180.0, 707.0)",
+    "controls": [],
+    "image": "exterior-cat-180-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (100.0, 183.0), S: (400.0, 534.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (124.0, 641.0), S: (352.0, 52.0)]"
+      }
+    ],
+    "image": "tea-shop-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "greenhouse-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "greenhouse-cat-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "lavender-detail-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "herbarium-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "daily-challenge-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "settings-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "storage-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "shop-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      600,
+      900
+    ],
+    "controls": [],
+    "image": "measurement-600x900.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "rack-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "workshop-room-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (144.0, 840.0), S: (432.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-wheel-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [
+      {
+        "path": "WorkshopRecipes/@MarginContainer@1656/@PanelContainer@1657/@VBoxContainer@1658/@HBoxContainer@1744/@Button@1746",
+        "rect": "[P: (40.0, 864.0), S: (640.0, 56.0)]"
+      }
+    ],
+    "image": "recipes-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "products-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-quest-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "teahouse-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-original-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "exterior-tea-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "cat_feet": "(100.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-100-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "cat_feet": "(180.0, 767.0)",
+    "controls": [],
+    "image": "exterior-cat-180-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (160.0, 205.0), S: (400.0, 549.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (184.0, 678.0), S: (352.0, 52.0)]"
+      }
+    ],
+    "image": "tea-shop-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "greenhouse-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "lavender-detail-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "herbarium-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "daily-challenge-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "settings-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "storage-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "shop-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      720,
+      960
+    ],
+    "controls": [],
+    "image": "measurement-720x960.png",
+    "safe_insets": "(0.0, 0.0, 0.0, 0.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [
+      {
+        "path": "FortuneWheel/@Control@1787/@MarginContainer@1789/@CenterContainer@1790/@PanelContainer@1791/@VBoxContainer@1792/@Button@1805",
+        "rect": "[P: (40.0, 684.0), S: (280.0, 52.0)]"
+      }
+    ],
+    "image": "fortune-safe-area-360x800.png",
+    "safe_insets": "(0.0, 40.0, 0.0, 40.0)"
+  },
+  {
+    "canvas": [
+      360,
+      800
+    ],
+    "controls": [
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772",
+        "rect": "[P: (16.0, 145.0), S: (328.0, 509.0)]"
+      },
+      {
+        "path": "GreenhouseDecorations/@MarginContainer@1770/@CenterContainer@1771/@PanelContainer@1772/@VBoxContainer@1773/@Button@1782",
+        "rect": "[P: (40.0, 578.0), S: (280.0, 52.0)]"
+      }
+    ],
+    "image": "tea-safe-area-360x800.png",
+    "safe_insets": "(0.0, 40.0, 0.0, 40.0)"
+  }
+]

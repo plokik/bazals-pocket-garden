@@ -1,0 +1,79 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[OK] První skutečný diskový save se zapíše atomicky
+[OK] Druhý diskový save zachová předchozí platnou zálohu
+[OK] Poškozený primary se obnoví z platné zálohy a originál se uchová k auditu
+[OK] Budoucí primary má před starou zálohou přednost a načte jen dočasnou novou hru se zablokovaným zápisem
+[OK] Budoucí primary, stará záloha i auditní soubor zůstanou bajtově nedotčené
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] _test_disk_save_recovery (res://tests/test_runner.gd:13367)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:8)
+[OK] Automatický save nepřepíše chráněný soubor z novější verze
+[OK] Přerušený dočasný zápis nepřepíše budoucí primary ani jeho zálohu
+[OK] Přenositelný soubor lze skutečně zapsat a znovu přečíst přes FileAccess
+[OK] Fáze 59 dříve exportovaná dvojitá přípona Android zálohy zůstává plně importovatelná
+[OK] Potvrzený import atomicky nahradí save a uchová předchozí postup v samostatné bezpečnostní kopii
+[OK] Fáze 56 potvrzená nová hra atomicky zapíše čistý postup a uchová předchozí hru
+[OK] Fáze 56 neúspěšná příprava nové hry nechá aktivní save bajtově beze změny
+[OK] Fáze 56 načtená hra obnoví pravdivý čas posledního úspěšného uložení
+[OK] Fáze 58 návrat předchozí hry obnoví starý postup a zvlášť uchová právě aktivní novou hru
+[OK] Fáze 58 úspěšně použitá kopie se spotřebuje a vrátí aktivovatelnou relaci
+[OK] Fáze 58 chybějící předchozí kopie nikdy nezmění aktivní save
+[OK] Ukládání: chybějící primary a jediná unsupported záloha zablokují zápis
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+[OK] Ukládání: ani opakovaný automatický save nepřepíše chráněnou jedinou zálohu
+[OK] Ukládání: jediná záloha i auditní kopie zůstanou bajtově stejné
+[OK] Ukládání: chybějící primary a jediná corrupt záloha zablokují zápis
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+[OK] Ukládání: ani opakovaný automatický save nepřepíše chráněnou jedinou zálohu
+[OK] Ukládání: jediná záloha i auditní kopie zůstanou bajtově stejné
+[OK] Ukládání: chybějící primary a jediná corrupt záloha zablokují zápis
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+WARNING: Save write was blocked to protect an unreadable or newer save.
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] save_session (res://scripts/save_manager.gd:33)
+       [1] run (res://tests/save_backup_protection_test.gd:25)
+       [2] _run_all (res://tmp/audit-repairs-20261023/save_focused.gd:9)
+[OK] Ukládání: ani opakovaný automatický save nepřepíše chráněnou jedinou zálohu
+[OK] Ukládání: jediná záloha i auditní kopie zůstanou bajtově stejné
+[OK] Ukládání: skutečně prázdné úložiště může založit novou hru
+[OK] Ukládání: jediná platná záloha se stále obnoví se stejným postupem
+[OK] Ukládání: novější záloha je chráněná i vedle poškozeného primary
+[OK] Ukládání: platné současné primary zůstává autoritativní
+[OK] Export zálohy: úspěch znamená skutečný zapsaný a znovu ověřený postup
+[OK] Export zálohy: zkrácený soubor se nesmí potvrdit jako úplný
+[OK] Export zálohy: shoda bajtů neobejde kontrolu obsahu a SHA-256
+[OK] Export zálohy: zmizelý nebo nečitelný výsledek není úspěch
+[OK] Export zálohy: chyba otevření cíle se vrací hráči
+AUDIT_SAVE_REPAIR_CHECKS=34 FAILURES=0
