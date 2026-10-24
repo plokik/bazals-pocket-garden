@@ -1,10 +1,12 @@
 # Čajovna: lístek, odměna a ověření kapitoly
 
-**Nový lístek a čajový medailon čekají na osobní schválení. Jsou izolované v prototypu, nikoli v instalované Android hře.**
+**Aktualizace 24. 10. 2026: bonus kouzelného lístku uživatel výslovně zamítl a byl úplně odstraněn, včetně tlačítka a efektů. Nenahrazuje ho jiný bonus. Čajový medailon a reference showroomu stále čekají na samostatné schválení.**
 
-## Ke schválení
+Video, snímky a původní protokoly níže jsou archivem dřívějšího návrhu; bonus už není součástí aktuálního zdrojového stromu. Do běžné Android hry nikdy nebyl přidán. Podrobnosti odstranění jsou v `removal-verification.json`.
 
-1. **Kouzelný lístek:** šest stejných bylinek v jednom tahu získá jednu pomoc. Hráč zvolí některou z dosud chybějících bylinek a doplní až tři kusy bez dalšího tahu. Lze držet jeden lístek; zrušení výběru ho nespotřebuje. Nový pokus začíná bez něj.
+## Původní návrh a aktuální rozhodnutí
+
+1. **Kouzelný lístek – ZAMÍTNUTO, ODSTRANĚNO:** původně měl řetězec šesti bylinek získat pomoc pro doplnění až tří kusů. Pravidlo, ovládání ani efekty se do hry nezařadí.
 2. **Čajový medailon:** malovaná ozdoba na volné stěně dílny po dokončení kapitoly. V tomto návrhu je zatím ukázkou umístění, bez přidělení vlastnictví nebo zásahu do uložené hry.
 3. **Reference showroomu:** [přesné porovnání](showroom/README.md) historické reference a již existující dílny. Schválení tohoto bodu je samostatné; reference nebyla změněna.
 
@@ -22,7 +24,7 @@ Výsledky skutečných dotykových průchodů jsou v `device-verification.json`;
 
 Dokončeno všech **10 úrovní**, 119 tahů (včetně šesti zakřivených gest), 21 hvězd. Odměny +40 a +80 mincí byly vyzvednuté právě jednou. Po opětovném otevření odměny a restartu zůstalo 450 mincí, 20 semínek meduňky a celý postup. Při průchodu nalezené překrytí potvrzovacího textu tlačítkem je opravené; snímky `emulator-notice-before.png` a `emulator-notice-fixed.png` ukazují rozdíl.
 
-## Ověření
+## Historické ověření před odstraněním bonusu
 
 - Plná funkční regrese po opravě potvrzení: **9 093 kontrol**; šest nových kontrol ověřuje skutečně vykreslený text při úspěchu i selhání ukládání, jeho čitelnost a odstup od tlačítek. Původní protokol 9 087 kontrol zůstává zachovaný; finální běh je v `quest-notice-validation/`.
 - Izolovaný lístek: **642 modelových a 56 UI kontrol**. Včetně myši, dotyku, rušení, přepnutí okna, změny rozměrů, klidného pohybu, restartu a opakování z výsledku.

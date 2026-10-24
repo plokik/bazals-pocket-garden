@@ -1,0 +1,43 @@
+{
+  "status": "PASSED",
+  "request": "bonus uplne odsranit",
+  "decision_date": "2026-10-24",
+  "rejected_mechanic": "Six-herb chain grants a magic leaf that adds up to three missing herbs",
+  "replacement_bonus_added": false,
+  "removed_files": [
+    "prototypes/teahouse-leaf-review/art/golden-leaf.png",
+    "prototypes/teahouse-leaf-review/art/golden-leaf.png.import",
+    "prototypes/teahouse-leaf-review/capture_review.gd",
+    "prototypes/teahouse-leaf-review/capture_review.gd.uid",
+    "prototypes/teahouse-leaf-review/demo-path.json",
+    "prototypes/teahouse-leaf-review/golden_leaf_board.gd",
+    "prototypes/teahouse-leaf-review/golden_leaf_board.gd.uid",
+    "prototypes/teahouse-leaf-review/leaf_game.gd",
+    "prototypes/teahouse-leaf-review/leaf_game.gd.uid",
+    "prototypes/teahouse-leaf-review/leaf_model_test.gd",
+    "prototypes/teahouse-leaf-review/leaf_model_test.gd.uid",
+    "prototypes/teahouse-leaf-review/leaf_ui_test.gd",
+    "prototypes/teahouse-leaf-review/leaf_ui_test.gd.uid",
+    "prototypes/teahouse-leaf-review/review.tscn"
+  ],
+  "remaining_bonus_references_in_active_sources": [],
+  "active_source_files_checked": 269,
+  "production_sources_changed": false,
+  "production_commit_before_removal": "f3b3e79efa9eb274cab2860d9bf1e2baddff707f",
+  "android_export_exclusion_preserved": true,
+  "existing_emulator_build_already_excludes_bonus": true,
+  "save_files_touched": false,
+  "ornament_preserved": true,
+  "ornament_approval": "PENDING",
+  "historical_preview_media_preserved": true,
+  "historical_media_marked_rejected": true,
+  "prior_ci_run": "https://github.com/plokik/bazals-pocket-garden/actions/runs/40087765964",
+  "prior_ci_status": "success",
+  "full_functional_tests_rerun": false,
+  "godot_import": {
+    "native_exit_code": 0,
+    "unexpected_diagnostics": 0,
+    "evidence": "bonus-removal-import.txt",
+    "isolated_appdata": true
+  }
+}

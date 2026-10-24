@@ -14,9 +14,11 @@
   "installed_emulator": "emulator-5554",
   "production_game_left_running": true,
   "save_restart_verified": true,
-  "new_leaf_and_ornament_approval": "PENDING",
   "showroom_reference_approval": "PENDING",
   "new_prototype_in_android": false,
   "release_created": false,
-  "physical_phone_tested": false
+  "physical_phone_tested": false,
+  "leaf_bonus_approval": "REJECTED_REMOVED",
+  "ornament_approval": "PENDING",
+  "review_only_prototype_commit_note": "Historical source of the removed bonus and original video."
 }

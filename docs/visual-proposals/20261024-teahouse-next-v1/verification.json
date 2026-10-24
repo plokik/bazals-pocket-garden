@@ -1,5 +1,5 @@
 {
-  "status": "pending_user_visual_and_mechanic_approval",
+  "status": "leaf_bonus_rejected_and_removed_ornament_pending",
   "production_tests": 9093,
   "prototype_model_checks": 642,
   "prototype_ui_checks": 56,
@@ -35,7 +35,7 @@
     "save_schema": 48,
     "prototype_excluded": true
   },
-  "artifact_scope": "New artwork and leaf mechanic are review-only; existing ten-level chapter is the installed emulator build.",
+  "artifact_scope": "Historical video of a rejected leaf bonus; only the separate ornament remains pending approval.",
   "capture_source_note": "One production quest-popup notice rectangle and its regression test; this popup is not shown in the proposal video.",
   "device_evidence": "device-verification.json",
   "final_visual_report": {
@@ -52,5 +52,6 @@
     "errors_matching_checked_signatures": 0,
     "log_sha256": "59f2acbd74eb562b234010877343b5e02ba4eb4d0efb1de302307886b4c65e00",
     "scope": "Current game process after final restart only"
-  }
+  },
+  "historical_checks_note": "Counts and media describe the earlier reviewed prototype. Its bonus code and controls have now been removed at user request; these are not new test runs."
 }

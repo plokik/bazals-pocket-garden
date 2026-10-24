@@ -1,17 +1,9 @@
-# Kouzelný lístek – izolovaný návrh
+# Čajový medailon – zbývající návrh
 
-Stav: **čeká na osobní schválení vzhledu a pravidla**. Produkční hra na lístek ani novou ozdobu neodkazuje; Android export vylučuje celý `prototypes/**`.
+**Bonus kouzelného lístku byl 24. 10. 2026 na výslovné přání hráče zamítnut a odstraněn.** Jeho model, tlačítko, výběr bylinky, animace, obrázek, testy i spouštěcí a záznamová scéna byly odstraněné. Náhradní bonus se nepřidává.
 
-- Šest nebo více stejných bylinek v jednom platném řetězci získá jeden lístek, pokud recept ještě pokračuje.
-- Lze si nechat nejvýše jeden. Po klepnutí na něj hráč vybere některou z nedokončených bylinek v receptu.
-- Lístek doplní až tři chybějící bylinky bez spotřeby tahu. Nemění desku ani její náhodnou posloupnost.
-- Zrušení výběru lístek nespotřebuje. Nový pokus jej vynuluje; dokončený recept už žádný další nezískává.
-- Klidný pohyb, myš, dotyk a klávesnice jsou podporované. Výsledek návrhu lze znovu rozehrát, nic se nepřidává do skutečného inventáře.
+V této složce zůstává pouze samostatný návrh čajového medailonu (`chapter_ornament.gd` a obrázek v `art/`). Jeho vzhled a případné přidělování po dokončení kapitoly stále čekají na osobní schválení. Nemá produkční vlastnictví ani zápis do uložené hry.
 
-`review.tscn` je samostatně hratelná úroveň10 s původní přirozenou deskou. `demo-path.json` dokumentuje legální cestu, kterou prochází video přes skutečné události vstupu.
+Název složky je zachovaný kvůli návaznosti historických podkladů. Celá složka je vyloučená z Android exportu pravidlem `prototypes/**`; produkční hra na ni neodkazuje.
 
-`chapter_ornament.gd` je pouze návrh umístění čajového medailonu po dokončení kapitoly. Zatím nemá produkční vlastnictví, přidělování ani zápis do uložené hry. V záznamu je umístěn do skutečné dílny v odděleném testovacím profilu.
-
-Oba PNG v `art/` vznikly pomocí vestavěného generátoru obrázků 24.10.2026. Zdrojové obrázky mají skutečnou průhlednost; zachováváme jejich poměr stran. Malované listy a medailon jsou návrh ke schválení.
-
-Ověření modelu: 642 kontrol. Ověření ovládání: 56 kontrol. Podrobné aktuální výsledky a video jsou v `docs/visual-proposals/20261024-teahouse-next-v1/`.
+Původní video a výsledky kontrol v `docs/visual-proposals/20261024-teahouse-next-v1/` jsou archivem zamítnutého návrhu. Zdroj původního záznamu zůstává dohledatelný v historii Gitu, commit `5ff303b10a15ef8f6b745f61d8519787b664c024`.
