@@ -1,0 +1,17 @@
+{
+  "kind": "isolated golden-leaf prototype real-input result restart validation",
+  "timestamp": "2026-10-24T12:28:36.6466818+02:00",
+  "checks": 56,
+  "failures": [],
+  "native_exit_code": 0,
+  "unexpected_script_errors": 0,
+  "isolated_appdata": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\leaf-ui-appdata",
+  "source_scope": "prototype and owned test only",
+  "new_assertions": [
+    "Real hold and release pours perfectly and opens result",
+    "Result button says ZAHRÁT NÁVRH ZNOVU",
+    "Real result-button click opens fresh matching attempt",
+    "Fresh attempt clears charge/score/goals/moves/pour state and sends no campaign reward callback"
+  ],
+  "full_production_regression": "Separate earlier archive final-functional: MVP_TESTS_PASSED=9087, unchanged production"
+}

@@ -1,0 +1,16 @@
+{
+  "import": {
+    "Phase": "Import",
+    "ExpectedFixtureErrorCount": 0,
+    "Status": "PASSED"
+  },
+  "tests": {
+    "Phase": "Tests",
+    "ExpectedFixtureErrorCount": 18,
+    "Status": "PASSED"
+  },
+  "test_marker": "MVP_TESTS_PASSED=9093",
+  "script_or_parse_error": false,
+  "unexpected_errors": 0,
+  "total_warning_lines": 197
+}

@@ -1,0 +1,56 @@
+{
+  "status": "pending_user_visual_and_mechanic_approval",
+  "production_tests": 9093,
+  "prototype_model_checks": 642,
+  "prototype_ui_checks": 56,
+  "unexpected_script_errors": 0,
+  "expected_negative_fixture_errors": 18,
+  "new_prototype_in_android": false,
+  "new_decoration_ownership_in_save": false,
+  "approved_visual_references_changed": false,
+  "previous_visual_report": {
+    "gates_passed": 33,
+    "gates_total": 34,
+    "status": "failed",
+    "case": "phase162-cosmetic-showroom-runtime-approved",
+    "runtime_content_unchanged": false,
+    "evidence": "previous-visual-source-evidence.json",
+    "superseded_by": "quest-notice-validation/report.json"
+  },
+  "media": {
+    "sha256": "80a6b946b98c4c7003a8a6ce8312e17a62dae90c3737e72392bb59246d1e04a4",
+    "width": 1080,
+    "height": 2400,
+    "fps": 30,
+    "duration_seconds": 48.03,
+    "decode_exit": 0,
+    "max_audio_dbfs": -15.6,
+    "actual_engine_input": true,
+    "android_recording": false
+  },
+  "physical_phone_tested": false,
+  "release_created": false,
+  "apk": {
+    "sha256": "30aec72b6a99fe10f1f0d863556d968f944d546449965f93de6c1fba71beb6c8",
+    "save_schema": 48,
+    "prototype_excluded": true
+  },
+  "artifact_scope": "New artwork and leaf mechanic are review-only; existing ten-level chapter is the installed emulator build.",
+  "capture_source_note": "One production quest-popup notice rectangle and its regression test; this popup is not shown in the proposal video.",
+  "device_evidence": "device-verification.json",
+  "final_visual_report": {
+    "gates_passed": 33,
+    "gates_total": 34,
+    "status": "failed_known_showroom",
+    "failed": [
+      "phase162-cosmetic-showroom-runtime-approved"
+    ],
+    "evidence": "quest-notice-validation/verification.json"
+  },
+  "final_emulator_process_log": {
+    "read_only_logcat": true,
+    "errors_matching_checked_signatures": 0,
+    "log_sha256": "59f2acbd74eb562b234010877343b5e02ba4eb4d0efb1de302307886b4c65e00",
+    "scope": "Current game process after final restart only"
+  }
+}

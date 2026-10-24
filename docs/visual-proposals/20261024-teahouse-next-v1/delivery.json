@@ -1,0 +1,22 @@
+{
+  "kind": "Tested artifact and source identity; final GitHub push/CI status is reported in the delivery message",
+  "branch": "fix/rc61-feedback-motion",
+  "remote": "https://github.com/plokik/bazals-pocket-garden.git",
+  "production_chapter_commit": "66e8f179a7b974b08522a651ea6ad2fdae72720a",
+  "production_notice_fix_commit": "f26daf545801ff8bb510425e1a35b73d5d31640a",
+  "review_history_commit": "c46ba3b4409bde4e49d6239c920affc37902936b",
+  "review_only_prototype_commit": "5ff303b10a15ef8f6b745f61d8519787b664c024",
+  "production_apk": {
+    "sha256": "30aec72b6a99fe10f1f0d863556d968f944d546449965f93de6c1fba71beb6c8",
+    "save_schema": 48,
+    "prototype_excluded": true
+  },
+  "installed_emulator": "emulator-5554",
+  "production_game_left_running": true,
+  "save_restart_verified": true,
+  "new_leaf_and_ornament_approval": "PENDING",
+  "showroom_reference_approval": "PENDING",
+  "new_prototype_in_android": false,
+  "release_created": false,
+  "physical_phone_tested": false
+}

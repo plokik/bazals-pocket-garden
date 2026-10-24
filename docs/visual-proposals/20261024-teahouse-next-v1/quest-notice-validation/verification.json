@@ -1,0 +1,115 @@
+{
+  "kind": "Full canonical validation after quest-notice overlap regression fix",
+  "timestamp": "2026-10-24T12:51:29.7470933+02:00",
+  "source_head": "c46ba3b4409bde4e49d6239c920affc37902936b",
+  "runner": "run_validation.ps1 without SkipTests, SkipCapture, or ReportOnly",
+  "started": "2026-10-24T12:41:09.0568275+02:00",
+  "finished": "2026-10-24T12:49:59.6882344+02:00",
+  "overall_status": "FAILED_KNOWN_SHOWROOM_VISUAL_GATE",
+  "canonical_exit_code": 1,
+  "functional": {
+    "status": "PASSED",
+    "marker": "MVP_TESTS_PASSED=9093",
+    "checks": 9093,
+    "new_notice_checks": 6,
+    "import_native_exit_code": 0,
+    "test_native_exit_code": 0,
+    "native_exit_evidence": "Canonical run_tests.ps1 only advances after both native exits are zero",
+    "diagnostics": {
+      "import": {
+        "Phase": "Import",
+        "ExpectedFixtureErrorCount": 0,
+        "Status": "PASSED"
+      },
+      "tests": {
+        "Phase": "Tests",
+        "ExpectedFixtureErrorCount": 18,
+        "Status": "PASSED"
+      },
+      "test_marker": "MVP_TESTS_PASSED=9093",
+      "script_or_parse_error": false,
+      "unexpected_errors": 0,
+      "total_warning_lines": 197
+    },
+    "isolated_appdata": "tools/run_tests.ps1 unique .godot/test-appdata/<UTC timestamp>"
+  },
+  "capture": {
+    "status": "PASSED",
+    "marker": "HOW_TO_GROW_CAPTURE=PASSED",
+    "marker_present": true,
+    "native_exit_code": 0,
+    "native_exit_evidence": "Canonical run_validation.ps1 advances to visual diff only after capture native exit zero",
+    "captured_images": 187,
+    "script_errors": false,
+    "stderr_bytes": 0,
+    "isolated_appdata": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\appdata"
+  },
+  "visual": {
+    "status": "FAILED",
+    "cases": 54,
+    "enforced_gates": 34,
+    "passed_gates": 33,
+    "failed_gates": 1,
+    "failures": [
+      {
+        "id": "phase162-cosmetic-showroom-runtime-approved",
+        "description": "Exact dynamic Godot painted Cosmetic Showroom selected-state render explicitly approved by the user after Phase 162 implementation.",
+        "status": "failed",
+        "gate": true,
+        "gate_enforced": true,
+        "reference": "R:\\_projekty\\Bazal's Pocket Garden\\docs\\audit\\sage-palette-20261010\\phase162-cosmetic-showroom-runtime-approved.png",
+        "actual": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\comic-phase162-cosmetic-showroom-selected.png",
+        "reference_sha256": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+        "actual_sha256": "b767ddd11d3cfdf6902d2810e9516828e1a2357fca6a7cc292ef4108b6478618",
+        "normalized_size": [
+          432,
+          960
+        ],
+        "pixel_tolerance": 12,
+        "masked_pixels": 0,
+        "valid_pixels": 414720,
+        "changed_pixels": 111890,
+        "metrics": {
+          "mean_abs_error": 14.091654,
+          "rmse": 35.357709,
+          "maximum_error": 255,
+          "changed_ratio": 0.269796
+        },
+        "thresholds": {
+          "max_mean_abs_error": 4.0,
+          "max_rmse": 12.0,
+          "max_changed_ratio": 0.06
+        },
+        "threshold_failures": [
+          "mean_abs_error=14.091654 > 4.000000",
+          "rmse=35.357709 > 12.000000",
+          "changed_ratio=0.269796 > 0.060000"
+        ],
+        "artifacts": {
+          "reference_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\phase162-cosmetic-showroom-runtime-approved\\reference-normalized.png",
+          "actual_normalized": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\phase162-cosmetic-showroom-runtime-approved\\actual-normalized.png",
+          "heatmap": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\phase162-cosmetic-showroom-runtime-approved\\heatmap.png",
+          "comparison": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\teahouse-next-20261024\\quest-notice-validation\\phase162-cosmetic-showroom-runtime-approved\\comparison.png"
+        }
+      }
+    ],
+    "failed_comparison_inspected": true,
+    "interpretation": "Only previously known cosmetic showroom gate: reference shows original room variants, actual shows painted workshop variants and corresponding wording. No baseline change."
+  },
+  "references": {
+    "count": 54,
+    "changed": 0,
+    "all_unchanged": true
+  },
+  "source_inputs_unchanged": true,
+  "new_notice_coverage": [
+    "Successful +40 claim draws exact success notice after frames",
+    "Blocked +80 claim draws exact storage-unavailable notice after frames",
+    "Each notice text fits its rect and hub bounds",
+    "Actual canvas-space notice rect intersects no visible hub button"
+  ],
+  "limits": [
+    "No new approval or baseline update",
+    "Physical Android and APK delivery owned by root; this report covers desktop canonical validation only"
+  ]
+}

@@ -1,0 +1,7 @@
+Visual validation failed. Exit code: 1
+At R:\_projekty\Bazal's Pocket Garden\.agents\skills\how-to-grow-validation\scripts\run_validation.ps1:179 char:5
++     throw "Visual validation failed. Exit code: $diffExitCode"
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Visual validation failed. Exit code: 1:String) [], RuntimeException
+    + FullyQualifiedErrorId : Visual validation failed. Exit code: 1
+ 

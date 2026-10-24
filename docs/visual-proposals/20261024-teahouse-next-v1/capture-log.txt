@@ -1,0 +1,7 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+Movie Maker mode enabled, recording movie in 1080×2400 @ 30 FPS...
+LEAF_CAPTURE_FIRST_DOWN point=(66.0, 400.0) chain=[0] input=true
+LEAF_CAPTURE_FIRST_UP moves=25 last_match={ "accepted": true, "herb": 3, "count": 6, "bonus": 15, "score_gain": 75, "complete": false, "removed": [0, 1, 8, 3, 9, 15], "reshuffled": false, "leaf_earned": true }
+LEAF_REVIEW_CAPTURE_PASSED SECONDS=48.02

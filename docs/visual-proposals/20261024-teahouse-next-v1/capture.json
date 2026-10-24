@@ -1,0 +1,290 @@
+{
+	"actual_viewport_input": true,
+	"checkpoints": [
+		{
+			"coins": 30,
+			"collected": {
+				"0": 0,
+				"1": 0,
+				"2": 0,
+				"3": 0
+			},
+			"leaf": 0,
+			"moves": 26,
+			"name": "01-pred-spojenim",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 3.59166666666666
+		},
+		{
+			"coins": 30,
+			"collected": {
+				"0": 0,
+				"1": 0,
+				"2": 0,
+				"3": 6
+			},
+			"leaf": 1,
+			"moves": 25,
+			"name": "02-ziskany-listek",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 7.45833333333332
+		},
+		{
+			"coins": 30,
+			"collected": {
+				"0": 0,
+				"1": 0,
+				"2": 0,
+				"3": 6
+			},
+			"leaf": 1,
+			"moves": 25,
+			"name": "03-vyber-bylinky",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 9.25833333333331
+		},
+		{
+			"coins": 30,
+			"collected": {
+				"0": 3,
+				"1": 0,
+				"2": 0,
+				"3": 6
+			},
+			"leaf": 0,
+			"moves": 25,
+			"name": "04-doplnena-mata",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 10.8583333333333
+		},
+		{
+			"coins": 30,
+			"collected": {
+				"0": 15,
+				"1": 15,
+				"2": 0,
+				"3": 15
+			},
+			"leaf": 0,
+			"moves": 13,
+			"name": "05-nalevani",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 35.1250000000006
+		},
+		{
+			"coins": 30,
+			"collected": {
+				"0": 15,
+				"1": 15,
+				"2": 0,
+				"3": 15
+			},
+			"leaf": 0,
+			"moves": 13,
+			"name": "06-hotovy-caj",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 41.1250000000002
+		},
+		{
+			"coins": 30,
+			"name": "07-odmena-v-dilne",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 42.9916666666668
+		}
+	],
+	"duration": 48.0249999999998,
+	"isolated_demo_profile": true,
+	"leaf_used": true,
+	"natural_level": 10,
+	"review_only": true,
+	"reward_placement_proposal": true
+}

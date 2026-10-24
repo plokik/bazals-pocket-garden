@@ -1,0 +1,359 @@
+{
+  "measured_at_utc": "2026-10-24T10:26:05.686015+00:00",
+  "source": "prototypes\\teahouse-leaf-review\\art\\tea-garden-medallion.png",
+  "source_sha256": "f126b28632d6d7afcc6ed937a0bc9cbbc345bb7033a106039701b95f0c0e33ba",
+  "ornament_source_sha256": "5fa6210506dc523a6abcb7f601705a8b23adb230cccfbb46e2b05c71b4d85ca2",
+  "source_image_rgba_size": [
+    1230,
+    1278
+  ],
+  "source_alpha_bbox_pixel_edges": [
+    37,
+    20,
+    1226,
+    1278
+  ],
+  "source_nonzero_alpha_pixels": 614186,
+  "room_design_size": [
+    432,
+    768
+  ],
+  "room_global_offset": [
+    0,
+    132
+  ],
+  "ornament_local_rect": [
+    6,
+    60,
+    84,
+    84
+  ],
+  "ornament_global_rect": [
+    6,
+    192,
+    84,
+    84
+  ],
+  "shadow_offset": [
+    1.4,
+    2.4
+  ],
+  "shadow_opacity": 0.22,
+  "intro_vertical_offset_range": [
+    -4,
+    0
+  ],
+  "obstacles_global": {
+    "hub_banner": [
+      66.0,
+      154.0,
+      300.0,
+      62.0
+    ],
+    "wheel": [
+      330.0,
+      232.0,
+      80.0,
+      48.0
+    ],
+    "shelf_below_approx_y281": [
+      0.0,
+      281.0,
+      432.0,
+      619.0
+    ]
+  },
+  "steady_face": {
+    "alpha_bbox_global": [
+      8.526829268292683,
+      193.31455399061034,
+      89.72682926829269,
+      276.0
+    ],
+    "obstacles": {
+      "hub_banner": {
+        "nonzero_source_texels_intersecting": 150,
+        "maximum_intrinsic_alpha_u8_intersecting": 1,
+        "minimum_clearance_logical_px": 0.0,
+        "minimum_clearance_at_2_5x_screen_px": 0.0,
+        "clearance_after_conservative_1px_guard": -1.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 3.905409913486984,
+        "minimum_clearance_source_alpha_ge16": 4.038923626404952,
+        "minimum_clearance_source_alpha_ge128": 4.092432396018202,
+        "projected_overlap_area_logical_px2": 0.6733081415321729,
+        "alpha_weighted_overlap_area_logical_px2": 0.0026404240844398936
+      },
+      "wheel": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 240.2731707317073,
+        "minimum_clearance_at_2_5x_screen_px": 600.6829268292682,
+        "clearance_after_conservative_1px_guard": 239.2731707317073,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 251.2682926829268,
+        "minimum_clearance_source_alpha_ge16": 251.4048780487805,
+        "minimum_clearance_source_alpha_ge128": 251.4731707317073,
+        "projected_overlap_area_logical_px2": 0.0,
+        "alpha_weighted_overlap_area_logical_px2": 0.0
+      },
+      "shelf_below_approx_y281": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 5.0,
+        "minimum_clearance_at_2_5x_screen_px": 12.5,
+        "clearance_after_conservative_1px_guard": 4.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 8.81220657276998,
+        "minimum_clearance_source_alpha_ge16": 9.009389671361532,
+        "minimum_clearance_source_alpha_ge128": 9.009389671361532,
+        "projected_overlap_area_logical_px2": 0.0,
+        "alpha_weighted_overlap_area_logical_px2": 0.0
+      }
+    }
+  },
+  "steady_shadow": {
+    "alpha_bbox_global": [
+      9.926829268292684,
+      195.71455399061034,
+      91.1268292682927,
+      278.4
+    ],
+    "obstacles": {
+      "hub_banner": {
+        "nonzero_source_texels_intersecting": 119,
+        "maximum_intrinsic_alpha_u8_intersecting": 1,
+        "minimum_clearance_logical_px": 0.0,
+        "minimum_clearance_at_2_5x_screen_px": 0.0,
+        "clearance_after_conservative_1px_guard": -1.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 5.236445764855748,
+        "minimum_clearance_source_alpha_ge16": 5.3742703347376715,
+        "minimum_clearance_source_alpha_ge128": 5.415280004177289,
+        "projected_overlap_area_logical_px2": 0.5341577922821905,
+        "alpha_weighted_overlap_area_logical_px2": 0.00046084201687090934
+      },
+      "wheel": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 238.87317073170732,
+        "minimum_clearance_at_2_5x_screen_px": 597.1829268292684,
+        "clearance_after_conservative_1px_guard": 237.87317073170732,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 249.86829268292684,
+        "minimum_clearance_source_alpha_ge16": 250.00487804878048,
+        "minimum_clearance_source_alpha_ge128": 250.0731707317073,
+        "projected_overlap_area_logical_px2": 0.0,
+        "alpha_weighted_overlap_area_logical_px2": 0.0
+      },
+      "shelf_below_approx_y281": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 2.6000000000000227,
+        "minimum_clearance_at_2_5x_screen_px": 6.500000000000057,
+        "clearance_after_conservative_1px_guard": 1.6000000000000227,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 6.412206572770003,
+        "minimum_clearance_source_alpha_ge16": 6.609389671361555,
+        "minimum_clearance_source_alpha_ge128": 6.609389671361555,
+        "projected_overlap_area_logical_px2": 0.0,
+        "alpha_weighted_overlap_area_logical_px2": 0.0
+      }
+    }
+  },
+  "intro_swept_face": {
+    "alpha_bbox_global": [
+      8.526829268292683,
+      189.31455399061034,
+      89.72682926829269,
+      276.0
+    ],
+    "obstacles": {
+      "hub_banner": {
+        "nonzero_source_texels_intersecting": 153,
+        "maximum_intrinsic_alpha_u8_intersecting": 1,
+        "minimum_clearance_logical_px": 0.0,
+        "minimum_clearance_at_2_5x_screen_px": 0.0,
+        "clearance_after_conservative_1px_guard": -1.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 0.6427210281510122,
+        "minimum_clearance_source_alpha_ge16": 0.759462980149976,
+        "minimum_clearance_source_alpha_ge128": 0.8170108679909632
+      },
+      "wheel": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 240.2731707317073,
+        "minimum_clearance_at_2_5x_screen_px": 600.6829268292682,
+        "clearance_after_conservative_1px_guard": 239.2731707317073,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 251.2682926829268,
+        "minimum_clearance_source_alpha_ge16": 251.4048780487805,
+        "minimum_clearance_source_alpha_ge128": 251.4731707317073
+      },
+      "shelf_below_approx_y281": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 5.0,
+        "minimum_clearance_at_2_5x_screen_px": 12.5,
+        "clearance_after_conservative_1px_guard": 4.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 8.81220657276998,
+        "minimum_clearance_source_alpha_ge16": 9.009389671361532,
+        "minimum_clearance_source_alpha_ge128": 9.009389671361532
+      }
+    }
+  },
+  "intro_swept_shadow": {
+    "alpha_bbox_global": [
+      9.926829268292684,
+      191.71455399061034,
+      91.1268292682927,
+      278.4
+    ],
+    "obstacles": {
+      "hub_banner": {
+        "nonzero_source_texels_intersecting": 152,
+        "maximum_intrinsic_alpha_u8_intersecting": 1,
+        "minimum_clearance_logical_px": 0.0,
+        "minimum_clearance_at_2_5x_screen_px": 0.0,
+        "clearance_after_conservative_1px_guard": -1.0,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 1.8025641139899056,
+        "minimum_clearance_source_alpha_ge16": 1.926904605544684,
+        "minimum_clearance_source_alpha_ge128": 1.9778298191465642
+      },
+      "wheel": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 238.87317073170732,
+        "minimum_clearance_at_2_5x_screen_px": 597.1829268292684,
+        "clearance_after_conservative_1px_guard": 237.87317073170732,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 249.86829268292684,
+        "minimum_clearance_source_alpha_ge16": 250.00487804878048,
+        "minimum_clearance_source_alpha_ge128": 250.0731707317073
+      },
+      "shelf_below_approx_y281": {
+        "nonzero_source_texels_intersecting": 0,
+        "maximum_intrinsic_alpha_u8_intersecting": 0,
+        "minimum_clearance_logical_px": 2.6000000000000227,
+        "minimum_clearance_at_2_5x_screen_px": 6.500000000000057,
+        "clearance_after_conservative_1px_guard": 1.6000000000000227,
+        "source_alpha_min16_intersecting": 0,
+        "source_alpha_min128_intersecting": 0,
+        "minimum_clearance_source_alpha_ge2": 6.412206572770003,
+        "minimum_clearance_source_alpha_ge16": 6.609389671361555,
+        "minimum_clearance_source_alpha_ge128": 6.609389671361555
+      }
+    }
+  },
+  "logical_432x768_bilinear_samples": {
+    "face": {
+      "visible_logical_pixel_centers_alpha_gt0": 2792,
+      "obstacles": {
+        "hub_banner": {
+          "overlap_pixels_alpha_gt0": 1,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 2.5010004001557423e-05,
+          "nonzero_sample_coordinates": [
+            [
+              81,
+              214
+            ]
+          ]
+        },
+        "wheel": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        },
+        "shelf_below_approx_y281": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        }
+      }
+    },
+    "shadow": {
+      "visible_logical_pixel_centers_alpha_gt0": 2787,
+      "obstacles": {
+        "hub_banner": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        },
+        "wheel": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        },
+        "shelf_below_approx_y281": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        }
+      }
+    },
+    "composite": {
+      "visible_logical_pixel_centers_alpha_gt0": 2998,
+      "obstacles": {
+        "hub_banner": {
+          "overlap_pixels_alpha_gt0": 1,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 2.5010004001557423e-05,
+          "nonzero_sample_coordinates": [
+            [
+              81,
+              214
+            ]
+          ]
+        },
+        "wheel": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        },
+        "shelf_below_approx_y281": {
+          "overlap_pixels_alpha_gt0": 0,
+          "overlap_pixels_alpha_ge1_255": 0,
+          "overlap_pixels_alpha_ge16_255": 0,
+          "maximum_alpha_inside_rect": 0.0,
+          "nonzero_sample_coordinates": []
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Read-only analytical alpha measurement; no image was edited or saved.",
+    "Texel-footprint counts are source pixels; logical-center counts are separate432x768 output samples.",
+    "Shelf edge y281 is the approximate supplied design coordinate, not a measured photo edge.",
+    "Intro swept regions conservatively include every vertical position as reveal approaches zero.",
+    "Root has now reported final screenshot07 and video frame complete; this script measures source alpha independently, not screenshot pixels."
+  ]
+}

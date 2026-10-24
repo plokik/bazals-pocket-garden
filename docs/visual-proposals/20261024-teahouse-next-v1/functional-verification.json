@@ -1,0 +1,39 @@
+{
+    "status":  "PASSED",
+    "project":  "R:\\_projekty\\Bazal\u0027s Pocket Garden",
+    "started_utc":  "2026-10-24T10:12:44.4286445Z",
+    "ended_utc":  "2026-10-24T10:17:02.1648750Z",
+    "canonical_runner":  "tools/run_tests.ps1",
+    "canonical_exit":  0,
+    "godot_native_exit":  0,
+    "godot_native_exit_evidence":  "Canonical runner requires native import and test process ExitCode=0 before returning success.",
+    "checks":  9087,
+    "expected_fixture_errors":  18,
+    "unexpected_diagnostics":  "",
+    "import_diagnostics":  {
+                               "Phase":  "Import",
+                               "ExpectedFixtureErrorCount":  0,
+                               "Status":  "PASSED"
+                           },
+    "test_diagnostics":  {
+                             "Phase":  "Tests",
+                             "ExpectedFixtureErrorCount":  18,
+                             "Status":  "PASSED"
+                         },
+    "isolated_appdata_runs":  [
+                                  "R:\\_projekty\\Bazal\u0027s Pocket Garden\\.godot\\test-appdata\\20261024-101248922Z"
+                              ],
+    "source_android_presets":  "PASSED: 3 presets, schema48, version0.71.0-rc61, code78, SDK24/36, expected ABI and exclusions",
+    "approved_reference_files":  54,
+    "changed_references":  [
+
+                           ],
+    "changed_sources":  [
+
+                        ],
+    "added_sources_during_run":  [
+
+                                 ],
+    "gpu_capture":  false,
+    "physical_android":  false
+}

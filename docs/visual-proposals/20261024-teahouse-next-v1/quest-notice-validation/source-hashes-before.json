@@ -1,0 +1,14 @@
+[
+  {
+    "path": "tests\\teahouse_campaign_test.gd",
+    "sha256": "F9AEE613C4F0615F7DB880CAB858503569124E7F06589E6A5216430F944DEB7A"
+  },
+  {
+    "path": "scripts\\ui\\teahouse_hub.gd",
+    "sha256": "0B63EE83CE61C92EB91078381A74419B5328FF4FB1ECEB3D40A5112BD5137C1C"
+  },
+  {
+    "path": ".agents\\skills\\how-to-grow-validation\\references\\visual-cases.json",
+    "sha256": "3A34DB5D644420638091403C729A1EC8F8D9FCA13B26A40892CF8C34A4E03CF8"
+  }
+]

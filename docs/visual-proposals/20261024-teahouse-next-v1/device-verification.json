@@ -1,0 +1,62 @@
+{
+  "status": "PASSED",
+  "device": "emulator-5554",
+  "avd": "Bazal_Current_Source_API36",
+  "physical_phone": false,
+  "input": "Actual ADB taps and continuous straight/curved touch gestures; no injected game state",
+  "levels_played": 10,
+  "moves": 119,
+  "straight_moves": 113,
+  "curved_moves": 6,
+  "initial_boards_verified": 10,
+  "post_move_boards_verified": 109,
+  "unverified_final_move_note": "Recipe-completing moves transition to pouring; completion and rewards are verified instead of the hidden matching board.",
+  "best_stars": [
+    3,
+    1,
+    2,
+    1,
+    2,
+    3,
+    3,
+    1,
+    3,
+    2
+  ],
+  "total_stars": 21,
+  "coins_before_first_quest": 330,
+  "coins_after_first_quest": 370,
+  "coins_after_chapter": 450,
+  "coins_after_reopen_and_restart": 450,
+  "melissa_seeds_after_restart": 20,
+  "all_first_rewards_claimed": true,
+  "level1_replay_added_reward": false,
+  "quest_claimed": true,
+  "chapter_claimed": true,
+  "repeated_chapter_open_added_reward": false,
+  "restart_preserved": [
+    "coins",
+    "teahouse_progress",
+    "seed_inventory"
+  ],
+  "save_schema": 48,
+  "first_update_preservation": {
+    "verified_files": 32,
+    "differences": [],
+    "checked_before_launch": true
+  },
+  "notice_fix_update_preservation": {
+    "verified_files": 32,
+    "differences": [],
+    "checked_before_launch": true,
+    "apk_sha256": "30aec72b6a99fe10f1f0d863556d968f944d546449965f93de6c1fba71beb6c8"
+  },
+  "apk": "builds/android/bazals-pocket-garden-20261024-chapter10-notice-x86_64.apk",
+  "apk_sha256": "30aec72b6a99fe10f1f0d863556d968f944d546449965f93de6c1fba71beb6c8",
+  "excluded_review_payload_entries": [],
+  "ui_fix": "Quest success and failure notice moved above return/claim button; visually inspected after real claim.",
+  "source_changes_after_video": "One production quest-popup notice rectangle and its regression test; this popup is not shown in the proposal video.",
+  "performance_acceptance": false,
+  "performance_note": "Emulator shared the host with validation and video work. No physical-device performance claim.",
+  "private_save_backups": "Retained locally under tmp, excluded from Git."
+}

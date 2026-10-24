@@ -1,0 +1,6 @@
+{
+  "started": "2026-10-24T12:41:09.0568275+02:00",
+  "finished": "2026-10-24T12:49:59.6882344+02:00",
+  "runner": "canonical run_validation.ps1 without Skip switches",
+  "exit_code": 1
+}

@@ -1,0 +1,51 @@
+{
+  "measured_at_utc": "2026-10-24T10:26:08.926016+00:00",
+  "snapshot": "docs\\visual-proposals\\20261024-teahouse-chapter-v1\\source-snapshot.json",
+  "snapshot_sha256": "b64b5b5a7c9eaedf0fe4fa59f3fd3266c935de17a86a4d3991cb9f5a6a8206bb",
+  "snapshot_sources": 283,
+  "unchanged_sources": 282,
+  "changed_sources": [
+    {
+      "path": "scripts/ui/teahouse_hub.gd",
+      "snapshot": "572d628fb9606becd04131d31239d7c36f27208effdff55e41808a13c437794f",
+      "current": "338c744b39a83907648750f8488efca4fd8cf976d86c9eec634cddf4df6d38e0",
+      "verified_mirror_matches_snapshot": true,
+      "trailing_blank_only": true,
+      "snapshot_bytes": 29911,
+      "current_bytes": 29909,
+      "terminal_linebreak_bytes_removed": 2
+    }
+  ],
+  "missing_sources": [],
+  "content_changes_beyond_terminal_linebreaks": [],
+  "new_files_under_scripts_and_data": [],
+  "visual_report": ".godot\\validation\\20261024-081152Z\\report.json",
+  "visual_report_sha256": "37168406d15eac111d4753ad310c170a192f53fc76adbce6fa94e89044b067e6",
+  "visual_gates_passed": 33,
+  "visual_gates_total": 34,
+  "failed_visual_gates": [
+    {
+      "id": "phase162-cosmetic-showroom-runtime-approved",
+      "metrics": {
+        "mean_abs_error": 14.091654,
+        "rmse": 35.357709,
+        "maximum_error": 255,
+        "changed_ratio": 0.269796
+      }
+    }
+  ],
+  "references_changed_since_visual_report": [],
+  "report_reference_hashes_checked": 54,
+  "prototype_excluded_from_production_snapshot": true,
+  "interpretation": "Current production has only the explicitly listed source-byte differences from the final chapter render snapshot. Historical33/34 report remains the chapter's recorded validation evidence; it does not cover the new isolated leaf/ornament prototype.",
+  "additional_root_reported_edit": {
+    "path": "tools/check_teahouse_levels.gd",
+    "current_sha256": "cdee6926b78be62e4ae2adbe59926e60d65c239170320e078b76ae4ce1896d83",
+    "included_in_283_snapshot": false,
+    "root_reported_change": "Removed empty EOF lines only",
+    "independent_old_bytes_available": false
+  },
+  "provenance_limit": "The visual report records image hashes, not a hash snapshot of all source code at capture time. Chapter verification explicitly records a final-map footer sentence changed after regression, with no logic change. Source equality here is to source-snapshot.json, not an invented validation-time source receipt.",
+  "final_screenshot07_status": "ROOT_REPORTED_FINAL_CAPTURE_COMPLETE",
+  "writes_scope": "Only tmp/teahouse-next-20261024/layout-review JSON and this analysis runner; source/reference assets untouched."
+}
