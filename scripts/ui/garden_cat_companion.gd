@@ -115,6 +115,7 @@ var mouse_lift := 0.0
 var cat_lean := 0.0
 var mouse_facing := 1.0
 var audible_stride := 0.0
+var room_geometry := Rect2()
 static var shared_frames: Array[AtlasTexture] = []
 static var shared_rects: Array[Rect2] = []
 
@@ -213,6 +214,9 @@ func _process(delta: float) -> void:
 	var next_context := _game_context()
 	if next_context != context:
 		_set_context(next_context)
+		room_geometry = _room_art_rect() if context == "player_room" else Rect2()
+	elif context == "player_room" and _route_available():
+		_sync_room_geometry()
 	# Other screens use their painted scene, never the catalog or data cards.
 	visible = context in GARDEN_CONTEXTS and game.session.intro_completed and not game._is_blocking_modal_open() and _route_available()
 	if not visible or app_paused or game.session.paused or preview_frame >= 0:
@@ -326,39 +330,65 @@ func _corner_rect() -> Rect2:
 
 func _bed_rect() -> Rect2:
 	var room := _room_art_rect()
-	var width := minf(200.0, room.size.x * 0.43)
+	var unit := _room_unit_scale()
+	var width := minf(200.0 * unit, room.size.x * 0.43)
 	var height := width * BED_REGION.size.y / BED_REGION.size.x
-	return Rect2(room.end.x - width - 20.0, room.end.y - height - 20.0, width, height)
+	return Rect2(room.end.x - width - 20.0 * unit, room.end.y - height - 20.0 * unit, width, height)
 
 
 func _bowl_rect(water: bool) -> Rect2:
 	var room := _room_art_rect()
-	var width := minf(76.0, room.size.x * 0.16)
+	var unit := _room_unit_scale()
+	var width := minf(76.0 * unit, room.size.x * 0.16)
 	var region := WATER_BOWL_REGION if water else FOOD_BOWL_REGION
 	var height := width * region.size.y / region.size.x
 	# A compact feeding corner on the left leaves the middle floor free.
 	# Water is in front of the food; the cat drinks facing left, so its
 	# body stays in the open floor rather than standing over the food.
-	var left := room.position.x + 22.0
-	var floor_inset := 28.0 if water else 88.0
+	var left := room.position.x + 22.0 * unit
+	var floor_inset := (28.0 if water else 88.0) * unit
 	return Rect2(left, room.end.y - floor_inset - height, width, height)
 
 
 func _room_art_rect() -> Rect2:
 	if context == "player_room" and is_instance_valid(game) and game.player_room_view.has_method("scene_art_rect"):
-		return game.player_room_view.scene_art_rect(size)
+		var room: Control = game.player_room_view
+		var local_art: Rect2 = room.scene_art_rect()
+		var to_companion: Transform2D = get_global_transform_with_canvas().affine_inverse() * room.get_global_transform_with_canvas()
+		return to_companion * local_art
 	return Rect2(Vector2.ZERO, size)
+
+
+func _room_unit_scale() -> float:
+	if context != "player_room" or not is_instance_valid(game):
+		return 1.0
+	var to_companion: Transform2D = get_global_transform_with_canvas().affine_inverse() * game.player_room_view.get_global_transform_with_canvas()
+	return to_companion.x.length()
+
+
+func _sync_room_geometry() -> void:
+	var next_geometry := _room_art_rect()
+	if next_geometry.is_equal_approx(room_geometry):
+		return
+	if room_geometry.size.x > 0.0 and room_geometry.size.y > 0.0:
+		# The room is a scaled sibling below the hub header. Preserve progress
+		# along its floor when the hub moves or fits to a new safe area.
+		cat_position = next_geometry.position + (cat_position - room_geometry.position) / room_geometry.size * next_geometry.size
+	room_geometry = next_geometry
+	_on_resized()
 
 
 func _home_position() -> Vector2:
 	if not rest_in_bed:
 		var room := _room_art_rect()
-		return Vector2(room.get_center().x, room.end.y - 16.0)
+		return Vector2(room.get_center().x, room.end.y - 16.0 * _room_unit_scale())
 	var bed := _bed_rect()
 	return bed.position + bed.size * Vector2(0.55, 0.66)
 
 
 func _floor_y() -> float:
+	if context == "player_room":
+		return _room_art_rect().end.y - 7.0 * _room_unit_scale()
 	if context == "greenhouse_exterior" and is_instance_valid(game):
 		return game.greenhouse_entrance_view.hint_panel.position.y - 14.0
 	if context == "rack" and is_instance_valid(game):
@@ -392,7 +422,12 @@ func _surface_rect(surface: Control) -> Rect2:
 func _route_available() -> bool:
 	if context not in GARDEN_CONTEXTS:
 		return false
-	if context in ["player_room", "rack", "greenhouse", "greenhouse_exterior"]:
+	if context == "player_room":
+		if not is_instance_valid(game.player_room_view) or not game.player_room_view.is_visible_in_tree():
+			return false
+		var hub: Variant = game.get("teahouse_hub")
+		return not is_instance_valid(hub) or not bool(hub.get("active")) or str(hub.get("page")) == "workshop"
+	if context in ["rack", "greenhouse", "greenhouse_exterior"]:
 		return true
 	var surface := _scene_surface()
 	if surface == null or not surface.is_visible_in_tree():
@@ -441,7 +476,7 @@ func _enter_pose(next_pose: String, seconds: float) -> void:
 
 func _sound_cue(cue: String) -> void:
 	if not is_instance_valid(game) or game.audio_haptics == null or game.session == null: return
-	if not is_visible_in_tree() or offstage or app_paused or preview_frame >= 0 or game.session.paused or game._is_blocking_modal_open() or context not in GARDEN_CONTEXTS: return
+	if not is_visible_in_tree() or offstage or app_paused or preview_frame >= 0 or game.session.paused or game._is_blocking_modal_open() or not _route_available(): return
 	game.audio_haptics.play_ambient_cue(cue)
 
 
@@ -498,7 +533,7 @@ func _room_stroll_target() -> Vector2:
 	var left := maxf(_bowl_rect(true).end.x, _bowl_rect(false).end.x) + half_body + 16.0
 	var room := _room_art_rect()
 	var right := maxf(left, room.end.x - half_body - 14.0)
-	return Vector2(rng.randf_range(left, right), room.end.y - 7.0)
+	return Vector2(rng.randf_range(left, right), room.end.y - 7.0 * _room_unit_scale())
 
 
 func _can_sniff_plant() -> bool:
@@ -755,7 +790,7 @@ func current_frame() -> int:
 
 
 func pet_at(local_point: Vector2) -> bool:
-	if context != "player_room" or not visible or offstage or app_paused or game.session.paused or game.session.reduced_motion or game._is_blocking_modal_open() or interaction_cooldown > 0.0 or pose in ["walk", "drink"]:
+	if context != "player_room" or not visible or not _route_available() or offstage or app_paused or game.session.paused or game.session.reduced_motion or game._is_blocking_modal_open() or interaction_cooldown > 0.0 or pose in ["walk", "drink"]:
 		return false
 	var frame := current_frame()
 	var body := _body_size(frame)
@@ -822,6 +857,8 @@ func _draw() -> void:
 	if is_instance_valid(cat_painter):
 		cat_painter.visible = false
 	if frames.is_empty() or not is_instance_valid(game):
+		return
+	if context == "player_room" and not _route_available():
 		return
 	if context == "player_room":
 		_draw_corner_prop(BedArt, _bed_rect(), BED_REGION)

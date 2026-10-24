@@ -41,6 +41,12 @@ func reset(next_recipe_index: int, next_seed: int) -> void:
 	shuffle_if_stuck()
 
 
+func reset_level(definition: Dictionary) -> void:
+	reset(int(definition.recipe_index), int(definition.seed))
+	goals = definition.goals.duplicate()
+	moves_left = int(definition.moves)
+
+
 func can_extend(chain: Array[int], index: int) -> bool:
 	if phase != "matching" or not _valid_board() or not _valid_path(chain, 0):
 		return false

@@ -2,6 +2,9 @@ extends Control
 ## Approved teahouse gameplay. The host owns navigation; scores stay local.
 
 signal close_requested
+signal level_finished(stars: int)
+var level_definition: Dictionary = {}
+var completion_requested := false
 var embedded := false
 var close_button: Button
 
@@ -138,7 +141,7 @@ func _ready() -> void:
 	_fit()
 	_restart()
 	if embedded:
-		close_button = _button("← DÍLNA", Rect2(28, 24, 188, 48), func(): close_requested.emit())
+		close_button = _button("← MAPA" if not level_definition.is_empty() else "← DÍLNA", Rect2(28, 24, 188, 48), func(): close_requested.emit())
 
 
 func _button(caption: String, rect: Rect2, action: Callable) -> Button:
@@ -467,7 +470,12 @@ func _restart() -> void:
 	reshuffling = false
 	scene_reveal = 1
 	pour_result.clear()
-	model.reset(recipe_index, 20261021 + order_number * 31 + recipe_index * 117)
+	completion_requested = false
+	if level_definition.is_empty():
+		model.reset(recipe_index, 20261021 + order_number * 31 + recipe_index * 117)
+	else:
+		recipe_index = int(level_definition.recipe_index)
+		model.reset_level(level_definition)
 	displayed_phase = model.phase
 	collected_before = model.collected.duplicate()
 	notice = "" if intro_shown else INTRO_TEXT
@@ -483,6 +491,13 @@ func _choose_recipe(index: int) -> void:
 
 
 func _next_order() -> void:
+	if not level_definition.is_empty():
+		if completion_requested or model.phase != "result": return
+		completion_requested = true
+		var quality: String = str(pour_result.get("quality", "empty"))
+		var stars := 3 if quality == "perfect" else (2 if quality == "good" else 1)
+		level_finished.emit(stars)
+		return
 	order_number += 1
 	recipe_index = (recipe_index + 1) % 3
 	_restart()
@@ -556,6 +571,7 @@ func _sync_buttons() -> void:
 	pour_button.visible = displayed_phase == "pouring"
 	pour_button.disabled = busy
 	next_button.visible = displayed_phase == "result"
+	next_button.text = "VYZVEDNOUT VÝSLEDEK" if not level_definition.is_empty() else "DALŠÍ OBJEDNÁVKA"
 	if teaware != null:
 		teaware.visible = displayed_phase in ["pouring", "result"]
 		teaware.modulate.a = scene_reveal

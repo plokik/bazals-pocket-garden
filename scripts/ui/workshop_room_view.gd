@@ -3,7 +3,9 @@ extends "res://scripts/ui/player_room_collection_view.gd"
 ## data remain available without placing old sprites over the new painting.
 
 signal workshop_requested
+signal teahouse_embedding_changed(embedded: bool)
 const WorkshopBackground := preload("res://assets/ui/workshop/bazal_workshop_painted_shelves_v2.png")
+var teahouse_embedded := false
 var workbench_button: Button
 var title_card: PanelContainer
 var title_label: Label
@@ -92,6 +94,18 @@ func _build_navigation() -> void:
 func _layout_navigation() -> void:
 	if back_button == null or theme_button == null:
 		return
+	back_button.visible = not teahouse_embedded
+	theme_button.visible = not teahouse_embedded
+	if title_card != null:
+		title_card.visible = not teahouse_embedded
+	if teahouse_embedded:
+		if workbench_button != null:
+			workbench_button.position = Vector2(106, 508)
+			workbench_button.size = Vector2(220, 54)
+		if hint != null:
+			hint.position = Vector2(54, 574)
+			hint.size = Vector2(324, 24)
+		return
 	back_button.position = Vector2(12, 10)
 	back_button.size = Vector2(64, 64)
 	theme_button.position = Vector2(size.x - 76, 10)
@@ -105,6 +119,16 @@ func _layout_navigation() -> void:
 	if hint != null:
 		hint.position = Vector2(12, size.y * 0.637 + 60)
 		hint.size = Vector2(size.x - 24, 20)
+
+
+func set_teahouse_embedded(embedded: bool) -> void:
+	if teahouse_embedded == embedded:
+		return
+	teahouse_embedded = embedded
+	set_meta("teahouse_embedded", embedded)
+	_layout_navigation()
+	queue_redraw()
+	teahouse_embedding_changed.emit(embedded)
 
 
 func _decoration_visual_centers(viewport_size: Vector2) -> PackedVector2Array:

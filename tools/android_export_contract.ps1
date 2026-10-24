@@ -75,7 +75,7 @@ function Assert-AndroidPresetSetContract {
         [Parameter(Mandatory = $true)][string]$PresetName,
         [string]$ExpectedVersionName = '0.71.0-rc61',
         [int]$ExpectedVersionCode = 78,
-        [int]$ExpectedSaveSchema = 46
+        [int]$ExpectedSaveSchema = 48
     )
 
     $presetPath = Join-Path $ProjectRoot 'export_presets.cfg'

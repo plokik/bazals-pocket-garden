@@ -7,7 +7,10 @@ const ProfessorStoryScene := preload("res://scripts/professor_story.gd")
 const ProfessorResearchScene := preload("res://scripts/professor_research.gd")
 const GreenhouseSimulationScene := preload("res://scripts/greenhouse_simulation.gd")
 
-const SAVE_SCHEMA := 46
+const SAVE_SCHEMA := 48
+const TEAHOUSE_PROGRESS_SCHEMA := 47
+const TEAHOUSE_CHAPTER_SCHEMA := 48
+const TeaProgressScene := preload("res://scripts/teahouse/tea_progress.gd")
 const GREENHOUSE_DECORATIONS_SCHEMA := 46
 const GreenhouseDecorationsScene := preload("res://scripts/greenhouse_decorations.gd")
 const GUIDED_TUTORIAL_SCHEMA := 45
@@ -808,6 +811,7 @@ var selected_seed_species := "basil_genovese"
 var fertilizer_doses := 2
 var fortune_wheel := FortuneWheelScene.new()
 var workshop_products := WorkshopProductsScene.new()
+var teahouse_progress := TeaProgressScene.new()
 var harvest_count := 0
 var speed_multiplier := 1.0
 var paused := false
@@ -5322,6 +5326,7 @@ func to_dict() -> Dictionary:
 		"fertilizer_doses": fertilizer_doses,
 		"fortune_wheel": fortune_wheel.to_dict(),
 		"workshop_products": workshop_products.to_dict(),
+		"teahouse_progress": teahouse_progress.to_dict(),
 		"harvest_count": harvest_count,
 		# Ke klíčům se starší build bezpečně vrátí, ale produkční save už nikdy
 		# neuchovává hráčské zrychlení ani pauzu.
@@ -5419,6 +5424,12 @@ func from_dict(data: Dictionary) -> void:
 	workshop_products = WorkshopProductsScene.new()
 	if stored_schema >= WORKSHOP_PRODUCTS_SCHEMA:
 		workshop_products.from_dict(data.get("workshop_products", {}))
+	teahouse_progress = TeaProgressScene.new()
+	if stored_schema >= TEAHOUSE_PROGRESS_SCHEMA:
+		# Schema47 only authored the first three levels. Preserve their paid or
+		# pending rewards without trusting later nodes from a legacy payload.
+		var available_levels: int = TeaProgressScene.Levels.COUNT if stored_schema >= TEAHOUSE_CHAPTER_SCHEMA else TeaProgressScene.Levels.LEGACY_COUNT
+		teahouse_progress.load_data(data.get("teahouse_progress", {}), available_levels)
 	harvest_count = _sanitize_nonnegative_int(data.get("harvest_count", 0), 0)
 	# Schema 1–18 mohlo zůstat na 1000× nebo v ruční pauze. Nový reálný
 	# pěstitelský čas vždy obnoví bezpečný běžící stav bez ztráty rostlin.

@@ -90,12 +90,16 @@ func _build_launcher() -> void:
 	launcher_time.size = Vector2(40,36)
 	launcher.add_child(launcher_time)
 	game.player_room_view.resized.connect(_layout_launcher)
+	game.player_room_view.teahouse_embedding_changed.connect(_on_room_embedding_changed)
+	_layout_launcher()
+
+func _on_room_embedding_changed(_embedded: bool) -> void:
 	_layout_launcher()
 
 func _layout_launcher() -> void:
 	if not is_instance_valid(launcher): return
 	launcher.custom_minimum_size.y = 48
-	launcher.position = Vector2(game.player_room_view.size.x - 96,76)
+	launcher.position = Vector2(330,100) if game.player_room_view.teahouse_embedded else Vector2(game.player_room_view.size.x - 96,76)
 	launcher.size = Vector2(80,48)
 
 func _build_modal() -> void:
@@ -192,6 +196,7 @@ func reset_session() -> void:
 
 func open() -> void:
 	if game._is_blocking_modal_open() or game.active_screen != 0 or game.garden_location_id != "player_room": return
+	if not game.player_room_view.is_visible_in_tree(): return
 	game.player_room_view.cancel_plant_drag()
 	game.fortune_wheel_open = true
 	overlay.show()

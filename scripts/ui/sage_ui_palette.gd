@@ -92,7 +92,37 @@ func _configure_secondary_tree(node: Node) -> void:
 func _on_node_added(node: Node) -> void:
 	# Cards/rewards created later receive the same palette after their builder.
 	if is_instance_valid(game) and game.is_ancestor_of(node):
-		_apply_control.call_deferred(node)
+		_apply_control_by_id.call_deferred(node.get_instance_id())
+
+
+func _palette_node(instance_id: int) -> Node:
+	# A rebuild can free a control before the deferred call is dispatched.
+	# Resolve its ID here: a typed Object argument would fail conversion before
+	# the validity guard in _apply_control/_sync_* could execute.
+	if not is_instance_valid(game) or not is_instance_id_valid(instance_id):
+		return null
+	var node := instance_from_id(instance_id) as Node
+	if not is_instance_valid(node) or node.is_queued_for_deletion() or not game.is_ancestor_of(node):
+		return null
+	return node
+
+
+func _apply_control_by_id(instance_id: int) -> void:
+	var node := _palette_node(instance_id)
+	if node != null:
+		_apply_control(node)
+
+
+func _sync_button_text_by_id(instance_id: int) -> void:
+	var button := _palette_node(instance_id) as Button
+	if button != null:
+		_sync_button_text(button)
+
+
+func _sync_label_by_id(instance_id: int) -> void:
+	var label := _palette_node(instance_id) as Label
+	if label != null:
+		_sync_label(label)
 
 
 func _apply_control(node: Node) -> void:
@@ -111,11 +141,11 @@ func _apply_control(node: Node) -> void:
 			node.material = node.material.duplicate()
 			_sync_button_text(node)
 			_sync_native_icon(node)
-			node.theme_changed.connect(_sync_button_text.bind(node), CONNECT_DEFERRED)
+			node.theme_changed.connect(_sync_button_text_by_id.bind(node.get_instance_id()), CONNECT_DEFERRED)
 			node.draw.connect(_sync_native_icon.bind(node))
 	elif node is Label:
 		_sync_label(node)
-		node.theme_changed.connect(_sync_label.bind(node), CONNECT_DEFERRED)
+		node.theme_changed.connect(_sync_label_by_id.bind(node.get_instance_id()), CONNECT_DEFERRED)
 
 
 func _sync_label(label: Label) -> void:

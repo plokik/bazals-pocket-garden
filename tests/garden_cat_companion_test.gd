@@ -2,9 +2,29 @@ extends RefCounted
 ## Acceptance checks: ambient motion must never change progression, consume
 ## resources, steal input, continue behind a modal, or ignore reduced motion.
 
+static func _resize_fixture(host: SceneTree, surface: SubViewport, game: Control, canvas: Vector2i) -> void:
+	surface.size = canvas
+	game.size = Vector2(canvas)
+	await host.process_frame
+	await host.process_frame
+	var logical := Vector2(canvas)
+	game._apply_safe_area_rect(Rect2(Vector2.ZERO, logical), logical, logical)
+	game.teahouse_hub._layout_scene()
+	await host.process_frame
+	game.garden_cat_companion._process(0.0)
+
+
+static func _room_art_in_companion(game: Control, cat: Control) -> Rect2:
+	var to_companion: Transform2D = cat.get_global_transform_with_canvas().affine_inverse() * game.player_room_view.get_global_transform_with_canvas()
+	return to_companion * game.player_room_view.scene_art_rect()
+
+
 static func run(host: SceneTree) -> void:
+	var surface := SubViewport.new()
+	surface.size = Vector2i(432, 960)
+	host.root.add_child(surface)
 	var game = load("res://main.tscn").instantiate()
-	host.root.add_child(game)
+	surface.add_child(game)
 	await host.process_frame
 	await host.process_frame
 	host._finish_phase92_startup_for_test(game)
@@ -20,7 +40,7 @@ static func run(host: SceneTree) -> void:
 	host._check(cat.mouse_filter == Control.MOUSE_FILTER_IGNORE and cat.get_child_count() == 1 and cat.cat_painter is Sprite2D and not cat.cat_painter.is_processing_input(), "Kočka: její vrstva ani obrázky nezachytávají dotyky")
 	host._check(cat.frames.size() == 40 and cat.frame_rects.all(func(rect: Rect2) -> bool: return rect.size.x > 0.0 and rect.size.y > 0.0), "Kočka: všech čtyřicet malovaných snímků je připravených")
 	host._check(cat.frame_rects[7].size.y < cat.frame_rects[0].size.y, "Kočka: ležící póza má správně nižší siluetu")
-	var original_size: Vector2 = cat.size
+	var original_canvas := surface.size
 	var scales: Array[float] = []
 	for index in range(40):
 		var scale: float = cat._frame_scale(index)
@@ -29,15 +49,22 @@ static func run(host: SceneTree) -> void:
 		var body: Vector2 = cat._body_size(index)
 		host._check(is_equal_approx(body.x / body.y, cat.frame_rects[index].size.x / cat.frame_rects[index].size.y), "Kočka: snímek %d zachovává malované proporce" % index)
 	for location in cat.GARDEN_CONTEXTS:
-		cat.context = location
-		for width in [360.0, 432.0]:
-			cat.size.x = width
+		for canvas in [Vector2i(360, 800), Vector2i(432, 960)]:
+			await _resize_fixture(host, surface, game, canvas)
+			cat.context = location
 			var unchanged := true
 			for index in range(40):
 				unchanged = unchanged and is_equal_approx(cat._frame_scale(index), scales[index])
-			host._check(unchanged, "Kočka: všech 40 póz drží stejné měřítko v %s při šířce %d" % [location, width])
-	cat.context = "player_room"
-	cat.size = original_size
+			host._check(unchanged, "Kočka: všech 40 póz drží stejné měřítko v %s při šířce %d" % [location, canvas.x])
+	await _resize_fixture(host, surface, game, original_canvas)
+	game.teahouse_hub.show_page("map")
+	cat._process(0.0)
+	var map_time: float = cat.elapsed
+	cat.advance_motion(0.25)
+	host._check(not cat.visible and not cat._route_available() and cat.elapsed == map_time, "Kočka: mapa čajovny skryje skutečného kocoura i jeho zastavenou trasu")
+	game.teahouse_hub.show_page("workshop")
+	cat._process(0.0)
+	host._check(cat.visible and cat._route_available(), "Kočka: návrat na dílnu obnoví skutečnou trasu nad malovaným podkladem")
 	host._check(cat._body_size(39).y < cat._body_size(32).y and cat._body_size(8).x > cat._body_size(4).x, "Kočka: spánek je přirozeně nižší a protažení delší, bez normalizace siluety")
 	var before: Dictionary = game.session.to_dict()
 	before.erase("saved_at_unix")
@@ -201,22 +228,22 @@ static func run(host: SceneTree) -> void:
 	touch.pressed = false
 	game.player_room_view.gui_input.emit(touch)
 	host._check(cat.interaction_cooldown == 0.0, "Kočka: tah prstu přes pozadí není pohlazení")
-	for width in [360.0, 432.0]:
-		cat.size = Vector2(width, 650.0)
+	for canvas in [Vector2i(360, 800), Vector2i(432, 960)]:
+		await _resize_fixture(host, surface, game, canvas)
 		cat.cat_position = cat._home_position()
 		cat._walk_to(cat._drink_position(), "drink")
 		var start: Vector2 = cat.cat_position
 		cat.advance_motion(0.05)
-		host._check(cat.cat_position.distance_to(start) < 1.0, "Kočka: vychází plynule bez skoku při šířce %d" % width)
+		host._check(cat.cat_position.distance_to(start) < 1.0, "Kočka: vychází plynule bez skoku při šířce %d" % canvas.x)
 		for step in range(200):
 			if cat.pose == "drink":
 				break
 			cat.advance_motion(0.1)
 		var mouth: Vector2 = cat.cat_position + Vector2((251.0 - 285.0 * 0.5) * cat.facing, -12.0) * cat._frame_scale(24)
-		host._check(cat.pose == "drink" and mouth.distance_to(cat._water_point()) < 0.1 and cat.facing == -1.0, "Kočka: při pití se otočí k levé misce a má čumák u hladiny při šířce %d" % width)
+		host._check(cat.pose == "drink" and mouth.distance_to(cat._water_point()) < 0.1 and cat.facing == -1.0, "Kočka: při pití se otočí k levé misce a má čumák u hladiny při šířce %d" % canvas.x)
 		cat.elapsed = cat.duration - 0.1
 		cat.advance_motion(0.2)
-		host._check(cat.pose == "walk" and cat.cat_position.distance_to(cat._drink_position()) < 0.1, "Kočka: po napití odchází bez teleportování při šířce %d" % width)
+		host._check(cat.pose == "walk" and cat.cat_position.distance_to(cat._drink_position()) < 0.1, "Kočka: po napití odchází bez teleportování při šířce %d" % canvas.x)
 	# Follow a visitor all the way through a real sprouting detail scene.
 	game._change_screen(0)
 	game._open_plant_detail(0)
@@ -235,19 +262,22 @@ static func run(host: SceneTree) -> void:
 	host._check(sniffed and resumed and cat.offstage, "Kočka: u rostliny se zastaví, očichá ji a pokračuje ven")
 	game._open_player_room()
 	cat._process(0.0)
-	for width in [360.0, 432.0]:
-		cat.size = Vector2(width, 650.0)
+	for canvas in [Vector2i(360, 800), Vector2i(432, 960)]:
+		await _resize_fixture(host, surface, game, canvas)
 		var corner: Rect2 = cat._corner_rect()
-		host._check(corner.position.x >= 0.0 and corner.end.x < width and corner.end.y < cat.size.y, "Kočka: pelíšek a misky zůstávají uvnitř pokoje při šířce %d" % width)
+		var art := _room_art_in_companion(game, cat)
+		host._check(cat._room_art_rect().is_equal_approx(art) and art.encloses(corner), "Kočka: pelíšek a misky zůstávají uvnitř skutečně transformované dílny při šířce %d" % canvas.x)
 	# Check the occupied silhouettes, not just the separate prop rectangles:
 	# the old water bowl was inside the cat's sitting/stretching space.
-	for viewport in [Vector2(360, 625), Vector2(432, 785), Vector2(600, 725)]:
-		cat.size = viewport
+	for canvas in [Vector2i(360, 800), Vector2i(432, 960), Vector2i(600, 900)]:
+		await _resize_fixture(host, surface, game, canvas)
 		cat.rest_in_bed = false
+		var art := _room_art_in_companion(game, cat)
+		var unit: float = cat._room_unit_scale()
 		var water: Rect2 = cat._bowl_rect(true)
 		var food: Rect2 = cat._bowl_rect(false)
-		var label := " při šířce %d" % viewport.x
-		host._check(absf(food.get_center().x - water.get_center().x) < 1.0 and water.position.y - food.end.y >= 8.0, "Kočka: misky tvoří levý krmný koutek s vlastní mezerou" + label)
+		var label := " při šířce %d" % canvas.x
+		host._check(absf(food.get_center().x - water.get_center().x) < 1.0 and water.position.y - food.end.y >= 8.0 * unit, "Kočka: misky tvoří levý krmný koutek s vlastní mezerou" + label)
 		var resting_clear := true
 		for index in [4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 32, 33, 34, 35, 36, 37, 38, 39]:
 			var body: Vector2 = cat._body_size(index)
@@ -258,14 +288,14 @@ static func run(host: SceneTree) -> void:
 		for index in [24, 25, 26, 27]:
 			var body: Vector2 = cat._body_size(index)
 			var silhouette := Rect2(cat._drink_position() - Vector2(body.x * 0.5, body.y), body)
-			drinking_clear = drinking_clear and silhouette.position.x >= 12.0 and cat._bed_rect().position.x - silhouette.end.x >= 16.0
+			drinking_clear = drinking_clear and art.encloses(silhouette) and silhouette.position.x >= art.position.x + 12.0 * unit and cat._bed_rect().position.x - silhouette.end.x >= 16.0 * unit
 		host._check(drinking_clear, "Kočka: při pití zůstane uvnitř obrazu a mimo pelíšek" + label)
 		var strolling_clear := true
 		for sample_index in range(100):
 			var target: Vector2 = cat._room_stroll_target()
 			for index in range(4):
 				var half_width: float = cat._body_size(index).x * 0.5
-				strolling_clear = strolling_clear and target.x - half_width >= maxf(water.end.x, food.end.x) + 16.0 and target.x + half_width <= viewport.x - 14.0
+				strolling_clear = strolling_clear and target.x - half_width >= maxf(water.end.x, food.end.x) + 16.0 and target.x + half_width <= art.end.x - 14.0 and target.y < art.end.y
 		host._check(strolling_clear, "Kočka: běžné procházky mají místo před pelíškem a míjejí misky i okraje" + label)
 	# Layout notifications occur when switching screens and resizing on mobile.
 	# They must not send a drinking cat back to the cushion or restart its gait.
@@ -273,7 +303,7 @@ static func run(host: SceneTree) -> void:
 	cat.cat_position = cat._drink_position()
 	cat._enter_pose("drink", 5.2)
 	cat.elapsed = 1.0
-	cat._on_resized()
+	await _resize_fixture(host, surface, game, Vector2i(360, 800))
 	var resized_mouth: Vector2 = cat.cat_position + Vector2((251.0 - 285.0 * 0.5) * cat.DRINK_FACING, -12.0) * cat._frame_scale(24)
 	host._check(cat.pose == "drink" and resized_mouth.distance_to(cat._water_point()) < 0.1 and cat.elapsed == 1.0, "Kočka: změna rozložení během pití zachová čumák u misky i fázi akce")
 	cat.cat_position = cat._home_position()
@@ -282,8 +312,9 @@ static func run(host: SceneTree) -> void:
 	cat.advance_motion(0.25)
 	var walking_frame: int = cat.current_frame()
 	var walking_sample: Vector3 = cat._frame_sample()
-	cat._on_resized()
+	await _resize_fixture(host, surface, game, Vector2i(432, 960))
 	host._check(cat.current_frame() == walking_frame and cat._frame_sample().is_equal_approx(walking_sample), "Kočka: změna rozložení nerestartuje krok uprostřed chůze")
 	host._check(cat.walk_target.distance_to(cat._drink_position()) < 0.1 and is_equal_approx(cat.duration, maxf(1.0, cat.walk_origin.distance_to(cat.walk_target) / 34.0)), "Kočka: po změně rozložení jde k misce původní pokojovou rychlostí")
 	game.queue_free()
+	surface.queue_free()
 	await host.process_frame

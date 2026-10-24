@@ -27,7 +27,7 @@ static func run(host: SceneTree) -> void:
 	var was_blocked := SaveManager.writes_blocked
 	SaveManager.writes_blocked = false
 	host._check(Decorations.PRICE == 60 and Decorations.DECORATION_ID == "tea_tree", "Venkovní dekorace: pevná cena a ID čajovníku")
-	host._check(GameSession.SAVE_SCHEMA == 46 and GameSession.GREENHOUSE_DECORATIONS_SCHEMA == Decorations.OWNERSHIP_SCHEMA and GameSession.GUIDED_TUTORIAL_SCHEMA == 45, "Venkovní dekorace: vlastní nová schema hranice nemění starší důvěryhodná data")
+	host._check(GameSession.SAVE_SCHEMA == 48 and GameSession.GREENHOUSE_DECORATIONS_SCHEMA == Decorations.OWNERSHIP_SCHEMA and GameSession.GUIDED_TUTORIAL_SCHEMA == 45, "Venkovní dekorace: vlastní nová schema hranice nemění starší důvěryhodná data")
 	var session := _session(catalog)
 	host._check(not Decorations.is_owned(session) and session.owned_greenhouse_decorations.is_empty(), "Venkovní dekorace: nová hra nemá zakoupený čajovník")
 	host._check(not Decorations.is_owned(null) and Decorations.purchase(null, Decorations.DECORATION_ID, func(): return true).reason == "invalid_session", "Venkovní dekorace: chybějící profil neprovede nákup")
@@ -107,7 +107,7 @@ static func run(host: SceneTree) -> void:
 	# JSON round-trip follows the real persisted data representation, without
 	# touching a player's save files or reconstructing a profile for rollback.
 	var round_trip: Variant = JSON.parse_string(JSON.stringify(committed_payload))
-	host._check(round_trip is Dictionary and int(round_trip.get("schema", 0)) == 46, "Venkovní dekorace: serializovaný save má aktuální schema46")
+	host._check(round_trip is Dictionary and int(round_trip.get("schema", 0)) == GameSession.SAVE_SCHEMA, "Venkovní dekorace: serializovaný save má aktuální schema")
 	var restored := GameSession.new(catalog)
 	if round_trip is Dictionary:
 		restored.from_dict(round_trip)

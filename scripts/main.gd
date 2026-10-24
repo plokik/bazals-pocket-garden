@@ -324,6 +324,7 @@ var room_decoration_modal: RoomDecorationModal
 var room_decoration_open := false
 var teahouse_open := false
 var teahouse_modal: Control
+var teahouse_hub: Control
 var workshop_open := false
 var workshop_modal: Control
 var fortune_wheel_open := false
@@ -733,6 +734,9 @@ func _consume_mobile_back_navigation() -> bool:
 	if teahouse_open:
 		teahouse_modal.close()
 		return true
+	if teahouse_hub != null and teahouse_hub.blocks_input():
+		teahouse_hub.show_overlay("")
+		return true
 	if fortune_wheel_open:
 		fortune_wheel_modal.close()
 		return true
@@ -927,6 +931,7 @@ func _handle_swipe(delta: Vector2) -> bool:
 
 
 func _top_level_swipe_navigation_available() -> bool:
+	if teahouse_hub != null and teahouse_hub.active: return false
 	if screens.is_empty() or active_screen < 0 or active_screen >= screens.size():
 		return false
 	if _is_blocking_modal_open() or is_garden_handover_active or external_file_picker_open:
@@ -1191,6 +1196,7 @@ func _apply_safe_area_rect(safe_rect: Rect2, window_size: Vector2, logical_size:
 		hud_edge_underlay.offset_bottom = HUD_HEIGHT + HUD_EDGE_JOIN_DEPTH + safe_area_insets.y
 		hud_edge_underlay.set_meta("safe_top_inset", safe_area_insets.y)
 	if teahouse_open: teahouse_modal._layout_view()
+	if teahouse_hub != null and teahouse_hub.active: teahouse_hub._layout_scene.call_deferred()
 
 
 func _apply_hud_rect(control: Control, rect: Rect2) -> void:
@@ -1383,7 +1389,7 @@ func _build_garden_screen() -> Control:
 	rack_greenhouse_button.pressed.connect(_open_greenhouse)
 	plants_room_panel.add_child(rack_greenhouse_button)
 	_refresh_rack_greenhouse_attention()
-	rack_player_room_button = _build_rack_location_button("DÍLNA  →", ComicUITheme.PURPLE)
+	rack_player_room_button = _build_rack_location_button("ČAJOVNA  →", ComicUITheme.PURPLE)
 	rack_player_room_button.set_anchor(SIDE_LEFT, 1.0)
 	rack_player_room_button.set_anchor(SIDE_RIGHT, 1.0)
 	rack_player_room_button.offset_left = -122.0
@@ -1392,7 +1398,7 @@ func _build_garden_screen() -> Control:
 	rack_player_room_button.offset_bottom = 160.0
 	rack_player_room_button.set_meta("component", "phase103_rack_player_room_arrow_v1")
 	rack_player_room_button.set_meta("location_target", GARDEN_LOCATION_PLAYER_ROOM)
-	rack_player_room_button.pressed.connect(_open_player_room)
+	rack_player_room_button.pressed.connect(_open_teahouse)
 	plants_room_panel.add_child(rack_player_room_button)
 	rack_pet_launcher_button = _build_rack_dock_launcher(
 		plants_room_panel,
@@ -1482,6 +1488,9 @@ func _build_garden_screen() -> Control:
 	player_room_view.plant_drag_started.connect(_on_room_plant_drag_started)
 	player_room_view.set_room_decorations(session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 	player_room_panel.add_child(player_room_view)
+	teahouse_hub = preload("res://scripts/ui/teahouse_hub.gd").new()
+	teahouse_hub.bind(self)
+	player_room_panel.add_child(teahouse_hub)
 
 	greenhouse_panel = Control.new()
 	greenhouse_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -4866,6 +4875,8 @@ func _confirm_new_game_after_recovery() -> void:
 
 
 func _activate_session(next_session: GameSession) -> void:
+	if teahouse_open: teahouse_modal.close()
+	if teahouse_hub != null and teahouse_hub.active: teahouse_hub.close()
 	session = next_session
 	if fortune_wheel_modal != null:
 		fortune_wheel_modal.reset_session()
@@ -7918,6 +7929,9 @@ func _change_screen(index: int, refresh_active := true, transition_direction_ove
 		workshop_modal.close()
 	if index != active_screen:
 		plant_action_presenter.stop_lamp_transition()
+	if index != active_screen and teahouse_hub != null and teahouse_hub.active:
+		if teahouse_open: teahouse_modal.close()
+		teahouse_hub.close()
 	if index != active_screen and player_room_view != null:
 		player_room_view.cancel_plant_drag()
 	var previous_screen := active_screen
@@ -7941,6 +7955,8 @@ func _open_plant_detail(index: int) -> void:
 		return
 	if not session.select_plant(index):
 		return
+	if teahouse_open: teahouse_modal.close()
+	if teahouse_hub != null and teahouse_hub.active: teahouse_hub.close()
 	plant_action_presenter.stop_lamp_transition()
 	if feedback_layer != null:
 		feedback_layer.cancel_plant_effects()
@@ -7984,6 +8000,12 @@ func _open_rack_location() -> void:
 
 func _open_player_room() -> void:
 	_show_garden_location(GARDEN_LOCATION_PLAYER_ROOM)
+	if player_room_view.has_method("set_teahouse_embedded"): teahouse_hub.open("workshop")
+
+
+func _open_teahouse() -> void:
+	_show_garden_location(GARDEN_LOCATION_PLAYER_ROOM)
+	if player_room_view.has_method("set_teahouse_embedded"): teahouse_hub.open("map")
 
 
 func _open_greenhouse() -> void:
@@ -8014,6 +8036,9 @@ func _show_garden_location(location_id: String) -> void:
 		fortune_wheel_modal.close()
 	if workshop_open and location_id != GARDEN_LOCATION_PLAYER_ROOM:
 		workshop_modal.close()
+	if location_id != GARDEN_LOCATION_PLAYER_ROOM:
+		if teahouse_open: teahouse_modal.close()
+		if teahouse_hub != null and teahouse_hub.active: teahouse_hub.close()
 	plant_action_presenter.stop_lamp_transition()
 	if player_room_view != null:
 		player_room_view.cancel_plant_drag()
@@ -8283,7 +8308,7 @@ func _is_blocking_modal_open() -> bool:
 
 
 func _is_blocking_modal_open_except_seed_selector(exclude_greenhouse_decoration := false) -> bool:
-	return (greenhouse_decoration_open and not exclude_greenhouse_decoration) or teahouse_open or fortune_wheel_open or workshop_open or dialog_open or professor_story_open or settings_modal_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
+	return (teahouse_hub != null and teahouse_hub.blocks_input()) or (greenhouse_decoration_open and not exclude_greenhouse_decoration) or teahouse_open or fortune_wheel_open or workshop_open or dialog_open or professor_story_open or settings_modal_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
 
 
 func _refresh_audio_scene() -> void:

@@ -14,6 +14,9 @@ static func run(host: SceneTree) -> void:
 	var workshop = game.player_room_view
 	for canvas in [Vector2i(360,800),Vector2i(432,960),Vector2i(540,960),Vector2i(600,900),Vector2i(720,960)]:
 		surface.size = canvas
+		game.size = Vector2(canvas)
+		await host.process_frame
+		await host.process_frame
 		game._apply_safe_area_rect(Rect2(Vector2.ZERO,Vector2(canvas)),Vector2(canvas),Vector2(canvas))
 		game._open_player_room()
 		await host.process_frame
@@ -26,7 +29,9 @@ static func run(host: SceneTree) -> void:
 			host._check(is_equal_approx(art.size.x / art.size.y, source_ratio), "Dílna: široký obraz drží původní proporce při %s" % canvas)
 		else:
 			host._check(art == Rect2(Vector2.ZERO,workshop.size), "Dílna: schválená telefonní kompozice se nemění při %s" % canvas)
-		host._check(art.encloses(cat._bed_rect()) and art.encloses(cat._bowl_rect(true)) and art.encloses(cat._bowl_rect(false)), "Dílna: pelíšek a obě misky sledují malovanou podlahu při %s" % canvas)
+		var to_companion: Transform2D = cat.get_global_transform_with_canvas().affine_inverse() * workshop.get_global_transform_with_canvas()
+		var companion_art: Rect2 = to_companion * art
+		host._check(cat._room_art_rect().is_equal_approx(companion_art) and companion_art.encloses(cat._bed_rect()) and companion_art.encloses(cat._bowl_rect(true)) and companion_art.encloses(cat._bowl_rect(false)), "Dílna: pelíšek a obě misky sledují transformovanou malovanou podlahu při %s" % canvas)
 		host._check(workshop._legacy_room_texture_cache.is_empty(), "Dílna: historické malby se při použití nové dílny nenačítají")
 		game._open_greenhouse()
 		await host.process_frame

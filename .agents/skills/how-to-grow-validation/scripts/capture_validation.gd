@@ -1665,7 +1665,7 @@ func _capture_phase167_only() -> void:
 	await process_frame
 	_prepare_common_state(instance)
 	_prepare_phase104_decorated_player_room_state(instance)
-	instance._open_player_room()
+	_open_standalone_player_room_capture(instance)
 	await _settle(instance)
 	if not await _capture_phase167_room_matrix(instance):
 		quit(2)
@@ -2186,10 +2186,21 @@ func _prepare_phase125_post_harvest_rack_state(instance) -> bool:
 	return true
 
 
+func _open_standalone_player_room_capture(instance) -> void:
+	# These historical approvals cover the standalone workshop inside the
+	# original HUD/navigation layout. The new full-screen teahouse hub has its
+	# own review artifact; retain the live room renderer and its normal close
+	# transition here, without replacing art or changing comparison rules.
+	instance._open_player_room()
+	var hub: Control = instance.get("teahouse_hub")
+	if hub != null and bool(hub.get("active")):
+		hub.close()
+
+
 func _prepare_phase103_player_room_state(instance) -> void:
 	instance.session.unlocked_room_themes.assign(["sunrise", "amethyst"])
 	instance.session.selected_room_theme = "amethyst"
-	instance._open_player_room()
+	_open_standalone_player_room_capture(instance)
 	instance.player_room_view.set_cosmetic_theme("amethyst")
 	instance.player_room_view.set_meta("capture_state", "phase103_player_room_amethyst_report_only_v1")
 
@@ -2242,7 +2253,7 @@ func _prepare_phase104_decorated_player_room_state(instance) -> void:
 		"preserved_herb_jars",
 		"cat_corner",
 	])
-	instance._open_player_room()
+	_open_standalone_player_room_capture(instance)
 	instance.player_room_view.set_cosmetic_theme("amethyst")
 	instance.player_room_view.set_room_decorations(instance.session.get_room_decoration_slots(), GameSession.ROOM_DECORATIONS)
 	instance.player_room_view.set_meta("capture_state", "phase127_player_room_final_visual_report_only_v1")

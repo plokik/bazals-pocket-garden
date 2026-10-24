@@ -66,5 +66,90 @@ static func run(host: SceneTree) -> void:
 		host._check(preview.Artwork == artwork and preview.theme_id == id, "Audit A03: náhled %s používá aktuální malovanou dílnu a správný vzhled" % id)
 		host._check(preview.Room._palette_for_theme(id).tint == room._palette_for_theme(id).tint, "Audit A03: náhled %s má stejný barevný tón jako skutečná místnost" % id)
 	host._check(GameSession.ROOM_THEMES.lagoon.price == 35 and GameSession.ROOM_THEMES.amethyst.price == 55 and GameSession.ROOM_THEMES.research_study.research_completed_required == 6, "Audit A03: aktualizace náhledů zachovává ceny, ID a podmínky odemčení")
+	await _check_palette_lifecycle(host, game)
 	surface.queue_free()
+	await host.process_frame
+
+
+static func _check_palette_lifecycle(host: SceneTree, game: Control) -> void:
+	const Palette := preload("res://scripts/ui/sage_ui_palette.gd")
+	const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
+	var palette: Node
+	for child: Node in game.get_children():
+		if child.get_script() == Palette:
+			palette = child
+			break
+	host._check(palette != null, "Paleta lifecycle: skutečná hra má nainstalovaný posluchač dynamických prvků")
+	if palette == null:
+		return
+	var cards := Control.new()
+	game.add_child(cards)
+	var surviving := Button.new()
+	surviving.text = "ŽIVÁ AKCE"
+	# Match customer_orders_panel's real bright action before palette conversion.
+	# An unstyled Button inherits INK, which the palette intentionally preserves.
+	ComicUITheme.apply_button(surviving, ComicUITheme.GREEN, ComicUITheme.CREAM, 13)
+	surviving.set_meta("component", "customer_order_action_v1")
+	cards.add_child(surviving)
+	var dark_text := Button.new()
+	dark_text.text = "TMAVÝ TEXT"
+	ComicUITheme.apply_button(dark_text, ComicUITheme.GREEN, ComicUITheme.INK, 13)
+	cards.add_child(dark_text)
+	var custom_styled := Button.new()
+	var original_material := CanvasItemMaterial.new()
+	custom_styled.material = original_material
+	cards.add_child(custom_styled)
+	var detached: Array[Button] = []
+	var removed_ids: Array[int] = []
+	for index in range(12):
+		var ephemeral := Button.new()
+		cards.add_child(ephemeral)
+		removed_ids.append(ephemeral.get_instance_id())
+		ephemeral.free()
+		var queued := Label.new()
+		cards.add_child(queued)
+		removed_ids.append(queued.get_instance_id())
+		queued.queue_free()
+		var moved := Button.new()
+		cards.add_child(moved)
+		cards.remove_child(moved)
+		detached.append(moved)
+	await host.process_frame
+	await host.process_frame
+	var detached_untouched := true
+	for button: Button in detached:
+		detached_untouched = detached_untouched and button.material == null
+		button.free()
+	host._check(removed_ids.all(func(id: int) -> bool: return not is_instance_id_valid(id)) and detached_untouched, "Paleta lifecycle: odložené stylování bezpečně přeskočí uvolněné i odpojené karty")
+	host._check(surviving.material is ShaderMaterial and surviving.get_meta("sage_palette_role", "") == "primary" and surviving.material.get_shader_parameter("primary_action") == true and surviving.get_theme_color("font_color") == Palette.FOREST, "Paleta lifecycle: přeživší dynamická akce zachová původní shader, roli a čitelnou barvu")
+	host._check(dark_text.material is ShaderMaterial and dark_text.get_theme_color("font_color") == ComicUITheme.INK, "Paleta lifecycle: existující tmavý text dynamického tlačítka se nepřebarví")
+	host._check(custom_styled.material == original_material, "Paleta lifecycle: vlastní materiál prvku zůstane nedotčený")
+	var heading := Label.new()
+	heading.text = "NADPIS"
+	heading.set_meta("sage_readable_heading", true)
+	heading.add_theme_color_override("font_color", ComicUITheme.CREAM)
+	cards.add_child(heading)
+	await host.process_frame
+	await host.process_frame
+	# A live theme refresh must still reach both new instance-ID adapters.
+	ComicUITheme.apply_button(surviving, ComicUITheme.GREEN, ComicUITheme.CREAM, 13)
+	heading.add_theme_color_override("font_color", ComicUITheme.CREAM)
+	await host.process_frame
+	await host.process_frame
+	host._check(surviving.get_theme_color("font_color") == Palette.FOREST and heading.get_theme_color("font_color") == Palette.FOREST, "Paleta lifecycle: živé theme callbacky tlačítka i nadpisu stále obnovují čitelné barvy")
+	# Dispatch both deferred theme listeners, then rebuild before they run.
+	surviving.theme_changed.emit()
+	heading.theme_changed.emit()
+	surviving.free()
+	heading.free()
+	await host.process_frame
+	await host.process_frame
+	var replacement := Button.new()
+	replacement.text = "NOVÁ KARTA"
+	ComicUITheme.apply_button(replacement, ComicUITheme.GREEN, ComicUITheme.CREAM, 13)
+	cards.add_child(replacement)
+	await host.process_frame
+	await host.process_frame
+	host._check(replacement.material is ShaderMaterial and replacement.get_theme_color("font_color") == Palette.FOREST, "Paleta lifecycle: stylování funguje i po zrušení odložených theme callbacků tlačítka a popisku")
+	cards.queue_free()
 	await host.process_frame

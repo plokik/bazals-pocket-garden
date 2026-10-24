@@ -164,8 +164,11 @@ static func _run_mint(host: SceneTree, catalog: Dictionary) -> void:
 
 
 static func _run_ui(host: SceneTree) -> void:
+	var surface := SubViewport.new()
+	surface.size = Vector2i(432,960)
+	host.root.add_child(surface)
 	var game = load("res://main.tscn").instantiate()
-	host.root.add_child(game)
+	surface.add_child(game)
 	await host.process_frame
 	await host.process_frame
 	host._finish_phase92_startup_for_test(game)
@@ -186,12 +189,23 @@ static func _run_ui(host: SceneTree) -> void:
 	game._on_room_plant_move_requested(1,0,"room_orchid")
 	host._check(room.material == null,"Dílna: na nové malbě není maska starých zapečených tlačítek pokoje")
 	for viewport in [Vector2(432,960),Vector2(360,800)]:
+		surface.size = Vector2i(viewport)
 		game.size = viewport
 		await host.process_frame
 		await host.process_frame
-		var room_rect: Rect2 = room.get_global_rect()
-		host._check(room.get_meta("workshop_room",false) and room_rect.encloses(room.workbench_button.get_global_rect()) and room.workbench_button.size.y >= 56,"Dílna: pracovní stůl má dostupné tlačítko uvnitř místnosti na %s" % viewport)
-		host._check(room_rect.encloses(room.back_button.get_global_rect()) and room_rect.encloses(room.theme_button.get_global_rect()),"Dílna: návrat i vzhled zůstávají uvnitř displeje")
+		var safe_local := Rect2(0,24,viewport.x,viewport.y-56) if viewport.x == 360 else Rect2(Vector2.ZERO,viewport)
+		game._apply_safe_area_rect(safe_local,viewport,viewport)
+		game.teahouse_hub._layout_scene()
+		await host.process_frame
+		var room_rect: Rect2 = room.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,room.size)
+		var bench_rect: Rect2 = room.workbench_button.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,room.workbench_button.size)
+		var bench_local := Rect2(room.workbench_button.position,room.workbench_button.size)
+		host._check(room.get_meta("workshop_room",false) and room.teahouse_embedded and room_rect.encloses(bench_rect) and bench_local.is_equal_approx(Rect2(106,508,220,54)),"Dílna: schválený pracovní stůl má cíl 220×54 uvnitř vložené místnosti na %s" % viewport)
+		var hub: Control = game.teahouse_hub
+		var back: Button = hub.buttons.back
+		var back_rect: Rect2 = back.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,back.size)
+		var safe_global: Rect2 = game.get_global_transform_with_canvas() * safe_local
+		host._check(not room.back_button.visible and not room.theme_button.visible and not room.title_card.visible and hub.active and hub.page == "workshop" and back.is_visible_in_tree() and safe_global.encloses(back_rect) and back.size.is_equal_approx(Vector2(44,44)),"Dílna: sdílené záhlaví má dostupný návrat v safe area a neskládá skryté staré ovládání")
 		var hidden_targets := true
 		for target: Button in room.decoration_buttons:
 			hidden_targets = hidden_targets and not target.visible and target.disabled and target.mouse_filter == Control.MOUSE_FILTER_IGNORE
@@ -204,6 +218,17 @@ static func _run_ui(host: SceneTree) -> void:
 		host._check(game._consume_mobile_back_navigation() and not game.workshop_open and not game.workshop_modal.visible,"Dílna: systémové Zpět zavře recepty a zůstane v dílně")
 		host._check(game.garden_location_id == "player_room" and game.player_room_panel.visible,"Dílna: zavření receptů nezmění místo")
 	host._check(before_owned == game.session.owned_room_decorations and before_slots == game.session.get_room_decoration_slots(),"Dílna: procházení místností a recepty zachová zakoupené dekorace i jejich sloty")
+	game._open_settings_modal()
+	var appearance: Button
+	for button: Button in game.settings_modal.find_children("*","Button",true,false):
+		if button.get_meta("component","") == "phase14_cosmetic_showroom_launcher_v1":
+			appearance = button
+			break
+	if appearance != null:
+		appearance.pressed.emit()
+	host._check(appearance != null and game.cosmetic_modal_open and game.cosmetic_modal.visible and game.teahouse_hub.active and game.teahouse_hub.page == "workshop","Dílna: vzhled zůstává dostupný přes hráčské nastavení i bez starého tlačítka místnosti")
+	game._close_cosmetic_modal()
+	game._close_settings_modal()
 	room.workbench_button.pressed.emit()
 	var modal = game.workshop_modal
 	modal.persist_override = func() -> bool: return true
@@ -295,6 +320,7 @@ static func _run_ui(host: SceneTree) -> void:
 	await _check_success_feedback(host,game)
 	await _check_completion_wait_guards(host,game)
 	game.queue_free()
+	surface.queue_free()
 	await host.process_frame
 
 
