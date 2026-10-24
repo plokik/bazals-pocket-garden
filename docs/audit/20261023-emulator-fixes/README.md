@@ -17,7 +17,7 @@ Navazuje na [původní audit](../20261023-emulator-walkthrough/README.md). Všec
 - Import a kompletní funkční sada: **MVP_TESTS_PASSED=8333**. Obsahuje regrese nabídky tonika a skladu, neměnnosti zásob, skutečného presenteru semínek, geometrie ručky a shody zdroje/tónu náhledů.
 - Deterministické snímky byly pořízeny úspěšně. **33/34 vynucovaných vizuálních bran prošlo.** Jediná odchylka je `phase162-cosmetic-showroom-runtime-approved`: MAE 14.092, RMSE 35.358, změněná plocha 26.980 %. Jde o záměrně opravené náhledy a popisy vůči staré referenci.
 - Celý vizuální běh proto poctivě zůstává **FAILED**, nikoli zelený průchod. [Úplný report](visual-report.md), [porovnání showroomu](evidence/showroom-visual-comparison.png). Schválené reference, prahy a manifest porovnání se neměnily. Tento náhled ještě není novou uživatelsky schválenou referencí.
-- Kontroly Android exportu prošly: podpis a jeho původní identita, ABI, manifest/oprávnění, obsah balíčku, testovací reklamní SDK a 16KB zarovnání. [Log](android-export.log).
+- Kontroly Android exportu prošly: podpis a jeho původní identita, ABI, manifest/oprávnění, obsah balíčku, testovací reklamní SDK a 16KB zarovnání. [Log](android-export.txt).
 
 ## Zachování profilu a meze
 
@@ -26,3 +26,7 @@ Aktualizace proběhla přes `adb install -r`. Původní adresář `files` byl po
 Instalovaný APK: `builds/android/bazals-pocket-garden-20261023-audit-fixes-x86_64.apk`, SHA-256 `e145c6fd22fa29cfe8893722f62af44a47d1daa4b0a17eb1e4e4ce47715dfc90`. Výchozí commit je `c113d7bf`; opravy jsou pracovní změny. Nevznikl nový commit, push ani release.
 
 Tento průchod znovu ověřuje pět nalezených závad a navazující chování; není opakováním celého prvotního auditu všech obrazovek. Nativní videa nemají zvuk. Fyzický telefon ani síla vibrací nebyly testovány. Podrobné testovací logy, původní soubory a pomocné profily jsou lokálně v ignorované složce `tmp/emulator-fixes-20261023`; nejsou součástí této zprávy.
+
+## Následné zveřejnění — 24. 10. 2026
+
+Předchozí odstavce zaznamenávají stav při původním ověření. Po souhlasu majitele byly opravy rozděleny do commitů `bd9ecad` (Android oprávnění), `252566e` (UI a regrese) a `8fe38d8` (auditní důkazy) a nahrány do větve `fix/rc61-feedback-motion`. [GitHub Actions 40056211270](https://github.com/plokik/bazals-pocket-garden/actions/runs/40056211270) nad přesným SHA `8fe38d807249f187f4f422db7a7583f0d46d9a21` úspěšně dokončily 8 333 funkčních kontrol a statický kontrakt původních referencí. Běh CI neprovádí úplné GPU vizuální porovnání; výše uvedená jediná očekávaná odchylka showroomu zůstává zdokumentovaná a reference nezměněná. Release nevznikl.
