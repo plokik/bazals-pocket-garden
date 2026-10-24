@@ -1,0 +1,115 @@
+{
+  "source_commit": "c113d7bf4f24decb7d12372bd7336e421ea5b8da",
+  "branch": "fix/rc61-feedback-motion",
+  "apk_sha256": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9",
+  "device": "emulator-5554",
+  "avd": "Bazal_Current_Source_API36",
+  "primary_resolution": "1080x2400",
+  "additional_resolution": "1080x2040",
+  "wm_size": "Physical size: 1080x2400",
+  "test_profiles": [
+    "new-game-through-native-UI",
+    "fresh-progress",
+    "rich-story1",
+    "rich-story2",
+    "rich-story3",
+    "rich-research-offer",
+    "rich-research-ready"
+  ],
+  "confirmed_issues": [
+    {
+      "id": "A01",
+      "priority": "P2",
+      "title": "Android Back closes the recipe dialog instead of only the tonic dropdown",
+      "reproduced": 2,
+      "source": "scripts/main.gd:722",
+      "evidence": [
+        "evidence/back-popup-before.png",
+        "evidence/back-popup-after.png",
+        "evidence/back-popup-repro.mp4"
+      ]
+    },
+    {
+      "id": "A02",
+      "priority": "P2",
+      "title": "Enabled haptics cannot run: installed APK does not request android.permission.VIBRATE",
+      "source": "scripts/audio_soundscape.gd:223",
+      "evidence": [
+        "android-haptics.txt",
+        "evidence/settings-vibrations.png"
+      ]
+    },
+    {
+      "id": "A03",
+      "priority": "P3",
+      "title": "Cosmetic showroom preview artwork and copy describe the previous room instead of the current workshop",
+      "evidence": [
+        "evidence/old-showroom.png",
+        "evidence/actual-workshop.png"
+      ]
+    },
+    {
+      "id": "A04",
+      "priority": "P3",
+      "title": "Czech seed count uses incorrect singular: V zasobe: 1 seminek",
+      "source": "scripts/ui/seed_selector_presenter.gd:25",
+      "evidence": [
+        "evidence/seed-single.png"
+      ]
+    },
+    {
+      "id": "A05",
+      "priority": "P3",
+      "title": "Tutorial pointing hand overlaps the adjacent Use in workshop button during the Package step",
+      "source": "scripts/ui/guided_tutorial.gd:302",
+      "evidence": [
+        "evidence/tutorial-hand-overlap.png"
+      ]
+    }
+  ],
+  "log_review": {
+    "vibrate_warning_lines": 79,
+    "script_error_lines": 0,
+    "scope": "Captured log segments only; not a full non-rotating log of the entire walkthrough."
+  },
+  "full_evidence_directory": "tmp/emulator-gameplay-audit-20261023",
+  "original_profile_restored": true,
+  "production_code_changed": false,
+  "references_changed": false,
+  "new_release_created": false,
+  "physical_phone_tested": false,
+  "tutorial_completion": {
+    "journey_completed": true,
+    "journey_reward_claimed": true,
+    "journey_step": 9,
+    "guided_tutorial_enabled": true,
+    "coins": 77
+  },
+  "restored_files_byte_identical_before_relaunch": 30,
+  "original_wheel_pending": false,
+  "earned_ad_receipt_pending_before_restore": false,
+  "game_pid_after_restore": "27809",
+  "installed_apk_sha256_after_restore": "f50f9a1c4ad277682ce884e22dc4b382222e1bb686a96ee588eb0ec5abd3c2c9",
+  "production_diff_paths": [],
+  "evidence_counts": {
+    "native_screenshot_files": 189,
+    "native_video_files": 22
+  },
+  "completed_utc": "2026-10-23T14:36:58.725225+00:00",
+  "selected_evidence_sha256": {
+    "evidence/actual-workshop.png": "9b1fb36933313b793a3206be544eb1b805628a144edd5563b06f88905a3aacad",
+    "evidence/back-popup-after.png": "9b3e1983b40ed2950903dac1717bf630410038acfa84bd0fa903e9169c9c5a30",
+    "evidence/back-popup-before.png": "1c04c1e89e5ded3cd6eadc11598e0c2aaf68634606d442e53dad56d9e14b696b",
+    "evidence/back-popup-repro.mp4": "1dd1a9a845ea4eca225d37f3affd7689c2866aa8a2b2389b3158290242172ca1",
+    "evidence/butterflies.png": "0bb78a49e4504077b91ea30fee4ae3f389a4d25a1525c38930b9b595043cbd9a",
+    "evidence/cat-cycle.png": "1eff4a18475ce29553395da3421857a3b540c024023d32b226fd2511853e516c",
+    "evidence/lavender.png": "779a6c719364bc0a3b95ccd508eb27a43d62c5139f86f16c79e984301e06fdee",
+    "evidence/old-showroom.png": "0d8069183603fdee94b345696d7c234d3d4a0d1accb6026cb3140054be5f4dd0",
+    "evidence/seed-single.png": "d512f708fdf1d864f248310bd0057262042473a1f9db6e95d38510223339c6d2",
+    "evidence/settings-vibrations.png": "50980a98ee642cfda396dbf59550ccfed37e2231e89a8b682a38b4ad8dbab606",
+    "evidence/tea-result.png": "791d650a04d3405fa41ab80013af009c0eb936a15ba1f2b72cdc4129c2a826b6",
+    "evidence/tutorial-complete.png": "0d9e6ac815d720f5467121ab3cdc86a14c9b88856c3e80ea11feb93f16badc97",
+    "evidence/tutorial-hand-overlap.png": "230ddb531cce6910b6e87e7bc3f113c17028e55eda7a16972c9d11eefc2782e3",
+    "evidence/wheel-limit.png": "ed09b67f604d16975671cc00b18e02cddb18b79ca09db7be41d287c996420d6f"
+  }
+}

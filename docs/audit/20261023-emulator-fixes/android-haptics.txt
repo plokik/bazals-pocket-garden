@@ -1,0 +1,7 @@
+      android.permission.VIBRATE
+      android.permission.VIBRATE: granted=true
+
+Successful Android service vibration records:
+      10-23 16:10:24.955 |   effect | cancelled_superseded | duration:    11ms | start:              | end: 16:10:24.965 | scale:     NONE (adaptive=1.00) | flags:    0 | usage: TOUCH | com.howtogrow.game (uid=10106, deviceId=0) | reason: null | played: Step=28ms(amplitude=0.28) | original: null
+      10-23 16:10:24.950 |   effect | cancelled_superseded | duration:    26ms | start: 16:10:24.976 | end: 16:10:24.976 | scale:     NONE (adaptive=1.00) | flags:    0 | usage: TOUCH | com.howtogrow.game (uid=10106, deviceId=0) | reason: null | played: Step=36ms(amplitude=0.34) | original: null
+      10-23 16:10:24.965 |   effect |             finished | duration:    99ms | start: 16:10:24.988 | end: 16:10:25.064 | scale:     NONE (adaptive=1.00) | flags:    0 | usage: TOUCH | com.howtogrow.game (uid=10106, deviceId=0) | reason: null | played: Step=30ms(amplitude=0.26) | original: null

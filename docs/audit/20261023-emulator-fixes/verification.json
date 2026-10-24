@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "base_commit": "c113d7bf4f24decb7d12372bd7336e421ea5b8da",
+  "fixes": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05"
+  ],
+  "functional_checks_passed": 8333,
+  "visual_gates_passed": 33,
+  "visual_gates_total": 34,
+  "visual_validation_result": "FAILED_EXPECTED_SHOWROOM_CHANGE",
+  "visual_failed_cases": [
+    {
+      "id": "phase162-cosmetic-showroom-runtime-approved",
+      "metrics": {
+        "mean_abs_error": 14.091654,
+        "rmse": 35.357709,
+        "maximum_error": 255,
+        "changed_ratio": 0.269796
+      },
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      },
+      "threshold_failures": [
+        "mean_abs_error=14.091654 > 4.000000",
+        "rmse=35.357709 > 12.000000",
+        "changed_ratio=0.269796 > 0.060000"
+      ]
+    }
+  ],
+  "approved_references_changed": false,
+  "visual_thresholds_changed": false,
+  "apk_sha256": "e145c6fd22fa29cfe8893722f62af44a47d1daa4b0a17eb1e4e4ce47715dfc90",
+  "installed_apk_sha256": "e145c6fd22fa29cfe8893722f62af44a47d1daa4b0a17eb1e4e4ce47715dfc90",
+  "emulator": "Bazal_Current_Source_API36",
+  "android_api": 36,
+  "abi": "x86_64",
+  "vibrate_permission_granted": true,
+  "android_service_finished_haptic": true,
+  "fresh_native_logs_vibrate_security_exception": false,
+  "original_profile_restored": true,
+  "original_files_byte_identical_before_launch": 30,
+  "wm_size": "Physical size: 1080x2400",
+  "running_pid": "30148",
+  "physical_phone_tested": false,
+  "commit_created": false,
+  "pushed": false,
+  "release_created": false
+}

@@ -1,0 +1,89 @@
+Installed requested permissions:
+com.howtogrow.game.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.POST_NOTIFICATIONS
+      android.permission.FOREGROUND_SERVICE
+      android.permission.RECEIVE_BOOT_COMPLETED
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+      android.permission.WAKE_LOCK
+
+Observed runtime warnings:
+10-23 14:04:39.673 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:04:39.674 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:04:39.679 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:26:59.432  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:26:59.455  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:26:59.458  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:26:59.460  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:26:59.487  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:28:18.651  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:28:18.654  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:28:18.656  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:28:22.162  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:28:36.565  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:29:38.850  3099  3128 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:32:29.508  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:34:16.628  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:39:29.036  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:51:08.474  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:51:08.482  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:53:21.084  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:53:21.088  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:53:24.377  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:53:34.079  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:56:43.848  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:56:43.851  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:56:43.858  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:58:39.907  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:58:40.746  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:58:46.146  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 13:58:46.951  6158  6182 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:00:31.645 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:00:31.648 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.428 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.429 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.433 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.435 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.445 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:17.486 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:24.108 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:24.112 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:02:24.140 12121 12144 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:19.252 12367 12391 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:19.254 12367 12391 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:19.256 12367 12391 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:19.267 12367 12391 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:19.311 12367 12391 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:58.207 12464 12489 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:58.209 12464 12489 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:58.210 12464 12489 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:03:58.261 12464 12489 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:04:18.915 12563 12588 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:17.168 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:17.169 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:17.190 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:25.189 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:25.212 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:33.474 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:33.476 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:33.478 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:11:33.504 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:17:03.752 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:17:03.754 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:17:13.061 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:18:44.033 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:19:14.906 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:22:35.932 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:22:35.934 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:22:39.746 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:22:39.750 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:22:43.001 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:23:51.099 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:23:51.129 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:23:51.147 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:23:51.157 12658 12684 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:26:41.203 25609 25634 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:26:41.211 25609 25634 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:26:41.213 25609 25634 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:26:44.224 25609 25634 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
+10-23 14:26:44.228 25609 25634 W GodotNativeBridge: SecurityException: VIBRATE permission not found. Make sure it is declared in the manifest or enabled in the export preset.
