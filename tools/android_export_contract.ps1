@@ -59,6 +59,7 @@ function Get-AndroidExportPresetContracts {
             Arm64V8a = $options['architectures/arm64-v8a'] -eq 'true'
             X86 = $options.ContainsKey('architectures/x86') -and $options['architectures/x86'] -eq 'true'
             X8664 = $options.ContainsKey('architectures/x86_64') -and $options['architectures/x86_64'] -eq 'true'
+            VibratePermission = $options['permissions/vibrate'] -eq 'true'
             PackageName = ConvertFrom-GodotConfigValue $options['package/unique_name']
             AppCategory = [int]$options['package/app_category']
             VersionCode = [int]$options['version/code']
@@ -135,6 +136,7 @@ function Assert-AndroidPresetSetContract {
             $preset.MinSdk -ne 24 -or
             $preset.TargetSdk -ne 36 -or
             $preset.AppCategory -ne 2 -or
+            -not $preset.VibratePermission -or
             $preset.VersionCode -ne $ExpectedVersionCode) {
             throw "Android preset contract mismatch: $($preset.Name)"
         }
@@ -200,6 +202,7 @@ function Assert-AndroidMergedManifestContract {
         'android:enableOnBackInvokedCallback="false"',
         'android:screenOrientation="(?:1|portrait)"',
         'android.permission.POST_NOTIFICATIONS',
+        'android.permission.VIBRATE',
         'android.permission.RECEIVE_BOOT_COMPLETED',
         'com.howtogrow.notifications.CareNotificationReceiver',
         'com.howtogrow.notifications.CareBootReceiver'
@@ -216,6 +219,7 @@ function Assert-AndroidMergedManifestContract {
 
     $allowedPermissions = @(
         'android.permission.POST_NOTIFICATIONS',
+        'android.permission.VIBRATE',
         'android.permission.RECEIVE_BOOT_COMPLETED',
         # Official test rewarded SDK dependency permissions. Advertising IDs,
         # Topics and attribution permissions remain explicitly removed.
