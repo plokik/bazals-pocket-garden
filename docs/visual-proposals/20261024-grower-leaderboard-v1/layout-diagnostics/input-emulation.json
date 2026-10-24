@@ -1,0 +1,60 @@
+{
+	"display_server": "headless",
+	"input_emulation_methods": [
+		"set_emulate_mouse_from_touch",
+		"is_emulating_mouse_from_touch",
+		"set_emulate_touch_from_mouse",
+		"is_emulating_touch_from_mouse"
+	],
+	"input_emulation_settings": {
+		"emulate_mouse_from_touch": true,
+		"emulate_touch_from_mouse": false
+	},
+	"input_parse_input_event": {
+		"root": [
+			{
+				"class": "InputEventMouseButton",
+				"device": -1
+			},
+			{
+				"class": "InputEventScreenTouch",
+				"device": 0
+			},
+			{
+				"class": "InputEventMouseMotion",
+				"device": -1
+			},
+			{
+				"class": "InputEventScreenDrag",
+				"device": 0
+			},
+			{
+				"class": "InputEventMouseButton",
+				"device": -1
+			},
+			{
+				"class": "InputEventScreenTouch",
+				"device": 0
+			}
+		],
+		"subviewport": []
+	},
+	"subviewport_push_input": {
+		"root": [],
+		"subviewport": [
+			{
+				"class": "InputEventScreenTouch",
+				"device": 0
+			},
+			{
+				"class": "InputEventScreenDrag",
+				"device": 0
+			},
+			{
+				"class": "InputEventScreenTouch",
+				"device": 0
+			}
+		]
+	},
+	"touchscreen_available": false
+}

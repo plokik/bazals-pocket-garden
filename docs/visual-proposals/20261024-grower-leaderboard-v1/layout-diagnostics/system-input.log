@@ -1,0 +1,9 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+ERROR: System-parsed touch drag scrolls actual list
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tmp/grower-leaderboard-review-20261024/layout-checks/system_input_runner.gd:12)
+       [1] _run (res://tmp/grower-leaderboard-review-20261024/layout-checks/system_input_runner.gd:62)
+       [2] _frames (res://tmp/grower-leaderboard-review-20261024/layout-checks/system_input_runner.gd:15)
+GROWER_SYSTEM_INPUT_CHECKS=6 FAILURES=1

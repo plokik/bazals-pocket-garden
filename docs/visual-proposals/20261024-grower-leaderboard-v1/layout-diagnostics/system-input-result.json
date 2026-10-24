@@ -1,0 +1,11 @@
+{
+	"checks": 6,
+	"display_server": "headless",
+	"failures": [
+		"System-parsed touch drag scrolls actual list"
+	],
+	"scope": "One root viewport system Input.parse_input_event emulation path; not physical Android",
+	"scroll_after": 0,
+	"scroll_before": 0,
+	"touchscreen_available": false
+}

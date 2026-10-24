@@ -1,0 +1,57 @@
+{
+  "status": "REVIEW_READY_NOT_ONLINE",
+  "created_utc": "2026-10-24T11:57:27.973476+00:00",
+  "base_commit": "606e1dc3c48e02892133f099bbebeca9dc999b57",
+  "branch": "fix/rc61-feedback-motion",
+  "model": {
+    "checks": 137,
+    "failures": [],
+    "native_exit": 0
+  },
+  "rendered_ui": {
+    "checks": 102,
+    "failures": [],
+    "frames": 487,
+    "scope": "Standalone fixture UI; real button and wheel input; no live ranking or player save"
+  },
+  "import": {
+    "native_exit": 0,
+    "script_errors": 0
+  },
+  "production_diff": [],
+  "reference_pngs_unchanged": 54,
+  "export_presets_excluding_prototype": 3,
+  "video": {
+    "width": 1080,
+    "height": 2400,
+    "fps": 30,
+    "duration_seconds": 16.233333,
+    "audio": false,
+    "runtime": "Godot OpenGL desktop",
+    "fixture_players": 160,
+    "live_service": false
+  },
+  "approval": "pending user visual approval",
+  "android": "not built or installed for this isolated review",
+  "full_game_regression": "not rerun; no production diff",
+  "release": "not created",
+  "open_work": [
+    "Production integration and localization",
+    "Online service and stable account",
+    "Score trust and legacy-save migration decision",
+    "Device touch-scroll and readability acceptance"
+  ],
+  "artifacts": {
+    "01-kolem-me.png": "2fb0d0e5e1e06c7908f2fee71f162b8e50cda66f299afd3605803866bbe013ed",
+    "02-nejlepsich-100.png": "cb15425b3d60136a9889ff79582948097016e75dfcc268803848e2af979b9184",
+    "04-postup.png": "629cd526017083ba4e612fcf6010106665cf1d7694b25289f22cf47aba0f3bfb",
+    "05-bez-pripojeni.png": "58daed18290d6e6fd408778d9bdcfc8150d0e6176af1ca9925d6006757817bba",
+    "zebricek-nahled.mp4": "db5414ceea615c0837cc7524c0cedff2af984cd2efa0afc28c147578ef01a172"
+  },
+  "post_capture_source_cleanup": {
+    "file": "prototypes/grower-leaderboard-review/review.gd",
+    "change": "Removed one blank line at end of file only",
+    "captured_sha256": "083a20782cc7f86f6af4b4ad3a571a07ef59237f8ead4f78c9277f3f1b5107f6",
+    "final_sha256": "29ee60cd6e6ddce75a6b9f44a0510bea4166f2edce1555d89e03988411237c38"
+  }
+}

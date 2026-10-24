@@ -1,0 +1,132 @@
+{
+	"checks": 184,
+	"failures": [
+		"Žebříček UI (432, 960): skutečný dotykový drag posune seznam",
+		"Žebříček UI (360, 800): skutečný dotykový drag posune seznam",
+		"Žebříček UI (360, 640): skutečný dotykový drag posune seznam",
+		"Žebříček UI (600, 900): skutečný dotykový drag posune seznam"
+	],
+	"measurements": [
+		{
+			"minimum_button_height": 44.0,
+			"minimum_button_width": 178.0,
+			"page": "nearby",
+			"row_count": 5,
+			"scale": 1.0,
+			"scroll_rect": "[P: (44.0, 442.0), S: (344.0, 306.0)]",
+			"viewport": "(432, 960)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 44.0,
+			"minimum_button_width": 178.0,
+			"page": "top",
+			"row_count": 100,
+			"scale": 1.0,
+			"scroll_rect": "[P: (44.0, 442.0), S: (344.0, 306.0)]",
+			"viewport": "(432, 960)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 44.0,
+			"minimum_button_width": 178.0,
+			"page": "top",
+			"row_count": 100,
+			"scale": 1.0,
+			"scroll_rect": "[P: (44.0, 442.0), S: (344.0, 306.0)]",
+			"viewport": "(432, 960)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 36.6666564941406,
+			"minimum_button_width": 148.333312988281,
+			"page": "nearby",
+			"row_count": 5,
+			"scale": 0.833333313465118,
+			"scroll_rect": "[P: (36.66666, 368.3333), S: (286.6667, 255.0)]",
+			"viewport": "(360, 800)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 36.6666564941406,
+			"minimum_button_width": 148.333312988281,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.833333313465118,
+			"scroll_rect": "[P: (36.66666, 368.3333), S: (286.6667, 255.0)]",
+			"viewport": "(360, 800)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 36.6666564941406,
+			"minimum_button_width": 148.333312988281,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.833333313465118,
+			"scroll_rect": "[P: (36.66666, 368.3333), S: (286.6667, 255.0)]",
+			"viewport": "(360, 800)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 29.3333435058594,
+			"minimum_button_width": 118.666664123535,
+			"page": "nearby",
+			"row_count": 5,
+			"scale": 0.666666686534882,
+			"scroll_rect": "[P: (65.33334, 294.6667), S: (229.3333, 204.0)]",
+			"viewport": "(360, 640)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 29.3333435058594,
+			"minimum_button_width": 118.666664123535,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.666666686534882,
+			"scroll_rect": "[P: (65.33334, 294.6667), S: (229.3333, 204.0)]",
+			"viewport": "(360, 640)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 29.3333435058594,
+			"minimum_button_width": 118.666664123535,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.666666686534882,
+			"scroll_rect": "[P: (65.33334, 294.6667), S: (229.3333, 204.0)]",
+			"viewport": "(360, 640)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 41.25,
+			"minimum_button_width": 166.875,
+			"page": "nearby",
+			"row_count": 5,
+			"scale": 0.9375,
+			"scroll_rect": "[P: (138.75, 414.375), S: (322.5, 286.875)]",
+			"viewport": "(600, 900)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 41.25,
+			"minimum_button_width": 166.875,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.9375,
+			"scroll_rect": "[P: (138.75, 414.375), S: (322.5, 286.875)]",
+			"viewport": "(600, 900)",
+			"visible_rows": 5
+		},
+		{
+			"minimum_button_height": 41.25,
+			"minimum_button_width": 166.875,
+			"page": "top",
+			"row_count": 100,
+			"scale": 0.9375,
+			"scroll_rect": "[P: (138.75, 414.375), S: (322.5, 286.875)]",
+			"viewport": "(600, 900)",
+			"visible_rows": 5
+		}
+	],
+	"scope": "headless Control geometry, font metrics and real push_input touch/wheel; no raster or device acceptance"
+}

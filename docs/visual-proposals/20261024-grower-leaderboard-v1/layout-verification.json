@@ -1,0 +1,187 @@
+{
+  "kind": "Isolated grower-leaderboard Control geometry and real input review",
+  "timestamp": "2026-10-24T13:56:36.9224270+02:00",
+  "status": "PASSED_GEOMETRY_BUTTON_TOUCH_WHEEL_ONLY",
+  "final": {
+    "checks": 180,
+    "failures": [],
+    "native_exit_code": 0,
+    "script_or_parse_errors": 0,
+    "scope": "headless Control geometry, font metrics and real push_input touch-button/wheel input only; direct ScreenDrag is excluded and remains failed/unverified in separate diagnostic evidence; no raster or device acceptance",
+    "sizes": [
+      "432x960",
+      "360x800",
+      "360x640",
+      "600x900"
+    ]
+  },
+  "preserved_direct_drag_diagnostic": {
+    "checks": 184,
+    "failures": [
+      "Žebříček UI (432, 960): skutečný dotykový drag posune seznam",
+      "Žebříček UI (360, 800): skutečný dotykový drag posune seznam",
+      "Žebříček UI (360, 640): skutečný dotykový drag posune seznam",
+      "Žebříček UI (600, 900): skutečný dotykový drag posune seznam"
+    ],
+    "native_exit_code": 1,
+    "log": "diagnostic-four-drag-failures.log",
+    "result": "diagnostic-four-drag-failures.json",
+    "status": "UNVERIFIED_DIRECT_HEADLESS_SCREENDRAG"
+  },
+  "system_input_diagnostic": {
+    "checks": 6,
+    "failures": [
+      "System-parsed touch drag scrolls actual list"
+    ],
+    "native_exit_code": 1,
+    "result": {
+      "checks": 6,
+      "display_server": "headless",
+      "failures": [
+        "System-parsed touch drag scrolls actual list"
+      ],
+      "scope": "One root viewport system Input.parse_input_event emulation path; not physical Android",
+      "scroll_after": 0,
+      "scroll_before": 0,
+      "touchscreen_available": false
+    },
+    "status": "BUTTONS_PASS_DRAG_UNVERIFIED_HEADLESS"
+  },
+  "emulation_probe": {
+    "native_exit_code": 0,
+    "result": {
+      "display_server": "headless",
+      "input_emulation_methods": [
+        "set_emulate_mouse_from_touch",
+        "is_emulating_mouse_from_touch",
+        "set_emulate_touch_from_mouse",
+        "is_emulating_touch_from_mouse"
+      ],
+      "input_emulation_settings": {
+        "emulate_mouse_from_touch": true,
+        "emulate_touch_from_mouse": false
+      },
+      "input_parse_input_event": {
+        "root": [
+          {
+            "class": "InputEventMouseButton",
+            "device": -1
+          },
+          {
+            "class": "InputEventScreenTouch",
+            "device": 0
+          },
+          {
+            "class": "InputEventMouseMotion",
+            "device": -1
+          },
+          {
+            "class": "InputEventScreenDrag",
+            "device": 0
+          },
+          {
+            "class": "InputEventMouseButton",
+            "device": -1
+          },
+          {
+            "class": "InputEventScreenTouch",
+            "device": 0
+          }
+        ],
+        "subviewport": []
+      },
+      "subviewport_push_input": {
+        "root": [],
+        "subviewport": [
+          {
+            "class": "InputEventScreenTouch",
+            "device": 0
+          },
+          {
+            "class": "InputEventScreenDrag",
+            "device": 0
+          },
+          {
+            "class": "InputEventScreenTouch",
+            "device": 0
+          }
+        ]
+      },
+      "touchscreen_available": false
+    },
+    "interpretation": "Direct SubViewport.push_input delivers only raw touch events. Input.parse_input_event additionally generates mouse-button/motion events. Even the latter did not scroll this standalone headless review. No physical Android defect or acceptance is inferred."
+  },
+  "limitations": [
+    "No raster comparison or screenshot capture in this task",
+    "No Android or physical touchscreen test",
+    "Direct and system-parsed drag remain unverified in headless; original failures retained",
+    "At 360x640 the scaled tab targets are only29.33 canvas units tall and row font12 scales to8 units; fitting geometry does not establish comfortable mobile readability",
+    "Visible row portions are clipped by ScrollContainer; offscreen rows intentionally extend in scroll content"
+  ],
+  "touch_target_measurements": [
+    {
+      "viewport": "(432, 960)",
+      "scale": 1.0,
+      "minimum_button_width": 178.0,
+      "minimum_button_height": 44.0,
+      "back_button_height": 54.0,
+      "row_font_canvas_height": 12.0
+    },
+    {
+      "viewport": "(360, 800)",
+      "scale": 0.833333313465118,
+      "minimum_button_width": 148.333312988281,
+      "minimum_button_height": 36.6666564941406,
+      "back_button_height": 44.99999892711637,
+      "row_font_canvas_height": 9.999999761581416
+    },
+    {
+      "viewport": "(360, 640)",
+      "scale": 0.666666686534882,
+      "minimum_button_width": 118.666664123535,
+      "minimum_button_height": 29.3333435058594,
+      "back_button_height": 36.00000107288363,
+      "row_font_canvas_height": 8.000000238418584
+    },
+    {
+      "viewport": "(600, 900)",
+      "scale": 0.9375,
+      "minimum_button_width": 166.875,
+      "minimum_button_height": 41.25,
+      "back_button_height": 50.625,
+      "row_font_canvas_height": 11.25
+    }
+  ],
+  "review_sha256_before": "083A20782CC7F86F6AF4B4AD3A571A07EF59237F8EAD4F78C9277F3F1B5107F6",
+  "review_source_unchanged": true,
+  "source_hashes": [
+    {
+      "path": "prototypes\\grower-leaderboard-review\\review.gd",
+      "sha256": "083A20782CC7F86F6AF4B4AD3A571A07EF59237F8EAD4F78C9277F3F1B5107F6"
+    },
+    {
+      "path": "prototypes\\grower-leaderboard-review\\capture_review.gd",
+      "sha256": "E6D0796CE7E6D84FFE5B2A98693C6EE3DF90A695F56E6C2613C72F1B12E84F86"
+    },
+    {
+      "path": "prototypes\\grower-leaderboard-review\\layout_test.gd",
+      "sha256": "472ABB97554FC7B1185D32A8B08389E01C5080574C9693A471C9FB43AFE8C168"
+    },
+    {
+      "path": "tmp\\grower-leaderboard-review-20261024\\layout-checks\\runner.gd",
+      "sha256": "E37B8B74D973AE6382008167E0C5F4F02F79FBE60654FE25053819AF119CF4D5"
+    },
+    {
+      "path": "tmp\\grower-leaderboard-review-20261024\\layout-checks\\system_input_runner.gd",
+      "sha256": "E04E4E7024E9330439A2E9343E651EE0D2E2424325D2B7D69E6E6A9F6197C94D"
+    },
+    {
+      "path": "tmp\\grower-leaderboard-review-20261024\\layout-checks\\input_emulation_probe.gd",
+      "sha256": "3ECA8022E0E132C24F5AD1695B8E281A0189AB33482C96B99B6E7D71C3925C20"
+    }
+  ],
+  "command": "R:\\_projekty\\Godot_v4.7-stable_win64.exe --headless --path . --max-fps 120 --log-file .godot/grower-review-layout.log --script res://tmp/grower-leaderboard-review-20261024/layout-checks/runner.gd",
+  "isolated_appdata": "R:\\_projekty\\Bazal's Pocket Garden\\tmp\\grower-leaderboard-review-20261024\\layout-checks\\appdata",
+  "cwd": "R:\\_projekty\\Bazal's Pocket Garden",
+  "changes": "Only owned layout_test.gd and temporary runners/logs; no production, review.gd, capture_review.gd, import, commit or push"
+}
