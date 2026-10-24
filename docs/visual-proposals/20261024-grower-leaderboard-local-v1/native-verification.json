@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "passed": true,
+      "label": "APK is isolated QA package"
+    },
+    {
+      "passed": true,
+      "label": "QA APK installed without touching main package"
+    },
+    {
+      "passed": true,
+      "label": "Native launcher shows unchanged local XP and unavailable board"
+    },
+    {
+      "passed": true,
+      "label": "Native back button preserves grower path"
+    },
+    {
+      "passed": true,
+      "label": "First Android Back closes board only"
+    },
+    {
+      "passed": true,
+      "label": "Second Android Back closes grower path and keeps application running"
+    },
+    {
+      "passed": true,
+      "label": "Native tap opens top100 in explicit QA fixture"
+    },
+    {
+      "passed": true,
+      "label": "Native finger swipe scrolls populated list"
+    },
+    {
+      "passed": true,
+      "label": "Tab switch restores scrolled position"
+    },
+    {
+      "passed": true,
+      "label": "Main application save and backup hashes unchanged"
+    }
+  ],
+  "apk_sha256": "e3a60c8d614b0353fa5ea96caccef3ac691bba70b491aefe81f398a7193caafe"
+}

@@ -1,0 +1,71 @@
+{
+  "kind": "Focused local grower leaderboard presentation and main integration",
+  "timestamp": "2026-10-24T15:03:05.9165366+02:00",
+  "status": "PASSED",
+  "checks": 64,
+  "failures": [],
+  "native_exit_code": 0,
+  "script_or_parse_errors": 0,
+  "expected_fixture_errors": 0,
+  "isolated_appdata": "C:\\Users\\drikv\\Documents\\ChatGPT\\How to grow_\\output\\grower-leaderboard-integration-20261024\\focused-appdata",
+  "project": "C:\\Users\\drikv\\Documents\\ChatGPT\\How to grow_\\output\\grower-leaderboard-integration-20261024\\project",
+  "command": "R:\\_projekty\\Godot_v4.7-stable_win64.exe --headless --path . --max-fps 120 --log-file .godot/grower-leaderboard-focused.log --script res://tmp/grower-leaderboard-focused/runner.gd",
+  "module_api": "static func run(tree:SceneTree,check:Callable)->void (async)",
+  "source_hashes": [
+    {
+      "path": "tests\\grower_leaderboard_test.gd",
+      "sha256": "7E7D7CE87D98F9FDB0DF1D0F76B9E5EF6FDF63938B20C0A25C0A1EB53D407FAA"
+    },
+    {
+      "path": "scripts\\ui\\grower_leaderboard_panel.gd",
+      "sha256": "E89AB8F7A3592D892559D0EA58B382F8DF28ECB30FCAB1D6F5ABCC869BDB2DD0"
+    },
+    {
+      "path": "scripts\\main.gd",
+      "sha256": "1025612C9EC3E51FB17CE422798D58C9199C7098C5BAB63EAC09960C5CFE88A6"
+    },
+    {
+      "path": "tmp\\grower-leaderboard-focused\\runner.gd",
+      "sha256": "575BE55888236A17630EE67D1B348C9F4FE029AFD694C748F716EEAC540CC969"
+    }
+  ],
+  "coverage": [
+    "432x960,360x640,360x800,600x900 with safe insets12/24/14/32",
+    "Open parent resize without private layout calls",
+    "Visible controls inside safe bounds, targets at least48, no button overlap",
+    "Rows clipped inside list panel and separated",
+    "Actual shown text/font metrics/bounds, long names and XP1e9",
+    "Ready Czech/English, unavailable/offline/noentries without fabricated players or first place",
+    "Real SubViewport ScreenTouch top/nearby/back and wheel scrolling",
+    "Main real launcher touch and child panel inside level progression",
+    "First Android Back closes child only; second closes parent",
+    "Standalone open prepares parent; child Back keeps parent",
+    "Save-recovery guard blocks opening and cannot be bypassed by Back",
+    "All semantic session fields, live saved_at marker, and all SaveManager file bytes unchanged",
+    "Identical visible show_board preserves live ScrollContainer identity and nonzero offset",
+    "Held real ScreenTouch on Back survives identical show_board refresh and closes exactly once",
+    "Identical data reopens after the panel was hidden",
+    "Two consecutive WM_GO_BACK_REQUEST notifications pop child only",
+    "Next WM_GO_BACK_REQUEST after .18 seconds pops parent",
+    "Actual desktop Escape press/release closes child exactly once while preserving parent",
+    "Immediate duplicate WM_GO_BACK_REQUEST after parent pop leaves both layers closed and continues running without disk writes; strict fresh completion marker catches premature SceneTree.quit even with native exit0"
+  ],
+  "fixture_safety": "Existing SaveManager paths snapshotted/restored inside isolated APPDATA, static status fields restored; wheel day initialized through refresh API; serializer timestamp excluded from semantic snapshot but live timestamp and disk bytes separately checked",
+  "initial_diagnostics": [
+    "attempt1-test-parse.log: owned test const Panel renamed to avoid native-class collision",
+    "attempt2-two-failures.log: old English copy oracle + fixture timing",
+    "attempt3-fixture-clock-diagnostic.log: no disk writes; only wheel day and test serialization timestamp, corrected in fixture/oracle"
+  ],
+  "limits": [
+    "Headless geometry/input and save-integrity verification, not raster acceptance",
+    "No ScreenDrag pass or physical Android acceptance claimed",
+    "No editor/import; staged readonly assets/imported junction only read",
+    "No R: repository edits, production UI/main edits, commit or push by this worker"
+  ],
+  "identical_refresh_checks": 3,
+  "previous_57_check_evidence": "before-identical-refresh/",
+  "native_back_guard_checks": 4,
+  "previous_60_check_evidence": "before-native-back-guard/",
+  "previous_63_check_evidence": "before-parent-back-guard/",
+  "runtime_continued_after_parent_duplicate": true
+}

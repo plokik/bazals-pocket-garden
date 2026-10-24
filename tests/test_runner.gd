@@ -466,6 +466,7 @@ func _run_all() -> void:
 	_test_phase121_swipe_transaction_guard()
 	_test_phase122_vertical_scroll_transaction_guard()
 	_test_phase41_level_progression()
+	await preload("res://tests/grower_leaderboard_test.gd").run(self, _check)
 	_test_phase42_care_center()
 	_test_phase43_care_plan()
 	_test_phase44_android_notifications()
@@ -12386,6 +12387,13 @@ func _test_phase41_level_progression() -> void:
 	presenter.bind(summary, status, cards, xp_progress)
 	presenter.refresh(legacy)
 	_check(presenter.is_bound() and summary.text.begins_with("ÚROVEŇ 4 · 0/100 XP") and is_zero_approx(xp_progress.value) and (cards[3].reward as Label).text == "ODMĚNA · 15 MINCÍ · 1× BAZALKA" and (cards[4].state as Label).text == "ODMĚNA ČEKÁ" and not (cards[4].claim as Button).disabled and (cards[5].state as Label).text == "UZAMČENO" and (cards[5].claim as Button).disabled and (cards[5].claim as Button).text == "OD ÚROVNĚ 5", "Phase 41 presenter uspořádá XP, odměnu, stav a odemčení a rozliší čekající i zamčené úrovně")
+	for later_xp in [900, 999, 1725]:
+		legacy.xp = later_xp
+		presenter.refresh(legacy)
+		_check(status.text.begins_with("DALŠÍ ÚROVEŇ ZA %d XP" % (100-later_xp%100)) and not "NEJVYŠŠÍ ÚROVEŇ" in status.text, "Cesta pěstitele po desáté úrovni stále správně ukazuje další postup")
+		_check(summary.text.begins_with("ÚROVEŇ %d" % legacy.get_level()) and is_equal_approx(xp_progress.value,float(later_xp%100)), "Pozdější úroveň i XP ukazatel odpovídají skutečnému uloženému postupu")
+	legacy.xp = 300
+	presenter.refresh(legacy)
 	var tree := preload("res://scripts/ui/grower_progress_tree_view.gd").new()
 	tree.size = Vector2(340.0, 320.0)
 	root.add_child(tree)

@@ -47,6 +47,7 @@ const GardenHandoverPresenterScene := preload("res://scripts/ui/garden_handover_
 const ProfessorStoryPresenterScene := preload("res://scripts/ui/professor_story_presenter.gd")
 const GuideDialogPresenterScene := preload("res://scripts/ui/guide_dialog_presenter.gd")
 const LevelProgressionPresenterScene := preload("res://scripts/ui/level_progression_presenter.gd")
+const GrowerLeaderboardPanelScene := preload("res://scripts/ui/grower_leaderboard_panel.gd")
 const GrowerProgressTreeScene := preload("res://scripts/ui/grower_progress_tree_view.gd")
 const GrowerJournalPresenterScene := preload("res://scripts/ui/grower_journal_presenter.gd")
 const GrowerJournalDashboardScene := preload("res://scripts/ui/grower_journal_dashboard.gd")
@@ -274,6 +275,9 @@ var level_progression_cards: Dictionary = {}
 var level_progression_tree_view: GrowerProgressTreeView
 var level_progression_detail_stack: Control
 var level_progression_selected_level := 1
+var grower_leaderboard_panel: Control
+var grower_leaderboard_launcher: Button
+var mobile_back_guard_until_msec := 0
 var herbarium_scroll: ScrollContainer
 var herbarium_backdrop: TextureRect
 var herbarium_collection_summary_label: Label
@@ -687,6 +691,11 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_SIZE_CHANGED:
 		call_deferred("_apply_display_safe_area")
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		# Some Android dispatchers deliver the same back press twice a few ms apart.
+		# One physical press must only close one layer, including the parent view.
+		if Time.get_ticks_msec() < mobile_back_guard_until_msec:
+			return
+		mobile_back_guard_until_msec = Time.get_ticks_msec() + 150
 		if not _consume_mobile_back_navigation():
 			_request_safe_exit()
 		return
@@ -785,6 +794,9 @@ func _consume_mobile_back_navigation() -> bool:
 		_close_daily_challenge()
 		return true
 	if level_progression_open:
+		if grower_leaderboard_panel != null and grower_leaderboard_panel.visible:
+			_close_grower_leaderboard()
+			return true
 		_close_level_progression()
 		return true
 	if care_center_open:
@@ -1144,6 +1156,10 @@ func _build_ui() -> void:
 	add_child(botanical_pack_modal)
 	level_progression_modal = _build_level_progression_modal()
 	add_child(level_progression_modal)
+	grower_leaderboard_panel = GrowerLeaderboardPanelScene.new()
+	level_progression_modal.add_child(grower_leaderboard_panel)
+	grower_leaderboard_panel.closed.connect(_close_grower_leaderboard)
+	grower_leaderboard_panel.hide_board()
 	grower_journal_modal = _build_grower_journal_modal()
 	add_child(grower_journal_modal)
 	care_center_modal = _build_care_center_modal()
@@ -1192,6 +1208,8 @@ func _apply_safe_area_rect(safe_rect: Rect2, window_size: Vector2, logical_size:
 	safe_area_container.add_theme_constant_override("margin_right", roundi(safe_area_insets.z))
 	safe_area_container.add_theme_constant_override("margin_bottom", roundi(safe_area_insets.w))
 	safe_area_container.set_meta("insets", safe_area_insets)
+	if grower_leaderboard_panel != null:
+		grower_leaderboard_panel.set_safe_insets(safe_area_insets)
 	if hud_edge_underlay != null:
 		hud_edge_underlay.offset_bottom = HUD_HEIGHT + HUD_EDGE_JOIN_DEPTH + safe_area_insets.y
 		hud_edge_underlay.set_meta("safe_top_inset", safe_area_insets.y)
@@ -2979,6 +2997,15 @@ func _build_level_progression_modal() -> Control:
 	grower_journal_launcher.add_theme_font_size_override("font_size", 11)
 	_apply_painted_progression_button_style(grower_journal_launcher, "sage", ComicUITheme.INK)
 	bottom_actions.add_child(grower_journal_launcher)
+	grower_leaderboard_launcher = _action_button("ŽEBŘÍČEK\nPĚSTITELŮ", _open_grower_leaderboard)
+	grower_leaderboard_launcher.custom_minimum_size.y = 64
+	grower_leaderboard_launcher.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grower_leaderboard_launcher.set_meta("touch_target_min_height", 64)
+	grower_leaderboard_launcher.set_meta("component", "grower_leaderboard_launcher_v1")
+	grower_leaderboard_launcher.add_theme_font_override("font", FontExtraBold)
+	grower_leaderboard_launcher.add_theme_font_size_override("font_size", 11)
+	_apply_painted_progression_button_style(grower_leaderboard_launcher, "sage", ComicUITheme.INK)
+	bottom_actions.add_child(grower_leaderboard_launcher)
 	var close_button := _action_button("ZPĚT DO\nZAHRADY", _close_level_progression)
 	close_button.custom_minimum_size.y = 64
 	close_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -5103,6 +5130,31 @@ func _open_level_progression() -> void:
 	_set_level_progression_open(true)
 
 
+func _open_grower_leaderboard() -> void:
+	if session == null or grower_leaderboard_panel == null or save_recovery_open:
+		return
+	if not level_progression_open:
+		_set_level_progression_open(true)
+	_refresh_grower_leaderboard()
+	if audio_haptics != null:
+		audio_haptics.play_ui("tap")
+
+
+func _refresh_grower_leaderboard() -> void:
+	# The user requested local preparation only. No fixture scores or network requests.
+	grower_leaderboard_panel.set_safe_insets(safe_area_insets)
+	grower_leaderboard_panel.show_board({"id":"local", "name":"Zahradník", "xp":session.xp,
+		"level":session.get_level(), "portrait":0, "joined":false, "rank":0},
+		{}, "unavailable", "cs", session.reduced_motion)
+
+
+func _close_grower_leaderboard() -> void:
+	if grower_leaderboard_panel != null:
+		grower_leaderboard_panel.hide_board()
+	if audio_haptics != null:
+		audio_haptics.play_ui("tap")
+
+
 func _close_level_progression() -> void:
 	_set_level_progression_open(false)
 
@@ -5131,6 +5183,8 @@ func _set_level_progression_open(opening: bool) -> void:
 	if opening and return_summary_open:
 		_close_return_summary()
 	level_progression_open = opening
+	if not opening and grower_leaderboard_panel != null:
+		grower_leaderboard_panel.hide_board()
 	level_progression_modal.visible = opening
 	if opening:
 		level_progression_selected_level = clampi(session.get_level(), 1, GameSession.LEVEL_REWARDS.size())
@@ -5146,6 +5200,8 @@ func _refresh_level_progression() -> void:
 	if session == null or level_progression_summary_label == null:
 		return
 	level_progression_presenter.refresh(session)
+	if grower_leaderboard_panel != null and grower_leaderboard_panel.visible:
+		_refresh_grower_leaderboard()
 	var journal := session.get_grower_journal_snapshot()
 	if grower_journal_launcher != null:
 		grower_journal_launcher.text = "PĚSTITELSKÝ DENÍK\n%d/%d DOVEDNOSTÍ" % [int(journal.get("completed_badges", 0)), int(journal.get("badge_total", 0))]

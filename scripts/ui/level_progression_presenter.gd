@@ -31,7 +31,7 @@ func refresh(game_session: GameSession) -> void:
 		xp_progress.value = game_session.xp % 100
 		xp_progress.tooltip_text = "%d/100 XP do další úrovně" % (game_session.xp % 100)
 	var xp_left := 100 - game_session.xp % 100
-	status_label.text = "DALŠÍ ÚROVEŇ ZA %d XP · ODMĚNY SE UKLÁDAJÍ NATRVALO" % xp_left if game_session.get_level() < GameSession.LEVEL_REWARDS.size() else "NEJVYŠŠÍ ÚROVEŇ DOSAŽENA · VŠECHNY ODMĚNY ZŮSTÁVAJÍ ULOŽENÉ"
+	status_label.text = "DALŠÍ ÚROVEŇ ZA %d XP · ODMĚNY SE UKLÁDAJÍ NATRVALO" % xp_left
 	for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
 		var card: Dictionary = level_cards.get(reward_level, {})
 		if card.is_empty():

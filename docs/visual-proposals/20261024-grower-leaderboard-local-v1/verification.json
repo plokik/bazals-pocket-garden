@@ -1,0 +1,19 @@
+{
+  "full_functional_checks": 9163,
+  "focused_checks": 64,
+  "native_checks": 10,
+  "visual_gate_passed": 33,
+  "visual_gate_total": 34,
+  "visual_result": "FAILED: unchanged historical showroom reference",
+  "online_project_created": false,
+  "production_android_updated": false,
+  "release_created": false,
+  "source_sha256": {
+    "scripts/main.gd": "1025612c9ec3e51fb17ce422798d58c9199c7098c5bab63eac09960c5cfe88a6",
+    "scripts/ui/level_progression_presenter.gd": "04c32f53723d6d18649eb71ca3c34313c25c4ef90ee3f490d77ce6e0233f0927",
+    "scripts/ui/grower_leaderboard_panel.gd": "e89ab8f7a3592d892559d0ea58b382f8df28ecb30fcab1d6f5abcc869bdb2dd0",
+    "tests/test_runner.gd": "ef96c22ab1f5c93bffc51a7ad36f847ddf9f51ab93e7d8e3192d35ccfe439126",
+    "tests/grower_leaderboard_test.gd": "7e7d7ce87d98f9fdb0df1d0f76b9e5ef6fdf63938b20c0a25c0a1eb53d407faa"
+  },
+  "full_test_log_sha256": "e422141c1316b3755842f67c75c61e99ac8391c0bff4f9547bb68a53f801c157"
+}
