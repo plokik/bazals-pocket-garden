@@ -552,7 +552,7 @@ func draw_overlay() -> void:
 			text_at("Cestička pokračuje dál…",Rect2(54,462,324,30),18)
 			text_at("Další úrovně se připravují." if selected>Levels.COUNT else "Nejdřív dokonči předchozí úroveň.",Rect2(54,510,324,26),12,MUTED)
 	if not notice.is_empty():
-		text_at(notice,Rect2(49,683,334,19),9,MUTED)
+		text_at(notice,Rect2(49,605 if overlay == "quest" else 683,334,19),9,MUTED)
 
 func reward_row(y: float) -> void:
 	fit(Coin,Rect2(110,y,31,31))

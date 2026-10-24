@@ -137,10 +137,12 @@ static func run(suite: SceneTree) -> void:
 	InputFlow._tap(viewport,hub.buttons["return"])
 	await InputFlow._frames(suite)
 	suite._check(session.coins == quest_coins+40 and session.teahouse_progress.quest_claimed and hub.buttons["return"].text == "VYZVEDNOUT +80", "Čajovna kampaň: uložený první úkol naváže na zahradní odměnu")
+	_check_visible_notice(suite,hub,"Odměna je uložená.","úspěšné vyzvednutí úkolu")
 	SaveManager.writes_blocked = true
 	InputFlow._tap(viewport,hub.buttons["return"])
 	await InputFlow._frames(suite)
 	suite._check(not session.teahouse_progress.chapter_claimed and session.coins == quest_coins+40 and not hub.notice.is_empty(), "Čajovna kampaň: blokovaný zápis zahradní odměny ponechá dialog a celé mince")
+	_check_visible_notice(suite,hub,"Ukládání není dostupné. Odměna počká.","neúspěšný zápis odměny")
 	SaveManager.writes_blocked = false
 	InputFlow._tap(viewport,hub.buttons["return"])
 	await InputFlow._frames(suite)
@@ -165,3 +167,22 @@ static func run(suite: SceneTree) -> void:
 	await InputFlow._frames(suite)
 	InputFlow._restore_files(files)
 	SaveManager.writes_blocked = blocked
+
+
+static func _check_visible_notice(suite: SceneTree, hub: Control, expected: String, checkpoint: String) -> void:
+	# Inspect the actual draw output after frames, rather than only notice state.
+	var drawn: Dictionary = {}
+	for entry in hub.review_drawn_text:
+		if entry.get("text","") == expected:
+			drawn = entry
+			break
+	suite._check(hub.is_visible_in_tree() and hub.overlay == "quest" and hub.notice == expected and not drawn.is_empty(),"Čajovna kampaň: %s skutečně vykreslí zprávu" % checkpoint)
+	var local_rect: Rect2 = drawn.get("rect",Rect2())
+	suite._check(not drawn.is_empty() and bool(drawn.get("fits",false)) and local_rect.has_area() and Rect2(Vector2.ZERO,hub.size).encloses(local_rect),"Čajovna kampaň: %s vykreslí celý text bez oříznutí" % checkpoint)
+	var intersects_button := drawn.is_empty()
+	var notice_rect: Rect2 = hub.get_global_transform_with_canvas() * local_rect
+	for button in hub.buttons.values():
+		if not button.is_visible_in_tree(): continue
+		var button_rect: Rect2 = button.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,button.size)
+		if notice_rect.intersects(button_rect): intersects_button = true
+	suite._check(not intersects_button,"Čajovna kampaň: %s nepřekrývá žádné viditelné tlačítko" % checkpoint)
