@@ -22,6 +22,11 @@ func refresh(game_session: GameSession) -> void:
 		var owned := species_button.get_meta("owned_label") as Label
 		var count := game_session.get_seed_count(str(species_id))
 		if owned != null:
-			owned.text = "V zásobě: %d semínek" % count
+			var seed_word := "semínek"
+			if count == 1:
+				seed_word = "semínko"
+			elif count >= 2 and count <= 4:
+				seed_word = "semínka"
+			owned.text = "V zásobě: %d %s" % [count, seed_word]
 		species_button.disabled = not game_session.can_plant_species(str(species_id))
 	status_label.text = "První společný cyklus začíná bazalkou. Ostatní druhy se otevřou hned potom." if game_session.is_tutorial_seed_choice_required() else "Žádné semínko? Další koupíš v OBCHODĚ za herní mince."

@@ -521,6 +521,7 @@ func _run_all() -> void:
 	await preload("res://tests/greenhouse_decoration_ui_test.gd").run(self)
 	await preload("res://tests/audit_visual_geometry_test.gd").run(self)
 	await preload("res://tests/guided_tutorial_test.gd").run(self)
+	await preload("res://tests/emulator_audit_fixes_test.gd").run(self)
 	await preload("res://tests/compact_modal_layout_test.gd").run(self)
 	await preload("res://tests/measurement_context_test.gd").run(self)
 	preload("res://tests/plant_canopy_bounds_test.gd").run(self)
@@ -728,9 +729,14 @@ func _test_phase24_seed_selector_presenter() -> void:
 	var counts_before := [session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds]
 	presenter.refresh(session)
 	_check(presenter.is_bound() and not (buttons.basil_genovese as Button).disabled and not (buttons.mint_peppermint as Button).disabled and (buttons.rosemary_officinalis as Button).disabled and (buttons.oregano_vulgare as Button).disabled, "Phase 24 seed presenter promítne dostupnost všech čtyř bylin podle samostatných inventářů")
-	_check(((buttons.basil_genovese as Button).get_meta("owned_label") as Label).text == "V zásobě: %d semínek" % session.seeds and ((buttons.rosemary_officinalis as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek", "Phase 24 seed presenter zachová přesné počty a text na každé existující kartě")
+	_check(((buttons.basil_genovese as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínko" and ((buttons.rosemary_officinalis as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek", "Phase 24 seed presenter zachová přesné počty a text na každé existující kartě")
 	_check(status.text == "Žádné semínko? Další koupíš v OBCHODĚ za herní mince." and [session.seeds, session.mint_seeds, session.rosemary_seeds, session.oregano_seeds] == counts_before and session.plant.stage == PlantSimulation.Stage.EMPTY, "Phase 24 seed presenter nespotřebuje semínko ani nezaloží rostlinu a pouze vysvětlí cestu do obchodu")
 	_check((buttons.lavandula_angustifolia as Button).disabled and ((buttons.lavandula_angustifolia as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek", "Fáze 81 výběr semínka přidá katalogovou levanduli bez druhové alias větve")
+	for sample in [[0,"semínek"],[1,"semínko"],[2,"semínka"],[3,"semínka"],[4,"semínka"],[5,"semínek"],[11,"semínek"],[21,"semínek"]]:
+		session.set_seed_count("basil_genovese", int(sample[0]))
+		presenter.refresh(session)
+		var owned := (buttons.basil_genovese as Button).get_meta("owned_label") as Label
+		_check(owned.text == "V zásobě: %d %s" % [sample[0],sample[1]] and session.seeds == int(sample[0]), "Audit A04: český počet %d má správný tvar bez změny inventáře" % sample[0])
 	var tutorial_session := GameSession.new(_load_plant_catalog())
 	presenter.refresh(tutorial_session)
 	_check(not (buttons.basil_genovese as Button).disabled and (buttons.mint_peppermint as Button).disabled and "začíná bazalkou" in status.text, "Fáze 73 výběr prvního semínka pravdivě zamkne ostatní druhy do dokončení vedeného cyklu")
@@ -3373,7 +3379,7 @@ func _test_phase83_chives() -> void:
 	var chives_seed_locked := (seed_buttons[CHIVES_ID] as Button).disabled and ((seed_buttons[CHIVES_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek"
 	session.grant_seeds(CHIVES_ID, 1)
 	seed_presenter.refresh(session)
-	var chives_seed_enabled := not (seed_buttons[CHIVES_ID] as Button).disabled and ((seed_buttons[CHIVES_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínek"
+	var chives_seed_enabled := not (seed_buttons[CHIVES_ID] as Button).disabled and ((seed_buttons[CHIVES_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínko"
 	var herbarium_presenter = preload("res://scripts/ui/herbarium_presenter.gd").new()
 	var herbarium_summary := Label.new()
 	var herbarium_status := Label.new()
@@ -3596,7 +3602,7 @@ func _test_phase84_marjoram() -> void:
 	var marjoram_seed_locked := (seed_buttons[MARJORAM_ID] as Button).disabled and ((seed_buttons[MARJORAM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek"
 	session.grant_seeds(MARJORAM_ID, 1)
 	seed_presenter.refresh(session)
-	var marjoram_seed_enabled := not (seed_buttons[MARJORAM_ID] as Button).disabled and ((seed_buttons[MARJORAM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínek"
+	var marjoram_seed_enabled := not (seed_buttons[MARJORAM_ID] as Button).disabled and ((seed_buttons[MARJORAM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínko"
 	var herbarium_presenter = preload("res://scripts/ui/herbarium_presenter.gd").new()
 	var herbarium_summary := Label.new()
 	var herbarium_status := Label.new()
@@ -3851,7 +3857,7 @@ func _test_phase85_parsley() -> void:
 	var parsley_seed_locked := (seed_buttons[PARSLEY_ID] as Button).disabled and ((seed_buttons[PARSLEY_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek"
 	session.grant_seeds(PARSLEY_ID, 1)
 	seed_presenter.refresh(session)
-	var parsley_seed_enabled := not (seed_buttons[PARSLEY_ID] as Button).disabled and ((seed_buttons[PARSLEY_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínek"
+	var parsley_seed_enabled := not (seed_buttons[PARSLEY_ID] as Button).disabled and ((seed_buttons[PARSLEY_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínko"
 	var herbarium_presenter = preload("res://scripts/ui/herbarium_presenter.gd").new()
 	var herbarium_summary := Label.new()
 	var herbarium_status := Label.new()
@@ -4092,7 +4098,7 @@ func _test_phase86_lemon_balm() -> void:
 	var lemon_balm_seed_locked := (seed_buttons[LEMON_BALM_ID] as Button).disabled and ((seed_buttons[LEMON_BALM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 0 semínek"
 	ui_session.grant_seeds(LEMON_BALM_ID, 1)
 	seed_presenter.refresh(ui_session)
-	var lemon_balm_seed_enabled := not (seed_buttons[LEMON_BALM_ID] as Button).disabled and ((seed_buttons[LEMON_BALM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínek"
+	var lemon_balm_seed_enabled := not (seed_buttons[LEMON_BALM_ID] as Button).disabled and ((seed_buttons[LEMON_BALM_ID] as Button).get_meta("owned_label") as Label).text == "V zásobě: 1 semínko"
 	var herbarium_presenter = preload("res://scripts/ui/herbarium_presenter.gd").new()
 	var herbarium_summary := Label.new()
 	var herbarium_status := Label.new()

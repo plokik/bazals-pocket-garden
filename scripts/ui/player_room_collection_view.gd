@@ -700,7 +700,7 @@ func _is_phase146_capture() -> bool:
 	return str(get_meta("capture_state", "")) == "phase146_approved_room_master_report_only_v1"
 
 
-func _palette_for_theme(theme_id: String) -> Dictionary:
+static func _palette_for_theme(theme_id: String) -> Dictionary:
 	match theme_id:
 		"lagoon":
 			return {"tint": Color("#26c9cf", 0.11), "accent": ComicUITheme.TEAL, "accent_2": ComicUITheme.CYAN, "ink": ComicUITheme.INK}

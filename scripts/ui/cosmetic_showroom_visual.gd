@@ -20,24 +20,28 @@ const CLOSE_RECT := Rect2(166.0, 1658.0, 508.0, 110.0)
 const THEME_ORDER: Array[String] = ["sunrise", "lagoon", "amethyst", "research_study"]
 const THEME_LAYOUTS := {
 	"sunrise": {
+		"preview": Rect2(88.0, 400.0, 328.0, 288.0),
 		"name": Rect2(421.0, 403.0, 315.0, 50.0),
 		"description": Rect2(425.0, 461.0, 306.0, 120.0),
 		"button": Rect2(438.0, 590.0, 282.0, 91.0),
 		"button_hit": Rect2(438.0, 582.0, 282.0, 118.0),
 	},
 	"lagoon": {
+		"preview": Rect2(88.0, 724.0, 328.0, 288.0),
 		"name": Rect2(421.0, 727.0, 315.0, 50.0),
 		"description": Rect2(425.0, 785.0, 306.0, 120.0),
 		"button": Rect2(438.0, 914.0, 282.0, 91.0),
 		"button_hit": Rect2(438.0, 906.0, 282.0, 118.0),
 	},
 	"amethyst": {
+		"preview": Rect2(88.0, 1044.0, 328.0, 282.0),
 		"name": Rect2(421.0, 1047.0, 315.0, 50.0),
 		"description": Rect2(425.0, 1105.0, 306.0, 120.0),
 		"button": Rect2(438.0, 1233.0, 282.0, 91.0),
 		"button_hit": Rect2(438.0, 1226.0, 282.0, 118.0),
 	},
 	"research_study": {
+		"preview": Rect2(88.0, 1356.0, 328.0, 254.0),
 		"name": Rect2(425.0, 1357.0, 315.0, 50.0),
 		"description": Rect2(425.0, 1410.0, 315.0, 80.0),
 		"button": Rect2(438.0, 1545.0, 282.0, 67.0),
@@ -80,11 +84,13 @@ static func contract_errors() -> PackedStringArray:
 		errors.append("Phase 162 showroom wallet overlaps the close action.")
 	for theme_id in THEME_ORDER:
 		var layout := theme_layout(theme_id)
-		for key in ["name", "description", "button", "button_hit"]:
+		for key in ["preview", "name", "description", "button", "button_hit"]:
 			if not layout.has(key) or not PLATE_SOURCE_RECT.encloses(layout[key] as Rect2):
 				errors.append("Phase 162 showroom %s misses a valid %s rectangle." % [theme_id, key])
 		if layout.has("description") and layout.has("button_hit") and (layout.description as Rect2).end.y > (layout.button_hit as Rect2).position.y:
 			errors.append("Phase 162 showroom %s description overlaps its touch action." % theme_id)
+		if layout.has("preview") and (layout.preview as Rect2).end.x > (layout.name as Rect2).position.x:
+			errors.append("Showroom %s preview overlaps its live copy." % theme_id)
 		if layout.has("button") and layout.has("button_hit") and not (layout.button_hit as Rect2).encloses(layout.button as Rect2):
 			errors.append("Phase 162 showroom %s touch action does not enclose its painted surface." % theme_id)
 		if layout.has("button_hit") and (layout.button_hit as Rect2).end.y > STATUS_RECT.position.y:

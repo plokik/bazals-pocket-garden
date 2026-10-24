@@ -109,10 +109,10 @@ const CARE_CHECK_MOISTURE := 28.0
 const CARE_CHECK_NUTRIENTS := 27.0
 const CARE_CHECK_VENTILATION := 44.0
 const ROOM_THEMES := {
-	"sunrise": {"name": "Sluneční pokoj", "price": 0, "accent": "#ffb52e", "description": "Původní teplé dřevo a zlaté ranní světlo."},
-	"lagoon": {"name": "Tyrkysová laguna", "price": 35, "accent": "#19cbd1", "description": "Svěží tyrkysové odlesky, bubliny a chladivý třpyt."},
-	"amethyst": {"name": "Ametystový sen", "price": 55, "accent": "#a85bea", "description": "Fialové kouzlo, růžové jiskry a slavnostní girlanda."},
-	"research_study": {"name": "Badatelská pracovna", "price": 360, "accent": "#4d8f78", "description": "Klidný pracovní kout pro Profesorovy protokoly, herbář a přesná pozorování.", "research_completed_required": 6},
+	"sunrise": {"name": "Sluneční dílna", "price": 0, "accent": "#ffb52e", "description": "Původní teplé dřevo malované dílny."},
+	"lagoon": {"name": "Tyrkysová laguna", "price": 35, "accent": "#19cbd1", "description": "Jemný tyrkysový nádech stejné malované dílny."},
+	"amethyst": {"name": "Ametystový sen", "price": 55, "accent": "#a85bea", "description": "Jemný fialový nádech stejné malované dílny."},
+	"research_study": {"name": "Badatelská pracovna", "price": 360, "accent": "#4d8f78", "description": "Tmavší modrozelený tón dílny za dokončené Profesorovy protokoly.", "research_completed_required": 6},
 }
 const CORE_ROOM_THEME_IDS: Array[String] = ["sunrise", "lagoon", "amethyst"]
 const RESEARCH_STUDY_THEME_ID := "research_study"

@@ -6,6 +6,8 @@ const Character := preload("res://scripts/ui/guide_character.gd")
 const Bold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const Regular := preload("res://assets/fonts/Poppins-SemiBold.ttf")
 const INK := Color("#284334")
+const HAND_SCALE := .85
+const HAND_BOB := 3.0
 var game: Control
 var card: PanelContainer
 var heading: Label
@@ -16,6 +18,8 @@ var portrait: Control
 var skip_button: Button
 var continue_button: Button
 var focus_rect := Rect2()
+var hand_target_rect := Rect2()
+var hand_layout: Dictionary = {}
 var safe_rect := Rect2()
 var state: Dictionary = {}
 var state_id := ""
@@ -161,6 +165,7 @@ func refresh() -> void:
 				state.body = "Táhni prstem vzhůru, až uvidíš zvýrazněnou část přehledu." if below else "Táhni prstem dolů, až uvidíš zvýrazněnou část přehledu."
 				state.scroll = true
 			else: focus_rect = part
+	hand_target_rect = focus_rect
 	if focus_rect.has_area(): focus_rect = focus_rect.grow(5).intersection(safe_rect)
 	var next_id := str(state.id)
 	if next_id != state_id:
@@ -175,6 +180,15 @@ func refresh() -> void:
 	continue_button.text = "HOTOVO" if state_id == "complete" else ("NECHAT SUŠIT" if game.session.get_journey_step_id() == "wait_for_drying" else "NECHAT RŮST")
 	skip_button.visible = state_id != "complete"
 	_layout_card()
+	var obstacles: Array[Rect2] = []
+	if target != null:
+		# Only inspect the target's surrounding group (for example, the harvest
+		# column or care-action rows), never the complete game UI every frame.
+		var group: Node = target.get_parent()
+		if group != null and group.get_parent() != null and group.get_parent() != game:
+			group = group.get_parent()
+		if group != null: _collect_hand_obstacles(group, target, obstacles)
+	hand_layout = resolve_hand_layout(hand_target_rect, safe_rect, card.get_rect(), obstacles)
 
 func _local_rect(control: Control) -> Rect2:
 	return get_global_transform().affine_inverse() * control.get_global_rect()
@@ -221,6 +235,72 @@ func _layout_card() -> void:
 	if top_overlap < bottom_overlap: place = top
 	elif bottom_overlap < top_overlap: place = bottom
 	card.position = place.position
+
+static func hand_bounds(point: Vector2, angle: float) -> Rect2:
+	# Include the outline and the entire bobbing envelope, not just the finger.
+	var bounds := Rect2(point+Vector2(-21.2, -5.2).rotated(angle)*HAND_SCALE, Vector2.ZERO)
+	for corner in [Vector2(19.2, -5.2), Vector2(19.2, 41.2), Vector2(-21.2, 41.2)]:
+		bounds = bounds.expand(point+corner.rotated(angle)*HAND_SCALE)
+	return bounds.grow(HAND_BOB)
+
+static func resolve_hand_layout(target: Rect2, safe: Rect2, professor: Rect2, obstacles: Array[Rect2] = []) -> Dictionary:
+	if not target.has_area() or not safe.has_area(): return {}
+	# Wide actions usually have free space beside their centred text. Point into
+	# that space first; the hand then cannot cover the next action underneath.
+	var candidates: Array = [
+		[Vector2(target.end.x-40, target.get_center().y), -PI*.5],
+		[Vector2(target.position.x+40, target.get_center().y), PI*.5],
+		[Vector2(target.get_center().x, target.end.y-40), 0.0],
+		[Vector2(target.get_center().x, target.position.y+40), PI],
+	]
+	# Compact icons may need an outside pointer. Its fingertip still reaches
+	# inside the actual target, and every neighbouring label/action is protected.
+	for x in [target.end.x-24, target.position.x+24, target.get_center().x]:
+		candidates.append([Vector2(x, target.position.y+4), PI])
+		candidates.append([Vector2(x, target.end.y-4), 0.0])
+	for y in [target.get_center().y, target.position.y+24, target.end.y-24]:
+		candidates.append([Vector2(target.end.x-4, y), -PI*.5])
+		candidates.append([Vector2(target.position.x+4, y), PI*.5])
+	for candidate in candidates:
+		var point: Vector2 = candidate[0]
+		var angle: float = candidate[1]
+		var finger := point+Vector2(0, -4).rotated(angle)*HAND_SCALE
+		var bounds := hand_bounds(point, angle)
+		if not target.has_point(finger) or not safe.encloses(bounds) or professor.grow(6).intersects(bounds): continue
+		var blocked := false
+		for obstacle in obstacles:
+			if obstacle.grow(3).intersects(bounds): blocked = true; break
+		if not blocked: return {"point":point, "angle":angle, "bounds":bounds, "finger":finger}
+	# The pulsing border remains sufficient guidance in a genuinely crowded
+	# layout. Never trade readable controls for an overlapping decorative hand.
+	return {}
+
+func _collect_hand_obstacles(node: Node, target: Control, result: Array[Rect2]) -> void:
+	if node == self or (node is CanvasItem and not node.is_visible_in_tree()): return
+	if node is BaseButton and node != target and not node.is_ancestor_of(target):
+		var button_rect := _local_rect(node)
+		if button_rect.has_area() and button_rect.intersects(safe_rect): result.append(button_rect)
+		return
+	if node is Label or (node is Button and node == target):
+		var text_rect := _hand_text_rect(node)
+		if text_rect.has_area() and text_rect.intersects(safe_rect): result.append(text_rect)
+	for child in node.get_children(): _collect_hand_obstacles(child, target, result)
+
+func _hand_text_rect(control: Control) -> Rect2:
+	if control.text.is_empty() or control.size.x <= 0 or control.size.y <= 0: return Rect2()
+	var rect := _local_rect(control)
+	var font := control.get_theme_font("font")
+	var font_size := control.get_theme_font_size("font_size")
+	var text_size := font.get_multiline_string_size(control.text, HORIZONTAL_ALIGNMENT_LEFT, control.size.x, font_size)
+	text_size = text_size.min(control.size)*(rect.size/control.size)
+	var horizontal: int = control.horizontal_alignment if control is Label else control.alignment
+	var vertical: int = control.vertical_alignment if control is Label else VERTICAL_ALIGNMENT_CENTER
+	var offset := Vector2.ZERO
+	if horizontal == HORIZONTAL_ALIGNMENT_CENTER: offset.x = (rect.size.x-text_size.x)*.5
+	elif horizontal == HORIZONTAL_ALIGNMENT_RIGHT: offset.x = rect.size.x-text_size.x
+	if vertical == VERTICAL_ALIGNMENT_CENTER: offset.y = (rect.size.y-text_size.y)*.5
+	elif vertical == VERTICAL_ALIGNMENT_BOTTOM: offset.y = rect.size.y-text_size.y
+	return Rect2(rect.position+offset, text_size)
 
 func _state(id: String, title: String, body: String, target: Control = null) -> Dictionary:
 	return {"id":id, "title":title, "body":body, "target":target}
@@ -299,15 +379,14 @@ func _draw() -> void:
 	var pulse := .5+.5*sin(time*TAU/1.8) if motion else .5
 	highlight.border_color = Color(.94, .94, .57, .68+pulse*.25)
 	draw_style_box(highlight, r.grow(pulse*2 if motion else 0))
-	var below := r.end.y+48 < safe_rect.end.y and not card.get_rect().intersects(Rect2(r.get_center().x-24,r.end.y,48,60))
-	var point := Vector2(r.get_center().x, r.end.y+12 if below else r.position.y-12)
-	point.y += sin(time*TAU/1.8)*3 if motion else 0
-	point.x = clampf(point.x, safe_rect.position.x+25, safe_rect.end.x-25)
-	point.y = clampf(point.y, safe_rect.position.y+45, safe_rect.end.y-45)
-	_draw_hand(point, 0 if below else PI)
+	if hand_layout.is_empty(): return
+	var point: Vector2 = hand_layout.point
+	var angle: float = hand_layout.angle
+	if motion: point += Vector2(0, sin(time*TAU/1.8)*HAND_BOB).rotated(angle)
+	_draw_hand(point, angle)
 
 func _draw_hand(point: Vector2, angle: float) -> void:
-	draw_set_transform(point, angle, Vector2.ONE*.85)
+	draw_set_transform(point, angle, Vector2.ONE*HAND_SCALE)
 	var outline := PackedVector2Array([Vector2(-5,0),Vector2(-5,20),Vector2(-14,14),Vector2(-20,17),Vector2(-11,33),Vector2(-3,40),Vector2(10,40),Vector2(18,31),Vector2(18,19),Vector2(14,14),Vector2(10,15),Vector2(8,10),Vector2(4,11),Vector2(4,0),Vector2(0,-4),Vector2(-5,0)])
 	draw_colored_polygon(outline, Color("#fff0cd"))
 	draw_polyline(outline, Color("#5a4c29"), 2.4, true)

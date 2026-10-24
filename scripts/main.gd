@@ -720,6 +720,13 @@ func _notification(what: int) -> void:
 
 
 func _consume_mobile_back_navigation() -> bool:
+	# OptionButton owns an embedded PopupMenu. Dismiss that transient choice
+	# before navigating away from its recipe, storage screen or other dialog.
+	for node in find_children("*", "OptionButton", true, false):
+		var picker := node as OptionButton
+		if picker.get_popup().visible:
+			picker.get_popup().hide()
+			return true
 	if greenhouse_decoration_open:
 		greenhouse_decoration_modal.close()
 		return true
@@ -3734,7 +3741,7 @@ func _build_cosmetic_modal() -> Control:
 	painted_backdrop.set_meta("source_pixel_policy", "generated_clean_plate_no_baked_copy_values_or_states_v1")
 	canvas.add_child(painted_backdrop)
 
-	var header_badge := _phase162_showroom_label("VZHLED POKOJE", CosmeticShowroomVisualLayout.HEADER_BADGE_RECT, FontExtraBold, 12, Color("#3d2a17"), 1)
+	var header_badge := _phase162_showroom_label("VZHLED DÍLNY", CosmeticShowroomVisualLayout.HEADER_BADGE_RECT, FontExtraBold, 12, Color("#3d2a17"), 1)
 	header_badge.add_theme_color_override("font_outline_color", Color("#f2b35d", 0.66))
 	header_badge.add_theme_constant_override("outline_size", 1)
 	header_badge.set_meta("component", "painted_cosmetic_showroom_dynamic_badge_phase162_v1")
@@ -3747,7 +3754,7 @@ func _build_cosmetic_modal() -> Control:
 	canvas.add_child(title)
 
 	var intro := _phase162_showroom_label(
-		"Vzhled mění jen atmosféru pokoje. Růst, počasí i odměny zůstávají stejné.",
+		"Vzhled mění jen barevný tón dílny. Růst, počasí i odměny zůstávají stejné.",
 		CosmeticShowroomVisualLayout.INTRO_RECT,
 		FontSemiBold,
 		12,
@@ -3786,6 +3793,10 @@ func _build_cosmetic_theme_card(theme_id: String) -> Control:
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.set_meta("component", "phase162_painted_cosmetic_theme_card_v1")
 	panel.set_meta("theme_id", theme_id)
+	var preview := preload("res://scripts/ui/workshop_theme_preview.gd").new()
+	preview.theme_id = theme_id
+	_apply_hud_rect(preview, CosmeticShowroomVisualLayout.viewport_rect(layout.preview as Rect2))
+	panel.add_child(preview)
 
 	var name_font_size := 10 if theme_id == "research_study" else 15
 	var name_label := _phase162_showroom_label(str(theme_data.name).to_upper(), layout.name as Rect2, FontExtraBold, name_font_size, ComicUITheme.NAVY, 1)
@@ -3837,6 +3848,7 @@ func _build_cosmetic_theme_card(theme_id: String) -> Control:
 		"action_label": action_label,
 		"state_overlay": action_state,
 		"painted_surface": true,
+		"preview": preview,
 	}
 	return panel
 
