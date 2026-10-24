@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-24",
+  "source_head_before_changes": "2ae007bd4a6f3ea7bc5ce4e5a59c7aadac5440ed",
+  "functional_checks": 8593,
+  "ci": "PASSED",
+  "visual_gate_passed": 33,
+  "visual_gate_total": 34,
+  "visual_overall": "FAILED",
+  "preexisting_visual_failure": "phase162-cosmetic-showroom-runtime-approved",
+  "new_reference_approval": false,
+  "emulator": "emulator-5554",
+  "installed_apk_sha256": "1d2d27391f3af82f06d17ddca398f3f7a6da615fed20260865fc8b3ec0d98850",
+  "new_game_authorized": true,
+  "level1_native_touch_completed": true,
+  "restart_verified": true,
+  "restart_script_errors": 0,
+  "persistent_stars": [
+    3,
+    0,
+    0
+  ],
+  "coins": 60,
+  "melissa_seeds": 2,
+  "physical_device_tested": false,
+  "published": false,
+  "committed": false
+}

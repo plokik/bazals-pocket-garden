@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Europe/Prague",
+  "status": "user_approved",
+  "user_reply": "Souhlasím.",
+  "scope": [
+    "Map header and outer frame join",
+    "Removal of pale inner-edge strip"
+  ],
+  "displayed_artifact": "08-okraj-bez-svetleho-pruhu.png",
+  "context_artifacts": [
+    {
+      "path": "08-okraj-bez-svetleho-pruhu.png",
+      "sha256": "066E746A0EB3745DED471EE93D427FD5A721F2F6F8D2E6DAEDA0492EC005D148"
+    },
+    {
+      "path": "01-mapa.png",
+      "sha256": "D3819EC4BDF66D03CFC72AF3BD400CA2659EB3DE6AA276B5A349D33A8D5387E4"
+    },
+    {
+      "path": "prototype/preview.gd",
+      "sha256": "75EB51EB6535C704317A23EC07C2D97530E188EF822FA91FB3160FB0A12B309F"
+    }
+  ],
+  "production_integrated": false,
+  "published": false,
+  "economy_status": "illustrative only"
+}

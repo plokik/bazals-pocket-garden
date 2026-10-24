@@ -1,0 +1,65 @@
+ANDROID_PERSISTENT_DEBUG_KEY=STAGED
+ANDROID_SOURCE_CONTRACT=PASSED
+ANDROID_EXPORT=STARTED
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+[   0% ] first_scan_filesystem | Started Inicializace projektu (5 steps)
+[   0% ] first_scan_filesystem | ProhledĂˇvĂˇnĂ­ struktury souborĹŻ...
+[  16% ] first_scan_filesystem | NaÄŤĂ­tĂˇnĂ­ nĂˇzvĹŻ globĂˇlnĂ­ch tĹ™Ă­d...
+[  33% ] first_scan_filesystem | OvÄ›Ĺ™ovĂˇnĂ­ GDExtension rozĹˇĂ­Ĺ™enĂ­...
+[  50% ] first_scan_filesystem | VytvĂˇĹ™enĂ­ autoload skriptĹŻ...
+[  66% ] first_scan_filesystem | Inicializace zĂˇsuvnĂ˝ch modulĹŻ...
+[  83% ] first_scan_filesystem | SpouĹˇtenĂ­ prohledĂˇvĂˇnĂ­ souborĹŻ...
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started Registrace globĂˇlnĂ­ch tĹ™Ă­d... (4 steps)
+[   0% ] update_scripts_classes | 
+[  20% ] update_scripts_classes | 
+[  40% ] update_scripts_classes | 
+[  60% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started ProhledĂˇvĂˇnĂ­ akcĂ­... (6 steps)
+[   0% ] _update_scan_actions | plynula-honicka.webp
+[  14% ] _update_scan_actions | pohyb-v-pokoji.webp
+[  28% ] _update_scan_actions | lesk-dveri.webp
+[  42% ] _update_scan_actions | zatazeni-za-kliku.webp
+[  57% ] _update_scan_actions | vstup-do-skleniku.webp
+[  71% ] _update_scan_actions | prulet-listim.webp
+[ DONE ] _update_scan_actions
+
+[   0% ] export | Started Export pro systĂ©m Android (105 steps)
+0 param: --xr_mode_regular
+1 param: --xr-mode
+2 param: off
+3 param: --fullscreen
+4 param: --edge_to_edge
+5 param: --background_color
+6 param: #fdf2cd
+[ DONE ] export
+
+
+GODOT_GRADLE_EXPORT=PASSED
+ANDROID_EXPORT_EVIDENCE=R:\_projekty\Bazal's Pocket Garden\.godot\android-export\20261024-073427Z
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+APK_SIGNATURE_CHECK=PASSED
+Certificate stored in file <R:\_projekty\Bazal's Pocket Garden\.godot\android-export\20261024-073427Z\debug-signing-certificate.der>
+APK_SIGNING_IDENTITY=PASSED sha256=4EB193C20F460CD700071D4AA445AB47612C860461EBD8384C6654263E3A7A96
+APK_ABI_CHECK=PASSED
+APK_ENTRY_SCAN=PASSED
+APK_QA_DONOR_PAYLOAD_CHECK=PASSED
+APK_PAYLOAD_CHECK=PASSED
+APK_MANIFEST_CONTRACT=PASSED
+ANDROID_NOTIFICATION_PAYLOAD_CHECK=PASSED
+APK_PRIVACY_SDK_ALLOWLIST=PASSED
+APK_16K_ALIGNMENT_CHECK=PASSED
+APK_READY=R:\_projekty\Bazal's Pocket Garden\builds\android\bazals-pocket-garden-20261024-teahouse-levels-x86_64.apk
+APK_SIZE_MIB=276.61
+SHA256=1D2D27391F3AF82F06D17DDCA398F3F7A6DA615FED20260865FC8B3EC0D98850

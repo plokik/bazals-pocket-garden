@@ -1,0 +1,74 @@
+--------- beginning of main
+10-24 07:47:25.900  2904  2904 I .howtogrow.game: Late-enabling -Xcheck:jni
+10-24 07:47:26.014  2904  2904 I .howtogrow.game: Using CollectorTypeCMC GC.
+10-24 07:47:26.017  2904  2904 W .howtogrow.game: Unexpected CPU variant for x86: x86_64.
+10-24 07:47:26.017  2904  2904 W .howtogrow.game: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, default
+10-24 07:47:26.057  2904  2904 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+10-24 07:47:26.647  2904  2904 D nativeloader: Configuring clns-9 for other apk /data/app/~~RMxZScoONltHk2fnOIFREQ==/com.howtogrow.game-FAdFm77azKcGM8OIeT_-tw==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~RMxZScoONltHk2fnOIFREQ==/com.howtogrow.game-FAdFm77azKcGM8OIeT_-tw==/lib/x86_64:/data/app/~~RMxZScoONltHk2fnOIFREQ==/com.howtogrow.game-FAdFm77azKcGM8OIeT_-tw==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.howtogrow.game
+10-24 07:47:26.666  2904  2904 I .howtogrow.game: AssetManager2(0x79f42d829778) locale list changing from [] to [en-US]
+10-24 07:47:26.684  2904  2904 V GraphicsEnvironment: Currently set values for:
+10-24 07:47:26.684  2904  2904 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+10-24 07:47:26.685  2904  2904 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+10-24 07:47:26.685  2904  2904 V GraphicsEnvironment: com.howtogrow.game is not listed in per-application setting
+10-24 07:47:26.686  2904  2904 V GraphicsEnvironment: ANGLE allowlist from config: 
+10-24 07:47:26.686  2904  2904 V GraphicsEnvironment: com.howtogrow.game is not listed in ANGLE allowlist or settings, returning default
+10-24 07:47:26.688  2904  2904 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+10-24 07:47:26.753  2904  2904 D WM-WrkMgrInitializer: Initializing WorkManager with default configuration.
+10-24 07:47:26.857  2904  2918 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+--------- beginning of system
+10-24 07:47:26.873  2904  2920 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+10-24 07:47:26.880  2904  2904 I .howtogrow.game: AssetManager2(0x79f42d8255d8) locale list changing from [] to [en-US]
+10-24 07:47:26.978  2904  2920 I EGL_emulation: Opening libGLESv1_CM_emulation.so
+10-24 07:47:26.981  2904  2920 I EGL_emulation: Opening libGLESv2_emulation.so
+10-24 07:47:27.092  2904  2920 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+10-24 07:47:27.093  2904  2920 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+10-24 07:47:27.117  2904  2904 D CompatChangeReporter: Compat change id reported: 377864165; UID 10106; state: ENABLED
+10-24 07:47:27.122  2904  2904 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+10-24 07:47:27.149  2904  2904 D GodotActivity: Project command line parameters: [--xr_mode_regular, --xr-mode, off, --fullscreen, --edge_to_edge, --background_color, #fdf2cd]
+10-24 07:47:27.151  2904  2904 D GodotActivity: Launch intent Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 xflg=0x4 cmp=com.howtogrow.game/com.godot.game.GodotAppLauncher } with parameters []
+10-24 07:47:27.260  2904  2904 V GodotActivity: Creating new Godot fragment instance.
+10-24 07:47:27.361  2904  2904 V Godot   : Initializing Godot plugin registry
+10-24 07:47:27.470  2904  2904 I GodotPluginRegistry: Registering runtime plugin AndroidRuntime
+10-24 07:47:27.472  2904  2904 V Godot   : InitEngine with params: [--xr_mode_regular, --xr-mode, off, --fullscreen, --edge_to_edge, --background_color, #fdf2cd]
+10-24 07:47:27.763  2904  2904 D nativeloader: Load /data/app/~~RMxZScoONltHk2fnOIFREQ==/com.howtogrow.game-FAdFm77azKcGM8OIeT_-tw==/base.apk!/lib/x86_64/libgodot_android.so using class loader ns clns-9 (caller=/data/app/~~RMxZScoONltHk2fnOIFREQ==/com.howtogrow.game-FAdFm77azKcGM8OIeT_-tw==/base.apk!classes5.dex): ok
+10-24 07:47:27.772  2904  2904 V Godot   : Godot native layer initialization completed: true
+10-24 07:47:27.773  2904  2904 V Godot   : Setting up native layer with params: [--xr-mode, off, --fullscreen]
+10-24 07:47:28.031  2904  2904 V Godot   : Godot native layer setup completed
+10-24 07:47:28.032  2904  2904 V Godot   : OnInitRenderView: GodotFragment{d82e99a} (8e8c221b-6c17-493a-bbac-459c44f68a4a id=0x7f080037)
+10-24 07:47:28.041  2904  2904 W HWUI    : Image decoding logging dropped!
+10-24 07:47:28.044  2904  2904 W HWUI    : Image decoding logging dropped!
+10-24 07:47:28.045  2904  2904 W HWUI    : Image decoding logging dropped!
+10-24 07:47:28.081  2904  2904 D Godot   : Render view should be transparent: false
+10-24 07:47:28.083  2904  2904 D Godot   : renderingDevice: opengl3 (ProjectSettings)
+10-24 07:47:28.083  2904  2904 D Godot   : 			renderer: gl_compatibility (ProjectSettings)
+10-24 07:47:28.160  2904  2904 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+10-24 07:47:28.160  2904  2904 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+10-24 07:47:28.208  2904  2904 V Godot   : OnStart: GodotFragment{d82e99a} (8e8c221b-6c17-493a-bbac-459c44f68a4a id=0x7f080037)
+10-24 07:47:28.213  2904  2904 D AutofillManager: Fill dialog is enabled:false, hints=[]
+10-24 07:47:28.223  2904  2904 V Godot   : OnResume: GodotFragment{d82e99a} (8e8c221b-6c17-493a-bbac-459c44f68a4a id=0x7f080037)
+10-24 07:47:28.247  2904  2904 W HWUI    : Unknown dataspace 0
+10-24 07:47:28.263  2904  2904 D InsetsController: Setting requestedVisibleTypes to -16 (was -9)
+10-24 07:47:28.355  2904  2928 W RegularContextFactory: creating OpenGL ES 3.0 context :
+10-24 07:47:28.421  2904  2928 I godot   : Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+10-24 07:47:28.731  2904  2928 E godot   : WARNING: Failed to load cached shader, recompiling.
+10-24 07:47:28.732  2904  2928 E godot   :    at: _load_from_cache (drivers/gles3/shader_gles3.cpp:615)
+10-24 07:47:29.347  2904  2934 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[GodotAppLauncher]#1) as ready
+10-24 07:47:29.349  2904  2934 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[GodotAppLauncher]#2) as ready
+10-24 07:47:29.353  2904  2934 E SurfaceSyncGroup: Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[com.howtogrow.game/com.godot.game.GodotAppLauncher]#0) as ready
+10-24 07:47:29.392  2904  2904 D InsetsController: hide(ime(), fromIme=false)
+10-24 07:47:29.392  2904  2904 I ImeTracker: com.howtogrow.game:7947b706: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+10-24 07:47:29.719  2904  2908 I .howtogrow.game: Compiler allocated 5042KB to compile void android.view.ViewRootImpl.performTraversals()
+10-24 07:47:29.844  2904  2928 I godot   : OpenGL API OpenGL ES 3.1 (4.5.0 NVIDIA 617.42) - Compatibility - Using Device: Google (NVIDIA Corporation) - Android Emulator OpenGL ES Translator (NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2)
+10-24 07:47:29.848  2904  2928 D AudioSystem: onNewServiceWithAdapter: media.audio_flinger service obtained 0x79f47d85dc70
+10-24 07:47:29.852  2904  2928 D AudioSystem: getService: checking for service media.audio_flinger: 0x79f38d958500
+10-24 07:47:29.853  2904  2928 D .howtogrow.game: PlayerBase::PlayerBase()
+10-24 07:47:29.854  2904  2928 D .howtogrow.game: TrackPlayerBase::TrackPlayerBase()
+10-24 07:47:29.854  2904  2928 I libOpenSLES: Emulating old channel mask behavior (ignoring positional mask 0x3, using default mask 0x3 based on channel count of 2)
+10-24 07:47:29.892  2904  2928 I godot   : 
+10-24 07:47:31.513  2904  2928 V Godot   : OnGodotSetupCompleted
+10-24 07:47:31.605  2904  2928 V Godot   : OnGodotMainLoopStarted
+10-24 07:47:32.817  2904  2941 D ProfileInstaller: Installing profile for com.howtogrow.game
+10-24 07:47:39.174  2904  2928 I godot   : STARTUP_THREADED_LOAD_MS=7569
+10-24 07:47:41.356  2904  2928 I godot   : STARTUP_BUILD_UI_MS=2040
+10-24 07:47:41.395  2904  2928 I godot   : STARTUP_REFRESH_UI_MS=19
+10-24 07:47:41.409  2904  2928 I godot   : STARTUP_MAIN_READY_MS=9805

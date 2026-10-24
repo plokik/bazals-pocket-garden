@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "duration_seconds": 20,
+  "width": 864,
+  "height": 1920,
+  "fps": 30,
+  "frames": 600,
+  "full_decode": "passed",
+  "still_checks": 222,
+  "failures": 0,
+  "new_atlases": 2,
+  "scope": "isolated visual proposal",
+  "production_changed": false
+}

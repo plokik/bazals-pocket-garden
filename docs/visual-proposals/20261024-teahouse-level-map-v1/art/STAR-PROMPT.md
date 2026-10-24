@@ -1,0 +1,5 @@
+# Reward star v1
+
+Built-in imagegen, 2026-10-24. Transparent output copied unchanged from `C:/Users/drikv/.codex/generated_images/01a08214-50de-7d12-afec-542e5ec15886/exec-dddfbbbc-6d94-4d66-9637-3d66b74d3cf6.png`. Style reference: approved `assets/ui/teahouse/tea-panels-v5-1.png`.
+
+Use case: stylized-concept. Make ONE UI reward star sprite with a truly transparent background for Bazal's Pocket Garden. Reference image is the game's approved painted UI panel sheet: match its honey-gold warm wood and golden edging, finely brushed illustrated highlights, softly shaded thick outline and crafted storybook 2D aesthetic. The subject is one plump, slightly irregular FIVE-point golden reward star, face-on symmetrical enough to read at tiny icon sizes, generously padded on all sides. Warm golden ochre edges, creamy golden lit upper-left surface, subtle painted bevel, restrained small brush glint near upper-left. No cartoon face, no text, no numbers, no gems, no leaves, no cast shadow outside the silhouette, no floating particles, no gradient backdrop, no container or border. No shiny plastic 3D rendering. Only one star centered on transparent alpha.

@@ -1,0 +1,169 @@
+{
+	"checkpoints": [
+		{
+			"coins": 30,
+			"name": "01-mapa",
+			"progress": {
+				"best_stars": [
+					0,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					false,
+					false,
+					false
+				]
+			},
+			"time": 1.625
+		},
+		{
+			"coins": 30,
+			"name": "02-dilna",
+			"progress": {
+				"best_stars": [
+					0,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					false,
+					false,
+					false
+				]
+			},
+			"time": 4.69166666666666
+		},
+		{
+			"coins": 30,
+			"name": "03-zadani",
+			"progress": {
+				"best_stars": [
+					0,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					false,
+					false,
+					false
+				]
+			},
+			"time": 8.09166666666665
+		},
+		{
+			"coins": 30,
+			"name": "04-spojovani",
+			"progress": {
+				"best_stars": [
+					0,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					false,
+					false,
+					false
+				]
+			},
+			"time": 12.725
+		},
+		{
+			"coins": 30,
+			"name": "05-nalevani",
+			"progress": {
+				"best_stars": [
+					0,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					false,
+					false,
+					false
+				]
+			},
+			"time": 22.2916666666669
+		},
+		{
+			"coins": 60,
+			"name": "06-odmena",
+			"progress": {
+				"best_stars": [
+					3,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					true,
+					false,
+					false
+				]
+			},
+			"time": 30.6916666666674
+		},
+		{
+			"coins": 60,
+			"name": "07-postup",
+			"progress": {
+				"best_stars": [
+					3,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					true,
+					false,
+					false
+				]
+			},
+			"time": 36.3250000000005
+		},
+		{
+			"coins": 60,
+			"name": "08-druha-uroven",
+			"progress": {
+				"best_stars": [
+					3,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					true,
+					false,
+					false
+				]
+			},
+			"time": 38.9250000000004
+		},
+		{
+			"coins": 60,
+			"name": "09-vyroba",
+			"progress": {
+				"best_stars": [
+					3,
+					0,
+					0
+				],
+				"quest_claimed": false,
+				"reward_claimed": [
+					true,
+					false,
+					false
+				]
+			},
+			"time": 47.6916666666665
+		}
+	],
+	"duration": 50.2916666666664,
+	"isolated_demo_profile": true,
+	"production_input": true
+}

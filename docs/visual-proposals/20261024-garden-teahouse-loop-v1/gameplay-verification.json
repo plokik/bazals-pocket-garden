@@ -1,0 +1,208 @@
+{
+	"checks": 48,
+	"duration": 61.2583333333324,
+	"events": [
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "available"
+			},
+			"label": "01-order-offer",
+			"time": 0.458333333333333
+		},
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "02-next-harvest",
+			"time": 2.85833333333333
+		},
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "02b-plant-care",
+			"time": 6.25833333333332
+		},
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "03-drying",
+			"time": 16.5916666666667
+		},
+		{
+			"time": 18.5916666666668,
+			"time_cut_offline_seconds": 14402.0
+		},
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "04-dry-herbs-after-time-cut",
+			"time": 18.5916666666668
+		},
+		{
+			"coins": 100,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "05-next-craft",
+			"time": 20.2250000000002
+		},
+		{
+			"coins": 98,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 1,
+					"tea": 0
+				},
+				"teahouse": "active"
+			},
+			"label": "06-crafted-lavender",
+			"time": 25.5250000000004
+		},
+		{
+			"coins": 95,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "06-crafted-tea",
+			"time": 29.7250000000006
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "06-crafted-gift",
+			"time": 33.9250000000006
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "07-next-serve",
+			"time": 34.8250000000006
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "08-teahouse-matching",
+			"time": 38.6250000000004
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "09-pour",
+			"time": 49.5583333333331
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "10-served",
+			"time": 55.4583333333328
+		},
+		{
+			"coins": 91,
+			"goods": {
+				"products": {
+					"gift": 1,
+					"lavender": 1,
+					"tea": 1
+				},
+				"teahouse": "active"
+			},
+			"label": "11-next-delivery",
+			"time": 55.8583333333327
+		},
+		{
+			"coins": 171,
+			"goods": {
+				"products": {
+					"gift": 0,
+					"lavender": 0,
+					"tea": 0
+				},
+				"teahouse": "completed"
+			},
+			"label": "12-reward",
+			"time": 58.2583333333326
+		}
+	],
+	"failures": 0,
+	"new_serving_flag_persisted": false,
+	"production_files_changed": false
+}

@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-24",
+  "status": "user_approved",
+  "user_reply": "Souhlasím, pokarčuj v práci a plánu.",
+  "scope": "Previously presented first three playable teahouse levels, hub and workshop integration.",
+  "does_not_approve": [
+    "New levels4-10",
+    "Historical showroom reference replacement",
+    "Release"
+  ],
+  "artifacts": {
+    "gameplay-cajovna.mp4": "fa3eb9b444b320a1d50fe1982751cdca67535a77e7759689cd593c7048f05d5c",
+    "emulator-01-mapa.png": "21e00030cbc8c34d9c511f541a0d1adf5c7bac9a7dd3b94fb55f390652f5c7f8",
+    "emulator-03-odmena.png": "95c9282c8221e5c214803899ed69df1f3c8a928fb1f19e3c2f9820f7ec86f39f"
+  }
+}

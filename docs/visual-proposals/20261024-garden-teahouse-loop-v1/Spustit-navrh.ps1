@@ -1,0 +1,8 @@
+$ErrorActionPreference = 'Stop'
+$projectRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+$previousAppData = $env:APPDATA
+try {
+    $env:APPDATA = Join-Path $projectRoot 'tmp/garden-teahouse-loop-v1/interactive-appdata'
+    [System.IO.Directory]::CreateDirectory($env:APPDATA) | Out-Null
+    Start-Process -FilePath "R:\_projekty\Godot_v4.7-stable_win64.exe" -WorkingDirectory $projectRoot -ArgumentList @('--path','.', '--log-file','res://tmp/garden-teahouse-loop-v1/interactive.log', '--script','res://docs/visual-proposals/20261024-garden-teahouse-loop-v1/prototype/review.gd', '--','--interactive') -WindowStyle Normal
+} finally { $env:APPDATA = $previousAppData }

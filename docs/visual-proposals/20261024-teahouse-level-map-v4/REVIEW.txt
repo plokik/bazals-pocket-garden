@@ -1,0 +1,39 @@
+ČAJOVNA V4 – UHLADIT VRSTVY RÁMU MAPY
+2026-10-24 · oprava rámu a vnitřního okraje schválena uživatelem
+
+SCHVÁLENÍ
+Uživatel odpověděl „Souhlasím.“ na finální detail
+08-okraj-bez-svetleho-pruhu.png. Schválení se vztahuje k zobrazenému
+napojení záhlaví, společnému rámu a odstranění světlého proužku.
+Přesná identita schválených podkladů je uložena v approval.json.
+Jde o vizuální schválení tohoto náhledu; ekonomika a herní postup
+prototypu zůstávají ukázkové. Integrace a publikování tímto záznamem
+neproběhly.
+
+Oprava oblasti označené uživatelem: horní lišta kapitoly a rám mapy.
+Původně byly přes sebe vykreslené krémový rám, otevřený dřevěný rám
+a samostatná zaoblená cedulka. Nyní je zde jeden vnější dřevěný rám,
+papírové záhlaví bez vlastní obruby a jedna tenká dřevěná dělicí lišta.
+Text a hvězda jsou o 2 logické pixely níž, vycentrované v záhlaví.
+Malba mapy, její velikost, pozice úrovní i hitboxy zůstávají zachované.
+Ostatní obrazovky, animace a ukázková pravidla beze změny proti v3.
+
+DOPLNĚNÍ – SVĚTLÝ PROUŽEK U VNITŘNÍ HRANY
+Papírová výplň je nyní pouze pod záhlavím. Boční a spodní okraj malby
+pokračuje několika pixely pod dřevěnou obrubu, takže už pod mapou
+neprosvítá světlý podklad. Vlastní malba a souřadnice levelů se nehýbou.
+
+NÁHLEDY
+07-napojeni-ramu.png – detail skutečného renderu opravené oblasti.
+08-okraj-bez-svetleho-pruhu.png – nový detail po opravě prosvítání.
+01-mapa.png – celý náhled mapy, 864 × 1920.
+00-cajovna-prehled.png – mapa a dílna vedle sebe.
+Spustit-navrh.ps1 – interaktivní prototyp v izolovaném APPDATA.
+Grafika se přímo načítá z původní složky v3/art, nebyla přemalována.
+
+OVĚŘENÍ
+224 cílených kontrol prototypu, 0 chyb (review-checks.json).
+Ruční vizuální kontrola detailu i celé mapy: žádné dvojité obruby,
+text nesahá do listů, záhlaví navazuje na boční dřevěné hrany.
+Produkční skripty, uložený postup, schválené reference, Android ani
+GitHub nebyly změněny. Ukázkový postup je stále jen stav v paměti.

@@ -1,0 +1,53 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+Movie Maker mode enabled, recording movie in 432×960 @ 30 FPS...
+[OK] Návrh: dostupná dodávka nabídne přijetí
+[OK] Návrh: vlastní zralá bylinka nabídne sklizeň
+[OK] Návrh: mladá rostlina vede k péči
+[OK] Návrh: chybějící bylinka vede k nové výsadbě
+[OK] Návrh: čerstvá sklizeň vede k sušení
+[OK] Návrh: sušení nalezne skutečnou šarži ve skladu
+[OK] Návrh: dostatek sušené byliny vede k výrobě
+[OK] Návrh: skutečný nedostatek mincí zachová blokaci
+[OK] Návrh: výpočet dalšího kroku nemění původní herní relaci
+[OK] Návrh: zakázka přijata skutečným tlačítkem
+[OK] Návrh: běžná péče zalije vlastní rostlinu
+[OK] Návrh: skutečná sklizeň byliny 0
+[OK] Návrh: skutečný začátek sušení 0
+[OK] Návrh: sklizeň uvolňuje květináč
+[OK] Návrh: skutečná sklizeň byliny 1
+[OK] Návrh: skutečný začátek sušení 1
+[OK] Návrh: sklizeň uvolňuje květináč
+[OK] Návrh: skutečná sklizeň byliny 2
+[OK] Návrh: skutečný začátek sušení 2
+[OK] Návrh: sklizeň uvolňuje květináč
+[OK] Návrh: skutečná sklizeň byliny 3
+[OK] Návrh: skutečný začátek sušení 3
+[OK] Návrh: sklizeň uvolňuje květináč
+[OK] Návrh: další krok pozná připravené suché byliny
+[OK] Návrh: přímý odkaz na chybějící výrobek lavender
+[OK] Návrh: vyroben skutečný kus lavender
+[OK] Návrh: přímý odkaz na chybějící výrobek tea
+[OK] Návrh: vyroben skutečný kus tea
+[OK] Návrh: přímý odkaz na chybějící výrobek gift
+[OK] Návrh: vyroben skutečný kus gift
+[OK] Návrh: tři výrobky směřují k obsluze hosta
+[OK] Návrh: obsluha otevře skutečnou schválenou minihru
+[OK] Návrh: zavření rozehrané obsluhy neudělí odměnu ani nenahradí dokončení
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: legální potřebný řetězec
+[OK] Návrh: skutečné tahy dokončí recept
+[OK] Návrh: skutečné držení nalije úspěšný šálek
+[OK] Návrh: samotné hraní neodečte další zásoby ani nepřidá odměnu
+[OK] Návrh: po obsluze lze předat dodávku
+[OK] Návrh: původní odměna předána jednou
+[OK] Návrh: nelze převzít odměnu podruhé
+[OK] Návrh: výsledek existující dodávky přežije načtení
+GARDEN_TEAHOUSE_REVIEW_CHECKS=48 FAILURES=0

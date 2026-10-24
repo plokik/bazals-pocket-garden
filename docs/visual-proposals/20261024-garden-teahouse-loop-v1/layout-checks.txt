@@ -1,0 +1,29 @@
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 617.42 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3050 Ti Laptop GPU
+
+[OK] Návrh: dostupná dodávka nabídne přijetí
+[OK] Návrh: vlastní zralá bylinka nabídne sklizeň
+[OK] Návrh: mladá rostlina vede k péči
+[OK] Návrh: chybějící bylinka vede k nové výsadbě
+[OK] Návrh: čerstvá sklizeň vede k sušení
+[OK] Návrh: sušení nalezne skutečnou šarži ve skladu
+[OK] Návrh: dostatek sušené byliny vede k výrobě
+[OK] Návrh: skutečný nedostatek mincí zachová blokaci
+[OK] Návrh: výpočet dalšího kroku nemění původní herní relaci
+[OK] Návrh: ovládání dostupné na (432, 960)
+[OK] Návrh: ovládání dostupné na (432, 960)
+[OK] Návrh: ovládání dostupné na (432, 960)
+[OK] Návrh: ovládání dostupné na (432, 960)
+[OK] Návrh: ovládání dostupné na (360, 800)
+[OK] Návrh: ovládání dostupné na (360, 800)
+[OK] Návrh: ovládání dostupné na (360, 800)
+[OK] Návrh: ovládání dostupné na (360, 800)
+[OK] Návrh: ovládání dostupné na (360, 640)
+[OK] Návrh: ovládání dostupné na (360, 640)
+[OK] Návrh: ovládání dostupné na (360, 640)
+[OK] Návrh: ovládání dostupné na (360, 640)
+[OK] Návrh: ovládání dostupné na (600, 900)
+[OK] Návrh: ovládání dostupné na (600, 900)
+[OK] Návrh: ovládání dostupné na (600, 900)
+[OK] Návrh: ovládání dostupné na (600, 900)
+GARDEN_TEAHOUSE_LAYOUT_CHECKS=25 FAILURES=0

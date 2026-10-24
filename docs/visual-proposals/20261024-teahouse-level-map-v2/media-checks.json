@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "duration_seconds": 20,
+  "width": 864,
+  "height": 1920,
+  "fps": 30,
+  "rendered_frames": 600,
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "audio_sample_rate": 48000,
+  "audio_mean_db": -41.0,
+  "audio_peak_db": -19.5,
+  "full_av_decode": "passed",
+  "encoded_frames_inspected": [
+    306,
+    342
+  ],
+  "prototype_checks": 216,
+  "prototype_failures": 0,
+  "scope": "isolated visual proposal; scripted sample progress, not completed gameplay",
+  "production_modified": false
+}

@@ -1,0 +1,271 @@
+{
+	"checkpoints": [
+		{
+			"coins": 340,
+			"name": "01-mapa-pred-finale",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					0
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					false
+				]
+			},
+			"time": 1.925
+		},
+		{
+			"coins": 340,
+			"name": "02-zadani",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					0
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					false
+				]
+			},
+			"time": 4.025
+		},
+		{
+			"coins": 340,
+			"name": "03-spojovani",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					0
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					false
+				]
+			},
+			"time": 5.62499999999999
+		},
+		{
+			"coins": 340,
+			"name": "04-nalevani",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					0
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					false
+				]
+			},
+			"time": 33.2916666666673
+		},
+		{
+			"coins": 370,
+			"name": "05-dokoncena-zahrada",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 40.7916666666669
+		},
+		{
+			"coins": 370,
+			"name": "06-mapa-hotova",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 42.8916666666668
+		},
+		{
+			"coins": 370,
+			"name": "07-odmena-za-kapitolu",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": false,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 44.9916666666667
+		},
+		{
+			"coins": 450,
+			"name": "08-odmena-ulozena",
+			"progress": {
+				"best_stars": [
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3,
+					3
+				],
+				"chapter_claimed": true,
+				"quest_claimed": true,
+				"reward_claimed": [
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true,
+					true
+				]
+			},
+			"time": 47.0916666666666
+		}
+	],
+	"duration": 49.6916666666664,
+	"isolated_demo_profile": true,
+	"production_input": true
+}

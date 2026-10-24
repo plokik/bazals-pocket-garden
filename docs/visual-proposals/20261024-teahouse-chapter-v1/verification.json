@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-24",
+  "status": "ready_for_user_review",
+  "functional": {
+    "status": "passed",
+    "checks": 9087,
+    "expected_negative_fixture_diagnostics": 18,
+    "focused_checks": 745
+  },
+  "validation_run": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\validation\\20261024-081152Z",
+  "visual": {
+    "status": "failed",
+    "passed_gates": 33,
+    "total_gates": 34,
+    "known_existing_failure": "phase162-cosmetic-showroom-runtime-approved",
+    "metrics": {
+      "mean_abs_error": 14.091654,
+      "rmse": 35.357709,
+      "maximum_error": 255,
+      "changed_ratio": 0.269796
+    },
+    "identical_metrics_to_previous_stage": true,
+    "approved_references_modified": false
+  },
+  "balance": {
+    "targeted_wins": 679,
+    "targeted_attempts": 679,
+    "unguided_wins": 221,
+    "unguided_attempts": 224,
+    "human_difficulty_tested": false
+  },
+  "save_schema": 48,
+  "legacy_teahouse_schema": 47,
+  "post_regression_change": "Final-map sentence changed to invite replay even at30/30 stars; no logic change. Final production capture verifies text bounds and real reward flow.",
+  "android_source_contract": "passed",
+  "android_build": false,
+  "emulator_updated": false,
+  "physical_phone_tested": false,
+  "commit": false,
+  "push": false,
+  "release": false,
+  "new_chapter_visual_approval": "pending",
+  "media": {
+    "duration_seconds": 49.7,
+    "width": 1080,
+    "height": 2400,
+    "fps": 30,
+    "decode": "passed",
+    "max_audio_dbfs": -13.0,
+    "sha256": "77D2DBAC453EFF492CDC0C7F8ACAFA965F95F7E3536F561FB408E87BB58AC063"
+  }
+}

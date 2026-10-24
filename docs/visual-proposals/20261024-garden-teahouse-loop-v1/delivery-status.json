@@ -1,0 +1,18 @@
+{
+  "branch": "fix/rc61-feedback-motion",
+  "pushed_head": "2ae007bd4a6f3ea7bc5ce4e5a59c7aadac5440ed",
+  "pushed_head_url": "https://github.com/plokik/bazals-pocket-garden/commit/2ae007bd4a6f3ea7bc5ce4e5a59c7aadac5440ed",
+  "ci_run_id": 40057094881,
+  "ci_job_id": 120762609506,
+  "ci_status": "completed",
+  "ci_conclusion": "success",
+  "ci_url": "https://github.com/plokik/bazals-pocket-garden/actions/runs/40057094881",
+  "functional_checks": 8333,
+  "headless_source_contract_passed": true,
+  "full_gpu_visual_validation": "33/34; existing showroom correction differs from historical baseline",
+  "approved_references_changed": false,
+  "release_created": false,
+  "proposal_integrated_in_runtime": false,
+  "proposal_committed": false,
+  "proposal_pushed": false
+}

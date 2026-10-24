@@ -1,0 +1,39 @@
+ČAJOVNA V3 – MALOVANÉ IKONY A RÁMEČKY
+2026-10-24 · samostatný návrh ke schválení
+
+ZADÁNÍ
+Více zapojit malovanou grafiku do ikon, rámů a tlačítek čajovny.
+Navazuje na lokální v2, zachovává původní mapu, dílnu a rozvržení.
+
+ZMĚNY
+Nové malované rámy: medové dřevo, viditelná kresba a drobné lístky.
+Sytější šalvějová tlačítka s malovaným povrchem a stínovanými okraji.
+Ikony mapy a hmoždíře v záložkách, dřevěná šipka a zavírací křížek.
+Nové levelové medailony s ornamentem, mosazné zámky a malované hvězdy.
+Boční ornamenty tlačítek drží poměr stran díky horizontálnímu 3slice.
+Rohy rámů drží měřítko při změně velikosti panelu.
+Vysoké dialogy používají původní velkou papírovou výplň s měkkým
+napojením na nové okraje, takže se úzký pruh textury svisle nenatahuje.
+
+SOUBORY
+00-cajovna-prehled.png – mapa a dílna vedle sebe.
+01-mapa.png, 02-dilna.png – celé obrazovky 864 × 1920.
+03-zadani.png, 04-odmena.png, 05-vyrobky.png, 06-postup.png – stavy.
+cajovna-v3-animovany-navrh.mp4 – animovaný návrh, 20 s / 30 fps.
+Spustit-navrh.ps1 – klikací prototyp s odděleným APPDATA.
+art/painted-frames-v3.png a art/painted-icons-v3.png – originální atlasy.
+art/PROMPTS.txt – přesné prompty pro vestavěný image_gen a původ grafiky.
+
+OVĚŘENÍ A ROZSAH
+222 cílených kontrol prototypu, 0 chyb (review-checks.json).
+Reálné vstupy, přepínání, dialogy, šířka textu, hranice ovládacích prvků,
+ukázkové odměny a otevření/zavření existující minihry.
+Finální obrázky ručně prohlédnuty: ořezy atlasů, rohy, proporce a text.
+Zdrojové obrázky atlasů nejsou upravované; nativní Godot používá výřezy.
+Původní mapa je byte-for-byte shodná s v2, dílna odkazuje na původní asset.
+
+Návrh je izolovaný pod .gdignore. Produkční skripty, schválené reference,
+uložený postup, Android a GitHub nebyly změněny. Nejde o nový release.
+Odměny a odemykání jsou stále pouze návrhové hodnoty v paměti prototypu.
+Video demonstruje skriptované vizuální stavy, není záznam dohrané partie.
+Deset uzlů mapy neznamená deset vytvořených finálních levelů.

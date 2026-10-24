@@ -1,0 +1,37 @@
+{
+  "native_size": [
+    432,
+    960
+  ],
+  "fps": 30,
+  "source": "Godot Movie Maker; real viewport input",
+  "functional_review_checks": 48,
+  "layout_review_checks": 25,
+  "failures": 0,
+  "duration_driver": 61.2583333333324,
+  "technical_start_trim_seconds": 0.8,
+  "audio_rms": 0.08443733293644558,
+  "audio_peak": 0.8388351202011108,
+  "video_sha256": "683b07c219138cb7e2e6192bdc03a10981ae7284db0c2d17ba87ccb2f955a7d0",
+  "production_runtime_changed": false,
+  "player_profile_changed": false,
+  "serving_receipt_persisted": false,
+  "approved_reference_changes": false,
+  "physical_phone_tested": false,
+  "time_cuts": [
+    {
+      "time": 18.5916666666668,
+      "time_cut_offline_seconds": 14402.0
+    }
+  ],
+  "extra_edge_checks": 12,
+  "extra_edge_checks_note": "9 repeated helper assertions and 3 empty-cup callback assertions",
+  "interactive_startup_smoke_passed": true,
+  "video_duration_seconds": 60.5,
+  "audio_output_hz": 48000,
+  "proposal_source_sha256": {
+    "prototype/next_step.gd": "470436bb25f04760cdc5570bcd75d3396dc4510f16849ec2e86f82f8308a1819",
+    "prototype/order_panel.gd": "47a419b0f7ab040fff3a74ff5a63b9b6ea019fab53f9a99137203eca648d4bf5",
+    "prototype/review.gd": "5970015ce9f078b91872b12fcb53ce9a133a0f93fd519715a09ae1a6237eac33"
+  }
+}

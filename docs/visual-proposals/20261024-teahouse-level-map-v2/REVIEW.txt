@@ -1,0 +1,58 @@
+ČAJOVNA V2 — PROPRACOVANĚJŠÍ NÁVRH KE SCHVÁLENÍ
+2026-10-24
+
+Uživatel ocenil malovanou předlohu v1 a požádal o výraznější dotažení.
+Upřesnění: všechny tři oblasti — vzhled/rozhraní, animace, postup/odměny.
+
+ZMĚNY PROTI V1
+- Původní malba mapy zůstává byte-identická. Dílna používá původní asset.
+- Jedna kompaktní hlavička se společným přepínačem, méně oddělených rámů.
+- Nové malované medailony úrovní: hotové, dostupná a zamčené. Budoucí
+  úrovně jsou menší a tlumenější; aktuální má teplý lem a jemný odlesk.
+- Spodní společná karta ukazuje jméno další úrovně, hlavní akci a
+  zbývající počet hvězd k úkolu. Úkol nemá vlastní velký panel na mapě.
+- Zadání i odměna mají jako hlavní motiv skutečný šálek ze hry.
+- Hvězdy výsledku se postupně odhalí, nad šálkem se jemně vlní pára.
+- Dílna obsahuje přímý vstup do existující zakázky První dodávka.
+- Kocour, misky a pelíšek zachovány. V návrhu se animují spánkové znaky.
+
+SOUBORY
+00-cajovna-prehled.png: mapa a dílna vedle sebe.
+01-mapa.png, 02-dilna.png: jednotlivé pohledy 864×1920.
+03-zadani.png, 04-odmena.png: zadání a odměna nad mapou.
+05-vyrobky.png: nabídka již existujících výrobků.
+06-postup.png: ukázka mapy po dokončení úrovně 4.
+cajovna-v2-animovany-navrh.mp4: 20 sekund, 864×1920, 30 fps.
+Spustit-navrh.ps1: klikací návrh v Godotu, vlastní izolované APPDATA.
+art/TOKENS-PROMPT.txt: přesný prompt a původ nových medailonů (imagegen).
+
+ANIMOVANÁ UKÁZKA
+0–3 s mapa; 3–6 s zadání; 6–10 s dílna; 10–14 s oslava výsledku;
+14–17 s ukázkový postup a odemčená 5. úroveň; 17–20 s splněný úkol.
+Nejde o záznam dohrané partie ani finálního herního postupu.
+Video přehrává návrhové stavy a skutečné renderované animace prototypu.
+Hudba a drobné zvuky jsou z existujících assets/audio/garden_v1/.
+
+BEZPEČNÉ ODDĚLENÍ
+Návrh je pouze lokální a pod .gdignore. Produkční skripty, nastavení,
+schválené reference, Android a GitHub nebyly změněny. Nový release není.
+V1 je zachována vedle v2 pro porovnání.
+Hvězdy, mince, odemykání a vyzvednutí úkolu jsou jen ukázkové hodnoty
+v paměti tohoto náhledu. Nečtou ani nepřepisují skutečný hráčský postup.
+Ukázková odměna za první dokončení: 30 mincí a 2 semínka meduňky;
+úkol za 10 hvězd: 40 mincí. Ekonomika stále čeká na samostatné rozhodnutí.
+Nevzniklo deset finálních levelů. HRÁT v prototypu otevírá stávající
+volnou minihru; zobrazená 5. úroveň demonstruje existující druhý recept.
+
+OVĚŘENÍ
+review-checks.json a runtime-checks.txt obsahují výsledek cílených kontrol
+tohoto náhledu: skutečný vstup, přepínání, dialogy, texty a hranice tlačítek,
+ukázkové odemčení další úrovně, jednorázové vyzvednutí ukázkové odměny,
+otevření a zavření existující minihry. Prohlédnuty výsledné PNG.
+Kompletní produkční regresní sada ani fyzický telefon se netestovaly,
+protože jde o izolovaný vizuální návrh, nikoliv integraci do hry.
+
+FINÁLNÍ VIDEO
+MP4: 20 s, 864 × 1920, 30 fps; 600 renderovaných snímků.
+Kompletní dekódování obrazu a zvuku bez chyb. Zkontrolovány i snímky
+z výsledného MP4 během nástupu hvězd. Podrobnosti: media-checks.json.

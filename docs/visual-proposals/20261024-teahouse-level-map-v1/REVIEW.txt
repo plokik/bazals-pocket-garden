@@ -1,0 +1,49 @@
+ČAJOVNA: MAPA ÚROVNÍ A DÍLNA — NÁVRH KE SCHVÁLENÍ
+2026-10-24 | autoritativní projekt R:\_projekty\Bazal's Pocket Garden
+Výchozí commit: 2ae007bd4a6f3ea7bc5ce4e5a59c7aadac5440ed
+
+00-cajovna-prehled.png: společný přehled obou záložek.
+01-mapa.png: deset úrovní, dokončené hvězdy, dostupná úroveň 4,
+zamčené další zastávky a jeden stručný úkol přímo na mapě.
+02-dilna.png: současná schválená malba dílny, pracovní stůl,
+kocour, pelíšek a oddělené misky pod stejnou navigací.
+03-zadani.png: zadání a odměna v okně nad mapou.
+04-odmena.png: návrh výsledku s Bazalem a návratem na mapu.
+05-vyrobky.png: přístup k již existujícím třem výrobkům v dílně.
+
+ROZSAH
+Jde o izolovaný vizuální návrh. Celá složka je pod .gdignore.
+Produkční scény, navigace, herní pravidla, Android, GitHub ani
+schválené referenční obrázky se nemění. Žádný release nevznikl.
+Předchozí návrh garden-teahouse-loop-v1 zůstává oddělený a není integrován.
+
+Stav 160 mincí, 8/30 hvězd a úroveň 4 jsou ukázkové hodnoty.
+30 mincí + 2 semínka meduňky za úroveň a 40 mincí za úkol jsou
+návrhové částky, nikoli schválené vyvážení ekonomiky.
+Deset očíslovaných zastávek není deset dokončených herních úrovní.
+Trvalý postup, odměny, opakované výhry a nové úkoly nejsou implementovány.
+Zakoupené dekorace ani hráčova uložená data návrh nečte a nepřepisuje.
+
+Klikací prototyp: Spustit-navrh.ps1 (Godot 4.7, izolované APPDATA).
+Fungují obě záložky, detail dostupné/zamčené úrovně, detail úkolu,
+okno výrobků a zavírání. Tlačítko HRÁT otevře stávající samostatnou
+spojovací minihru jako ukázku návaznosti, bez zásob a udělování odměn.
+Výběr úrovní zatím nevolí deset různých pravidel. Výsledkový snímek
+je vizuální návrh, nikoli důkaz získání odměn či uloženého postupu.
+
+OVĚŘENÍ
+Godot vykreslil jednotlivé pohledy v 864×1920, společný přehled 900×1060.
+153 kontrol náhledu, 0 selhání: přepínání skutečným vstupem do viewportu,
+otevření/zavírání oken, hranice textů a ovládacích prvků, zobrazení
+stávající minihry a návrat. Záznam: review-checks.json, runtime-checks.txt.
+Root prohlédl všechny výsledné obrázky; podpůrná vizuální revize vedla
+k upřesnění druhu semínek a náhradě jednoduchých hvězd malovaným assetem.
+Kontrola git diff --check bez chyb; všechny sledované produkční soubory beze změn.
+Kompletní regresní testy produkční hry ani Android audit se v tomto
+průchodu nespouštěly; ověření se vztahuje pouze k izolovanému náhledu.
+
+GRAFIKA
+Malba mapy a hvězda: vestavěný imagegen, s originálními obrázky hry
+jako stylovou předlohou. Přesné prompty a původ souborů: art/PROMPT.md
+a art/STAR-PROMPT.md. Všechny ostatní malby, fonty a ikony jsou původní.
+UI, texty, čísla a tlačítka vykresluje Godot; nejsou součástí malby mapy.
