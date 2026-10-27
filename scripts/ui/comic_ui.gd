@@ -58,7 +58,8 @@ static func apply_button(
 	button.add_theme_color_override("font_color", font_color)
 	button.add_theme_color_override("font_hover_color", font_color)
 	button.add_theme_color_override("font_pressed_color", font_color)
-	button.add_theme_color_override("font_disabled_color", Color(font_color, 0.54))
+	# Disabled state is carried by its background; keep the caption readable.
+	button.add_theme_color_override("font_disabled_color", Color(font_color, 1.0 if font_color.a > 0 else 0.0))
 	button.add_theme_color_override("font_shadow_color", Color("#0b1520", 0.48))
 	button.add_theme_constant_override("shadow_offset_y", 2)
 	button.set_meta("ui_kit", "comic_ui_v1")

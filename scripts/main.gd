@@ -991,7 +991,7 @@ func _build_theme() -> void:
 	app_theme.set_color("font_color", "Button", ComicUITheme.INK)
 	app_theme.set_color("font_hover_color", "Button", ComicUITheme.INK)
 	app_theme.set_color("font_pressed_color", "Button", ComicUITheme.INK)
-	app_theme.set_color("font_disabled_color", "Button", Color(ComicUITheme.INK, 0.45))
+	app_theme.set_color("font_disabled_color", "Button", ComicUITheme.INK)
 	app_theme.set_stylebox("normal", "Button", ComicUITheme.style_box(ComicUITheme.CREAM, ComicUITheme.INK, 3, 11))
 	app_theme.set_stylebox("hover", "Button", ComicUITheme.style_box(ComicUITheme.PAPER, ComicUITheme.CYAN, 3, 11, ComicUITheme.SHADOW, 4))
 	app_theme.set_stylebox("pressed", "Button", ComicUITheme.style_box(Color("#e5c96f"), ComicUITheme.INK, 4, 11, Color("#0c1720", 0.18), 1))

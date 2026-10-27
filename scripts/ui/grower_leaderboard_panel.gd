@@ -20,6 +20,7 @@ const Portraits := [
 const INK := Color("#293f2e")
 const MUTED := Color("#687554")
 const OWN := Color("#e0edbb")
+const BUTTON_INK := Color("#172d1f")
 const STATUSES := ["join", "loading", "ready", "offline", "error", "unavailable"]
 
 var profile: Dictionary = {}
@@ -222,7 +223,8 @@ func _build_board() -> void:
 	top.disabled = nearby.disabled
 	var frame: Rect2 = layout.list
 	_scroll_context = page
-	_make_scroll(Rect2(frame.position + Vector2(12, 36), frame.size - Vector2(24, 46)))
+	# The painted corners occupy 27 px; text and scrollbars belong in the paper.
+	_make_scroll(Rect2(frame.position + Vector2(28, 60), frame.size - Vector2(56, 86)))
 	list = VBoxContainer.new()
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -378,16 +380,29 @@ func _button(key: String, caption: String, rect: Rect2, action: Callable, select
 	var button := Button.new()
 	button.position = rect.position
 	button.size = rect.size
-	button.text = caption
+	var label := caption
+	var horizontal_padding := ceilf(minf(rect.size.x * 0.4, rect.size.y * 0.55)) + 6
+	var text_width := rect.size.x - horizontal_padding * 2
+	if Bold.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > text_width:
+		if key == "top": label = "TOP 100"
+		elif key == "leave": label = _tr("OPUSTIT", "LEAVE")
+		elif key == "back": label = _tr("ZPĚT NA CESTU", "BACK TO PATH")
+	button.text = label
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	button.material = CanvasItemMaterial.new()
 	button.add_theme_font_override("font", Bold)
 	button.add_theme_font_size_override("font_size", 12)
 	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
-		button.add_theme_stylebox_override(state, art.painted_box("sage" if selected else "banner", OWN if state == "pressed" else Color.WHITE))
+		var style: StyleBox = art.painted_box("sage" if selected else "banner", OWN if state == "pressed" else Color.WHITE)
+		if not caption.is_empty():
+			style.set_content_margin(SIDE_LEFT, horizontal_padding)
+			style.set_content_margin(SIDE_RIGHT, horizontal_padding)
+			style.set_content_margin(SIDE_TOP, 8)
+			style.set_content_margin(SIDE_BOTTOM, 8)
+		button.add_theme_stylebox_override(state, style)
 	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		button.add_theme_color_override(state, INK)
-	button.add_theme_color_override("font_disabled_color", MUTED)
+		button.add_theme_color_override(state, BUTTON_INK)
+	button.add_theme_color_override("font_disabled_color", BUTTON_INK)
 	button.pressed.connect(action)
 	(ui if parent == null else parent).add_child(button)
 	buttons[key] = button
@@ -434,9 +449,9 @@ func _draw() -> void:
 	else:
 		var frame: Rect2 = layout.list
 		draw_style_box(art.painted_box("cream"), frame)
-		_text(self, _tr("POŘADÍ", "RANK"), Rect2(frame.position + Vector2(12, 10), Vector2(60, 20)), 12, MUTED, HORIZONTAL_ALIGNMENT_LEFT)
-		_text(self, _tr("PĚSTITEL", "GROWER"), Rect2(frame.position + Vector2(106, 10), Vector2(frame.size.x - 188, 20)), 12, MUTED, HORIZONTAL_ALIGNMENT_LEFT)
-		_text(self, _tr("ÚROVEŇ", "LEVEL"), Rect2(frame.end.x - 72, frame.position.y + 10, 60, 20), 12, MUTED)
+		_text(self, _tr("POŘADÍ", "RANK"), Rect2(frame.position + Vector2(31, 28), Vector2(60, 22)), 12, INK, HORIZONTAL_ALIGNMENT_LEFT)
+		_text(self, _tr("PĚSTITEL", "GROWER"), Rect2(frame.position + Vector2(122, 28), Vector2(frame.size.x - 218, 22)), 12, INK, HORIZONTAL_ALIGNMENT_LEFT)
+		_text(self, _tr("ÚROVEŇ", "LEVEL"), Rect2(frame.end.x - 88, frame.position.y + 28, 60, 22), 12, INK)
 		if drawn_rows.is_empty():
 			var message := _tr("Zatím tu není žádný přehled.", "There is no board to show yet.")
 			if status == "unavailable":
@@ -465,7 +480,7 @@ func _draw_own_card() -> void:
 	var level := maxi(1, int(profile.get("level", 1)))
 	var xp := maxi(0, int(profile.get("xp", 0)))
 	var summary := _tr("Úroveň %s · %s XP", "Level %s · %s XP") % [_number(level), _number(xp)]
-	if Body.get_string_size(summary, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > text_width:
+	if Bold.get_string_size(summary, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > text_width:
 		summary = _tr("Úr. %s · %s XP", "Lv %s · %s XP") % [_compact(level), _compact(xp)]
 	_text(self, summary, Rect2(text_x, rect.position.y + lerpf(57, 71, roomy), text_width, 22), 12, INK, HORIZONTAL_ALIGNMENT_LEFT)
 	var rank := _own_rank()
@@ -533,7 +548,7 @@ func _draw_row(node: Control, row: Dictionary) -> void:
 	_text(node, row_name, Rect2(94, 3, maxf(1, width - 148), 23), 12, INK, HORIZONTAL_ALIGNMENT_LEFT)
 	var xp := maxi(0, int(row.get("xp", 0)))
 	var xp_text := _number(xp) + " XP"
-	if Body.get_string_size(xp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > width - 148:
+	if Bold.get_string_size(xp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > width - 148:
 		xp_text = _compact(xp) + " XP"
 	_text(node, xp_text, Rect2(94, 26, maxf(1, width - 148), 20), 12, MUTED, HORIZONTAL_ALIGNMENT_LEFT)
 	_text(node, _compact(maxi(1, int(row.get("level", 1)))), Rect2(width - 46, (_row_height - 28) * .5, 40, 28), 18, INK)

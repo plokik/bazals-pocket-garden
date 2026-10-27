@@ -298,7 +298,7 @@ func _apply_painted_button_style(button: Button, kind: String) -> void:
 	button.add_theme_stylebox_override("disabled", PaintedDetailArt.box("cream", 6.0, Color(0.78, 0.78, 0.73)))
 	for state in ["font_color", "font_hover_color", "font_pressed_color"]:
 		button.add_theme_color_override(state, ComicUITheme.INK)
-	button.add_theme_color_override("font_disabled_color", Color(ComicUITheme.INK, 0.55))
+	button.add_theme_color_override("font_disabled_color", ComicUITheme.INK)
 
 
 func _painted_compact_box(kind: String, padding: float, edge: float) -> StyleBoxTexture:

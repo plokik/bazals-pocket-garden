@@ -1,0 +1,33 @@
+{
+  "full_checks": 9169,
+  "focused_and_render_checks": 74,
+  "visual_passed": 33,
+  "visual_total": 34,
+  "visual_failed": [
+    {
+      "id": "phase162-cosmetic-showroom-runtime-approved",
+      "metrics": {
+        "mean_abs_error": 14.091654,
+        "rmse": 35.357709,
+        "maximum_error": 255,
+        "changed_ratio": 0.269796
+      }
+    }
+  ],
+  "source_sha256": {
+    "scripts/main.gd": "75e54210237f06042a2728517cf4c2af79d265f6f07f3358d281943b2669d3eb",
+    "scripts/ui/grower_leaderboard_panel.gd": "83540465a9c273a8c43349c63d8461ac4107ada5150f754c66443f760d2a7488",
+    "scripts/ui/comic_ui.gd": "42f0222027a5cd1debea5a18106def5378d378ae54151dd3f354f6d38d134dbe",
+    "scripts/ui/teahouse_hub.gd": "8ce6ad03af49b46da7abfce4e68783b8cc98042f0f259746e1c94f75263df1c4",
+    "scripts/teahouse/tea_game.gd": "8ded724809a2afea47f3fe615ef195a455866824019d11ca601032393a58b8ef",
+    "scripts/ui/greenhouse_preview_view.gd": "97fd230cce7675a36e1175c0f545c1aff2a79118478078a2fbfd0278486b6490",
+    "scripts/ui/fortune_wheel_modal.gd": "200c5088684c802f9ad20a0a063eabd0046c7972dd8312c6855cb875c6492bc2",
+    "scripts/ui/greenhouse_decoration_modal.gd": "b435d01ad420bcac8783d0b946add46ca3da6b4d52244c1f6ad89c59b61ea944",
+    "scripts/ui/workshop_modal.gd": "385fd5eacdca50156c0e0b62e67538734465883ca046847eef5897d7a9df732a",
+    "scripts/ui/workshop_products_panel.gd": "06adbe449534be2c4ca56da4e3dacfbc4c4ed15666dada9a17253e6e1ef4cc73",
+    "tests/grower_leaderboard_test.gd": "9d855232e67acd550f992b81a65da05cc8793b91498ddbaee260084a5ca7ccfd"
+  },
+  "physical_phone_tested": false,
+  "production_apk_updated": false,
+  "references_updated": false
+}

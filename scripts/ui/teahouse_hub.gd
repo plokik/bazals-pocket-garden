@@ -374,6 +374,7 @@ func button(key: String, rect: Rect2, caption: String, action: Callable, kind :=
 	for state in ["normal", "hover", "pressed", "focus"]:
 		b.add_theme_stylebox_override(state, StyleBoxEmpty.new() if kind.is_empty() else painted_box(kind, Color("#d2e0b4") if state == "pressed" else (Color("#fff5dc") if state == "hover" else Color.WHITE)))
 	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]: b.add_theme_color_override(state, INK)
+	b.add_theme_color_override("font_disabled_color", INK)
 	b.pressed.connect(action)
 	ui.add_child(b)
 	buttons[key] = b

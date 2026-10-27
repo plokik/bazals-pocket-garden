@@ -60,7 +60,7 @@ func _button(caption: String) -> Button:
 	button.add_theme_font_override("font",FontBold)
 	button.add_theme_font_size_override("font_size",12)
 	button.add_theme_color_override("font_color",Color("#243b2b"))
-	button.add_theme_color_override("font_disabled_color",Color("#64745a"))
+	button.add_theme_color_override("font_disabled_color",Color("#243b2b"))
 	for state in ["normal","hover","pressed","disabled"]:
 		var box := Art.box("cream" if state == "hover" else "sage",9)
 		for side in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: box.set_texture_margin(side,26)

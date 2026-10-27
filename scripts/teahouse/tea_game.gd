@@ -155,7 +155,7 @@ func _button(caption: String, rect: Rect2, action: Callable) -> Button:
 	button.material = CanvasItemMaterial.new()
 	button.add_theme_font_override("font", Bold)
 	button.add_theme_font_size_override("font_size", 12)
-	for key in ["font_color", "font_hover_color", "font_pressed_color"]:
+	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_disabled_color"]:
 		button.add_theme_color_override(key, INK)
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		var tint := Color.WHITE

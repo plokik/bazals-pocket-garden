@@ -98,6 +98,20 @@ static func _geometry(panel: Control, bounds: Rect2, check: Callable, label: Str
 		var font: Font = Body if str(entry.get("font","")) == "body" or (not entry.has("font") and body_line) else Bold
 		if font_size < 12 or font.get_string_size(str(entry.shown),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x > rect.size.x+1 or not bounds.grow(.5).encloses(transform*rect): text_fit = false
 	check.call(text_fit,label+": skutečně zobrazené texty včetně dlouhých jmen se vejdou a zachovají minimální font12")
+	var quiet_paper := Rect2(panel.layout.list.position + Vector2(28,24), panel.layout.list.size - Vector2(56,48))
+	var headers_clear := true
+	var header_count := 0
+	for entry in panel.view_text:
+		if entry.text in ["POŘADÍ","PĚSTITEL","ÚROVEŇ","RANK","GROWER","LEVEL"] and not (panel.layout.own as Rect2).encloses(entry.rect):
+			header_count += 1
+			if not quiet_paper.encloses(entry.rect): headers_clear = false
+	var captions_clear := true
+	for control in controls:
+		if not control.is_visible_in_tree() or control.text.is_empty(): continue
+		var style: StyleBox = control.get_theme_stylebox("disabled" if control.disabled else "normal")
+		var available: float = control.size.x - style.get_content_margin(SIDE_LEFT) - style.get_content_margin(SIDE_RIGHT)
+		if Bold.get_string_size(control.text,HORIZONTAL_ALIGNMENT_LEFT,-1,control.get_theme_font_size("font_size")).x > available+.5: captions_clear = false
+	check.call(headers_clear and header_count == 3 and captions_clear,label+": popisky tabulky a celé nápisy tlačítek mají prostor mimo malované ozdoby")
 
 
 static func _panel_flow(tree: SceneTree, check: Callable) -> void:

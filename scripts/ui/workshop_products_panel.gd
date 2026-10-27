@@ -176,7 +176,7 @@ func button(text: String, height := 48) -> Button:
 	item.add_theme_font_override("font",Bold)
 	item.add_theme_font_size_override("font_size",11)
 	for key in ["font_color","font_hover_color","font_pressed_color"]: item.add_theme_color_override(key,GREEN)
-	item.add_theme_color_override("font_disabled_color",Color("#7c8b72"))
+	item.add_theme_color_override("font_disabled_color",GREEN)
 	item.add_theme_stylebox_override("normal",Art.box("sage",10))
 	item.add_theme_stylebox_override("hover",Art.box("cream",10))
 	item.add_theme_stylebox_override("pressed",Art.box("sage",10,Color(0.88,0.94,0.81)))
