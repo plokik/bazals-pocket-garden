@@ -1,0 +1,1927 @@
+[
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 0.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 0.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 64,
+    "seconds": 0.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 0.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 106.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 106.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 64,
+    "seconds": 106.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 0.035
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 4.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 64,
+    "seconds": 4.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 4.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 3.3683
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 50,
+    "seconds": 6.0833
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 4.5876
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 5.8323
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 6.6917
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 6.7137
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 6.7357
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 6.7577
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 6.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 6.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 6.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 6.7017
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 11.25
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 11.276
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 11.302
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 10.035
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 47,
+    "seconds": 12.75
+  },
+  {
+    "instrument": "melody",
+    "midi": 66,
+    "seconds": 10.846
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 54,
+    "seconds": 13.3583
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 13.3803
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 13.4023
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 13.4243
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 54,
+    "seconds": 12.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 12.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 12.9833
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 13.3683
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 13.3453
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 15.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 13.7854
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 14.6295
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 15.4659
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 16.2977
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 57,
+    "seconds": 17.9167
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 17.9427
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 17.9687
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 16.7017
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 43,
+    "seconds": 19.4167
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 17.9258
+  },
+  {
+    "instrument": "melody",
+    "midi": 71,
+    "seconds": 18.7543
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 16.6787
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 19.375
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 18.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 17.1336
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 17.96
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 18.8005
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 19.6239
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 55,
+    "seconds": 20.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 20.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 20.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 20.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 55,
+    "seconds": 19.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 19.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 19.65
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 20.035
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 20.012
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 21.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 20.4636
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 21.3005
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 22.1167
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 22.9624
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 24.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 24.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 24.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 23.3683
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 45,
+    "seconds": 26.0833
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 24.1572
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 23.3453
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 26.0417
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 25.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 23.8011
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 24.6359
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 25.4599
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 26.2952
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 26.6917
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 26.7137
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 64,
+    "seconds": 26.7357
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 26.7577
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 26.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 26.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 64,
+    "seconds": 26.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 26.7017
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 28.7615
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 26.6787
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 28.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 27.1178
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 27.9702
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 28.7929
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 29.6358
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 31.25
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 64,
+    "seconds": 31.276
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 31.302
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 30.035
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 50,
+    "seconds": 32.75
+  },
+  {
+    "instrument": "melody",
+    "midi": 76,
+    "seconds": 30.8186
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 32.4868
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 30.012
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 32.7083
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 31.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 30.4673
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 31.3011
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 32.1179
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 32.9653
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 33.3583
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 33.3803
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 33.4023
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 33.4243
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 32.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 32.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 32.9833
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 33.3683
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 33.3453
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 35.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 33.798
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 34.631
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 35.4526
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 36.3005
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 37.9167
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 37.9427
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 37.9687
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 36.7017
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 47,
+    "seconds": 39.4167
+  },
+  {
+    "instrument": "melody",
+    "midi": 74,
+    "seconds": 37.0969
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 38.7396
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 36.6787
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 39.375
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 38.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 37.1175
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 37.9656
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 38.7946
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 39.6289
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 54,
+    "seconds": 40.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 40.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 40.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 40.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 54,
+    "seconds": 39.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 39.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 39.65
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 40.035
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 40.012
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 41.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 40.4648
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 41.3016
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 42.1321
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 42.9568
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 57,
+    "seconds": 44.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 44.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 44.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 43.3683
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 43,
+    "seconds": 46.0833
+  },
+  {
+    "instrument": "melody",
+    "midi": 71,
+    "seconds": 44.1743
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 45.827
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 43.3453
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 46.0417
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 45.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 43.8009
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 44.6368
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 45.4607
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 46.28
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 55,
+    "seconds": 46.6917
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 46.7137
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 46.7357
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 46.7577
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 55,
+    "seconds": 46.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 46.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 46.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 46.7017
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 46.6787
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 48.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 47.115
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 47.9549
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 48.7805
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 49.6288
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 51.25
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 51.276
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 51.302
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 50.035
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 45,
+    "seconds": 52.75
+  },
+  {
+    "instrument": "melody",
+    "midi": 66,
+    "seconds": 50.8342
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 50.012
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 52.7083
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 51.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 50.4487
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 51.2978
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 52.1333
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 52.9531
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 53.3583
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 53.3803
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 64,
+    "seconds": 53.4023
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 53.4243
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 52.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 52.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 64,
+    "seconds": 52.9833
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 53.3683
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 53.3453
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 55.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 53.781
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 54.6297
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 55.4589
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 56.2986
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 57.9167
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 64,
+    "seconds": 57.9427
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 57.9687
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 56.7017
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 50,
+    "seconds": 59.4167
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 57.9267
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 59.1577
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 56.6787
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 59.375
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 58.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 57.1336
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 57.9483
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 58.7889
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 59.6187
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 60.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 60.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 60.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 60.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 59.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 59.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 59.65
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 60.035
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 60.012
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 61.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 60.4541
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 61.3003
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 62.1131
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 62.952
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 64.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 64.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 64.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 63.3683
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 47,
+    "seconds": 66.0833
+  },
+  {
+    "instrument": "melody",
+    "midi": 66,
+    "seconds": 64.1564
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 63.3453
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 66.0417
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 65.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 63.7986
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 64.6163
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 65.4703
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 66.2948
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 54,
+    "seconds": 66.6917
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 66.7137
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 66.7357
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 66.7577
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 54,
+    "seconds": 66.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 66.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 66.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 66.7017
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 66.6787
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 68.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 67.1195
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 67.9492
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 68.7955
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 69.6309
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 57,
+    "seconds": 71.25
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 71.276
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 71.302
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 70.035
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 43,
+    "seconds": 72.75
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 71.2419
+  },
+  {
+    "instrument": "melody",
+    "midi": 71,
+    "seconds": 72.5152
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 70.012
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 72.7083
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 71.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 70.4571
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 71.2878
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 72.1153
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 72.949
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 55,
+    "seconds": 73.3583
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 73.3803
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 73.4023
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 73.4243
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 55,
+    "seconds": 72.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 72.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 72.9833
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 73.3683
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 73.3453
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 75.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 73.7895
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 74.6149
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 75.4492
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 76.2969
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 77.9167
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 77.9427
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 77.9687
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 76.7017
+  },
+  {
+    "instrument": "bass_answer",
+    "midi": 45,
+    "seconds": 79.4167
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 77.0841
+  },
+  {
+    "instrument": "melody",
+    "midi": 66,
+    "seconds": 78.7632
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 76.6787
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 79.375
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 78.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 77.1199
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 77.9467
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 78.7834
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 79.6278
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 80.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 80.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 64,
+    "seconds": 80.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 80.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 79.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 79.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 64,
+    "seconds": 79.65
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 80.035
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 80.012
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 81.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 80.4466
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 81.2968
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 82.1163
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 82.9464
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 84.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 64,
+    "seconds": 84.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 84.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 38,
+    "seconds": 83.3683
+  },
+  {
+    "instrument": "melody",
+    "midi": 73,
+    "seconds": 84.1798
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 83.3453
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 86.0417
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 85.0292
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 83.7842
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 84.6167
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 85.4533
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 86.2817
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 86.6917
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 61,
+    "seconds": 86.7137
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 86.7357
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 86.7577
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 86.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 61,
+    "seconds": 86.3167
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 86.3167
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 86.7017
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 86.6787
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 88.3625
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 87.1313
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 87.964
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 88.7971
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 89.6156
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 61,
+    "seconds": 91.25
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 91.276
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 91.302
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 35,
+    "seconds": 90.035
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 91.237
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 90.012
+  },
+  {
+    "instrument": "soft_kick",
+    "midi": null,
+    "seconds": 92.7083
+  },
+  {
+    "instrument": "soft_rim",
+    "midi": null,
+    "seconds": 91.6958
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 90.4665
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 91.2937
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 92.1265
+  },
+  {
+    "instrument": "brush",
+    "midi": null,
+    "seconds": 92.9646
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 54,
+    "seconds": 93.3583
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 57,
+    "seconds": 93.3803
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 93.4023
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 93.4243
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 54,
+    "seconds": 92.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 57,
+    "seconds": 92.9833
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 92.9833
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 93.3683
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 57,
+    "seconds": 97.9167
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 97.9427
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 97.9687
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 31,
+    "seconds": 96.7017
+  },
+  {
+    "instrument": "melody",
+    "midi": 71,
+    "seconds": 97.4845
+  },
+  {
+    "instrument": "melody",
+    "midi": 69,
+    "seconds": 98.7375
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 55,
+    "seconds": 100.025
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 59,
+    "seconds": 100.047
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 62,
+    "seconds": 100.069
+  },
+  {
+    "instrument": "electric_piano",
+    "midi": 66,
+    "seconds": 100.091
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 55,
+    "seconds": 99.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 59,
+    "seconds": 99.65
+  },
+  {
+    "instrument": "warm_pad",
+    "midi": 62,
+    "seconds": 99.65
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 100.035
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 59,
+    "seconds": 104.5833
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 62,
+    "seconds": 104.6093
+  },
+  {
+    "instrument": "piano_answer",
+    "midi": 66,
+    "seconds": 104.6353
+  },
+  {
+    "instrument": "round_bass",
+    "midi": 33,
+    "seconds": 103.3683
+  }
+]

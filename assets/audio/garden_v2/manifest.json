@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "sample_rate": 48000,
+  "provenance": "Original offline composition and synthesized instruments; no recordings, external samples or vocals.",
+  "approval": "docs/audio-proposals/20261028-modern-calm/approval.json",
+  "music": {
+    "calm_garden": {
+      "title": "Klidná zahrada",
+      "file": "assets/audio/garden_v2/music/klidna_zahrada.ogg",
+      "seconds": 106.666667,
+      "stereo": true,
+      "loop": true,
+      "bpm": 72,
+      "bars": 32,
+      "sha256": "bd8293c77a6a33fef345a513372100dc109da55515aae9271fa94e0cf0587629"
+    }
+  },
+  "sfx": {},
+  "ambience": {}
+}

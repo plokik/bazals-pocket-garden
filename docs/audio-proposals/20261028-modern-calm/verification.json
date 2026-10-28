@@ -1,0 +1,56 @@
+{
+  "status": "REVIEW_ONLY",
+  "user_approval": "PENDING",
+  "integrated_into_game": false,
+  "title": "Klidná zahrada",
+  "style": "Warm ambient / soft downtempo, instrumental",
+  "bpm": 72,
+  "bars": 32,
+  "key": "D major / B minor",
+  "seed": 28102026,
+  "provenance": "Original offline score and synthesized instruments. No sampled recordings or generated-service assets.",
+  "loop": {
+    "seconds": 106.666667,
+    "sample_rate": 48000,
+    "channels": 2,
+    "sample_peak_dbfs": -8.44,
+    "true_peak_dbtp": -8.435,
+    "integrated_lufs": -22.974,
+    "rms_dbfs": -24.225,
+    "dc_offset": 9.332037734566256e-06,
+    "stereo_correlation": 0.88708,
+    "loop_boundary_jump": 0.0015661069191992283,
+    "finite": true
+  },
+  "listening_preview": {
+    "seconds": 106.666667,
+    "sample_rate": 48000,
+    "channels": 2,
+    "sample_peak_dbfs": -4.608,
+    "true_peak_dbtp": -4.603,
+    "integrated_lufs": -19.026,
+    "rms_dbfs": -20.373,
+    "dc_offset": 1.0817600326618049e-07,
+    "stereo_correlation": 0.88761,
+    "loop_boundary_jump": 1.3324645351531217e-06,
+    "finite": true
+  },
+  "current_game_audio_unchanged": true,
+  "checked_original_audio_files": 57,
+  "automated_audio_checks": "PASSED",
+  "subjective_listening_approval": "PENDING",
+  "files": {
+    "klidna-zahrada-loop.flac": {
+      "bytes": 8039353,
+      "sha256": "13803fe99e1224db95dda8234eab79f4f5f0be08c6ae2d6939bceabb3f1399ae"
+    },
+    "klidna-zahrada-loop.ogg": {
+      "bytes": 961135,
+      "sha256": "bd8293c77a6a33fef345a513372100dc109da55515aae9271fa94e0cf0587629"
+    },
+    "klidna-zahrada-poslech.mp3": {
+      "bytes": 3415340,
+      "sha256": "218502c6cfbb19bc6e92fe2b51e7bafd9b661db63886e24ab70acb8b91c131af"
+    }
+  }
+}

@@ -11,6 +11,10 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def verify():
     manifest = json.loads((ROOT/'assets/audio/garden_v1/manifest.json').read_text(encoding='utf-8'))
+    approved = json.loads((ROOT/'assets/audio/garden_v2/manifest.json').read_text(encoding='utf-8'))
+    # Preserve verification of the archived score and all unchanged effects,
+    # while checking the newly approved runtime music as well.
+    manifest['music'].update(approved['music'])
     rows = []
     for group in ('music', 'sfx', 'ambience'):
         for name, item in manifest[group].items():
@@ -31,10 +35,10 @@ def verify():
                              rms_db=20*math.log10(rms), loop_join_jump=jump))
     levels = [row['rms_db'] for row in rows if row['group'] == 'music']
     assert max(levels)-min(levels) < 1.5, 'Music level changes between locations'
-    result = dict(passed=True, tracks=len(manifest['music']), effects=len(manifest['sfx']),
+    result = dict(passed=True, tracks=len(manifest['music']), active_tracks=list(approved['music']), effects=len(manifest['sfx']),
                   ambiences=len(manifest['ambience']), music_seconds=sum(v['seconds'] for v in manifest['music'].values()),
                   assets=rows)
-    output = ROOT/'.godot/soundtrack-20261017/asset-verification.json'
+    output = ROOT/'.godot/approved-delivery-20261028/audio-asset-verification.json'
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
     print(f'AUDIO_ASSET_VERIFICATION=PASSED files={len(rows)}')

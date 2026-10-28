@@ -18,7 +18,7 @@ const Herbs := preload("res://assets/ui/teahouse/herb-symbols-v1.png")
 const Teaware := preload("res://scripts/teahouse/tea_teaware_visual.gd")
 const MagicEffects := preload("res://scripts/teahouse/tea_magic_effects.gd")
 const BranchAmbient := preload("res://scripts/teahouse/tea_branch_ambient.gd")
-const Music := preload("res://assets/audio/garden_v1/music/workshop.ogg")
+const Music := preload("res://assets/audio/garden_v2/music/klidna_zahrada.ogg")
 const Sounds := {
 	"pick": preload("res://assets/audio/garden_v1/sfx/tap.wav"),
 	"match": preload("res://assets/audio/garden_v1/sfx/herbs.wav"),

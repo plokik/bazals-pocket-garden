@@ -1,12 +1,7 @@
 extends RefCounted
-## Generated original audio resource catalog.
+## Approved original music and sound effects catalog.
 const MUSIC := {
-	"bazal_theme": preload("res://assets/audio/garden_v1/music/bazal_theme.ogg"),
-	"workshop": preload("res://assets/audio/garden_v1/music/workshop.ogg"),
-	"growing": preload("res://assets/audio/garden_v1/music/growing.ogg"),
-	"outside": preload("res://assets/audio/garden_v1/music/outside.ogg"),
-	"market": preload("res://assets/audio/garden_v1/music/market.ogg"),
-	"journal": preload("res://assets/audio/garden_v1/music/journal.ogg"),
+	"calm_garden": preload("res://assets/audio/garden_v2/music/klidna_zahrada.ogg"),
 }
 const CUES := {
 	"tap": preload("res://assets/audio/garden_v1/sfx/tap.wav"),

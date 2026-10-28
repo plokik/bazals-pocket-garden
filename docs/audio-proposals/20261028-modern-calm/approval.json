@@ -1,0 +1,10 @@
+{
+  "status": "APPROVED_BY_USER",
+  "approved_on": "2026-10-28",
+  "user_approval": "Souhlasím, dej tuhle hudbu do hry a zapni mi aktuální verzi v emulátoru,  a rovnu nahraj vše co jsme schvalili",
+  "reviewed_preview": "docs/audio-proposals/20261028-modern-calm/klidna-zahrada-poslech.mp3",
+  "preview_sha256": "218502c6cfbb19bc6e92fe2b51e7bafd9b661db63886e24ab70acb8b91c131af",
+  "runtime_file": "assets/audio/garden_v2/music/klidna_zahrada.ogg",
+  "runtime_sha256": "bd8293c77a6a33fef345a513372100dc109da55515aae9271fa94e0cf0587629",
+  "scope": "Use the approved instrumental loop throughout the game; retain effects, ambience, saved volume settings and uninterrupted playback across navigation."
+}

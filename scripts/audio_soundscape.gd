@@ -2,7 +2,9 @@ extends Node
 ## Original offline score and designed foley; no synthesis or save writes here.
 const Library := preload("res://scripts/audio_library.gd")
 const CROSSFADE_SECONDS := 1.6
-const SCENE_MUSIC := {"title":"bazal_theme", "player_room":"workshop", "workshop":"workshop", "rack":"growing", "detail":"growing", "greenhouse":"growing", "greenhouse_exterior":"outside", "storage":"workshop", "shop":"market", "journal":"journal", "measurement":"journal"}
+const DEFAULT_MUSIC := "calm_garden"
+# One approved bed continues across navigation; location ambience stays separate.
+const SCENE_MUSIC := {"title":DEFAULT_MUSIC, "player_room":DEFAULT_MUSIC, "workshop":DEFAULT_MUSIC, "rack":DEFAULT_MUSIC, "detail":DEFAULT_MUSIC, "greenhouse":DEFAULT_MUSIC, "greenhouse_exterior":DEFAULT_MUSIC, "storage":DEFAULT_MUSIC, "shop":DEFAULT_MUSIC, "journal":DEFAULT_MUSIC, "measurement":DEFAULT_MUSIC}
 var music_enabled := true
 var sfx_enabled := true
 var haptics_enabled := true
@@ -116,7 +118,7 @@ func _notification(what: int) -> void:
 
 func set_scene_context(context: String, immediate := false) -> void:
 	scene_context = context
-	var track: String = SCENE_MUSIC.get(context, "growing")
+	var track: String = SCENE_MUSIC.get(context, DEFAULT_MUSIC)
 	if current_track != track:
 		var first := current_track.is_empty()
 		current_track = track

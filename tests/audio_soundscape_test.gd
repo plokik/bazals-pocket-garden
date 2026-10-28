@@ -8,7 +8,8 @@ static func run(host: SceneTree) -> void:
 	host.root.add_child(audio)
 	await host.process_frame
 	host._check(audio.music_players.size() == 2 and audio.sfx_players.size() == 3, "Audio: omezené dva hudební a tři efektové hlasy")
-	host._check(Library.MUSIC.size() == 6 and audio.get_cue_ids().size() == 47 and Library.AMBIENCE.size() == 2, "Audio: kompletní katalog šesti skladeb, 47 efektů a dvou prostředí")
+	host._check(Library.MUSIC.size() == 1 and Library.MUSIC.has("calm_garden") and audio.get_cue_ids().size() == 47 and Library.AMBIENCE.size() == 2, "Audio: schválená klidná hudba, zachovaných 47 efektů a dvě prostředí")
+	host._check(FileAccess.get_sha256("res://assets/audio/garden_v2/music/klidna_zahrada.ogg") == "bd8293c77a6a33fef345a513372100dc109da55515aae9271fa94e0cf0587629", "Audio: hra přehrává přesně schválenou smyčku bez nové kompozice nebo převodu")
 	for id in Library.MUSIC:
 		var stream: AudioStream = Library.MUSIC[id]
 		host._check(stream is AudioStreamOggVorbis and stream.get_length() >= 90, "Audio: delší streamovaná skladba " + id)
@@ -19,9 +20,16 @@ static func run(host: SceneTree) -> void:
 		audio.play_feedback(entry[0])
 		host._check(audio.last_cue == entry[1], "Audio: vlastní zvuk akce " + entry[0])
 	audio.set_capture_mode(false)
+	var continuous_player: AudioStreamPlayer = audio.music_player
+	var continuous_stream: AudioStream = continuous_player.stream
+	continuous_player.seek(24.0)
+	await host.process_frame
 	for context in audio.SCENE_MUSIC:
 		audio.set_scene_context(context)
 		host._check(audio.current_track == audio.SCENE_MUSIC[context] and audio.music_player.stream.loop, "Audio: hudba lokace a plynulá smyčka " + context)
+		host._check(audio.music_player == continuous_player and audio.music_player.stream == continuous_stream and audio.music_player.playing and audio.music_player.get_playback_position() >= 23.5, "Audio: navigace nerestartuje skladbu ani nevytváří druhou hudební vrstvu " + context)
+	audio.set_scene_context("new_location_fallback")
+	host._check(audio.current_track == "calm_garden" and audio.music_player == continuous_player and audio.music_player.stream == continuous_stream and audio.music_player.get_playback_position() >= 23.5, "Audio: neznámá lokace pokračuje ve schválené hudbě")
 	audio.set_scene_context("greenhouse_exterior")
 	host._check(audio.ambience_id == "garden_air" and audio.ambience_player.playing, "Audio: venku hraje zahradní prostředí")
 	audio.set_scene_context("greenhouse")
