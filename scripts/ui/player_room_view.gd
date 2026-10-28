@@ -2,7 +2,6 @@ class_name PlayerRoomView
 extends Control
 
 signal rack_requested
-signal theme_requested
 signal decoration_slot_requested(slot_index: int)
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
@@ -15,7 +14,6 @@ const DECORATION_SLOT_COUNT := 5
 
 var selected_theme_id := "sunrise"
 var back_button: Button
-var theme_button: Button
 var decoration_slots: Array[String] = ["", "", "", "", ""]
 var decoration_catalog: Dictionary = {}
 var decoration_buttons: Array[Button] = []
@@ -51,22 +49,6 @@ func _build_navigation() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
 
-	theme_button = Button.new()
-	theme_button.text = "VZHLED POKOJE"
-	theme_button.focus_mode = Control.FOCUS_NONE
-	theme_button.set_anchor(SIDE_LEFT, 1.0)
-	theme_button.set_anchor(SIDE_RIGHT, 1.0)
-	theme_button.offset_left = -166.0
-	theme_button.offset_right = -10.0
-	theme_button.offset_top = 12.0
-	theme_button.offset_bottom = 72.0
-	theme_button.add_theme_font_override("font", FontExtraBold)
-	theme_button.add_theme_font_size_override("font_size", 11)
-	ComicUITheme.apply_button(theme_button, ComicUITheme.PURPLE, Color.WHITE, 16)
-	theme_button.set_meta("component", "phase103_player_room_theme_launcher_v1")
-	theme_button.set_meta("touch_target_min", Vector2(156, 60))
-	theme_button.pressed.connect(_on_theme_pressed)
-	add_child(theme_button)
 
 
 func set_cosmetic_theme(theme_id: String) -> void:
@@ -100,10 +82,6 @@ func set_reduced_motion(enabled: bool) -> void:
 
 func _on_back_pressed() -> void:
 	rack_requested.emit()
-
-
-func _on_theme_pressed() -> void:
-	theme_requested.emit()
 
 
 func _on_decoration_slot_pressed(slot_index: int) -> void:

@@ -29,12 +29,6 @@ class MeasuredMain:
 		timings.herbarium = (Time.get_ticks_usec() - start) / 1000.0
 		return result
 
-	func _build_cosmetic_modal() -> Control:
-		var start := Time.get_ticks_usec()
-		var result := super._build_cosmetic_modal()
-		timings.cosmetics = (Time.get_ticks_usec() - start) / 1000.0
-		return result
-
 func _initialize() -> void:
 	call_deferred("_measure")
 

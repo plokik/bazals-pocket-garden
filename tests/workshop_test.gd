@@ -200,12 +200,12 @@ static func _run_ui(host: SceneTree) -> void:
 		var room_rect: Rect2 = room.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,room.size)
 		var bench_rect: Rect2 = room.workbench_button.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,room.workbench_button.size)
 		var bench_local := Rect2(room.workbench_button.position,room.workbench_button.size)
-		host._check(room.get_meta("workshop_room",false) and room.teahouse_embedded and room_rect.encloses(bench_rect) and bench_local.is_equal_approx(Rect2(106,508,220,54)),"Dílna: schválený pracovní stůl má cíl 220×54 uvnitř vložené místnosti na %s" % viewport)
+		host._check(room.get_meta("workshop_room",false) and room.teahouse_embedded and room_rect.encloses(bench_rect) and bench_local.get_center().is_equal_approx(Vector2(216,535)) and is_equal_approx(bench_local.size.x,220) and bench_rect.size.y >= 51.9,"Dílna: pracovní stůl zachová původní střed a šířku a nejméně52px výšku uvnitř vložené místnosti na %s" % viewport)
 		var hub: Control = game.teahouse_hub
 		var back: Button = hub.buttons.back
 		var back_rect: Rect2 = back.get_global_transform_with_canvas() * Rect2(Vector2.ZERO,back.size)
 		var safe_global: Rect2 = game.get_global_transform_with_canvas() * safe_local
-		host._check(not room.back_button.visible and not room.theme_button.visible and not room.title_card.visible and hub.active and hub.page == "workshop" and back.is_visible_in_tree() and safe_global.encloses(back_rect) and back.size.is_equal_approx(Vector2(44,44)),"Dílna: sdílené záhlaví má dostupný návrat v safe area a neskládá skryté staré ovládání")
+		host._check(not room.back_button.visible and not room.has_signal("theme_requested") and not room.title_card.visible and hub.active and hub.page == "workshop" and back.is_visible_in_tree() and safe_global.encloses(back_rect) and back_rect.size.x >= 47.9 and back_rect.size.y >= 47.9,"Dílna: sdílené záhlaví má alespoň 48px návrat v safe area a neskládá skryté staré ovládání")
 		var hidden_targets := true
 		for target: Button in room.decoration_buttons:
 			hidden_targets = hidden_targets and not target.visible and target.disabled and target.mouse_filter == Control.MOUSE_FILTER_IGNORE
@@ -224,10 +224,7 @@ static func _run_ui(host: SceneTree) -> void:
 		if button.get_meta("component","") == "phase14_cosmetic_showroom_launcher_v1":
 			appearance = button
 			break
-	if appearance != null:
-		appearance.pressed.emit()
-	host._check(appearance != null and game.cosmetic_modal_open and game.cosmetic_modal.visible and game.teahouse_hub.active and game.teahouse_hub.page == "workshop","Dílna: vzhled zůstává dostupný přes hráčské nastavení i bez starého tlačítka místnosti")
-	game._close_cosmetic_modal()
+	host._check(appearance == null and game.settings_modal_open and not game.has_method("_open_cosmetic_modal") and game.teahouse_hub.active and game.teahouse_hub.page == "workshop","Dílna: nastavení neobsahuje odstraněný vstup do showroomu a zachová otevřenou dílnu")
 	game._close_settings_modal()
 	room.workbench_button.pressed.emit()
 	var modal = game.workshop_modal

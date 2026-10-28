@@ -128,7 +128,7 @@ static func run(host: SceneTree) -> void:
 		await host.process_frame
 		cat._process(0.0)
 		if location == "rack":
-			host._check(cat._floor_y() + cat.global_position.y < game.rack_pet_launcher_button.global_position.y - 12.0, "Kočka: ve stojanu chodí nad spodními tlačítky")
+			host._check(cat._floor_y() + cat.global_position.y < game.professor_research_launcher_button.global_position.y - 12.0, "Kočka: ve stojanu chodí nad spodními tlačítky")
 		else:
 			var front: Rect2 = game.greenhouse_preview_view._growing_box_rect(1)
 			host._check(cat._floor_y() < front.position.y, "Kočka: ve skleníku chodí mezi záhony mimo nabídku osiv")

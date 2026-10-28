@@ -172,7 +172,6 @@ func _prepare_scenario(instance, scenario_id: String) -> Dictionary:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_care_center_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._set_guide_modal_open(false, false)
 	instance._close_return_summary()
 	var context := {

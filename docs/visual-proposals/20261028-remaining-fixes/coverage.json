@@ -1,0 +1,3435 @@
+{
+  "capture_policy": "Simulation is paused in an isolated fixture. After route setup, wait300ms for tweens, perform requested scroll and call feedback_layer.finish_all() so frozen route-transition stripes are not part of static layout proof.",
+  "completed": 48,
+  "not_captured": [
+    {
+      "reason": "Current painted workshop hides/disables all old movable shelf slot controls; this is not a reachable current player screen.",
+      "state": "legacy_room_decoration_slots"
+    },
+    {
+      "reason": "External platform surfaces are not rendered inside this desktop SubViewport audit.",
+      "state": "native_android_ads_and_file_picker"
+    }
+  ],
+  "note": "Geometry warnings include controls behind active modal overlays; inspect actual PNG before treating them as visible bugs. Scroll descendant overflow is excluded. QA phase fixtures are visual states, not a claim of playing their full action sequence. Screenshots are settled stills, not continuous animation or physical-phone acceptance.",
+  "planned_states": [
+    "tutorial",
+    "tutorial_page2",
+    "tutorial_page3",
+    "greenhouse_empty",
+    "greenhouse_bed2",
+    "greenhouse_bed3",
+    "greenhouse_bed4",
+    "greenhouse_growing",
+    "greenhouse_ready",
+    "plant_detail_actions",
+    "workshop",
+    "teahouse_map"
+  ],
+  "results": [
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\tutorial.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 48.0), S: (326.0, 259.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 50.0)]",
+          "confirm_rect": "[P: (185.52, 239.0), S: (136.92, 52.0)]",
+          "line_count": 6,
+          "motion_rect": "[P: (35.56, 239.0), S: (140.18, 52.0)]",
+          "page": 1,
+          "text": "PŘEDÁNÍ ZAHRADY · 1/3\n\nTahle malá zahrada patřila naší botanické dílně. Vítr roznesl její semena a z herbáře zůstaly jen prázdné stránky.",
+          "text_rect": "[P: (37.19, 92.0), S: (283.62, 135.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 6
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\tutorial_page2.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 48.0), S: (326.0, 236.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 50.0)]",
+          "confirm_rect": "[P: (185.52, 216.0), S: (136.92, 52.0)]",
+          "line_count": 5,
+          "motion_rect": "[P: (35.56, 216.0), S: (140.18, 52.0)]",
+          "page": 2,
+          "text": "PŘEDÁNÍ ZAHRADY · 2/3\n\nPředávám ji tobě. Pěstuj nové druhy, pozoruj jejich potřeby a každým objevem vrať jednu stránku do herbáře.",
+          "text_rect": "[P: (37.19, 92.0), S: (283.62, 112.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 5
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\tutorial_page2.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\tutorial_page3.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 48.0), S: (326.0, 259.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 50.0)]",
+          "confirm_rect": "[P: (185.52, 239.0), S: (136.92, 52.0)]",
+          "line_count": 6,
+          "motion_rect": "[P: (35.56, 239.0), S: (140.18, 52.0)]",
+          "page": 3,
+          "text": "PŘEDÁNÍ ZAHRADY · 3/3\n\nZačni bazalkou. Prvním cyklem tě provedu krok za krokem; potom už bude zahrada růst podle tvých rozhodnutí.",
+          "text_rect": "[P: (37.19, 92.0), S: (283.62, 135.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 6
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\tutorial_page3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_empty.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · VOLNÝ",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_bed2.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 2,
+          "selected_caption": "ZÁHON 2 · VOLNÝ",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_bed2.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_bed3.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 3,
+          "selected_caption": "ZÁHON 3 · VOLNÝ",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_bed3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_bed4.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 4,
+          "selected_caption": "ZÁHON 4 · VOLNÝ",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed4",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_bed4.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_growing.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_ready.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 162.1635), S: (119.7429, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 162.1635), S: (119.3664, 71.54452)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 249.5231), S: (161.9166, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 249.5231), S: (161.54, 87.47688)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 345.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\plant_detail_actions.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "vent": {
+          "rect": "[P: (248.0, 289.0), S: (70.0, 112.0)]",
+          "tooltip": "Vyvětrat · proudění 58%",
+          "visible": true
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "warnings": [],
+      "capture_run": "care-final",
+      "source_provenance": "Captured between identical care-source runtime manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\care-final\\360x640\\plant_detail_actions.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\workshop.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "workshop": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (84.0, 236.0), S: (240.0, 17.0)]",
+              "text": "ZAKÁZKA PRO ČAJOVNU"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (83.0, 255.0), S: (233.0, 25.0)]",
+              "text": "První dodávka"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            }
+          ],
+          "scene_ratio": 0.608333333333333,
+          "wheel_rect": "[P: (193.0167, 218.0), S: (104.0, 48.0)]",
+          "workbench_rect": "[P: (112.0833, 403.7584), S: (133.8333, 52.00001)]",
+          "workbench_rendered_font_size": 11.5583336353302
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\teahouse_map.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "remaining_review": {
+        "map": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 772.0), S: (214.0, 20.0)]",
+              "text": "ÚROVEŇ 1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 800.0), S: (206.2055, 30.0)]",
+              "text": "Svěží ráno"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 867.0), S: (255.0, 24.0)]",
+              "text": "Získej 6 hvězd"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 916.0), S: (250.0, 16.0)]",
+              "text": "Hvězdy 0 / 6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (356.0, 898.0), S: (40.0, 31.0)]",
+              "text": "+40"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (255.6, 680.16), S: (36.0, 32.0)]",
+              "text": "1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (167.28, 616.8), S: (36.0, 32.0)]",
+              "text": "2"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (198.0, 564.96), S: (36.0, 32.0)]",
+              "text": "3"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (301.68, 518.88), S: (36.0, 32.0)]",
+              "text": "4"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (247.92, 461.28), S: (36.0, 32.0)]",
+              "text": "5"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 420.96), S: (36.0, 32.0)]",
+              "text": "6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 363.36), S: (36.0, 32.0)]",
+              "text": "7"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (209.52, 328.8), S: (36.0, 32.0)]",
+              "text": "8"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (294.0, 282.72), S: (36.0, 32.0)]",
+              "text": "9"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (194.16, 251.04), S: (36.0, 32.0)]",
+              "text": "10"
+            }
+          ],
+          "scene_ratio": 0.608333333333333
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x640\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\tutorial.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 60.0), S: (326.0, 267.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 53.6)]",
+          "confirm_rect": "[P: (185.52, 259.0), S: (136.92, 52.0)]",
+          "line_count": 6,
+          "motion_rect": "[P: (35.56, 259.0), S: (140.18, 52.0)]",
+          "page": 1,
+          "text": "PŘEDÁNÍ ZAHRADY · 1/3\n\nTahle malá zahrada patřila naší botanické dílně. Vítr roznesl její semena a z herbáře zůstaly jen prázdné stránky.",
+          "text_rect": "[P: (37.19, 112.0), S: (283.62, 135.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 6
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\tutorial_page2.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 60.0), S: (326.0, 244.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 53.6)]",
+          "confirm_rect": "[P: (185.52, 236.0), S: (136.92, 52.0)]",
+          "line_count": 5,
+          "motion_rect": "[P: (35.56, 236.0), S: (140.18, 52.0)]",
+          "page": 2,
+          "text": "PŘEDÁNÍ ZAHRADY · 2/3\n\nPředávám ji tobě. Pěstuj nové druhy, pozoruj jejich potřeby a každým objevem vrať jednu stránku do herbáře.",
+          "text_rect": "[P: (37.19, 112.0), S: (283.62, 112.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 5
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\tutorial_page2.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\tutorial_page3.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (16.0, 60.0), S: (326.0, 267.0)]",
+          "close_rect": "[P: (290.0, 32.0), S: (48.0, 53.6)]",
+          "confirm_rect": "[P: (185.52, 259.0), S: (136.92, 52.0)]",
+          "line_count": 6,
+          "motion_rect": "[P: (35.56, 259.0), S: (140.18, 52.0)]",
+          "page": 3,
+          "text": "PŘEDÁNÍ ZAHRADY · 3/3\n\nZačni bazalkou. Prvním cyklem tě provedu krok za krokem; potom už bude zahrada růst podle tvých rozhodnutí.",
+          "text_rect": "[P: (37.19, 112.0), S: (283.62, 135.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 6
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\tutorial_page3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_empty.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · VOLNÝ",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_bed2.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 2,
+          "selected_caption": "ZÁHON 2 · VOLNÝ",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_bed2.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_bed3.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 3,
+          "selected_caption": "ZÁHON 3 · VOLNÝ",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_bed3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_bed4.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 4,
+          "selected_caption": "ZÁHON 4 · VOLNÝ",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed4",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_bed4.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_growing.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\greenhouse_ready.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (59.44532, 322.1635), S: (119.7429, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 322.1635), S: (119.3664, 71.54454)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (17.2717, 409.5231), S: (161.9166, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (179.1883, 409.5231), S: (161.54, 87.4769)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 505.0), S: (302.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\plant_detail_actions.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "vent": {
+          "rect": "[P: (248.0, 449.0), S: (70.0, 112.0)]",
+          "tooltip": "Vyvětrat · proudění 58%",
+          "visible": true
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "warnings": [],
+      "capture_run": "care-final",
+      "source_provenance": "Captured between identical care-source runtime manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\care-final\\360x800\\plant_detail_actions.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\workshop.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "workshop": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (84.0, 236.0), S: (240.0, 17.0)]",
+              "text": "ZAKÁZKA PRO ČAJOVNU"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (83.0, 255.0), S: (233.0, 25.0)]",
+              "text": "První dodávka"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            }
+          ],
+          "scene_ratio": 0.773148148148148,
+          "wheel_rect": "[P: (224.9908, 258.4445), S: (104.0, 48.0)]",
+          "workbench_rect": "[P: (93.9537, 514.5787), S: (170.0926, 51.99999)]",
+          "workbench_rendered_font_size": 11.5972217917442
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x800\\teahouse_map.png",
+      "logical_size": [
+        360,
+        800
+      ],
+      "opened": true,
+      "remaining_review": {
+        "map": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 772.0), S: (214.0, 20.0)]",
+              "text": "ÚROVEŇ 1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 800.0), S: (218.0, 30.0)]",
+              "text": "Svěží ráno"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 867.0), S: (255.0, 24.0)]",
+              "text": "Získej 6 hvězd"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 916.0), S: (250.0, 16.0)]",
+              "text": "Hvězdy 0 / 6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (356.0, 898.0), S: (40.0, 31.0)]",
+              "text": "+40"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (255.6, 680.16), S: (36.0, 32.0)]",
+              "text": "1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (167.28, 616.8), S: (36.0, 32.0)]",
+              "text": "2"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (198.0, 564.96), S: (36.0, 32.0)]",
+              "text": "3"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (301.68, 518.88), S: (36.0, 32.0)]",
+              "text": "4"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (247.92, 461.28), S: (36.0, 32.0)]",
+              "text": "5"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 420.96), S: (36.0, 32.0)]",
+              "text": "6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 363.36), S: (36.0, 32.0)]",
+              "text": "7"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (209.52, 328.8), S: (36.0, 32.0)]",
+              "text": "8"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (294.0, 282.72), S: (36.0, 32.0)]",
+              "text": "9"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (194.16, 251.04), S: (36.0, 32.0)]",
+              "text": "10"
+            }
+          ],
+          "scene_ratio": 0.773148148148148
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\360x800\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\tutorial.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (15.12, 72.0), S: (401.76, 273.6)]",
+          "close_rect": "[P: (353.84, 32.0), S: (56.16, 64.32)]",
+          "confirm_rect": "[P: (224.0352, 263.52), S: (168.7392, 65.66399)]",
+          "line_count": 5,
+          "motion_rect": "[P: (39.2256, 263.52), S: (172.7568, 65.66399)]",
+          "page": 1,
+          "text": "PŘEDÁNÍ ZAHRADY · 1/3\n\nTahle malá zahrada patřila naší botanické dílně. Vítr roznesl její semena a z herbáře zůstaly jen prázdné stránky.",
+          "text_rect": "[P: (41.2344, 145.872), S: (349.5312, 112.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 5
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\tutorial_page2.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (15.12, 72.0), S: (401.76, 273.6)]",
+          "close_rect": "[P: (353.84, 32.0), S: (56.16, 64.32)]",
+          "confirm_rect": "[P: (224.0352, 263.52), S: (168.7392, 65.66399)]",
+          "line_count": 5,
+          "motion_rect": "[P: (39.2256, 263.52), S: (172.7568, 65.66399)]",
+          "page": 2,
+          "text": "PŘEDÁNÍ ZAHRADY · 2/3\n\nPředávám ji tobě. Pěstuj nové druhy, pozoruj jejich potřeby a každým objevem vrať jednu stránku do herbáře.",
+          "text_rect": "[P: (41.2344, 145.872), S: (349.5312, 112.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 5
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\tutorial_page2.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\tutorial_page3.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (15.12, 72.0), S: (401.76, 273.6)]",
+          "close_rect": "[P: (353.84, 32.0), S: (56.16, 64.32)]",
+          "confirm_rect": "[P: (224.0352, 263.52), S: (168.7392, 65.66399)]",
+          "line_count": 5,
+          "motion_rect": "[P: (39.2256, 263.52), S: (172.7568, 65.66399)]",
+          "page": 3,
+          "text": "PŘEDÁNÍ ZAHRADY · 3/3\n\nZačni bazalkou. Prvním cyklem tě provedu krok za krokem; potom už bude zahrada růst podle tvých rozhodnutí.",
+          "text_rect": "[P: (41.2344, 145.872), S: (349.5312, 112.0)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 5
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\tutorial_page3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_empty.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · VOLNÝ",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_bed2.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 2,
+          "selected_caption": "ZÁHON 2 · VOLNÝ",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_bed2.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_bed3.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 3,
+          "selected_caption": "ZÁHON 3 · VOLNÝ",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_bed3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_bed4.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 4,
+          "selected_caption": "ZÁHON 4 · VOLNÝ",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed4",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_bed4.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_growing.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\greenhouse_ready.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 637.0), S: (374.0, 96.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\plant_detail_actions.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "vent": {
+          "rect": "[P: (312.0, 612.0), S: (93.0, 100.0)]",
+          "tooltip": "Vyvětrat · proudění 58%",
+          "visible": true
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "warnings": [],
+      "capture_run": "care-final",
+      "source_provenance": "Captured between identical care-source runtime manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\care-final\\432x960\\plant_detail_actions.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\workshop.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "workshop": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (84.0, 162.0), S: (240.0, 17.0)]",
+              "text": "ZAKÁZKA PRO ČAJOVNU"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (83.0, 181.0), S: (233.0, 25.0)]",
+              "text": "První dodávka"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (70.0, 23.0), S: (212.0, 28.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (76.0, 52.0), S: (200.0, 15.0)]",
+              "text": "BYLINKY, ČAJ A MALÉ RADOSTI"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (341.0, 27.0), S: (58.0, 30.0)]",
+              "text": "10000"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (81.0, 77.0), S: (116.0, 38.0)]",
+              "text": "MAPA ÚROVNÍ"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (288.0, 77.0), S: (87.0, 38.0)]",
+              "text": "DÍLNA"
+            }
+          ],
+          "scene_ratio": 0.939814814814815,
+          "wheel_rect": "[P: (322.1389, 242.9259), S: (75.18518, 48.0)]",
+          "workbench_rect": "[P: (111.6204, 625.7454), S: (206.7593, 52.00003)]",
+          "workbench_rendered_font_size": 11.277777671814
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\432x960\\teahouse_map.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "remaining_review": {
+        "map": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (50.0, 144.0), S: (256.0, 24.0)]",
+              "text": "1 · BYLINKOVÁ ZAHRADA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (343.0, 144.0), S: (40.0, 24.0)]",
+              "text": "0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (255.6, 680.16), S: (36.0, 32.0)]",
+              "text": "1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (245.6, 734.16), S: (56.0, 18.0)]",
+              "text": "DALŠÍ"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (167.28, 616.8), S: (36.0, 32.0)]",
+              "text": "2"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (198.0, 564.96), S: (36.0, 32.0)]",
+              "text": "3"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (301.68, 518.88), S: (36.0, 32.0)]",
+              "text": "4"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (247.92, 461.28), S: (36.0, 32.0)]",
+              "text": "5"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 420.96), S: (36.0, 32.0)]",
+              "text": "6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 363.36), S: (36.0, 32.0)]",
+              "text": "7"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (209.52, 328.8), S: (36.0, 32.0)]",
+              "text": "8"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (294.0, 282.72), S: (36.0, 32.0)]",
+              "text": "9"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (194.16, 251.04), S: (36.0, 32.0)]",
+              "text": "10"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 799.0), S: (214.0, 20.0)]",
+              "text": "ÚROVEŇ 1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 825.0), S: (218.0, 30.0)]",
+              "text": "Svěží ráno"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 857.0), S: (358.0, 18.0)]",
+              "text": "10 úrovní · každý šálek tvým tempem"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 891.0), S: (255.0, 24.0)]",
+              "text": "Získej 6 hvězd"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 916.0), S: (250.0, 16.0)]",
+              "text": "Hvězdy 0 / 6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (356.0, 898.0), S: (40.0, 31.0)]",
+              "text": "+40"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (70.0, 23.0), S: (212.0, 28.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (76.0, 52.0), S: (200.0, 15.0)]",
+              "text": "BYLINKY, ČAJ A MALÉ RADOSTI"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (341.0, 27.0), S: (58.0, 30.0)]",
+              "text": "10000"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (81.0, 77.0), S: (116.0, 38.0)]",
+              "text": "MAPA ÚROVNÍ"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (288.0, 77.0), S: (87.0, 38.0)]",
+              "text": "DÍLNA"
+            }
+          ],
+          "scene_ratio": 0.939814814814815
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\432x960\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\tutorial.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (21.0, 67.5), S: (558.0, 256.5)]",
+          "close_rect": "[P: (500.0, 32.0), S: (78.0, 60.3)]",
+          "confirm_rect": "[P: (311.16, 247.05), S: (234.36, 61.56)]",
+          "line_count": 4,
+          "motion_rect": "[P: (54.48, 247.05), S: (239.94, 61.56)]",
+          "page": 1,
+          "text": "PŘEDÁNÍ ZAHRADY · 1/3\n\nTahle malá zahrada patřila naší botanické dílně. Vítr roznesl její semena a z herbáře zůstaly jen prázdné stránky.",
+          "text_rect": "[P: (57.27, 136.755), S: (485.46, 100.035)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 4
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\tutorial_page2.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (21.0, 67.5), S: (558.0, 256.5)]",
+          "close_rect": "[P: (500.0, 32.0), S: (78.0, 60.3)]",
+          "confirm_rect": "[P: (311.16, 247.05), S: (234.36, 61.56)]",
+          "line_count": 4,
+          "motion_rect": "[P: (54.48, 247.05), S: (239.94, 61.56)]",
+          "page": 2,
+          "text": "PŘEDÁNÍ ZAHRADY · 2/3\n\nPředávám ji tobě. Pěstuj nové druhy, pozoruj jejich potřeby a každým objevem vrať jednu stránku do herbáře.",
+          "text_rect": "[P: (57.27, 136.755), S: (485.46, 100.035)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 4
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\tutorial_page2.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\tutorial_page3.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "tutorial": {
+          "card_rect": "[P: (21.0, 67.5), S: (558.0, 256.5)]",
+          "close_rect": "[P: (500.0, 32.0), S: (78.0, 60.3)]",
+          "confirm_rect": "[P: (311.16, 247.05), S: (234.36, 61.56)]",
+          "line_count": 4,
+          "motion_rect": "[P: (54.48, 247.05), S: (239.94, 61.56)]",
+          "page": 3,
+          "text": "PŘEDÁNÍ ZAHRADY · 3/3\n\nZačni bazalkou. Prvním cyklem tě provedu krok za krokem; potom už bude zahrada růst podle tvých rozhodnutí.",
+          "text_rect": "[P: (57.27, 136.755), S: (485.46, 100.035)]",
+          "text_rect_intersects_confirm": false,
+          "visible_line_count": 4
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial_page3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\tutorial_page3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_empty.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · VOLNÝ",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_bed2.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 2,
+          "selected_caption": "ZÁHON 2 · VOLNÝ",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed2",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_bed2.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_bed3.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 3,
+          "selected_caption": "ZÁHON 3 · VOLNÝ",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed3",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_bed3.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_bed4.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 4,
+          "selected_caption": "ZÁHON 4 · VOLNÝ",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_bed4",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_bed4.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_growing.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\greenhouse_ready.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "greenhouse": {
+          "beds": [
+            {
+              "bed": 1,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (93.53777, 297.9695), S: (205.7858, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 2,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 297.9695), S: (205.1387, 122.9538)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 3,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (21.05975, 448.1026), S: (278.2638, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            },
+            {
+              "bed": 4,
+              "center_in_view": true,
+              "enabled": true,
+              "overlaps_status": false,
+              "rect": "[P: (299.3235, 448.1026), S: (277.6167, 148.8974)]",
+              "visible": true,
+              "wholly_in_view": true
+            }
+          ],
+          "selected_bed": 1,
+          "selected_caption": "ZÁHON 1 · CHERRY RAJČE",
+          "status_rect": "[P: (28.0, 605.0), S: (542.0, 68.0)]"
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\plant_detail_actions.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "vent": {
+          "rect": "[P: (427.0, 558.0), S: (130.0, 100.0)]",
+          "tooltip": "Vyvětrat · proudění 58%",
+          "visible": true
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "warnings": [],
+      "capture_run": "care-final",
+      "source_provenance": "Captured between identical care-source runtime manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\care-final\\600x900\\plant_detail_actions.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\workshop.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "workshop": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (84.0, 236.0), S: (240.0, 17.0)]",
+              "text": "ZAKÁZKA PRO ČAJOVNU"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (83.0, 255.0), S: (233.0, 25.0)]",
+              "text": "První dodávka"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            }
+          ],
+          "scene_ratio": 0.879166666666667,
+          "wheel_rect": "[P: (365.5583, 289.5083), S: (104.0, 48.0)]",
+          "workbench_rect": "[P: (202.2917, 584.4042), S: (193.4167, 52.00002)]",
+          "workbench_rendered_font_size": 11.4291666150093
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\600x900\\teahouse_map.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "remaining_review": {
+        "map": {
+          "painted_text": [
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 772.0), S: (214.0, 20.0)]",
+              "text": "ÚROVEŇ 1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (34.0, 800.0), S: (218.0, 30.0)]",
+              "text": "Svěží ráno"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 867.0), S: (255.0, 24.0)]",
+              "text": "Získej 6 hvězd"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (68.0, 916.0), S: (250.0, 16.0)]",
+              "text": "Hvězdy 0 / 6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (356.0, 898.0), S: (40.0, 31.0)]",
+              "text": "+40"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 25.0), S: (180.0, 36.0)]",
+              "text": "ČAJOVNA"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (116.0, 73.0), S: (284.0, 22.0)]",
+              "text": "BYLINKOVÁ ZAHRADA · 0/30"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (332.0, 25.0), S: (68.0, 34.0)]",
+              "text": "10000"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (255.6, 680.16), S: (36.0, 32.0)]",
+              "text": "1"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (167.28, 616.8), S: (36.0, 32.0)]",
+              "text": "2"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (198.0, 564.96), S: (36.0, 32.0)]",
+              "text": "3"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (301.68, 518.88), S: (36.0, 32.0)]",
+              "text": "4"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (247.92, 461.28), S: (36.0, 32.0)]",
+              "text": "5"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 420.96), S: (36.0, 32.0)]",
+              "text": "6"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (109.68, 363.36), S: (36.0, 32.0)]",
+              "text": "7"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (209.52, 328.8), S: (36.0, 32.0)]",
+              "text": "8"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (294.0, 282.72), S: (36.0, 32.0)]",
+              "text": "9"
+            },
+            {
+              "fits": true,
+              "rect": "[P: (194.16, 251.04), S: (36.0, 32.0)]",
+              "text": "10"
+            }
+          ],
+          "scene_ratio": 0.879166666666667
+        }
+      },
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "warnings": [],
+      "capture_run": "after",
+      "source_provenance": "Retained from the frozen 48-frame capture. A later narrow care button row/padding correction was captured separately. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\after\\600x900\\teahouse_map.png"
+    }
+  ],
+  "schema": 2,
+  "sizes": [
+    "(360, 640)",
+    "(360, 800)",
+    "(432, 960)",
+    "(600, 900)"
+  ],
+  "final_source_sha256": "e23230193a61d7424cab9556380476e789d3a7810c1356875ae4c9a687ab35f7",
+  "final_source_manifest": "care-source-after.json",
+  "capture_runs": [
+    {
+      "run": "after",
+      "captured": 48,
+      "retained": 44,
+      "source_manifest": "final-source-after.json"
+    },
+    {
+      "run": "care-final",
+      "captured": 4,
+      "retained": 4,
+      "source_manifest": "care-source-after.json"
+    }
+  ],
+  "provenance_note": "The final review matrix contains 48 settled images at four logical sizes. It combines the frozen 48-frame run with four care images after one targeted row/padding correction; it is not a claim that all 48 were captured at the final source hash."
+}

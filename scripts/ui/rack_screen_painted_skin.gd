@@ -5,7 +5,7 @@ const Art := preload("res://scripts/ui/plant_detail_painted_assets.gd")
 const FontExtraBold := preload("res://assets/fonts/Poppins-ExtraBold.ttf")
 const INK := Color("#073b32")
 const GREEN := Color("#178839")
-const DOCK_LABELS := ["POKOJ", "VÝZKUM", "PÉČE", "NASTAVENÍ"]
+const DOCK_LABELS := ["VÝZKUM", "PÉČE", "NASTAVENÍ"]
 
 
 class LockMark extends Control:
@@ -30,13 +30,11 @@ static func apply(main, room_guide: PanelContainer) -> void:
 	_style_location_button(main.rack_greenhouse_button)
 	_style_location_button(main.rack_player_room_button)
 	var buttons: Array[Button] = [
-		main.rack_pet_launcher_button,
 		main.professor_research_launcher_button,
 		main.care_center_launcher_button,
 		main.settings_launcher_button,
 	]
 	var icons: Array[TextureRect] = [
-		main.rack_pet_launcher_icon,
 		main.professor_research_launcher_icon,
 		main.care_center_launcher_icon,
 		main.settings_launcher_icon,

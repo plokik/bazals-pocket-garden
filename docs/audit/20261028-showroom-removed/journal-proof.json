@@ -1,0 +1,96 @@
+{
+  "primary_opened": 3,
+  "primary_saved": 3,
+  "primary_cases": 3,
+  "supplemental_bottom_opened": 3,
+  "supplemental_bottom_saved": 3,
+  "runtime_journal_metrics": [
+    {
+      "logical_size": [
+        360,
+        640
+      ],
+      "card_count": 9,
+      "card_ids": [
+        "first_cycle",
+        "species_collection",
+        "busy_rack",
+        "trusted_supplier",
+        "seasoned_grower",
+        "quality_trio",
+        "workshop_master",
+        "herbarium_master",
+        "research_partner"
+      ],
+      "has_room_collector": false,
+      "illustrated_nodes": 9,
+      "last_node_bottom": 852.0,
+      "scroll_max": 874.0,
+      "scroll_page": 168.0,
+      "scroll_position": 706,
+      "trailing_padding": 22.0,
+      "tree_height": 874.0,
+      "tree_minimum_height": 874.0
+    },
+    {
+      "logical_size": [
+        432,
+        960
+      ],
+      "card_count": 9,
+      "card_ids": [
+        "first_cycle",
+        "species_collection",
+        "busy_rack",
+        "trusted_supplier",
+        "seasoned_grower",
+        "quality_trio",
+        "workshop_master",
+        "herbarium_master",
+        "research_partner"
+      ],
+      "has_room_collector": false,
+      "illustrated_nodes": 9,
+      "last_node_bottom": 852.0,
+      "scroll_max": 874.0,
+      "scroll_page": 488.0,
+      "scroll_position": 386,
+      "trailing_padding": 22.0,
+      "tree_height": 874.0,
+      "tree_minimum_height": 874.0
+    },
+    {
+      "logical_size": [
+        600,
+        900
+      ],
+      "card_count": 9,
+      "card_ids": [
+        "first_cycle",
+        "species_collection",
+        "busy_rack",
+        "trusted_supplier",
+        "seasoned_grower",
+        "quality_trio",
+        "workshop_master",
+        "herbarium_master",
+        "research_partner"
+      ],
+      "has_room_collector": false,
+      "illustrated_nodes": 9,
+      "last_node_bottom": 852.0,
+      "scroll_max": 874.0,
+      "scroll_page": 428.0,
+      "scroll_position": 446,
+      "trailing_padding": 22.0,
+      "tree_height": 874.0,
+      "tree_minimum_height": 874.0
+    }
+  ],
+  "notes": [
+    "Primary capture reused the exact requested harness; supplemental inherited wrapper only scrolled to the bottom and read metrics.",
+    "Both native processes exited0 without script/parse/native errors or warnings. All geometry warning arrays are empty.",
+    "Nine actual illustrated nodes, no room_collector, and22logical px trailing padding at all sizes.",
+    "Only ignored .godot files and isolated APPDATA were written; runtime/tests/reference/docs files were not edited."
+  ]
+}

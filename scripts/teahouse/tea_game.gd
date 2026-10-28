@@ -109,8 +109,10 @@ func _ready() -> void:
 	next_button = _button("DALŠÍ OBJEDNÁVKA", Rect2(56, 758, 320, 52), _next_order)
 	audio_button = _button("ZVUK ✓", Rect2(236, 30, 78, 34), _toggle_audio)
 	audio_button.add_theme_font_size_override("font_size", 10)
+	audio_button.set_meta("authored_font_size", 10)
 	motion_button = _button("POHYB ✓", Rect2(322, 30, 90, 34), _toggle_motion)
 	motion_button.add_theme_font_size_override("font_size", 10)
+	motion_button.set_meta("authored_font_size", 10)
 	music_player = AudioStreamPlayer.new()
 	music_player.stream = Music
 	music_player.volume_db = -22
@@ -142,6 +144,7 @@ func _ready() -> void:
 	_restart()
 	if embedded:
 		close_button = _button("← MAPA" if not level_definition.is_empty() else "← DÍLNA", Rect2(28, 24, 188, 48), func(): close_requested.emit())
+	_layout_touch_controls()
 
 
 func _button(caption: String, rect: Rect2, action: Callable) -> Button:
@@ -149,6 +152,8 @@ func _button(caption: String, rect: Rect2, action: Callable) -> Button:
 	button.text = caption
 	button.position = rect.position
 	button.size = rect.size
+	button.set_meta("authored_rect", rect)
+	button.set_meta("authored_font_size", 12)
 	button.mouse_default_cursor_shape = CURSOR_POINTING_HAND
 	# This approved painted frame already has its final palette. An explicit
 	# neutral material keeps the global palette installer from tinting it again.
@@ -181,7 +186,36 @@ func _fit() -> void:
 	origin = (size - STAGE * zoom) * 0.5
 	ui.position = origin
 	ui.scale = Vector2.ONE * zoom
+	_layout_touch_controls()
 	queue_redraw()
+
+
+func _layout_touch_controls() -> void:
+	if ui == null or zoom <= 0:
+		return
+	var target := 48.0 / zoom
+	var compact := zoom < 0.8
+	for child in ui.get_children():
+		if not child is Button or not child.has_meta("authored_rect"):
+			continue
+		var button := child as Button
+		var authored: Rect2 = button.get_meta("authored_rect")
+		var dimensions := Vector2(maxf(authored.size.x, target), maxf(authored.size.y, target))
+		var rect := Rect2(authored.get_center() - dimensions * 0.5, dimensions)
+		if compact:
+			if button == close_button: rect = Rect2(18, 8, 172, target)
+			elif button == audio_button: rect = Rect2(200, 8, 100, target)
+			elif button == motion_button: rect = Rect2(310, 8, 108, target)
+			elif button == hint_button or button == reset_button:
+				rect.position.y = 866
+			elif button == pour_button or button == next_button:
+				rect.position.y = 764
+		button.position = rect.position
+		button.size = rect.size
+		button.add_theme_font_size_override("font_size", maxi(int(button.get_meta("authored_font_size",12)), ceili(11.0 / zoom)))
+	if is_instance_valid(branch_ambient):
+		branch_ambient.scale = Vector2.ONE * (0.86 if compact else 1.0)
+		branch_ambient.position = Vector2(71.5 if compact else 48,753)
 
 
 func _process(delta: float) -> void:
@@ -671,7 +705,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), Color("#293e2e"))
 	draw_set_transform(origin, 0, Vector2.ONE * zoom)
 	draw_texture_rect(PaintedSkin.Background, Rect2(0, 0, 432, 960), false)
-	PaintedSkin.box("sage", 10).draw(get_canvas_item(), Rect2(14, 14, 404, 68))
+	PaintedSkin.box("sage", 10).draw(get_canvas_item(), Rect2(14, 2, 404, 88) if zoom < 0.8 else Rect2(14, 14, 404, 68))
 	if not embedded:
 		_text("U ZELENÉHO", Rect2(68, 23, 152, 23), 16, true)
 		_text("LÍSTKU", Rect2(68, 47, 152, 23), 16, true)
@@ -715,8 +749,11 @@ func _draw() -> void:
 	var is_board := displayed_phase == "matching" or displayed_phase == "retry"
 	var caption := _notice_caption()
 	if not caption.is_empty():
-		PaintedSkin.box("cream", 6).draw(get_canvas_item(), Rect2(24, 815 if is_board else 818, 384, 52))
-		_text(caption, Rect2(35, 828 if is_board else 830, 362, 28), 10, true, INK, HORIZONTAL_ALIGNMENT_CENTER)
+		var compact_footer := zoom < 0.8
+		var notice_rect := Rect2(24,812,384,40) if is_board else Rect2(24,858,384,52)
+		var notice_text := Rect2(35,818 if is_board else 871,362,28)
+		PaintedSkin.box("cream", 6).draw(get_canvas_item(), notice_rect if compact_footer else Rect2(24, 815 if is_board else 818, 384, 52))
+		_text(caption, notice_text if compact_footer else Rect2(35, 828 if is_board else 830, 362, 28), 10, true, INK, HORIZONTAL_ALIGNMENT_CENTER)
 	for item in flying:
 		if item.age < 0: continue
 		var progress := clampf(item.age / FLIGHT_DURATION, 0, 1)

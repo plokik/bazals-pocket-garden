@@ -123,8 +123,8 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	set_meta("visual_source", "comic_room_phase_2_dynamic")
 	set_meta("selected_growth_summary", "compact_rack_dock_phase183_v1")
-	set_meta("future_content_space", "painted_four_icon_dock_phase183_v1")
-	set_meta("future_content_hint", "pet_professor_care_settings_v1")
+	set_meta("future_content_space", "painted_three_icon_dock_phase183_v1")
+	set_meta("future_content_hint", "professor_care_settings_v1")
 	set_meta("dock_background_asset", "rack_floor_extension_phase183_v1.png")
 	set_meta("dock_background_policy", "painted_floor_crop_no_code_panel_v1")
 	set_meta("phase183_dock_visual_component", VisualDesignSystem.RACK_PHASE183_DOCK_RUNTIME_SET_ID)

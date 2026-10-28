@@ -1,0 +1,71 @@
+{
+  "retired_on": "2026-10-28",
+  "reason": "User requested removal of the showroom screen and every player entry. Existing owned and selected room themes remain saved and rendered.",
+  "previous_manifest": "historical/visual-cases-before-showroom-retirement-20261028.json",
+  "previous_manifest_sha256": "3a34db5d644420638091403c729a1ec8f8d9fca13b26a40892cf8c34a4e03cf8",
+  "retired_case_ids": [
+    "phase162-cosmetic-showroom-approved-target",
+    "phase162-cosmetic-showroom-runtime-approved"
+  ],
+  "cases": [
+    {
+      "id": "phase162-cosmetic-showroom-approved-target",
+      "description": "User-approved Phase 162 painted Cosmetic Showroom composition. Report-only until the user reviews the actual layered Godot render; all four themes, wallet values, purchase and selection states, research lock and scrolling remain live.",
+      "reference": "docs/visual-proposals/phase162/user-approved-painted-cosmetic-showroom-v1.png",
+      "actual": "comic-phase162-cosmetic-showroom-selected.png",
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "masks": [],
+      "pixel_tolerance": 18,
+      "gate": false
+    },
+    {
+      "id": "phase162-cosmetic-showroom-runtime-approved",
+      "description": "Exact dynamic Godot painted Cosmetic Showroom selected-state render explicitly approved by the user after Phase 162 implementation.",
+      "reference": "docs/audit/sage-palette-20261010/phase162-cosmetic-showroom-runtime-approved.png",
+      "actual": "comic-phase162-cosmetic-showroom-selected.png",
+      "size": [
+        432,
+        960
+      ],
+      "reference_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "actual_crop": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "masks": [],
+      "pixel_tolerance": 12,
+      "gate": true,
+      "thresholds": {
+        "max_mean_abs_error": 4.0,
+        "max_rmse": 12.0,
+        "max_changed_ratio": 0.06
+      }
+    }
+  ],
+  "reference_sha256": {
+    "docs/visual-proposals/phase162/user-approved-painted-cosmetic-showroom-v1.png": "bc524f1d2c3111630385256481a4acb04cc51d99c2e4cf342d7fa468c3fc5dc0",
+    "docs/audit/sage-palette-20261010/phase162-cosmetic-showroom-runtime-approved.png": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7"
+  }
+}

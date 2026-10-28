@@ -1,0 +1,51 @@
+{
+  "utc": "2026-10-28T05:38:29.922412+00:00",
+  "status": "EXACT_REQUESTED_NEW_RUNTIME_RESTORED",
+  "source_sha256": "e23230193a61d7424cab9556380476e789d3a7810c1356875ae4c9a687ab35f7",
+  "runtime_files_verified": 1687,
+  "restored_files": [
+    "scripts/ui/greenhouse_preview_view.gd",
+    "scripts/ui/teahouse_hub.gd",
+    "scripts/ui/plant_detail_painted_actions.gd",
+    "scripts/ui/workshop_room_view.gd",
+    "scripts/ui/fortune_wheel_modal.gd",
+    "tests/test_runner.gd",
+    "tests/workshop_test.gd",
+    "tests/remaining_cinematic_workshop_test.gd",
+    "tests/greenhouse_compact_beds_test.gd",
+    "tests/greenhouse_compact_beds_test.gd.uid",
+    "tests/map_compact_targets_test.gd",
+    "tests/map_compact_targets_test.gd.uid",
+    "tests/plant_action_caption_fit_test.gd",
+    "tests/plant_action_caption_fit_test.gd.uid",
+    "tests/remaining_cinematic_workshop_test.gd.uid"
+  ],
+  "player_data_touched": false,
+  "published": false,
+  "verified_utc": "2026-10-28T05:45:16.343386+00:00",
+  "functional": {
+    "passed": 9942,
+    "failed": 0
+  },
+  "capture": {
+    "passed": 48,
+    "failed": 0,
+    "desktop_renderer": true,
+    "native_android": false
+  },
+  "visual": {
+    "passed": 33,
+    "total": 34,
+    "overall": "FAILED",
+    "remaining_case": "phase162-cosmetic-showroom-runtime-approved",
+    "metrics": {
+      "mean_abs_error": 14.091654,
+      "rmse": 35.357709,
+      "maximum_error": 255,
+      "changed_ratio": 0.269796
+    },
+    "reference_unchanged": true
+  },
+  "validation_directory": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\new-version-restored-20261028\\validation",
+  "fresh_capture_directory": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\restored-new-20261028"
+}

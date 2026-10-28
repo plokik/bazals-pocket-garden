@@ -1,7 +1,7 @@
 class_name PlayerSettingsModalView
 extends RefCounted
 ## Constructs the existing settings UI without owning preferences or save state.
-## Main supplies the actions, including its guarded cosmetic/backup button factory.
+## Main supplies the actions, including its guarded backup button factory.
 
 const ComicUITheme := preload("res://scripts/ui/comic_ui.gd")
 const PaintedModalShell := preload("res://scripts/ui/painted_modal_shell.gd")
@@ -33,7 +33,6 @@ func _init(
 	motion_toggled: Callable,
 	music_volume_changed: Callable,
 	sfx_volume_changed: Callable,
-	show_cosmetics: Callable,
 	show_backup: Callable,
 	close_settings: Callable
 ) -> void:
@@ -103,14 +102,6 @@ func _init(
 	settings_status_label.add_theme_font_size_override("font_size", 12)
 	settings_status_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	column.add_child(settings_status_label)
-	var cosmetic_button: Button = action_button_factory.call("VZHLED POKOJE", show_cosmetics)
-	cosmetic_button.custom_minimum_size.y = 60
-	cosmetic_button.add_theme_font_override("font", FontExtraBold)
-	cosmetic_button.add_theme_font_size_override("font_size", 16)
-	ComicUITheme.apply_button(cosmetic_button, ComicUITheme.CYAN, ComicUITheme.INK, 14)
-	cosmetic_button.set_meta("touch_target_min_height", 60)
-	cosmetic_button.set_meta("component", "phase14_cosmetic_showroom_launcher_v1")
-	column.add_child(cosmetic_button)
 	var backup_button: Button = action_button_factory.call("ZÁLOHA POSTUPU", show_backup)
 	backup_button.custom_minimum_size.y = 60
 	backup_button.add_theme_font_override("font", FontExtraBold)

@@ -1,0 +1,30 @@
+[
+  {
+    "state": "tutorial",
+    "before": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\before\\360x640\\tutorial.png",
+    "after": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\tutorial.png",
+    "comparison": "final-review-01-tutorial.png"
+  },
+  {
+    "state": "greenhouse_empty",
+    "before": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\before\\360x640\\greenhouse_empty.png",
+    "after": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\greenhouse_empty.png",
+    "comparison": "final-review-02-greenhouse_empty.png"
+  },
+  {
+    "state": "plant_detail_actions",
+    "before": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\before\\360x640\\plant_detail_actions.png",
+    "after": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final\\360x640\\plant_detail_actions.png",
+    "comparison": "final-review-03-plant_detail_actions.png"
+  },
+  {
+    "state": "workshop",
+    "bug": "Small recipe entry",
+    "comparison": "final-review-detail-workbench.png"
+  },
+  {
+    "state": "workshop",
+    "bug": "RESET/order-sign overlap",
+    "comparison": "final-review-detail-wheel.png"
+  }
+]

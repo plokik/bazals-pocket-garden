@@ -2,7 +2,6 @@ class_name PlayerRoomCollectionView
 extends Control
 
 signal rack_requested
-signal theme_requested
 signal decoration_slot_requested(slot_index: int)
 signal plant_move_requested(source_slot: int, target_slot: int, decoration_id: String)
 signal plant_drag_started
@@ -85,7 +84,6 @@ const PHASE146_FIXED_MASTER_OFFSETS := {
 
 var selected_theme_id := "sunrise"
 var back_button: Button
-var theme_button: Button
 var decoration_slots: Array[String] = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 var decoration_catalog: Dictionary = {}
 var achievement_badge_ids: Array[String] = []
@@ -245,20 +243,6 @@ func _build_navigation() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
 
-	theme_button = Button.new()
-	theme_button.text = ""
-	TooltipPolicy.apply(theme_button, "Vzhled pokoje")
-	theme_button.focus_mode = Control.FOCUS_NONE
-	theme_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	theme_button.position = PHASE149_THEME_RECT.position
-	theme_button.size = PHASE149_THEME_RECT.size
-	for style_name in ["normal", "hover", "pressed", "focus", "disabled"]:
-		theme_button.add_theme_stylebox_override(style_name, empty_style)
-	theme_button.set_meta("component", "phase103_player_room_theme_launcher_v1")
-	theme_button.set_meta("touch_target_min", PHASE149_THEME_RECT.size)
-	theme_button.set_meta("visual_policy", "phase149_baked_chrome_transparent_hitbox_v1")
-	theme_button.pressed.connect(_on_theme_pressed)
-	add_child(theme_button)
 
 
 func set_cosmetic_theme(theme_id: String) -> void:
@@ -366,10 +350,6 @@ func _sync_plant_processing() -> void:
 
 func _on_back_pressed() -> void:
 	rack_requested.emit()
-
-
-func _on_theme_pressed() -> void:
-	theme_requested.emit()
 
 
 func _on_decoration_slot_pressed(slot_index: int) -> void:
@@ -481,10 +461,9 @@ func _on_resized() -> void:
 
 
 func _layout_navigation() -> void:
-	if back_button == null or theme_button == null:
+	if back_button == null:
 		return
 	_layout_phase149_navigation_button(back_button, PHASE149_BACK_RECT)
-	_layout_phase149_navigation_button(theme_button, PHASE149_THEME_RECT)
 
 
 func _layout_phase149_navigation_button(button: Button, painted_rect: Rect2) -> void:

@@ -1,0 +1,16 @@
+{
+  "status": "PENDING_USER_APPROVAL",
+  "case": "phase162-cosmetic-showroom-runtime-approved",
+  "old_reference": "docs/audit/sage-palette-20261010/phase162-cosmetic-showroom-runtime-approved.png",
+  "old_sha256": "410dbea6fad1337ebb657bda2f0a0f7fa466e80b42ce5bec228a67cfca562dc7",
+  "candidate": "docs/visual-proposals/20261028-remaining-fixes/showroom-runtime-reference-candidate.png",
+  "candidate_sha256": "b767ddd11d3cfdf6902d2810e9516828e1a2357fca6a7cc292ef4108b6478618",
+  "thresholds_unchanged": {
+    "max_mean_abs_error": 4.0,
+    "max_rmse": 12.0,
+    "max_changed_ratio": 0.06
+  },
+  "masks_unchanged": [],
+  "actual_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\remaining-fixes-20261028\\final-validation\\comic-phase162-cosmetic-showroom-selected.png",
+  "active_manifest_modified": false
+}

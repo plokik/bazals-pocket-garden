@@ -1,0 +1,967 @@
+{
+	"capture_policy": "Simulation is paused in an isolated fixture. After route setup, wait300ms for tweens, perform requested scroll and call feedback_layer.finish_all() so frozen route-transition stripes are not part of static layout proof.",
+	"completed": 12,
+	"not_captured": [
+		{
+			"reason": "Current painted workshop hides/disables all old movable shelf slot controls; this is not a reachable current player screen.",
+			"state": "legacy_room_decoration_slots"
+		},
+		{
+			"reason": "External platform surfaces are not rendered inside this desktop SubViewport audit.",
+			"state": "native_android_ads_and_file_picker"
+		}
+	],
+	"note": "Geometry warnings include controls behind active modal overlays; inspect actual PNG before treating them as visible bugs. Scroll descendant overflow is excluded. QA phase fixtures are visual states, not a claim of playing their full action sequence. Screenshots are settled stills, not continuous animation or physical-phone acceptance.",
+	"planned_states": [
+		"greenhouse_empty",
+		"workshop",
+		"teahouse_map",
+		"plant_detail_actions"
+	],
+	"results": [
+		{
+			"bed_targets": [
+				{
+					"bed": 1,
+					"overlaps_status": false,
+					"rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+				},
+				{
+					"bed": 2,
+					"overlaps_status": false,
+					"rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+				},
+				{
+					"bed": 3,
+					"overlaps_status": false,
+					"rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+				},
+				{
+					"bed": 4,
+					"overlaps_status": false,
+					"rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+				}
+			],
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/432x960/greenhouse_empty.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/@Button@635",
+					"rect": [
+						22.0,
+						174.0,
+						124.0,
+						64.0
+					],
+					"rendered_font_size": 13.0,
+					"scroll": false,
+					"text": "←  STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/CropChoiceScroll/CropChoices/@Button@646",
+					"rect": [
+						28.0,
+						743.0,
+						68.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "RAJČE\n10 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/CropChoiceScroll/CropChoices/@Button@647",
+					"rect": [
+						104.0,
+						743.0,
+						69.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "PAPRIKA\n14 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/CropChoiceScroll/CropChoices/@Button@648",
+					"rect": [
+						181.0,
+						743.0,
+						84.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "ŘEDKVIČKA\n12 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/CropChoiceScroll/CropChoices/@Button@649",
+					"rect": [
+						273.0,
+						743.0,
+						68.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "OKURKA\n18 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/CropChoiceScroll/CropChoices/@Button@650",
+					"rect": [
+						349.0,
+						743.0,
+						69.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "LILEK\n22 MINCÍ"
+				}
+			],
+			"logical_size": [
+				432,
+				960
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "greenhouse_empty",
+			"warnings": [
+				{
+					"kind": "label_outside_view",
+					"path": "@MarginContainer@5/@VBoxContainer@7/@Control@20/@MarginContainer@611/@Control@21/@Control@39/@Control@40/@Label@642",
+					"rect": "[P: (42.0, 673.0), S: (346.0, 1095.0)]",
+					"text": "Vyber osivo · zámky na úrovních 2–5.\nZAKÁZKA: RAJČE 0/2 · +14 MINCÍ + 6 XP"
+				}
+			]
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/432x960/workshop.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@Control@1918/@Button@2497",
+					"rect": [
+						111.62036895752,
+						626.370361328125,
+						206.759262084961,
+						50.75
+					],
+					"rendered_font_size": 10.3379628658295,
+					"scroll": false,
+					"text": "PŘIPRAVIT SMĚS"
+				}
+			],
+			"logical_size": [
+				432,
+				960
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "workshop",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/432x960/teahouse_map.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@4385/@Button@5663",
+					"rect": [
+						273.268524169922,
+						780.5,
+						118.416664123535,
+						48.8703689575195
+					],
+					"rendered_font_size": 15.9768517017365,
+					"scroll": false,
+					"text": "HRÁT"
+				}
+			],
+			"logical_size": [
+				432,
+				960
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "teahouse_map",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/432x960/plant_detail_actions.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5669/@VBoxContainer@5671/@Control@5684/@MarginContainer@6275/@Control@5685/@VBoxContainer@5707/PlantDetailHeader/@Button@5708",
+					"rect": [
+						12.0,
+						98.0,
+						72.0,
+						50.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": false,
+					"text": "← STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5669/@VBoxContainer@5671/@Control@5684/@MarginContainer@6275/@Control@5685/@VBoxContainer@5707/PlantDetailHeader/@Button@5709",
+					"rect": [
+						87.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "‹"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5669/@VBoxContainer@5671/@Control@5684/@MarginContainer@6275/@Control@5685/@VBoxContainer@5707/PlantDetailHeader/@Button@5712",
+					"rect": [
+						327.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "›"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5669/@VBoxContainer@5671/@Control@5684/@MarginContainer@6275/@Control@5685/@VBoxContainer@5707/PlantDetailHeader/@Button@5713",
+					"rect": [
+						374.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": ""
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@5669/@VBoxContainer@5671/@Control@5684/@MarginContainer@6275/@Control@5685/@VBoxContainer@5707/PaintedCarePanel/@VBoxContainer@5771/@Button@5770",
+					"rect": [
+						25.0,
+						772.0,
+						380.0,
+						46.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": false,
+					"text": "VYMĚNIT BYLINKU"
+				}
+			],
+			"logical_size": [
+				432,
+				960
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "plant_detail_actions",
+			"warnings": []
+		},
+		{
+			"bed_targets": [
+				{
+					"bed": 1,
+					"overlaps_status": false,
+					"rect": "[P: (59.44532, 231.332), S: (119.7429, 71.54453)]"
+				},
+				{
+					"bed": 2,
+					"overlaps_status": false,
+					"rect": "[P: (179.1883, 231.332), S: (119.3664, 71.54453)]"
+				},
+				{
+					"bed": 3,
+					"overlaps_status": true,
+					"rect": "[P: (17.2717, 318.6917), S: (161.9166, 64.0)]"
+				},
+				{
+					"bed": 4,
+					"overlaps_status": true,
+					"rect": "[P: (179.1883, 318.6917), S: (161.54, 64.0)]"
+				}
+			],
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/360x640/greenhouse_empty.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/@Button@8180",
+					"rect": [
+						22.0,
+						174.0,
+						124.0,
+						64.0
+					],
+					"rendered_font_size": 13.0,
+					"scroll": false,
+					"text": "←  STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/CropChoiceScroll/CropChoices/@Button@8191",
+					"rect": [
+						28.0,
+						423.0,
+						68.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "RAJČE\n10 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/CropChoiceScroll/CropChoices/@Button@8192",
+					"rect": [
+						104.0,
+						423.0,
+						69.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "PAPRIKA\n14 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/CropChoiceScroll/CropChoices/@Button@8193",
+					"rect": [
+						181.0,
+						423.0,
+						84.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "ŘEDKVIČKA\n12 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/CropChoiceScroll/CropChoices/@Button@8194",
+					"rect": [
+						273.0,
+						423.0,
+						68.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "OKURKA\n18 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/CropChoiceScroll/CropChoices/@Button@8195",
+					"rect": [
+						349.0,
+						423.0,
+						69.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "LILEK\n22 MINCÍ"
+				}
+			],
+			"logical_size": [
+				360,
+				640
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "greenhouse_empty",
+			"warnings": [
+				{
+					"kind": "label_outside_view",
+					"path": "@MarginContainer@7550/@VBoxContainer@7552/@Control@7565/@MarginContainer@8156/@Control@7566/@Control@7584/@Control@7585/@Label@8187",
+					"rect": "[P: (42.0, 353.0), S: (274.0, 1095.0)]",
+					"text": "Vyber osivo · zámky na úrovních 2–5.\nZAKÁZKA: RAJČE 0/2 · +14 MINCÍ + 6 XP"
+				}
+			]
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/360x640/workshop.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@Control@9466/@Button@10045",
+					"rect": [
+						112.08332824707,
+						413.333374023438,
+						133.833343505859,
+						32.8500022888184
+					],
+					"rendered_font_size": 6.69166684150696,
+					"scroll": false,
+					"text": "PŘIPRAVIT SMĚS"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@10047/@Button@11316",
+					"rect": [
+						64.6333236694336,
+						93.9583358764648,
+						111.933334350586,
+						48.0000038146973
+					],
+					"rendered_font_size": 11.5583336353302,
+					"scroll": false,
+					"text": "MAPA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@10047/@Button@11317",
+					"rect": [
+						181.433334350586,
+						93.9583358764648,
+						111.933334350586,
+						48.0000038146973
+					],
+					"rendered_font_size": 11.5583336353302,
+					"scroll": false,
+					"text": "DÍLNA"
+				}
+			],
+			"logical_size": [
+				360,
+				640
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "workshop",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/360x640/teahouse_map.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@11936/@Button@13205",
+					"rect": [
+						64.6333236694336,
+						93.9583358764648,
+						111.933334350586,
+						48.0000038146973
+					],
+					"rendered_font_size": 11.5583336353302,
+					"scroll": false,
+					"text": "MAPA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@11936/@Button@13206",
+					"rect": [
+						181.433334350586,
+						93.9583358764648,
+						111.933334350586,
+						48.0000038146973
+					],
+					"rendered_font_size": 11.5583336353302,
+					"scroll": false,
+					"text": "DÍLNA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@11936/@Button@13217",
+					"rect": [
+						201.024993896484,
+						491.200012207031,
+						92.3416595458984,
+						48.0000038146973
+					],
+					"rendered_font_size": 11.5583336353302,
+					"scroll": false,
+					"text": "HRÁT"
+				}
+			],
+			"logical_size": [
+				360,
+				640
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "teahouse_map",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/360x640/plant_detail_actions.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@13223/@VBoxContainer@13225/@Control@13238/@MarginContainer@13829/@Control@13239/@VBoxContainer@13261/PlantDetailHeader/@Button@13262",
+					"rect": [
+						12.0,
+						98.0,
+						72.0,
+						50.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": false,
+					"text": "← STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@13223/@VBoxContainer@13225/@Control@13238/@MarginContainer@13829/@Control@13239/@VBoxContainer@13261/PlantDetailHeader/@Button@13263",
+					"rect": [
+						87.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "‹"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@13223/@VBoxContainer@13225/@Control@13238/@MarginContainer@13829/@Control@13239/@VBoxContainer@13261/PlantDetailHeader/@Button@13266",
+					"rect": [
+						256.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "›"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@13223/@VBoxContainer@13225/@Control@13238/@MarginContainer@13829/@Control@13239/@VBoxContainer@13261/PlantDetailHeader/@Button@13267",
+					"rect": [
+						303.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": ""
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@13223/@VBoxContainer@13225/@Control@13238/@MarginContainer@13829/@Control@13239/@VBoxContainer@13261/PlantDetailScroll/@VBoxContainer@15094/PaintedCarePanel/@VBoxContainer@13325/@Button@13324",
+					"rect": [
+						29.0,
+						461.0,
+						289.0,
+						46.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": true,
+					"text": "VYMĚNIT BYLINKU"
+				}
+			],
+			"logical_size": [
+				360,
+				640
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "plant_detail_actions",
+			"warnings": []
+		},
+		{
+			"bed_targets": [
+				{
+					"bed": 1,
+					"overlaps_status": false,
+					"rect": "[P: (93.53777, 310.1934), S: (205.7858, 122.9538)]"
+				},
+				{
+					"bed": 2,
+					"overlaps_status": false,
+					"rect": "[P: (299.3235, 310.1934), S: (205.1387, 122.9538)]"
+				},
+				{
+					"bed": 3,
+					"overlaps_status": false,
+					"rect": "[P: (21.05975, 460.3264), S: (278.2638, 108.6736)]"
+				},
+				{
+					"bed": 4,
+					"overlaps_status": false,
+					"rect": "[P: (299.3235, 460.3264), S: (277.6167, 108.6736)]"
+				}
+			],
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/600x900/greenhouse_empty.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/@Button@15737",
+					"rect": [
+						22.0,
+						174.0,
+						124.0,
+						64.0
+					],
+					"rendered_font_size": 13.0,
+					"scroll": false,
+					"text": "←  STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/CropChoiceScroll/CropChoices/@Button@15748",
+					"rect": [
+						28.0,
+						689.0,
+						102.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "RAJČE\n10 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/CropChoiceScroll/CropChoices/@Button@15749",
+					"rect": [
+						138.0,
+						689.0,
+						102.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "PAPRIKA\n14 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/CropChoiceScroll/CropChoices/@Button@15750",
+					"rect": [
+						248.0,
+						689.0,
+						102.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "ŘEDKVIČKA\n12 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/CropChoiceScroll/CropChoices/@Button@15751",
+					"rect": [
+						358.0,
+						689.0,
+						102.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "OKURKA\n18 MINCÍ"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/CropChoiceScroll/CropChoices/@Button@15752",
+					"rect": [
+						468.0,
+						689.0,
+						102.0,
+						64.0
+					],
+					"rendered_font_size": 10.0,
+					"scroll": true,
+					"text": "LILEK\n22 MINCÍ"
+				}
+			],
+			"logical_size": [
+				600,
+				900
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "greenhouse_empty",
+			"warnings": [
+				{
+					"kind": "label_outside_view",
+					"path": "@MarginContainer@15107/@VBoxContainer@15109/@Control@15122/@MarginContainer@15713/@Control@15123/@Control@15141/@Control@15142/@Label@15744",
+					"rect": "[P: (42.0, 613.0), S: (514.0, 1095.0)]",
+					"text": "Vyber osivo · zámky na úrovních 2–5.\nZAKÁZKA: RAJČE 0/2 · +14 MINCÍ + 6 XP"
+				}
+			]
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/600x900/workshop.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@Control@17023/@Button@17602",
+					"rect": [
+						202.29167175293,
+						586.666687011719,
+						193.41667175293,
+						47.4749984741211
+					],
+					"rendered_font_size": 9.67083328962326,
+					"scroll": false,
+					"text": "PŘIPRAVIT SMĚS"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@17604/@Button@18873",
+					"rect": [
+						133.716674804688,
+						125.104164123535,
+						161.766662597656,
+						47.9999961853027
+					],
+					"rendered_font_size": 11.4291666150093,
+					"scroll": false,
+					"text": "MAPA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@17604/@Button@18874",
+					"rect": [
+						302.516662597656,
+						125.104164123535,
+						161.766662597656,
+						47.9999961853027
+					],
+					"rendered_font_size": 11.4291666150093,
+					"scroll": false,
+					"text": "DÍLNA"
+				}
+			],
+			"logical_size": [
+				600,
+				900
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "workshop",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/600x900/teahouse_map.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@19493/@Button@20762",
+					"rect": [
+						133.716674804688,
+						125.104164123535,
+						161.766662597656,
+						47.9999961853027
+					],
+					"rendered_font_size": 11.4291666150093,
+					"scroll": false,
+					"text": "MAPA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@19493/@Button@20763",
+					"rect": [
+						302.516662597656,
+						125.104164123535,
+						161.766662597656,
+						47.9999961853027
+					],
+					"rendered_font_size": 11.4291666150093,
+					"scroll": false,
+					"text": "DÍLNA"
+				},
+				{
+					"disabled": false,
+					"path": "TeahouseHub/@Control@19493/@Button@20774",
+					"rect": [
+						353.508331298828,
+						699.200012207031,
+						110.775001525879,
+						48.0000114440918
+					],
+					"rendered_font_size": 14.9458332657814,
+					"scroll": false,
+					"text": "HRÁT"
+				}
+			],
+			"logical_size": [
+				600,
+				900
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "teahouse_map",
+			"warnings": []
+		},
+		{
+			"capture": "R:/_projekty/Bazal's Pocket Garden/.godot/full-game-audit-20261027/restored-20261028/600x900/plant_detail_actions.png",
+			"controls": [
+				{
+					"disabled": false,
+					"path": "@MarginContainer@20780/@VBoxContainer@20782/@Control@20795/@MarginContainer@21386/@Control@20796/@VBoxContainer@20818/PlantDetailHeader/@Button@20819",
+					"rect": [
+						12.0,
+						98.0,
+						72.0,
+						50.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": false,
+					"text": "← STOJAN"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@20780/@VBoxContainer@20782/@Control@20795/@MarginContainer@21386/@Control@20796/@VBoxContainer@20818/PlantDetailHeader/@Button@20820",
+					"rect": [
+						87.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "‹"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@20780/@VBoxContainer@20782/@Control@20795/@MarginContainer@21386/@Control@20796/@VBoxContainer@20818/PlantDetailHeader/@Button@20823",
+					"rect": [
+						495.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": "›"
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@20780/@VBoxContainer@20782/@Control@20795/@MarginContainer@21386/@Control@20796/@VBoxContainer@20818/PlantDetailHeader/@Button@20824",
+					"rect": [
+						542.0,
+						98.0,
+						44.0,
+						50.0
+					],
+					"rendered_font_size": 20.0,
+					"scroll": false,
+					"text": ""
+				},
+				{
+					"disabled": false,
+					"path": "@MarginContainer@20780/@VBoxContainer@20782/@Control@20795/@MarginContainer@21386/@Control@20796/@VBoxContainer@20818/PlantDetailScroll/@VBoxContainer@22660/PaintedCarePanel/@VBoxContainer@20882/@Button@20881",
+					"rect": [
+						29.0,
+						718.0,
+						528.0,
+						46.0
+					],
+					"rendered_font_size": 11.0,
+					"scroll": true,
+					"text": "VYMĚNIT BYLINKU"
+				}
+			],
+			"logical_size": [
+				600,
+				900
+			],
+			"opened": true,
+			"safe_insets": [
+				12,
+				24,
+				14,
+				32
+			],
+			"saved": true,
+			"setup_ok": true,
+			"state": "plant_detail_actions",
+			"warnings": []
+		}
+	],
+	"schema": 1,
+	"sizes": [
+		"(432, 960)",
+		"(360, 640)",
+		"(600, 900)"
+	]
+}

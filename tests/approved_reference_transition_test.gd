@@ -22,7 +22,23 @@ const IDS := [
 
 static func run(suite: SceneTree) -> void:
 	var previous := _read(BASE + "visual-cases-sage-20261010.json")
-	var active := _read(BASE + "visual-cases.json")
+	# Keep the original October 20 approval contract against its immutable
+	# 54-case snapshot, including the now retired showroom references.
+	var active := _read(BASE + "historical/visual-cases-before-showroom-retirement-20261028.json")
+	var current := _read(BASE + "visual-cases.json")
+	var retirement := _read(BASE + "showroom-retirement-20261028.json")
+	var retained: Array = (active.get("cases", []) as Array).filter(func(record: Dictionary) -> bool: return not str(record.id) in retirement.get("retired_case_ids", []))
+	var dock_approval := _read("res://docs/audit/20261028-showroom-removed/approval.json")
+	var dock_record: Dictionary = dock_approval.get("reference", {})
+	var expected_current: Array = retained.duplicate(true)
+	for record: Dictionary in expected_current:
+		if record.id == "phase163-rack-runtime-approved":
+			record.reference = dock_record.get("approved_reference", "")
+			record.approval_record = "docs/audit/20261028-showroom-removed/approval.json"
+	suite._check(current.get("cases", []) == expected_current and retained.size() == 52 and current.get("defaults") == active.get("defaults"), "Reference dílny: pouze odstraněný showroom a výslovně schválená tříikonová lišta; ostatní případy, limity a masky beze změny")
+	suite._check(dock_approval.get("status") == "APPROVED_BY_USER" and dock_approval.get("user_approval") == "Ok tak pak tedy souhlasím" \
+		and FileAccess.get_sha256("res://" + str(dock_record.get("approved_reference", ""))) == str(dock_record.get("approved_sha256", "")) \
+		and FileAccess.get_sha256("res://" + str(dock_record.get("previous_reference", ""))) == str(dock_record.get("previous_sha256", "")), "Reference lišty: schválení váže přesný nový PNG a zachová původní čtyřikonový snímek")
 	var approval := _read(APPROVAL)
 	var records := {}
 	var unique := true
@@ -65,7 +81,7 @@ static func run(suite: SceneTree) -> void:
 				and FileAccess.get_sha256("res://" + str(record.get("approved_candidate", ""))) == str(record.get("approved_sha256", ""))
 		gates += int(bool(after.get("gate", false)))
 		suite._check(intact and after == expected, "Reference %s mění pouze schválenou PNG cestu; pořadí, popis, masky, ořezy, tolerance, capture i příznak brány zůstávají zachované" % id)
-	suite._check(changed == 9 and gates == 34, "Reference dílny: všech 54 případů a 34 aktivních bran zůstává zapnutých, změněno přesně devět schválených snímků")
+	suite._check(changed == 9 and gates == 34, "Reference dílny: historické schválení zachovává všech 54 případů a 34 tehdejších bran, mění přesně devět schválených snímků")
 
 
 static func _read(path: String) -> Dictionary:

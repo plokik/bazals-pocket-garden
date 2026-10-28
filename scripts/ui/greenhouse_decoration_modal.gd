@@ -73,6 +73,9 @@ func _ready() -> void:
 	column.add_child(close_button)
 	resized.connect(_layout)
 	_layout()
+	var responsive := preload("res://scripts/ui/compact_dialog_layout.gd").new()
+	add_child(responsive)
+	responsive.bind(self,shell,column,[purchase_button,close_button],game)
 
 
 func _label(caption: String, font_size: int, strong := false) -> Label:

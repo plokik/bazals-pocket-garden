@@ -9,6 +9,7 @@ var game: Control
 var ads: RefCounted = preload("res://scripts/services/wheel_rewarded_ads.gd").new()
 var launcher: Button
 var launcher_time: Label
+var launcher_icon: TextureRect
 var overlay: Control
 var face: Control
 var reset_label: Label
@@ -76,6 +77,7 @@ func _build_launcher() -> void:
 	game.player_room_view.add_child(launcher)
 	launcher.pressed.connect(open)
 	var icon := TextureRect.new()
+	launcher_icon = icon
 	icon.texture = Face.Disk
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -98,9 +100,25 @@ func _on_room_embedding_changed(_embedded: bool) -> void:
 
 func _layout_launcher() -> void:
 	if not is_instance_valid(launcher): return
-	launcher.custom_minimum_size.y = 48
-	launcher.position = Vector2(330,100) if game.player_room_view.teahouse_embedded else Vector2(game.player_room_view.size.x - 96,76)
-	launcher.size = Vector2(80,48)
+	var room: Control = game.player_room_view
+	var ratio: float = room.embedded_ui_scale if room.teahouse_embedded else 1.0
+	var compact: bool = room.teahouse_embedded and ratio < 0.93
+	var dimensions := Vector2(104/ratio if compact else 80,maxf(48,48/ratio))
+	launcher.custom_minimum_size.y = dimensions.y
+	launcher.size = dimensions
+	if room.teahouse_embedded:
+		# The order sign is at hub y228 on a short screen; room starts at132.
+		var top := 228+maxf(62,48/ratio)+12-132 if compact else 100.0
+		launcher.position = Vector2(432-dimensions.x-22,top)
+	else:
+		launcher.position = Vector2(room.size.x-96,76)
+	if is_instance_valid(launcher_icon):
+		launcher_icon.position = Vector2(6,10)/ratio if compact else Vector2(5,8)
+		launcher_icon.size = Vector2(28,28)/ratio if compact else Vector2(31,31)
+	if is_instance_valid(launcher_time):
+		launcher_time.position = Vector2(38,6)/ratio if compact else Vector2(36,6)
+		launcher_time.size = Vector2(60,36)/ratio if compact else Vector2(40,36)
+		launcher_time.add_theme_font_size_override("font_size",ceili(10/ratio) if compact else 8)
 
 func _build_modal() -> void:
 	overlay = Control.new()
@@ -162,9 +180,14 @@ func _build_modal() -> void:
 	close_button = _button("ZPĚT DO DÍLNY")
 	close_button.pressed.connect(close)
 	column.add_child(close_button)
+	var responsive := preload("res://scripts/ui/compact_dialog_layout.gd").new()
+	overlay.add_child(responsive)
+	responsive.bind(overlay,shell,column,[action,close_button],game)
 	overlay.hide()
 
 func _process(delta: float) -> void:
+	if is_instance_valid(launcher) and launcher.is_visible_in_tree():
+		launcher.disabled = game._is_blocking_modal_open()
 	if spinning and overlay.visible and not game.session.reduced_motion:
 		var sector := floori(face.angle/(TAU/8.0))
 		if sector != audible_sector:
@@ -323,6 +346,8 @@ func _settle(id: String, earned: bool) -> void:
 		_animate(result)
 
 func _animate(result: Dictionary) -> void:
+	var body_scroll := overlay.find_child("CompactDialogBodyScroll",true,false) as ScrollContainer
+	if body_scroll != null: body_scroll.scroll_vertical = 0
 	if not overlay.visible:
 		game._refresh_ui()
 		return

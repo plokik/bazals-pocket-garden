@@ -1,0 +1,325 @@
+{
+  "capture_states": [
+    "greenhouse_empty",
+    "workshop",
+    "teahouse_map",
+    "plant_detail_actions"
+  ],
+  "sizes": [
+    "360x640",
+    "432x960",
+    "600x900"
+  ],
+  "source_sha256": "25f65d292435a1ade85aa6518a7a00580f9932fa8f4a52c63409a5043677907f",
+  "source_before_after_identical": true,
+  "five_restored_sources_equal_pre28_baseline": {
+    "scripts/ui/greenhouse_preview_view.gd": true,
+    "scripts/ui/teahouse_hub.gd": true,
+    "scripts/ui/plant_detail_painted_actions.gd": true,
+    "scripts/ui/workshop_room_view.gd": true,
+    "scripts/ui/fortune_wheel_modal.gd": true
+  },
+  "baseline_source_manifest": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\shop-source-after.json",
+  "baseline_source_sha256": "0229c69840282161792875970adf5be7d506de6aba69a38b65eff9db552e258d",
+  "strict_equal_cases_outside_clock": 8,
+  "cases": 12,
+  "total_unmasked_differing_pixels": 18,
+  "mask_policy": "Only the numeric clock second line inside the historical workshop launcher; no RESET caption, frame, whole-launcher, or other-screen masks. All remaining differences are reported.",
+  "results": [
+    {
+      "logical_size": "360x640",
+      "state": "greenhouse_empty",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_empty.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\360x640\\greenhouse_empty.png",
+      "baseline_png_sha256": "a24c8f6e8d0d2262d998342db9f182dddb303784c34e212f2f0604c103a70616",
+      "restored_png_sha256": "a24c8f6e8d0d2262d998342db9f182dddb303784c34e212f2f0604c103a70616",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "360x640",
+      "state": "workshop",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\workshop.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\360x640\\workshop.png",
+      "baseline_png_sha256": "b378c7a2b607b8d48cfd9e9d6fe8b60653f78539970103a51ee1afdbabec5ad5",
+      "restored_png_sha256": "afd20a57e0cc7e84461a310acf03d74146632720e1f29dd37b4d6f1bc5419d61",
+      "raw_changed_pixels": 292,
+      "raw_rmse": 1.101894281201443,
+      "clock_only_mask_physical_pixels": [
+        541,
+        359,
+        588,
+        379
+      ],
+      "changed_pixels_outside_clock": 5,
+      "max_channel_delta_outside_clock": 1,
+      "rmse_outside_clock": 0.0015919842077405405,
+      "strict_rgb_equal_outside_clock": false,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": [
+        [
+          242,
+          451
+        ],
+        [
+          373,
+          339
+        ],
+        [
+          374,
+          339
+        ],
+        [
+          375,
+          339
+        ],
+        [
+          376,
+          339
+        ]
+      ]
+    },
+    {
+      "logical_size": "360x640",
+      "state": "teahouse_map",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_map.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\360x640\\teahouse_map.png",
+      "baseline_png_sha256": "6a300328d5397eb96f8e4976557816d7f683687abc2cb3c94b9b0340b36e4032",
+      "restored_png_sha256": "0f83dfee079f97c05395869f7b07c9fcbe9766085d894b1f3957828df0f04967",
+      "raw_changed_pixels": 6,
+      "raw_rmse": 0.001994639807825704,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 6,
+      "max_channel_delta_outside_clock": 1,
+      "rmse_outside_clock": 0.001994639807825704,
+      "strict_rgb_equal_outside_clock": false,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": [
+        [
+          242,
+          451
+        ],
+        [
+          1030,
+          144
+        ],
+        [
+          1034,
+          232
+        ],
+        [
+          1036,
+          144
+        ],
+        [
+          1041,
+          144
+        ],
+        [
+          1044,
+          144
+        ]
+      ]
+    },
+    {
+      "logical_size": "360x640",
+      "state": "plant_detail_actions",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\plant_detail_actions.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\360x640\\plant_detail_actions.png",
+      "baseline_png_sha256": "0bb8c49b4195a368bb07501f19717b71151271cf715d2a8d62e0c319f3ead2a4",
+      "restored_png_sha256": "0bb8c49b4195a368bb07501f19717b71151271cf715d2a8d62e0c319f3ead2a4",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "432x960",
+      "state": "greenhouse_empty",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_empty.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\432x960\\greenhouse_empty.png",
+      "baseline_png_sha256": "f7224a774e4b0c35d5176172ad376a814cbe541174b3d55c4e2fc46f35e12572",
+      "restored_png_sha256": "f7224a774e4b0c35d5176172ad376a814cbe541174b3d55c4e2fc46f35e12572",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "432x960",
+      "state": "workshop",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\workshop.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\432x960\\workshop.png",
+      "baseline_png_sha256": "993dc01c37b1b5c78862a1c1fb590ac1f9583f8a8d2a55b66e8a1a394ca485db",
+      "restored_png_sha256": "fd1ec1991229967f079c32657c23fb2a724483896293120ffb89564e15a1695d",
+      "raw_changed_pixels": 697,
+      "raw_rmse": 1.2013992586792885,
+      "clock_only_mask_physical_pixels": [
+        713,
+        530,
+        786,
+        562
+      ],
+      "changed_pixels_outside_clock": 3,
+      "max_channel_delta_outside_clock": 1,
+      "rmse_outside_clock": 0.0012687699328295886,
+      "strict_rgb_equal_outside_clock": false,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": [
+        [
+          1296,
+          453
+        ],
+        [
+          1297,
+          453
+        ],
+        [
+          1298,
+          453
+        ]
+      ]
+    },
+    {
+      "logical_size": "432x960",
+      "state": "teahouse_map",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_map.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\432x960\\teahouse_map.png",
+      "baseline_png_sha256": "69bebd64317896c2c45621e339ffad239beadc5a3d05e3e76a467ea953c5786b",
+      "restored_png_sha256": "45a70bd849a136626504e5163cbb55f44370ccc872179b5008ea0bbaa80e91b3",
+      "raw_changed_pixels": 4,
+      "raw_rmse": 0.0012678762905212178,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 4,
+      "max_channel_delta_outside_clock": 1,
+      "rmse_outside_clock": 0.0012678762905212178,
+      "strict_rgb_equal_outside_clock": false,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": [
+        [
+          1671,
+          311
+        ],
+        [
+          1672,
+          311
+        ],
+        [
+          1680,
+          311
+        ],
+        [
+          1681,
+          311
+        ]
+      ]
+    },
+    {
+      "logical_size": "432x960",
+      "state": "plant_detail_actions",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\plant_detail_actions.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\432x960\\plant_detail_actions.png",
+      "baseline_png_sha256": "619b222040deb7584af261182dbd563128fbb3baa0a2125b030b56160dff273c",
+      "restored_png_sha256": "619b222040deb7584af261182dbd563128fbb3baa0a2125b030b56160dff273c",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "600x900",
+      "state": "greenhouse_empty",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_empty.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\600x900\\greenhouse_empty.png",
+      "baseline_png_sha256": "99b71200c92059573bd8c2372124213837740e268aaa8def522171518d2ffb3d",
+      "restored_png_sha256": "99b71200c92059573bd8c2372124213837740e268aaa8def522171518d2ffb3d",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "600x900",
+      "state": "workshop",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\workshop.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\600x900\\workshop.png",
+      "baseline_png_sha256": "3fd222353145245a7678e0098f5197cad7904e204afc514cf01e64843d3b85dd",
+      "restored_png_sha256": "e047530f0a39bfb48336835baf2472511abe4f376f2e7c007da3bf1b3cbe3249",
+      "raw_changed_pixels": 539,
+      "raw_rmse": 1.1851131633209309,
+      "clock_only_mask_physical_pixels": [
+        863,
+        498,
+        931,
+        527
+      ],
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "600x900",
+      "state": "teahouse_map",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_map.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\600x900\\teahouse_map.png",
+      "baseline_png_sha256": "080a9fbbf34b8dd82ed4f671377bd2a6a21840c94d87b522bc9431b69fc13362",
+      "restored_png_sha256": "080a9fbbf34b8dd82ed4f671377bd2a6a21840c94d87b522bc9431b69fc13362",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    },
+    {
+      "logical_size": "600x900",
+      "state": "plant_detail_actions",
+      "baseline": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\plant_detail_actions.png",
+      "restored": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\restored-20261028\\600x900\\plant_detail_actions.png",
+      "baseline_png_sha256": "9762f616c2ea66c9d1ac0d18ef4e99c2fa2dd214314b1c31a72513576ffe7324",
+      "restored_png_sha256": "9762f616c2ea66c9d1ac0d18ef4e99c2fa2dd214314b1c31a72513576ffe7324",
+      "raw_changed_pixels": 0,
+      "raw_rmse": 0.0,
+      "clock_only_mask_physical_pixels": null,
+      "changed_pixels_outside_clock": 0,
+      "max_channel_delta_outside_clock": 0,
+      "rmse_outside_clock": 0.0,
+      "strict_rgb_equal_outside_clock": true,
+      "all_channels_within_1_lsb_outside_clock": true,
+      "unmasked_difference_pixel_coordinates_yx": []
+    }
+  ]
+}

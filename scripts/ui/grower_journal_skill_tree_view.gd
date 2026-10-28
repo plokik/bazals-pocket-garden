@@ -27,11 +27,13 @@ var nodes: Array[GrowerJournalSkillNode] = []
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(0.0, TREE_HEIGHT)
+	if not nodes.is_empty() and nodes.size() <= LAYOUT.size():
+		custom_minimum_size.y = LAYOUT[nodes.size() - 1].y + NODE_SIZE.y + 22.0
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	set_meta("component", "grower_journal_skill_tree_v2")
 	set_meta("layout", "organic_two_branch_botanical_tree_v2")
-	set_meta("illustrated_nodes", 10)
+	set_meta("illustrated_nodes", nodes.size())
 	set_meta("branch_labels", ["CESTA OBJEVITELE", "CESTA PĚSTITELE"])
 	call_deferred("_layout_nodes")
 
@@ -41,6 +43,9 @@ func register_node(node: GrowerJournalSkillNode) -> void:
 		return
 	nodes.append(node)
 	add_child(node)
+	set_meta("illustrated_nodes", nodes.size())
+	if nodes.size() <= LAYOUT.size():
+		custom_minimum_size.y = LAYOUT[nodes.size() - 1].y + NODE_SIZE.y + 22.0
 	_layout_nodes()
 	queue_redraw()
 

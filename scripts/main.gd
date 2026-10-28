@@ -24,8 +24,6 @@ const BotanistShopPresenterScene := preload("res://scripts/ui/botanist_shop_pres
 const DailyChallengePresenterScene := preload("res://scripts/ui/daily_challenge_presenter.gd")
 const DailyChallengeVisualScene := preload("res://scripts/ui/daily_challenge_visual.gd")
 const BotanicalPackPresenterScene := preload("res://scripts/ui/botanical_pack_presenter.gd")
-const CosmeticShowroomPresenterScene := preload("res://scripts/ui/cosmetic_showroom_presenter.gd")
-const CosmeticShowroomVisualLayout := preload("res://scripts/ui/cosmetic_showroom_visual.gd")
 const SeedSelectorPresenterScene := preload("res://scripts/ui/seed_selector_presenter.gd")
 const HerbariumPresenterScene := preload("res://scripts/ui/herbarium_presenter.gd")
 const MeasurementPresenterScene := preload("res://scripts/ui/measurement_presenter.gd")
@@ -71,7 +69,6 @@ const NavCornerLeafScene := preload("res://scripts/ui/nav_corner_leaf.gd")
 const InfoQuestionTexture := preload("res://assets/ui/rack/rack_help_badge_v1.png")
 const SettingsGearTexture := preload("res://assets/ui/icons/settings_gear_phase125.png")
 const LevelRewardPotTexture := preload("res://assets/plants/comic/empty_pot_v1.png")
-const RackDockPetTexture := preload("res://assets/ui/visual/phase183/rack_dock/pet_paw_phase183_v1.png")
 const RackDockProfessorTexture := preload("res://assets/ui/visual/phase183/rack_dock/professor_bazal_phase183_v1.png")
 const RackDockCareTexture := preload("res://assets/ui/visual/phase183/rack_dock/care_leaf_phase183_v1.png")
 const GrowerJournalSeedTexture := preload("res://assets/ui/grower_progress_tree_v1/sprouting_seed_v1.png")
@@ -79,7 +76,6 @@ const GrowerJournalHarvestTexture := preload("res://assets/plants/comic/basil_ha
 const GrowerJournalRoomTexture := preload("res://assets/ui/visual/phase149/player_room/plants/room_plant_orchid_phase149.png")
 const GrowerJournalHerbariumTexture := preload("res://assets/ui/visual/phase149/player_room/decor/room_decor_botanical_print_phase149.png")
 const Phase161DailyChallengeBackdrop := preload("res://assets/ui/visual/phase161/daily_challenge/daily_challenge_clean_backdrop_v3.png")
-const Phase162CosmeticShowroomBackdrop := preload("res://assets/ui/visual/phase162/cosmetic_showroom/cosmetic_showroom_clean_backdrop_v1.png")
 const GUIDE_MODAL_DURATION := 0.34
 const GUIDE_PANEL_HEIGHT := 80.0
 const GUIDE_INFO_ICON_SIZE := Vector2(44.0, 44.0)
@@ -89,7 +85,7 @@ const GUIDE_INFO_HIT_POSITION := Vector2(8.0, 2.0)
 const RACK_DOCK_BUTTON_SIZE := 68.0
 const RACK_DOCK_BUTTON_GAP := 10.0
 const RACK_DOCK_ICON_SIZE := 48.0
-const RACK_DOCK_BUTTON_COUNT := 4
+const RACK_DOCK_BUTTON_COUNT := 3
 const RACK_DOCK_BOTTOM_INSET := 8.0
 const GUIDE_MODAL_DIM := Color("#071823", 0.84)
 const GUIDE_MODAL_CHARACTER_OFFSET := Vector2(-54.0, 92.0)
@@ -157,7 +153,6 @@ const GROWER_JOURNAL_BADGE_IDS := [
 	"seasoned_grower",
 	"quality_trio",
 	"workshop_master",
-	"room_collector",
 	"herbarium_master",
 	"research_partner",
 ]
@@ -210,7 +205,6 @@ var condition_card_hint: Control
 var botanist_shop_presenter := BotanistShopPresenterScene.new()
 var daily_challenge_presenter := DailyChallengePresenterScene.new()
 var botanical_pack_presenter := BotanicalPackPresenterScene.new()
-var cosmetic_showroom_presenter := CosmeticShowroomPresenterScene.new()
 var seed_selector_presenter := SeedSelectorPresenterScene.new()
 var herbarium_presenter := HerbariumPresenterScene.new()
 var measurement_presenter := MeasurementPresenterScene.new()
@@ -319,11 +313,6 @@ var plant_diagnosis_cards: Array[Dictionary] = []
 var plant_diagnosis_scroll: ScrollContainer
 var plant_diagnosis_close_button: Button
 var plant_diagnosis_action_button: Button
-var cosmetic_modal: Control
-var cosmetic_modal_open := false
-var cosmetic_status_label: Label
-var cosmetic_theme_cards: Dictionary = {}
-var cosmetic_showroom_scroll: ScrollContainer
 var room_decoration_modal: RoomDecorationModal
 var room_decoration_open := false
 var teahouse_open := false
@@ -423,8 +412,6 @@ var feedback_layer: GameFeedbackLayer
 var audio_haptics: GameAudioHaptics
 var settings_launcher_button: Button
 var settings_launcher_icon: TextureRect
-var rack_pet_launcher_button: Button
-var rack_pet_launcher_icon: TextureRect
 var garden_cat_companion: GardenCatCompanion
 var care_center_launcher_button: Button
 var care_center_launcher_icon: TextureRect
@@ -558,6 +545,7 @@ var shop_category_buttons: Dictionary = {}
 var shop_normalized_icon_textures: Dictionary = {}
 var shop_buy_cards: Array[Control] = []
 var shop_sell_panel: PanelContainer
+var shop_sell_scroll: ScrollContainer
 var shop_sell_icon: TextureRect
 var shop_sell_title_label: Label
 var shop_sell_details_label: Label
@@ -805,9 +793,6 @@ func _consume_mobile_back_navigation() -> bool:
 	if room_decoration_open:
 		_close_room_decoration_modal()
 		return true
-	if cosmetic_modal_open:
-		_close_cosmetic_modal()
-		return true
 	if return_summary_open:
 		_close_return_summary()
 		return true
@@ -964,6 +949,8 @@ func _active_content_scroll() -> ScrollContainer:
 		1:
 			return storage_scroll
 		2:
+			if shop_sell_scroll != null and shop_sell_scroll.is_visible_in_tree():
+				return shop_sell_scroll
 			if shop_catalog_scroll != null and shop_catalog_scroll.is_visible_in_tree():
 				return shop_catalog_scroll
 			return shop_scroll
@@ -1142,8 +1129,6 @@ func _build_ui() -> void:
 	add_child(seed_selector_modal)
 	herbarium_modal = _build_herbarium_modal()
 	add_child(herbarium_modal)
-	cosmetic_modal = _build_cosmetic_modal()
-	add_child(cosmetic_modal)
 	room_decoration_modal = RoomDecorationModalScene.new()
 	room_decoration_modal.close_requested.connect(_close_room_decoration_modal)
 	room_decoration_modal.decoration_requested.connect(_on_room_decoration_requested)
@@ -1418,20 +1403,9 @@ func _build_garden_screen() -> Control:
 	rack_player_room_button.set_meta("location_target", GARDEN_LOCATION_PLAYER_ROOM)
 	rack_player_room_button.pressed.connect(_open_teahouse)
 	plants_room_panel.add_child(rack_player_room_button)
-	rack_pet_launcher_button = _build_rack_dock_launcher(
-		plants_room_panel,
-		0,
-		RackDockPetTexture,
-		ComicUITheme.CYAN,
-		"phase183_rack_pet_launcher_v1",
-		"pet_paw_phase183_v1.png",
-		"Doplňky a vzhled pokoje",
-		_open_cosmetic_modal
-	)
-	rack_pet_launcher_icon = rack_pet_launcher_button.get_node("Icon") as TextureRect
 	professor_research_launcher_button = _build_rack_dock_launcher(
 		plants_room_panel,
-		1,
+		0,
 		RackDockProfessorTexture,
 		ComicUITheme.ORANGE,
 		"phase183_professor_research_launcher_v1",
@@ -1461,7 +1435,7 @@ func _build_garden_screen() -> Control:
 	)
 	care_center_launcher_button = _build_rack_dock_launcher(
 		plants_room_panel,
-		2,
+		1,
 		RackDockCareTexture,
 		ComicUITheme.GREEN,
 		"phase183_rack_care_launcher_v1",
@@ -1481,7 +1455,7 @@ func _build_garden_screen() -> Control:
 	care_center_attention_label = care_center_attention_badge.get_node("Label") as Label
 	settings_launcher_button = _build_rack_dock_launcher(
 		plants_room_panel,
-		3,
+		2,
 		SettingsGearTexture,
 		ComicUITheme.PURPLE,
 		"phase183_player_settings_launcher_v1",
@@ -1500,7 +1474,6 @@ func _build_garden_screen() -> Control:
 	player_room_view = PlayerRoomViewScene.new()
 	player_room_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	player_room_view.rack_requested.connect(_open_rack_location)
-	player_room_view.theme_requested.connect(_open_cosmetic_modal)
 	player_room_view.decoration_slot_requested.connect(_open_room_decoration_modal)
 	player_room_view.plant_move_requested.connect(_on_room_plant_move_requested)
 	player_room_view.plant_drag_started.connect(_on_room_plant_drag_started)
@@ -1833,6 +1806,7 @@ func _build_guide_modal() -> Control:
 	overlay.add_child(guide_modal_character)
 	guide_modal_card = PanelContainer.new()
 	guide_modal_card.name = "DialogCard"
+	guide_modal_card.custom_minimum_size.y = 230
 	guide_modal_card.set_anchor(SIDE_LEFT, 0.035)
 	guide_modal_card.set_anchor(SIDE_TOP, 0.075)
 	guide_modal_card.set_anchor(SIDE_RIGHT, 0.965)
@@ -1856,6 +1830,7 @@ func _build_guide_modal() -> Control:
 	guide_modal_label.add_theme_color_override("font_color", ComicUITheme.INK)
 	guide_modal_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card_canvas.add_child(guide_modal_label)
+	guide_modal_label.minimum_size_changed.connect(_layout_compact_handover.call_deferred)
 	guide_modal_confirm_button = Button.new()
 	guide_modal_confirm_button.text = "ROZUMÍM"
 	guide_modal_confirm_button.set_anchor(SIDE_LEFT, 0.52)
@@ -1883,6 +1858,7 @@ func _build_guide_modal() -> Control:
 	reduce_motion_button.set_meta("component", "reduced_motion_toggle_v1")
 	reduce_motion_button.set_meta("touch_target_min_height", 48)
 	card_canvas.add_child(reduce_motion_button)
+	card_canvas.resized.connect(_layout_compact_handover)
 	overlay.add_child(guide_modal_card)
 	guide_modal_name_badge = PanelContainer.new()
 	guide_modal_name_badge.name = "ProfessorNameBadge"
@@ -1908,6 +1884,7 @@ func _build_guide_modal() -> Control:
 	overlay.add_child(guide_modal_name_badge)
 	guide_modal_close_button = Button.new()
 	guide_modal_close_button.text = "×"
+	guide_modal_close_button.custom_minimum_size = Vector2(48,48)
 	guide_modal_close_button.set_anchor(SIDE_LEFT, 0.84)
 	guide_modal_close_button.set_anchor(SIDE_TOP, 0.025)
 	guide_modal_close_button.set_anchor(SIDE_RIGHT, 0.97)
@@ -1925,6 +1902,7 @@ func _build_guide_modal() -> Control:
 	dialog_reveal = guide_modal_character
 	detail_dialog_reveal = guide_modal_character
 	guide_portrait = guide_modal_character
+	overlay.resized.connect(_reset_guide_modal_layout)
 	return overlay
 
 
@@ -2159,7 +2137,6 @@ func _build_settings_modal() -> Control:
 		_on_settings_motion_toggled,
 		_on_music_volume_changed,
 		_on_sfx_volume_changed,
-		_open_cosmetic_modal,
 		_open_local_backup,
 		_close_settings_modal
 	)
@@ -2663,6 +2640,46 @@ func _build_daily_challenge_modal() -> Control:
 	_phase161_prepare_painted_button(daily_challenge_close_button, 11, ComicUITheme.NAVY, "close")
 	overlay.add_child(daily_challenge_close_button)
 	daily_challenge_presenter.bind(daily_challenge_weather_label, daily_challenge_title_label, daily_challenge_body_label, daily_challenge_status_label, daily_challenge_action_button, daily_challenge_claim_button)
+	var compact_items := {
+		daily_challenge_action_button: Rect2(0.075,0.615,0.85,0.073),
+		daily_challenge_claim_button: Rect2(0.075,0.697,0.85,0.075),
+		botanical_pack_launcher_button: Rect2(0.075,0.782,0.41,0.075),
+		daily_challenge_close_button: Rect2(0.515,0.782,0.41,0.075),
+		daily_challenge_warning_label: Rect2(0.085,0.865,0.83,0.045),
+		daily_challenge_backdrop: Rect2(0.091,0.393,0.818,0.199),
+		daily_challenge_context_visual: Rect2(0.091,0.393,0.818,0.199),
+		illustration_frame: Rect2(0.075,0.383,0.85,0.219),
+	}
+	var arrange := func() -> void:
+		for control: Control in compact_items:
+			_apply_hud_rect(control,compact_items[control])
+			control.offset_left = 0
+			control.offset_top = 0
+			control.offset_right = 0
+			control.offset_bottom = 0
+		if overlay.size.y >= 860: return
+		var width := overlay.size.x
+		var warning_y := overlay.size.y - maxf(32,safe_area_insets.w) - 48
+		var footer_y := warning_y - 76
+		var claim_y := footer_y - 76
+		var action_y := claim_y - 72
+		var boxes := {
+			daily_challenge_warning_label: Rect2(width*.085,warning_y,width*.83,32),
+			botanical_pack_launcher_button: Rect2(width*.075,footer_y,width*.41,64),
+			daily_challenge_close_button: Rect2(width*.515,footer_y,width*.41,64),
+			daily_challenge_claim_button: Rect2(width*.075,claim_y,width*.85,68),
+			daily_challenge_action_button: Rect2(width*.075,action_y,width*.85,64),
+		}
+		var picture_top := overlay.size.y*.393
+		boxes[daily_challenge_backdrop] = Rect2(width*.091,picture_top,width*.818,maxf(48,action_y-12-picture_top))
+		boxes[daily_challenge_context_visual] = boxes[daily_challenge_backdrop]
+		boxes[illustration_frame] = (boxes[daily_challenge_backdrop] as Rect2).grow(6)
+		for control: Control in boxes:
+			control.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+			control.position = boxes[control].position
+			control.size = boxes[control].size
+	overlay.resized.connect(arrange)
+	overlay.visibility_changed.connect(arrange)
 	return overlay
 
 
@@ -2718,6 +2735,7 @@ func _build_botanical_pack_modal() -> Control:
 	column.add_child(banner)
 	var title := Label.new()
 	title.text = "BOTANICKÁ ZÁSILKA"
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", FontExtraBold)
@@ -2805,6 +2823,9 @@ func _build_botanical_pack_modal() -> Control:
 	ComicUITheme.apply_button(close_button, ComicUITheme.BLUE, ComicUITheme.CREAM, 13)
 	column.add_child(close_button)
 	botanical_pack_presenter.bind(botanical_pack_count_label, botanical_pack_odds_label, botanical_pack_pity_label, botanical_pack_status_label, botanical_pack_reward_name_label, botanical_pack_reward_rarity_label, botanical_pack_open_button)
+	var responsive := preload("res://scripts/ui/compact_dialog_layout.gd").new()
+	overlay.add_child(responsive)
+	responsive.bind(overlay,card,column,[botanical_pack_open_button,close_button],self)
 	return overlay
 
 
@@ -3015,6 +3036,9 @@ func _build_level_progression_modal() -> Control:
 	_apply_painted_progression_button_style(close_button, "teal", ComicUITheme.INK)
 	bottom_actions.add_child(close_button)
 	level_progression_presenter.bind(level_progression_summary_label, level_progression_status_label, level_progression_cards, level_progression_xp_progress)
+	var responsive := preload("res://scripts/ui/compact_dialog_layout.gd").new()
+	overlay.add_child(responsive)
+	responsive.bind(overlay,shell,column,[bottom_actions],self)
 	return overlay
 
 
@@ -3607,6 +3631,9 @@ func _build_plant_diagnosis_modal() -> Control:
 	banner_row.add_child(heading)
 	var title := Label.new()
 	title.text = "DIAGNOSTIKA ROSTLINY"
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.max_lines_visible = 2
+	title.custom_minimum_size.y = 28
 	title.add_theme_font_override("font", FontExtraBold)
 	title.add_theme_font_size_override("font_size", 19)
 	title.add_theme_color_override("font_color", ComicUITheme.CREAM)
@@ -3615,6 +3642,7 @@ func _build_plant_diagnosis_modal() -> Control:
 	heading.add_child(title)
 	var subtitle := Label.new()
 	subtitle.text = "Přesný rozbor podmínek a doporučený další krok."
+	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle.add_theme_font_override("font", FontSemiBold)
 	subtitle.add_theme_font_size_override("font_size", 9)
 	subtitle.add_theme_color_override("font_color", Color("#f4e9ff"))
@@ -3728,211 +3756,6 @@ func _build_plant_diagnosis_card(index: int) -> Control:
 	return panel
 
 
-func _build_cosmetic_modal() -> Control:
-	var overlay := Control.new()
-	overlay.name = "CosmeticShowroomModal"
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	overlay.z_index = 205
-	overlay.visible = false
-	overlay.set_meta("component", "fullscreen_cosmetic_showroom_v1")
-	overlay.set_meta("blocks_game_input", true)
-	overlay.set_meta("gameplay_bonuses", false)
-	overlay.set_meta("covers_full_viewport", true)
-	overlay.set_meta("phase162_runtime_set", VisualDesignSystem.COSMETIC_SHOWROOM_PHASE162_RUNTIME_SET_ID)
-	overlay.set_meta("phase162_scene_profile", VisualDesignSystem.COSMETIC_SHOWROOM_PHASE162_SCENE_PROFILE_ID)
-	overlay.set_meta("phase162_layer_policy", "clean_painted_plate_dynamic_copy_wallet_states_and_buttons_v1")
-	var scrim := ColorRect.new()
-	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scrim.color = Color("#061923", 0.88)
-	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
-	scrim.set_meta("component", "phase162_live_room_scrim_v1")
-	overlay.add_child(scrim)
-
-	cosmetic_showroom_scroll = ScrollContainer.new()
-	cosmetic_showroom_scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	cosmetic_showroom_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	cosmetic_showroom_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	cosmetic_showroom_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	cosmetic_showroom_scroll.set_meta("mobile_scroll", true)
-	overlay.add_child(cosmetic_showroom_scroll)
-
-	var canvas := Control.new()
-	canvas.name = "PaintedShowroomCanvas"
-	canvas.custom_minimum_size = Vector2.ONE
-	canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	canvas.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	canvas.mouse_filter = Control.MOUSE_FILTER_PASS
-	canvas.set_meta("component", "phase162_painted_showroom_canvas_v1")
-	cosmetic_showroom_scroll.add_child(canvas)
-
-	var painted_backdrop := TextureRect.new()
-	_apply_hud_rect(painted_backdrop, CosmeticShowroomVisualLayout.PLATE_VIEWPORT_RECT)
-	painted_backdrop.texture = CosmeticShowroomVisualLayout.create_plate_texture(Phase162CosmeticShowroomBackdrop)
-	painted_backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	painted_backdrop.stretch_mode = TextureRect.STRETCH_SCALE
-	painted_backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	painted_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	painted_backdrop.set_meta("component", "painted_cosmetic_showroom_clean_backdrop_phase162_v1")
-	painted_backdrop.set_meta("source_pixel_policy", "generated_clean_plate_no_baked_copy_values_or_states_v1")
-	canvas.add_child(painted_backdrop)
-
-	var header_badge := _phase162_showroom_label("VZHLED DÍLNY", CosmeticShowroomVisualLayout.HEADER_BADGE_RECT, FontExtraBold, 12, Color("#3d2a17"), 1)
-	header_badge.add_theme_color_override("font_outline_color", Color("#f2b35d", 0.66))
-	header_badge.add_theme_constant_override("outline_size", 1)
-	header_badge.set_meta("component", "painted_cosmetic_showroom_dynamic_badge_phase162_v1")
-	canvas.add_child(header_badge)
-
-	var title := _phase162_showroom_label("KOUZELNÝ SHOWROOM", CosmeticShowroomVisualLayout.HEADER_TITLE_RECT, FontExtraBold, 23, ComicUITheme.CREAM, 2)
-	title.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	title.add_theme_constant_override("outline_size", 3)
-	title.set_meta("component", "painted_cosmetic_showroom_dynamic_header_phase162_v1")
-	canvas.add_child(title)
-
-	var intro := _phase162_showroom_label(
-		"Vzhled mění jen barevný tón dílny. Růst, počasí i odměny zůstávají stejné.",
-		CosmeticShowroomVisualLayout.INTRO_RECT,
-		FontSemiBold,
-		12,
-		ComicUITheme.NAVY,
-		3
-	)
-	intro.set_meta("component", "painted_cosmetic_showroom_dynamic_intro_phase162_v1")
-	canvas.add_child(intro)
-
-	cosmetic_theme_cards.clear()
-	for theme_id in CosmeticShowroomVisualLayout.THEME_ORDER:
-		canvas.add_child(_build_cosmetic_theme_card(theme_id))
-
-	cosmetic_status_label = _phase162_showroom_label("", CosmeticShowroomVisualLayout.STATUS_RECT, FontExtraBold, 11, ComicUITheme.NAVY, 2)
-	cosmetic_status_label.set_meta("component", "painted_cosmetic_showroom_dynamic_wallet_phase162_v1")
-	canvas.add_child(cosmetic_status_label)
-
-	var close_button := _action_button("HOTOVO", _close_cosmetic_modal)
-	_apply_hud_rect(close_button, CosmeticShowroomVisualLayout.viewport_rect(CosmeticShowroomVisualLayout.CLOSE_RECT))
-	close_button.custom_minimum_size.y = 58
-	close_button.set_meta("touch_target_min_height", 64)
-	_phase162_prepare_painted_showroom_button(close_button, 17, "close")
-	canvas.add_child(close_button)
-
-	_configure_mobile_scroll(cosmetic_showroom_scroll, canvas, "cosmetic_showroom")
-	cosmetic_showroom_presenter.bind(cosmetic_status_label, cosmetic_theme_cards)
-	return overlay
-
-
-func _build_cosmetic_theme_card(theme_id: String) -> Control:
-	var theme_data := _get_cosmetic_theme_data(theme_id)
-	var accent := Color(str(theme_data.get("accent", "#74848b")))
-	var layout := CosmeticShowroomVisualLayout.theme_layout(theme_id)
-	var panel := Control.new()
-	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.set_meta("component", "phase162_painted_cosmetic_theme_card_v1")
-	panel.set_meta("theme_id", theme_id)
-	var preview := preload("res://scripts/ui/workshop_theme_preview.gd").new()
-	preview.theme_id = theme_id
-	_apply_hud_rect(preview, CosmeticShowroomVisualLayout.viewport_rect(layout.preview as Rect2))
-	panel.add_child(preview)
-
-	var name_font_size := 10 if theme_id == "research_study" else 15
-	var name_label := _phase162_showroom_label(str(theme_data.name).to_upper(), layout.name as Rect2, FontExtraBold, name_font_size, ComicUITheme.NAVY, 1)
-	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	name_label.add_theme_color_override("font_outline_color", Color("#fff2c5", 0.82))
-	name_label.add_theme_constant_override("outline_size", 2)
-	panel.add_child(name_label)
-
-	var description_font_size := 8 if theme_id == "research_study" else 11
-	var description_max_lines := 3 if theme_id == "research_study" else 5
-	var description := _phase162_showroom_label(str(theme_data.description), layout.description as Rect2, FontSemiBold, description_font_size, ComicUITheme.NAVY, description_max_lines)
-	description.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	panel.add_child(description)
-
-	var action_state := PanelContainer.new()
-	_apply_hud_rect(action_state, CosmeticShowroomVisualLayout.viewport_rect(layout.button as Rect2))
-	action_state.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	action_state.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-	action_state.set_meta("component", "phase162_cosmetic_theme_state_overlay_v1")
-	action_state.set_meta("theme_id", theme_id)
-	panel.add_child(action_state)
-
-	var action := Button.new()
-	_apply_hud_rect(action, CosmeticShowroomVisualLayout.viewport_rect(layout.button_hit as Rect2))
-	action.focus_mode = Control.FOCUS_NONE
-	action.set_meta("touch_target_min_height", 52)
-	action.set_meta("component", "phase162_painted_cosmetic_theme_action_v1")
-	action.set_meta("theme_id", theme_id)
-	action.pressed.connect(_on_room_theme_pressed.bind(theme_id))
-	_phase162_prepare_painted_showroom_button(action, 12 if theme_id != "research_study" else 10, "theme_%s" % theme_id)
-	for color_name in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color", "font_outline_color"]:
-		action.add_theme_color_override(color_name, Color.TRANSPARENT)
-	action.add_theme_constant_override("outline_size", 0)
-	panel.add_child(action)
-
-	var action_label := _phase162_showroom_label("", layout.button as Rect2, FontExtraBold, 12 if theme_id != "research_study" else 9, ComicUITheme.CREAM, 2)
-	action_label.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	action_label.add_theme_constant_override("outline_size", 2)
-	action_label.set_meta("component", "phase162_cosmetic_theme_dynamic_action_label_v1")
-	action_label.set_meta("theme_id", theme_id)
-	panel.add_child(action_label)
-
-	cosmetic_theme_cards[theme_id] = {
-		"panel": panel,
-		"button": action,
-		"accent": accent,
-		"name": name_label,
-		"description": description,
-		"action_label": action_label,
-		"state_overlay": action_state,
-		"painted_surface": true,
-		"preview": preview,
-	}
-	return panel
-
-
-func _phase162_showroom_label(text: String, source_rect: Rect2, font: Font, font_size: int, color: Color, max_lines: int) -> Label:
-	var label := Label.new()
-	label.text = text
-	_apply_hud_rect(label, CosmeticShowroomVisualLayout.viewport_rect(source_rect))
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.max_lines_visible = max_lines
-	label.add_theme_font_override("font", font)
-	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", color)
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return label
-
-
-func _phase162_prepare_painted_showroom_button(button: Button, font_size: int, role: String) -> void:
-	button.add_theme_font_override("font", FontExtraBold)
-	button.add_theme_font_size_override("font_size", font_size)
-	button.add_theme_color_override("font_color", ComicUITheme.CREAM)
-	button.add_theme_color_override("font_hover_color", ComicUITheme.CREAM)
-	button.add_theme_color_override("font_pressed_color", ComicUITheme.CREAM)
-	button.add_theme_color_override("font_focus_color", ComicUITheme.CREAM)
-	button.add_theme_color_override("font_disabled_color", Color("#fff2c4", 0.90))
-	button.add_theme_color_override("font_outline_color", ComicUITheme.INK)
-	button.add_theme_constant_override("outline_size", 2)
-	button.set_meta("phase162_uses_baked_painted_surface", true)
-	button.set_meta("phase162_button_role", role)
-	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
-		button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-
-
-func _get_cosmetic_theme_data(theme_id: String) -> Dictionary:
-	if GameSession.ROOM_THEMES.has(theme_id):
-		var base_theme: Variant = GameSession.ROOM_THEMES.get(theme_id, {})
-		if base_theme is Dictionary:
-			return base_theme.duplicate(true)
-	return {
-		"name": "Neznámé nastavení vzhledu",
-		"price": 0,
-		"accent": "#6e7480",
-		"description": "Tento vzhled je pro tuto verzi pokoje zatím nedostupný.",
-	}
-
-
 func _build_return_summary_modal() -> Control:
 	var modal := PaintedModalShell.create_overlay(
 		"phase15_mobile_return_summary_v1",
@@ -3950,6 +3773,7 @@ func _build_return_summary_modal() -> Control:
 	var column := PaintedModalShell.create_column(card, 16, BoxContainer.ALIGNMENT_CENTER)
 	var title := Label.new()
 	title.text = "NÁVRAT DO ZAHRADY"
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", FontExtraBold)
 	title.add_theme_font_size_override("font_size", 23)
@@ -3971,6 +3795,9 @@ func _build_return_summary_modal() -> Control:
 	close_button.set_meta("touch_target_min_height", 68)
 	close_button.set_meta("component", "phase109_return_summary_garden_cta_v1")
 	column.add_child(close_button)
+	var responsive := preload("res://scripts/ui/compact_dialog_layout.gd").new()
+	overlay.add_child(responsive)
+	responsive.bind(overlay,card,column,[close_button],self)
 	return overlay
 
 
@@ -4267,8 +4094,6 @@ func _set_settings_modal_open(opening: bool) -> void:
 		_set_herbarium_open(false)
 	if opening and daily_challenge_open:
 		_set_daily_challenge_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and dialog_open:
 		_set_guide_modal_open(false, false)
 	settings_modal_open = opening
@@ -4307,8 +4132,6 @@ func _set_seed_selector_open(opening: bool) -> void:
 		_set_herbarium_open(false)
 	if opening and daily_challenge_open:
 		_set_daily_challenge_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and dialog_open:
 		_set_guide_modal_open(false, false)
 	if opening and settings_modal_open:
@@ -4352,8 +4175,6 @@ func _set_herbarium_open(opening: bool) -> void:
 		_set_seed_selector_open(false)
 	if opening and daily_challenge_open:
 		_set_daily_challenge_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	herbarium_open = opening
 	herbarium_modal.visible = opening
 	if opening:
@@ -4385,75 +4206,11 @@ func _close_botanical_pack_to_daily() -> void:
 	_set_daily_challenge_open(true)
 
 
-func _open_cosmetic_modal() -> void:
-	_set_cosmetic_modal_open(true)
-
-
-func _close_cosmetic_modal() -> void:
-	_set_cosmetic_modal_open(false)
-
-
-func _set_cosmetic_modal_open(opening: bool) -> void:
-	if cosmetic_modal == null:
-		return
-	if opening and care_center_open:
-		_set_care_center_open(false)
-	if opening and level_progression_open:
-		_set_level_progression_open(false)
-	if opening and dialog_open:
-		_set_guide_modal_open(false, false)
-	if opening and settings_modal_open:
-		_set_settings_modal_open(false)
-	if opening and seed_selector_open:
-		_set_seed_selector_open(false)
-	if opening and herbarium_open:
-		_set_herbarium_open(false)
-	if opening and daily_challenge_open:
-		_set_daily_challenge_open(false)
-	cosmetic_modal_open = opening
-	cosmetic_modal.visible = opening
-	if opening:
-		cosmetic_modal.move_to_front()
-		_refresh_cosmetic_showroom()
-	if audio_haptics != null:
-		audio_haptics.play_ui("tap")
-
-
-func _refresh_cosmetic_showroom() -> void:
-	if session == null or cosmetic_status_label == null:
-		return
-	cosmetic_showroom_presenter.refresh(session)
-
-
-func _on_room_theme_pressed(theme_id: String) -> void:
-	if session == null:
-		return
-	var state := session.get_room_theme_unlock_state(theme_id)
-	var reason := str(state.get("reason", "unknown"))
-	if reason == "unknown" or reason == "insufficient_coins" or reason == "research_required":
-		cosmetic_showroom_presenter.show_room_theme_unlock_state(state)
-		return
-	if not session.unlock_or_select_room_theme(theme_id):
-		state = session.get_room_theme_unlock_state(theme_id)
-		var failure_reason := str(state.get("reason", ""))
-		if failure_reason == "insufficient_coins" or failure_reason == "research_required" or failure_reason == "unknown":
-			cosmetic_showroom_presenter.show_room_theme_unlock_state(state)
-		return
-	cosmetic_showroom_presenter.restore_status_color()
-	room_overview.set_cosmetic_theme(session.selected_room_theme)
-	player_room_view.set_cosmetic_theme(session.selected_room_theme)
-	_save_current_session()
-	_refresh_ui()
-	_refresh_cosmetic_showroom()
-
-
 func _open_room_decoration_modal(slot_index: int) -> void:
 	if session == null or room_decoration_modal == null:
 		return
 	if active_screen != 0 or garden_location_id != GARDEN_LOCATION_PLAYER_ROOM:
 		return
-	if cosmetic_modal_open:
-		_close_cosmetic_modal()
 	room_decoration_open = true
 	room_decoration_modal.open_for_slot(session, slot_index)
 	if audio_haptics != null:
@@ -4937,8 +4694,6 @@ func _set_daily_challenge_open(opening: bool) -> void:
 		_set_seed_selector_open(false)
 	if opening and herbarium_open:
 		_set_herbarium_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	daily_challenge_open = opening
 	daily_challenge_modal.visible = opening
 	if opening:
@@ -4965,8 +4720,6 @@ func _set_botanical_pack_open(opening: bool) -> void:
 		_set_herbarium_open(false)
 	if opening and daily_challenge_open:
 		_set_daily_challenge_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	botanical_pack_open = opening
 	botanical_pack_modal.visible = opening
 	if opening:
@@ -5074,6 +4827,8 @@ func _on_botanical_pack_opened() -> void:
 	botanical_pack_last_reward["new_discovery"] = bool(reward.get("newly_discovered", false))
 	botanical_pack_reward_icon.texture = _species_preview_texture(species_id)
 	botanical_pack_reward_icon.modulate = Color.WHITE
+	var reward_scroll := botanical_pack_modal.find_child("CompactDialogBodyScroll",true,false) as ScrollContainer
+	if reward_scroll != null: reward_scroll.scroll_vertical = 0
 	botanical_pack_reward_rarity_label.add_theme_color_override("font_color", Color(str(rarity.get("color_hex", "#76D91D"))).darkened(0.22))
 	_save_current_session()
 	_refresh_ui()
@@ -5178,8 +4933,6 @@ func _set_level_progression_open(opening: bool) -> void:
 		_set_herbarium_open(false)
 	if opening and daily_challenge_open:
 		_set_daily_challenge_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
 	level_progression_open = opening
@@ -5204,7 +4957,10 @@ func _refresh_level_progression() -> void:
 		_refresh_grower_leaderboard()
 	var journal := session.get_grower_journal_snapshot()
 	if grower_journal_launcher != null:
-		grower_journal_launcher.text = "PĚSTITELSKÝ DENÍK\n%d/%d DOVEDNOSTÍ" % [int(journal.get("completed_badges", 0)), int(journal.get("badge_total", 0))]
+		var format := "DENÍK\n%d/%d" if level_progression_modal.size.x < 400 else "PĚSTITELSKÝ DENÍK\n%d/%d DOVEDNOSTÍ"
+		grower_journal_launcher.text = format % [int(journal.get("completed_badges", 0)), int(journal.get("badge_total", 0))]
+	if grower_leaderboard_launcher != null:
+		grower_leaderboard_launcher.text = "ŽEBŘÍČEK" if level_progression_modal.size.x < 400 else "ŽEBŘÍČEK\nPĚSTITELŮ"
 	if level_progression_tree_view != null:
 		var claimable: Array[int] = []
 		for reward_level in range(1, GameSession.LEVEL_REWARDS.size() + 1):
@@ -5271,8 +5027,6 @@ func _set_grower_journal_open(opening: bool) -> void:
 		_set_level_progression_open(false)
 	if opening and care_center_open:
 		_set_care_center_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
 	# The journal is a fully opaque fullscreen scene. Hiding the normal game tree avoids
@@ -5294,8 +5048,29 @@ func _set_grower_journal_open(opening: bool) -> void:
 func _refresh_grower_journal() -> void:
 	if session == null or grower_journal_summary_label == null:
 		return
-	grower_journal_presenter.refresh(session.get_grower_journal_snapshot())
+	grower_journal_presenter.refresh(_active_grower_journal_snapshot())
 	_refresh_grower_journal_target_button()
+
+
+func _active_grower_journal_snapshot() -> Dictionary:
+	# Keep legacy purchases and earned achievements in the save/model. The
+	# current journal only offers goals that can still be played in the UI.
+	var snapshot := session.get_grower_journal_snapshot()
+	var badges: Array = (snapshot.badges as Array).filter(func(badge: Dictionary) -> bool: return str(badge.id) in GROWER_JOURNAL_BADGE_IDS)
+	var completed := 0
+	var next_goal: Dictionary = {}
+	for badge: Dictionary in badges:
+		if bool(badge.get("achieved", false)):
+			completed += 1
+		elif next_goal.is_empty():
+			next_goal = badge.duplicate(true)
+	if next_goal.is_empty():
+		next_goal = {"id": "all_complete", "title": "VŠECHNY CÍLE SPLNĚNY", "description": "Tvoje současná pěstitelská kronika je kompletní.", "current": 1, "target": 1, "progress": 1.0, "achieved": true}
+	snapshot.badges = badges
+	snapshot.badge_total = badges.size()
+	snapshot.completed_badges = completed
+	snapshot.next_goal = next_goal
+	return snapshot
 
 
 func _refresh_grower_journal_target_button() -> void:
@@ -5309,7 +5084,6 @@ func _refresh_grower_journal_target_button() -> void:
 		"trusted_supplier": destination = "SKLAD"
 		"quality_trio": destination = "MĚŘENÍ"
 		"workshop_master": destination = "OBCHOD"
-		"room_collector": destination = "MŮJ POKOJ"
 		"research_partner": destination = "VÝZKUM" if session.is_professor_story_unlocked() else "MĚŘENÍ"
 	grower_journal_target_button.text = "OTEVŘÍT %s" % destination
 
@@ -5328,9 +5102,6 @@ func _go_to_selected_journal_goal() -> void:
 		"trusted_supplier": _change_screen(1)
 		"quality_trio": _change_screen(3)
 		"workshop_master": _change_screen(2)
-		"room_collector":
-			_change_screen(0)
-			_open_player_room()
 		"research_partner":
 			if session.is_professor_story_unlocked():
 				_open_professor_story()
@@ -5380,8 +5151,6 @@ func _set_care_center_open(opening: bool) -> void:
 		_set_daily_challenge_open(false)
 	if opening and level_progression_open:
 		_set_level_progression_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
 	care_center_open = opening
@@ -5449,8 +5218,6 @@ func _set_plant_diagnosis_open(opening: bool) -> void:
 		_set_grower_journal_open(false)
 	if opening and care_center_open:
 		_set_care_center_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
 	plant_diagnosis_open = opening
@@ -5821,8 +5588,6 @@ func _set_professor_story_open(opening: bool) -> void:
 		_set_care_center_open(false)
 	if opening and plant_diagnosis_open:
 		_set_plant_diagnosis_open(false)
-	if opening and cosmetic_modal_open:
-		_set_cosmetic_modal_open(false)
 	if opening and return_summary_open:
 		_close_return_summary()
 	professor_story_open = opening
@@ -6155,6 +5920,68 @@ func _reset_guide_modal_layout() -> void:
 		control.offset_top = 0.0
 		control.offset_right = 0.0
 		control.offset_bottom = 0.0
+	if guide_modal != null and guide_modal_close_button != null:
+		var canvas := guide_modal.size
+		var target := Vector2(maxf(48,canvas.x*.13),maxf(48,canvas.y*.067))
+		guide_modal_close_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+		guide_modal_close_button.position = Vector2(minf(canvas.x*.84,canvas.x-safe_area_insets.z-target.x-8),maxf(canvas.y*.025,safe_area_insets.y+8))
+		guide_modal_close_button.size = target
+	_layout_compact_handover()
+
+
+func _layout_compact_handover() -> void:
+	if guide_modal == null or guide_modal_card == null or guide_modal_label == null or guide_modal_confirm_button == null or reduce_motion_button == null:
+		return
+	var canvas := guide_modal.size
+	if canvas.x <= 0 or canvas.y <= 0:
+		return
+	var compact := is_garden_handover_active and canvas.y < 860
+	guide_modal_character.anchor_top = 0.40 if compact else 0.25
+	guide_modal_character.anchor_bottom = minf(0.99,(canvas.y-safe_area_insets.w-8)/canvas.y) if is_garden_handover_active else 0.99
+	var inset_character := is_garden_handover_active and safe_area_insets != Vector4.ZERO
+	guide_modal_character.anchor_left = (safe_area_insets.x+4)/canvas.x if inset_character else 0.0
+	guide_modal_character.anchor_right = 1-(safe_area_insets.z+4)/canvas.x if inset_character else 1.0
+	var original := {
+		guide_modal_label: Rect2(0.065,0.27,0.87,0.39),
+		guide_modal_confirm_button: Rect2(0.52,0.70,0.42,0.24),
+		reduce_motion_button: Rect2(0.06,0.70,0.43,0.24),
+	}
+	if not compact:
+		guide_modal_card.custom_minimum_size.y = 230
+		guide_modal_card.anchor_left = 0.035
+		guide_modal_card.anchor_right = 0.965
+		for control: Control in original:
+			_apply_hud_rect(control,original[control])
+			control.offset_left = 0
+			control.offset_top = 0
+			control.offset_right = 0
+			control.offset_bottom = 0
+		guide_modal_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		return
+	guide_modal_card.anchor_left = maxf(0.035,(safe_area_insets.x+4)/canvas.x)
+	guide_modal_card.anchor_right = 1-maxf(0.035,(safe_area_insets.z+4)/canvas.x)
+	var panel_style := guide_modal_card.get_theme_stylebox("panel")
+	var inner_width := maxf(1,canvas.x*(guide_modal_card.anchor_right-guide_modal_card.anchor_left)-panel_style.get_minimum_size().x)
+	var font := guide_modal_label.get_theme_font("font")
+	var font_size := guide_modal_label.get_theme_font_size("font_size")
+	var body_width := inner_width*0.87
+	guide_modal_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	guide_modal_label.size = Vector2(body_width,1)
+	var text_height := maxf(guide_modal_label.get_combined_minimum_size().y,ceilf(font.get_multiline_string_size(guide_modal_label.text,HORIZONTAL_ALIGNMENT_LEFT,body_width,font_size).y))
+	var badge_bottom := guide_modal_name_badge.position.y+guide_modal_name_badge.size.y
+	var body_top := maxf(28,badge_bottom-canvas.y*0.075-panel_style.get_content_margin(SIDE_TOP)+12)
+	var footer_top := body_top+text_height+12
+	guide_modal_card.custom_minimum_size.y = footer_top+52+16+guide_modal_card.get_theme_stylebox("panel").get_minimum_size().y
+	var boxes := {
+		guide_modal_label: Rect2(inner_width*0.065,body_top,body_width,text_height),
+		guide_modal_confirm_button: Rect2(inner_width*0.52,footer_top,inner_width*0.42,52),
+		reduce_motion_button: Rect2(inner_width*0.06,footer_top,inner_width*0.43,52),
+	}
+	for control: Control in boxes:
+		control.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+		control.position = boxes[control].position
+		control.size = boxes[control].size
+	guide_modal_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 
 
 func _close_guide_modal() -> void:
@@ -6668,6 +6495,7 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	wallet_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	wallet_row.add_child(wallet_icon)
 	shop_balance_label = Label.new()
+	shop_balance_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	shop_balance_label.add_theme_font_override("font", FontExtraBold)
 	shop_balance_label.add_theme_font_size_override("font_size", 16)
 	shop_balance_label.add_theme_color_override("font_color", ComicUITheme.INK)
@@ -6732,7 +6560,16 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	_add_equipment_shop_tile("self_watering_pot", NavPlantIcon, ComicUITheme.ORANGE)
 	shop_sell_panel = _build_botanist_sell_panel()
 	shop_sell_panel.visible = false
-	shop_runtime_layout.add_child(shop_sell_panel)
+	shop_sell_scroll = ScrollContainer.new()
+	shop_sell_scroll.name = "BotanistSellScroll"
+	shop_sell_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	shop_sell_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shop_sell_scroll.scroll_deadzone = 8
+	shop_sell_scroll.visible = false
+	shop_sell_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	shop_sell_scroll.add_child(shop_sell_panel)
+	shop_runtime_layout.add_child(shop_sell_scroll)
+	_apply_shop_scrollbar_skin(shop_sell_scroll)
 	var feedback_ribbon := PanelContainer.new()
 	feedback_ribbon.custom_minimum_size.y = 30
 	feedback_ribbon.add_theme_stylebox_override("panel", PaintedDetailArt.box("cream", 4.0))
@@ -6775,6 +6612,22 @@ func _build_botanist_runtime_shop(parent: Control) -> void:
 	botanist_shop_presenter.bind_mode_view(shop_buy_cards, shop_catalog_scroll, shop_sell_panel, shop_buy_tab_button, shop_sell_tab_button, shop_category_buttons, shop_feedback_label)
 	botanist_shop_presenter.bind_sell_view(shop_sell_icon, shop_sell_title_label, shop_sell_details_label, shop_sell_offer_label, shop_sell_button)
 	botanist_shop_presenter.bind_message_view(shop_merchant_dialog_label)
+	var arrange_hero := func() -> void:
+		var available: float = shop_runtime_layout.get_parent().size.y
+		shop_hero_panel.custom_minimum_size.y = clampf(available-282,150,245)
+	shop_runtime_layout.get_parent().resized.connect(arrange_hero)
+	shop_runtime_layout.resized.connect(arrange_hero)
+	arrange_hero.call_deferred()
+	var arrange_wallet := func() -> void:
+		var font := shop_balance_label.get_theme_font("font")
+		var natural := ceilf(font.get_string_size(shop_balance_label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,16).x)
+		var room := maxf(1,size.x-safe_area_insets.x-safe_area_insets.z-69)
+		var fitted := minf(natural,room)
+		if not is_equal_approx(shop_balance_label.custom_minimum_size.x,fitted):
+			shop_balance_label.custom_minimum_size.x = fitted
+	resized.connect(func(): arrange_wallet.call_deferred())
+	shop_balance_label.minimum_size_changed.connect(func(): arrange_wallet.call_deferred())
+	arrange_wallet.call_deferred()
 
 
 func _botanist_seed_buy_callback(species_id: String) -> Callable:
@@ -7104,6 +6957,7 @@ func _build_botanist_sell_panel() -> PanelContainer:
 	panel.add_child(column)
 	var header := Label.new()
 	header.text = "RYCHLÝ VÝKUP U PANA KOŘÍNKA"
+	header.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	header.add_theme_font_override("font", FontExtraBold)
 	header.add_theme_font_size_override("font_size", 16)
@@ -7127,6 +6981,7 @@ func _build_botanist_sell_panel() -> PanelContainer:
 	details.add_theme_constant_override("separation", 3)
 	row.add_child(details)
 	shop_sell_title_label = Label.new()
+	shop_sell_title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	shop_sell_title_label.add_theme_font_override("font", FontExtraBold)
 	shop_sell_title_label.add_theme_font_size_override("font_size", 16)
 	shop_sell_title_label.add_theme_color_override("font_color", ComicUITheme.INK)
@@ -7137,6 +6992,7 @@ func _build_botanist_sell_panel() -> PanelContainer:
 	shop_sell_details_label.add_theme_color_override("font_color", ComicUITheme.NAVY)
 	details.add_child(shop_sell_details_label)
 	shop_sell_offer_label = Label.new()
+	shop_sell_offer_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	shop_sell_offer_label.add_theme_font_override("font", FontExtraBold)
 	shop_sell_offer_label.add_theme_font_size_override("font_size", 19)
 	shop_sell_offer_label.add_theme_color_override("font_color", Color("#a15b0b"))
@@ -7162,6 +7018,7 @@ func _set_shop_mode(mode: String) -> void:
 	if shop_legacy_capture:
 		shop_mode = "buy"
 	botanist_shop_presenter.apply_mode(shop_mode, shop_category)
+	if shop_sell_scroll != null: shop_sell_scroll.visible = shop_mode == "sell"
 	if shop_mode == "buy":
 		if shop_category == "equipment":
 			_set_botanist_dialog("Dobré vybavení šetří čas i rostliny. Ukážu ti přesně, co další úroveň zlepší.")
@@ -7914,7 +7771,7 @@ func _build_rack_dock_launcher(
 	button.set_meta("component", component)
 	button.set_meta("asset", asset_name)
 	button.set_meta("dock_index", index)
-	button.set_meta("dock_group", "compact_four_icon_phase183_v1")
+	button.set_meta("dock_group", "compact_three_icon_phase183_v1")
 	button.set_meta("touch_target_min", Vector2(RACK_DOCK_BUTTON_SIZE, RACK_DOCK_BUTTON_SIZE))
 	button.set_meta("icon_policy", "transparent_cropped_png_48_v1")
 	if callback.is_valid():
@@ -8300,7 +8157,7 @@ func _refresh_active_ui() -> void:
 	if room_decoration_open and room_decoration_modal != null:
 		room_decoration_modal.refresh(session)
 		return
-	if dialog_open or settings_modal_open or botanical_pack_open or cosmetic_modal_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open:
+	if dialog_open or settings_modal_open or botanical_pack_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open:
 		return
 	match active_screen:
 		0:
@@ -8364,7 +8221,7 @@ func _is_blocking_modal_open() -> bool:
 
 
 func _is_blocking_modal_open_except_seed_selector(exclude_greenhouse_decoration := false) -> bool:
-	return (teahouse_hub != null and teahouse_hub.blocks_input()) or (greenhouse_decoration_open and not exclude_greenhouse_decoration) or teahouse_open or fortune_wheel_open or workshop_open or dialog_open or professor_story_open or settings_modal_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or cosmetic_modal_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
+	return (teahouse_hub != null and teahouse_hub.blocks_input()) or (greenhouse_decoration_open and not exclude_greenhouse_decoration) or teahouse_open or fortune_wheel_open or workshop_open or dialog_open or professor_story_open or settings_modal_open or herbarium_open or daily_challenge_open or botanical_pack_open or level_progression_open or grower_journal_open or care_center_open or plant_diagnosis_open or room_decoration_open or return_summary_open or save_recovery_open or save_failure_open or local_backup_open
 
 
 func _refresh_audio_scene() -> void:
@@ -8661,6 +8518,7 @@ func _apply_garden_handover_mode() -> void:
 		TooltipPolicy.apply(guide_modal_close_button, "PŘESKOČIT PŘEDÁNÍ")
 	if guide_modal_name_label != null:
 		guide_modal_name_label.text = "PROFESOR BAZAL"
+	_layout_compact_handover()
 
 
 func _apply_normal_guide_mode() -> void:
@@ -8672,6 +8530,7 @@ func _apply_normal_guide_mode() -> void:
 		TooltipPolicy.apply(guide_modal_close_button, "Zavřít")
 	if guide_modal_name_label != null:
 		guide_modal_name_label.text = "PROFESOR BAZAL"
+	_layout_compact_handover()
 
 
 func _garden_handover_title(state: Dictionary) -> String:
@@ -8716,6 +8575,7 @@ func _render_garden_handover_state(state: Dictionary) -> void:
 	var confirm_label := _garden_handover_confirm_label(state)
 	if guide_modal_confirm_button != null:
 		guide_modal_confirm_button.text = confirm_label
+	_layout_compact_handover()
 	if guide_modal_character != null:
 		guide_modal_character.set_mood(_garden_handover_mood(state))
 		if not _garden_handover_is_finished(state):
@@ -9009,64 +8869,6 @@ func _finish_daily_challenge_capture() -> void:
 	_set_daily_challenge_open(false)
 
 
-func _prepare_cosmetic_showroom_capture() -> void:
-	_set_daily_challenge_open(false)
-	_set_guide_modal_open(false, false)
-	session.unlocked_room_themes = ["sunrise", "lagoon", "amethyst"]
-	session.coins = 120
-	session.unlock_or_select_room_theme("lagoon")
-	session.unlock_or_select_room_theme("amethyst")
-	room_overview.set_cosmetic_theme("amethyst")
-	_set_cosmetic_modal_open(true)
-	cosmetic_modal.set_meta("capture_state", "phase14_cosmetic_showroom_candidate_v1")
-
-
-func _finish_cosmetic_showroom_capture() -> void:
-	_set_cosmetic_modal_open(false)
-	session.unlock_or_select_room_theme("sunrise")
-	room_overview.set_cosmetic_theme("sunrise")
-
-
-func _prepare_phase162_cosmetic_showroom_selected_capture() -> void:
-	_finish_professor_research_capture()
-	_set_daily_challenge_open(false)
-	_set_guide_modal_open(false, false)
-	session.professor_research.load_state({
-		"completed_count": 3,
-	}, GameSession.PROFESSOR_RESEARCH_VARIANT_SCHEMA, true, 0)
-	session.unlocked_room_themes = ["sunrise", "lagoon", "amethyst"]
-	session.coins = 120
-	session.unlock_or_select_room_theme("sunrise")
-	room_overview.set_cosmetic_theme("sunrise")
-	player_room_view.set_cosmetic_theme("sunrise")
-	_set_cosmetic_modal_open(true)
-	cosmetic_showroom_scroll.scroll_vertical = 0
-	cosmetic_modal.set_meta("capture_state", "phase162_cosmetic_showroom_selected_v1")
-
-
-func _prepare_phase162_cosmetic_showroom_insufficient_capture() -> void:
-	_finish_professor_research_capture()
-	_set_daily_challenge_open(false)
-	_set_guide_modal_open(false, false)
-	session.professor_research.load_state({}, GameSession.PROFESSOR_RESEARCH_VARIANT_SCHEMA, true, 0)
-	session.unlocked_room_themes = ["sunrise"]
-	session.coins = 0
-	session.unlock_or_select_room_theme("sunrise")
-	room_overview.set_cosmetic_theme("sunrise")
-	player_room_view.set_cosmetic_theme("sunrise")
-	_set_cosmetic_modal_open(true)
-	cosmetic_showroom_scroll.scroll_vertical = 0
-	cosmetic_modal.set_meta("capture_state", "phase162_cosmetic_showroom_insufficient_v1")
-
-
-func _finish_phase162_cosmetic_showroom_capture() -> void:
-	cosmetic_showroom_scroll.scroll_vertical = 0
-	session.unlock_or_select_room_theme("sunrise")
-	room_overview.set_cosmetic_theme("sunrise")
-	player_room_view.set_cosmetic_theme("sunrise")
-	_set_cosmetic_modal_open(false)
-
-
 func _prepare_professor_research_variant_capture(cycle_id: int, capture_state: String) -> void:
 	if session == null or professor_story_modal == null:
 		return
@@ -9087,55 +8889,7 @@ func _finish_professor_research_capture() -> void:
 	_set_professor_story_open(false)
 
 
-func _prepare_research_study_showroom_locked_capture() -> void:
-	_finish_professor_research_capture()
-	_set_daily_challenge_open(false)
-	_set_guide_modal_open(false, false)
-	session.unlocked_room_themes = ["sunrise", "lagoon", "amethyst"]
-	session.unlock_or_select_room_theme("amethyst")
-	room_overview.set_cosmetic_theme("amethyst")
-	_set_cosmetic_modal_open(true)
-	cosmetic_showroom_scroll.scroll_vertical = 4096
-	cosmetic_modal.set_meta("capture_state", "phase99_cosmetic_showroom_research_study_locked_v1")
-
-
-func _prepare_research_study_showroom_selected_capture() -> bool:
-	_finish_professor_research_capture()
-	_set_daily_challenge_open(false)
-	_set_guide_modal_open(false, false)
-	session.coins = 360
-	session.professor_research.load_state({
-		"completed_count": GameSession.RESEARCH_STUDY_COMPLETED_REQUIRED,
-	}, GameSession.PROFESSOR_RESEARCH_VARIANT_SCHEMA, true, 0)
-	if session.professor_story != null and session.professor_story.has_method("load_state"):
-		session.professor_story.load_state({
-			"lost_herbarium_pages": {"seen": true, "claimed": true},
-			"silver_sage_legacy": {"seen": true, "claimed": true},
-			"grand_herbarium_exhibition": {"seen": true, "claimed": true},
-		}, "grand_herbarium_exhibition", true, GameSession.PROFESSOR_STORY_CHAPTER_THREE_SCHEMA, session.get_available_species())
-		session._sync_professor_story_storage()
-	else:
-		push_error("Phase 99 research-study capture requires direct chapter claim API for the finale.")
-		return false
-	if not session.unlock_or_select_room_theme("research_study"):
-		push_error("Phase 99 research-study capture could not unlock selected room theme after completed_count seed.")
-		return false
-	room_overview.set_cosmetic_theme("research_study")
-	_set_cosmetic_modal_open(true)
-	cosmetic_showroom_scroll.scroll_vertical = 4096
-	cosmetic_modal.set_meta("capture_state", "phase99_cosmetic_showroom_research_study_selected_v1")
-	return true
-
-
-func _finish_research_study_showroom_capture() -> void:
-	cosmetic_showroom_scroll.scroll_vertical = 0
-	session.unlock_or_select_room_theme("sunrise")
-	room_overview.set_cosmetic_theme("sunrise")
-	_set_cosmetic_modal_open(false)
-
-
 func _prepare_return_summary_capture() -> void:
-	_set_cosmetic_modal_open(false)
 	_change_screen(0)
 	_open_room()
 	return_summary_presenter.refresh(8280.0, "Polojasno", "Správná zálivka")

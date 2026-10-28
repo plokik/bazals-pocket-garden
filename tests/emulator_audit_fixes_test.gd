@@ -33,6 +33,9 @@ static func run(host: SceneTree) -> void:
 	session.guided_tutorial_enabled = false
 	session.plant.plant_seed()
 	session.plant.health = 60
+	# Arrange the real UTC day before observing navigation. The independent wheel
+	# timer may otherwise initialize its first day between the two snapshots.
+	session.fortune_wheel.refresh(Time.get_unix_time_from_system())
 	game._activate_session(session)
 	game._open_player_room()
 	game.workshop_modal.open()
@@ -48,6 +51,10 @@ static func run(host: SceneTree) -> void:
 	host._check(game._consume_mobile_back_navigation() and not game.workshop_open, "Audit A01: druhé systémové Zpět správně zavře recepty")
 	var after := session.to_dict().duplicate(true)
 	after.erase("saved_at_unix")
+	if snapshot != after:
+		var changes: Array[Dictionary] = []
+		preload("res://tests/teahouse_integration_test.gd")._snapshot_changes(snapshot, after, "", changes)
+		print("AUDIT_A01_SESSION_DIFF=" + JSON.stringify({"changes": changes, "unix": Time.get_unix_time_from_system(), "active_screen": game.active_screen, "workshop_open": game.workshop_open}))
 	host._check(snapshot == after, "Audit A01: zavírání nabídky ani dialogu nemění postup a zásoby")
 	# The same priority must protect the storage screen's harvest chooser.
 	game._change_screen(1)
@@ -58,14 +65,8 @@ static func run(host: SceneTree) -> void:
 	host._check(game._consume_mobile_back_navigation() and game.active_screen == 1 and not game.storage_batch_picker.get_popup().visible, "Audit A01: Zpět zavře také skladovou nabídku bez odchodu ze skladu")
 	game._change_screen(0)
 	game._open_player_room()
-	game._open_cosmetic_modal()
-	var room = preload("res://scripts/ui/player_room_collection_view.gd")
-	var artwork = preload("res://scripts/ui/workshop_room_view.gd").WorkshopBackground
-	for id in ["sunrise", "lagoon", "amethyst", "research_study"]:
-		var preview = game.cosmetic_theme_cards[id].preview
-		host._check(preview.Artwork == artwork and preview.theme_id == id, "Audit A03: náhled %s používá aktuální malovanou dílnu a správný vzhled" % id)
-		host._check(preview.Room._palette_for_theme(id).tint == room._palette_for_theme(id).tint, "Audit A03: náhled %s má stejný barevný tón jako skutečná místnost" % id)
-	host._check(GameSession.ROOM_THEMES.lagoon.price == 35 and GameSession.ROOM_THEMES.amethyst.price == 55 and GameSession.ROOM_THEMES.research_study.research_completed_required == 6, "Audit A03: aktualizace náhledů zachovává ceny, ID a podmínky odemčení")
+	host._check(not game.has_method("_open_cosmetic_modal") and not game.player_room_view.has_signal("theme_requested") and game.player_room_view.selected_theme_id == session.selected_room_theme, "Audit A03: odstraněný showroom nemá skrytý vstup a dílna dál vykreslí uložený vzhled")
+	host._check(GameSession.ROOM_THEMES.lagoon.price == 35 and GameSession.ROOM_THEMES.amethyst.price == 55 and GameSession.ROOM_THEMES.research_study.research_completed_required == 6, "Audit A03: vyřazení showroomu nemění historická ID, ceny ani doménové podmínky odemčení")
 	await _check_palette_lifecycle(host, game)
 	surface.queue_free()
 	await host.process_frame

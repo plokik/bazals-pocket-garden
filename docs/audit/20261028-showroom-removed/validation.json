@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-28T06:19:29.177939+00:00",
+  "status": "SHOWROOM_REMOVED",
+  "source_sha256": "b1b5b29a20d15d83d3be20f02578d8d429ef830798f569c8062cb6d8c8e728fb",
+  "changed_runtime_files": [
+    "scripts/main.gd",
+    "scripts/ui/garden_cat_companion.gd",
+    "scripts/ui/grower_journal_skill_tree_view.gd",
+    "scripts/ui/player_room_collection_view.gd",
+    "scripts/ui/player_room_view.gd",
+    "scripts/ui/player_settings_modal_view.gd",
+    "scripts/ui/rack_screen_painted_skin.gd",
+    "scripts/ui/room_overview.gd",
+    "scripts/ui/visual_design_system.gd",
+    "scripts/ui/workshop_room_view.gd"
+  ],
+  "functional": {
+    "passed": 9922,
+    "failed": 0
+  },
+  "focused": {
+    "passed": 160,
+    "reference_contract_passed": 65,
+    "script_errors": 0
+  },
+  "capture": {
+    "passed": 18,
+    "sizes": [
+      "360x640",
+      "432x960",
+      "600x900"
+    ],
+    "desktop_renderer": true,
+    "native_android": false
+  },
+  "visual": {
+    "passed": 32,
+    "total": 33,
+    "overall": "FAILED",
+    "failed_cases": [
+      {
+        "id": "phase163-rack-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 4.581194,
+          "rmse": 26.735735,
+          "maximum_error": 255,
+          "changed_ratio": 0.041073
+        }
+      }
+    ],
+    "retired_cases": 2,
+    "remaining_cases": 52,
+    "references_and_thresholds_unchanged": true
+  },
+  "saved_data_model_unchanged": true,
+  "player_profile_touched": false,
+  "published": false,
+  "emulator_updated": false,
+  "validation_log": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\showroom-removed-20261028\\verified-final-validation.log",
+  "visual_report": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\showroom-removed-20261028\\verified-final-validation\\report.md"
+}

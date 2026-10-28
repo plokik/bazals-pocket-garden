@@ -19,6 +19,8 @@ const VISUAL_BOX_COUNT := 2
 const BAYS_PER_BOX := 2
 const CROP_IDS: Array[String] = ["cherry_tomato", "sweet_pepper", "garden_radish", "salad_cucumber", "garden_eggplant"]
 const TOUCH_TARGET_MIN := 64.0
+const CROP_TEXT_INSET := 10.0
+const CROP_CHOICE_FONT_SIZE := 10
 const TITLE_TEXT_HORIZONTAL_INSET := 16.0
 const TITLE_TEXT_LINE_TOP := 15.0
 const TITLE_TEXT_LINE_HEIGHT := 20.0
@@ -82,6 +84,10 @@ var selected_title_label: Label
 var selected_detail_label: Label
 var bed_buttons: Array[Button] = []
 var crop_buttons: Array[Button] = []
+var crop_scroll: ScrollContainer
+var crop_row: HBoxContainer
+var crop_selector_scrollable := false
+var _crop_layout_signature := ""
 var bed_states: Array[Dictionary] = []
 var crop_catalog: Dictionary = {}
 var selected_bed_index := 0
@@ -273,20 +279,48 @@ func _build_controls() -> void:
 	action_button.pressed.connect(_on_action_pressed)
 	add_child(action_button)
 
+	crop_scroll = ScrollContainer.new()
+	crop_scroll.name = "CropChoiceScroll"
+	crop_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	crop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	crop_scroll.scroll_deadzone = 6
+	crop_scroll.follow_focus = true
+	crop_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+	crop_scroll.add_theme_constant_override("scrollbar_v_separation", 0)
+	add_child(crop_scroll)
+	var bar := crop_scroll.get_h_scroll_bar()
+	bar.custom_minimum_size.y = 6
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color("#dce3c0")
+	track.set_corner_radius_all(3)
+	bar.add_theme_stylebox_override("scroll", track)
+	for state in ["grabber", "grabber_highlight", "grabber_pressed"]:
+		var thumb := StyleBoxFlat.new()
+		thumb.bg_color = Color("#71884c")
+		thumb.set_corner_radius_all(3)
+		bar.add_theme_stylebox_override(state, thumb)
+	crop_row = HBoxContainer.new()
+	crop_row.name = "CropChoices"
+	crop_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crop_row.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	crop_row.add_theme_constant_override("separation", 8)
+	crop_row.mouse_filter = Control.MOUSE_FILTER_PASS
+	crop_scroll.add_child(crop_row)
 	for crop_id in CROP_IDS:
 		var crop_button := Button.new()
-		crop_button.focus_mode = Control.FOCUS_NONE
+		crop_button.focus_mode = Control.FOCUS_ALL
 		crop_button.clip_text = true
-		crop_button.custom_minimum_size.y = TOUCH_TARGET_MIN
+		crop_button.custom_minimum_size = Vector2(TOUCH_TARGET_MIN, TOUCH_TARGET_MIN)
+		crop_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		crop_button.add_theme_font_override("font", FontExtraBold)
-		crop_button.add_theme_font_size_override("font_size", 10)
+		crop_button.add_theme_font_size_override("font_size", CROP_CHOICE_FONT_SIZE)
 		crop_button.set_meta("component", "phase107_greenhouse_crop_choice_v1")
 		crop_button.set_meta("painted_style", "shared_sage_crop_choice_v1")
 		crop_button.set_meta("crop_id", crop_id)
 		crop_button.set_meta("touch_target_min", Vector2(64, TOUCH_TARGET_MIN))
 		crop_button.pressed.connect(_on_crop_pressed.bind(crop_id))
 		crop_button.visible = false
-		add_child(crop_button)
+		crop_row.add_child(crop_button)
 		crop_buttons.append(crop_button)
 
 
@@ -311,34 +345,64 @@ func _painted_compact_box(kind: String, padding: float, edge: float) -> StyleBox
 func _layout_controls() -> void:
 	if size.x <= 0.0 or size.y <= 0.0:
 		return
-	var action_row_y := GardenSceneFraming.location_action_row_y()
+	var compact := _uses_bed_safe_layout()
+	var action_row_y := 4.0 if compact else GardenSceneFraming.location_action_row_y()
 	back_button.position = Vector2(10.0, action_row_y)
-	back_button.size = Vector2(124.0, TOUCH_TARGET_MIN)
+	back_button.custom_minimum_size = Vector2(84.0 if compact else 124.0, 48.0 if compact else TOUCH_TARGET_MIN)
+	back_button.size = back_button.custom_minimum_size
+	back_button.add_theme_font_size_override("font_size", 11 if compact else 13)
 	var reputation_rect := _reputation_panel_rect()
-	wallet_label.position = reputation_rect.position + Vector2(39.0, 5.0)
-	wallet_label.size = reputation_rect.size - Vector2(45.0, 10.0)
+	wallet_label.position = reputation_rect.position + Vector2(27.0 if compact else 39.0, 5.0)
+	wallet_label.size = reputation_rect.size - Vector2(32.0 if compact else 45.0, 10.0)
+	wallet_label.add_theme_font_size_override("font_size", 9 if compact else 10)
 	for bed_index in range(bed_buttons.size()):
 		var bed_rect := _bed_rect(bed_index)
 		bed_buttons[bed_index].position = bed_rect.position
 		bed_buttons[bed_index].size = bed_rect.size
 	var status_rect := _status_rect()
-	selected_title_label.position = status_rect.position + Vector2(10.0, 11.0)
-	selected_title_label.size = Vector2(status_rect.size.x - 20.0, 24.0)
-	selected_detail_label.position = status_rect.position + Vector2(14.0, 36.0)
-	selected_detail_label.size = Vector2(status_rect.size.x - 28.0, 34.0)
+	selected_title_label.position = status_rect.position + Vector2(10.0, 10.0 if compact else 11.0)
+	selected_title_label.size = Vector2(status_rect.size.x - 20.0, 18.0 if compact else 24.0)
+	selected_title_label.add_theme_font_size_override("font_size", 12 if compact else 13)
+	selected_detail_label.add_theme_font_size_override("font_size", 9 if compact else 10)
+	if compact:
+		selected_detail_label.add_theme_constant_override("line_spacing", 0)
+	else:
+		selected_detail_label.remove_theme_constant_override("line_spacing")
+	selected_detail_label.position = status_rect.position + Vector2(14.0, 27.0 if compact else 36.0)
+	selected_detail_label.size = Vector2(status_rect.size.x - 28.0, 28.0 if compact else 34.0)
 	action_button.position = Vector2(16.0, size.y - 78.0)
 	action_button.size = Vector2(size.x - 32.0, TOUCH_TARGET_MIN)
-	var crop_gap := 8.0
-	var crop_count := maxi(1, crop_buttons.size())
-	var available_width := size.x - 32.0
-	var crop_width := (available_width - float(crop_count - 1) * crop_gap) / float(crop_count)
-	if crop_width < TOUCH_TARGET_MIN and crop_count > 1:
-		crop_width = TOUCH_TARGET_MIN
-		crop_gap = maxf(0.0, (available_width - float(crop_count) * crop_width) / float(crop_count - 1))
-	for crop_index in range(crop_buttons.size()):
-		crop_buttons[crop_index].add_theme_font_size_override("font_size", 8 if crop_width <= TOUCH_TARGET_MIN else 10)
-		crop_buttons[crop_index].position = Vector2(16.0 + crop_index * (crop_width + crop_gap), size.y - 78.0)
-		crop_buttons[crop_index].size = Vector2(crop_width, TOUCH_TARGET_MIN)
+	_layout_crop_selector()
+	queue_redraw()
+
+
+func _layout_crop_selector() -> void:
+	if crop_scroll == null or crop_row == null or size.x <= 0 or size.y <= 0:
+		return
+	var showing := not bed_states.is_empty() and str(bed_states[selected_bed_index].get("stage", "invalid")) == "empty"
+	var available_width := maxf(1.0, size.x - 32.0)
+	var minimum_widths: Array[float] = []
+	var captions: Array[String] = []
+	var needed_width := float(maxi(0, crop_buttons.size() - 1)) * 8.0
+	for button in crop_buttons:
+		var minimum := TOUCH_TARGET_MIN
+		for line: String in button.text.split("\n"):
+			minimum = maxf(minimum, ceilf(FontExtraBold.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, CROP_CHOICE_FONT_SIZE).x) + CROP_TEXT_INSET * 2.0 + 4.0)
+		minimum_widths.append(minimum)
+		captions.append(button.text)
+		needed_width += minimum
+	var signature := str([size, showing, captions])
+	if signature == _crop_layout_signature:
+		return
+	_crop_layout_signature = signature
+	crop_selector_scrollable = needed_width > available_width + 0.01
+	crop_scroll.position = Vector2(16.0, size.y - (84.0 if crop_selector_scrollable else 78.0))
+	crop_scroll.size = Vector2(available_width, 70.0 if crop_selector_scrollable else TOUCH_TARGET_MIN)
+	crop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS if crop_selector_scrollable else ScrollContainer.SCROLL_MODE_DISABLED
+	crop_scroll.visible = showing
+	for index in range(crop_buttons.size()):
+		crop_buttons[index].custom_minimum_size = Vector2(minimum_widths[index], TOUCH_TARGET_MIN)
+	set_meta("crop_selector_scrollable", crop_selector_scrollable)
 	queue_redraw()
 
 
@@ -359,7 +423,10 @@ func _refresh_controls() -> void:
 			state_line = "Roste · %d%% · zbývá %s" % [roundi(float(state.get("progress", 0.0)) * 100.0), _format_duration(float(state.get("remaining_seconds", 0.0)))]
 		"ready":
 			state_line = "Sklizeň: %d mincí + %d XP." % [int(crop.get("reward_coins", 0)), int(crop.get("reward_xp", 0))]
-	selected_detail_label.text = "%s\n%s" % [state_line, _greenhouse_order_line()]
+	var order_line := _greenhouse_order_line()
+	if _uses_bed_safe_layout():
+		order_line = order_line.replace("ZAKÁZKA+: ", "ZAK. · ").replace("ZAKÁZKA: ", "ZAK. · ").replace("RŮZNÉ ZÁH.", "RŮZ. ZÁH.").replace(" MINCÍ", " M")
+	selected_detail_label.text = "%s\n%s" % [state_line, order_line]
 	var choosing_crop := stage == "empty"
 	action_button.visible = not choosing_crop
 	action_button.text = str(state.get("action_label", "NELZE POUŽÍT"))
@@ -395,6 +462,11 @@ func _refresh_controls() -> void:
 			TooltipPolicy.apply(crop_button, "%s · růst %s · sklizeň %d mincí + %d XP" % [str(option.get("name", crop_id)), _format_duration(float(option.get("growth_seconds", 0.0))), int(option.get("reward_coins", 0)), int(option.get("reward_xp", 0))])
 		var usable := unlocked and affordable
 		_apply_painted_button_style(crop_button, "sage" if usable else "cream")
+		for style_name in ["normal", "hover", "pressed", "disabled"]:
+			var style := crop_button.get_theme_stylebox(style_name)
+			style.set_content_margin(SIDE_LEFT, CROP_TEXT_INSET)
+			style.set_content_margin(SIDE_RIGHT, CROP_TEXT_INSET)
+	_layout_crop_selector()
 	for bed_index in range(bed_buttons.size()):
 		var bed_state := bed_states[bed_index]
 		TooltipPolicy.apply(bed_buttons[bed_index], "Záhon %d · %s" % [bed_index + 1, str(bed_state.get("stage_name", "stav nedostupný"))])
@@ -485,8 +557,7 @@ func _draw() -> void:
 
 
 func _draw_background_cover() -> void:
-	var source_size := GreenhouseInterior.get_size()
-	var source_rect := GardenSceneFraming.cover_source_rect(source_size, size)
+	var source_rect := _scene_source_rect()
 	draw_texture_rect_region(GreenhouseInterior, Rect2(Vector2.ZERO, size), source_rect)
 	draw_rect(Rect2(Vector2.ZERO, size), Color("#052f2b", 0.07))
 
@@ -502,13 +573,15 @@ func _draw_ambient_light() -> void:
 
 
 func _draw_title() -> void:
-	var panel_rect := GardenSceneFraming.location_title_panel(size)
+	var compact := _uses_bed_safe_layout()
+	var panel_rect := Rect2(100.0, 4.0, size.x - 208.0, 48.0) if compact else GardenSceneFraming.location_title_panel(size)
 	draw_style_box(_painted_compact_box("wood", 0.0, 12.0), panel_rect)
 	var text_width := panel_rect.size.x - TITLE_TEXT_HORIZONTAL_INSET * 2.0
-	var title_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, TITLE_TEXT_LINE_TOP), Vector2(text_width, TITLE_TEXT_LINE_HEIGHT))
-	var subtitle_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, TITLE_SUBTITLE_LINE_TOP), Vector2(text_width, TITLE_SUBTITLE_LINE_HEIGHT))
-	draw_string(FontExtraBold, PaintedDetailArt.centered_text_baseline(FontExtraBold, TITLE_TEXT_FONT_SIZE, title_line), "SKLENÍK", HORIZONTAL_ALIGNMENT_CENTER, text_width, TITLE_TEXT_FONT_SIZE, ComicUITheme.INK)
-	draw_string(FontSemiBold, PaintedDetailArt.centered_text_baseline(FontSemiBold, TITLE_SUBTITLE_FONT_SIZE, subtitle_line), "4 ZÁHONY · 5 PLODIN", HORIZONTAL_ALIGNMENT_CENTER, text_width, TITLE_SUBTITLE_FONT_SIZE, ComicUITheme.NAVY)
+	var title_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, 8.0 if compact else TITLE_TEXT_LINE_TOP), Vector2(text_width, TITLE_TEXT_LINE_HEIGHT))
+	var subtitle_line := Rect2(panel_rect.position + Vector2(TITLE_TEXT_HORIZONTAL_INSET, 24.0 if compact else TITLE_SUBTITLE_LINE_TOP), Vector2(text_width, TITLE_SUBTITLE_LINE_HEIGHT))
+	var title_size := 13 if compact else TITLE_TEXT_FONT_SIZE
+	draw_string(FontExtraBold, PaintedDetailArt.centered_text_baseline(FontExtraBold, title_size, title_line), "SKLENÍK", HORIZONTAL_ALIGNMENT_CENTER, text_width, title_size, ComicUITheme.INK)
+	draw_string(FontSemiBold, PaintedDetailArt.centered_text_baseline(FontSemiBold, TITLE_SUBTITLE_FONT_SIZE, subtitle_line), "4 ZÁH. · 5 PLOD." if compact else "4 ZÁHONY · 5 PLODIN", HORIZONTAL_ALIGNMENT_CENTER, text_width, TITLE_SUBTITLE_FONT_SIZE, ComicUITheme.NAVY)
 
 
 func _draw_wallet_panel() -> void:
@@ -516,11 +589,14 @@ func _draw_wallet_panel() -> void:
 	draw_style_box(_painted_compact_box("wood", 0.0, 9.0), rect)
 	var leaf_texture := PaintedDetailArt.texture("leaf")
 	if leaf_texture != null:
-		var leaf_center := rect.position + Vector2(24.0, rect.size.y * 0.5)
-		draw_texture_rect(leaf_texture, Rect2(leaf_center - Vector2(11.0, 11.0), Vector2(22.0, 22.0)), false)
+		var leaf_size := 18.0 if _uses_bed_safe_layout() else 22.0
+		var leaf_center := rect.position + Vector2(16.0 if _uses_bed_safe_layout() else 24.0, rect.size.y * 0.5)
+		draw_texture_rect(leaf_texture, Rect2(leaf_center - Vector2.ONE * leaf_size * .5, Vector2.ONE * leaf_size), false)
 
 
 func _reputation_panel_rect() -> Rect2:
+	if _uses_bed_safe_layout():
+		return Rect2(size.x - 100.0, 4.0, 92.0, 48.0)
 	return Rect2(Vector2(size.x - REPUTATION_CARD_SIZE.x - 10.0, GardenSceneFraming.location_action_row_y() + 4.0), REPUTATION_CARD_SIZE)
 
 
@@ -532,6 +608,8 @@ func _house_rect() -> Rect2:
 
 
 func _status_rect() -> Rect2:
+	if _uses_bed_safe_layout():
+		return Rect2(16.0, size.y - 162.0, size.x - 32.0, 68.0)
 	return Rect2(16.0, size.y - 190.0, size.x - 32.0, 96.0)
 
 
@@ -539,8 +617,8 @@ func _bed_rect(index: int) -> Rect2:
 	if index < 0 or index >= BED_BAY_SOURCE_RECTS.size():
 		return Rect2()
 	var mapped := _map_source_rect(BED_BAY_SOURCE_RECTS[index])
-	# On the shortest supported screen the front board naturally continues
-	# behind the status card.  Its invisible touch target stops before the card.
+	# Compact framing pans the painting and every source-space anchor together.
+	# Only the wooden front board continues behind the separate status card.
 	var safe_end_y := _status_rect().position.y - 8.0
 	if mapped.end.y > safe_end_y:
 		mapped.size.y = maxf(TOUCH_TARGET_MIN, safe_end_y - mapped.position.y)
@@ -558,7 +636,7 @@ func _bed_soil_polygon(index: int) -> PackedVector2Array:
 	if index < 0 or index >= BED_SOIL_SOURCE_POLYGONS.size():
 		return mapped
 	for source_point in BED_SOIL_SOURCE_POLYGONS[index]:
-		mapped.append(GardenSceneFraming.map_cover_point(source_point, GREENHOUSE_SOURCE_SIZE, size))
+		mapped.append(_map_scene_point(source_point))
 	return mapped
 
 
@@ -568,7 +646,7 @@ func _bed_selection_polygon(index: int) -> PackedVector2Array:
 		return mapped
 	var source_polygon: Array = REAR_BED_SELECTION_SOURCE_POLYGONS[index] if index < BAYS_PER_BOX else FRONT_BED_SELECTION_SOURCE_POLYGONS[index - BAYS_PER_BOX]
 	for source_point in source_polygon:
-		mapped.append(GardenSceneFraming.map_cover_point(source_point, GREENHOUSE_SOURCE_SIZE, size))
+		mapped.append(_map_scene_point(source_point))
 	return mapped
 
 
@@ -586,11 +664,7 @@ func _bed_crop_grounded_bounds(index: int) -> Rect2:
 	var bounds := _bed_crop_bounds(index)
 	if index < 0 or index >= BED_SOIL_BASELINE_SOURCE_Y.size() or bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
 		return bounds
-	var mapped_baseline := GardenSceneFraming.map_cover_point(
-		Vector2(0.0, BED_SOIL_BASELINE_SOURCE_Y[index]),
-		GREENHOUSE_SOURCE_SIZE,
-		size
-	).y
+	var mapped_baseline := _map_scene_point(Vector2(0.0, BED_SOIL_BASELINE_SOURCE_Y[index])).y
 	var baseline_y := clampf(mapped_baseline, bounds.position.y + 1.0, bounds.end.y)
 	return Rect2(bounds.position, Vector2(bounds.size.x, baseline_y - bounds.position.y))
 
@@ -598,27 +672,39 @@ func _bed_crop_grounded_bounds(index: int) -> Rect2:
 func _bed_seedling_center_x(index: int) -> float:
 	if index < 0 or index >= BED_SEEDLING_SOURCE_CENTER_X.size():
 		return 0.0
-	return GardenSceneFraming.map_cover_point(
-		Vector2(BED_SEEDLING_SOURCE_CENTER_X[index], 0.0),
-		GREENHOUSE_SOURCE_SIZE,
-		size
-	).x
+	return _map_scene_point(Vector2(BED_SEEDLING_SOURCE_CENTER_X[index], 0.0)).x
 
 
 func _bed_seedling_baseline_y(index: int) -> float:
 	if index < 0 or index >= BED_SEEDLING_BASELINE_SOURCE_Y.size():
 		return 0.0
-	return GardenSceneFraming.map_cover_point(
-		Vector2(0.0, BED_SEEDLING_BASELINE_SOURCE_Y[index]),
-		GREENHOUSE_SOURCE_SIZE,
-		size
-	).y
+	return _map_scene_point(Vector2(0.0, BED_SEEDLING_BASELINE_SOURCE_Y[index])).y
 
 
 func _map_source_rect(source_rect: Rect2) -> Rect2:
-	var start := GardenSceneFraming.map_cover_point(source_rect.position, GREENHOUSE_SOURCE_SIZE, size)
-	var finish := GardenSceneFraming.map_cover_point(source_rect.end, GREENHOUSE_SOURCE_SIZE, size)
+	var start := _map_scene_point(source_rect.position)
+	var finish := _map_scene_point(source_rect.end)
 	return Rect2(start, finish - start)
+
+
+func _uses_bed_safe_layout() -> bool:
+	# Keep the approved camera wherever all four soil bays already fit.
+	var front_end := GardenSceneFraming.map_cover_point(Vector2(0.0, 1157.0), GREENHOUSE_SOURCE_SIZE, size).y
+	return front_end + 10.0 > size.y - 190.0
+
+
+func _scene_source_rect() -> Rect2:
+	var source := GardenSceneFraming.cover_source_rect(GREENHOUSE_SOURCE_SIZE, size)
+	if _uses_bed_safe_layout():
+		# Pan without stretching; every plant, rim and touch target uses this crop.
+		var wanted_bottom := size.y - 172.0
+		source.position.y = clampf(1157.0 - wanted_bottom * source.size.y / maxf(1.0, size.y), 0.0, GREENHOUSE_SOURCE_SIZE.y - source.size.y)
+	return source
+
+
+func _map_scene_point(source_point: Vector2) -> Vector2:
+	var source := _scene_source_rect()
+	return (source_point - source.position) / source.size * size
 
 
 func _uses_compact_layout() -> bool:
@@ -654,6 +740,9 @@ func _draw_bed(index: int, rect: Rect2, state: Dictionary) -> void:
 		# State marks belong to the soil bay, not to the larger rectangular touch
 		# target. This keeps water/ready feedback visually inside both trapezoids.
 		state_marker_anchor = soil_polygon[1] + Vector2(-18.0, -7.0)
+		if _uses_bed_safe_layout():
+			# Keep the full state medallion below the shared 48px header.
+			state_marker_anchor.y = maxf(70.0, state_marker_anchor.y)
 		if stage == "invalid":
 			draw_colored_polygon(soil_polygon, Color("#102126", 0.30))
 		elif stage in ["growing", "ready"]:
@@ -889,7 +978,8 @@ func _draw_status_panel() -> void:
 	draw_style_box(_painted_compact_box("wood", 0.0, 14.0), rect)
 	var state := bed_states[selected_bed_index]
 	var progress := clampf(float(state.get("progress", 0.0)), 0.0, 1.0)
-	var progress_rect := Rect2(rect.position + Vector2(18.0, 76.0), Vector2(rect.size.x - 36.0, 10.0))
+	var compact := _uses_bed_safe_layout()
+	var progress_rect := Rect2(rect.position + Vector2(18.0, 56.0 if compact else 76.0), Vector2(rect.size.x - 36.0, 6.0 if compact else 10.0))
 	_draw_painted_progress_bar(progress_rect, progress)
 
 

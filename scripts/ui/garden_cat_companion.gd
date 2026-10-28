@@ -392,9 +392,9 @@ func _floor_y() -> float:
 	if context == "greenhouse_exterior" and is_instance_valid(game):
 		return game.greenhouse_entrance_view.hint_panel.position.y - 14.0
 	if context == "rack" and is_instance_valid(game):
-		# The rack has its own four-button dock above the main navigation.
+		# The rack has its own three-button dock above the main navigation.
 		# Walk on the wooden floor above that dock, never across its icons.
-		return minf(size.y - 7.0, game.rack_pet_launcher_button.global_position.y - global_position.y - 20.0)
+		return minf(size.y - 7.0, game.professor_research_launcher_button.global_position.y - global_position.y - 20.0)
 	if context == "greenhouse" and is_instance_valid(game):
 		# This authored floor strip sits between the rear and front growing
 		# boxes, clear of the status plaque and all five seed-purchase buttons.

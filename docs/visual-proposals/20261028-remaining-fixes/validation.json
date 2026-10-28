@@ -1,0 +1,46 @@
+{
+  "status": "REQUESTED_NEW_VERSION_RESTORED_VERIFIED",
+  "functional": {
+    "passed": 9942,
+    "failed": 0,
+    "native_exit": 0
+  },
+  "capture": {
+    "passed": 48,
+    "failed": 0,
+    "sizes": [
+      "360x640",
+      "360x800",
+      "432x960",
+      "600x900"
+    ],
+    "desktop_renderer": true,
+    "native_android": false
+  },
+  "visual": {
+    "passed": 33,
+    "total": 34,
+    "overall": "FAILED",
+    "remaining_case": "phase162-cosmetic-showroom-runtime-approved",
+    "metrics": {
+      "mean_abs_error": 14.091654,
+      "rmse": 35.357709,
+      "maximum_error": 255,
+      "changed_ratio": 0.269796
+    },
+    "threshold_failures": [
+      "mean_abs_error=14.091654 > 4.000000",
+      "rmse=35.357709 > 12.000000",
+      "changed_ratio=0.269796 > 0.060000"
+    ],
+    "current_reference_unchanged": true,
+    "new_reference_candidate_only": true
+  },
+  "source_sha256": "e23230193a61d7424cab9556380476e789d3a7810c1356875ae4c9a687ab35f7",
+  "data": "isolated QA only; original player data preserved",
+  "published": false,
+  "validation_log": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\new-version-restored-20261028\\validation.log",
+  "visual_report": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\new-version-restored-20261028\\validation\\report.md",
+  "applies_to_current_runtime": true,
+  "restoration_proof": "new-version-restored.json"
+}

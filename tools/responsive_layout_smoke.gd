@@ -109,14 +109,6 @@ const CASES := [
 		"expected": Vector4.ZERO,
 		"phase161_daily_challenge": true,
 	},
-	{
-		"id": "phase162_cosmetic_showroom_360x800",
-		"window": Vector2(360.0, 800.0),
-		"logical": Vector2i(360, 800),
-		"safe": Rect2(0.0, 0.0, 360.0, 800.0),
-		"expected": Vector4.ZERO,
-		"phase162_cosmetic_showroom": true,
-	},
 ]
 
 
@@ -208,7 +200,6 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 	var capture_phase155_herbarium := bool(test_case.get("phase155_herbarium", false))
 	var capture_phase157_detail_header := bool(test_case.get("phase157_detail_header", false))
 	var capture_phase161_daily_challenge := bool(test_case.get("phase161_daily_challenge", false))
-	var capture_phase162_cosmetic_showroom := bool(test_case.get("phase162_cosmetic_showroom", false))
 	viewport.size = logical_size
 	await _settle_frames(2)
 	instance._apply_safe_area_rect(test_case.safe, test_case.window, Vector2(logical_size))
@@ -287,14 +278,6 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 		instance._open_daily_challenge()
 		await _settle_frames(3)
 		failure = _validate_phase161_daily_challenge(instance, str(test_case.id))
-	if failure.is_empty() and capture_phase162_cosmetic_showroom:
-		instance._set_daily_challenge_open(false)
-		instance._set_herbarium_open(false)
-		instance._change_screen(0)
-		instance._open_player_room()
-		instance._prepare_phase162_cosmetic_showroom_selected_capture()
-		await _settle_frames(3)
-		failure = _validate_phase162_cosmetic_showroom(instance, str(test_case.id))
 	if failure.is_empty():
 		var geometry_failure := _validate_professor_story_geometry(instance, test_case.id)
 		if not geometry_failure.is_empty():
@@ -308,13 +291,9 @@ func _run_case(instance, viewport: SubViewport, test_case: Dictionary, output_di
 	elif image != null and not image.is_empty():
 		image.save_png(screenshot_path)
 		failure = _validate_exposed_edges(image, actual, instance.edge_background.color, str(test_case.id), failure)
-	if capture_compact_greenhouse or capture_player_room or capture_phase153_shop or capture_phase154_measurement or capture_phase155_herbarium or capture_phase157_detail_header or capture_phase161_daily_challenge or capture_phase162_cosmetic_showroom:
+	if capture_compact_greenhouse or capture_player_room or capture_phase153_shop or capture_phase154_measurement or capture_phase155_herbarium or capture_phase157_detail_header or capture_phase161_daily_challenge:
 		instance._set_daily_challenge_open(false)
 		instance._set_herbarium_open(false)
-		if capture_phase162_cosmetic_showroom:
-			instance._finish_phase162_cosmetic_showroom_capture()
-		else:
-			instance._set_cosmetic_modal_open(false)
 		instance._change_screen(0)
 		instance._open_rack_location()
 		instance._refresh_ui()
@@ -377,144 +356,6 @@ func _validate_phase161_daily_challenge(instance, case_id: String) -> String:
 			return "%s found a Phase 161 action below the 56px mobile touch target." % case_id
 		if not bool(action.get_meta("daily_challenge_painted_button_v2", false)):
 			return "%s detached a Phase 161 action from its painted surface." % case_id
-	return ""
-
-
-func _validate_phase162_cosmetic_showroom(instance, case_id: String) -> String:
-	var modal := instance.cosmetic_modal as Control
-	if modal == null or not modal.visible or not modal.is_visible_in_tree():
-		return "%s did not open the live Phase 162 cosmetic showroom." % case_id
-	if modal.get_meta("phase162_runtime_set", "") != VisualDesignSystem.COSMETIC_SHOWROOM_PHASE162_RUNTIME_SET_ID \
-			or modal.get_meta("phase162_scene_profile", "") != VisualDesignSystem.COSMETIC_SHOWROOM_PHASE162_SCENE_PROFILE_ID \
-			or modal.get_meta("phase162_layer_policy", "") != "clean_painted_plate_dynamic_copy_wallet_states_and_buttons_v1":
-		return "%s lost the Phase 162 painted dynamic showroom contract." % case_id
-
-	var backdrop: TextureRect = null
-	for descendant_variant in modal.find_children("*", "TextureRect", true, false):
-		var candidate := descendant_variant as TextureRect
-		if candidate != null and candidate.get_meta("component", "") == "painted_cosmetic_showroom_clean_backdrop_phase162_v1":
-			backdrop = candidate
-			break
-	if backdrop == null or not backdrop.is_visible_in_tree() or backdrop.texture == null:
-		return "%s lost the clean painted Phase 162 showroom backdrop." % case_id
-	var backdrop_atlas := backdrop.texture as AtlasTexture
-	if backdrop_atlas == null \
-			or backdrop_atlas.atlas == null \
-			or backdrop_atlas.atlas.resource_path != VisualDesignSystem.COSMETIC_SHOWROOM_PHASE162_BACKDROP_ASSET \
-			or backdrop.get_meta("source_pixel_policy", "") != "generated_clean_plate_no_baked_copy_values_or_states_v1":
-		return "%s detached the live showroom from its profiled Phase 162 clean plate." % case_id
-
-	var scroll := instance.cosmetic_showroom_scroll as ScrollContainer
-	if scroll == null \
-			or not scroll.is_visible_in_tree() \
-			or not bool(scroll.get_meta("mobile_scroll", false)) \
-			or scroll.get_meta("component", "") != "mobile_vertical_scroll_v1" \
-			or scroll.get_meta("mobile_scroll_contract", "") != "mobile_vertical_scroll_v1" \
-			or scroll.get_meta("scroll_id", "") != "cosmetic_showroom" \
-			or not bool(scroll.get_meta("touch_drag_enabled", false)) \
-			or scroll.horizontal_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED \
-			or scroll.vertical_scroll_mode != ScrollContainer.SCROLL_MODE_AUTO \
-			or scroll.scroll_deadzone != 6 \
-			or scroll.follow_focus \
-			or scroll.mouse_filter != Control.MOUSE_FILTER_STOP:
-		return "%s lost the Phase 162 mobile showroom scroll contract." % case_id
-
-	var expected_theme_ids := ["sunrise", "lagoon", "amethyst", "research_study"]
-	if instance.cosmetic_theme_cards.size() != expected_theme_ids.size():
-		return "%s rendered %d dynamic showroom cards instead of four." % [case_id, instance.cosmetic_theme_cards.size()]
-	var selected_count := 0
-	var unlocked_count := 0
-	for theme_id in expected_theme_ids:
-		if not instance.cosmetic_theme_cards.has(theme_id):
-			return "%s omitted the dynamic %s showroom card." % [case_id, theme_id]
-		var card: Dictionary = instance.cosmetic_theme_cards[theme_id]
-		var panel := card.get("panel", null) as Control
-		var button := card.get("button", null) as Button
-		var name_label := card.get("name", null) as Label
-		var description_label := card.get("description", null) as Label
-		var action_label := card.get("action_label", null) as Label
-		var state_overlay := card.get("state_overlay", null) as PanelContainer
-		if panel == null \
-				or button == null \
-				or name_label == null \
-				or description_label == null \
-				or action_label == null \
-				or state_overlay == null \
-				or not bool(card.get("painted_surface", false)):
-			return "%s found an incomplete live %s showroom card." % [case_id, theme_id]
-		if panel.get_meta("component", "") != "phase162_painted_cosmetic_theme_card_v1" \
-				or panel.get_meta("theme_id", "") != theme_id \
-				or button.get_meta("component", "") != "phase162_painted_cosmetic_theme_action_v1" \
-				or button.get_meta("theme_id", "") != theme_id \
-				or action_label.get_meta("component", "") != "phase162_cosmetic_theme_dynamic_action_label_v1" \
-				or action_label.get_meta("theme_id", "") != theme_id \
-				or not bool(button.get_meta("phase162_uses_baked_painted_surface", false)):
-			return "%s lost the live Phase 162 metadata for %s." % [case_id, theme_id]
-		if name_label.text.strip_edges().is_empty() \
-				or description_label.text.strip_edges().is_empty() \
-				or action_label.text.strip_edges().is_empty() \
-				or button.text.strip_edges().is_empty():
-			return "%s baked or omitted a dynamic text field for %s." % [case_id, theme_id]
-		if name_label.get_global_rect().intersects(description_label.get_global_rect()) \
-				or description_label.get_global_rect().intersects(action_label.get_global_rect()):
-			return "%s overlapped the live title, description or action for %s." % [case_id, theme_id]
-		if button.size.y < 52.0 \
-				or float(button.get_meta("touch_target_min_height", 0.0)) < 52.0 \
-				or button.mouse_filter != Control.MOUSE_FILTER_PASS:
-			return "%s found an invalid Phase 162 touch/drag target for %s." % [case_id, theme_id]
-		if button.pressed.get_connections().is_empty():
-			return "%s found a decorative rather than live showroom action for %s." % [case_id, theme_id]
-		var presented_state := str(button.get_meta("presented_state", ""))
-		if presented_state not in ["selected", "unlocked", "available", "insufficient_coins", "research_locked"] \
-				or state_overlay.get_meta("presented_state", "") != presented_state:
-			return "%s found an invalid live button state for %s." % [case_id, theme_id]
-		if presented_state == "selected":
-			selected_count += 1
-			if not button.disabled or button.text != "PRÁVĚ POUŽÍVÁŠ":
-				return "%s did not expose the selected %s state through the real button." % [case_id, theme_id]
-		elif presented_state == "unlocked":
-			unlocked_count += 1
-			if button.disabled or button.text != "POUŽÍT":
-				return "%s did not expose the unlocked %s action." % [case_id, theme_id]
-		elif presented_state == "research_locked":
-			if not button.disabled or not button.text.begins_with("VÝZKUM "):
-				return "%s did not expose the locked research requirement." % case_id
-	if selected_count != 1 or unlocked_count < 1:
-		return "%s expected one selected and at least one other unlocked live showroom theme." % case_id
-
-	var status := instance.cosmetic_status_label as Label
-	if status == null \
-			or status.text.strip_edges().is_empty() \
-			or status.get_meta("component", "") != "painted_cosmetic_showroom_dynamic_wallet_phase162_v1":
-		return "%s lost the live Phase 162 wallet/status field." % case_id
-	for theme_id in expected_theme_ids:
-		var card_button := (instance.cosmetic_theme_cards[theme_id] as Dictionary).get("button", null) as Button
-		if card_button != null and card_button.get_global_rect().intersects(status.get_global_rect()):
-			return "%s overlapped the Phase 162 wallet/status with the %s action." % [case_id, theme_id]
-	var close_button: Button = null
-	for button_variant in modal.find_children("*", "Button", true, false):
-		var candidate_button := button_variant as Button
-		if candidate_button != null and candidate_button.get_meta("phase162_button_role", "") == "close":
-			close_button = candidate_button
-			break
-	if close_button == null \
-			or close_button.text != "HOTOVO" \
-			or close_button.size.y < 58.0 \
-			or float(close_button.get_meta("touch_target_min_height", 0.0)) < 64.0 \
-			or close_button.pressed.get_connections().is_empty():
-		return "%s lost the real Phase 162 close action or its touch target." % case_id
-	if close_button.get_global_rect().intersects(status.get_global_rect()):
-		return "%s overlapped the Phase 162 wallet/status with the close action." % case_id
-
-	var modal_rect: Rect2 = modal.get_global_rect()
-	for descendant_variant in modal.find_children("*", "Control", true, false):
-		var descendant := descendant_variant as Control
-		if descendant == null or not descendant.is_visible_in_tree():
-			continue
-		var descendant_rect: Rect2 = descendant.get_global_rect()
-		if descendant_rect.position.x < modal_rect.position.x - 0.5 \
-				or descendant_rect.end.x > modal_rect.end.x + 0.5:
-			return "%s found horizontal overflow in the Phase 162 showroom." % case_id
 	return ""
 
 
@@ -712,6 +553,9 @@ func _validate_structure(instance) -> String:
 		return "The Phase 119 four-screen axis-locked swipe contract is missing."
 	if instance.player_room_view == null or instance.player_room_view.get_meta("component", "") != "phase124_player_room_living_collection_v1":
 		return "The Phase 124 living player-room collection contract is missing."
+	for property in instance.player_room_view.get_property_list():
+		if str(property.name) == "theme_button":
+			return "The retired appearance navigation target is still present."
 	if instance.greenhouse_preview_view == null or instance.greenhouse_preview_view.get_meta("component", "") != "phase105_greenhouse_v1":
 		return "The Phase 105 functional-greenhouse location contract is missing."
 	var visual_contract_errors := VisualDesignSystem.contract_errors()
@@ -788,7 +632,6 @@ func _blocking_modals(instance) -> Array[Control]:
 		instance.settings_modal,
 		instance.seed_selector_modal,
 		instance.herbarium_modal,
-		instance.cosmetic_modal,
 		instance.room_decoration_modal,
 		instance.daily_challenge_modal,
 		instance.botanical_pack_modal,
@@ -810,7 +653,6 @@ func _required_blocking_modal_components() -> PackedStringArray:
 		"fullscreen_player_settings_v1",
 		"comic_mobile_seed_selector_v1",
 		"fullscreen_herbarium_modal_v1",
-		"fullscreen_cosmetic_showroom_v1",
 		"fullscreen_room_decoration_modal_v1",
 		"fullscreen_daily_challenge_modal_v1",
 		"fullscreen_botanical_pack_modal_v1",
@@ -872,25 +714,21 @@ func _validate_phase103_home_locations(instance, test_case_id: String) -> String
 	var rack_greenhouse_rect: Rect2 = instance.rack_greenhouse_button.get_global_rect()
 	var rack_player_room_rect: Rect2 = instance.rack_player_room_button.get_global_rect()
 	var dock_buttons: Array[Button] = [
-		instance.rack_pet_launcher_button,
 		instance.professor_research_launcher_button,
 		instance.care_center_launcher_button,
 		instance.settings_launcher_button,
 	]
 	var dock_icons: Array[TextureRect] = [
-		instance.rack_pet_launcher_icon,
 		instance.professor_research_launcher_icon,
 		instance.care_center_launcher_icon,
 		instance.settings_launcher_icon,
 	]
 	var dock_components := [
-		"phase183_rack_pet_launcher_v1",
 		"phase183_professor_research_launcher_v1",
 		"phase183_rack_care_launcher_v1",
 		"phase183_player_settings_launcher_v1",
 	]
 	var dock_assets := [
-		"pet_paw_phase183_v1.png",
 		"professor_bazal_phase183_v1.png",
 		"care_leaf_phase183_v1.png",
 		"settings_gear_phase125.png",
@@ -900,23 +738,23 @@ func _validate_phase103_home_locations(instance, test_case_id: String) -> String
 		var button := dock_buttons[index]
 		var icon := dock_icons[index]
 		if button == null or icon == null or icon.texture == null:
-			return "%s is missing an icon from the compact Phase183 four-icon rack dock." % test_case_id
+			return "%s is missing an icon from the compact Phase183 three-icon rack dock." % test_case_id
 		var button_rect := button.get_global_rect()
 		if not button.visible or not button.text.is_empty() or not button_rect.size.is_equal_approx(Vector2(68.0, 68.0)):
-			return "%s found a non-68px or text-bearing button in the compact Phase183 four-icon rack dock." % test_case_id
+			return "%s found a non-68px or text-bearing button in the compact Phase183 three-icon rack dock." % test_case_id
 		if not icon.size.is_equal_approx(Vector2(48.0, 48.0)) or not icon.texture.resource_path.ends_with(dock_assets[index]):
-			return "%s found an incorrect 48px transparent PNG in the compact Phase183 four-icon rack dock." % test_case_id
-		if button.get_meta("component", "") != dock_components[index] or button.get_meta("dock_index", -1) != index or button.get_meta("dock_group", "") != "compact_four_icon_phase183_v1" or button.get_meta("icon_policy", "") != "transparent_cropped_png_48_v1" or icon.get_meta("alpha_policy", "") != "clean_transparent_edge_v1":
+			return "%s found an incorrect 48px transparent PNG in the compact Phase183 three-icon rack dock." % test_case_id
+		if button.get_meta("component", "") != dock_components[index] or button.get_meta("dock_index", -1) != index or button.get_meta("dock_group", "") != "compact_three_icon_phase183_v1" or button.get_meta("icon_policy", "") != "transparent_cropped_png_48_v1" or icon.get_meta("alpha_policy", "") != "clean_transparent_edge_v1":
 			return "%s found an incomplete Phase183 dock component or PNG-alpha contract." % test_case_id
 		if button_rect.position.x < rack_rect.position.x or button_rect.end.x > rack_rect.end.x or button_rect.position.y < rack_rect.position.y or button_rect.end.y > rack_rect.end.y:
 			return "%s placed a Phase183 rack-dock icon outside the rack surface." % test_case_id
 		if button_rect.intersects(rack_greenhouse_rect) or button_rect.intersects(rack_player_room_rect):
 			return "%s overlapped a Phase183 rack-dock icon with a location arrow." % test_case_id
 		if index > 0 and button_rect.position.x < dock_buttons[index - 1].get_global_rect().end.x - 0.1:
-			return "%s overlapped adjacent buttons in the compact Phase183 four-icon rack dock." % test_case_id
+			return "%s overlapped adjacent buttons in the compact Phase183 three-icon rack dock." % test_case_id
 		dock_rect = button_rect if index == 0 else dock_rect.merge(button_rect)
-	if not dock_rect.size.is_equal_approx(Vector2(302.0, 68.0)) or absf(dock_rect.get_center().x - rack_rect.get_center().x) > 0.5 or not is_equal_approx(dock_rect.end.y, rack_rect.end.y - 8.0):
-		return "%s did not center the compact Phase183 four-icon rack dock on its painted floor background." % test_case_id
+	if not dock_rect.size.is_equal_approx(Vector2(224.0, 68.0)) or absf(dock_rect.get_center().x - rack_rect.get_center().x) > 0.5 or not is_equal_approx(dock_rect.end.y, rack_rect.end.y - 8.0):
+		return "%s did not center the compact Phase183 three-icon rack dock on its painted floor background." % test_case_id
 	var research_unlocked: bool = instance.session.is_professor_story_unlocked()
 	if bool(instance.professor_research_launcher_button.get_meta("research_locked", true)) == research_unlocked or instance.professor_research_lock_badge.visible == research_unlocked:
 		return "%s presented an incorrect Professor research lock state in the Phase183 dock." % test_case_id
@@ -924,9 +762,9 @@ func _validate_phase103_home_locations(instance, test_case_id: String) -> String
 		return "%s showed Professor attention before research unlock in the Phase183 dock." % test_case_id
 	if instance.dialog_toggle_button.get_global_rect().intersects(dock_rect):
 		return "%s overlapped the top-only help launcher with the bottom Phase183 dock." % test_case_id
-	if instance.room_overview.get_meta("selected_growth_summary", "") != "compact_rack_dock_phase183_v1" or instance.room_overview.get_meta("future_content_space", "") != "painted_four_icon_dock_phase183_v1" or instance.room_overview.get_meta("future_content_hint", "") != "pet_professor_care_settings_v1":
+	if instance.room_overview.get_meta("selected_growth_summary", "") != "compact_rack_dock_phase183_v1" or instance.room_overview.get_meta("future_content_space", "") != "painted_three_icon_dock_phase183_v1" or instance.room_overview.get_meta("future_content_hint", "") != "professor_care_settings_v1":
 		return "%s is missing the painted compact Phase183 rack-dock metadata." % test_case_id
-	if instance.player_room_view.back_button == null or instance.player_room_view.theme_button == null or instance.player_room_view.back_button.size.y < 60.0 or instance.player_room_view.theme_button.size.y < 60.0:
+	if instance.player_room_view.back_button == null or instance.player_room_view.back_button.size.y < 60.0:
 		return "%s found an undersized player-room navigation target." % test_case_id
 	if instance.player_room_view.decoration_buttons.size() != 20:
 		return "%s found an incomplete player-room decoration slot set." % test_case_id
@@ -1200,18 +1038,14 @@ func _validate_phase126_player_room(instance, test_case_id: String) -> String:
 		var dormant_button: Button = room.decoration_buttons[dormant_slot_index]
 		if dormant_button.visible or not dormant_button.disabled or dormant_button.mouse_filter != Control.MOUSE_FILTER_IGNORE:
 			return "%s exposed a dormant Phase160 room-floor target at slot %d." % [test_case_id, dormant_slot_index]
-	if room.back_button.get_rect().intersects(room.theme_button.get_rect()):
-		return "%s overlapped the player-room navigation actions." % test_case_id
 	var expected_back_hitbox := PlayerRoomCollectionView.phase149_navigation_hitbox(PlayerRoomCollectionView.PHASE149_BACK_RECT, room.size)
-	var expected_theme_hitbox := PlayerRoomCollectionView.phase149_navigation_hitbox(PlayerRoomCollectionView.PHASE149_THEME_RECT, room.size)
-	if not room.back_button.get_rect().is_equal_approx(expected_back_hitbox) \
-			or not room.theme_button.get_rect().is_equal_approx(expected_theme_hitbox):
+	if not room.back_button.get_rect().is_equal_approx(expected_back_hitbox):
 		return "%s did not keep the responsive Phase 149 hitboxes registered to the baked chrome." % test_case_id
 	if PlayerRoomCollectionView.PHASE146_FIXED_MASTER_OFFSETS.get(14, Vector2.ZERO) != Vector2(0.0, 8.0) \
 			or PlayerRoomCollectionView.PHASE146_NESTED_POTS_SHELF_OCCLUSION.end.y > 1130.0:
 		return "%s did not keep the nested pots grounded behind the cabinet shelf lip." % test_case_id
 	var room_title := PlayerRoomCollectionView.phase149_scaled_painted_rect(PlayerRoomCollectionView.PHASE146_TITLE_RECT, room.size)
-	if room_title.intersects(room.back_button.get_rect()) or room_title.intersects(room.theme_button.get_rect()):
+	if room_title.intersects(room.back_button.get_rect()):
 		return "%s overlapped the Phase 146 room title with its left-side action row." % test_case_id
 	return ""
 
@@ -1239,14 +1073,14 @@ func _validate_workshop_room(room, test_case_id: String) -> String:
 	for button in room.decoration_buttons:
 		if button.visible or not button.disabled or button.mouse_filter != Control.MOUSE_FILTER_IGNORE:
 			return "%s has an invisible decoration target over the fixed workshop painting." % test_case_id
-	for button in [room.back_button, room.theme_button, room.workbench_button]:
+	for button in [room.back_button, room.workbench_button]:
 		var rect: Rect2 = button.get_rect()
 		if not surface.encloses(rect) or rect.size.y < 56:
 			return "%s has an inaccessible workshop navigation action." % test_case_id
 		for target in visible_targets:
 			if rect.intersects(target):
 				return "%s overlaps workshop navigation with a decoration." % test_case_id
-	if room.back_button.get_rect().intersects(room.theme_button.get_rect()):
+	if room.back_button.get_rect().intersects(room.workbench_button.get_rect()):
 		return "%s overlaps workshop navigation actions." % test_case_id
 	for index in PlayerRoomCollectionView.PHASE160_DORMANT_DECORATION_SLOT_INDICES:
 		var button: Button = room.decoration_buttons[index]

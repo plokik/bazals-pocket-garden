@@ -10,6 +10,7 @@ var workbench_button: Button
 var title_card: PanelContainer
 var title_label: Label
 var hint: Label
+var embedded_ui_scale := 1.0
 
 
 func _ready() -> void:
@@ -49,6 +50,7 @@ func _ready() -> void:
 	hint = Label.new()
 	hint.text = "Tvoje bylinky mají další využití."
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.add_theme_font_override("font", FontSemiBold)
 	hint.add_theme_font_size_override("font_size", 10)
 	hint.add_theme_color_override("font_color", Color("#f5f5dc"))
@@ -80,55 +82,62 @@ func _build_navigation() -> void:
 	back_button.set_meta("component", "phase103_player_room_rack_return_v1")
 	back_button.pressed.connect(_on_back_pressed)
 	add_child(back_button)
-	theme_button = _workshop_button("VZHLED")
-	theme_button.set_meta("component", "phase103_player_room_theme_launcher_v1")
-	theme_button.pressed.connect(_on_theme_pressed)
-	add_child(theme_button)
-	# A single calm header, with two inset hit targets, leaves the cabinet
+	# A single calm header with an inset return target leaves the cabinet
 	# ledges fully visible instead of covering bought books and framed art.
-	for button in [back_button,theme_button]:
+	for button in [back_button]:
 		button.add_theme_stylebox_override("normal",StyleBoxEmpty.new())
 		button.add_theme_font_size_override("font_size",9)
 
 
 func _layout_navigation() -> void:
-	if back_button == null or theme_button == null:
+	if back_button == null:
 		return
 	back_button.visible = not teahouse_embedded
-	theme_button.visible = not teahouse_embedded
 	if title_card != null:
 		title_card.visible = not teahouse_embedded
 	if teahouse_embedded:
 		if workbench_button != null:
-			workbench_button.position = Vector2(106, 508)
-			workbench_button.size = Vector2(220, 54)
+			var target_height := maxf(54,52/embedded_ui_scale)
+			workbench_button.position = Vector2(106,535-target_height*0.5)
+			workbench_button.size = Vector2(220,target_height)
+			workbench_button.add_theme_font_size_override("font_size",maxi(11,ceili(11/embedded_ui_scale)))
 		if hint != null:
-			hint.position = Vector2(54, 574)
-			hint.size = Vector2(324, 24)
+			hint.position = Vector2(54,maxf(574,workbench_button.position.y+workbench_button.size.y+8))
+			var caption_size := maxi(10,ceili(10/embedded_ui_scale))
+			hint.add_theme_font_size_override("font_size",caption_size)
+			hint.size = Vector2(324,maxf(24,hint.get_theme_font("font").get_multiline_string_size(hint.text,HORIZONTAL_ALIGNMENT_CENTER,324,caption_size).y))
 		return
 	back_button.position = Vector2(12, 10)
 	back_button.size = Vector2(64, 64)
-	theme_button.position = Vector2(size.x - 76, 10)
-	theme_button.size = Vector2(64, 64)
 	if title_card != null:
 		title_card.position = Vector2(12, 10)
 		title_card.size = Vector2(size.x - 24, 64)
 	if workbench_button != null:
 		workbench_button.position = Vector2(size.x * 0.5 - 102, size.y * 0.637).round()
 		workbench_button.size = Vector2(204, 56)
+		workbench_button.add_theme_font_size_override("font_size",11)
 	if hint != null:
 		hint.position = Vector2(12, size.y * 0.637 + 60)
 		hint.size = Vector2(size.x - 24, 20)
+		hint.add_theme_font_size_override("font_size",10)
 
 
 func set_teahouse_embedded(embedded: bool) -> void:
 	if teahouse_embedded == embedded:
 		return
 	teahouse_embedded = embedded
+	if not embedded: embedded_ui_scale = 1.0
 	set_meta("teahouse_embedded", embedded)
 	_layout_navigation()
 	queue_redraw()
 	teahouse_embedding_changed.emit(embedded)
+
+
+func set_embedded_ui_scale(value: float) -> void:
+	var fitted := clampf(value,0.1,4.0)
+	if is_equal_approx(embedded_ui_scale,fitted): return
+	embedded_ui_scale = fitted
+	_layout_navigation()
 
 
 func _decoration_visual_centers(viewport_size: Vector2) -> PackedVector2Array:

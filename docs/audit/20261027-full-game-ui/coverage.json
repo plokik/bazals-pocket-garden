@@ -1,0 +1,3607 @@
+{
+  "capture_policy": "Simulation is paused in an isolated fixture. After route setup, wait300ms for tweens, perform requested scroll and call feedback_layer.finish_all() so frozen route-transition stripes are not part of static layout proof.",
+  "completed": 162,
+  "not_captured": [
+    {
+      "reason": "Current painted workshop hides/disables all old movable shelf slot controls; this is not a reachable current player screen.",
+      "state": "legacy_room_decoration_slots"
+    },
+    {
+      "reason": "External platform surfaces are not rendered inside this desktop SubViewport audit.",
+      "state": "native_android_ads_and_file_picker"
+    }
+  ],
+  "note": "Geometry warnings include controls behind active modal overlays; inspect actual PNG before treating them as visible bugs. Scroll descendant overflow is excluded. QA phase fixtures are visual states, not a claim of playing their full action sequence. Screenshots are settled stills, not continuous animation or physical-phone acceptance.",
+  "planned_states": [
+    "rack",
+    "plant_detail",
+    "plant_detail_actions",
+    "greenhouse_empty",
+    "greenhouse_osivo_end",
+    "greenhouse_growing",
+    "greenhouse_ready",
+    "greenhouse_exterior",
+    "greenhouse_decoration",
+    "storage",
+    "storage_populated",
+    "storage_orders",
+    "shop",
+    "shop_supplies",
+    "shop_equipment",
+    "shop_sell",
+    "measurement",
+    "settings",
+    "backup",
+    "save_recovery",
+    "save_recovery_confirm",
+    "save_failure",
+    "return_summary",
+    "return_summary_long",
+    "guide",
+    "professor",
+    "research",
+    "research_offer",
+    "research_ready",
+    "research_cooldown",
+    "seed_selector",
+    "seed_replacement_confirm",
+    "herbarium",
+    "journal",
+    "care",
+    "diagnosis",
+    "daily",
+    "botanical_pack",
+    "botanical_pack_details",
+    "cosmetics",
+    "level_progression",
+    "leaderboard",
+    "workshop",
+    "workshop_products",
+    "wheel",
+    "teahouse_map",
+    "teahouse_level",
+    "teahouse_result",
+    "teahouse_quest",
+    "teahouse_locked",
+    "minigame",
+    "minigame_pour",
+    "minigame_result",
+    "tutorial"
+  ],
+  "results": [
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\rack.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "rack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\rack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\plant_detail.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\plant_detail.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\plant_detail_actions.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\plant_detail_actions.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_empty.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_osivo_end.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_osivo_end",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_osivo_end.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_growing.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (69.67305, 375.9904), S: (145.5558, 86.96732)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 375.9904), S: (145.0981, 86.96732)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (18.40812, 482.1821), S: (196.8207, 146.8179)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (215.2289, 482.1821), S: (196.363, 146.8179)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_ready.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_exterior.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_exterior",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_exterior.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\greenhouse_decoration.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_decoration",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\greenhouse_decoration.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\storage.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\storage.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\storage_populated.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_populated",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\storage_populated.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\storage_orders.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_orders",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\storage_orders.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\shop.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\432x960\\shop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\shop_supplies.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_supplies",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\432x960\\shop_supplies.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\shop_equipment.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_equipment",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\432x960\\shop_equipment.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\shop_sell.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_sell",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\432x960\\shop_sell.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\measurement.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "measurement",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\measurement.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\settings.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "settings",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\settings.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\backup.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "backup",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\backup.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\save_recovery.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\save_recovery.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\save_recovery_confirm.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\save_recovery_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\save_failure.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_failure",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\save_failure.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\return_summary.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\return_summary.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\return_summary_long.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary_long",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\return_summary_long.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\guide.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "guide",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\guide.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\professor.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "professor",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\professor.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\research.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\research.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\research_offer.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_offer",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\research_offer.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\research_ready.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\research_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\research_cooldown.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_cooldown",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\research_cooldown.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\seed_selector.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_selector",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\seed_selector.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\seed_replacement_confirm.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_replacement_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\seed_replacement_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\herbarium.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "herbarium",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\herbarium.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\journal.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "journal",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\journal.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\care.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "care",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\care.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\diagnosis.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "diagnosis",
+      "capture_run": "narrow-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-final\\432x960\\diagnosis.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\daily.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "daily",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\daily.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\botanical_pack.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\botanical_pack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\botanical_pack_details.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack_details",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\botanical_pack_details.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\cosmetics.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "cosmetics",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\cosmetics.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\level_progression.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "level_progression",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\level_progression.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\leaderboard.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "leaderboard",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\leaderboard.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\workshop.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\workshop_products.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop_products",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\workshop_products.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\wheel.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "wheel",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\wheel.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_map.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_level.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_level",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\teahouse_level.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_result.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\teahouse_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_quest.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_quest",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\teahouse_quest.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\teahouse_locked.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_locked",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\teahouse_locked.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\minigame.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\minigame.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\minigame_pour.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_pour",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\minigame_pour.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\minigame_result.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\432x960\\minigame_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\432x960\\tutorial.png",
+      "logical_size": [
+        432,
+        960
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\432x960\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\rack.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "rack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\rack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\plant_detail.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\plant_detail.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\plant_detail_actions.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\plant_detail_actions.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 231.332), S: (119.7429, 71.54453)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 231.332), S: (119.3664, 71.54453)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": true,
+          "rect": "[P: (17.2717, 318.6917), S: (161.9166, 64.0)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": true,
+          "rect": "[P: (179.1883, 318.6917), S: (161.54, 64.0)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_empty.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 231.332), S: (119.7429, 71.54453)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 231.332), S: (119.3664, 71.54453)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": true,
+          "rect": "[P: (17.2717, 318.6917), S: (161.9166, 64.0)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": true,
+          "rect": "[P: (179.1883, 318.6917), S: (161.54, 64.0)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_osivo_end.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_osivo_end",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_osivo_end.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 231.332), S: (119.7429, 71.54453)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 231.332), S: (119.3664, 71.54453)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": true,
+          "rect": "[P: (17.2717, 318.6917), S: (161.9166, 64.0)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": true,
+          "rect": "[P: (179.1883, 318.6917), S: (161.54, 64.0)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_growing.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (59.44532, 231.332), S: (119.7429, 71.54453)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (179.1883, 231.332), S: (119.3664, 71.54453)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": true,
+          "rect": "[P: (17.2717, 318.6917), S: (161.9166, 64.0)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": true,
+          "rect": "[P: (179.1883, 318.6917), S: (161.54, 64.0)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_ready.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_exterior.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_exterior",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_exterior.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\greenhouse_decoration.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_decoration",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\greenhouse_decoration.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\storage.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\storage.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\storage_populated.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_populated",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\storage_populated.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\storage_orders.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_orders",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\storage_orders.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\shop.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\360x640\\shop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\shop_supplies.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_supplies",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\360x640\\shop_supplies.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\shop_equipment.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_equipment",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\360x640\\shop_equipment.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\shop_sell.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_sell",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\360x640\\shop_sell.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\measurement.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "measurement",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\measurement.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\settings.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "settings",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\settings.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\backup.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "backup",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\backup.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\save_recovery.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\save_recovery.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\save_recovery_confirm.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\save_recovery_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\save_failure.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_failure",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\save_failure.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\return_summary.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\return_summary.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\return_summary_long.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary_long",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\return_summary_long.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\guide.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "guide",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\guide.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\professor.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "professor",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\professor.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\research.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\research.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\research_offer.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_offer",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\research_offer.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\research_ready.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\research_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\research_cooldown.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_cooldown",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\research_cooldown.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\seed_selector.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_selector",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\seed_selector.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\seed_replacement_confirm.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_replacement_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\seed_replacement_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\herbarium.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "herbarium",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\herbarium.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\journal.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "journal",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\journal.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\care.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "care",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\care.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\diagnosis.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "diagnosis",
+      "capture_run": "narrow-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-final\\360x640\\diagnosis.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\daily.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "daily",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\daily.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\botanical_pack.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\botanical_pack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\botanical_pack_details.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack_details",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\botanical_pack_details.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\cosmetics.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "cosmetics",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\cosmetics.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\level_progression.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "level_progression",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\level_progression.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\leaderboard.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "leaderboard",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\leaderboard.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\workshop.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\workshop_products.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop_products",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\workshop_products.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\wheel.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "wheel",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\wheel.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_map.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_level.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_level",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\teahouse_level.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_result.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\teahouse_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_quest.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_quest",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\teahouse_quest.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\teahouse_locked.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_locked",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\teahouse_locked.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\minigame.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\minigame.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\minigame_pour.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_pour",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\minigame_pour.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\minigame_result.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\360x640\\minigame_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\360x640\\tutorial.png",
+      "logical_size": [
+        360,
+        640
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\360x640\\tutorial.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\rack.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "rack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\rack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\plant_detail.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\plant_detail.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\plant_detail_actions.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "plant_detail_actions",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\plant_detail_actions.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 310.1934), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 310.1934), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 460.3264), S: (278.2638, 108.6736)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 460.3264), S: (277.6167, 108.6736)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_empty.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_empty",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_empty.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 310.1934), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 310.1934), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 460.3264), S: (278.2638, 108.6736)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 460.3264), S: (277.6167, 108.6736)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_osivo_end.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_osivo_end",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_osivo_end.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 310.1934), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 310.1934), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 460.3264), S: (278.2638, 108.6736)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 460.3264), S: (277.6167, 108.6736)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_growing.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_growing",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_growing.png"
+    },
+    {
+      "bed_targets": [
+        {
+          "bed": 1,
+          "overlaps_status": false,
+          "rect": "[P: (93.53777, 310.1934), S: (205.7858, 122.9538)]"
+        },
+        {
+          "bed": 2,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 310.1934), S: (205.1387, 122.9538)]"
+        },
+        {
+          "bed": 3,
+          "overlaps_status": false,
+          "rect": "[P: (21.05975, 460.3264), S: (278.2638, 108.6736)]"
+        },
+        {
+          "bed": 4,
+          "overlaps_status": false,
+          "rect": "[P: (299.3235, 460.3264), S: (277.6167, 108.6736)]"
+        }
+      ],
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_ready.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_exterior.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_exterior",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_exterior.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\greenhouse_decoration.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "greenhouse_decoration",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\greenhouse_decoration.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\storage.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\storage.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\storage_populated.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_populated",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\storage_populated.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\storage_orders.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "storage_orders",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\storage_orders.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\shop.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\600x900\\shop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\shop_supplies.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_supplies",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\600x900\\shop_supplies.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\shop_equipment.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_equipment",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\600x900\\shop_equipment.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\shop_sell.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "shop_sell",
+      "capture_run": "narrow-shopfinal",
+      "source_provenance": "Captured between identical final runtime source manifests.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-shopfinal\\600x900\\shop_sell.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\measurement.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "measurement",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\measurement.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\settings.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "settings",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\settings.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\backup.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "backup",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\backup.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\save_recovery.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\save_recovery.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\save_recovery_confirm.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_recovery_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\save_recovery_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\save_failure.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "save_failure",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\save_failure.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\return_summary.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\return_summary.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\return_summary_long.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "return_summary_long",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\return_summary_long.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\guide.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "guide",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\guide.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\professor.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "professor",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\professor.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\research.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\research.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\research_offer.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_offer",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\research_offer.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\research_ready.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_ready",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\research_ready.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\research_cooldown.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "research_cooldown",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\research_cooldown.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\seed_selector.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_selector",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\seed_selector.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\seed_replacement_confirm.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "seed_replacement_confirm",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\seed_replacement_confirm.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\herbarium.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "herbarium",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\herbarium.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\journal.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "journal",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\journal.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\care.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "care",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\care.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\diagnosis.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "diagnosis",
+      "capture_run": "narrow-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\narrow-final\\600x900\\diagnosis.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\daily.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "daily",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\daily.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\botanical_pack.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\botanical_pack.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\botanical_pack_details.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "botanical_pack_details",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\botanical_pack_details.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\cosmetics.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "cosmetics",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\cosmetics.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\level_progression.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "level_progression",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\level_progression.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\leaderboard.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "leaderboard",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\leaderboard.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\workshop.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\workshop.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\workshop_products.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "workshop_products",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\workshop_products.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\wheel.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "wheel",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\wheel.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_map.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_map",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\teahouse_map.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_level.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_level",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\teahouse_level.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_result.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\teahouse_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_quest.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_quest",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\teahouse_quest.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\teahouse_locked.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "teahouse_locked",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\teahouse_locked.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\minigame.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\minigame.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\minigame_pour.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_pour",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\minigame_pour.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\minigame_result.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "minigame_result",
+      "capture_run": "tea-final",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\tea-final\\600x900\\minigame_result.png"
+    },
+    {
+      "capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\final\\600x900\\tutorial.png",
+      "logical_size": [
+        600,
+        900
+      ],
+      "opened": true,
+      "safe_insets": [
+        12,
+        24,
+        14,
+        32
+      ],
+      "saved": true,
+      "setup_ok": true,
+      "state": "tutorial",
+      "capture_run": "after",
+      "source_provenance": "Earlier capture retained in requested audit scope. Later targeted source changes: tea hub atlas texture filter, diagnosis header sizing and wallet natural-width layout. Not asserted to have been captured from the final source hash.",
+      "original_capture": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\after\\600x900\\tutorial.png"
+    }
+  ],
+  "schema": 2,
+  "sizes": [
+    "(432, 960)",
+    "(360, 640)",
+    "(600, 900)"
+  ],
+  "final_source_sha256": "0229c69840282161792875970adf5be7d506de6aba69a38b65eff9db552e258d",
+  "final_source_manifest": "shop-source-after.json",
+  "provenance_note": "Merged audit, not a claim that all 162 were captured from a single immutable source. Thirty relevant tea captures replaced after texture filter fix; three diagnosis captures replaced after title sizing correction; twelve shop captures replaced after wallet layout correction. Other UI surfaces retained from the full audit run under parent-approved targeted refresh scope.",
+  "capture_runs": [
+    {
+      "run": "after",
+      "records": 162
+    },
+    {
+      "run": "tea-final",
+      "records": 30,
+      "retained": 30
+    },
+    {
+      "run": "narrow-final",
+      "records": 3,
+      "retained": 3
+    },
+    {
+      "run": "narrow-shopfinal",
+      "records": 12,
+      "retained": 12
+    }
+  ]
+}

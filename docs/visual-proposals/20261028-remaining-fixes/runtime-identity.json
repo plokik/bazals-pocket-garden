@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-28T04:56:16.007074+00:00",
+  "git_head": "6e4a25722479e7b21e1b47960123114b53cd7113",
+  "scope": "All scripts/assets including untracked runtime files; main.tscn and project.godot. Tests and ignored audit outputs excluded.",
+  "source_sha256": "e23230193a61d7424cab9556380476e789d3a7810c1356875ae4c9a687ab35f7",
+  "matrix_provenance": {
+    "initial_44_unaffected_frames_sha256": "146465583502f2cb9a652699bf29d2a64bce7b717fdfac217544c5d453f79da6",
+    "four_replaced_care_frames_sha256": "e23230193a61d7424cab9556380476e789d3a7810c1356875ae4c9a687ab35f7",
+    "note": "Only plant-care caption code changed between these render runs. Full canonical validation captures the final current runtime independently."
+  }
+}

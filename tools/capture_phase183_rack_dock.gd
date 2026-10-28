@@ -1,5 +1,5 @@
 extends "res://.agents/skills/how-to-grow-validation/scripts/capture_validation.gd"
-## Deterministic GPU evidence for the compact four-icon rack dock.
+## Deterministic GPU evidence for the compact three-icon rack dock.
 
 
 func _capture() -> void:
@@ -50,19 +50,16 @@ func _capture() -> void:
 
 func _validate_dock_geometry(instance, logical: Vector2, unlocked: bool) -> bool:
 	var buttons: Array[Button] = [
-		instance.rack_pet_launcher_button,
 		instance.professor_research_launcher_button,
 		instance.care_center_launcher_button,
 		instance.settings_launcher_button,
 	]
 	var icons: Array[TextureRect] = [
-		instance.rack_pet_launcher_icon,
 		instance.professor_research_launcher_icon,
 		instance.care_center_launcher_icon,
 		instance.settings_launcher_icon,
 	]
 	var expected_assets := [
-		"pet_paw_phase183_v1.png",
 		"professor_bazal_phase183_v1.png",
 		"care_leaf_phase183_v1.png",
 		"settings_gear_phase125.png",
@@ -81,18 +78,18 @@ func _validate_dock_geometry(instance, logical: Vector2, unlocked: bool) -> bool
 			and icon.size.is_equal_approx(Vector2(48.0, 48.0)) \
 			and icon.texture.resource_path.ends_with(expected_assets[index]) \
 			and button.get_meta("dock_index", -1) == index \
-			and button.get_meta("dock_group", "") == "compact_four_icon_phase183_v1"
+			and button.get_meta("dock_group", "") == "compact_three_icon_phase183_v1"
 		union_rect = button_rect if index == 0 else union_rect.merge(button_rect)
 		if index > 0:
-			valid = valid and not button_rect.intersects(buttons[index - 1].get_global_rect())
+			valid = valid and is_equal_approx(buttons[index - 1].get_global_rect().end.x + 10.0, button_rect.position.x)
 	valid = valid \
-		and is_equal_approx(union_rect.size.x, 272.0) \
+		and is_equal_approx(union_rect.size.x, 224.0) \
 		and absf(union_rect.get_center().x - logical.x * 0.5) <= 1.0 \
 		and not instance.dialog_toggle_button.get_global_rect().intersects(union_rect) \
 		and instance.professor_research_lock_badge.visible == not unlocked \
 		and (unlocked or not instance.professor_story_badges[0].visible) \
 		and bool(instance.professor_research_launcher_button.get_meta("research_locked", true)) == not unlocked \
-		and instance.room_overview.get_meta("future_content_space", "") == "painted_four_icon_dock_phase183_v1"
+		and instance.room_overview.get_meta("future_content_space", "") == "painted_three_icon_dock_phase183_v1"
 	if not valid:
 		push_error("PHASE183_INVALID_RACK_DOCK=%s;%s;%s" % [logical, unlocked, union_rect])
 	return valid

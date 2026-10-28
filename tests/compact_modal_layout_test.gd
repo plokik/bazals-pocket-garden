@@ -58,7 +58,7 @@ static func _test_settings(suite: SceneTree, case: Dictionary) -> void:
 		func(_value: bool) -> void: record.call("motion"),
 		func(_value: float) -> void: record.call("music_volume"),
 		func(_value: float) -> void: record.call("sfx_volume"),
-		record.bind("cosmetics"), record.bind("backup"), record.bind("close")
+		record.bind("backup"), record.bind("close")
 	)
 	state.host.add_child(view.root)
 	view.root.show()
@@ -74,7 +74,8 @@ static func _test_settings(suite: SceneTree, case: Dictionary) -> void:
 		suite._check(close.get_parent() == view._compact_column and view._content_scroll.get_global_rect().end.y + 9 <= close.get_global_rect().position.y, "Kompaktní nastavení: pevné HOTOVO zůstává oddělené od posuvného obsahu")
 	else:
 		suite._check(close.get_parent() == view._column and is_equal_approx(view._card.anchor_top, 0.145) and is_equal_approx(view._card.anchor_bottom, 0.835), "Široké nastavení: zachovává původní sloupec a umístění karty")
-	for title in ["VZHLED POKOJE", "ZÁLOHA POSTUPU"]:
+	suite._check(_find_button(view.root,"VZHLED POKOJE")==null,"Nastavení neobsahuje odstraněné tlačítko showroomu")
+	for title in ["ZÁLOHA POSTUPU"]:
 		var action := _find_button(view.root, title)
 		if compact:
 			view._content_scroll.ensure_control_visible(action)

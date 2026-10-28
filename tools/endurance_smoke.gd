@@ -13,7 +13,6 @@ const MODAL_IDS := [
 	"herbarium",
 	"daily_challenge",
 	"botanical_pack",
-	"cosmetic_showroom",
 	"level_progression",
 	"grower_journal",
 	"care_center",
@@ -251,10 +250,6 @@ func _exercise_cycle(instance, cycle: int) -> void:
 			instance._open_botanical_pack()
 			await process_frame
 			instance._set_botanical_pack_open(false)
-		"cosmetic_showroom":
-			instance._open_cosmetic_modal()
-			await process_frame
-			instance._close_cosmetic_modal()
 		"level_progression":
 			instance._open_level_progression()
 			await process_frame

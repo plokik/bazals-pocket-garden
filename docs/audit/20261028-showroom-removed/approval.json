@@ -1,0 +1,14 @@
+{
+  "status": "APPROVED_BY_USER",
+  "approved_on": "2026-10-28",
+  "user_approval": "Ok tak pak tedy souhlasím",
+  "scope": "Showroom removal and centered three-icon dock at the original icon and button sizes.",
+  "reference": {
+    "id": "phase163-rack-runtime-approved",
+    "previous_reference": "docs/audit/workshop-navigation-20261020/phase163-rack-runtime-approved.png",
+    "previous_sha256": "9bf2e2dfaae18c00dd9fac0f53727353840b9604db3e9cb216aef0e441c03757",
+    "approved_reference": "docs/audit/20261028-showroom-removed/rack-three-actions-reference-candidate.png",
+    "approved_sha256": "73ad1b3425f1fe24a68d9c25db3fe62a6cd71be0c1607b7e4e1dd1267b6534e4"
+  },
+  "thresholds_masks_crops_unchanged": true
+}

@@ -103,7 +103,7 @@ func _init() -> void:
 	if _has_user_flag("--phase167-only"):
 		call_deferred("_capture_phase167_only")
 	else:
-		call_deferred("_capture_phase162_only" if _has_user_flag("--phase162-only") else "_capture")
+		call_deferred("_capture")
 
 
 func _capture() -> void:
@@ -724,30 +724,6 @@ func _capture() -> void:
 		quit(2)
 		return
 	instance._set_botanical_pack_open(false)
-
-	instance._prepare_cosmetic_showroom_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-cosmetic-showroom.png"):
-		quit(2)
-		return
-	instance._finish_cosmetic_showroom_capture()
-
-	# Phase 162 keeps the Phase 14 filename above intact and adds explicit
-	# painted-runtime evidence for the two ordinary economy states. Text,
-	# wallet values and button states are still live Godot controls.
-	instance._prepare_phase162_cosmetic_showroom_selected_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-selected.png"):
-		quit(2)
-		return
-	instance._finish_phase162_cosmetic_showroom_capture()
-
-	instance._prepare_phase162_cosmetic_showroom_insufficient_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-insufficient.png"):
-		quit(2)
-		return
-	instance._finish_phase162_cosmetic_showroom_capture()
 
 	instance._prepare_return_summary_capture()
 	await _settle(instance)
@@ -1621,28 +1597,6 @@ func _capture() -> void:
 		quit(2)
 		return
 
-	instance._prepare_research_study_showroom_locked_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-cosmetic-showroom-research-study-locked.png"):
-		quit(2)
-		return
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-locked.png"):
-		quit(2)
-		return
-	instance._finish_research_study_showroom_capture()
-
-	if not instance._prepare_research_study_showroom_selected_capture():
-		quit(2)
-		return
-	await _settle(instance)
-	if not _save_full_viewport("comic-cosmetic-showroom-research-study-selected.png"):
-		quit(2)
-		return
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-selected.png"):
-		quit(2)
-		return
-	instance._finish_research_study_showroom_capture()
-	print("PHASE162_COSMETIC_SHOWROOM_CAPTURE=PASSED")
 
 	instance.queue_free()
 	await process_frame
@@ -1735,60 +1689,6 @@ func _capture_phase167_native_room() -> bool:
 	return saved
 
 
-func _capture_phase162_only() -> void:
-	# Focused iteration path for the approved painted showroom. The default
-	# capture remains byte-for-byte additive and still exercises every legacy
-	# frame; this flag only avoids generating unrelated raster artifacts.
-	var packed := load("res://main.tscn") as PackedScene
-	if packed == null:
-		push_error("Could not load res://main.tscn")
-		quit(2)
-		return
-	var instance = packed.instantiate()
-	root.add_child(instance)
-	await process_frame
-	await process_frame
-	_prepare_common_state(instance)
-
-	instance._prepare_phase162_cosmetic_showroom_selected_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-selected.png"):
-		quit(2)
-		return
-	instance._finish_phase162_cosmetic_showroom_capture()
-
-	instance._prepare_phase162_cosmetic_showroom_insufficient_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-insufficient.png"):
-		quit(2)
-		return
-	instance._finish_phase162_cosmetic_showroom_capture()
-
-	instance._prepare_research_study_showroom_locked_capture()
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-locked.png"):
-		quit(2)
-		return
-	instance._finish_research_study_showroom_capture()
-
-	if not instance._prepare_research_study_showroom_selected_capture():
-		quit(2)
-		return
-	await _settle(instance)
-	if not _save_full_viewport("comic-phase162-cosmetic-showroom-research-selected.png"):
-		quit(2)
-		return
-	instance._finish_research_study_showroom_capture()
-	print("PHASE162_COSMETIC_SHOWROOM_CAPTURE=PASSED")
-
-	instance.queue_free()
-	await process_frame
-	await process_frame
-	instance = null
-	packed = null
-	call_deferred("_finish_capture_success")
-
-
 func _finish_capture_success() -> void:
 	# Quit only after _capture() has returned, so its local Images, PackedScene
 	# and coroutine state are released before renderer/ObjectDB shutdown.
@@ -1829,7 +1729,6 @@ func _prepare_common_state(instance) -> void:
 	instance._set_level_progression_open(false)
 	instance._set_grower_journal_open(false)
 	instance._set_care_center_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	# Historical detail baselines intentionally predate the Herbarium launcher
 	# and hide it below. Restore the original unconstrained label only in this
@@ -1863,7 +1762,6 @@ func _prepare_phase92_garden_handover_state(instance, page_number: int) -> void:
 	instance._set_level_progression_open(false)
 	instance._set_grower_journal_open(false)
 	instance._set_care_center_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	instance.session.intro_completed = true
 	instance.session.reduced_motion = true
@@ -1907,7 +1805,6 @@ func _prepare_professor_story_common_state(instance) -> bool:
 	instance._set_level_progression_open(false)
 	instance._set_grower_journal_open(false)
 	instance._set_care_center_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	instance._set_professor_story_open(false)
 	instance._set_plant_diagnosis_open(false)
@@ -3020,7 +2917,6 @@ func _prepare_phase41_level_progression_state(instance) -> void:
 	instance._set_guide_modal_open(false, false)
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	instance.session.xp = 350
 	instance.session.coins = 86
@@ -3039,7 +2935,6 @@ func _prepare_phase42_care_center_state(instance) -> void:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_level_progression_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	for plant in instance.session.plants:
 		plant.reset()
@@ -3147,7 +3042,6 @@ func _prepare_phase16_rosemary_detail_state(instance) -> void:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_level_progression_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	for plant in instance.session.plants:
 		plant.reset()
@@ -3177,7 +3071,6 @@ func _prepare_phase16_rosemary_shop_state(instance) -> void:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_level_progression_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	instance.session.coins = 42
 	instance.session.set_seed_count("rosemary_officinalis", 1)
@@ -3196,7 +3089,6 @@ func _prepare_phase71_oregano_shop_state(instance) -> void:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_level_progression_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	instance.session.coins = 42
 	instance.session.set_seed_count("oregano_vulgare", 1)
@@ -3212,7 +3104,6 @@ func _prepare_phase71_oregano_room_state(instance) -> void:
 	instance._set_herbarium_open(false)
 	instance._set_daily_challenge_open(false)
 	instance._set_level_progression_open(false)
-	instance._set_cosmetic_modal_open(false)
 	instance._close_return_summary()
 	for plant in instance.session.plants:
 		plant.reset()
@@ -5088,13 +4979,13 @@ func _prepare_phase97_herbarium_master_journal_state(instance) -> bool:
 			or not bool(final_badge.get("achieved", false)) \
 			or str(research_badge.get("id", "")) != "research_partner" \
 			or bool(research_badge.get("achieved", true)) \
-			or instance.grower_journal_cards.size() != 10 \
-			or instance.grower_journal_badge_count_label.text != "DOVEDNOSTI  9/10" \
+			or instance.grower_journal_cards.size() != 9 \
+			or instance.grower_journal_badge_count_label.text != "DOVEDNOSTI  8/9" \
 			or str((final_card.get("title") as Label).text) != "MISTR HERBÁŘE" \
 			or not bool((final_card.get("panel") as Control).get_meta("achieved", false)) \
 			or str((research_card.get("title") as Label).text) != "VÝZKUMNÝ PARTNER" \
 			or instance.grower_journal_modal.get_meta("responsive_test_viewports", []) != PHASE97_RESPONSIVE_TEST_VIEWPORTS:
-		push_error("Phase 98 journal did not preserve MISTR HERBÁŘE at 9/10 before the repeatable partner badge is earned.")
+		push_error("Phase 98 journal did not preserve historical 9/10 achievements and active 8/9 goals before the repeatable partner badge is earned.")
 		return false
 	instance.grower_journal_modal.set_meta("capture_state", "phase97_grower_journal_herbarium_master_report_only_v1")
 	return instance.grower_journal_modal.visible

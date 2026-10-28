@@ -1,0 +1,43 @@
+{
+  "functional": {
+    "passed": 9573,
+    "failed": 0,
+    "log": "R:\\_projekty\\Bazal's Pocket Garden\\.godot\\full-game-audit-20261027\\acceptance-validation.log",
+    "capture_reused": true,
+    "capture_note": "Current runtime images captured first; canonical final invocation reran all tests and visual comparisons with -SkipCapture. Runtime unchanged between capture and final tests; only A01 fixture preparation changed."
+  },
+  "visual": {
+    "passed": 33,
+    "total": 34,
+    "overall": "FAILED",
+    "failed": [
+      {
+        "id": "phase162-cosmetic-showroom-runtime-approved",
+        "metrics": {
+          "mean_abs_error": 14.091654,
+          "rmse": 35.357709,
+          "maximum_error": 255,
+          "changed_ratio": 0.269796
+        },
+        "threshold_failures": [
+          "mean_abs_error=14.091654 > 4.000000",
+          "rmse=35.357709 > 12.000000",
+          "changed_ratio=0.269796 > 0.060000"
+        ]
+      }
+    ]
+  },
+  "matrix": {
+    "states": 54,
+    "sizes": 3,
+    "opened_and_saved": 162
+  },
+  "assets": {
+    "profiled_pngs": 621,
+    "unprofiled_pngs": 0
+  },
+  "runtime_sha256": "0229c69840282161792875970adf5be7d506de6aba69a38b65eff9db552e258d",
+  "approval": "PENDING",
+  "publication": "LOCAL_ONLY",
+  "native_android_test": false
+}

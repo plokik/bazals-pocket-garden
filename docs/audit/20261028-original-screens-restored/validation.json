@@ -1,0 +1,20 @@
+{
+  "functional_passed": 9653,
+  "functional_failed": 0,
+  "visual_passed": 33,
+  "visual_total": 34,
+  "visual_overall": "FAILED",
+  "known_historical_failed_case": "phase162-cosmetic-showroom-runtime-approved",
+  "metrics": {
+    "mean_abs_error": 14.091654,
+    "rmse": 35.357709,
+    "maximum_error": 255,
+    "changed_ratio": 0.269796
+  },
+  "source_sha256": "25f65d292435a1ade85aa6518a7a00580f9932fa8f4a52c63409a5043677907f",
+  "restored_screens": 4,
+  "captures": 12,
+  "bazal_intro_changed_during_restore": false,
+  "production_player_data_changed": false,
+  "published": false
+}

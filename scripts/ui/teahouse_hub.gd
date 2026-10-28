@@ -22,6 +22,52 @@ const MUTED := Color("#657552")
 const GOLD := Color("#f5c75b")
 const MAP := Rect2(24, 176, 384, 576)
 const POINTS := [Vector2(.65,.91),Vector2(.42,.80),Vector2(.50,.71),Vector2(.77,.63),Vector2(.63,.53),Vector2(.27,.46),Vector2(.27,.36),Vector2(.53,.30),Vector2(.75,.22),Vector2(.49,.165)]
+const LEVEL_TARGET := 51.5
+
+class MapScroller extends ScrollContainer:
+	var hub: Control
+	var _pointer := -1
+	var _start := Vector2.ZERO
+	var _scroll_start := Vector2.ZERO
+	var _dragged := false
+	func _notification(what: int) -> void:
+		if what == NOTIFICATION_VISIBILITY_CHANGED and not is_visible_in_tree(): _reset_pointer()
+	func _reset_pointer() -> void:
+		if _dragged: propagate_notification(NOTIFICATION_SCROLL_END)
+		_pointer = -1
+		_dragged = false
+	func _input(event: InputEvent) -> void:
+		if not is_visible_in_tree() or hub == null or hub.game._is_blocking_modal_open():
+			_reset_pointer()
+			return
+		if event is InputEventScreenTouch:
+			var local: Vector2 = get_global_transform_with_canvas().affine_inverse()*event.position
+			if event.pressed and Rect2(Vector2.ZERO,size).has_point(local):
+				_reset_pointer()
+				_pointer = event.index
+				_start = local
+				_scroll_start = Vector2(scroll_horizontal,scroll_vertical)
+				_dragged = false
+			elif not event.pressed and event.index == _pointer:
+				var consumed := _dragged
+				_reset_pointer()
+				if consumed: get_viewport().set_input_as_handled()
+		elif event is InputEventScreenDrag and event.index == _pointer:
+			var delta: Vector2 = get_global_transform_with_canvas().affine_inverse()*event.position-_start
+			if delta.length() < scroll_deadzone and not _dragged: return
+			if not _dragged: propagate_notification(NOTIFICATION_SCROLL_BEGIN)
+			_dragged = true
+			scroll_horizontal = roundi(_scroll_start.x-delta.x)
+			scroll_vertical = roundi(_scroll_start.y-delta.y)
+			get_viewport().set_input_as_handled()
+
+class CompactMapCanvas extends Control:
+	var hub: Control
+	func _draw() -> void:
+		if hub == null: return
+		draw_set_transform(-hub.MAP.position)
+		draw_texture_rect(hub.map_art,hub.MAP,false)
+		hub._draw_map_levels(self)
 
 class PaintedStrip extends StyleBox:
 	var texture: Texture2D
@@ -107,6 +153,15 @@ var cup_view: TextureRect
 var ui: Control
 var buttons: Dictionary = {}
 var review_drawn_text: Array[Dictionary] = []
+var scene_ratio := 1.0
+var compact_controls := false
+var wallet_hover: Control
+var wallet_display_text := ""
+var wallet_display_font_size := 18
+var map_scroll: ScrollContainer
+var map_extent: Control
+var map_canvas: CompactMapCanvas
+var map_scroll_position := Vector2(-1,-1)
 
 func bind(owner_game: Control) -> void:
 	game = owner_game
@@ -229,6 +284,9 @@ func _layout_scene() -> void:
 	var global_start: Vector2 = game.get_global_transform_with_canvas() * (Vector2(inset.x,inset.y)+(available-Vector2(432,960)*ratio)*.5)
 	position = get_parent().get_global_transform_with_canvas().affine_inverse() * global_start
 	scale = Vector2.ONE*ratio
+	scene_ratio = ratio
+	compact_controls = ratio < 0.93
+	_layout_touch_controls()
 	shield.position = Vector2.ZERO
 	shield.size = game.size
 	var room: Control = game.player_room_view
@@ -236,6 +294,8 @@ func _layout_scene() -> void:
 	room.position = position + Vector2(0,132)*ratio
 	room.size = Vector2(432,768)
 	room.scale = scale
+	if room.has_method("set_embedded_ui_scale"): room.set_embedded_ui_scale(ratio)
+	if is_instance_valid(game.fortune_wheel_modal): game.fortune_wheel_modal._layout_launcher()
 
 func _process(delta: float) -> void:
 	if not active or not is_visible_in_tree(): return
@@ -252,6 +312,7 @@ func _process(delta: float) -> void:
 		overlay_age = 10.0
 		page_age = 1.0
 	queue_redraw()
+	if is_instance_valid(map_canvas): map_canvas.queue_redraw()
 
 func blocks_input() -> bool:
 	return active and is_visible_in_tree() and not overlay.is_empty()
@@ -316,6 +377,11 @@ func show_overlay(kind: String) -> void:
 	rebuild()
 
 func rebuild() -> void:
+	if is_instance_valid(map_scroll):
+		map_scroll_position = Vector2(map_scroll.scroll_horizontal,map_scroll.scroll_vertical)
+	map_scroll = null
+	map_extent = null
+	map_canvas = null
 	for child in ui.get_children():
 		ui.remove_child(child)
 		child.queue_free()
@@ -328,7 +394,7 @@ func rebuild() -> void:
 			for i in range(10):
 				var level := i + 1
 				var pos: Vector2 = MAP.position + POINTS[i] * MAP.size
-				button("level_%d" % level, Rect2(pos-Vector2(26,26),Vector2(52,52)), "", func(): selected = level; show_overlay("level" if game.session.teahouse_progress.is_unlocked(level) else "locked"), "")
+				button("level_%d" % level, Rect2(pos-Vector2.ONE*LEVEL_TARGET*.5,Vector2.ONE*LEVEL_TARGET), "", func(): selected = level; show_overlay("level" if game.session.teahouse_progress.is_unlocked(level) else "locked"), "")
 				buttons["level_%d" % level].mouse_entered.connect(func(): hovered_level = level)
 				buttons["level_%d" % level].mouse_exited.connect(func(): hovered_level = 0)
 			button("play", Rect2(270,804,126,52), "ZNOVU" if game.session.teahouse_progress.chapter_complete() else "HRÁT", func(): selected = current_level; show_overlay("level"), "sage", 17)
@@ -359,14 +425,26 @@ func rebuild() -> void:
 			fill.set_shader_parameter("fill_ratio",.72)
 			cup_view.material = fill
 			ui.add_child(cup_view)
+	wallet_hover = Control.new()
+	wallet_hover.mouse_filter = Control.MOUSE_FILTER_PASS
+	ui.add_child(wallet_hover)
+	_layout_touch_controls()
 	queue_redraw()
 
 func button(key: String, rect: Rect2, caption: String, action: Callable, kind := "sage", font_size := 14) -> void:
 	var b := Button.new()
 	b.material = CanvasItemMaterial.new()
+	# Atlas slices need their own linear sampling: mipmaps bleed the narrow
+	# stretched centre into a dark rectangle when compact buttons grow taller.
+	b.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	b.position = rect.position
 	b.size = rect.size
 	b.text = caption
+	b.clip_text = true
+	b.set_meta("authored_rect",rect)
+	b.set_meta("authored_caption",caption)
+	b.set_meta("authored_font_size",font_size)
+	b.set_meta("authored_kind",kind)
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	b.focus_mode = Control.FOCUS_ALL
 	b.add_theme_font_override("font", Bold)
@@ -378,6 +456,147 @@ func button(key: String, rect: Rect2, caption: String, action: Callable, kind :=
 	b.pressed.connect(action)
 	ui.add_child(b)
 	buttons[key] = b
+
+
+func _layout_touch_controls() -> void:
+	if scene_ratio <= 0:
+		return
+	var minimum := 48.0 / scene_ratio
+	var caption_size := ceili(11.0 / scene_ratio)
+	for key: String in buttons:
+		var b: Button = buttons[key]
+		var authored: Rect2 = b.get_meta("authored_rect")
+		var caption := str(b.get_meta("authored_caption"))
+		var font_size := maxi(int(b.get_meta("authored_font_size")),caption_size)
+		var kind := str(b.get_meta("authored_kind"))
+		if key.begins_with("level_"): continue
+		var dimensions := Vector2(maxf(authored.size.x,minimum),maxf(authored.size.y,minimum))
+		var rect := Rect2(authored.get_center()-dimensions*.5,dimensions)
+		if compact_controls:
+			match key:
+				"back": rect = Rect2(24,20,minimum,minimum)
+				"map", "workshop":
+					rect = Rect2(28 if key == "map" else 220,115,184,minimum)
+					caption = "MAPA" if key == "map" else "DÍLNA"
+					kind = "sage" if (key == "map") == (page == "map") else "banner"
+				"play": rect.position.y = 768
+				"quest": rect.position.y = 860
+				"order": rect.position.y = 228
+				"close": rect = Rect2(400-minimum,242,minimum,minimum)
+				"start": rect.position.y = 750 if not notice.is_empty() else (680 if buttons.has("claim") else 650)
+				"claim": rect.position.y = 584
+				"return": rect.position.y = 672 if not notice.is_empty() else 650
+		if not kind.is_empty() and not caption.is_empty():
+			var cap := rect.size.y*.55
+			rect.size.x = maxf(rect.size.x,ceilf(Bold.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x)+cap*2+12)
+			if key == "play": rect.position.x = 404-rect.size.x
+			else: rect.position.x = authored.get_center().x-rect.size.x*.5
+		for state in ["normal", "hover", "pressed", "focus"]:
+			b.add_theme_stylebox_override(state,StyleBoxEmpty.new() if kind.is_empty() else painted_box(kind,Color("#d2e0b4") if state == "pressed" else (Color("#fff5dc") if state == "hover" else Color.WHITE)))
+		b.text = caption
+		b.position = rect.position
+		b.size = rect.size
+		b.add_theme_font_size_override("font_size",font_size)
+	_layout_compact_map()
+	if is_instance_valid(wallet_hover):
+		wallet_hover.position = Vector2(332,25) if compact_controls else Vector2(341,27)
+		wallet_hover.size = Vector2(68,34) if compact_controls else Vector2(58,30)
+		wallet_hover.tooltip_text = "%d mincí" % wallet_coins
+	queue_redraw()
+
+
+func _layout_compact_map() -> void:
+	if page != "map" or not overlay.is_empty(): return
+	if not compact_controls:
+		if is_instance_valid(map_scroll):
+			for index in range(10):
+				var b: Button = buttons["level_%d" % (index+1)]
+				b.reparent(ui,false)
+				b.position = (b.get_meta("authored_rect") as Rect2).position
+			map_scroll.queue_free()
+			map_scroll = null
+			map_canvas = null
+			map_extent = null
+		return
+	var first_layout := not is_instance_valid(map_scroll)
+	if first_layout:
+		map_scroll = MapScroller.new()
+		map_scroll.hub = self
+		map_scroll.name = "CompactLevelMapScroll"
+		map_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+		map_scroll.scroll_deadzone = 8
+		map_scroll.follow_focus = true
+		ui.add_child(map_scroll)
+		map_extent = Control.new()
+		map_extent.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		map_scroll.add_child(map_extent)
+		map_canvas = CompactMapCanvas.new()
+		map_canvas.hub = self
+		map_canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		map_canvas.size = MAP.size
+		map_extent.add_child(map_canvas)
+		for index in range(10):
+			var b: Button = buttons["level_%d" % (index+1)]
+			b.reparent(map_canvas,false)
+			b.position = POINTS[index]*MAP.size-Vector2.ONE*LEVEL_TARGET*.5
+	map_scroll.position = Vector2(24,224)
+	map_scroll.size = Vector2(384,504)
+	_skin_map_scroll()
+	# Uniform zoom retains the exact artwork and authored path. Both axes can
+	# pan on small screens; every marker remains a separate 48 logical px target.
+	var zoom := maxf(1.0,48.0/(LEVEL_TARGET*scene_ratio))
+	map_extent.custom_minimum_size = MAP.size*zoom
+	map_canvas.scale = Vector2.ONE*zoom
+	map_canvas.queue_redraw()
+	if first_layout:
+		_restore_map_scroll.call_deferred(zoom)
+
+
+func _skin_map_scroll() -> void:
+	var ratio := maxf(scene_ratio,.01)
+	map_scroll.add_theme_constant_override("h_separation",ceili(4/ratio))
+	map_scroll.add_theme_constant_override("v_separation",ceili(4/ratio))
+	for bar in [map_scroll.get_h_scroll_bar(),map_scroll.get_v_scroll_bar()]:
+		for style_name in ["scroll","grabber","grabber_highlight","grabber_pressed"]:
+			var style := StyleBoxFlat.new()
+			style.bg_color = Color("#cad7ab") if style_name == "scroll" else Color("#71884c")
+			style.set_corner_radius_all(ceili(3/ratio))
+			if bar is VScrollBar:
+				style.content_margin_left = 3.5/ratio
+				style.content_margin_right = 3.5/ratio
+			else:
+				style.content_margin_top = 3.5/ratio
+				style.content_margin_bottom = 3.5/ratio
+			bar.add_theme_stylebox_override(style_name,style)
+
+
+func _restore_map_scroll(zoom: float) -> void:
+	if not is_instance_valid(map_scroll): return
+	var wanted := map_scroll_position
+	if wanted.x < 0:
+		wanted = POINTS[clampi(current_level-1,0,9)]*MAP.size*zoom-map_scroll.size*.5
+	map_scroll.scroll_horizontal = roundi(wanted.x)
+	map_scroll.scroll_vertical = roundi(wanted.y)
+
+
+func _wallet_text(rect: Rect2) -> void:
+	var caption := str(wallet_coins)
+	var minimum := maxi(10,ceili(10.0 / maxf(scene_ratio,.01)))
+	var font_size := maxi(18,minimum)
+	while font_size > minimum and Bold.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x > rect.size.x:
+		font_size -= 1
+	if Bold.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x > rect.size.x:
+		var amount := float(wallet_coins)
+		var unit := 0
+		var units := ["","k","M","G","T","P","E"]
+		while amount >= 999.95 and unit < units.size()-1:
+			amount /= 1000.0
+			unit += 1
+		caption = ("%.1f" % amount).trim_suffix(".0") + str(units[unit])
+	wallet_display_text = caption
+	wallet_display_font_size = font_size
+	if is_instance_valid(wallet_hover): wallet_hover.tooltip_text = "%d mincí" % wallet_coins
+	text_at(caption,rect,font_size)
 
 func start_level() -> void:
 	var wanted := selected
@@ -394,18 +613,26 @@ func _draw() -> void:
 		draw_workshop()
 	else:
 		draw_map()
-	panel("cream",Rect2(12,12,408,112),false)
-	painted_icon(2,Rect2(29,33,24,24))
-	text_at("ČAJOVNA",Rect2(70,23,212,28),22)
-	text_at("BYLINKY, ČAJ A MALÉ RADOSTI",Rect2(76,52,200,15),9,MUTED)
-	fit(Coin,Rect2(310,29,28,28))
-	text_at(str(wallet_coins),Rect2(341,27,58,30),18)
-	draw_line(Vector2(32,72),Vector2(400,72),Color(.42,.48,.28,.25),1,true)
-	panel("sage",Rect2(28 if page == "map" else 220,76,184,40),false)
-	painted_icon(0,Rect2(47,81,29,29))
-	text_at("MAPA ÚROVNÍ",Rect2(81,77,116,38),11)
-	painted_icon(1,Rect2(251,80,29,30))
-	text_at("DÍLNA",Rect2(288,77,87,38),12)
+	panel("cream",Rect2(12,12,408,208 if compact_controls else 112),false)
+	if compact_controls:
+		var back: Rect2 = buttons.back.get_rect() if buttons.has("back") else Rect2(24,20,48/scene_ratio,48/scene_ratio)
+		painted_icon(2,Rect2(back.get_center()-Vector2(15,15),Vector2(30,30)))
+		text_at("ČAJOVNA",Rect2(116,25,180,36),26)
+		text_at("BYLINKOVÁ ZAHRADA · %d/%d" % [star_count,Levels.COUNT*3],Rect2(116,73,284,22),maxi(12,ceili(9.0/scene_ratio)),MUTED,HORIZONTAL_ALIGNMENT_LEFT)
+		fit(Coin,Rect2(300,28,28,28))
+		_wallet_text(Rect2(332,25,68,34))
+	else:
+		painted_icon(2,Rect2(29,33,24,24))
+		text_at("ČAJOVNA",Rect2(70,23,212,28),22)
+		text_at("BYLINKY, ČAJ A MALÉ RADOSTI",Rect2(76,52,200,15),9,MUTED)
+		fit(Coin,Rect2(310,29,28,28))
+		_wallet_text(Rect2(341,27,58,30))
+		draw_line(Vector2(32,72),Vector2(400,72),Color(.42,.48,.28,.25),1,true)
+		panel("sage",Rect2(28 if page == "map" else 220,76,184,40),false)
+		painted_icon(0,Rect2(47,81,29,29))
+		text_at("MAPA ÚROVNÍ",Rect2(81,77,116,38),12)
+		painted_icon(1,Rect2(251,80,29,30))
+		text_at("DÍLNA",Rect2(288,77,87,38),12)
 	if page_age < .24 and overlay.is_empty():
 		draw_rect(Rect2(0,132,432,828),Color(.13,.23,.12,.16*(1-page_age/.24)))
 	if not overlay.is_empty():
@@ -418,6 +645,15 @@ func _draw() -> void:
 		draw_overlay()
 
 func draw_map() -> void:
+	if compact_controls:
+		panel("frame",Rect2(12,224,408,516),false)
+	else:
+		_draw_full_map_frame()
+		_draw_map_levels()
+	_draw_map_footer()
+
+
+func _draw_full_map_frame() -> void:
 	# One painted frame owns both the chapter header and map. No stacked plaque rims.
 	draw_texture_rect_region(PaintedSkin.Panels,Rect2(21,140,390,36),Rect2(120,125,532,49))
 	# Extend edge texels under the wooden rails; paper belongs only behind the header.
@@ -436,55 +672,65 @@ func draw_map() -> void:
 	text_at("1 · BYLINKOVÁ ZAHRADA",Rect2(50,144,256,24),11,INK,HORIZONTAL_ALIGNMENT_LEFT)
 	star(Vector2(327,156),9,GOLD)
 	text_at("%d/%d" % [star_count,Levels.COUNT*3],Rect2(343,144,40,24),11)
+
+
+func _draw_map_levels(canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	for i in range(10):
 		var p: Vector2 = MAP.position + POINTS[i] * MAP.size
 		var current: bool = i+1 == current_level and not (i < Levels.COUNT and game.session.teahouse_progress.best_stars[i] > 0)
 		var done: bool = i < Levels.COUNT and game.session.teahouse_progress.best_stars[i] > 0
-		var radius := 29.0 if current else (24.0 if done else 20.0)
+		var radius := 29.0 if current else (24.0 if done else (26.0 if compact_controls else 20.0))
 		if current:
 			radius += .65*sin(clock*2)
-			for glow in range(6): draw_circle(p,39-glow*2,Color(1,.88,.56,.018+glow*.006))
-			glint(p+Vector2(24*cos(clock*.55),24*sin(clock*.55)),.65)
+			for glow in range(6): canvas.draw_circle(p,39-glow*2,Color(1,.88,.56,.018+glow*.006))
+			glint(p+Vector2(24*cos(clock*.55),24*sin(clock*.55)),.65,canvas)
 		if hovered_level == i+1: radius += 1.5
-		paint_oval(p+Vector2(0,radius*.65),Vector2(radius*.88,radius*.40),Color(.12,.17,.06,.21))
+		paint_oval(p+Vector2(0,radius*.65),Vector2(radius*.88,radius*.40),Color(.12,.17,.06,.21),canvas)
 		var kind := 0 if done else (1 if current else 2)
-		draw_texture_rect_region(medallions,Rect2(p-Vector2.ONE*radius,Vector2.ONE*radius*2),medallion_regions[kind])
-		text_at(str(i+1),Rect2(p-Vector2(18,20),Vector2(36,32)),22 if current else (18 if done else 15),INK if done or current else MUTED)
+		canvas.draw_texture_rect_region(medallions,Rect2(p-Vector2.ONE*radius,Vector2.ONE*radius*2),medallion_regions[kind])
+		text_at(str(i+1),Rect2(p-Vector2(18,20),Vector2(36,32)),22 if current else (18 if done else 15),INK if done or current else MUTED,HORIZONTAL_ALIGNMENT_CENTER,canvas)
 		if done:
-			for n in range(3): star(p+Vector2((n-1)*13,26-abs(n-1)*3),7,GOLD if n < game.session.teahouse_progress.best_stars[i] else Color("#88946b"))
-		elif not current: lock_icon(p+Vector2(0,21))
-		if current:
+			for n in range(3): star(p+Vector2((n-1)*13,26-abs(n-1)*3),7,GOLD if n < game.session.teahouse_progress.best_stars[i] else Color("#88946b"),canvas)
+		elif not current: lock_icon(p+Vector2(0,21),canvas)
+		if current and not compact_controls:
 			panel("sage",Rect2(p.x-28,p.y+34,56,18),false)
 			text_at("DALŠÍ",Rect2(p.x-28,p.y+34,56,18),8)
+
+
+func _draw_map_footer() -> void:
 	# One footer combines the next action and a compact quest, rather than stacked banners.
-	panel("cream",Rect2(12,780,408,168),false)
+	panel("cream",Rect2(12,752,408,196) if compact_controls else Rect2(12,780,408,168),false)
 	var finished: bool = game.session.teahouse_progress.chapter_complete()
-	text_at("ZAHRADA DOKONČENA" if finished else "ÚROVEŇ %d" % current_level,Rect2(34,799,214,20),10,MUTED,HORIZONTAL_ALIGNMENT_LEFT)
+	text_at("ZAHRADA DOKONČENA" if finished else "ÚROVEŇ %d" % current_level,Rect2(34,772 if compact_controls else 799,214,20),10,MUTED,HORIZONTAL_ALIGNMENT_LEFT)
 	var title := "Krásně připraveno!" if finished else str(Levels.get_level(current_level).get("name", ""))
-	var title_size := mini(22,int(22.0*218.0/maxf(218.0,Bold.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,22).x)))
-	text_at(title,Rect2(34,825,218,30),title_size,INK,HORIZONTAL_ALIGNMENT_LEFT)
-	text_at("Oblíbený šálek si můžeš připravit znovu." if finished else "10 úrovní · každý šálek tvým tempem",Rect2(34,857,358,18),10,MUTED,HORIZONTAL_ALIGNMENT_LEFT)
-	draw_line(Vector2(34,883),Vector2(398,883),Color(.42,.48,.28,.24),1,true)
-	star(Vector2(47,912),12,GOLD)
+	var title_width := minf(218,buttons.play.position.x-46) if compact_controls and buttons.has("play") else 218.0
+	var title_size := mini(22,int(22.0*title_width/maxf(title_width,Bold.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,22).x)))
+	text_at(title,Rect2(34,800 if compact_controls else 825,title_width,30),title_size,INK,HORIZONTAL_ALIGNMENT_LEFT)
+	if not compact_controls: text_at("Oblíbený šálek si můžeš připravit znovu." if finished else "10 úrovní · každý šálek tvým tempem",Rect2(34,857,358,18),10,MUTED,HORIZONTAL_ALIGNMENT_LEFT)
+	draw_line(Vector2(34,850 if compact_controls else 883),Vector2(398,850 if compact_controls else 883),Color(.42,.48,.28,.24),1,true)
+	star(Vector2(47,899 if compact_controls else 912),12,GOLD)
 	var quest := _active_quest()
 	var quest_title := "Odměna čeká!" if quest.ready else str(quest.goal)
-	if quest.claimed: quest_title = "Zahradní odměna vyzvednuta"
-	text_at(quest_title,Rect2(68,891,255,22),12,INK,HORIZONTAL_ALIGNMENT_LEFT)
+	if quest.claimed: quest_title = "ODMĚNA VYZVEDNUTA" if compact_controls else "Zahradní odměna vyzvednuta"
+	text_at(quest_title,Rect2(68,867 if compact_controls else 891,255,24),maxi(12,ceili(11/scene_ratio)) if compact_controls else 12,INK,HORIZONTAL_ALIGNMENT_LEFT)
 	text_at("Úrovně %d / %d" % [quest.count,quest.target] if quest.chapter else "Hvězdy %d / %d" % [quest.count,quest.target],Rect2(68,916,250,16),9,MUTED,HORIZONTAL_ALIGNMENT_LEFT)
 	fit(Coin,Rect2(328,902,25,25))
 	text_at("✓" if quest.claimed else "+%d" % quest.coins,Rect2(356,898,40,31),14)
 
 func draw_workshop() -> void:
 	# The actual workshop, furniture, animated cat and wheel render underneath.
-	panel("banner",Rect2(66,154,300,62),false)
-	text_at("ZAKÁZKA PRO ČAJOVNU",Rect2(84,162,240,17),9,MUTED)
-	text_at("Dodávka dokončena" if game.session.workshop_products.quest == "completed" else "První dodávka",Rect2(83,181,233,25),15)
+	var shift := 74.0 if compact_controls else 0.0
+	panel("banner",Rect2(66,154+shift,300,maxf(62,48/scene_ratio)),false)
+	text_at("ZAKÁZKA PRO ČAJOVNU",Rect2(84,162+shift,240,17),9,MUTED)
+	text_at("Dodávka dokončena" if game.session.workshop_products.quest == "completed" else "První dodávka",Rect2(83,181+shift,233,25),15)
 
-func glint(point: Vector2, strength: float) -> void:
+func glint(point: Vector2, strength: float, canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	var color := Color(1,.96,.75,strength)
-	draw_line(point-Vector2(3,0),point+Vector2(3,0),color,1,true)
-	draw_line(point-Vector2(0,4),point+Vector2(0,4),color,1,true)
-	draw_circle(point,1.5,color)
+	canvas.draw_line(point-Vector2(3,0),point+Vector2(3,0),color,1,true)
+	canvas.draw_line(point-Vector2(0,4),point+Vector2(0,4),color,1,true)
+	canvas.draw_circle(point,1.5,color)
 
 func steam(origin: Vector2, alpha := .4) -> void:
 	for index in range(3):
@@ -496,7 +742,8 @@ func steam(origin: Vector2, alpha := .4) -> void:
 
 func draw_overlay() -> void:
 	draw_rect(Rect2(0,0,432,960),Color(.07,.13,.08,.67))
-	panel("serving",Rect2(32,240,368,474))
+	var panel_bottom := (852 if not notice.is_empty() and overlay == "level" else 780) if compact_controls else 714
+	panel("serving",Rect2(32,240,368,panel_bottom-240))
 	painted_icon(8,Rect2(349,261,22,22))
 	var progress = game.session.teahouse_progress
 	match overlay:
@@ -553,7 +800,14 @@ func draw_overlay() -> void:
 			text_at("Cestička pokračuje dál…",Rect2(54,462,324,30),18)
 			text_at("Další úrovně se připravují." if selected>Levels.COUNT else "Nejdřív dokonči předchozí úroveň.",Rect2(54,510,324,26),12,MUTED)
 	if not notice.is_empty():
-		text_at(notice,Rect2(49,605 if overlay == "quest" else 683,334,19),9,MUTED)
+		if compact_controls:
+			var notice_y := 674 if overlay == "level" else 602
+			var font_size := maxi(12,ceili(11/scene_ratio))
+			var text_lines := Body.get_multiline_string_size(notice,HORIZONTAL_ALIGNMENT_CENTER,334,font_size)
+			draw_multiline_string(Body,Vector2(49,notice_y+Body.get_ascent(font_size)),notice,HORIZONTAL_ALIGNMENT_CENTER,334,font_size,2,MUTED)
+			review_drawn_text.append({"text":notice,"fits":text_lines.y<=62,"rect":Rect2(49,notice_y,334,62)})
+		else:
+			text_at(notice,Rect2(49,605 if overlay == "quest" else 683,334,19),9,MUTED)
 
 func reward_row(y: float) -> void:
 	fit(Coin,Rect2(110,y,31,31))
@@ -565,10 +819,11 @@ func reward_row(y: float) -> void:
 func panel(kind: String, rect: Rect2, decorated := true) -> void:
 	draw_style_box(painted_box(kind),rect)
 
-func text_at(caption: String, rect: Rect2, font_size: int, color := INK, align := HORIZONTAL_ALIGNMENT_CENTER) -> void:
+func text_at(caption: String, rect: Rect2, font_size: int, color := INK, align := HORIZONTAL_ALIGNMENT_CENTER, canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	var font: Font = Bold if font_size >= 15 or font_size <= 10 else Body
 	var baseline := rect.position.y+(rect.size.y-font.get_height(font_size))*.5+font.get_ascent(font_size)
-	draw_string(font,Vector2(rect.position.x,baseline),caption,align,rect.size.x,font_size,color)
+	canvas.draw_string(font,Vector2(rect.position.x,baseline),caption,align,rect.size.x,font_size,color)
 	review_drawn_text.append({"text":caption,"fits":font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x <= rect.size.x+1,"rect":rect})
 
 func fit(texture: Texture2D, rect: Rect2) -> void:
@@ -584,18 +839,24 @@ func herb(index: int, rect: Rect2) -> void:
 	var source: Rect2 = regions[index]
 	region_fit(Herbs,Rect2(source.position*Vector2(Herbs.get_size()),source.size*Vector2(Herbs.get_size())),rect)
 
-func star(p: Vector2, radius: float, color: Color) -> void:
+func star(p: Vector2, radius: float, color: Color, canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	var rect := Rect2(p-Vector2.ONE*radius,Vector2.ONE*radius*2)
-	draw_texture_rect_region(star_art,rect,star_region,Color.WHITE if color == GOLD else Color(.38,.48,.30))
+	canvas.draw_texture_rect_region(star_art,rect,star_region,Color.WHITE if color == GOLD else Color(.38,.48,.30))
 
-func lock_icon(p: Vector2) -> void:
+func lock_icon(p: Vector2, canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	var side := 48.0 if overlay == "locked" and p.y>300 else 13.0
-	painted_icon(6,Rect2(p-Vector2.ONE*side*.5,Vector2.ONE*side))
+	var source: Rect2 = icon_regions[6]
+	var rect := Rect2(p-Vector2.ONE*side*.5,Vector2.ONE*side)
+	var dimensions := source.size*minf(rect.size.x/source.size.x,rect.size.y/source.size.y)
+	canvas.draw_texture_rect_region(icon_art,Rect2(rect.get_center()-dimensions*.5,dimensions),source)
 
 
-func paint_oval(center: Vector2, axes: Vector2, color: Color) -> void:
+func paint_oval(center: Vector2, axes: Vector2, color: Color, canvas: CanvasItem = null) -> void:
+	if canvas == null: canvas = self
 	var points := PackedVector2Array()
 	for i in range(33):
 		var a := TAU*i/32
 		points.append(center+Vector2(cos(a),sin(a))*axes)
-	draw_colored_polygon(points,color)
+	canvas.draw_colored_polygon(points,color)

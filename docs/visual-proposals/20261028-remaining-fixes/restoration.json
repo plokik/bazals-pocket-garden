@@ -1,0 +1,35 @@
+{
+  "status": "OTHER_SCREENS_RESTORED",
+  "restored": [
+    {
+      "path": "scripts/ui/greenhouse_preview_view.gd",
+      "sha256": "a317cdf58d6174772a9cf272fb33d6ec882ba54b05391e29da44a369dca53253",
+      "exact_pre28": true
+    },
+    {
+      "path": "scripts/ui/teahouse_hub.gd",
+      "sha256": "2173ad5eec3d5f5ca630fdadd58a3c71225985ea459fdc5296315ccff8873a1f",
+      "exact_pre28": true
+    },
+    {
+      "path": "scripts/ui/plant_detail_painted_actions.gd",
+      "sha256": "ab732515e55de655a6ed84c8ddedf961b5ab4e3ab9e79d907453124a1ccf95ad",
+      "exact_pre28": true
+    },
+    {
+      "path": "scripts/ui/workshop_room_view.gd",
+      "sha256": "ca5cd5c76d028b7ba55f58c3c82464bb570702c28a69b7179ec5163c6c6fbe60",
+      "exact_pre28": true
+    },
+    {
+      "path": "scripts/ui/fortune_wheel_modal.gd",
+      "sha256": "82c6043e169703e76230c42d656c537867d0f47dcf2b2b2947b582bd97d338dc",
+      "exact_pre28": true
+    }
+  ],
+  "main_and_bazal_intro_unchanged": true,
+  "main_sha256": "1d60b3a1300c53543119226f26c116d2dea803712d82a0b17ec27090610104b2",
+  "original_player_data_touched": false,
+  "all_other_runtime_files_match_pre28": true,
+  "remaining_difference": "scripts/main.gd: retained Bazal introduction only; unchanged during rollback"
+}

@@ -181,7 +181,7 @@ func refresh_sell_view(game_session: GameSession, packaged_texture: Texture2D, e
 		sell_icon.texture = packaged_texture if packaged else empty_texture
 	if packaged:
 		var offer := game_session.get_botanist_sale_value()
-		sell_title_label.text = "%s  •  BALÍČEK %d/%d" % [plant.get_short_name().to_upper(), game_session.selected_plant_index + 1, GameSession.MAX_PLANT_SLOTS]
+		sell_title_label.text = "%s  •  HOTOVÝ BALÍČEK" % plant.get_short_name().to_upper()
 		sell_details_label.text = "%.1f g sušené bylinky  •  kvalita %d%%" % [plant.dry_harvest_g, roundi(plant.harvest_quality * 100.0)]
 		sell_offer_label.text = "NABÍDKA: %d MINCÍ" % offer
 		sell_action_button.text = "PRODAT HNED  •  %d" % offer
